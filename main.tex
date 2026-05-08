@@ -1,0 +1,159 @@
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[]{cancel}
+\usepackage[margin=1in]{geometry}
+\usepackage[affil-it]{authblk}
+\usepackage[]{lmodern}
+\usepackage[]{nicefrac}
+\usepackage{tikz}
+\usetikzlibrary{arrows, shapes.geometric, positioning, patterns, shapes.arrows}
+\usepackage[]{hyperref}
+\hypersetup{
+    colorlinks = true,
+    urlcolor = gray,
+}
+
+\input{defs.tex}
+
+\title{A general theory of the mechanics of petroleum reservors: geomechanics, compositional flow, reactions, and phase transformations}
+
+\author[1,2,3]{John T. Foster\footnote{Electronic address: \href{mailto:john.foster@utexas.edu}{john.foster@utexas.edu}}}
+
+\affil[1]{The Hildebrand Department of Petroleum \& Geosystems Engineering, The University of Texas at Austin}
+\affil[2]{Department of Aerospace Engineering \& Engineering Mechanics, The University of Texas at Austin}
+\affil[3]{The Oden Institute for Computational Engineering \& Science, The University of Texas at Austin}
+
+\date{\today}
+
+\begin{document}\sloppy
+\maketitle
+
+\begin{abstract}
+  TBD
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+Multicomponent reactive flow in deforming porous media requires careful extension of the single-component phase framework to avoid trajectory ambiguities for individual chemical species. As you noted, components can transfer between phases, lacking a unique material path, while phases themselves follow distinct trajectories (e.g., solid skeleton $\mbf{v}_s$, fluid $\mbf{v}_f$). To align with the reference paper's structure---which derives material-form balances via Hamilton's principle for each phase---we adopt option 1: treat phases as pseudo-components with dedicated reference configurations $J_\alpha$, $\mbf{F}_\alpha = \mbf{A}_\alpha \bar{\mbf{F}}_\alpha$, and enforce component partitioning $\rho_\beta^\alpha = \phi_\alpha \bar{\rho}_\alpha Y_\alpha^\beta$ algebraically.
+
+This resolves the ambiguity: phase balances are Lagrangian (material derivatives along $\mbf{v}_\alpha$), while species are Eulerian within phases but constrained by phase-level stoichiometry. The overall mass constraint $\sum_\alpha c_\alpha^+ = 0$ holds at the phase level, with $c_\alpha^+ = \sum_\beta \hat{m}_\beta^\alpha$ where $\hat{m}_\beta^\alpha$ is the net mass transfer of component $\beta$ into phase $\alpha$. For the fluid phase, this allows multicomponent advection-diffusion superimposed on the phase flux $\mbf{w}_f$, with reactions like dissolution/precipitation adjusting $Y_f^\beta$ and $c_f^+$.
+
+The reference four-phase model (solid reactant $A$, product $B$, fluid $f$, gas $g$) extends naturally, with incompressibility $\alpha_\alpha = J_\alpha$, $\bar{J}_\alpha \equiv 1$ for solids. Capillary pressure splits $\bar{p}_f$ and $\bar{p}_g$ as before, bounding fluid pressure in partial saturation. The fluid relative flux retains $c_f^+ \nabla \tau$, now with $c_f^+ = \sum_\beta \hat{m}_\beta^f$, leading to per-component controls
+\begin{equation}
+  \varepsilon_\beta = \frac{|\hat{m}_\beta^f \nabla \tau|}{\phi_f Y_f^\beta |\nabla \bar{p}_f|}.
+  \label{eq:epsilon_beta}
+\end{equation}
+
+This appendix-like extension derives the generalized variational principle, phase balances, and weak forms compatible with MOOSE.
+
+\section{Material form of conservation of mass}
+\label{sec:ref_config_YJ}
+
+\begin{align}
+  \int_{\mc{B}_0} \rho_{\xi 0}^\alpha + c^\alpha_\xi {\rm d}V_\xi^\alpha &= \int_{\mc{B}} \rho_\xi^\alpha {\rm d}v \notag \\
+  \int_{\mc{B}_0} \rho_\xi^\alpha + c^\alpha_\xi {\rm d}V_\xi^\alpha &= \int_{\mc{B}} \rho_{\xi 0}^\alpha J_\xi {\rm d}V_\xi \notag \\
+  \int_{\mc{B}_0} \rho_{\xi 0}^\alpha + c^\alpha_\xi {\rm d}V_\xi^\alpha &= \int_{\mc{B}} \rho_\xi^\alpha J_\xi \eta^{\alpha}_\xi {\rm d}V^\alpha_\xi
+\end{align}
+
+where
+\begin{equation}
+  \eta^\alpha_\xi = \frac{{\rm d}V_\xi^\alpha}{{\rm d}V_\xi}
+  \label{eq:eta}
+\end{equation}
+therefore
+\begin{equation}
+  \rho_{\xi 0}^\alpha + c^\alpha_\xi = \rho_\xi^\alpha J_\xi \eta^{\alpha}_\xi
+  \label{eq:material_mass}
+\end{equation}
+
+Now we introduce the phase volume fraction
+\[
+  \phi_\xi = \frac{{\rm d}v_\xi}{{\rm d}v}
+\]
+and
+\[
+  \rho_\xi^\alpha = \phi_\xi \bar\rho^\alpha_\xi
+\]
+substituting we get
+\begin{equation}
+  \phi_{\xi 0}\bar\rho_{\xi 0}^\alpha + c^\alpha_\xi = \phi_\xi \bar\rho_\xi^\alpha J_\xi \eta^{\alpha}_\xi
+  \label{eq:material_mass}
+\end{equation}
+%
+Now we take the material time derivative and rearrange
+\begin{align}
+  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) J_\xi + \left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) \dot{J}_\xi = \dot{c}^\alpha_\xi \notag \\
+  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) J_\xi + \left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) J_\xi \nabla_\mbf{x} \cdot \mbf{v}_\xi = \dot{c}^\alpha_\xi \notag \\
+  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right)  + \left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) \nabla_\mbf{x} \cdot \mbf{v}_\xi = \frac{\dot{c}^\alpha_\xi}{J_\xi} 
+  \label{eq:spatial_mass}
+\end{align}
+%
+expanding the material time derivative and rearranging gives
+%
+\begin{align}
+  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi \mbf{v}_\xi \right) = \frac{\dot{c}^\alpha_\xi}{J_\xi} 
+  \label{eq:spatial_mass}
+\end{align}
+%
+We use the material time derivative of a quantity $\square_\xi$ following the velocity of component $\zeta$,
+\[
+  \frac{D_\zeta \square_\xi}{Dt} = \frac{\partial \square_\xi}{\partial t}+\mbf{v}_\zeta\cdot\nabla_{\mbf{x}}\square_\xi,
+\]
+and use the shorthand notation $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the derivative following component $\xi$.
+%
+
+%
+Note that if you assume ``no volume change in mixing'', i.e.\ $\eta_\xi^\alpha = 1$, then you recover the usual psueduocomponent mass balace.
+
+Summing over $\alpha$ gives the phase mass balance
+%
+\begin{align}
+  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi  \mbf{v}_\xi \right) = \sum_\alpha \frac{\dot{c}_\xi^\alpha}{J_\xi} 
+  \label{eq:spatial_mass}
+\end{align}
+%
+where the phase densities are
+\[
+  \bar\rho_\xi = \sum_\alpha \bar\rho^\alpha_\xi,
+\]
+and from \eqref{eq:eta}
+\[
+  \sum_\alpha \eta^\alpha_\xi = \sum_\alpha \frac{{\rm d}V^\alpha_\xi}{{\rm d}V_\xi} = \frac{{\rm d}V_\xi}{{\rm d}V_\xi} = 1.
+\]
+
+Summing over all phases gives the overall mixture mass balance
+%
+\begin{align}
+  \underbrace{\frac{\partial \rho}{\partial t}  +  \nabla_\mbf{x} \cdot \left(\rho  \mbf{v} \right)}_{=0} = \sum_\xi \sum_\alpha \frac{\dot{c}_\xi^\alpha}{J_\xi} 
+  \label{eq:overall_mass}
+\end{align}
+%
+where $\rho = \sum_\xi \phi_\xi \bar\rho_\xi$ and the mixture velocity $\mbf{v}$ is baryicentric velocity
+%
+\[
+  \mbf{v} = \frac{1}{\rho} \sum_\xi \rho_\xi \mbf{v}_\xi.
+\]
+%
+Recognizing the left-hand side of \eqref{eq:overall_mass} vanishes because it's a statement of convervation of mass, that leaves a 
+%
+\begin{align}
+  \sum_\xi \sum_\alpha \frac{\dot{c}_\xi^\alpha}{J_\xi} = 0
+  \label{eq:overall_mass_constraint}
+\end{align}
+%
+as a statement of conservation of mass of the entire mixture.  This means that mass reactions and phase transitions amoung psuedocomponents in the mixture do not create nor destory mass.
+
+
+\appendix
+\input{variational_principle_appendix}
+\input{coleman_noll_appendix}
+
+\bibliography{all}
+\bibliographystyle{plain}
+
+\end{document}
