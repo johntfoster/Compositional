@@ -28,7 +28,7 @@ with kinetic energy, internal energy, virtual work, and four constraints:
   \label{eq:W_def} \\
   C_1 &= \int_{\mc{B}} \lambda\left(\sum_\xi\phi_\xi - 1\right) \,\dv,
   \label{eq:C1_def} \\
-  C_2 &= \sum_\xi \sum_\alpha \int_{\mc{B}_{\xi 0}} \mu_\xi^\alpha \left( J_\xi \eta_\xi^\alpha - \frac{\phi_{\xi 0} \bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi^\alpha} \right) \eta^\alpha_\xi dV_\xi,
+  C_2 &= \sum_\xi \sum_\alpha \int_{\mc{B}_{\xi 0}} \mu_\xi^\alpha \left( J_\xi \eta_\xi^\alpha - \frac{\phi_{\xi 0} \bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi^\alpha} \right) \ dV_\xi^\alpha,
   \label{eq:C2_def} \\
   C_3 &= \sum_\xi \int_{\mc{B}_{\xi 0}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) dV_\xi,
   \label{eq:C3_def} \\
@@ -171,31 +171,32 @@ together with the inter-component variation identity for the spatial fields, the
 \label{sec:var_Ufog_rho}
 % ============================================================
 
-Extending the identity (1.28) of Druheller and Beford to our system of multiphase multicomponent flow, it becomes
-
+Extending the identity (1.28) of Drumheller and Bedford to our system of multiphase multicomponent flow, we write
 \begin{equation}
-  \delta \int_{\mc{B}} \rho^\alpha_\xi \psi^\alpha_\xi \dv = \int_{\mc{B}} \rho^\alpha_\xi \delta \psi^\alpha_\xi + \psi^\alpha_\xi \frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi} \dv
+  \delta \int_{\mc{B}} \rho^\alpha_\xi \psi^\alpha_\xi \, \dv
+  = \int_{\mc{B}} \left( \rho^\alpha_\xi \, \delta \psi^\alpha_\xi
+  + \psi^\alpha_\xi \, \frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi} \right) \dv.
   \label{eq:bd128}
 \end{equation}
+We use this identity here because the mobile-phase energy is written entirely in the current configuration, and the Bedford--Drumheller identity already incorporates the kinematic variation of the spatial measure into the density term. Thus one should not add separate \(J_\xi\)-variation terms afterward; this is not because \(J_\xi\) or \(\eta^\alpha_\xi\) are incapable of varying, but because their effect is already contained in~\eqref{eq:bd128}.
 
 We now adopt the hybrid choice in which the free energies remain constitutive functions,
 \(\psi^\alpha_\xi = \psi^\alpha_\xi(\bar\rho^\beta_\xi,\eta^\beta_\xi,\theta^\beta_\xi)\), but the intrinsic densities
 \(\bar\rho^\beta_\xi\) are treated as independent kinematic variables for each component
-\(\beta\) in the mobile phase \(\xi\in\{a,o,g\}\).  For component \(\alpha\), let
-\(\rho^\alpha_\xi \equiv \phi_\xi\bar\rho^\alpha_\xi\).  Then
+\(\beta\) in the mobile phase \(\xi\in\{a,o,g\}\). For component \(\alpha\), let
+\(\rho^\alpha_\xi \equiv \phi_\xi\bar\rho^\alpha_\xi\). Then
 \begin{equation}
   U_\xi = \sum_\alpha \int_{\mc{B}} \rho^\alpha_\xi\,\psi^\alpha_\xi\,\dv.
   \label{eq:U_xi_current}
 \end{equation}
-Using the identity~\eqref{eq:bd128} directly in the current configuration gives, for each
-component \(\alpha\),
+Applying~\eqref{eq:bd128} componentwise gives
 \begin{equation}
   \left.\delta U_\xi\right\vert_\alpha
   = \int_{\mc{B}} \left(\rho^\alpha_\xi\,\delta\psi^\alpha_\xi
   + \psi^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}\right)\dv.
   \label{eq:deltaUfog_rho_alpha_identity}
 \end{equation}
-Since
+At fixed spatial point,
 \begin{equation}
   \delta\psi^\alpha_\xi
   = \sum_\beta
@@ -203,14 +204,7 @@ Since
   \delta\bar\rho^\beta_\xi,
   \label{eq:delta_psi_rho}
 \end{equation}
-and
-\begin{equation}
-  \frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
-  = \delta\rho^\alpha_\xi
-  = \phi_\xi\,\delta\bar\rho^\alpha_\xi + \bar\rho^\alpha_\xi\,\delta\phi_\xi,
-  \label{eq:delta_c_rho_relation}
-\end{equation}
-we obtain
+so that
 \begin{align}
   \left.\delta U_\xi\right\vert_\alpha
   &= \int_{\mc{B}} \Bigg[
@@ -218,7 +212,7 @@ we obtain
     \sum_\beta
     \left.\p{\psi^\alpha_\xi}{\bar\rho^\beta_\xi}\right\vert_{\eta^\kappa_\xi,\theta^\kappa_\xi,\bar\rho^{\kappa\neq\beta}_\xi}
     \delta\bar\rho^\beta_\xi
-    + \psi^\alpha_\xi\left(\phi_\xi\,\delta\bar\rho^\alpha_\xi + \bar\rho^\alpha_\xi\,\delta\phi_\xi\right)
+    + \psi^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
   \Bigg] \dv.
   \label{eq:deltaUfog_rho_alpha_expanded}
 \end{align}
@@ -235,40 +229,36 @@ and therefore the complete current-configuration virtual-work statement for the 
     \rho^\alpha_\xi
     \sum_\beta
     \left.\p{\psi^\alpha_\xi}{\bar\rho^\beta_\xi}\right\vert_{\eta^\kappa_\xi,\theta^\kappa_\xi,\bar\rho^{\kappa\neq\beta}_\xi}
-    \delta\bar\rho^\beta_\xi 
-    + \psi^\alpha_\xi\left(\phi_\xi\,\delta\bar\rho^\alpha_\xi + \bar\rho^\alpha_\xi\,\delta\phi_\xi\right)
+    \delta\bar\rho^\beta_\xi
+    + \psi^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
   \Bigg] \dv.
   \label{eq:deltaUfog_rho_total}
 \end{align}
 Here and below, the notation
 \(\left.\partial \psi^\alpha_\xi / \partial \bar\rho^\beta_\xi\right\vert_{\eta^\kappa_\xi,\theta^\kappa_\xi,\bar\rho^{\kappa\neq\beta}_\xi}\)
 means that all \(\eta^\kappa_\xi\), all \(\theta^\kappa_\xi\), and all \(\bar\rho^\kappa_\xi\) with
-\(\kappa \neq \beta\) are held fixed.  The coefficients of the independent current variations
-\(\delta\bar\rho^\beta_\xi\) and \(\delta\phi_\xi\) are then read directly from
-\eqref{eq:deltaUfog_rho_total}.  The effect of the motion through \(J_\xi\) is already absorbed into
-identity~\eqref{eq:bd128}, so no separate convective term appears here.
+\(\kappa \neq \beta\) are held fixed. The coefficients of the independent current variations
+\(\delta\bar\rho^\beta_\xi\) and \(\delta c^\alpha_\xi\) are then read directly from
+\eqref{eq:deltaUfog_rho_total}. If desired, one may subsequently use
+\(\delta\rho^\alpha_\xi = \delta c^\alpha_\xi/(\eta^\alpha_\xi J_\xi) = \phi_\xi\,\delta\bar\rho^\alpha_\xi + \bar\rho^\alpha_\xi\,\delta\phi_\xi\)
+after collection.
 
 % ============================================================
 \subsection{Variation of fluid, oleic, and gas energy w.r.t.\ partial volume $\eta^\alpha_\xi$}
 \label{sec:var_Ufog_eta}
 % ============================================================
 
-Following the same pull-back, coefficient-collection, and push-forward steps used in
-Section~\ref{sec:var_Ufog_rho}, but now with $\eta^\beta_\xi$ as the free-energy argument, the
-complete current-configuration virtual-work statement is
+Using the identity~\eqref{eq:bd128} in the same way as Section~\ref{sec:var_Ufog_rho}, but now
+varying the free-energy argument $\eta^\beta_\xi$ at fixed spatial point, we obtain
 \begin{align}
   \left.\delta(U_a + U_o + U_g)\right\vert_{\delta\eta}
   &= \sum_{\xi\in\{a,o,g\}} \sum_\alpha \int_{\mc{B}}
   \Bigg[
-    \phi_\xi\,\psi^\alpha_\xi\,\delta\bar\rho^\alpha_\xi
-    + \bar\rho^\alpha_\xi\,\psi^\alpha_\xi\,\delta\phi_\xi
-    + \rho^\alpha_\xi\,\psi^\alpha_\xi\,\nabla_{\mbf{x}}\!\cdot\delta\mbf{x}_\xi \notag \\
-  &\qquad\qquad
-    + \frac{\rho^\alpha_\xi}{\eta^\alpha_\xi}\,\psi^\alpha_\xi\,\delta\eta^\alpha_\xi
-    + \rho^\alpha_\xi
+    \rho^\alpha_\xi
       \sum_\beta
       \left.\p{\psi^\alpha_\xi}{\eta^\beta_\xi}\right\vert_{\bar\rho^\kappa_\xi,\theta^\kappa_\xi,\eta^{\kappa\neq\beta}_\xi}
       \delta\eta^\beta_\xi
+    + \psi^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
   \Bigg] \dv.
   \label{eq:deltaUfog_eta}
 \end{align}
@@ -278,21 +268,17 @@ complete current-configuration virtual-work statement is
 \label{sec:var_Ufog_theta}
 % ============================================================
 
-Likewise, following the same operations as in Section~\ref{sec:var_Ufog_rho}, but now with
-$\theta^\beta_\xi$ as the free-energy argument, we obtain the current-configuration statement
+Likewise, using~\eqref{eq:bd128} but now varying the free-energy argument $\theta^\beta_\xi$ at
+fixed spatial point, we obtain
 \begin{align}
   \left.\delta(U_a + U_o + U_g)\right\vert_{\delta\theta}
   &= \sum_{\xi\in\{a,o,g\}} \sum_\alpha \int_{\mc{B}}
   \Bigg[
-    \phi_\xi\,\psi^\alpha_\xi\,\delta\bar\rho^\alpha_\xi
-    + \bar\rho^\alpha_\xi\,\psi^\alpha_\xi\,\delta\phi_\xi
-    + \rho^\alpha_\xi\,\psi^\alpha_\xi\,\nabla_{\mbf{x}}\!\cdot\delta\mbf{x}_\xi \notag \\
-  &\qquad\qquad
-    + \frac{\rho^\alpha_\xi}{\eta^\alpha_\xi}\,\psi^\alpha_\xi\,\delta\eta^\alpha_\xi
-    + \rho^\alpha_\xi
+    \rho^\alpha_\xi
       \sum_\beta
       \left.\p{\psi^\alpha_\xi}{\theta^\beta_\xi}\right\vert_{\bar\rho^\kappa_\xi,\eta^\kappa_\xi,\theta^{\kappa\neq\beta}_\xi}
       \delta\theta^\beta_\xi
+    + \psi^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
   \Bigg] \dv.
   \label{eq:deltaUfog_theta}
 \end{align}
@@ -302,22 +288,20 @@ $\theta^\beta_\xi$ as the free-energy argument, we obtain the current-configurat
 \label{sec:var_C1_app}
 % ============================================================
 
-The constraint $C_1 = \int_{\mc{B}} \lambda(\sum_\xi\phi_\xi - 1)\,\dv$ is varied with respect to $\lambda$ and the constituent motions. Using the Bedford--Drumheller rule for a current field attached to constituent $\xi$,
+The constraint $C_1 = \int_{\mc{B}} \lambda(\sum_\xi\phi_\xi - 1)\,\dv$ is written in the current configuration, so the natural variation is Eulerian, i.e. taken at fixed spatial point $\mbf{x}$.  Since each $\phi_\xi$ is a constituent-attached spatial field, we use the Bedford--Drumheller identity
 \begin{equation}
-  \left.\delta\phi_\xi\right\vert_{\mbf{X}_\xi}
+  \left.\delta\phi_\xi\right\vert_{\mbf{x}}
   = \delta\phi_\xi - \nabla_{\mbf{x}}\phi_\xi\cdot\delta\mbf{x}_\xi,
   \label{eq:delta_phi_BD_local}
 \end{equation}
-we obtain
+to express the variation in terms of the spatial variation $\delta\phi_\xi$ and the motion variation $\delta\mbf{x}_\xi$. Therefore
 \begin{align}
   \delta C_1
-  &= \int_{\mc{B}} \delta\lambda \left(\sum_\xi\phi_\xi - 1\right) \dv \,
-  + \sum_\xi \int_{\mc{B}} \lambda\left(\left.\delta\phi_\xi\right\vert_{\mbf{X}_\xi}\right) \dv \notag \\
   &= \int_{\mc{B}} \delta\lambda \left(\sum_\xi\phi_\xi - 1\right) \dv
   + \sum_\xi \int_{\mc{B}} \lambda\left(\delta\phi_\xi - \nabla_{\mbf{x}}\phi_\xi\cdot\delta\mbf{x}_\xi\right) \dv.
   \label{eq:deltaC1_app}
 \end{align}
-The first line enforces the saturation constraint $\sum_\xi\phi_\xi = 1$. The remaining terms contribute $\lambda$ to each $\delta\phi_\xi$ equation and $-\lambda\nabla_{\mbf{x}}\phi_\xi$ to each momentum variation $\delta\mbf{x}_\xi$.
+The first term enforces the saturation constraint $\sum_\xi\phi_\xi = 1$. The remaining terms contribute $\lambda$ to each $\delta\phi_\xi$ equation and $-\lambda\nabla_{\mbf{x}}\phi_\xi$ to each momentum variation $\delta\mbf{x}_\xi$.
 
 % ============================================================
 \subsection{Variation of constraint $C_2$: component material mass balance}
