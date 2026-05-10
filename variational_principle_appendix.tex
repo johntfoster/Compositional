@@ -222,15 +222,14 @@ Summing over all components in the mobile phase gives
   = \sum_\alpha \left.\delta U_\xi\right\vert_\alpha,
   \label{eq:deltaUfog_rho_phase}
 \end{equation}
-and therefore the complete current-configuration virtual-work statement for the mobile phases is
+and therefore the complete current-configuration virtual-work statement for the mobile phases is (after relabeling the dummy indices)
 \begin{align}
   \left.\delta(U_a+U_o+U_g)\right\vert_{\delta\bar\rho}
-  &= \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
-    \rho^\alpha_\xi
-    \sum_\beta
-    \left.\p{\psi^\alpha_\xi}{\bar\rho^\beta_\xi}\right\vert_{\eta^\kappa_\xi,\theta^\kappa_\xi,\bar\rho^{\kappa\neq\beta}_\xi}
-    \delta\bar\rho^\beta_\xi
-    + \psi^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
+  &= \sum_{\xi\in\{a,o,g\}}\sum_\alpha\int_{\mc{B}} \Bigg[
+    \sum_\beta \rho^\beta_\xi
+    \left.\p{\psi^\beta_\xi}{\bar\rho^\alpha_\xi}\right\vert_{\eta^\kappa_\xi,\theta^\kappa_\xi,\bar\rho^{\kappa\neq\alpha}_\xi}
+    \delta\bar\rho^\alpha_\xi
+    + \frac{\psi^\alpha_\xi}{\eta_\xi^\alpha} \frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
   \Bigg] \dv.
   \label{eq:deltaUfog_rho_total}
 \end{align}
@@ -239,9 +238,7 @@ Here and below, the notation
 means that all \(\eta^\kappa_\xi\), all \(\theta^\kappa_\xi\), and all \(\bar\rho^\kappa_\xi\) with
 \(\kappa \neq \beta\) are held fixed. The coefficients of the independent current variations
 \(\delta\bar\rho^\beta_\xi\) and \(\delta c^\alpha_\xi\) are then read directly from
-\eqref{eq:deltaUfog_rho_total}. If desired, one may subsequently use
-\(\delta\rho^\alpha_\xi = \delta c^\alpha_\xi/(\eta^\alpha_\xi J_\xi) = \phi_\xi\,\delta\bar\rho^\alpha_\xi + \bar\rho^\alpha_\xi\,\delta\phi_\xi\)
-after collection.
+\eqref{eq:deltaUfog_rho_total}. 
 
 % ============================================================
 \subsection{Variation of fluid, oleic, and gas energy w.r.t.\ partial volume $\eta^\alpha_\xi$}
@@ -256,9 +253,9 @@ varying the free-energy argument $\eta^\beta_\xi$ at fixed spatial point, we obt
   \Bigg[
     \rho^\alpha_\xi
       \sum_\beta
-      \left.\p{\psi^\alpha_\xi}{\eta^\beta_\xi}\right\vert_{\bar\rho^\kappa_\xi,\theta^\kappa_\xi,\eta^{\kappa\neq\beta}_\xi}
-      \delta\eta^\beta_\xi
-    + \psi^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
+      \left.\p{\psi^\beta_\xi}{\eta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\theta^\kappa_\xi,\eta^{\kappa\neq\alpha}_\xi}
+      \delta\eta^\alpha_\xi
+    + \frac{\psi^\alpha_\xi}{\eta^\alpha_\xi} \frac{\delta c^\alpha_\xi}{J_\xi}
   \Bigg] \dv.
   \label{eq:deltaUfog_eta}
 \end{align}
@@ -276,9 +273,9 @@ fixed spatial point, we obtain
   \Bigg[
     \rho^\alpha_\xi
       \sum_\beta
-      \left.\p{\psi^\alpha_\xi}{\theta^\beta_\xi}\right\vert_{\bar\rho^\kappa_\xi,\eta^\kappa_\xi,\theta^{\kappa\neq\beta}_\xi}
-      \delta\theta^\beta_\xi
-    + \psi^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{\eta^\alpha_\xi J_\xi}
+      \left.\p{\psi^\beta_\xi}{\theta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\eta^\kappa_\xi,\theta^{\kappa\neq\alpha}_\xi}
+      \delta\theta^\alpha_\xi
+    + \frac{\psi^\alpha_\xi}{\eta^\alpha_\xi} \frac{\delta c^\alpha_\xi}{J_\xi}
   \Bigg] \dv.
   \label{eq:deltaUfog_theta}
 \end{align}
