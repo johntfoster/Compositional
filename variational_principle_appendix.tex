@@ -121,16 +121,48 @@ and substituting~\eqref{eq:delta_phi} into~\eqref{eq:deltaU_solid}, the porosity
 \label{sec:var_gamma}
 % ============================================================
 
-With $S_f = \phi_f/\phi$ and $\phi = \phi_f + \phi_g$, define the capillary pressure by
+With three mobile phases (aqueous, oleic, and gas), let
+\[
+  \phi = \phi_a + \phi_o + \phi_g,
+  \qquad
+  S_a = \frac{\phi_a}{\phi},
+  \qquad
+  S_g = \frac{\phi_g}{\phi},
+\]
+so that $S_o = 1-S_a-S_g = \phi_o/\phi$.  We take the interfacial energy to be
+\[
+  U_\gamma = \int_{\mc{B}} \gamma_{oa}(S_a)\,\dv + \int_{\mc{B}} \gamma_{go}(S_g)\,\dv,
+\]
+which introduces two independent capillary pressures,
 \begin{equation}
-  p_c \equiv -\frac{1}{\phi}\frac{\partial\gamma_{fg}}{\partial S_f} > 0.
+  p_{c,oa} \equiv -\frac{1}{\phi}\frac{\partial\gamma_{oa}}{\partial S_a} > 0,
+  \qquad
+  p_{c,og} \equiv -\frac{1}{\phi}\frac{\partial\gamma_{go}}{\partial S_g} > 0.
   \label{eq:pc_def}
 \end{equation}
-Then the variation of the interfacial energy contributes
+Using
+\[
+  \delta S_a = \frac{\phi_o+\phi_g}{\phi^2}\,\delta\phi_a - \frac{\phi_a}{\phi^2}(\delta\phi_o+\delta\phi_g),
+  \qquad
+  \delta S_g = \frac{\phi_a+\phi_o}{\phi^2}\,\delta\phi_g - \frac{\phi_g}{\phi^2}(\delta\phi_a+\delta\phi_o),
+\]
+together with the inter-component variation identity for the spatial fields, the variation of the interfacial energy contributes
 \begin{align}
-  \delta U_{fg}
-  &= \int_{\mc{B}} \left[-p_c\frac{\phi_g}{\phi}\,\delta\phi_f + p_c\frac{\phi_f}{\phi}\,\delta\phi_g\right] \,\dv \notag \\
-  &\quad + \int_{\mc{B}} \left[-p_c\frac{\phi_g}{\phi}\,\nabla_{\mbf{x}}\phi_f \cdot \delta\mbf{x}_f + p_c\frac{\phi_f}{\phi}\,\nabla_{\mbf{x}}\phi_g \cdot \delta\mbf{x}_g\right] \,\dv.
+  \delta U_\gamma
+  &= \int_{\mc{B}} \Bigg[
+      \left(-p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\delta\phi_a \notag \\
+  &\qquad\qquad
+      + \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\delta\phi_o \notag \\
+  &\qquad\qquad
+      + \left(p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\delta\phi_g
+    \Bigg] \,\dv \notag \\
+  &\quad + \int_{\mc{B}} \Bigg[
+      \left(-p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a \cdot \delta\mbf{x}_a \notag \\
+  &\qquad\qquad
+      + \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o \cdot \delta\mbf{x}_o \notag \\
+  &\qquad\qquad
+      + \left(p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g \cdot \delta\mbf{x}_g
+    \Bigg] \,\dv.
   \label{eq:deltaU_fg}
 \end{align}
 
