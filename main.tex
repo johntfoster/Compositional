@@ -65,6 +65,9 @@ where
   \eta^\alpha_\xi = \frac{{\rm d}V_\xi^\alpha}{{\rm d}V_\xi}
   \label{eq:eta}
 \end{equation}
+
+$\eta_\xi^\alpha$ is the Lagrangian (reference-configuration) volume fraction of component $\alpha$ within phase $\xi$. It labels material parcels of phase $\xi$ by their initial volumetric composition. Its thermodynamic conjugate is the partial pressure of component $\alpha$ within phase $\xi$, and the Euler–Lagrange equation for $\delta\eta_\xi^\alpha$ is the reference-configuration statement of partial pressure equilibration, which upon push-forward to the current configuration recovers the equal-fugacity condition of classical phase equilibrium thermodynamics. For a cubic EOS such as Peng–Robinson, this E–L equation is an algebraic constitutive closure that determines the partial molar volumes; for non-equilibrium diffusion, it becomes a relaxation equation toward the EOS-determined equilibrium state.
+
 therefore
 \begin{equation}
   \rho_{\xi 0}^\alpha + c^\alpha_\xi = \rho_\xi^\alpha J_\xi \eta^{\alpha}_\xi
@@ -149,9 +152,7 @@ Recognizing the left-hand side of \eqref{eq:overall_mass} vanishes because it's 
 as a statement of conservation of mass of the entire mixture.  This means that mass reactions and phase transitions amoung psuedocomponents in the mixture do not create nor destory mass.
 
 
-\appendix
 \input{variational_principle_appendix}
-\input{coleman_noll_appendix}
 
 \bibliography{all}
 \bibliographystyle{plain}
