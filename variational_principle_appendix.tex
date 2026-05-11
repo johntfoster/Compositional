@@ -418,10 +418,10 @@ Using \(dv = J_\xi\eta_\xi^\alpha\,dV_\xi^\alpha\), the individual contributions
 
 \begin{align}
   \delta C_3
-  &= \sum_\xi \int_{\mc{B}}
-      \frac{\delta\pi_\xi}{J_\xi}\left(\sum_\alpha\eta_\xi^\alpha - 1\right) \dv
+  &= \sum_\xi \int_{\mc{B}_{\xi0}}
+      \delta\pi_\xi\left(\sum_\alpha\eta_\xi^\alpha - 1\right) dV_\xi
   + \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \frac{\pi_\xi}{J_\xi}\,\delta\eta_\xi^\alpha \dv
+      \pi_\xi\,\delta\eta_\xi^\alpha \, dV_\xi.
   \label{eq:deltaC3_app}
 \end{align}
 The first line vanishes on the constraint surface $\sum_\alpha\eta_\xi^\alpha = 1$ and recovers it as an Euler--Lagrange equation.  The second line contributes $\pi_\xi$ to each $\delta\eta_\xi^\alpha$ Euler--Lagrange equation.
@@ -463,56 +463,81 @@ Pushing forward to $\mc{B}$ via $dv = J_\xi\,dV_\xi$:
 \label{sec:collected_var}
 % ============================================================
 
-Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho^\alpha_\xi$, $\delta\eta^\alpha_\xi$, $\delta\theta^\alpha_\xi$, and $\delta c^\alpha_\xi$ gives
+Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho^\alpha_\xi$, $\delta\eta^\alpha_\xi$, $\delta\theta^\alpha_\xi$, and $\delta c^\alpha_\xi/J_\xi$ gives
 \begin{align}
-  0 = &\sum_\xi \int_{\mc{B}} \Bigg[
-    -\rho_\xi\mbf{a}_\xi + \nabla_{\mbf{x}}\cdot(\bs\sigma'_\xi)^T + \rho_\xi\mbf{g} + \mbf{b}_\xi
-    - \sum_\alpha\nabla_{\mbf{x}}\!\left(\mu_\xi^\alpha\eta_\xi^\alpha\right)
-    + \sum_\alpha c^{+\alpha}_\xi\nabla_{\mbf{x}}\tau
-  \Bigg]\cdot\delta\mbf{x}_\xi \,\dv \notag \\
-  &+ \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi \cdot \delta\mbf{x}_s \,\dv
-   - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi_f \cdot \delta\mbf{x}_f \,\dv
-   - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi_g \cdot \delta\mbf{x}_g \,\dv \notag \\
-  &+ \int_{\mc{B}} \left[
-      -p_c\frac{\phi_g}{\phi}\,\nabla_{\mbf{x}}\phi_f\cdot\delta\mbf{x}_f
-      + p_c\frac{\phi_f}{\phi}\,\nabla_{\mbf{x}}\phi_g\cdot\delta\mbf{x}_g
-    \right] \dv \notag \\
-  &+ \sum_\xi \int_{\mc{B}} \Bigg[
-    \lambda
-    + \sum_\alpha \frac{\mu_\xi^\alpha}{J_\xi}\frac{\phi_{\xi0}\bar\rho_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi^\alpha}
-  \Bigg] \delta\phi_\xi \,\dv \notag \\
-  &+ \int_{\mc{B}} P^\star_\phi\,\delta\phi_f \,\dv
-   + \int_{\mc{B}} P^\star_\phi\,\delta\phi_g \,\dv \notag \\
-  &+ \int_{\mc{B}} \left[
-      -p_c\frac{\phi_g}{\phi}\,\delta\phi_f
-      + p_c\frac{\phi_f}{\phi}\,\delta\phi_g
-    \right] \dv \notag \\
+  0 = &\int_{\mc{B}} \Bigg[
+    -\rho_s\mbf{a}_s + \nabla_{\mbf{x}}\cdot(\bs\sigma'_s)^T + \rho_s\mbf{g} + \mbf{b}_s
+    - \sum_\alpha\nabla_{\mbf{x}}\mu_s^\alpha
+    + \sum_\alpha c^{+\alpha}_s\nabla_{\mbf{x}}\tau
+    + P^\star_\phi\nabla_{\mbf{x}}\phi
+  \Bigg]\cdot\delta\mbf{x}_s \,\dv \notag \\
+  &+ \int_{\mc{B}} \Bigg[
+    -\rho_a\mbf{a}_a + \rho_a\mbf{g} + \mbf{b}_a
+    - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
+    + \sum_\alpha c^{+\alpha}_a\nabla_{\mbf{x}}\tau
+    - P^\star_\phi\nabla_{\mbf{x}}\phi_a
+    + \left(-p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a
+  \Bigg]\cdot\delta\mbf{x}_a \,\dv \notag \\
+  &+ \int_{\mc{B}} \Bigg[
+    -\rho_o\mbf{a}_o + \rho_o\mbf{g} + \mbf{b}_o
+    - \sum_\alpha\nabla_{\mbf{x}}\mu_o^\alpha
+    + \sum_\alpha c^{+\alpha}_o\nabla_{\mbf{x}}\tau
+    - P^\star_\phi\nabla_{\mbf{x}}\phi_o
+    + \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o
+  \Bigg]\cdot\delta\mbf{x}_o \,\dv \notag \\
+  &+ \int_{\mc{B}} \Bigg[
+    -\rho_g\mbf{a}_g + \rho_g\mbf{g} + \mbf{b}_g
+    - \sum_\alpha\nabla_{\mbf{x}}\mu_g^\alpha
+    + \sum_\alpha c^{+\alpha}_g\nabla_{\mbf{x}}\tau
+    - P^\star_\phi\nabla_{\mbf{x}}\phi_g
+    + \left(p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g
+  \Bigg]\cdot\delta\mbf{x}_g \,\dv \notag \\
+  &+ \int_{\mc{B}} \Bigg[
+      \lambda + P^\star_\phi
+      + \left(-p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)
+      + \sum_\alpha \frac{\mu_a^\alpha}{\phi_a}
+    \Bigg] \delta\phi_a \,\dv \notag \\
+  &+ \int_{\mc{B}} \Bigg[
+      \lambda + P^\star_\phi
+      + \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)
+      + \sum_\alpha \frac{\mu_o^\alpha}{\phi_o}
+    \Bigg] \delta\phi_o \,\dv \notag \\
+  &+ \int_{\mc{B}} \Bigg[
+      \lambda + P^\star_\phi
+      + \left(p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)
+      + \sum_\alpha \frac{\mu_g^\alpha}{\phi_g}
+    \Bigg] \delta\phi_g \,\dv \notag \\
   &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
-    \rho_\xi\left(\sum_\gamma \left.\p{\psi^\gamma_\xi}{\bar\rho^\alpha_\xi}\right\vert\right)
-    + \frac{\mu_\xi^\alpha}{J_\xi}\frac{\phi_{\xi0}\bar\rho_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi(\bar\rho_\xi^\alpha)^2}
+    \sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\bar\rho^\alpha_\xi}\right\vert_{\eta^\kappa_\xi,\theta^\kappa_\xi,\bar\rho^{\kappa\neq\alpha}_\xi}
+    + \frac{\mu_\xi^\alpha}{\bar\rho_\xi^\alpha}
   \Bigg] \delta\bar\rho^\alpha_\xi \,\dv \notag \\
   &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
-    \rho_\xi\left(\sum_\gamma \left.\p{\psi^\gamma_\xi}{\eta^\alpha_\xi}\right\vert\right)
-    + \mu_\xi^\alpha
+    \sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\eta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\theta^\kappa_\xi,\eta^{\kappa\neq\alpha}_\xi}
+    + \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha}
     + \pi_\xi
   \Bigg] \delta\eta^\alpha_\xi \,\dv \notag \\
   &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
-    \rho_\xi\left(\sum_\gamma \left.\p{\psi^\gamma_\xi}{\theta^\alpha_\xi}\right\vert\right)
+    \sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\theta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\eta^\kappa_\xi,\theta^{\kappa\neq\alpha}_\xi}
   \Bigg] \delta\theta^\alpha_\xi \,\dv \notag \\
-  &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
+  &+ \sum_\alpha \int_{\mc{B}} \Bigg[
+    \tfrac{1}{2}\mbf{v}_s\cdot\mbf{v}_s + \mc{L}^\alpha_s
+    - \frac{D_s\tau}{Dt}
+    - \frac{\mu_s^\alpha}{\eta_s^\alpha\phi_s\bar\rho_s^\alpha}
+  \Bigg] \frac{\delta c^\alpha_s}{J_s} \,\dv \notag \\
+  &+ \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
     \tfrac{1}{2}\mbf{v}_\xi\cdot\mbf{v}_\xi + \mc{L}^\alpha_\xi
-    - \frac{D_\xi\tau}{Dt}
-    - \frac{\mu_\xi^\alpha}{J_\xi\phi_\xi\bar\rho_\xi^\alpha}
+    - \frac{D_\xi\tau}{Dt} + \psi^\alpha_\xi
+    - \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha\phi_\xi\bar\rho_\xi^\alpha}
   \Bigg] \frac{\delta c^\alpha_\xi}{J_\xi} \,\dv \notag \\
-  &+ \int_{\mc{B}} \delta\lambda\left(\sum_\xi\phi_\xi - 1\right) \dv \notag \\
-  &+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \delta\mu_\xi^\alpha\,h_\xi^\alpha \, dV_\xi \notag \\
+  &+ \int_{\mc{B}} \delta\lambda\left(\phi_a+\phi_o+\phi_g+\phi_s - 1\right) \dv \notag \\
+  &+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}^\alpha}
+      \delta\mu_\xi^\alpha\,h_\xi^\alpha \, dV_\xi^\alpha \notag \\
   &+ \sum_\xi \int_{\mc{B}_{\xi0}}
       \delta\pi_\xi\left(\sum_\alpha\eta_\xi^\alpha - 1\right) dV_\xi \notag \\
   &+ \int_{\mc{B}} \delta\tau\sum_\xi\sum_\alpha \frac{\dot{c}^\alpha_\xi}{J_\xi} \,\dv.
   \label{eq:collected_full}
 \end{align}
-Here $c_\xi^{+\alpha} = \dot{c}_\xi^\alpha/J_\xi$ is the mass production rate per unit current volume; the effective Cauchy stress $\bs\sigma'_\xi$ is defined in~\eqref{eq:var_cauchy_def}; $P^\star_\phi$ is defined in~\eqref{eq:Pstar_phi}; and the last four lines recover the constraints~\eqref{eq:C1_def}--\eqref{eq:C4_def}.  Since all variations are independent and arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
+Here $c_\xi^{+\alpha} = \dot{c}_\xi^\alpha/J_\xi$ is the mass production rate per unit current volume; the effective Cauchy stress $\bs\sigma'_s$ is defined in~\eqref{eq:var_cauchy_def}; $P^\star_\phi$ is defined in~\eqref{eq:Pstar_phi}; and the last four lines recover the constraints~\eqref{eq:C1_def}--\eqref{eq:C4_def}. Since all variations are independent and arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
 
 \subsection{Euler--Lagrange equations}
 
