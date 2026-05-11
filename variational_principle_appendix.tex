@@ -66,10 +66,22 @@ The solid contribution is
   &\qquad + \left.\p{\psi_s^\alpha}{\bar\rho^\alpha_s}\right\vert_{\mbf{F},\eta^\alpha_s,\theta^\alpha_s,\phi} \delta \bar\rho^\alpha_s \notag \\
   &\qquad + \left.\p{\psi_s^\alpha}{\eta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\theta^\alpha_s,\phi} \delta \eta^\alpha_s \notag \\
   &\qquad + \left.\p{\psi_s^\alpha}{\theta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\eta^\alpha_s,\phi} \delta \theta^\alpha_s \notag \\
-  &\qquad + \left.\p{\psi_s^\alpha}{\phi}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\eta^\alpha_s,\theta^\alpha_s} \left.\delta\phi\right|_{\mbf{X}_s} \notag \\.
-  &\qquad \left. + \frac{\psi^\alpha_s}{\eta_s^\alpha} \delta \eta^\alpha_s \right] dV_s
+  &\qquad + \left.\p{\psi_s^\alpha}{\phi}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\eta^\alpha_s,\theta^\alpha_s} \left.\delta\phi\right|_{\mbf{X}_s} \notag \\
+  &\qquad \left. + \frac{\psi^\alpha_s}{\eta_s^\alpha} \delta \eta^\alpha_s \right] dV_s.
+  \label{eq:deltaU_solid}
 \end{align}
-%
+Using $dv = J_s\,dV_s$, the fully pushed-forward form of \eqref{eq:deltaU_solid} is
+\begin{align}
+  \delta U_s = \int_{\mc{B}} \sum_\alpha \frac{\rho^\alpha_{s0}\eta_s^\alpha}{J_s} \Bigg[
+    &\left.\p{\psi_s^\alpha}{F_{kl}}\right\vert_{\bar\rho^\alpha_s,\eta^\alpha_s,\theta^\alpha_s,\phi} \delta F_{kl}
+    + \left.\p{\psi_s^\alpha}{\bar\rho^\alpha_s}\right\vert_{\mbf{F},\eta^\alpha_s,\theta^\alpha_s,\phi} \delta \bar\rho^\alpha_s \notag \\
+    &+ \left.\p{\psi_s^\alpha}{\eta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\theta^\alpha_s,\phi} \delta \eta^\alpha_s
+    + \left.\p{\psi_s^\alpha}{\theta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\eta^\alpha_s,\phi} \delta \theta^\alpha_s \notag \\
+    &+ \left.\p{\psi_s^\alpha}{\phi}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\eta^\alpha_s,\theta^\alpha_s} \left.\delta\phi\right|_{\mbf{X}_s}
+    + \frac{\psi^\alpha_s}{\eta_s^\alpha} \delta \eta^\alpha_s
+  \Bigg] dv.
+  \label{eq:deltaU_solid_push}
+\end{align}
 The variation $\delta F_{kl} = \partial(\delta x_{s,k})/\partial X_{s,l}$ produces the standard stress divergence upon integration by parts.  Transforming to the current configuration gives
 \begin{equation}
   \int_{\mc{B}_{s0}} \rho_{s 0}\,\sum_\alpha \left.\p{\psi_s^\alpha}{F_{kl}}\right\vert_{\bar\rho^\alpha_s,\eta^\alpha_s,\theta^\alpha_s,\phi} \delta F_{kl}\, dV_s = -\int_{\mc{B}} \nabla_{\mbf{x}} \cdot \bs\sigma'_\xi \cdot \delta\mbf{x}_s \,\dv + \text{boundary terms},
@@ -109,9 +121,9 @@ Defining
 and substituting~\eqref{eq:delta_phi} into~\eqref{eq:deltaU_solid}, the porosity-dependent part of the solid energy variation becomes:
 \begin{align}
   \int_{\mc{B}_{s0}} \sum_\alpha \rho^\alpha_{s 0} \eta^\alpha_s \,\left.\p{\psi^\alpha_s}{\phi}\right\vert_{\mbf{F}_s,\bar\rho^\alpha_s,\eta^\alpha_s,\theta^\alpha_s}\, \left.\delta\phi\right|_{\mbf{X}_s}\, dV_s
-  &= \int_{\mc{B}} P^\star_\phi\, \delta\phi_a \,\dv + P^\star_\phi\, \delta\phi_o \,\dv +  \int_{\mc{B}} P^\star_\phi\, \delta\phi_g \,\dv \notag \\
+  &= \int_{\mc{B}} P^\star_\phi\, \delta\phi_a \,\dv + \int_{\mc{B}} P^\star_\phi\, \delta\phi_o \,\dv + \int_{\mc{B}} P^\star_\phi\, \delta\phi_g \,\dv \notag \\
   &\quad - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi_a \cdot \delta\mbf{x}_a \,\dv - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi_o \cdot \delta\mbf{x}_o \,\dv \notag \\
-  &\quad  - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi \cdot \delta\mbf{x}_g + \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi \cdot \delta\mbf{x}_s \,\dv.
+  &\quad - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi_g \cdot \delta\mbf{x}_g \,\dv + \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi \cdot \delta\mbf{x}_s \,\dv.
   \label{eq:phi_variation_split}
 \end{align}
 
@@ -467,57 +479,78 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
 \begin{align}
   0 = &\int_{\mc{B}} \Bigg[
     -\rho_s\mbf{a}_s + \nabla_{\mbf{x}}\cdot(\bs\sigma'_s)^T + \rho_s\mbf{g} + \mbf{b}_s
+    - \lambda\nabla_{\mbf{x}}\phi_s
     - \sum_\alpha\nabla_{\mbf{x}}\mu_s^\alpha
     + \sum_\alpha c^{+\alpha}_s\nabla_{\mbf{x}}\tau
-    + P^\star_\phi\nabla_{\mbf{x}}\phi
+    - P^\star_\phi\nabla_{\mbf{x}}\phi
   \Bigg]\cdot\delta\mbf{x}_s \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
     -\rho_a\mbf{a}_a + \rho_a\mbf{g} + \mbf{b}_a
+    - \lambda\nabla_{\mbf{x}}\phi_a
     - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
     + \sum_\alpha c^{+\alpha}_a\nabla_{\mbf{x}}\tau
-    - P^\star_\phi\nabla_{\mbf{x}}\phi_a
-    + \left(-p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a
+    + P^\star_\phi\nabla_{\mbf{x}}\phi_a
+    + \left(p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a
   \Bigg]\cdot\delta\mbf{x}_a \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
     -\rho_o\mbf{a}_o + \rho_o\mbf{g} + \mbf{b}_o
+    - \lambda\nabla_{\mbf{x}}\phi_o
     - \sum_\alpha\nabla_{\mbf{x}}\mu_o^\alpha
     + \sum_\alpha c^{+\alpha}_o\nabla_{\mbf{x}}\tau
-    - P^\star_\phi\nabla_{\mbf{x}}\phi_o
-    + \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o
+    + P^\star_\phi\nabla_{\mbf{x}}\phi_o
+    - \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o
   \Bigg]\cdot\delta\mbf{x}_o \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
     -\rho_g\mbf{a}_g + \rho_g\mbf{g} + \mbf{b}_g
+    - \lambda\nabla_{\mbf{x}}\phi_g
     - \sum_\alpha\nabla_{\mbf{x}}\mu_g^\alpha
     + \sum_\alpha c^{+\alpha}_g\nabla_{\mbf{x}}\tau
-    - P^\star_\phi\nabla_{\mbf{x}}\phi_g
-    + \left(p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g
+    + P^\star_\phi\nabla_{\mbf{x}}\phi_g
+    + \left(-p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g
   \Bigg]\cdot\delta\mbf{x}_g \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
-      \lambda + P^\star_\phi
-      + \left(-p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)
-      + \sum_\alpha \frac{\mu_a^\alpha}{\phi_a}
+      \lambda + \sum_\alpha \frac{\mu_s^\alpha}{\phi_s}
+    \Bigg] \delta\phi_s \,\dv \notag \\
+  &+ \int_{\mc{B}} \Bigg[
+      \lambda + \sum_\alpha \frac{\mu_a^\alpha}{\phi_a}
+      - P^\star_\phi
+      + p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}
     \Bigg] \delta\phi_a \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
-      \lambda + P^\star_\phi
-      + \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)
-      + \sum_\alpha \frac{\mu_o^\alpha}{\phi_o}
+      \lambda + \sum_\alpha \frac{\mu_o^\alpha}{\phi_o}
+      - P^\star_\phi
+      - p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_g}{\phi}
     \Bigg] \delta\phi_o \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
-      \lambda + P^\star_\phi
-      + \left(p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)
-      + \sum_\alpha \frac{\mu_g^\alpha}{\phi_g}
+      \lambda + \sum_\alpha \frac{\mu_g^\alpha}{\phi_g}
+      - P^\star_\phi
+      - p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}
     \Bigg] \delta\phi_g \,\dv \notag \\
-  &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
-    \sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\bar\rho^\alpha_\xi}\right\vert_{\eta^\kappa_\xi,\theta^\kappa_\xi,\bar\rho^{\kappa\neq\alpha}_\xi}
+  &+ \sum_\alpha \int_{\mc{B}} \Bigg[
+    -\frac{\rho^\alpha_{s0}\eta_s^\alpha}{J_s}
+    \left.\p{\psi_s^\alpha}{\bar\rho^\alpha_s}\right\vert_{\mbf{F},\eta^\alpha_s,\theta^\alpha_s,\phi}
+    + \frac{\mu_s^\alpha}{\bar\rho_s^\alpha}
+  \Bigg] \delta\bar\rho^\alpha_s \,\dv \notag \\
+  &+ \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
+    -\sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\bar\rho^\alpha_\xi}\right\vert_{\eta^\kappa_\xi,\theta^\kappa_\xi,\bar\rho^{\kappa\neq\alpha}_\xi}
     + \frac{\mu_\xi^\alpha}{\bar\rho_\xi^\alpha}
   \Bigg] \delta\bar\rho^\alpha_\xi \,\dv \notag \\
-  &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
-    \sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\eta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\theta^\kappa_\xi,\eta^{\kappa\neq\alpha}_\xi}
+  &+ \sum_\alpha \int_{\mc{B}} \Bigg[
+    -\frac{\rho^\alpha_{s0}\eta_s^\alpha}{J_s}\left(\left.\p{\psi_s^\alpha}{\eta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\theta^\alpha_s,\phi} + \frac{\psi_s^\alpha}{\eta_s^\alpha}\right)
+    + \frac{\mu_s^\alpha}{\eta_s^\alpha}
+    + \frac{\pi_s}{J_s}
+  \Bigg] \delta\eta^\alpha_s \,\dv \notag \\
+  &+ \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
+    -\sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\eta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\theta^\kappa_\xi,\eta^{\kappa\neq\alpha}_\xi}
     + \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha}
-    + \pi_\xi
+    + \frac{\pi_\xi}{J_\xi}
   \Bigg] \delta\eta^\alpha_\xi \,\dv \notag \\
-  &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
-    \sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\theta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\eta^\kappa_\xi,\theta^{\kappa\neq\alpha}_\xi}
+  &+ \sum_\alpha \int_{\mc{B}} \Bigg[
+    -\frac{\rho^\alpha_{s0}\eta_s^\alpha}{J_s}
+    \left.\p{\psi_s^\alpha}{\theta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\eta^\alpha_s,\phi}
+  \Bigg] \delta\theta^\alpha_s \,\dv \notag \\
+  &+ \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
+    -\sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\theta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\eta^\kappa_\xi,\theta^{\kappa\neq\alpha}_\xi}
   \Bigg] \delta\theta^\alpha_\xi \,\dv \notag \\
   &+ \sum_\alpha \int_{\mc{B}} \Bigg[
     \tfrac{1}{2}\mbf{v}_s\cdot\mbf{v}_s + \mc{L}^\alpha_s
@@ -525,11 +558,11 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
     - \frac{\mu_s^\alpha}{\eta_s^\alpha\phi_s\bar\rho_s^\alpha}
   \Bigg] \frac{\delta c^\alpha_s}{J_s} \,\dv \notag \\
   &+ \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
-    \tfrac{1}{2}\mbf{v}_\xi\cdot\mbf{v}_\xi + \mc{L}^\alpha_\xi
-    - \frac{D_\xi\tau}{Dt} + \psi^\alpha_\xi
+    \tfrac{1}{2}\mbf{v}_\xi\cdot\mbf{v}_\xi + \mc{L}^\alpha_\xi + \psi^\alpha_\xi
+    - \frac{D_\xi\tau}{Dt}
     - \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha\phi_\xi\bar\rho_\xi^\alpha}
   \Bigg] \frac{\delta c^\alpha_\xi}{J_\xi} \,\dv \notag \\
-  &+ \int_{\mc{B}} \delta\lambda\left(\phi_a+\phi_o+\phi_g+\phi_s - 1\right) \dv \notag \\
+  &+ \int_{\mc{B}} \delta\lambda\left(\phi_s+\phi_a+\phi_o+\phi_g - 1\right) \dv \notag \\
   &+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}^\alpha}
       \delta\mu_\xi^\alpha\,h_\xi^\alpha \, dV_\xi^\alpha \notag \\
   &+ \sum_\xi \int_{\mc{B}_{\xi0}}
@@ -537,7 +570,7 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
   &+ \int_{\mc{B}} \delta\tau\sum_\xi\sum_\alpha \frac{\dot{c}^\alpha_\xi}{J_\xi} \,\dv.
   \label{eq:collected_full}
 \end{align}
-Here $c_\xi^{+\alpha} = \dot{c}_\xi^\alpha/J_\xi$ is the mass production rate per unit current volume; the effective Cauchy stress $\bs\sigma'_s$ is defined in~\eqref{eq:var_cauchy_def}; $P^\star_\phi$ is defined in~\eqref{eq:Pstar_phi}; and the last four lines recover the constraints~\eqref{eq:C1_def}--\eqref{eq:C4_def}. Since all variations are independent and arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
+Here $c_\xi^{+\alpha} = \dot{c}_\xi^\alpha/J_\xi$ is the mass production rate per unit current volume; the effective Cauchy stress $\bs\sigma'_s$ is defined in~\eqref{eq:var_cauchy_def}; $P^\star_\phi$ is defined in~\eqref{eq:Pstar_phi}; and the last three lines recover the constraints~\eqref{eq:C1_def}--\eqref{eq:C4_def}. Since all variations are independent and arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
 
 \subsection{Euler--Lagrange equations}
 
