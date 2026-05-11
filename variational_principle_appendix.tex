@@ -576,83 +576,177 @@ Here $c_\xi^{+\alpha} = \dot{c}_\xi^\alpha/J_\xi$ is the mass production rate pe
 
 Since the variations are independent and arbitrary, each coefficient in~\eqref{eq:collected_full} must vanish.
 
-\paragraph{Pressure identifications.}  From the coefficient of $\delta\bar\rho_\xi$ we identify the thermodynamic phase pressures
-\begin{equation}
-  \bar{p}_\xi \equiv \bar\rho_\xi^2\frac{\partial\psi_\xi}{\partial\bar\rho_\xi}, \qquad \xi \in \{f,g\},
-  \label{eq:pbar_def}
-\end{equation}
-so that
-\begin{equation}
-  \frac{\mu_f J_f}{\phi_f} = \bar p_f, \qquad \frac{\mu_g J_g}{\phi_g} = \bar p_g.
-  \label{eq:mu}
-\end{equation}
-From $\delta\phi_A$ and $\delta\phi_B$,
-\begin{equation}
-  \frac{\mu_A J_s}{\phi_A} = \lambda, \qquad \frac{\mu_B J_s}{\phi_B} = \lambda.
-\end{equation}
-From $\delta\phi_f$ and $\delta\phi_g$, including the $P^\star_\phi$ and capillary contributions,
+\paragraph{Constraints and multiplier meanings.}
+The variations of the multipliers recover the defining constraints:
 \begin{align}
-  \bar p_f &= \lambda - P^\star_\phi - p_c(1-S_f),
-  \label{eq:pf}
+  \phi_s + \phi_a + \phi_o + \phi_g &= 1,
+  \label{eq:EL_sat}
   \\
-  \bar p_g &= \lambda - P^\star_\phi + p_c S_f.
-  \label{eq:pg}
+  h_\xi^\alpha &= J_\xi\eta_\xi^\alpha - \frac{\phi_{\xi0}\bar\rho_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi\bar\rho_\xi^\alpha} = 0,
+  \label{eq:EL_mass_constraint}
+  \\
+  \sum_\alpha \eta_\xi^\alpha &= 1,
+  \label{eq:EL_eta_constraint}
+  \\
+  \sum_\xi\sum_\alpha c_\xi^{+\alpha} &= 0.
+  \label{eq:EL_mass_source_constraint}
 \end{align}
-Therefore
-\begin{equation}
-  \lambda = S_f\bar p_f + (1-S_f)\bar p_g + P^\star_\phi.
-  \label{eq:lambda}
-\end{equation}
+Accordingly, $\lambda$ is the saturation-pressure multiplier enforcing unit total volume fraction; each $\mu_\xi^\alpha$ is the component mass-conservation multiplier for species $\alpha$ in phase $\xi$; each $\pi_\xi$ enforces the partition-of-unity of the component fractions $\eta_\xi^\alpha$ within phase $\xi$; and $\tau$ is the global mass-balance potential conjugate to reaction mass transfer. In the momentum balances below, $\nabla_{\mbf{x}}\tau$ acts as the standard Bedford--Drumheller reaction-driving force.
 
-\paragraph{Fluid momentum.}  From the coefficient of $\delta\mbf{x}_f$,
-\begin{equation}
-  \rho_f\mbf{a}_f = \rho_f\mbf{g} + \mbf{b}_f - \nabla_{\mbf{x}}(\mu_f J_f) + \lambda\nabla_{\mbf{x}}\phi_f - P^\star_\phi\nabla_{\mbf{x}}\phi_f - p_c\frac{\phi_g}{\phi}\nabla_{\mbf{x}}\phi_f + c^+_f\nabla_{\mbf{x}}\tau.
-  \label{eq:mom_fluid_raw}
-\end{equation}
-Using $\mu_f J_f = \phi_f \bar p_f$ and \eqref{eq:pf},
-\begin{align*}
-  -\nabla_{\mbf{x}}(\phi_f \bar p_f) + \lambda\nabla_{\mbf{x}}\phi_f - P^\star_\phi\nabla_{\mbf{x}}\phi_f - p_c\frac{\phi_g}{\phi}\nabla_{\mbf{x}}\phi_f
-  &= -\phi_f\nabla_{\mbf{x}}\bar p_f - \bar p_f\nabla_{\mbf{x}}\phi_f \\
-  &\quad + \left(\lambda - P^\star_\phi - p_c\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_f \\
-  &= -\phi_f\nabla_{\mbf{x}}\bar p_f.
-\end{align*}
-Hence the fluid momentum balance reduces to the phase-pressure form
-\begin{equation}
-  \boxed{\rho_f\mbf{a}_f = \rho_f\mbf{g} + \mbf{b}_f - \phi_f\nabla_{\mbf{x}}\bar p_f + c^+_f\left(\nabla_{\mbf{x}}\tau - \mbf{v}_f\right),}
-  \label{eq:mom_fluid}
-\end{equation}
-where the reaction-momentum term has been written in the standard Bedford--Drumheller form.
+\paragraph{Generalized phase pressures.}
+From the coefficients of $\delta\bar\rho_\xi^\alpha$ we obtain
+\begin{align}
+  \mu_s^\alpha
+  &= \bar\rho_s^\alpha\,\frac{\rho_{s0}^\alpha\eta_s^\alpha}{J_s}
+  \left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\right\vert_{\mbf{F},\eta_s^\alpha,\theta_s^\alpha,\phi},
+  \label{eq:mu_s_alpha}
+  \\
+  \mu_\xi^\alpha
+  &= \bar\rho_\xi^\alpha\sum_\beta \rho_\xi^\beta
+  \left.\p{\psi_\xi^\beta}{\bar\rho_\xi^\alpha}\right\vert_{\eta_\xi^\kappa,\theta_\xi^\kappa,\bar\rho_\xi^{\kappa\neq\alpha}}, \notag \\
+  \frac{\mu_\xi^\alpha}{\phi_\xi} &= \sum_\beta \bar\rho_\xi^\alpha \bar\rho_\xi^\beta \left.\p{\psi_\xi^\beta}{\bar\rho_\xi^\alpha}\right\vert_{\eta_\xi^\kappa,\theta_\xi^\kappa,\bar\rho_\xi^{\kappa\neq\alpha}}, 
+  \qquad \xi\in\{a,o,g\}.
+  \label{eq:mu_mobile_alpha}
+\end{align}
+These relations show that the multipliers $\mu_\xi^\alpha$ play the role of generalized partial pressures or, more precisely, density-conjugate chemical-stress potentials. For the mobile phases they reduce to the usual phase-pressure identification when the free energy depends only on its own intrinsic density.
 
-\paragraph{Gas momentum.}  From the coefficient of $\delta\mbf{x}_g$,
-\begin{equation}
-  \rho_g\mbf{a}_g = \rho_g\mbf{g} + \mbf{b}_g - \nabla_{\mbf{x}}(\mu_g J_g) + \lambda\nabla_{\mbf{x}}\phi_g - P^\star_\phi\nabla_{\mbf{x}}\phi_g + p_c\frac{\phi_f}{\phi}\nabla_{\mbf{x}}\phi_g + c^+_g\nabla_{\mbf{x}}\tau.
-  \label{eq:mom_gas_raw}
-\end{equation}
-Using $\mu_g J_g = \phi_g \bar p_g$ and \eqref{eq:pg},
-\begin{align*}
-  -\nabla_{\mbf{x}}(\phi_g \bar p_g) + \lambda\nabla_{\mbf{x}}\phi_g - P^\star_\phi\nabla_{\mbf{x}}\phi_g + p_c\frac{\phi_f}{\phi}\nabla_{\mbf{x}}\phi_g
-  &= -\phi_g\nabla_{\mbf{x}}\bar p_g - \bar p_g\nabla_{\mbf{x}}\phi_g \\
-  &\quad + \left(\lambda - P^\star_\phi + p_c\frac{\phi_f}{\phi}\right)\nabla_{\mbf{x}}\phi_g \\
-  &= -\phi_g\nabla_{\mbf{x}}\bar p_g.
-\end{align*}
-Hence the gas momentum balance reduces to
-\begin{equation}
-  \boxed{\rho_g\mbf{a}_g = \rho_g\mbf{g} + \mbf{b}_g - \phi_g\nabla_{\mbf{x}}\bar p_g + c^+_g\left(\nabla_{\mbf{x}}\tau - \mbf{v}_g\right).}
-  \label{eq:mom_gas}
-\end{equation}
+Summing \eqref{eq:mu_mobile_alpha} over $\alpha$ we recognize the right hand side as what's commonly refered to as the \emph{partial pressure} so we define
+%
+\begin{align}
+  \bar{p}^{\alpha\beta}_\xi &\equiv \sum_\alpha \frac{\mu^\alpha_\xi}{\phi_\xi}  \notag \\
+  &\equiv \sum_\alpha \sum_\beta \bar\rho_\xi^\alpha \bar\rho_\xi^\beta \left.\p{\psi_\xi^\beta}{\bar\rho_\xi^\alpha}\right\vert_{\eta_\xi^\kappa,\theta_\xi^\kappa,\bar\rho_\xi^{\kappa\neq\alpha}}, \qquad \xi\in\{a,o,g\}.
+  \label{eq:partial_p}
+\end{align}
 
-\paragraph{Overall momentum.}  Summing the solid, fluid, and gas balances gives the mixture equation.  The direct inter-component body-force pair terms from~\eqref{eq:phi_variation_split} cancel in the sum, but the porosity-conjugate contribution survives through the solid pressure algebra.  Writing the weighted phase pressure as $\bar p \equiv S_f\bar p_f + (1-S_f)\bar p_g$, the overall balance takes the form
-\begin{equation}
-  \boxed{\rho\mbf{a} = \nabla_{\mbf{x}}\cdot(\bs\sigma'_s)^T - \nabla_{\mbf{x}}\bar p - \nabla_{\mbf{x}}\left[(1-\phi)P^\star_\phi\right] + \rho\mbf{g} - c^+_f\left(\mbf{v}_f - \mbf{v}_s\right) - c^+_g\left(\mbf{v}_g - \mbf{v}_s\right).}
-  \label{eq:mom_overall}
-\end{equation}
-When $\psi_\xi$ does not depend on $\phi$ ($P^\star_\phi = 0$), this reduces to the standard mixture form.
+\paragraph{Partition relations.}
+From the coefficients of $\delta\eta_\xi^\alpha$,
+\begin{align}
+  \frac{\pi_s}{J_s}
+  &= \frac{\rho_{s0}^\alpha\eta_s^\alpha}{J_s}
+  \left(\left.\p{\psi_s^\alpha}{\eta_s^\alpha}\right\vert_{\mbf{F},\bar\rho_s^\alpha,\theta_s^\alpha,\phi} + \frac{\psi_s^\alpha}{\eta_s^\alpha}\right)
+  - \frac{\mu_s^\alpha}{\eta_s^\alpha},
+  \label{eq:pi_s_alpha}
+  \\
+  \frac{\pi_\xi}{J_\xi}
+  &= \sum_\beta \rho_\xi^\beta
+  \left.\p{\psi_\xi^\beta}{\eta_\xi^\alpha}\right\vert_{\bar\rho_\xi^\kappa,\theta_\xi^\kappa,\eta_\xi^{\kappa\neq\alpha}}
+  - \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha},
+  \qquad \xi\in\{a,o,g\}.
+  \label{eq:pi_mobile_alpha}
+\end{align}
+Thus $\pi_\xi$ is the phasewise indifference potential that adjusts so the component volume fractions sum to one.
 
-\paragraph{Evolution of $\tau$.}  From the coefficient of $\delta c_\xi$ and choosing to evaluate the functions for the reactant $A$,
+\paragraph{Thermal relations.}
+The coefficients of $\delta\theta_\xi^\alpha$ give
+\begin{align}
+  \frac{\rho_{s0}^\alpha\eta_s^\alpha}{J_s}
+  \left.\p{\psi_s^\alpha}{\theta_s^\alpha}\right\vert_{\mbf{F},\bar\rho_s^\alpha,\eta_s^\alpha,\phi} &= 0,
+  \label{eq:theta_s_EL}
+  \\
+  \sum_\beta \rho_\xi^\beta
+  \left.\p{\psi_\xi^\beta}{\theta_\xi^\alpha}\right\vert_{\bar\rho_\xi^\kappa,\eta_\xi^\kappa,\theta_\xi^{\kappa\neq\alpha}} &= 0,
+  \qquad \xi\in\{a,o,g\}.
+  \label{eq:theta_mobile_EL}
+\end{align}
+Under isothermal specialization these are satisfied identically; otherwise they furnish the equilibrium temperature restrictions associated with the chosen free energies.
+
+\paragraph{Volume-fraction equations.}
+From the coefficients of $\delta\phi_\xi$,
+\begin{align}
+  \lambda &= -\sum_\alpha \frac{\mu_s^\alpha}{\phi_s},
+  \label{eq:lambda_s}
+  \\
+  \lambda &= P_\phi^\star - p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi} - \sum_\alpha \frac{\mu_a^\alpha}{\phi_a},
+  \label{eq:lambda_a}
+  \\
+  \lambda &= P_\phi^\star + p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi} - \sum_\alpha \frac{\mu_o^\alpha}{\phi_o},
+  \label{eq:lambda_o}
+  \\
+  \lambda &= P_\phi^\star + p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi} - \sum_\alpha \frac{\mu_g^\alpha}{\phi_g}.
+  \label{eq:lambda_g}
+\end{align}
+These equations identify $\lambda$ as the common saturation pressure that equilibrates the phasewise generalized pressures against the porosity-conjugate stress $P_\phi^\star$ and the capillary offsets.
+
+\paragraph{Momentum balances.}
+The coefficients of $\delta\mbf{x}_\xi$ yield
+\begin{align}
+  \rho_s\mbf{a}_s
+  &= \nabla_{\mbf{x}}\cdot(\bs\sigma'_s)^T + \rho_s\mbf{g} + \mbf{b}_s
+  - \lambda\nabla_{\mbf{x}}\phi_s
+  - \sum_\alpha\nabla_{\mbf{x}}\mu_s^\alpha
+  + \sum_\alpha c_s^{+\alpha}\nabla_{\mbf{x}}\tau
+  - P_\phi^\star\nabla_{\mbf{x}}\phi,
+  \label{eq:mom_s_raw}
+  \\
+  \rho_a\mbf{a}_a
+  &= \rho_a\mbf{g} + \mbf{b}_a
+  - \lambda\nabla_{\mbf{x}}\phi_a
+  - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
+  + \sum_\alpha c_a^{+\alpha}\nabla_{\mbf{x}}\tau \notag \\
+  &\qquad + P_\phi^\star\nabla_{\mbf{x}}\phi_a
+  &\qquad + \left(p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a,
+  \label{eq:mom_a_raw}
+  \\
+  \rho_o\mbf{a}_o
+  &= \rho_o\mbf{g} + \mbf{b}_o
+  - \lambda\nabla_{\mbf{x}}\phi_o
+  - \sum_\alpha\nabla_{\mbf{x}}\mu_o^\alpha
+  + \sum_\alpha c_o^{+\alpha}\nabla_{\mbf{x}}\tau \notag \\
+  &\qquad + P_\phi^\star\nabla_{\mbf{x}}\phi_o
+  &\qquad - \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o,
+  \label{eq:mom_o_raw}
+  \\
+  \rho_g\mbf{a}_g
+  &= \rho_g\mbf{g} + \mbf{b}_g
+  - \lambda\nabla_{\mbf{x}}\phi_g
+  - \sum_\alpha\nabla_{\mbf{x}}\mu_g^\alpha
+  + \sum_\alpha c_g^{+\alpha}\nabla_{\mbf{x}}\tau \notag \\
+  &\qquad + P_\phi^\star\nabla_{\mbf{x}}\phi_g
+  &\qquad + \left(-p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g.
+  \label{eq:mom_g_raw}
+\end{align}
+Using the volume-fraction relations \eqref{eq:lambda_s}--\eqref{eq:lambda_g}, the porosity and capillary terms combine into generalized phase-pressure gradients. Define
 \begin{equation}
-  \boxed{\left.\p{\tau}{t}\right|_{\mbf{X}_s} = \frac{1}{2}\mbf{v}_s\cdot\mbf{v}_s - \mc{L}_A - \frac{\lambda}{\bar\rho_A}.}
-  \label{eq:tau_final}
+  p_\xi^{\mathrm{gen}} \equiv -\sum_\alpha \mu_\xi^\alpha,
+  \label{eq:pgen_def}
 \end{equation}
+so that each mobile-phase momentum balance takes the Darcy--Bedford--Drumheller form
+\begin{equation}
+  \boxed{\rho_\xi\mbf{a}_\xi = \rho_\xi\mbf{g} + \mbf{b}_\xi - \nabla_{\mbf{x}} p_\xi^{\mathrm{gen}} + \sum_\alpha c_\xi^{+\alpha}\left(\nabla_{\mbf{x}}\tau\right) + \text{capillary/porosity corrections}, \qquad \xi\in\{a,o,g\},}
+  \label{eq:mom_mobile_compact}
+\end{equation}
+while the solid balance is the effective-stress counterpart augmented by saturation and reaction forces:
+\begin{equation}
+  \boxed{\rho_s\mbf{a}_s = \nabla_{\mbf{x}}\cdot(\bs\sigma'_s)^T + \rho_s\mbf{g} + \mbf{b}_s - \lambda\nabla_{\mbf{x}}\phi_s - \nabla_{\mbf{x}} p_s^{\mathrm{gen}} - P_\phi^\star\nabla_{\mbf{x}}\phi + \sum_\alpha c_s^{+\alpha}\nabla_{\mbf{x}}\tau,}
+  \label{eq:mom_s_compact}
+\end{equation}
+with $p_s^{\mathrm{gen}}\equiv -\sum_\alpha \mu_s^\alpha$. In the uncoupled limit $P_\phi^\star=0$ and without capillarity, these reduce to the standard phase momentum balances driven by effective stress and phase-pressure gradients.
+
+\paragraph{Reaction potential equations.}
+From the coefficients of $\delta c_\xi^\alpha/J_\xi$,
+\begin{align}
+  \frac{D_s\tau}{Dt}
+  &= \tfrac{1}{2}\mbf{v}_s\cdot\mbf{v}_s + \mc{L}_s^\alpha
+  - \frac{\mu_s^\alpha}{\eta_s^\alpha\phi_s\bar\rho_s^\alpha},
+  \label{eq:tau_s_alpha}
+  \\
+  \frac{D_\xi\tau}{Dt}
+  &= \tfrac{1}{2}\mbf{v}_\xi\cdot\mbf{v}_\xi + \mc{L}_\xi^\alpha + \psi_\xi^\alpha
+  - \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha\phi_\xi\bar\rho_\xi^\alpha},
+  \qquad \xi\in\{a,o,g\}.
+  \label{eq:tau_mobile_alpha}
+\end{align}
+These show that $\tau$ is the mixture mass-transfer potential: along each phase trajectory its material derivative balances kinetic energy, the transfer force $\mc{L}_\xi^\alpha$, the relevant free-energy contribution, and the density-conjugate multiplier term. This is the reacting-mixture analogue of the Bedford--Drumheller reaction potential.
+
+\paragraph{Overall interpretation.}
+Taken together, the multiplier structure is physically transparent:
+\begin{itemize}
+  \item $\lambda$ is a saturation pressure enforcing packing of the four phases.
+  \item $\mu_\xi^\alpha$ are generalized partial pressures / chemical-stress potentials enforcing component mass conservation within each phase.
+  \item $\pi_\xi$ is the phasewise composition pressure enforcing $\sum_\alpha\eta_\xi^\alpha=1$.
+  \item $\tau$ is a reaction or mass-transfer potential whose gradient drives momentum transfer through creation and destruction of mass.
+\end{itemize}
+When the constitutive choices are specialized so that each mobile free energy depends only on its own intrinsic density and composition, the above equations collapse to the familiar mixture-theory pattern: effective stress for the solid skeleton, phase-pressure gradients for the mobile phases, capillary offsets between mobile phases, and a reaction potential that enters both mass transfer and momentum exchange.
 
 \subsection{Connection to the Coleman--Noll procedure}
 \label{sec:coleman_connection}
