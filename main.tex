@@ -56,8 +56,8 @@ This appendix-like extension derives the generalized variational principle, phas
 
 \begin{align}
   \int_{\mc{B}_0} \rho_{\xi 0}^\alpha + c^\alpha_\xi {\rm d}V_\xi^\alpha &= \int_{\mc{B}} \rho_\xi^\alpha {\rm d}v \notag \\
-  \int_{\mc{B}_0} \rho_\xi^\alpha + c^\alpha_\xi {\rm d}V_\xi^\alpha &= \int_{\mc{B}} \rho_{\xi 0}^\alpha J_\xi {\rm d}V_\xi \notag \\
-  \int_{\mc{B}_0} \rho_{\xi 0}^\alpha + c^\alpha_\xi {\rm d}V_\xi^\alpha &= \int_{\mc{B}} \rho_\xi^\alpha J_\xi \eta^{\alpha}_\xi {\rm d}V^\alpha_\xi
+  \int_{\mc{B}_0} \rho_{\xi 0}^\alpha + c^\alpha_\xi {\rm d}V_\xi^\alpha &= \int_{\mc{B}} \rho_{\xi}^\alpha J_\xi {\rm d}V_\xi \notag \\
+  \int_{\mc{B}_0} \rho_{\xi 0}^\alpha + c^\alpha_\xi {\rm d}V_\xi^\alpha &= \int_{\mc{B}} \rho_\xi^\alpha \frac{ J_\xi}{\eta^{\alpha}_\xi} {\rm d}V^\alpha_\xi
 \end{align}
 
 where
@@ -66,11 +66,13 @@ where
   \label{eq:eta}
 \end{equation}
 
+We emphasize that $\eta_\xi^\alpha$ is defined in the \emph{reference configuration}. This choice is natural for the present variational framework because the composition constraint $\sum_\alpha \eta_\xi^\alpha = 1$ and the mass exchange terms $c_\xi^\alpha$ are both posed per unit phase reference volume. Moreover, the species within a given phase are assumed to be \emph{miscible} and therefore share a single phase motion $\chi_\xi$, deformation gradient $\mbf{F}_\xi$, and Jacobian $J_\xi$. If one instead defined $\eta_\xi^\alpha$ as a current-configuration volume fraction ${\rm d}v_\xi^\alpha/{\rm d}v_\xi$, then pulling that quantity back to the reference configuration would require separate constituent-level Jacobians or motions for each species, which is contrary to the intended miscible phase description. The reference measure~\eqref{eq:eta} should therefore be understood as an internal compositional label attached to a phase material parcel, while the corresponding current partial densities are obtained only after push-forward through the common phase kinematics.
+
 $\eta_\xi^\alpha$ is the Lagrangian (reference-configuration) volume fraction of component $\alpha$ within phase $\xi$. It labels material parcels of phase $\xi$ by their initial volumetric composition. Its thermodynamic conjugate is the partial pressure of component $\alpha$ within phase $\xi$, and the Euler–Lagrange equation for $\delta\eta_\xi^\alpha$ is the reference-configuration statement of partial pressure equilibration, which upon push-forward to the current configuration recovers the equal-fugacity condition of classical phase equilibrium thermodynamics. For a cubic EOS such as Peng–Robinson, this E–L equation is an algebraic constitutive closure that determines the partial molar volumes; for non-equilibrium diffusion, it becomes a relaxation equation toward the EOS-determined equilibrium state.
 
 therefore
 \begin{equation}
-  \rho_{\xi 0}^\alpha + c^\alpha_\xi = \rho_\xi^\alpha J_\xi \eta^{\alpha}_\xi
+  \rho_{\xi 0}^\alpha + c^\alpha_\xi = \rho_\xi^\alpha \frac{J_\xi}{\eta^{\alpha}_\xi}
   \label{eq:material_mass}
 \end{equation}
 
@@ -84,22 +86,22 @@ and
 \]
 substituting we get
 \begin{equation}
-  \phi_{\xi 0}\bar\rho_{\xi 0}^\alpha + c^\alpha_\xi = \phi_\xi \bar\rho_\xi^\alpha J_\xi \eta^{\alpha}_\xi
+  \phi_{\xi 0}\bar\rho_{\xi 0}^\alpha + c^\alpha_\xi = \phi_\xi \bar\rho_\xi^\alpha \frac{J_\xi}{\eta^{\alpha}_\xi}
   \label{eq:material_mass}
 \end{equation}
 %
 Now we take the material time derivative and rearrange
 \begin{align}
-  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) J_\xi + \left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) \dot{J}_\xi = \dot{c}^\alpha_\xi \notag \\
-  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) J_\xi + \left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) J_\xi \nabla_\mbf{x} \cdot \mbf{v}_\xi = \dot{c}^\alpha_\xi \notag \\
-  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right)  + \left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right) \nabla_\mbf{x} \cdot \mbf{v}_\xi = \frac{\dot{c}^\alpha_\xi}{J_\xi} 
+  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha\right) \frac{J_\xi}{\eta^\alpha_\xi} + \left(\phi_\xi \bar\rho_\xi^\alpha\right) \frac{D_\xi}{Dt}\left(\frac{J_\xi}{\eta^\alpha_\xi}\right) &= \dot{c}^\alpha_\xi \notag \\
+  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \right) \frac{J_\xi}{\eta^\alpha_\xi} + \left(\phi_\xi \bar\rho_\xi^\alpha \right) \frac{J_\xi}{\eta^\alpha_\xi} \nabla_\mbf{x} \cdot \mbf{v}_\xi - \frac{J_\xi}{\left(\eta^\alpha_\xi\right)^{2}}\dot{\eta}_\xi^\alpha &= \dot{c}^\alpha_\xi \notag \\
+  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \right)  + \left(\phi_\xi \bar\rho_\xi^\alpha \right) \nabla_\mbf{x} \cdot \mbf{v}_\xi &= \eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}
   \label{eq:spatial_mass}
 \end{align}
 %
 expanding the material time derivative and rearranging gives
 %
 \begin{align}
-  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi\right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi^\alpha \eta^{\alpha}_\xi \mbf{v}_\xi \right) = \frac{\dot{c}^\alpha_\xi}{J_\xi} 
+  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi^\alpha \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi^\alpha \mbf{v}_\xi \right) = \eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi} 
   \label{eq:spatial_mass}
 \end{align}
 %
@@ -110,19 +112,16 @@ We use the material time derivative of a quantity $\square_\xi$ following the ve
 and use the shorthand notation $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the derivative following component $\xi$.
 %
 
-%
-Note that if you assume ``no volume change in mixing'', i.e.\ $\eta_\xi^\alpha = 1$, then you recover the usual psueduocomponent mass balace.
-
 Summing over $\alpha$ gives the phase mass balance
 %
 \begin{align}
-  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi  \mbf{v}_\xi \right) = \sum_\alpha \frac{\dot{c}_\xi^\alpha}{J_\xi} 
+  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi  \mbf{v}_\xi \right) = \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right)
   \label{eq:spatial_mass}
 \end{align}
 %
 where the phase densities are
 \[
-  \bar\rho_\xi = \sum_\alpha \bar\rho^\alpha_\xi \eta^\alpha_\xi,
+  \bar\rho_\xi = \sum_\alpha \bar\rho^\alpha_\xi,
 \]
 and from \eqref{eq:eta}, notice that the $\eta^\alpha_\xi$ form a partition of unity
 \[
@@ -132,7 +131,7 @@ and from \eqref{eq:eta}, notice that the $\eta^\alpha_\xi$ form a partition of u
 Summing over all phases gives the overall mixture mass balance
 %
 \begin{align}
-  \underbrace{\frac{\partial \rho}{\partial t}  +  \nabla_\mbf{x} \cdot \left(\rho  \mbf{v} \right)}_{=0} = \sum_\xi \sum_\alpha \frac{\dot{c}_\xi^\alpha}{J_\xi} 
+  \underbrace{\frac{\partial \rho}{\partial t}  + \nabla_\mbf{x} \cdot \left(\rho  \mbf{v} \right)}_{=0} = \sum_\xi \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) 
   \label{eq:overall_mass}
 \end{align}
 %
@@ -142,10 +141,10 @@ where $\rho = \sum_\xi \phi_\xi \bar\rho_\xi$ and the mixture velocity $\mbf{v}$
   \mbf{v} = \frac{1}{\rho} \sum_\xi \rho_\xi \mbf{v}_\xi.
 \]
 %
-Recognizing the left-hand side of \eqref{eq:overall_mass} vanishes because it's a statement of convervation of mass, that leaves a 
+Recognizing the left-hand side of \eqref{eq:overall_mass} must vanish because the right hand side is a statement of convervation of mass for the mixture, leaves
 %
 \begin{align}
-  \sum_\xi \sum_\alpha \frac{\dot{c}_\xi^\alpha}{J_\xi} = 0
+  \sum_\xi \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) = 0
   \label{eq:overall_mass_constraint}
 \end{align}
 %
@@ -153,6 +152,110 @@ as a statement of conservation of mass of the entire mixture.  This means that m
 
 
 \input{variational_principle_appendix}
+
+\appendix
+
+\section{Using a Standard Equation of State in the Present Framework}
+\label{sec:eos_appendix}
+
+This appendix explains how a standard fluid equation of state (EOS) can be used within the present reacting-mixture framework. The key point is that our constitutive variables are adapted to mixture kinematics, whereas standard thermodynamic models are usually written in terms of partial densities, mole fractions, mass fractions, molar volume, and temperature. The two descriptions are fully compatible.
+
+\subsection{Constitutive variables in the present theory}
+
+For a mobile phase $\xi$, let $\eta_\xi^\alpha=\eta_\xi^\alpha(\mbf{X}_\xi)$ denote the fraction of the \emph{phase reference volume} assigned to species $\alpha$, so that
+\begin{equation}
+  \sum_{\alpha=1}^N \eta_\xi^\alpha = 1.
+\end{equation}
+This is a reference-configuration partition variable, not a current-configuration composition variable. It is paired naturally with the production term $c_\xi^\alpha$, which also appears per unit reference volume. From the phase-component material mass balance derived in Section~\ref{sec:ref_config_YJ},
+\begin{equation}
+  \phi_{\xi 0}\bar\rho_{\xi 0}^\alpha + c_\xi^\alpha = \phi_\xi \bar\rho_\xi^\alpha J_\xi \eta_\xi^\alpha,
+\end{equation}
+so the current partial mass density per unit current mixture volume is
+\begin{equation}
+  \rho_\xi^\alpha = \phi_\xi \bar\rho_\xi^\alpha = \frac{\phi_{\xi 0}\bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{J_\xi\eta_\xi^\alpha}.
+  \label{eq:eos_partial_density}
+\end{equation}
+Therefore the mobile-phase Helmholtz free energy per unit current mixture volume may still be written in the thermodynamically standard form
+\begin{equation}
+  \Psi_\xi = \hat\Psi_\xi(\rho_\xi^1,\dots,\rho_\xi^N,\theta_\xi),
+  \label{eq:eos_free_energy_density_form}
+\end{equation}
+but in the present framework the arguments $\rho_\xi^\alpha$ are obtained by push-forward of the reference data through~\eqref{eq:eos_partial_density}. Equation~\eqref{eq:eos_free_energy_density_form} is still the cleanest way to embed a general EOS, but the constitutive map to its arguments must respect the reference character of $\eta_\xi^\alpha$.
+
+\subsection{Connection to standard EOS variables}
+
+Many equations of state are instead given in terms of mole fractions $x_\xi^\alpha$, molar volume $v_\xi$, and temperature $\theta_\xi$, through a molar Helmholtz free energy
+\begin{equation}
+  a_\xi = a_\xi(x_\xi^1,\dots,x_\xi^N,v_\xi,\theta_\xi).
+\end{equation}
+To use such a model, define the molar concentration of species $\alpha$ per unit current mixture volume as
+\begin{equation}
+  n_\xi^\alpha = \frac{\rho_\xi^\alpha}{M^\alpha} = \frac{\phi_{\xi 0}\bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{J_\xi\eta_\xi^\alpha M^\alpha},
+\end{equation}
+where $M^\alpha$ is the molar mass. The total molar concentration is then
+\begin{equation}
+  n_\xi = \sum_{\beta=1}^N n_\xi^\beta = \sum_{\beta=1}^N \frac{\phi_{\xi 0}\bar\rho_{\xi 0}^\beta + c_\xi^\beta}{J_\xi\eta_\xi^\beta M^\beta}.
+\end{equation}
+Hence the mole fractions are
+\begin{equation}
+  x_\xi^\alpha = \frac{n_\xi^\alpha}{n_\xi} = \frac{\rho_\xi^\alpha/M^\alpha}{\sum_{\beta=1}^N \rho_\xi^\beta/M^\beta},
+  \label{eq:eos_mole_fraction_map}
+\end{equation}
+and the molar volume of the mobile phase is
+\begin{equation}
+  v_\xi = \frac{1}{n_\xi} = \left(\sum_{\beta=1}^N \frac{\rho_\xi^\beta}{M^\beta}\right)^{-1}.
+  \label{eq:eos_molar_volume_map}
+\end{equation}
+Accordingly, a standard EOS written as $a_\xi(x_\xi^\alpha,v_\xi,\theta_\xi)$ is converted to the present variables by first evaluating the current partial densities from~\eqref{eq:eos_partial_density}, then substituting those densities into~\eqref{eq:eos_mole_fraction_map} and~\eqref{eq:eos_molar_volume_map}. The free energy per unit current mixture volume is then
+\begin{equation}
+  \Psi_\xi = n_\xi a_\xi = \frac{1}{v_\xi} a_\xi(x_\xi^\alpha,v_\xi,\theta_\xi),
+  \label{eq:eos_transformed}
+\end{equation}
+with $x_\xi^\alpha$ and $v_\xi$ understood as the functions of $(\phi_{\xi0}\bar\rho_{\xi0}^\beta,c_\xi^\beta,J_\xi,\eta_\xi^\beta)$ defined above.
+
+\subsection{Pressure and other thermodynamic quantities}
+
+Once the EOS has been written in the form~\eqref{eq:eos_transformed}, the thermodynamic pressure of phase $\xi$ follows from the usual relation
+\begin{equation}
+  \bar p_\xi = -\left.\frac{\partial a_\xi}{\partial v_\xi}\right|_{x_\xi^\alpha,\theta_\xi}.
+  \label{eq:eos_pressure_from_a}
+\end{equation}
+Likewise, chemical potentials and other thermodynamic derivatives may be taken from the same underlying EOS and then composed with the maps above. Thus the present formulation does not require a new thermodynamic theory; it requires only a change of constitutive coordinates from standard thermodynamic variables to the pulled-forward state determined by the reference variables $(\phi_{\xi0}\bar\rho_{\xi0}^\alpha,c_\xi^\alpha,J_\xi,\eta_\xi^\alpha)$.
+
+\subsection{Practical constitutive choices}
+
+There are two natural ways to implement a fluid EOS in this framework.
+
+\paragraph{Option A: partial-density form.}
+Take
+\begin{equation}
+  \Psi_\xi = \hat\Psi_\xi(\rho_\xi^1,\dots,\rho_\xi^N,\theta_\xi),
+  \qquad
+  \rho_\xi^\alpha = \frac{\phi_{\xi 0}\bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{J_\xi\eta_\xi^\alpha}.
+\end{equation}
+This is the cleanest form for analysis because it uses standard thermodynamic state variables while preserving the reference-configuration meaning of $\eta_\xi^\alpha$.
+
+\paragraph{Option B: composition/EOS form.}
+Start from a conventional EOS such as Peng--Robinson or CPA written as
+\begin{equation}
+  a_\xi = a_\xi(x_\xi^\alpha,v_\xi,\theta_\xi),
+\end{equation}
+and then use~\eqref{eq:eos_partial_density}--\eqref{eq:eos_transformed} to express it in the present variables. This is the most convenient form when one wishes to use an existing thermodynamic package or compare directly with the standard EOS literature.
+
+For the present paper, Option A is the cleaner formal statement, while Option B is the more practical route when a specific engineering EOS is to be used explicitly.
+
+\subsection{Single-component specialization}
+
+For the single-fluid case used in the main body of the paper, $N=1$ and $\eta_f^1=1$, so~\eqref{eq:eos_partial_density} reduces to
+\begin{equation}
+  \rho_f = \phi_f\bar\rho_f = \frac{\phi_{f0}\bar\rho_{f0} + c_f}{J_f}.
+\end{equation}
+The EOS may therefore be written simply as
+\begin{equation}
+  \Psi_f = \hat\Psi_f\!\left(\frac{\phi_{f0}\bar\rho_{f0} + c_f}{J_f},\theta_f\right),
+  \qquad \bar p_f = \bar p_f(\rho_f,\theta_f),
+\end{equation}
+or equivalently in any standard single-component form. In other words, nothing in the present theory prevents the use of a ``standard'' EOS; the only requirement is that it be evaluated using the current partial densities obtained from the underlying reference-volume description.
 
 \bibliography{all}
 \bibliographystyle{plain}
