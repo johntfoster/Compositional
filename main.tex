@@ -93,15 +93,15 @@ substituting we get
 Now we take the material time derivative and rearrange
 \begin{align}
   \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha\right) \frac{J_\xi}{\eta^\alpha_\xi} + \left(\phi_\xi \bar\rho_\xi^\alpha\right) \frac{D_\xi}{Dt}\left(\frac{J_\xi}{\eta^\alpha_\xi}\right) &= \dot{c}^\alpha_\xi \notag \\
-  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \right) \frac{J_\xi}{\eta^\alpha_\xi} + \left(\phi_\xi \bar\rho_\xi^\alpha \right) \frac{J_\xi}{\eta^\alpha_\xi} \nabla_\mbf{x} \cdot \mbf{v}_\xi - \frac{J_\xi}{\left(\eta^\alpha_\xi\right)^{2}}\dot{\eta}_\xi^\alpha &= \dot{c}^\alpha_\xi \notag \\
-  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \right)  + \left(\phi_\xi \bar\rho_\xi^\alpha \right) \nabla_\mbf{x} \cdot \mbf{v}_\xi &= \eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}
+  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \right) \frac{J_\xi}{\eta^\alpha_\xi} + \left(\phi_\xi \bar\rho_\xi^\alpha \right) \frac{J_\xi}{\eta^\alpha_\xi} \nabla_\mbf{x} \cdot \mbf{v}_\xi - \frac{J_\xi\phi_\xi \bar\rho_\xi^\alpha}{\left(\eta^\alpha_\xi\right)^{2}}\dot{\eta}_\xi^\alpha &= \dot{c}^\alpha_\xi \notag \\
+  \frac{D_\xi}{Dt}\left(\phi_\xi \bar\rho_\xi^\alpha \right)  + \left(\phi_\xi \bar\rho_\xi^\alpha \right) \nabla_\mbf{x} \cdot \mbf{v}_\xi &= \eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \phi_\xi \bar\rho_\xi^\alpha \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}
   \label{eq:spatial_mass}
 \end{align}
 %
 expanding the material time derivative and rearranging gives
 %
 \begin{align}
-  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi^\alpha \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi^\alpha \mbf{v}_\xi \right) = \eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi} 
+  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi^\alpha \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi^\alpha \mbf{v}_\xi \right) = \eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \phi_\xi \bar\rho_\xi^\alpha \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi} 
   \label{eq:spatial_mass}
 \end{align}
 %
@@ -115,7 +115,7 @@ and use the shorthand notation $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the 
 Summing over $\alpha$ gives the phase mass balance
 %
 \begin{align}
-  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi  \mbf{v}_\xi \right) = \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right)
+  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi  \mbf{v}_\xi \right) = \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \phi_\xi^\alpha \bar\rho_\xi\frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right)
   \label{eq:spatial_mass}
 \end{align}
 %
@@ -131,7 +131,7 @@ and from \eqref{eq:eta}, notice that the $\eta^\alpha_\xi$ form a partition of u
 Summing over all phases gives the overall mixture mass balance
 %
 \begin{align}
-  \underbrace{\frac{\partial \rho}{\partial t}  + \nabla_\mbf{x} \cdot \left(\rho  \mbf{v} \right)}_{=0} = \sum_\xi \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) 
+  \underbrace{\frac{\partial \rho}{\partial t}  + \nabla_\mbf{x} \cdot \left(\rho  \mbf{v} \right)}_{=0} = \sum_\xi \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \phi_\xi \bar\rho^\alpha_\xi \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) 
   \label{eq:overall_mass}
 \end{align}
 %
@@ -144,7 +144,7 @@ where $\rho = \sum_\xi \phi_\xi \bar\rho_\xi$ and the mixture velocity $\mbf{v}$
 Recognizing the left-hand side of \eqref{eq:overall_mass} must vanish because the right hand side is a statement of convervation of mass for the mixture, leaves
 %
 \begin{align}
-  \sum_\xi \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) = 0
+  \sum_\xi \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \phi_\xi \bar\rho_\xi^\alpha \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) = 0
   \label{eq:overall_mass_constraint}
 \end{align}
 %
