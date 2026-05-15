@@ -16,23 +16,23 @@ The extended Hamilton's principle is
 \end{equation*}
 with kinetic energy, internal energy, virtual work, and four constraints:
 \begin{align}
-  T &= \sum_\xi \int_{\mc{B}} \tfrac{1}{2}\rho_\xi\,\mbf{v}_\xi\cdot\mbf{v}_\xi \,\dv,
+  T &= \sum_\xi \int_{\mc{B}} \tfrac{1}{2}\rho^\alpha_\xi\,\mbf{v}_\xi\cdot\mbf{v}_\xi \,\dv,
   \label{eq:T_def} \\
-  U &= \sum_\alpha \Bigg[\int_{\mc{B}_{s 0}^\alpha} \rho^\alpha_{s0}\,\psi^\alpha_s(\mbf{F}_s, \bar\rho^\alpha_s, \phi) \,  dV_s^\alpha \notag \\
-    &\qquad + \int_{\mc{B}} \rho^\alpha_{a}\,\psi_a^\alpha(\bar\rho_a^\beta)  \, dv \notag \\ 
-    &\qquad + \int_{\mc{B}} \rho^\alpha_{o}\,\psi^\alpha_o(\bar\rho_o^\beta)  \,dv \notag \\
-    &\qquad + \int_{\mc{B}} \rho^\alpha_{g}\,\psi^\alpha_g(\bar\rho_g^\beta)  \,dv \Bigg] \\
+  U &= \sum_\alpha \Bigg[\int_{\mc{B}_{s 0}} \rho_{s0}\,\psi_s(\mbf{F}_s, \bar\rho_s, \phi) \,  dV_s \notag \\
+    &\qquad + \int_{\mc{B}} \rho_{a}\,\psi_a(\bar\rho_a^\alpha)  \, dv \notag \\ 
+    &\qquad + \int_{\mc{B}} \rho_{o}\,\psi_o(\bar\rho_o^\alpha)  \,dv \notag \\
+    &\qquad + \int_{\mc{B}} \rho_{g}\,\psi_g(\bar\rho_g^\alpha)  \,dv \Bigg] \\
     &\qquad + \int_{\mc{B}} \gamma_{oa}(S_a) \,\dv + \int_{\mc{B}} \gamma_{go}(S_g)\,\dv, 
   \label{eq:U_def} \\
-  \delta W &= \sum_\xi \int_{\mc{B}} \left[(\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi + \sum_\alpha \mc{L}^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{J_\xi}\right] \,\dv,
+  \delta W &= \sum_\xi \int_{\mc{B}} \left[(\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi + \sum_\alpha \mc{L}^\alpha_\xi\,\frac{\eta^\alpha_\xi}{J_\xi}\delta c^\alpha_\xi\right] \,\dv,
   \label{eq:W_def} \\
   C_1 &= \int_{\mc{B}} \lambda\left(\sum_\xi\phi_\xi - 1\right) \,\dv,
   \label{eq:C1_def} \\
-  C_2 &= \sum_\xi \sum_\alpha \int_{\mc{B}_{\xi 0}^\alpha} \mu_\xi^\alpha \left( \frac{J_\xi}{\eta_\xi^\alpha} - \frac{\phi_{\xi 0} \bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi^\alpha} \right) dV_\xi^\alpha,
+  C_2 &= \sum_\xi \sum_\al \int_{\mc{B}_{\xi 0}} \mu_\xi \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha} \right) dV_\xi,
   \label{eq:C2_def} \\
   C_3 &= \sum_\xi \int_{\mc{B}_{\xi 0}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) dV_\xi,
   \label{eq:C3_def} \\
-  C_4 &= \int_{\mc{B}} \tau \sum_\xi \sum_\alpha \left(\eta^\alpha_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi} + \phi_\xi \bar\rho_\xi^\alpha \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) \,\dv.
+  C_4 &= \int_{\mc{B}} \tau \sum_\xi \sum_\alpha \hat{c}^\al_\xi \dv.
   \label{eq:C4_def}
 \end{align}
 The Helmholtz free energies are $\psi^\alpha_s$, $\psi_a^\alpha$, $\psi_o^\alpha$, and $\psi_g^\alpha$.  The interaction forces satisfy $\sum_\xi \mbf{b}_\xi = \mbf{0}$, and $\mc{L}^\alpha_\xi$ is a generalized force conjugate to mass transfer (identified later via Coleman--Noll).  The Lagrange multipliers~$\lambda$, $\mu^\alpha_\xi$, $\pi_\xi$, and~$\tau$ enforce the volume fraction constraint, component mass conservation, component partitioning, and mixture mass balance, respectively. Temperature is not treated as a kinematic variable in the variational principle; any thermal constitutive restrictions are deferred to the mixture entropy inequality.
@@ -44,19 +44,19 @@ We treat $\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho^\alpha_\xi$, an
 \label{sec:var_T_app}
 % ============================================================
 
-The kinetic energy depends on the phase velocities and bulk densities. Treating $\rho_\xi = \phi_\xi\bar\rho_\xi$ as determined by $\phi_\xi$ and $\bar\rho_\xi$ (varied separately), the variation at fixed densities is
+The variation of kinetic energy of a component with density $\rho^\alpha_\xi = \phi_\xi \bar\rho_\xi^\alpha$ is
 \begin{equation}
-  \delta T = \sum_\xi \int_{\mc{B}} \rho_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi \,\dv.
+  \delta T = \sum_\xi \int_{\mc{B}} \rho^\alpha_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi \,\dv.
 \end{equation}
 Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delta\mbf{x}_\xi\vert_{t_1} = \delta\mbf{x}_\xi\vert_{t_2} = \mbf{0}$, integration by parts in time gives
 \begin{equation}
   \int_{t_1}^{t_2} \delta T\,\mathrm{d}t
-  = -\int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \rho_\xi\,\mbf{a}_\xi \cdot \delta\mbf{x}_\xi \,\dv\,\mathrm{d}t.
+  = \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left(-\rho^\alpha_\xi\,\mbf{a}_\xi - \frac{\eta^\alpha_\xi \dot{c}^\alpha_\xi}{J_\xi}\right) \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \frac{\eta^\alpha_\xi}{J_\xi} \delta c_\xi^\alpha \,\dv\,\mathrm{d}t.
   \label{eq:deltaT_app}
 \end{equation}
 
 % ============================================================
-\subsection{Variation of the solid internal energy w.r.t.\ $\mbf{x}_s$}
+\subsection{Variation of the solid internal energy}
 \label{sec:var_Us_F}
 % ============================================================
 
@@ -64,36 +64,35 @@ The solid contribution is most naturally written over the component reference me
 \(dV_s^\alpha\), since \(\eta_s^\alpha\) labels the partition of the solid reference volume among the
 components. Accordingly,
 \begin{align}
-  \delta U_s = \sum_\alpha \int_{\mc{B}_{s0}^\alpha} \rho^\alpha_{s 0} \Bigg[\left.\p{\psi_s^\alpha}{F_{kl}}\right\vert_{\bar\rho^\alpha_s,\eta^\alpha_s,\phi} \delta F_{kl} \notag \\
-  &\qquad + \left.\p{\psi_s^\alpha}{\bar\rho^\alpha_s}\right\vert_{\mbf{F},\eta^\alpha_s,\phi} \delta \bar\rho^\alpha_s 
-  + \left.\p{\psi_s^\alpha}{\eta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\phi} \delta \eta^\alpha_s \notag \\
-  &\qquad + \left.\p{\psi_s^\alpha}{\phi}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\eta^\alpha_s} \left.\delta\phi\right|_{\mbf{X}_s}
+  \delta U_s = \int_{\mc{B}_{s0}} \rho_{s 0} \Bigg[\left.\p{\psi_s}{F_{kl}}\right\vert_{\bar\rho_s,\phi} \delta F_{kl} 
+   + \left.\p{\psi_s}{\bar\rho_s}\right\vert_{\mbf{F},\phi} \delta \bar\rho_s 
+   + \left.\p{\psi_s}{\phi}\right\vert_{\mbf{F},\bar\rho_s} \left.\delta\phi\right|_{\mbf{X}_s}
   \Bigg] dV_s^\alpha.
   \label{eq:deltaU_solid}
 \end{align}
-Using \(dv_s^\alpha = J_s\,dV_s^\alpha\) and \(dv_s^\alpha = \eta_s^\alpha\,dv\), the fully
-pushed-forward form of \eqref{eq:deltaU_solid} is
+%
+where $\bar\rho_\xi = \sum_\alpha \eta^\alpha_\xi \bar\rho^\alpha_\xi$ is the phase density.
+The pushed-forward form of \eqref{eq:deltaU_solid} is
+%
 \begin{align}
-  \delta U_s = \int_{\mc{B}} \sum_\alpha \frac{\rho^\alpha_{s0}\eta_s^\alpha}{J_s} \Bigg[
-    &\left.\p{\psi_s^\alpha}{F_{kl}}\right\vert_{\bar\rho^\alpha_s,\eta^\alpha_s,\phi} \delta F_{kl}
-    + \left.\p{\psi_s^\alpha}{\bar\rho^\alpha_s}\right\vert_{\mbf{F},\eta^\alpha_s,\phi} \delta \bar\rho^\alpha_s \notag \\
-    &+ \left.\p{\psi_s^\alpha}{\eta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\phi} \delta \eta^\alpha_s
-    + \left.\p{\psi_s^\alpha}{\phi}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\eta^\alpha_s} \left.\delta\phi\right|_{\mbf{X}_s}
+  \delta U_s = \int_{\mc{B}} \frac{\rho_{s0}}{J_s} \Bigg[
+    &\left.\p{\psi_s}{F_{kl}}\right\vert_{\bar\rho_s,\phi} \delta F_{kl}
+    + \left.\p{\psi_s}{\bar\rho_s}\right\vert_{\mbf{F},\phi} \delta \bar\rho_s
+    + \left.\p{\psi_s}{\phi}\right\vert_{\mbf{F},\bar\rho_s} \left.\delta\phi\right|_{\mbf{X}_s}
   \Bigg] dv.
   \label{eq:deltaU_solid_push}
 \end{align}
 The variation $\delta F_{kl} = \partial(\delta x_{s,k})/\partial X_{s,l}$ produces the standard stress divergence upon integration by parts.  Transforming to the current configuration gives
 \begin{equation}
-  \sum_\alpha \int_{\mc{B}_{s0}^\alpha} \rho^\alpha_{s 0}\,\left.\p{\psi_s^\alpha}{F_{kl}}\right\vert_{\bar\rho^\alpha_s,\eta^\alpha_s,\phi} \delta F_{kl}\, dV_s^\alpha = -\int_{\mc{B}} \nabla_{\mbf{x}} \cdot \bs\sigma'_s \cdot \delta\mbf{x}_s \,\dv + \text{boundary terms},
+  \int_{\mc{B}_{s0}} \rho_{s 0}\,\left.\p{\psi_s}{F_{kl}}\right\vert_{\bar\rho_s,\phi} \delta F_{kl}\, dV_s^\alpha = -\int_{\mc{B}} \nabla_{\mbf{x}} \cdot \bs\sigma'_s \cdot \delta\mbf{x}_s \,\dv + \text{boundary terms},
   \label{eq:stress_variation}
 \end{equation}
 where the Terzaghi effective Cauchy stress\footnote{i.e.\ density held fixed} is defined through
 \begin{align}
-  \bs\sigma'_s &\equiv  \frac{1}{J_s} \,\sum_\alpha \rho^\alpha_{s 0}\eta^\alpha_s \left.\p{\psi^\alpha_s}{\mbf{F}}\right\vert_{\bar\rho^\alpha_s,\eta^\alpha_s,\phi}\, \mbf{F}^T \\
-  &\equiv \frac{1}{J_s} \rho_{s 0}\,\left.\p{\psi_s}{\mbf{F}}\right\vert_{\bar\rho_s,\eta_s,\phi}\, \mbf{F}^T .
+  \bs\sigma'_s &\equiv  \frac{1}{J_s} \rho_{s 0}\left.\p{\psi_s}{\mbf{F}}\right\vert_{\bar\rho_s,\phi}\, \mbf{F}^T \\
+  &\equiv \frac{1}{J_s} \rho_{s 0}\,\left.\p{\psi_s}{\mbf{F}}\right\vert_{\bar\rho_s,\phi}\, \mbf{F}^T .
   \label{eq:var_cauchy_def}
 \end{align}
-The notation $\vert_{\bar\rho^\alpha_s,\eta^\alpha_s,\phi}$ emphasizes that this derivative is taken holding all other free-energy arguments fixed.
 
 % ============================================================
 \subsection{Variation of the solid energy w.r.t.\ porosity via the inter-component identity}
@@ -114,16 +113,15 @@ we obtain
 \end{align}
 Defining
 \begin{align}
-  P^\star_\phi &\equiv \frac{1}{J_s} \sum_\alpha \rho^\alpha_{s 0} \eta_s^\alpha \left.\p{\psi^\alpha_s}{\phi}\right\vert_{\mbf{F}_s,\bar\rho^\alpha_s,\eta^\alpha_s} \notag \\ 
-  &\equiv \frac{1}{J_s} \rho_{s 0}\left.\p{\psi_s}{\phi}\right\vert_{\mbf{F}_s,\bar\rho_s,\eta_s},
+  p^\star_\phi &\equiv \frac{1}{J_s} \rho_{s 0} \left.\p{\psi_s}{\phi}\right\vert_{\mbf{F}_s,\bar\rho_s}
   \label{eq:Pstar_phi}
 \end{align}
 and substituting~\eqref{eq:delta_phi} into~\eqref{eq:deltaU_solid}, the porosity-dependent part of the solid energy variation becomes:
 \begin{align}
-  \sum_\alpha \int_{\mc{B}_{s0}^\alpha} \rho^\alpha_{s 0} \,\left.\p{\psi^\alpha_s}{\phi}\right\vert_{\mbf{F}_s,\bar\rho^\alpha_s,\eta^\alpha_s}\, \left.\delta\phi\right|_{\mbf{X}_s}\, dV_s^\alpha
-  &= \int_{\mc{B}} P^\star_\phi\, \delta\phi_a \,\dv + \int_{\mc{B}} P^\star_\phi\, \delta\phi_o \,\dv + \int_{\mc{B}} P^\star_\phi\, \delta\phi_g \,\dv \notag \\
-  &\quad - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi_a \cdot \delta\mbf{x}_a \,\dv - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi_o \cdot \delta\mbf{x}_o \,\dv \notag \\
-  &\quad - \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi_g \cdot \delta\mbf{x}_g \,\dv + \int_{\mc{B}} P^\star_\phi\, \nabla_{\mbf{x}}\phi \cdot \delta\mbf{x}_s \,\dv.
+  \int_{\mc{B}_{s0}} \rho_{s 0} \,\left.\p{\psi_s}{\phi}\right\vert_{\mbf{F}_s,\bar\rho_s}\, \left.\delta\phi\right|_{\mbf{X}_s}\, dV_s^\alpha
+  &= \int_{\mc{B}} p^\star_\phi\, \delta\phi_a \,\dv + \int_{\mc{B}} p^\star_\phi\, \delta\phi_o \,\dv + \int_{\mc{B}} p^\star_\phi\, \delta\phi_g \,\dv \notag \\
+  &\quad - \int_{\mc{B}} p^\star_\phi\, \nabla_{\mbf{x}}\phi_a \cdot \delta\mbf{x}_a \,\dv - \int_{\mc{B}} p^\star_\phi\, \nabla_{\mbf{x}}\phi_o \cdot \delta\mbf{x}_o \,\dv \notag \\
+  &\quad - \int_{\mc{B}} p^\star_\phi\, \nabla_{\mbf{x}}\phi_g \cdot \delta\mbf{x}_g \,\dv + \int_{\mc{B}} p^\star_\phi\, \nabla_{\mbf{x}}\phi \cdot \delta\mbf{x}_s \,\dv.
   \label{eq:phi_variation_split}
 \end{align}
 
@@ -185,14 +183,12 @@ together with the inter-component variation identity for the spatial fields, the
 
 For each mobile phase \(\xi\in\{a,o,g\}\), let
 \begin{equation}
-  U_\xi = \sum_\alpha \int_{\mc{B}} \rho^\alpha_\xi\,\psi^\alpha_\xi\,\dv,
-  \qquad
-  \rho^\alpha_\xi \equiv \phi_\xi\bar\rho^\alpha_\xi,
+  U_\xi = \int_{\mc{B}} \rho_\xi\,\psi_\xi\,\dv,
   \label{eq:U_xi_current}
 \end{equation}
 with constitutive functions
 \[
-  \psi^\alpha_\xi = \psi^\alpha_\xi(\bar\rho^\beta_\xi,\eta^\beta_\xi).
+  \psi_\xi = \psi_\xi(\bar\rho^\alpha_\xi).
 \]
 Because the mobile-phase energies are written as constituent-attached current-configuration
 integrals, their variation should follow the Bedford--Drumheller convective identity rather than an
@@ -389,28 +385,28 @@ we'll compute the variations term-by-term for clarity, first let's define a new 
 The variation of $\hat{c}^\alpha_\xi$ then proceeds with the identity of a variation at a fixed spatial point
 %
 \[
-  \left.\delta\hat{c}^\alpha_\xi\right\vert_{\mbf{x}} = \delta\hat{c}^\alpha_\xi - \nabla_{\mbf{x}} \delta\hat{c}^\alpha_\xi \cdot \delta\mbf{x}
+  \left.\delta\hat{c}^\alpha_\xi\right\vert_{\mbf{x}} = \delta\hat{c}^\alpha_\xi - \nabla_{\mbf{x}} \hat{c}^\alpha_\xi \cdot \delta\mbf{x}_\xi
 \]
 %
-Now 
+Now expanding the collection and computing the local variations
 \begin{align}
-  \delta\hat{c}^\alpha_\xi &=  \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi + \frac{\eta^\alpha_\xi}{J_\xi} \delta \dot{c}^\alpha_\xi - \frac{\eta^\alpha_\xi}{J_\xi} \dot{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x} \notag \\
-   &=  \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi + \frac{\eta^\alpha_\xi}{J_\xi} \delta \dot{c}^\alpha_\xi - \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x} \notag \\
+  \delta\hat{c}^\alpha_\xi &=  \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi + \frac{\eta^\alpha_\xi}{J_\xi} \delta \dot{c}^\alpha_\xi - \frac{\eta^\alpha_\xi}{J_\xi} \dot{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x}_\xi \notag \\
+   &=  \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi + \frac{\eta^\alpha_\xi}{J_\xi} \delta \dot{c}^\alpha_\xi - \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x}_\xi \notag \\
 \end{align}
 %
 
 Computing the variation of the first term in \eqref{eq:c4_var} gives
 \begin{align}
-  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \left.\delta\hat{c}^\alpha_\xi \right\vert_{\mbf x} \dv \dt &=  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi + \tau \frac{\eta^\alpha_\xi}{J_\xi} \delta \dot{c}^\alpha_\xi - \tau \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x} - \tau \nabla_{\mbf{x}} \delta\hat{c}^\alpha_\xi \cdot \delta\mbf{x} \dv \dt \notag \\
-   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi + \tau \frac{\eta^\alpha_\xi}{J_\xi} \delta \dot{c}^\alpha_\xi - \tau \nabla_\mbf{x} \left(\hat{c}^\alpha_\xi \delta \mbf{x} \right) \dv \dt \notag \\
-   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi - \frac{D_\xi}{Dt}\left(\tau \frac{\eta^\alpha_\xi}{J_\xi}\right) \delta {c}^\alpha_\xi + \frac{\eta^\alpha_\xi}{J_\xi}\dot{c}^\alpha_\xi \nabla_{\mbf x} \tau \cdot  \delta \mbf{x}  \dv \dt + \text{b.t.}
+  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \left.\delta\hat{c}^\alpha_\xi \right\vert_{\mbf x} \dv \dt &=  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi + \tau \frac{\eta^\alpha_\xi}{J_\xi} \delta \dot{c}^\alpha_\xi - \tau \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x} - \tau \nabla_{\mbf{x}} \hat{c}^\alpha_\xi \cdot \delta\mbf{x}_\xi \dv \dt \notag \\
+   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi + \tau \frac{\eta^\alpha_\xi}{J_\xi} \delta \dot{c}^\alpha_\xi - \tau \nabla_\mbf{x} \cdot \left(\hat{c}^\alpha_\xi \delta \mbf{x}_\xi \right) \dv \dt \notag \\
+   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \frac{\dot{c}^\alpha_\xi}{J_\xi} \delta \eta^\alpha_\xi - \frac{D_\xi}{Dt}\left(\tau \frac{\eta^\alpha_\xi}{J_\xi}\right) \delta {c}^\alpha_\xi + \frac{\eta^\alpha_\xi}{J_\xi}\dot{c}^\alpha_\xi \nabla_{\mbf x} \tau \cdot  \delta \mbf{x}_\xi  \dv \dt + \text{b.t.}
    \label{eq:c4_term1}
 \end{align}
 %
 where we've integrated by parts in time (with $\delta c_\xi^\alpha|_{t_1} = \delta c_\xi^\alpha|_{t_2} = 0$) and integrated by parts in space (supressing the boundary terms (b.t.) for brevity).  Computing the variation of the second term in \eqref{eq:c4_var} gives
 %
 \begin{align}
-  \int_{t_1}^{t_2} \int_{\mc{B}} \left.\left(\rho^\alpha_\xi \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right)\right\vert_{\mbf x} \dv \dt
+  \int_{t_1}^{t_2} \int_{\mc{B}} \tau \sum_\xi \sum_\alpha \left.\delta\left(\rho^\alpha_\xi \frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right)\right\vert_{\mbf x} \dv \dt
   &= \int_{t_1}^{t_2} \tau \sum_\xi\sum_\alpha \int_{\mc{B}} \left(\rho_\xi^\alpha \delta\left(\frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) + \frac{\dot{\eta}^\alpha_\xi}{J_\xi} \delta c^\alpha_\xi \right) \,\dv \mathrm{d}t \notag \\
   &= \int_{t_1}^{t_2} \sum_\xi\sum_\alpha \int_{\mc{B}} \left( \tau \rho_\xi^\alpha \delta\left(\frac{\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi}\right) + \frac{\tau \dot{\eta}^\alpha_\xi}{J_\xi} \delta c^\alpha_\xi \right) \,\dv \mathrm{d}t \notag \\
   &= \int_{t_1}^{t_2} \sum_\xi\sum_\alpha \int_{\mc{B}} \left(  \tau\rho_\xi^\alpha \left(\frac{\delta\dot{\eta}^\alpha_\xi}{\eta^\alpha_\xi} - \frac{\dot{\eta}^\alpha_\xi}{(\eta^\alpha_\xi)^2}\delta \eta^\alpha_\xi \right) + \frac{\tau \dot{\eta}^\alpha_\xi}{J_\xi} \delta c^\alpha_\xi \right) \,\dv \mathrm{d}t \notag \\
@@ -423,8 +419,8 @@ where \eqref{eq:bd128} was used in the first step. Combining \eqref{eq:c4_term1}
 \begin{align}
   \int_{t_1}^{t_2}\delta C_4\,\mathrm{d}t
   &= \int_{t_1}^{t_2} \sum_\xi\sum_\alpha \int_{\mc{B}} \left(  -\left(\frac{\rho_\xi^\alpha}{\eta^\alpha_\xi}\frac{D_\xi \tau}{Dt} + \frac{\tau}{\eta^\alpha_\xi}\dot\rho^\alpha_\xi - \frac{\tau}{J_\xi}\dot{c}^\alpha_\xi\right) \delta\eta^\alpha_\xi  \right. \notag \\ 
-  &\left. \qquad\qquad\qquad\qquad\,\,\, - \left(\frac{{\eta}^\alpha_\xi}{J_\xi}\frac{D\tau}{Dt} - \frac{\tau \eta^\alpha_\xi}{J_\xi} \nabla_{\mbf{x}} \cdot \mbf{v}_\xi \right) \delta c^\alpha_\xi \right. \notag \\
-  &\left. \qquad\qquad\qquad\qquad\,\,\, + \frac{\eta^\alpha_\xi}{J_\xi} \dot{c}^\alpha_\xi \nabla_{\mbf{x}} \tau \cdot \delta \mbf{x}_\xi \right)  \dv \dt
+  &\left. \,\,\quad\qquad\qquad\qquad\,\,\, - \left(\frac{{\eta}^\alpha_\xi}{J_\xi}\frac{D_\xi\tau}{Dt} - \frac{\tau \eta^\alpha_\xi}{J_\xi} \nabla_{\mbf{x}} \cdot \mbf{v}_\xi \right) \delta c^\alpha_\xi \right. \notag \\
+  &\left. \,\,\quad\qquad\qquad\qquad\,\,\, + \frac{\eta^\alpha_\xi}{J_\xi} \dot{c}^\alpha_\xi \nabla_{\mbf{x}} \tau \cdot \delta \mbf{x}_\xi \right)  \dv \dt
   \label{eq:deltaC4_app}
 \end{align}
 
