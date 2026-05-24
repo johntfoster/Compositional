@@ -28,9 +28,9 @@ with kinetic energy, internal energy, virtual work, and four constraints:
   \label{eq:W_def} \\
   C_1 &= \int_{\mc{B}} \lambda\left(\sum_\xi\phi_\xi - 1\right) \,\dv,
   \label{eq:C1_def} \\
-  C_2 &= \sum_\xi \sum_\al \int_{\mc{B}_{\xi 0}} \mu_\xi \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha} \right) dV_\xi,
+  C_2 &= \sum_\xi \sum_\al \int_{\mc{B}} \mu^\al_\xi \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0}^\alpha + c_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha} \right) \dv, 
   \label{eq:C2_def} \\
-  C_3 &= \sum_\xi \int_{\mc{B}_{\xi 0}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) dV_\xi,
+  C_3 &= \sum_\xi \int_{\mc{B}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) \dv,
   \label{eq:C3_def} \\
   C_4 &= \int_{\mc{B}} \tau \sum_\xi \sum_\alpha \hat{c}^\al_\xi \dv.
   \label{eq:C4_def}
@@ -47,11 +47,11 @@ We treat $\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho^\alpha_\xi$, an
 The variation of kinetic energy of a component with density $\rho^\alpha_\xi = \phi_\xi \bar\rho_\xi^\alpha$ is
 \begin{equation}
   \delta T = \sum_\xi \int_{\mc{B}} \rho^\alpha_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi \,\dv.
-\end{equation}
+\end{equation} \dt
 Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delta\mbf{x}_\xi\vert_{t_1} = \delta\mbf{x}_\xi\vert_{t_2} = \mbf{0}$, integration by parts in time gives
 \begin{equation}
-  \int_{t_1}^{t_2} \delta T\,\mathrm{d}t
-  = \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left(-\rho^\alpha_\xi\,\mbf{a}_\xi - \frac{\eta^\alpha_\xi \dot{c}^\alpha_\xi}{J_\xi}\right) \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \frac{\eta^\alpha_\xi}{J_\xi} \delta c_\xi^\alpha \,\dv\,\mathrm{d}t.
+  \int_{t_1}^{t_2} \delta T \dt
+  = \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left(-\rho^\alpha_\xi\,\mbf{a}_\xi - \frac{\dot{c}^\alpha_\xi}{J_\xi}\right) \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \frac{\delta c_\xi^\alpha}{J_\xi}  \dv \dt
   \label{eq:deltaT_app}
 \end{equation}
 
@@ -182,24 +182,45 @@ together with the inter-component variation identity for the spatial fields, the
 % ============================================================
 
 For each mobile phase \(\xi\in\{a,o,g\}\), let
+%
 \begin{equation}
   U_\xi = \int_{\mc{B}} \rho_\xi\,\psi_\xi\,\dv,
   \label{eq:U_xi_current}
 \end{equation}
+%
 with constitutive functions
+%
 \[
   \psi_\xi = \psi_\xi(\bar\rho^\alpha_\xi).
 \]
+%
 Because the mobile-phase energies are written as constituent-attached current-configuration
 integrals, their variation should follow the Bedford--Drumheller convective identity rather than an
+
 ordinary product variation of \(\rho^\alpha_\xi\psi^\alpha_\xi\). Extending identity (1.28) of
 Bedford and Drumheller to the present notation, we write
-\begin{equation}
-  \delta \int_{\mc{B}} \rho^\alpha_\xi \psi^\alpha_\xi \, \dv
-  = \int_{\mc{B}} \left( \rho^\alpha_\xi \, \delta \psi^\alpha_\xi
-  + \psi^\alpha_\xi \frac{\eta^\alpha_\xi }{ J_\xi}\delta c^\alpha_\xi \right) \dv.
+\begin{align}
+  \delta \int_{\mc{B}} \rho^\alpha_\xi \Gamma_\xi \, \dv
+  &= \delta \int_{\mc{B}} \left(\rho^\alpha_{\xi 0} + c^\al_\xi \right) \Gamma_\xi \dVxi \notag \\
+  &= \int_{\mc{B}} \left( \delta \left(\rho^\alpha_{\xi 0} + c^\al_\xi \right) \Gamma_\xi + J_\xi \rho^\alpha_\xi \delta \Gamma_\xi \right)  \dVxi \notag \\
+  &= \int_{\mc{B}} \left( \delta c^\al_\xi \Gamma_\xi + J_\xi \rho^\alpha_\xi \delta \Gamma_\xi \right)  \dVxi \notag \\
+  &= \int_{\mc{B}} \left( \frac{\delta c^\al_\xi}{J_\xi} \Gamma_\xi + \rho^\alpha_\xi \delta \Gamma_\xi \right)  \dv
   \label{eq:bd128}
-\end{equation}
+\end{align}
+%
+Now examine
+%
+\begin{align}
+  \rho_\xi \psi_\xi & = \rho^\al_\xi \phi_\xi \eta^\al_\xi \psi_\xi \notag \\
+                    & = \rho^\al_\xi \phi_\xi \eta^\al_\xi \psi_\xi \notag \\
+\end{align}
+%
+so we identify $\Gamma_\xi = \phi_\xi \eta^\al_\xi \psi_\xi$ at take the variation
+%
+\begin{align}
+  \delta(\phi_\xi \eta^\al_\xi \psi_\xi) & = \eta^\alpha_\xi \psi_\xi \left.\delta \phi_\xi \right\vert_{\mbf{X}_\xi} 
+   +  \phi_\xi \psi_\xi \left.\delta \eta^\alpha_\xi \right\vert_{\mbf{X}_\xi}  + \eta^\alpha_\xi \phi_\xi \left.\delta \psi_\xi \right\vert_{\mbf{X}_\xi}
+\end{align}
 %
 The key point is that this identity already accounts for the variation of the constituent measure in
 the current configuration. One therefore should not additionally expand
