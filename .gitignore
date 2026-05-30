@@ -1,0 +1,22 @@
+# Local/generated files currently not tracked
+-
+.mechpi/
+rescan/
+
+# LaTeX build outputs
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+
+# Local note/source files
+bedford_drumheller_identity_1_28_note.tex
+bedford_drumheller_variation_note.tex
+bedford_drumheller_misible.pdf
+mixture_superposition_intrinsic_density_note.tex
+variation_note_bd_compositional.md
+variation_note_bd_compositional.tex
