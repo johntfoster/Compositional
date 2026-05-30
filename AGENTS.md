@@ -1,5 +1,25 @@
 # AGENTS.md
 
+## Manuscript source of truth
+
+- Treat `main.tex` as the canonical root of the manuscript. Start from `main.tex`, follow its `\\input`, `\\include`, bibliography, macro, and package declarations, and interpret all included TeX in that root context.
+- When answering questions about the paper, prefer exact evidence from `main.tex` and included TeX files over memory, generated PDFs, auxiliary files, notes, or ingested reference chunks.
+- Cite source locations as `file:line` whenever making claims about manuscript text, notation, assumptions, derivations, equation labels, or references.
+- Do not infer global notation from isolated snippets. Resolve definitions, labels, counters, macros, and theorem/equation environments through the `main.tex` compilation graph.
+
+## Precision LaTeX parsing and reading
+
+- Act as a precision LaTeX parser and reader, not a loose text searcher. Preserve TeX semantics, macro expansion context, math-mode boundaries, environment nesting, labels, refs, citations, and local definitions.
+- Before changing equations, labels, notation, cross-references, theorem statements, or bibliography usage, inspect the surrounding TeX source and the relevant definitions/macros.
+- Use focused equation and symbol tools when possible (`mech_focus_equation`, `mech_search_symbol`, `mech_check`) rather than broad rewrites.
+- Distinguish manuscript source from generated artifacts. LaTeX build products such as `.aux`, `.log`, `.out`, `.bbl`, `.fls`, `.fdb_latexmk`, and PDFs are not authoritative except for diagnostics or rendered-number lookup.
+
+## texlab / LSP awareness
+
+- The TeX language server `texlab` is available. Use `mech_lsp` for diagnostics, definitions, references, document symbols, hovers, renames, and code actions when precise LaTeX navigation or validation is needed.
+- For compile or editor-style issues, prefer `mech_compile` and `mech_lsp` diagnostics before making edits. Make narrow source edits that address the reported line, label, macro, or environment.
+- If aux data or equation numbering is stale, refresh the paper map or compile from `main.tex` before relying on rendered numbers.
+
 <!-- MECHPI_INGEST_GUIDANCE_START -->
 ## Mech-pi ingest retrieval
 
