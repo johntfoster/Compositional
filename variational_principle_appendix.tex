@@ -101,7 +101,7 @@ where the Terzaghi effective Cauchy stress\footnote{i.e.\ density held fixed} is
 
 The porosity~$\phi = \phi_a + \phi_o + \phi_g$ is a spatial field naturally associated with the combination of the aqueas, oliec, and gas phases, yet it appears as an argument of the solid free energies $\psi^\alpha_s(\mbf{F}_s, \bar\rho^\alpha_s, \eta^\alpha_s, \phi)$ in the integrals over the component solid reference measures. Since these integrals are taken at fixed~$\mbf{X}_s$, we require the variation of~$\phi$ at fixed~$\mbf{X}_s$. Using the inter-component variation identity (equation~(1.26) of Bedford \& Drumheller~\cite{bedford1983theories})
 \begin{equation}
-  \left.\delta\Gamma_{(\zeta)}\right|_{\mbf{X}_{(\xi)}} = \delta\Gamma_{(\zeta)} - \nabla_{\mbf{x}}\Gamma_{(\zeta)} \cdot \left(\delta\mbf{x}_{(\zeta)} - \delta\mbf{x}_{(\xi)}\right),
+  \left.\delta\Gamma_{\zeta}\right|_{\mbf{X}_{\xi}} = \delta\Gamma_{\zeta} - \nabla_{\mbf{x}}\Gamma_{\zeta} \cdot \left(\delta\mbf{x}_{\zeta} - \delta\mbf{x}_{\xi}\right),
   \label{eq:BD_identity}
 \end{equation}
 we obtain
@@ -200,50 +200,52 @@ integrals, their variation should follow the Bedford--Drumheller convective iden
 ordinary product variation of \(\rho^\alpha_\xi\psi^\alpha_\xi\). Extending identity (1.28) of
 Bedford and Drumheller \cite{drumheller1980thermomechanical} to the present notation, we write
 \begin{align}
-  \delta \int_{\mc{B}} \rho^\alpha_\xi \Gamma_\xi \, \dv
-  &= \delta \int_{\mc{B}} \left(\rho^\alpha_{\xi 0} + c^\al_\xi \right) \Gamma_\xi \dVxi \notag \\
-  &= \int_{\mc{B}} \left( \delta \left(\rho^\alpha_{\xi 0} + c^\al_\xi \right) \Gamma_\xi + J_\xi \rho^\alpha_\xi \delta \Gamma_\xi \right)  \dVxi \notag \\
-  &= \int_{\mc{B}} \left( \delta c^\al_\xi \Gamma_\xi + J_\xi \rho^\alpha_\xi \delta \Gamma_\xi \right)  \dVxi \notag \\
-  &= \int_{\mc{B}} \left( \frac{\delta c^\al_\xi}{J_\xi} \Gamma_\xi + \rho^\alpha_\xi \delta \Gamma_\xi \right)  \dv
+  \delta \int_{\mc{B}} \rho^\alpha_\xi \Gamma^\alpha_\xi \, \dv
+  &= \delta \int_{\mc{B}} \left(\rho^\alpha_{\xi 0} + c^\al_\xi \right) \Gamma^\alpha_\xi \dVxi \notag \\
+  &= \int_{\mc{B}} \left( \delta \left(\rho^\alpha_{\xi 0} + c^\al_\xi \right) \Gamma^\alpha_\xi + J_\xi \rho^\alpha_\xi \delta \Gamma^\alpha_\xi \right)  \dVxi \notag \\
+  &= \int_{\mc{B}} \left( \delta c^\al_\xi \Gamma^\alpha_\xi + J_\xi \rho^\alpha_\xi \delta \Gamma^\alpha_\xi \right)  \dVxi \notag \\
+  &= \int_{\mc{B}} \left( \frac{\delta c^\al_\xi}{J_\xi} \Gamma^\alpha_\xi + \rho^\alpha_\xi \delta \Gamma^\alpha_\xi \right)  \dv
   \label{eq:bd128}
 \end{align}
 %
 Now examine
 %
 \begin{align}
-  \rho_\xi \psi_\xi & = \rho^\al_\xi \phi_\xi \eta^\al_\xi \psi_\xi \notag \\
-                    & = \rho^\al_\xi \phi_\xi \eta^\al_\xi \psi_\xi \notag \\
+  \rho_\xi \psi_\xi & = \rho^\al_\xi  \frac{\psi_\xi}{\eta^\al_\xi}
 \end{align}
 %
-so we identify $\Gamma_\xi = \phi_\xi \eta^\al_\xi \psi_\xi$ at take the variation
+so we identify $\Gamma^\alpha_\xi = \frac{\psi_\xi}{\eta^\alpha_\xi}$ at take the variation
 %
 \begin{align}
-  \delta(\phi_\xi \eta^\al_\xi \psi_\xi) & = \eta^\alpha_\xi \psi_\xi \left.\delta \phi_\xi \right\vert_{\mbf{X}_\xi} 
-   +  \phi_\xi \psi_\xi \left.\delta \eta^\alpha_\xi \right\vert_{\mbf{X}_\xi}  + \eta^\alpha_\xi \phi_\xi \left.\delta \psi_\xi \right\vert_{\mbf{X}_\xi}
+  \delta\left(\frac{\psi_\xi}{\eta^\al_\xi}\right) & =  \frac{\delta \psi_\xi}{\eta^\al_\xi} - \frac{\psi_\xi}{\left(\eta^\alpha_\xi\right)^2} \delta \eta^\alpha_\xi
 \end{align}
 %
-The key point is that this identity already accounts for the variation of the constituent measure in
-the current configuration. One therefore should not additionally expand
-\(\delta\rho^\alpha_\xi = \bar\rho^\alpha_\xi\delta\phi_\xi + \phi_\xi\delta\bar\rho^\alpha_\xi\)
-inside \(\delta U_\xi\), because that would reintroduce the same kinematics a second time and
-produce spurious contributions to the \(\delta\phi_\xi\) equations.
+and note
+%
+\begin{align}
+  \rho^\al_\xi \delta\left(\frac{\psi_\xi}{\eta^\al_\xi}\right) & =  \rho_\xi \delta \psi_\xi - \rho_\xi \psi_\xi \frac{\delta \eta^\alpha_\xi}{\eta^\alpha_\xi}
+\end{align}
+%
+%
+Assuming $\psi_\xi = \psi_\xi(\bar{\rho}_\xi, \eta^\alpha_\xi)$
 
 At fixed spatial point, the variation of the mobile free energy is
 \begin{align}
-  \delta\psi^\beta_\xi
-  &= \sum_\alpha
-  \left.\p{\psi^\beta_\xi}{\bar\rho^\alpha_\xi}\right\vert_{\eta^\kappa_\xi,\bar\rho^{\kappa\neq\alpha}_\xi}
-  \delta\bar\rho^\alpha_\xi
+  \delta\psi_\xi
+  &= \left.\p{\psi_\xi}{\bar\rho_\xi}\right\vert_{\eta^\beta_\xi} \delta \bar\rho_\xi + \sum_\alpha
+  \left.\p{\psi_\xi}{\eta^\alpha_\xi}\right\vert_{\bar\rho_\xi,\eta^{\beta\neq\alpha}_\xi}
+  \delta\eta^\alpha_\xi
   \label{eq:delta_psi_mobile}
 \end{align}
-Applying \eqref{eq:bd128} componentwise and collecting coefficients of the independent variations
+Applying \eqref{eq:bd128} and collecting coefficients of the independent variations
 therefore gives
 \begin{align}
   \delta(U_a + U_o + U_g)
-  &= \sum_{\xi\in\{a,o,g\}} \int_{\mc{B}} \sum_\alpha \Bigg[
-    \left( \sum_\beta \rho^\beta_\xi
-    \left.\p{\psi^\beta_\xi}{\bar\rho^\alpha_\xi}\right\vert_{\eta^\kappa_\xi,\bar\rho^{\kappa\neq\alpha}_\xi} \right)
-    \delta\bar\rho^\alpha_\xi + \psi^\alpha_\xi \eta^\alpha_\xi \frac{\delta c^\alpha_\xi}{J_\xi}
+  &= \sum_{\xi\in\{a,o,g\}} \int_{\mc{B}} \Bigg[
+    \phi_\xi \bar\rho_\xi^2
+    \left.\p{\psi_\xi}{\bar\rho_\xi}\right\vert_{\eta^\alpha\xi}
+    \delta\bar\rho^\alpha_\xi + \sum_\alpha \rho_\xi
+  \left.\p{\psi_\xi}{\eta^\alpha_\xi}\right\vert_{\bar\rho_\xi,\eta^{\beta\neq\alpha}_\xi} \delta \eta^\al_\xi - \rho_\xi \frac{\psi_\xi}{\eta^\al_\xi} \delta \eta^\al_\xi + \frac{\psi^\alpha_\xi}{\eta^\alpha_\xi} \frac{\delta c^\alpha_\xi}{J_\xi}
   \Bigg] \dv.
   \label{eq:deltaU_mobile_total}
 \end{align}

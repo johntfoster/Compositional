@@ -37,142 +37,186 @@
 \end{abstract}
 
 \section{Material form of conservation of mass}
-Given a differential mass ${\rm d}m^\al_\xi$ of an $\al$ component in the $\xi$ phase we can define a \emph{partial density}
+Given a differential mass ${\rm d}m^\al_\xi$ of component $\al$ in phase $\xi$, define the component partial density per unit current mixture volume by
 %
 \[
-  \rho^\al_\xi(\mbf{x}, t) = \frac{{\rm d}m^\al_\xi}{\dv}
+  \rho^\al_\xi(\mbf{x}, t) = \frac{{\rm d}m^\al_\xi}{\dv},
 \]
 %
-where $\dv = {\rm d}x_1 {\rm d}x_2 {\rm d}x_3$ is a \emph{current configuration} volume element identified in a Cartesian inertial coordinate frame with the position vector $\mbf{x} = \mbf{x}(x_1, x_2, x_3, t)$.  Conservation of mass of the component states
+where $\dv = {\rm d}x_1 {\rm d}x_2 {\rm d}x_3$ is a current-configuration volume element of the mixture.  The current configuration is a common mixture volume; it is not decomposed into separate current phase bodies.  Each phase $\xi$ is instead assigned its own reference coordinates $\mbf{X}_\xi$ and reference volume element
+%
+\[
+  \dVxi = ({\rm d}X_1)_\xi({\rm d}X_2)_\xi({\rm d}X_3)_\xi.
+\]
+%
+The phase reference coordinates are related to the common current coordinates by a one-to-one, invertible, and continuously differentiable map
+%
+\[
+  \mbf{x} = \bs{\chi}_\xi(\mbf{X}_\xi,t),
+\]
+%
+with phase velocity $\mbf{v}_\xi = \partial \bs{\chi}_\xi/\partial t$ and Jacobian
+%
+\[
+  J_\xi = \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right).
+\]
+%
+Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial component partial density pulled back to the phase reference coordinates, and let $c^\al_\xi(\mbf{X}_\xi,t)$ denote the cumulative mass of component $\al$ added to phase $\xi$ per unit phase reference volume by reactions and/or phase transformations.  Conservation of mass for component $\al$ in phase $\xi$ over an arbitrary material region can then be written as
 %
 \begin{align}
-  \int_{\mc{B}_{\xi 0}} \rho_{\xi 0}^\al + c^\al_\xi \dVxi &= \int_{\mc{B}} \rho_\xi^\al {\rm d}v \notag \\
-   &= \int_{\mc{B}_{\xi 0}} \rho_{\xi}^\al J_\xi \dVxi
-   \label{eq:material_mass}
+  \int_{\mc{B}_{\xi 0}} \left(\rho_{\xi 0}^\al + c^\al_\xi\right)\dVxi
+  &= \int_{\mc{B}} \rho_\xi^\al {\rm d}v \notag \\
+  &= \int_{\mc{B}_{\xi 0}} \rho_{\xi}^\al J_\xi \dVxi .
+  \label{eq:material_mass}
 \end{align}
 %
-where $\dVxi = ({\rm d}X_1)_{ \xi} ({\rm d}X_2)_{ \xi} ({\rm d}X_3)_{ \xi}$ is a \emph{reference configuration} volume element in the same inertial coordinate frame with position vector $\mbf{X}_\xi = \mbf{X}_\xi((X_1)_\xi, (X_2)_\xi, (X_3)_\xi)$ that identifies the reference position of the $\xi$ phase in the mixture.  $\mbf{x}$ and $\mbf{X}_\xi$ are related through a one-to-one invertable and continuously differentiable map
-%
-\[
-  \mbf{x} = \bs{\chi}_\xi(\mbf{X}_\xi, t)
-\]
-%
-Note that $\mbf{x}(t = 0) = \bs{\chi}_\xi(t=0) = \mbf{X}_\xi$ and we define $\rho^\al_{\xi 0}(\mbf{X}_\xi) = \rho^\al_\xi(t=0)$. $c^\al_\xi(\mbf{X}_\xi, t)$ is an increment of mass per unit reference volume added to the reference density by reactions and/or phase transformations. Following standard rules from vector calculus the bounds of integration on the right hand side of \eqref{eq:material_mass} is transformed to the reference configuration volume element of $\xi$ through the \emph{Jacobian determinate}
-%
-\[
-  J_\xi = \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right),
-\]
-%
-Since \eqref{eq:material_mass} must hold for an arbitrary $\dVxi$ we have
+Here $\mc{B}$ is the common current mixture region corresponding, through the phase-$\xi$ map, to the phase reference region $\mc{B}_{\xi0}$.  Since \eqref{eq:material_mass} must hold for arbitrary $\mc{B}_{\xi0}$,
 %
 \begin{equation}
   \rho_{\xi 0}^\alpha + c^\alpha_\xi = \rho_\xi^\alpha J_\xi.
   \label{eq:material_mass_2}
 \end{equation}
 %
-
-Now we introduce the \emph{phase volume fraction}
+Taking the material time derivative following phase $\xi$ gives
+%
+\begin{equation}
+  \frac{D_\xi}{Dt}\left(\rho_\xi^\alpha J_\xi\right) = \dot{c}^\alpha_\xi,
+\end{equation}
+%
+where $\dot{c}^\alpha_\xi = D_\xi c^\alpha_\xi/Dt$.  Using
+%
+\[
+  \frac{D_\xi J_\xi}{Dt} = J_\xi \nabla_\mbf{x}\cdot\mbf{v}_\xi,
+\]
+%
+we obtain
+%
+\begin{align}
+  \frac{D_\xi \rho_\xi^\alpha}{Dt}
+  + \rho_\xi^\alpha \nabla_\mbf{x}\cdot\mbf{v}_\xi
+  &= \frac{\dot{c}^\alpha_\xi}{J_\xi} .
+  \label{eq:component_material_mass}
+\end{align}
+%
+We define the current production rate per unit current mixture volume by
+%
+\[
+  \hat{c}^\al_\xi(\mbf{x},t) = \frac{\dot{c}^\al_\xi}{J_\xi}.
+\]
+%
+The material time derivative of a quantity $\square_\xi$ following the velocity of phase $\zeta$ is
+%
+\[
+  \frac{D_\zeta \square_\xi}{Dt}
+  = \frac{\partial \square_\xi}{\partial t}
+  + \mbf{v}_\zeta\cdot\nabla_{\mbf{x}}\square_\xi,
+\]
+%
+and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the derivative following phase $\xi$.  Expanding \eqref{eq:component_material_mass} gives the spatial component mass balance
+%
+\begin{align}
+  \frac{\partial \rho_\xi^\alpha}{\partial t}
+  + \nabla_\mbf{x}\cdot\left(\rho_\xi^\alpha\mbf{v}_\xi\right)
+  = \hat{c}^\alpha_\xi .
+  \label{eq:component_spatial_mass}
+\end{align}
+%
+Now introduce the phase partial density
+%
+\[
+  \rho_\xi = \sum_\alpha \rho_\xi^\alpha,
+\]
+%
+and the mass fraction of component $\alpha$ in phase $\xi$,
+%
+\begin{equation}
+  \eta^\alpha_\xi = \frac{\rho^\alpha_\xi}{\rho_\xi}.
+  \label{eq:phase_mass_fraction}
+\end{equation}
+%
+Thus
+%
+\[
+  \rho_\xi^\alpha = \rho_\xi \eta^\alpha_\xi,
+  \qquad
+  \sum_\alpha \eta^\alpha_\xi = 1.
+\]
+%
+The phase volume fraction is defined by
 %
 \[
   \phi_\xi = \frac{\dv_\xi}{\dv},
 \]
 %
-where $\dv_\xi$ is not a true volume element, but rather a bookkeeping measure of the partial volume of the$\xi$ phase in the current configuration volume element $\dv$.  We also have the \emph{composition} of $\xi$
+where $\dv_\xi$ is a bookkeeping measure of the partial volume occupied by phase $\xi$ in the current mixture volume $\dv$.  The intrinsic density is introduced only at the phase level,
 %
 \[
-  \eta^\al_\xi = \frac{\dv^\alpha_\xi}{\dv_\xi},
+  \bar\rho_\xi = \frac{{\rm d}m_\xi}{\dv_\xi},
 \]
 %
-where, likewise, it is measure of the volume of the $\alpha$ component in the $\xi$ phase in the current configuation volume element.  Also, we introduce the \emph{intrinsic density} 
+so that
 %
 \[
-  \bar\rho_\xi^\al = \frac{{\rm d}m^\al_\xi}{\dv^\alpha_\xi}.
+  \rho_\xi = \phi_\xi \bar\rho_\xi,
+  \qquad
+  \rho_\xi^\alpha = \phi_\xi \bar\rho_\xi \eta^\alpha_\xi.
 \]
 %
-The intrinsic density is the density that would typically be measured in a laboratory of a single component in isolation.
-
-The intrinsic density is related to partial density through
-\[
-  \rho_\xi^\alpha = \phi_\xi \eta^\al_\xi \bar\rho^\alpha_\xi.
-\]
-%
-Substituting we get
-%
-\begin{equation}
-  \phi_{\xi 0}\eta^\al_\xi\bar\rho_{\xi 0}^\alpha + c^\alpha_\xi = \phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha J_\xi
-  \label{eq:material_mass_3}
-\end{equation}
-%
-Now we take the material time derivative of \eqref{eq:material_mass_3} and rearrange
-\begin{align}
-  \frac{D_\xi}{Dt}\left(\phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha\right) J_\xi + \left(\phi_\xi \bar \eta^\alpha_\xi \rho_\xi^\alpha\right) \frac{D_\xi J_\xi}{Dt} &= \dot{c}^\alpha_\xi, \notag \\
-  \frac{D_\xi}{Dt}\left(\phi_\xi \eta^\alpha_\xi \bar\rho_\xi^\alpha \right) J_\xi + \left(\phi_\xi  \eta^\alpha_\xi \bar\rho_\xi^\alpha \right) J_\xi \nabla_\mbf{x} \cdot \mbf{v}_\xi &= \dot{c}^\alpha_\xi, \notag \\
-  \frac{D_\xi}{Dt}\left(\phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha \right)  + \left(\phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha \right) \nabla_\mbf{x} \cdot \mbf{v}_\xi &= \frac{\dot{c}^\alpha_\xi}{J_\xi}.
-  \label{eq:spatial_mass}
-\end{align}
-%
-We use the the definition of the material time derivative of a quantity $\square_\xi$ following the velocity of phase $\zeta$,
-\[
-  \frac{D_\zeta \square_\xi}{Dt} = \frac{\partial \square_\xi}{\partial t}+\mbf{v}_\zeta\cdot\nabla_{\mbf{x}}\square_\xi,
-\]
-and use the shorthand notation $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the derivative following phase $\xi$.
-%
-
-Expanding the material time derivative and rearranging gives
+Substituting this representation into \eqref{eq:component_spatial_mass} gives
 %
 \begin{align}
-  \frac{\partial}{\partial t}\left(\phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \eta^\al_\xi \bar\rho_\xi^\alpha \mbf{v}_\xi \right) = \hat{c}^\alpha_\xi
+  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
+  + \nabla_\mbf{x}\cdot\left(\phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
+  = \hat{c}^\alpha_\xi .
   \label{eq:spatial_mass_2}
 \end{align}
 %
-where we've introduced 
-%
-\[
-  \hat{c}^\al_\xi(\mbf{x}, t) = \frac{\dot{c}^\al_\xi}{J_\xi}
-\]
-%
-for convenience.  $\hat{c}^\al_\xi$ is the increment of mass added to the $\al$ component of the $\xi$ phase in the current configuration.
-
-Summing over $\alpha$ gives the phase mass balance
+Summing over $\alpha$ and using $\sum_\alpha \eta_\xi^\alpha=1$ gives the phase mass balance
 %
 \begin{align}
-  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \right)  +  \nabla_\mbf{x} \cdot \left(\phi_\xi \bar\rho_\xi  \mbf{v}_\xi \right) = \sum_\alpha \hat{c}^\al_\xi
-  \label{eq:spatial_mass}
+  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi\right)
+  + \nabla_\mbf{x}\cdot\left(\phi_\xi \bar\rho_\xi \mbf{v}_\xi\right)
+  = \sum_\alpha \hat{c}^\al_\xi .
+  \label{eq:phase_spatial_mass}
 \end{align}
 %
-where the phase densities are
-%
-\[
-  \bar\rho_\xi = \sum_\alpha \eta^\al_\xi \bar\rho^\alpha_\xi,
-\]
-%
-Notice from the definition of $\eta^\al_\xi$, summing over $\alpha$ forms a partition of unity
-%
-\begin{equation}
-  \sum_\alpha \eta^\alpha_\xi = \sum_\alpha \frac{{\rm d}v^\alpha_\xi}{{\rm d}v_\xi} = \frac{{\rm d}v_\xi}{{\rm d}v_\xi} = 1.
-\end{equation}
-
-Summing over all phases gives the overall mixture mass balance
+Finally, summing over all phases gives the overall mixture mass balance
 %
 \begin{align}
-  \underbrace{\frac{\partial \rho}{\partial t}  + \nabla_\mbf{x} \cdot \left(\rho  \mbf{v} \right)}_{=0} = \sum_\xi \sum_\alpha \hat{c}_\xi^\al 
+  \frac{\partial \rho}{\partial t}
+  + \nabla_\mbf{x}\cdot\left(\rho\mbf{v}\right)
+  = \sum_\xi \sum_\alpha \hat{c}^\alpha_\xi,
   \label{eq:overall_mass}
 \end{align}
 %
-where $\rho = \sum_\xi \phi_\xi \bar\rho_\xi$ and the mixture velocity $\mbf{v}$ is baryicentric velocity
+where
 %
 \[
-  \mbf{v} = \frac{1}{\rho} \sum_\xi \rho_\xi \mbf{v}_\xi.
+  \rho = \sum_\xi \rho_\xi = \sum_\xi \phi_\xi \bar\rho_\xi,
+  \qquad
+  \rho\mbf{v} = \sum_\xi \rho_\xi\mbf{v}_\xi
+  = \sum_\xi \phi_\xi\bar\rho_\xi\mbf{v}_\xi.
 \]
 %
-Recognizing the left-hand side of \eqref{eq:overall_mass} must vanish because it is a statement of convervation of mass for the mixture, leaves the constraint
+Equivalently, the barycentric mixture velocity is
+%
+\[
+  \mbf{v} = \frac{1}{\rho}\sum_\xi \rho_\xi\mbf{v}_\xi.
+\]
+%
+For reactions and phase transformations internal to the mixture, total mass is neither created nor destroyed.  Therefore the source terms must satisfy
 %
 \begin{align}
-  \sum_\xi \sum_\alpha \hat{c}^\alpha_\xi = 0 
+  \sum_\xi \sum_\alpha \hat{c}^\alpha_\xi = 0,
   \label{eq:overall_mass_constraint}
 \end{align}
 %
-as a statement of conservation of mass of the entire mixture.  This means that mass reactions and phase transitions amoung psuedocomponents in the mixture do not create nor destory mass.
+and \eqref{eq:overall_mass} reduces to the conservative mixture mass balance
+%
+\[
+  \frac{\partial \rho}{\partial t}
+  + \nabla_\mbf{x}\cdot\left(\rho\mbf{v}\right) = 0.
+\]
 
 
 \input{variational_principle_appendix}
