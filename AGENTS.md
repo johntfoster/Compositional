@@ -20,6 +20,13 @@
 - For compile or editor-style issues, prefer `mech_compile` and `mech_lsp` diagnostics before making edits. Make narrow source edits that address the reported line, label, macro, or environment.
 - If aux data or equation numbering is stale, refresh the paper map or compile from `main.tex` before relying on rendered numbers.
 
+## Chat-preview debugging discipline
+
+- When debugging or changing `chat-preview-pi`, first read and follow `/home/john/Documents/pi-extensions/packages/chat-preview-pi/DESIGN.md`.
+- Conform to the chat-preview design contract: preserve the minimal dark interface, avoid broad layout/theme rewrites without explicit approval, prefer additive/narrow changes, keep frontend/backend APIs explicit, and keep runtime/generated state out of git.
+- Before confirming any chat-preview fix, use browser-control tools to open the running preview when available, reproduce or inspect the issue, and verify the changed behavior. If no preview server is running or browser verification is impossible, state that explicitly and do not present the change as browser-verified.
+- For visual or interaction changes, capture or describe before/after behavior and test through the browser UI, not only TypeScript compilation.
+
 <!-- MECHPI_INGEST_GUIDANCE_START -->
 ## Mech-pi ingest retrieval
 
