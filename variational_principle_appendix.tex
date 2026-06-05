@@ -395,252 +395,143 @@ where we've integrated by parts in time (with $\delta c_\xi^\alpha|_{t_1} = \del
 \label{sec:collected_var}
 % ============================================================
 
-Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho^\alpha_\xi$, $\delta\eta^\alpha_\xi$, and $\delta c^\alpha_\xi/J_\xi$ gives
+Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta c^\alpha_\xi/J_\xi$ gives
 \begin{align}
-  0 = &\int_{\mc{B}} \Bigg[
-    -\rho_s\mbf{a}_s + \nabla_{\mbf{x}}\cdot(\bs\sigma'_s)^T + \rho_s\mbf{g} + \mbf{b}_s
-    - \lambda\nabla_{\mbf{x}}\phi_s
-    - \sum_\alpha\nabla_{\mbf{x}}\mu_s^\alpha
-    + \sum_\alpha c^{+\alpha}_s\nabla_{\mbf{x}}\tau
-    - P^\star_\phi\nabla_{\mbf{x}}\phi
-  \Bigg]\cdot\delta\mbf{x}_s \,\dv \notag \\
+  0 = & \sum_{\xi_s} \int_{\mc{B}} \Bigg[
+    -\rho_{\xi_s}\mbf{a}_{\xi_s} 
+    + \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi_s} + \rho_{\xi_s}\mbf{g} + \mbf{b}_{\xi_s}
+    - \lambda\nabla_{\mbf{x}}\phi_{\xi_s}
+    - \sum_\alpha\nabla_{\mbf{x}}\mu_{\xi_s}^\alpha
+    + \sum_\alpha \hat{c}_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_{\xi_s}\right)
+  \Bigg]\cdot\delta\mbf{x}_{\xi_s} \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
-    -\rho_a\mbf{a}_a + \rho_a\mbf{g} + \mbf{b}_a
+    -\rho_a\mbf{a}_a 
+    + \rho_a\mbf{g} + \mbf{b}_a
     - \lambda\nabla_{\mbf{x}}\phi_a
     - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
-    + \sum_\alpha c^{+\alpha}_a\nabla_{\mbf{x}}\tau
-    + P^\star_\phi\nabla_{\mbf{x}}\phi_a
+    + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_a\right)
     + \left(p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a
   \Bigg]\cdot\delta\mbf{x}_a \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
-    -\rho_o\mbf{a}_o + \rho_o\mbf{g} + \mbf{b}_o
+    -\rho_o\mbf{a}_o 
+    + \rho_o\mbf{g} + \mbf{b}_o
     - \lambda\nabla_{\mbf{x}}\phi_o
     - \sum_\alpha\nabla_{\mbf{x}}\mu_o^\alpha
-    + \sum_\alpha c^{+\alpha}_o\nabla_{\mbf{x}}\tau
-    + P^\star_\phi\nabla_{\mbf{x}}\phi_o
+    + \sum_\alpha \hat{c}_o^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_o\right)
     - \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o
   \Bigg]\cdot\delta\mbf{x}_o \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
-    -\rho_g\mbf{a}_g + \rho_g\mbf{g} + \mbf{b}_g
+    -\rho_g\mbf{a}_g 
+    + \rho_g\mbf{g} + \mbf{b}_g
     - \lambda\nabla_{\mbf{x}}\phi_g
     - \sum_\alpha\nabla_{\mbf{x}}\mu_g^\alpha
-    + \sum_\alpha c^{+\alpha}_g\nabla_{\mbf{x}}\tau
-    + P^\star_\phi\nabla_{\mbf{x}}\phi_g
+    + \sum_\alpha \hat{c}_g^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_g\right)
     + \left(-p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g
   \Bigg]\cdot\delta\mbf{x}_g \,\dv \notag \\
-  &+ \int_{\mc{B}} \Bigg[
-      \lambda + \sum_\alpha \frac{\mu_s^\alpha}{\phi_s}
-    \Bigg] \delta\phi_s \,\dv \notag \\
+&+ \sum_{\xi_s} \int_{\mc{B}} \Bigg[
+  \lambda + \sum_\alpha \frac{\mu_{\xi_s}^\alpha}{\phi_{\xi_s}}
+    \Bigg] \delta\phi_{\xi_s} \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
       \lambda + \sum_\alpha \frac{\mu_a^\alpha}{\phi_a}
-      - P^\star_\phi
       + p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}
     \Bigg] \delta\phi_a \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
       \lambda + \sum_\alpha \frac{\mu_o^\alpha}{\phi_o}
-      - P^\star_\phi
       - p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_g}{\phi}
     \Bigg] \delta\phi_o \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
       \lambda + \sum_\alpha \frac{\mu_g^\alpha}{\phi_g}
-      - P^\star_\phi
       - p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}
     \Bigg] \delta\phi_g \,\dv \notag \\
-  &+ \sum_\alpha \int_{\mc{B}} \Bigg[
-    -\frac{\rho^\alpha_{s0}\eta_s^\alpha}{J_s}
-    \left.\p{\psi_s^\alpha}{\bar\rho^\alpha_s}\right\vert_{\mbf{F},\eta^\alpha_s,\phi}
-    + \frac{\mu_s^\alpha}{\bar\rho_s^\alpha}
-  \Bigg] \delta\bar\rho^\alpha_s \,\dv \notag \\
-  &+ \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
-    -\sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\bar\rho^\alpha_\xi}\right\vert_{\eta^\kappa_\xi,\bar\rho^{\kappa\neq\alpha}_\xi}
-    + \frac{\mu_\xi^\alpha}{\bar\rho_\xi^\alpha}
-  \Bigg] \delta\bar\rho^\alpha_\xi \,\dv \notag \\
-  &+ \sum_\alpha \int_{\mc{B}} \Bigg[
-    -\frac{\rho^\alpha_{s0}\eta_s^\alpha}{J_s}\left.\p{\psi_s^\alpha}{\eta^\alpha_s}\right\vert_{\mbf{F},\bar\rho^\alpha_s,\phi}
-    + \frac{\mu_s^\alpha}{\eta_s^\alpha}
-    + \frac{\pi_s}{J_s}
-  \Bigg] \delta\eta^\alpha_s \,\dv \notag \\
-  &+ \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
-    -\sum_\beta \rho^\beta_\xi\left.\p{\psi^\beta_\xi}{\eta^\alpha_\xi}\right\vert_{\bar\rho^\kappa_\xi,\eta^{\kappa\neq\alpha}_\xi}
-    + \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha}
-    + \frac{\pi_\xi}{J_\xi}
+  &+ \sum_{\xi_s}\int_{\mc{B}} \Bigg[
+    -\left(\rho_{\xi_s} - \sum_\alpha \frac{c_{\xi_s}^\alpha}{J_{\xi_s}}\right)
+    \left.\p{\psi_{\xi_s}}{\bar\rho_{\xi_s}}\right\vert_{\mbf{F}_{\xi_s}}
+    + \sum_\alpha\frac{\mu_{\xi_s}^\alpha}{\bar\rho_{\xi_s}}
+  \Bigg] \delta\bar\rho_{\xi_s} \,\dv \notag \\
+  &+ \sum_{\xi_f} \int_{\mc{B}} \Bigg[
+    -\rho_{\xi_f}\left.\p{\psi_{\xi_f}}{\bar\rho_{\xi_f}}\right\vert_{\eta^\alpha_\xi}
+    + \sum_\alpha\frac{\mu_{\xi_s}^\alpha}{\bar\rho_{\xi_s}}
+  \Bigg] \delta\bar\rho_{\xi_f} \,\dv \notag \\
+&+ \sum_{\xi_f}\sum_\alpha \int_{\mc{B}} \Bigg[
+  \frac{\mu_{\xi_f}^\alpha}{\eta_\xi^\alpha} + \pi_{\xi_f}
   \Bigg] \delta\eta^\alpha_\xi \,\dv \notag \\
-  &+ \sum_\alpha \int_{\mc{B}} \Bigg[
-    \tfrac{1}{2}\mbf{v}_s\cdot\mbf{v}_s + \mc{L}^\alpha_s
-    - \frac{D_s\tau}{Dt}
-    - \frac{\mu_s^\alpha}{\eta_s^\alpha\phi_s\bar\rho_s^\alpha}
-  \Bigg] \frac{\delta c^\alpha_s}{J_s} \,\dv \notag \\
-  &+ \sum_{\xi\in\{a,o,g\}}\sum_\alpha \int_{\mc{B}} \Bigg[
-    \tfrac{1}{2}\mbf{v}_\xi\cdot\mbf{v}_\xi + \mc{L}^\alpha_\xi + \psi_\xi^\alpha
-    - \frac{D_\xi\tau}{Dt}
-    - \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha\phi_\xi\bar\rho_\xi^\alpha}
-  \Bigg] \frac{\delta c^\alpha_\xi}{J_\xi} \,\dv.
+  &- \sum_{\xi_f}\sum_\alpha \int_{\mc{B}}
+    \rho_{\xi_f}\left.\p{\psi_{\xi_f}}{\eta^\alpha_\xi}\right\vert_{\bar\rho_{\xi_f},\eta^{\beta\neq\alpha}_\xi}
+    \delta\eta^\alpha_\xi \,\dv \notag \\
+  &+ \sum_{\xi_s} \int_{\mc{B}} \Bigg[
+    \tfrac{1}{2}\mbf{v}_{\xi_s}\cdot\mbf{v}_{\xi_s} + \mc{L}^\alpha_{\xi_s}
+    - \frac{D_{\xi_s}\tau}{Dt}
+    - \sum_\alpha \frac{\mu_{\xi_s}^\alpha}{\phi_{\xi_s}\bar\rho_{\xi_s}}
+  \Bigg] \frac{\delta c^\alpha_{\xi_s}}{J_{\xi_s}} \,\dv \notag \\
+  &+ \sum_{\xi_f}\sum_\alpha \int_{\mc{B}} \Bigg[
+    \tfrac{1}{2}\mbf{v}_{\xi_f}\cdot\mbf{v}_{\xi_f} + \mc{L}^\alpha_{\xi_f} + \psi_{\xi_f}
+    - \frac{D_{\xi_f}\tau}{Dt}
+    - \frac{\mu_{\xi_f}^\alpha}{\phi_{\xi_f}\bar\rho_{\xi_f}\eta_\xi^\alpha}
+  \Bigg] \frac{\delta c^\alpha_{\xi_f}}{J_{\xi_f}} \,\dv + \text{boundary terms}.
   \label{eq:collected_full}
 \end{align}
-Here $c_\xi^{+\alpha} = \dot{c}_\xi^\alpha/J_\xi$ is the mass production rate per unit current volume; the effective Cauchy stress $\bs\sigma'_s$ is defined in~\eqref{eq:var_cauchy_def}; and $P^\star_\phi$ is defined in~\eqref{eq:Pstar_phi}. The multiplier variations are omitted here because they simply return the constraint equations~\eqref{eq:C1_def}--\eqref{eq:C4_def}. Since all displayed variations are independent and arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
+The multiplier variations are omitted here because they simply return the constraint equations~\eqref{eq:C1_def}--\eqref{eq:C4_def}. Since all variations are considered arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
 
 \subsection{Euler--Lagrange equations}
 
-Since the variations are independent and arbitrary, each coefficient in~\eqref{eq:collected_full} must vanish.
-
-\paragraph{Constraints and multiplier meanings.}
-The variations of the multipliers recover the defining constraints:
-\begin{align}
-  \phi_s + \phi_a + \phi_o + \phi_g &= 1,
-  \label{eq:EL_sat}
-  \\
-  h_\xi^\alpha &= J_\xi\eta_\xi^\alpha - \frac{\phi_{\xi0}\bar\rho_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi\bar\rho_\xi^\alpha} = 0,
-  \label{eq:EL_mass_constraint}
-  \\
-  \sum_\alpha \eta_\xi^\alpha &= 1,
-  \label{eq:EL_eta_constraint}
-  \\
-  \sum_\xi\sum_\alpha c_\xi^{+\alpha} &= 0.
-  \label{eq:EL_mass_source_constraint}
-\end{align}
-Accordingly, $\lambda$ is the saturation-pressure multiplier enforcing unit total volume fraction; each $\mu_\xi^\alpha$ is the component mass-conservation multiplier for species $\alpha$ in phase $\xi$; each $\pi_\xi$ enforces the partition-of-unity of the component fractions $\eta_\xi^\alpha$ within phase $\xi$; and $\tau$ is the global mass-balance potential conjugate to reaction mass transfer. In the momentum balances below, $\nabla_{\mbf{x}}\tau$ acts as the standard Bedford--Drumheller reaction-driving force.
-
-\paragraph{Generalized phase pressures.}
-From the coefficients of $\delta\bar\rho_\xi^\alpha$ we obtain
-\begin{align}
-  \mu_s^\alpha
-  &= \bar\rho_s^\alpha\,\frac{\rho_{s0}^\alpha\eta_s^\alpha}{J_s}
-  \left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\right\vert_{\mbf{F},\eta_s^\alpha,\phi},
-  \label{eq:mu_s_alpha}
-  \\
-  \mu_\xi^\alpha
-  &= \bar\rho_\xi^\alpha\sum_\beta \rho_\xi^\beta
-  \left.\p{\psi_\xi^\beta}{\bar\rho_\xi^\alpha}\right\vert_{\eta_\xi^\kappa,\bar\rho_\xi^{\kappa\neq\alpha}}, \notag \\
-  \frac{\mu_\xi^\alpha}{\phi_\xi} &= \sum_\beta \bar\rho_\xi^\alpha \bar\rho_\xi^\beta \left.\p{\psi_\xi^\beta}{\bar\rho_\xi^\alpha}\right\vert_{\eta_\xi^\kappa,\bar\rho_\xi^{\kappa\neq\alpha}}, 
-  \qquad \xi\in\{a,o,g\}.
-  \label{eq:mu_mobile_alpha}
-\end{align}
-These relations show that the multipliers $\mu_\xi^\alpha$ play the role of generalized partial pressures or, more precisely, density-conjugate chemical-stress potentials. For the mobile phases they reduce to the usual phase-pressure identification when the free energy depends only on its own intrinsic density.
-
-Summing \eqref{eq:mu_mobile_alpha} over $\alpha$ we recognize the right hand side as what's commonly refered to as the \emph{partial pressure} so we define
-\begin{align}
-  \bar{p}^{\alpha\beta}_\xi &\equiv \sum_\alpha \frac{\mu^\alpha_\xi}{\phi_\xi}  \notag \\
-  &\equiv \sum_\alpha \sum_\beta \bar\rho_\xi^\alpha \bar\rho_\xi^\beta \left.\p{\psi_\xi^\beta}{\bar\rho_\xi^\alpha}\right\vert_{\eta_\xi^\kappa,\bar\rho_\xi^{\kappa\neq\alpha}}, \qquad \xi\in\{a,o,g\}.
-  \label{eq:partial_p}
-\end{align}
-
-\paragraph{Partition relations.}
-From the coefficients of $\delta\eta_\xi^\alpha$,
-\begin{align}
-  \frac{\pi_s}{J_s}
-  &= \frac{\rho_{s0}^\alpha\eta_s^\alpha}{J_s}
-  \left.\p{\psi_s^\alpha}{\eta_s^\alpha}\right\vert_{\mbf{F},\bar\rho_s^\alpha,\phi}
-  - \frac{\mu_s^\alpha}{\eta_s^\alpha},
-  \label{eq:pi_s_alpha}
-  \\
-  \frac{\pi_\xi}{J_\xi}
-  &= \sum_\beta \rho_\xi^\beta
-  \left.\p{\psi_\xi^\beta}{\eta_\xi^\alpha}\right\vert_{\bar\rho_\xi^\kappa,\eta_\xi^{\kappa\neq\alpha}}
-  - \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha},
-  \qquad \xi\in\{a,o,g\}.
-  \label{eq:pi_mobile_alpha}
-\end{align}
-Thus $\pi_\xi$ is the phasewise indifference potential that adjusts so the component volume fractions sum to one. Thermal constitutive restrictions are instead deferred to the mixture entropy inequality, where temperature may remain phase dependent without being varied kinematically here.
-
-\paragraph{Volume-fraction equations.}
-From the coefficients of $\delta\phi_\xi$,
-\begin{align}
-  \lambda &= -\sum_\alpha \frac{\mu_s^\alpha}{\phi_s},
-  \label{eq:lambda_s}
-  \\
-  \lambda &= P_\phi^\star - p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi} - \sum_\alpha \frac{\mu_a^\alpha}{\phi_a},
-  \label{eq:lambda_a}
-  \\
-  \lambda &= P_\phi^\star + p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi} - \sum_\alpha \frac{\mu_o^\alpha}{\phi_o},
-  \label{eq:lambda_o}
-  \\
-  \lambda &= P_\phi^\star + p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi} - \sum_\alpha \frac{\mu_g^\alpha}{\phi_g}.
-  \label{eq:lambda_g}
-\end{align}
-These equations identify $\lambda$ as the common saturation pressure that equilibrates the phasewise generalized pressures against the porosity-conjugate stress $P_\phi^\star$ and the capillary offsets.
-
-\paragraph{Momentum balances.}
-The coefficients of $\delta\mbf{x}_\xi$ yield
-\begin{align}
-  \rho_s\mbf{a}_s
-  &= \nabla_{\mbf{x}}\cdot(\bs\sigma'_s)^T + \rho_s\mbf{g} + \mbf{b}_s
-  - \lambda\nabla_{\mbf{x}}\phi_s
-  - \sum_\alpha\nabla_{\mbf{x}}\mu_s^\alpha
-  + \sum_\alpha c_s^{+\alpha}\nabla_{\mbf{x}}\tau
-  - P_\phi^\star\nabla_{\mbf{x}}\phi,
-  \label{eq:mom_s_raw}
-  \\
-  \rho_a\mbf{a}_a
-  &= \rho_a\mbf{g} + \mbf{b}_a
-  - \lambda\nabla_{\mbf{x}}\phi_a
-  - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
-  + \sum_\alpha c_a^{+\alpha}\nabla_{\mbf{x}}\tau \notag \\
-  &\qquad + P_\phi^\star\nabla_{\mbf{x}}\phi_a
-  &\qquad + \left(p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a,
-  \label{eq:mom_a_raw}
-  \\
-  \rho_o\mbf{a}_o
-  &= \rho_o\mbf{g} + \mbf{b}_o
-  - \lambda\nabla_{\mbf{x}}\phi_o
-  - \sum_\alpha\nabla_{\mbf{x}}\mu_o^\alpha
-  + \sum_\alpha c_o^{+\alpha}\nabla_{\mbf{x}}\tau \notag \\
-  &\qquad + P_\phi^\star\nabla_{\mbf{x}}\phi_o
-  &\qquad - \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o,
-  \label{eq:mom_o_raw}
-  \\
-  \rho_g\mbf{a}_g
-  &= \rho_g\mbf{g} + \mbf{b}_g
-  - \lambda\nabla_{\mbf{x}}\phi_g
-  - \sum_\alpha\nabla_{\mbf{x}}\mu_g^\alpha
-  + \sum_\alpha c_g^{+\alpha}\nabla_{\mbf{x}}\tau \notag \\
-  &\qquad + P_\phi^\star\nabla_{\mbf{x}}\phi_g
-  &\qquad + \left(-p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g.
-  \label{eq:mom_g_raw}
-\end{align}
-Using the volume-fraction relations \eqref{eq:lambda_s}--\eqref{eq:lambda_g}, the porosity and capillary terms combine into generalized phase-pressure gradients. Define
+The Euler--Lagrange equations generated from arbirtrary $\delta \phi_{\xi_s}$ gives
+%
 \begin{equation}
-  p_\xi^{\mathrm{gen}} \equiv -\sum_\alpha \mu_\xi^\alpha,
-  \label{eq:pgen_def}
+  \phi_{\xi_s} \lambda = - \sum_\alpha \mu^\al_{\xi_s}
+  \label{eq:el_lambda}
 \end{equation}
-so that each mobile-phase momentum balance takes the Darcy--Bedford--Drumheller form
-\begin{equation}
-  \boxed{\rho_\xi\mbf{a}_\xi = \rho_\xi\mbf{g} + \mbf{b}_\xi - \nabla_{\mbf{x}} p_\xi^{\mathrm{gen}} + \sum_\alpha c_\xi^{+\alpha}\left(\nabla_{\mbf{x}}\tau\right) + \text{capillary/porosity corrections}, \qquad \xi\in\{a,o,g\},}
-  \label{eq:mom_mobile_compact}
-\end{equation}
-while the solid balance is the effective-stress counterpart augmented by saturation and reaction forces:
-\begin{equation}
-  \boxed{\rho_s\mbf{a}_s = \nabla_{\mbf{x}}\cdot(\bs\sigma'_s)^T + \rho_s\mbf{g} + \mbf{b}_s - \lambda\nabla_{\mbf{x}}\phi_s - \nabla_{\mbf{x}} p_s^{\mathrm{gen}} - P_\phi^\star\nabla_{\mbf{x}}\phi + \sum_\alpha c_s^{+\alpha}\nabla_{\mbf{x}}\tau,}
-  \label{eq:mom_s_compact}
-\end{equation}
-with $p_s^{\mathrm{gen}}\equiv -\sum_\alpha \mu_s^\alpha$. In the uncoupled limit $P_\phi^\star=0$ and without capillarity, these reduce to the standard phase momentum balances driven by effective stress and phase-pressure gradients.
+%
+Subsitituting \eqref{eq:el_lambda} into the Euler-Lagrange equations associated with arbitrary $\delta \mbf{x}_{\xi_s}$ and rearrangeing gives the solid phases $\xi_s$ momentum balance
 
-\paragraph{Reaction potential equations.}
-From the coefficients of $\delta c_\xi^\alpha/J_\xi$,
+\begin{equation}
+    \rho_{\xi_s}\mbf{a}_{\xi_s} =
+    \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi_s} + \rho_{\xi_s}\mbf{g} + \mbf{b}_{\xi_s}
+    + \phi_{\xi_s} \nabla_{\mbf{x}}\lambda
+    + \sum_\alpha \hat{c}_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_{\xi_s}\right)
+\end{equation}
+
+Next, we rearrange the Euler-Lagrange associated with arbitrary $\delta \bar\rho_{\xi_f}$ and define
+%
+\begin{equation}
+  \sum_\al \frac{\mu_{\xi_f}^\al}{\phi_{\xi_f}} = \bar\rho^2_{\xi_f} \p{\psi_{\xi_f}}{\bar\rho_{\xi_f}} \equiv \bar{p}_{\xi_f}
+\end{equation}
+%
+where $\bar{p}_{\xi_f}$ is the mobile phase pressure. Using this definition along with the Euler-Lagrange equations associated with the arbitrary $\delta \phi_{f}$ and the definitions of saturations introduced earlier gives three equations
+%
+\begin{subequations}
+  \begin{align}
+    0 &= \lambda + \bar{p}_a + (1 - S_a) p_{c,oa} - S_g p_{c,og} \label{eq:el_bc_a} \\
+    0 &= \lambda + \bar{p}_o - S_a p_{c,oa} - S_g p_{c,og} \label{eq:el_bc_b} \\
+    0 &= \lambda + \bar{p}_g - S_a p_{c,oa} + (1 - S_g) p_{c,og} \label{eq:el_bc_c}
+  \end{align}
+  \label{eq:el_pc}
+\end{subequations}
+%
+Subtracting \eqref{eq:el_pc_a} from \eqref{eq:el_pc_b} gives
+%
+\begin{equation}
+  p_{c,oa} = \bar{p}_o - \bar{p}_a.
+\end{equation}
+%
+Subtracting \eqref{eq:el_pc_c} from \eqref{eq:el_pc_b} gives
+%
+\begin{equation}
+  p_{c,og} = \bar{p}_o - \bar{p}_g
+\end{equation}
+%
+Summing equations~\ref{eq:el_pc}
+%
 \begin{align}
-  \frac{D_s\tau}{Dt}
-  &= \tfrac{1}{2}\mbf{v}_s\cdot\mbf{v}_s + \mc{L}_s^\alpha
-  - \frac{\mu_s^\alpha}{\eta_s^\alpha\phi_s\bar\rho_s^\alpha},
-  \label{eq:tau_s_alpha}
-  \\
-  \frac{D_\xi\tau}{Dt}
-  &= \tfrac{1}{2}\mbf{v}_\xi\cdot\mbf{v}_\xi + \mc{L}_\xi^\alpha + \psi_\xi^\alpha
-  - \frac{\mu_\xi^\alpha}{\eta_\xi^\alpha\phi_\xi\bar\rho_\xi^\alpha},
-  \qquad \xi\in\{a,o,g\}.
-  \label{eq:tau_mobile_alpha}
+  0 &= 3 \lambda + \bar{p}_a + \bar{p}_o + \bar{p}_g  + (1 - 3 S_a) p_{c,oa} + (1 - 3 S_g) p_{c,og}
 \end{align}
-These show that $\tau$ is the mixture mass-transfer potential: along each phase trajectory its material derivative balances kinetic energy, the transfer force $\mc{L}_\xi^\alpha$, the relevant free-energy contribution, and the density-conjugate multiplier term. This is the reacting-mixture analogue of the Bedford--Drumheller reaction potential.
+%
+and solving for $\lamba$ gives
+\begin{align}
+  \lambda &= -\frac{1}{3} \left( \bar{p}_a + \bar{p}_o + \bar{p}_g \right)  - \left(\frac{1}{3} - S_a\right) p_{c,oa} - \left(\frac{1}{3} - S_g \right) p_{c,og} \notag \\
+   &= -\frac{1}{3} \left( \bar{p}_a + \bar{p}_o + \bar{p}_g + p_{c,oa} + p_{c,og} \right)  + S_a p_{c,oa} + S_g p_{c,og} \notag \\
+   &= -\bar{p}_o  + S_a (\bar{p}_o - \bar{p}_a) + S_g (\bar{p}_o - \bar{p}_g) \notag \\
+   &= S_a \bar{p}_{a} + (S_a + S_g - 1)\bar{p}_o + S_g \bar{p}_g \notag \\
+   &= S_a \bar{p}_{a} + S_o \bar{p}_o + S_g \bar{p}_g
+\end{align}
 
-\paragraph{Overall interpretation.}
-Taken together, the multiplier structure is physically transparent:
-\begin{itemize}
-  \item $\lambda$ is a saturation pressure enforcing packing of the four phases.
-  \item $\mu_\xi^\alpha$ are generalized partial pressures / chemical-stress potentials enforcing component mass conservation within each phase.
-  \item $\pi_\xi$ is the phasewise composition pressure enforcing $\sum_\alpha\eta_\xi^\alpha=1$.
-  \item $\tau$ is a reaction or mass-transfer potential whose gradient drives momentum transfer through creation and destruction of mass.
-\end{itemize}
-When the constitutive choices are specialized so that each mobile free energy depends only on its own intrinsic density and composition, the above equations collapse to the familiar mixture-theory pattern: effective stress for the solid skeleton, phase-pressure gradients for the mobile phases, capillary offsets between mobile phases, and a reaction potential that enters both mass transfer and momentum exchange.
 
-\subsection{Connection to the Coleman--Noll procedure}
-\label{sec:coleman_connection}
-
-The variational derivation and the Coleman--Noll procedure are complementary.  Hamilton's principle takes the free energies (e.g.\ $\psi_\xi(\mbf{F}_s, \phi)$) as functions of \emph{independent fields} (subject to constraints) and derives the momentum balances, pressure identifications, and body forces as Euler--Lagrange equations.  The Coleman--Noll procedure (Appendix~\ref{sec:coleman}) starts from the entropy inequality with the \emph{same} energy and derives constitutive restrictions.  The multiplicative decomposition $\mbf{F}_s = \mbf{A}_s \bar{\mbf{F}}_s$ is a constitutive choice imposed within the Coleman--Noll procedure, giving $\psi_\xi(\mbf{F}_s, \phi) = \psi^{\text{iso}}_\xi(\bar{\mbf{F}}_s) + \psi^{\text{dis}}_\xi(J_s, \phi)$, which is a specialization of the general $\psi_\xi(\mbf{F}_s, \phi)$ used in the variational principle.
