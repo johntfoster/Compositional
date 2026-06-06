@@ -49,7 +49,7 @@ where $\dv = {\rm d}x_1 {\rm d}x_2 {\rm d}x_3$ is a current-configuration volume
   \dVxi = ({\rm d}X_1)_\xi({\rm d}X_2)_\xi({\rm d}X_3)_\xi.
 \]
 %
-The phase reference coordinates are related to the common current coordinates by a one-to-one, invertible, and continuously differentiable map
+The phase reference coordinates are related to the common current coordinates by a one-to-one, invertible, and continuously differentiable map on the region where that phase is present,
 %
 \[
   \mbf{x} = \bs{\chi}_\xi(\mbf{X}_\xi,t),
@@ -60,6 +60,12 @@ with phase velocity $\mbf{v}_\xi = \partial \bs{\chi}_\xi/\partial t$ and Jacobi
 \[
   J_\xi = \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right).
 \]
+%
+Equivalently, the phase motion is understood on the support
+\[
+  \Omega_\xi(t) = \{\mbf{x}: \phi_\xi(\mbf{x},t)>0\}.
+\]
+When a phase locally disappears, the corresponding balance law is interpreted in its weak extended form with $\phi_\xi=0$ and nonnegative phase volume fraction; phase equilibrium and constitutive relations involving that phase are then imposed only where the phase is present.
 %
 Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial component partial density pulled back to the phase reference coordinates, and let $c^\al_\xi(\mbf{X}_\xi,t)$ denote the cumulative mass of component $\al$ added to phase $\xi$ per unit phase reference volume by reactions and/or phase transformations.  Conservation of mass for component $\al$ in phase $\xi$ over an arbitrary material region can then be written as
 %
