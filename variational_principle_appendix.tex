@@ -246,10 +246,10 @@ The variation of \(h_\xi^\alpha\) is
 \begin{equation}
   \delta h_\xi^\alpha
   = \delta J_\xi
-  + \frac{\phi_{\xi0}\bar\rho_{\xi0} + c_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta^\al_\xi}\,\delta\phi_\xi
-  + \frac{\phi_{\xi0}\bar\rho_{\xi0} + c_\xi^\alpha}{\phi_\xi\bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi
-  + \frac{\phi_{\xi0}\bar\rho_{\xi0} + c_\xi^\alpha}{\phi_\xi\bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta^\al_\xi
-  - \frac{1}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}\,\delta c_\xi^\alpha.
+  + \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta^\alpha_{\xi0} + c_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta^\al_\xi}\,\delta\phi_\xi
+  + \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta^\alpha_{\xi0} + c_\xi^\alpha}{\phi_\xi\bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi
+  + \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta^\alpha_{\xi0} + c_\xi^\alpha}{\phi_\xi\bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta^\al_\xi
+  - \frac{1}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}\,\delta c_\xi^\alpha;
   \label{eq:dh}
 \end{equation}
 %
@@ -266,16 +266,15 @@ Hence
   \notag \\
   &\quad
   + \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \mu_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta_\xi^\alpha}\,\delta\phi_\xi \, {\rm d}V_\xi
+      \mu_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta_\xi^\alpha}\,\delta\phi_\xi \, {\rm d}V_\xi
   \notag \\
   &\quad
   + \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \mu_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi \, {\rm d}V_\xi
+      \mu_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi \, {\rm d}V_\xi
   \notag \\
   &\quad
   + \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \mu_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta_\xi^\alpha \, {\rm d}V_\xi
-  \notag \\
+      \mu_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta_\xi^\alpha \, {\rm d}V_\xi
   &\quad
   - \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
       \frac{\mu_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}\,\delta c_\xi^\alpha \, {\rm d}V_\xi.
