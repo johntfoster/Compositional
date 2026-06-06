@@ -177,21 +177,30 @@ Substituting this representation into \eqref{eq:component_spatial_mass} gives
   \label{eq:spatial_mass_2}
 \end{align}
 %
-Summing over $\alpha$ and using $\sum_\alpha \eta_\xi^\alpha=1$ gives the phase mass balance
+Summing over $\xi$ and using gives the component mass balance for each $\alpha$
 %
 \begin{align}
-  \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi\right)
-  + \nabla_\mbf{x}\cdot\left(\phi_\xi \bar\rho_\xi \mbf{v}_\xi\right)
-  = \sum_\alpha \hat{c}^\al_\xi .
+   \frac{\partial}{\partial t}\left(\sum_\xi \phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
+  + \nabla_\mbf{x}\cdot\left(\sum_\xi \phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
+  = \sum_\xi \hat{c}^\al_\xi .
   \label{eq:phase_spatial_mass}
 \end{align}
 %
-Finally, summing over all phases gives the overall mixture mass balance
+the left hand side of \eqref{eq:phase_spatial_mass} vanishes because it the mass conservation statement for a component $\alpha$.  This implies
+%
+\begin{align}
+  \sum_\xi \hat{c}^\al_\xi = 0,
+  \label{eq:phase_spatial_mass_constraint}
+\end{align}
+%
+is a constriant on the reaction rates and deformations of each component $\alpha$.
+
+Finally, summing over all phases with \eqref{eq:phase_spatial_mass_constraint} gives the overall mixture mass balance
 %
 \begin{align}
   \frac{\partial \rho}{\partial t}
   + \nabla_\mbf{x}\cdot\left(\rho\mbf{v}\right)
-  = \sum_\xi \sum_\alpha \hat{c}^\alpha_\xi,
+  = 0
   \label{eq:overall_mass}
 \end{align}
 %
@@ -210,19 +219,7 @@ Equivalently, the barycentric mixture velocity is
   \mbf{v} = \frac{1}{\rho}\sum_\xi \rho_\xi\mbf{v}_\xi.
 \]
 %
-For reactions and phase transformations internal to the mixture, total mass is neither created nor destroyed.  Therefore the source terms must satisfy
-%
-\begin{align}
-  \sum_\xi \sum_\alpha \hat{c}^\alpha_\xi = 0,
-  \label{eq:overall_mass_constraint}
-\end{align}
-%
-and \eqref{eq:overall_mass} reduces to the conservative mixture mass balance
-%
-\[
-  \frac{\partial \rho}{\partial t}
-  + \nabla_\mbf{x}\cdot\left(\rho\mbf{v}\right) = 0.
-\]
+For reactions and phase transformations internal to the mixture, total mass is neither created nor destroyed.  
 
 \input{variational_principle_appendix.tex}
 

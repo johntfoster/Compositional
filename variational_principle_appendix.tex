@@ -18,7 +18,7 @@ T &= \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \d
   \label{eq:T_def} \\
   U &= \sum_{\xi = \lbrace \xi_s, \xi_f \rbrace} \left[ \int_{\mc{B}_{s 0}} \rho_{\xi_{s0}}\,\psi_{\xi_{s}}(\mbf{F}_{\xi_s}, \bar\rho_{\xi_s}) \,  dV_{\xi_s}
      + \int_{\mc{B}} \rho_{\xi_f}\,\psi_{\xi_f}(\bar\rho_{\xi_f}, \eta^\al_{\xi_f})  \dv \right] \notag \\ 
-    &\qquad + \int_{\mc{B}} \gamma_{oa}(S_a) \,\dv + \int_{\mc{B}} \gamma_{go}(S_g)\,\dv, 
+    &\qquad + \int_{\mc{B}} \gamma(S_a, S_g) \dv, 
   \label{eq:U_def} \\
   \delta W &= \sum_\xi \int_{\mc{B}} \left[(\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi + \sum_\alpha \mc{L}^\alpha_\xi\,\frac{\delta c^\alpha_\xi}{J_\xi}\right] \,\dv,
   \label{eq:W_def} \\
@@ -28,11 +28,11 @@ T &= \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \d
   \label{eq:C2_def} \\
   C_3 &= \sum_\xi \int_{\mc{B}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) \dv,
   \label{eq:C3_def} \\
-  C_4 &= \int_{\mc{B}} \tau \sum_\xi \sum_\alpha \hat{c}^\al_\xi \dv.
+  C_4 &= \sum_\alpha \int_{\mc{B}} \tau^\alpha \sum_\xi  \hat{c}^\al_\xi \dv.
   \label{eq:C4_def}
 \end{align}
 %
-where $\xi_s$ is the subset of $\xi$ of single-component immicible solid phases, e.g.\ $\xi_s = \lbrace A, B \rbrace$ where $A$ is a reactant and $B$ is a solid product. $\xi_f = \lbrace a, o, g \rbrace$ are the mobile aqueous, oeliec, and gas phases.  The Helmholtz free energies are $\psi_{\xi_s}$, $\psi_{\xi_f}$.  The interaction forces satisfy $\sum_\xi \mbf{b}_\xi = \mbf{0}$, and $\mc{L}^\alpha_\xi$ is a generalized force conjugate to mass transfer (identified later via Coleman--Noll).  The Lagrange multipliers~$\lambda$, $\mu^\alpha_\xi$, $\pi_\xi$, and~$\tau$ enforce the volume fraction constraint, component mass conservation, component mass partitioning within a phase, and mixture mass balance, respectively. Temperature is not treated as a kinematic variable in the variational principle; any thermal constitutive restrictions are deferred to the mixture entropy inequality.
+where $\xi_s$ is the subset of $\xi$ of single-component immicible solid phases, e.g.\ $\xi_s = \lbrace A, B \rbrace$ where $A$ is a reactant and $B$ is a solid product. $\xi_f = \lbrace a, o, g \rbrace$ are the mobile aqueous, oeliec, and gas phases.  The Helmholtz free energies are $\psi_{\xi_s}$, $\psi_{\xi_f}$.  The interaction forces satisfy $\sum_\xi \mbf{b}_\xi = \mbf{0}$, and $\mc{L}^\alpha_\xi$ is a generalized force conjugate to mass transfer (identified later via Coleman--Noll).  The Lagrange multipliers~$\lambda$, $\mu^\alpha_\xi$, $\pi_\xi$, and~$\tau^\alpha$ enforce the volume fraction constraint, component mass conservation, component mass partitioning within a phase, and component-wise mixture mass balance, respectively. Temperature is not treated as a kinematic variable in the variational principle; any thermal constitutive restrictions are deferred to the mixture entropy inequality.
 
 We treat $\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho_\xi$, and $c_\xi^\alpha$ as independent fields (subject to constraints) and compute the variations in what follows.
 
@@ -355,13 +355,13 @@ Using $\dv = J_\xi {\rm d}V_\xi$, the individual contributions push forward as f
 The first line vanishes on the constraint surface $\sum_\alpha\eta_\xi^\alpha = 1$ and recovers it as an Euler--Lagrange equation.  The second line contributes $\pi_\xi$ to each $\delta\eta_\xi^\alpha$ Euler--Lagrange equation.
 
 % ============================================================
-\subsection{Variation of constraint $C_4$: global mass conservation}
+\subsection{Variation of constraint $C_4$: component-wise mass conservation}
 \label{sec:var_C4_app}
 % ============================================================
 
 Recalling
 \begin{equation}
-  C_4 = \int_{\mc{B}} \tau \sum_\xi \sum_\alpha \frac{\dot{c}^\alpha_\xi}{J_\xi}  \,\dv,
+  C_4 = \sum_\alpha \int_{\mc{B}} \tau^\alpha \sum_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi}  \,\dv,
   \label{eq:c4_var}
 \end{equation}
 %
@@ -382,13 +382,12 @@ Now expanding the collection and computing the local variations
    &=  \frac{\delta \dot{c}^\alpha_\xi}{J_\xi}  - \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x}_\xi \notag \\
 \end{align}
 %
-
 Computing the variation of the first term in \eqref{eq:c4_var} gives
 \begin{align}
-  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau \left.\delta\hat{c}^\alpha_\xi \right\vert_{\mbf x} \dv \dt 
-  &=  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha  \frac{\tau}{J_\xi} \delta \dot{c}^\alpha_\xi - \tau \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x} - \tau \nabla_{\mbf{x}} \hat{c}^\alpha_\xi \cdot \delta\mbf{x}_\xi \dv \dt \notag \\
-   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \frac{\tau }{J_\xi} \delta \dot{c}^\alpha_\xi  - \tau \nabla_\mbf{x} \cdot \left(\hat{c}^\alpha_\xi \delta \mbf{x}_\xi \right) \dv \dt \notag \\
-   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha  - \frac{D_\xi \tau}{Dt}\frac{\delta c^\alpha_\xi}{J_\xi}  + \frac{\dot{c}^\alpha_\xi}{J_\xi} \nabla_{\mbf x} \tau \cdot  \delta \mbf{x}_\xi  \dv \dt + \text{b.t.}
+  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau^\al \left.\delta\hat{c}^\alpha_\xi \right\vert_{\mbf x} \dv \dt 
+  &=  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha  \frac{\tau^\al}{J_\xi} \delta \dot{c}^\alpha_\xi - \tau^\al \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x} - \tau^\al \nabla_{\mbf{x}} \hat{c}^\alpha_\xi \cdot \delta\mbf{x}_\xi \dv \dt \notag \\
+   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \frac{\tau^\al }{J_\xi} \delta \dot{c}^\alpha_\xi  - \tau^\al \nabla_\mbf{x} \cdot \left(\hat{c}^\alpha_\xi \delta \mbf{x}_\xi \right) \dv \dt \notag \\
+   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha  - \frac{D_\xi \tau^\al}{Dt}\frac{\delta c^\alpha_\xi}{J_\xi}  + \frac{\dot{c}^\alpha_\xi}{J_\xi} \nabla_{\mbf x} \tau^\al \cdot  \delta \mbf{x}_\xi  \dv \dt + \text{b.t.}
    \label{eq:c4_term1}
 \end{align}
 %
@@ -406,14 +405,14 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
     + \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi_s} + \rho_{\xi_s}\mbf{g} + \mbf{b}_{\xi_s}
     - \lambda\nabla_{\mbf{x}}\phi_{\xi_s}
     - \sum_\alpha\nabla_{\mbf{x}}\mu_{\xi_s}^\alpha
-    + \sum_\alpha \hat{c}_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_{\xi_s}\right)
+    + \sum_\alpha \hat{c}_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_{\xi_s}\right)
   \Bigg]\cdot\delta\mbf{x}_{\xi_s} \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
     -\rho_a\mbf{a}_a 
     + \rho_a\mbf{g} + \mbf{b}_a
     - \lambda\nabla_{\mbf{x}}\phi_a
     - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
-    + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_a\right)
+    + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
     + \left(p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a
   \Bigg]\cdot\delta\mbf{x}_a \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
@@ -421,7 +420,7 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
     + \rho_o\mbf{g} + \mbf{b}_o
     - \lambda\nabla_{\mbf{x}}\phi_o
     - \sum_\alpha\nabla_{\mbf{x}}\mu_o^\alpha
-    + \sum_\alpha \hat{c}_o^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_o\right)
+    + \sum_\alpha \hat{c}_o^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_o\right)
     - \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o
   \Bigg]\cdot\delta\mbf{x}_o \,\dv \notag \\
   &+ \int_{\mc{B}} \Bigg[
@@ -429,7 +428,7 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
     + \rho_g\mbf{g} + \mbf{b}_g
     - \lambda\nabla_{\mbf{x}}\phi_g
     - \sum_\alpha\nabla_{\mbf{x}}\mu_g^\alpha
-    + \sum_\alpha \hat{c}_g^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_g\right)
+    + \sum_\alpha \hat{c}_g^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_g\right)
     + \left(-p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g
   \Bigg]\cdot\delta\mbf{x}_g \,\dv \notag \\
 &+ \sum_{\xi_s} \int_{\mc{B}} \Bigg[
@@ -462,12 +461,12 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
   \Bigg] \delta\eta^\alpha_\xi \,\dv \notag \\
   &+ \sum_{\xi_s}\sum_\alpha \int_{\mc{B}} \Bigg[
     \tfrac{1}{2}\mbf{v}_{\xi_s}\cdot\mbf{v}_{\xi_s} + \mc{L}^\alpha_{\xi_s}
-    - \frac{D_{\xi_s}\tau}{Dt}
-    - \frac{\mu_{\xi_s}^\alpha}{\phi_{\xi_s}\bar\rho_{\xi_s}}
+    - \frac{D_{\xi_s}\tau^\al}{Dt}
+    - \frac{\mu_{\xi_s}^\alpha}{\phi_{\xi_s}\bar\rho_{\xi_s}\eta_{\xi_s}^\alpha}
   \Bigg] \frac{\delta c^\alpha_{\xi_s}}{J_{\xi_s}} \,\dv \notag \\
   &+ \sum_{\xi_f}\sum_\alpha \int_{\mc{B}} \Bigg[
     \tfrac{1}{2}\mbf{v}_{\xi_f}\cdot\mbf{v}_{\xi_f} + \mc{L}^\alpha_{\xi_f} + \psi_{\xi_f}
-    - \frac{D_{\xi_f}\tau}{Dt}
+    - \frac{D_{\xi_f}\tau^\al}{Dt}
     - \frac{\mu_{\xi_f}^\alpha}{\phi_{\xi_f}\bar\rho_{\xi_f}\eta_\xi^\alpha}
   \Bigg] \frac{\delta c^\alpha_{\xi_f}}{J_{\xi_f}} \,\dv + \text{boundary terms}.
   \label{eq:collected_full}
@@ -489,7 +488,7 @@ Subsitituting \eqref{eq:el_lambda} into the Euler-Lagrange equations associated 
     \rho_{\xi_s}\mbf{a}_{\xi_s} =
     \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi_s} + \rho_{\xi_s}\mbf{g} + \mbf{b}_{\xi_s}
     + \phi_{\xi_s} \nabla_{\mbf{x}}\lambda
-    + \sum_\alpha \hat{c}_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_{\xi_s}\right)
+    + \sum_\alpha \hat{c}_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_{\xi_s}\right)
 \end{equation}
 
 Next, we rearrange the Euler-Lagrange associated with arbitrary $\delta \bar\rho_{\xi_f}$ and define
@@ -543,15 +542,16 @@ The Euler--Lagrange equations associated with arbitrary $\delta c_\xi^\alpha$
 come from the final two terms in the collected variational principle.  For the
 solid phases, arbitrariness of each $\delta c_{\xi_s}^\alpha$ gives
 \begin{equation}
-  \frac{D_{\xi_s}\tau}{Dt} = \tfrac{1}{2}\mbf{v}_{\xi_s}\cdot\mbf{v}_{\xi_s}
-  + \mc{L}_{\xi_s}
-  - \frac{\lambda}{\bar\rho_{\xi_s}},
+  \frac{D_{\xi_s}\tau^\al}{Dt} = \frac{1}{2}\mbf{v}_{\xi_s}\cdot\mbf{v}_{\xi_s}
+  + \mc{L}^\al_{\xi_s}
+  - \frac{\mu^\alpha_{\xi_s}}{\phi_{\xi_s} \bar\rho_{\xi_s}\eta_{\xi_s}^\alpha},
   \qquad \xi_s\in\{A,B, \ldots \},
   \label{eq:el_c_solid}
 \end{equation}
-where, $\mc{L}_{\xi_s} = \sum_{\alpha = \{ 1 \}} \mc{L}^\alpha_{\xi_s}$ by designiation, solids only have a single component. For the mobile phases,
+%
+For the mobile phases,
 \begin{equation}
-   \frac{D_{\xi_f}\tau}{Dt}
+   \frac{D_{\xi_f}\tau^\al}{Dt}
   = \tfrac{1}{2}\mbf{v}_{\xi_f}\cdot\mbf{v}_{\xi_f}
   + \mc{L}^\alpha_{\xi_f} + \psi_{\xi_f}
   - \frac{\mu_{\xi_f}^\alpha}{\phi_{\xi_f}\bar\rho_{\xi_f}\eta_{\xi_f}^\alpha},
@@ -561,9 +561,36 @@ where, $\mc{L}_{\xi_s} = \sum_{\alpha = \{ 1 \}} \mc{L}^\alpha_{\xi_s}$ by desig
 These equations are the stationarity conditions conjugate to component mass
 addition or removal.  The index $\alpha$ is not summed in
 \eqref{eq:el_c_solid}--\eqref{eq:el_c_mobile}; rather, each component transfer
-variation gives its own scalar balance.  The remaining summation in
-\eqref{eq:el_c_solid} is inherited from the solid component mass constraint and
-is a sum over the solid-phase component multipliers.
+variation gives its own scalar balance.  For a single-component solid,
+$\eta_{\xi_s}^\alpha=1$ in \eqref{eq:el_c_solid}.
+
+It is useful to define the phase-specific generalized transfer potential for
+component $\alpha$ by
+\begin{equation}
+  \mc{A}_\xi^\alpha
+  \equiv \frac{D_\xi\tau^\alpha}{Dt}.
+  \label{eq:generalized_transfer_potential_def}
+\end{equation}
+Equations~\eqref{eq:el_c_solid}--\eqref{eq:el_c_mobile} then give explicit
+constitutive expressions for $\mc{A}_\xi^\alpha$ in each phase.  Interphase
+equilibrium for a component is the absence of a thermodynamic driving force for
+moving that component between any two present phases, i.e.\
+\begin{equation}
+  \mc{A}_a^\alpha = \mc{A}_o^\alpha = \mc{A}_g^\alpha
+  \qquad \text{for each present component }\alpha.
+  \label{eq:transfer_potential_equilibrium}
+\end{equation}
+In the local homogeneous, inertialess equilibrium limit, the material derivatives
+$D_\xi\tau^\alpha/Dt$ are common to all present phases and may be taken to vanish
+up to an arbitrary additive gauge for $\tau^\alpha$.  With the Coleman--Noll
+identification of the transfer work coefficient $\mc{L}_\xi^\alpha$ and a
+thermodynamically consistent phase free energy, the equality
+\eqref{eq:transfer_potential_equilibrium} reduces to equality of the ordinary
+component chemical potentials, equivalently equality of component fugacities.
+Thus the usual flash equilibrium equations are recovered as the local-equilibrium
+specialization of the $\tau^\alpha$ stationarity conditions, while
+\eqref{eq:el_c_solid}--\eqref{eq:el_c_mobile} also define non-equilibrium
+component-transfer driving forces.
 
 Using the pressure definition along with the Euler-Lagrange equations associated with the arbitrary $\delta \phi_{f}$ and the definitions of saturations introduced earlier gives three equations
 %
@@ -611,7 +638,7 @@ principle, the coefficient of $\delta\mbf{x}_a$ gives
   &= \rho_a\mbf{g} + \mbf{b}_a
   - \lambda\nabla_{\mbf{x}}\phi_a
   - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
-  + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_a\right)
+  + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
   + \left[(1-S_a)p_{c,oa} - S_g p_{c,og}\right]\nabla_{\mbf{x}}\phi_a .
   \label{eq:el_mom_a_start}
 \end{align}
@@ -621,7 +648,7 @@ definition of the mobile phase pressure, this becomes
   \rho_a\mbf{a}_a
   &= \rho_a\mbf{g} + \mbf{b}_a
   - \nabla_{\mbf{x}}(\phi_a\bar p_a)
-  + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_a\right)
+  + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
   + \left[(1-S_a)p_{c,oa} - S_g p_{c,og} - \lambda\right]\nabla_{\mbf{x}}\phi_a .
   \label{eq:el_mom_a_mu_sub}
 \end{align}
@@ -641,10 +668,10 @@ the aqueous phase momentum balance reduces to
   &= \rho_a\mbf{g} + \mbf{b}_a
   - \nabla_{\mbf{x}}(\phi_a\bar p_a)
   + \bar p_a\nabla_{\mbf{x}}\phi_a
-  + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_a\right) \notag \\
+  + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right) \notag \\
   &= \rho_a\mbf{g} + \mbf{b}_a
   - \phi_a\nabla_{\mbf{x}}\bar p_a
-  + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_a\right).
+  + \sum_\alpha \hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right).
   \label{eq:el_mom_a_simplified}
 \end{align}
 Similarly, for the oleic and gas phases, the capillary terms and the
@@ -655,12 +682,12 @@ balances
   \rho_o\mbf{a}_o
   &= \rho_o\mbf{g} + \mbf{b}_o
   - \phi_o\nabla_{\mbf{x}}\bar p_o
-  + \sum_\alpha \hat{c}_o^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_o\right),
+  + \sum_\alpha \hat{c}_o^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_o\right),
   \label{eq:el_mom_o_simplified} \\
   \rho_g\mbf{a}_g
   &= \rho_g\mbf{g} + \mbf{b}_g
   - \phi_g\nabla_{\mbf{x}}\bar p_g
-  + \sum_\alpha \hat{c}_g^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_g\right).
+  + \sum_\alpha \hat{c}_g^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_g\right).
   \label{eq:el_mom_g_simplified}
 \end{align}
 
