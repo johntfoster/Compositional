@@ -61,16 +61,10 @@ with phase velocity $\mbf{v}_\xi = \partial \bs{\chi}_\xi/\partial t$ and Jacobi
   J_\xi = \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right).
 \]
 %
-Equivalently, the phase motion is understood on the support
-\[
-  \Omega_\xi(t) = \{\mbf{x}: \phi_\xi(\mbf{x},t)>0\}.
-\]
-When a phase locally disappears, the corresponding balance law is interpreted in its weak extended form with $\phi_\xi=0$ and nonnegative phase volume fraction; phase equilibrium and constitutive relations involving that phase are then imposed only where the phase is present.
-%
-Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial component partial density pulled back to the phase reference coordinates, and let $c^\al_\xi(\mbf{X}_\xi,t)$ denote the cumulative mass of component $\al$ added to phase $\xi$ per unit phase reference volume by reactions and/or phase transformations.  Conservation of mass for component $\al$ in phase $\xi$ over an arbitrary material region can then be written as
+Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial component partial density pulled back to the phase reference coordinates, let $c^\al_\xi(\mbf{X}_\xi,t)$ denote the cumulative mass of component $\al$ added to phase $\xi$ per unit phase reference volume by phase transformations, and let $r^\al_\xi(\mbf{X}_\xi,t)$ denote the cumulative mass of component $\alpha$ added by chemical reactions.  Conservation of mass for component $\al$ in phase $\xi$ over an arbitrary material region can then be written as
 %
 \begin{align}
-  \int_{\mc{B}_{\xi 0}} \left(\rho_{\xi 0}^\al + c^\al_\xi\right)\dVxi
+  \int_{\mc{B}_{\xi 0}} \left(\rho_{\xi 0}^\al + c^\al_\xi + r^\al_\xi\right)\dVxi
   &= \int_{\mc{B}} \rho_\xi^\al {\rm d}v \notag \\
   &= \int_{\mc{B}_{\xi 0}} \rho_{\xi}^\al J_\xi \dVxi .
   \label{eq:material_mass}
@@ -79,17 +73,17 @@ Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial component partial density 
 Here $\mc{B}$ is the common current mixture region corresponding, through the phase-$\xi$ map, to the phase reference region $\mc{B}_{\xi0}$.  Since \eqref{eq:material_mass} must hold for arbitrary $\mc{B}_{\xi0}$,
 %
 \begin{equation}
-  \rho_{\xi 0}^\alpha + c^\alpha_\xi = \rho_\xi^\alpha J_\xi.
+  \rho_{\xi 0}^\alpha + c^\alpha_\xi + r^\alpha_\xi = \rho_\xi^\alpha J_\xi.
   \label{eq:material_mass_2}
 \end{equation}
 %
 Taking the material time derivative following phase $\xi$ gives
 %
 \begin{equation}
-  \frac{D_\xi}{Dt}\left(\rho_\xi^\alpha J_\xi\right) = \dot{c}^\alpha_\xi,
+  \frac{D_\xi}{Dt}\left(\rho_\xi^\alpha J_\xi\right) = \dot{c}^\alpha_\xi + \dot r^\alpha_\xi,
 \end{equation}
 %
-where $\dot{c}^\alpha_\xi = D_\xi c^\alpha_\xi/Dt$.  Using
+where $\dot{c}^\alpha_\xi = D_\xi c^\alpha_\xi/Dt$ and $\dot r^\alpha_\xi = D_\xi r^\alpha_\xi/Dt$.  Using
 %
 \[
   \frac{D_\xi J_\xi}{Dt} = J_\xi \nabla_\mbf{x}\cdot\mbf{v}_\xi,
@@ -100,14 +94,16 @@ we obtain
 \begin{align}
   \frac{D_\xi \rho_\xi^\alpha}{Dt}
   + \rho_\xi^\alpha \nabla_\mbf{x}\cdot\mbf{v}_\xi
-  &= \frac{\dot{c}^\alpha_\xi}{J_\xi} .
+  &= \frac{\dot{c}^\alpha_\xi + \dot r^\alpha_\xi}{J_\xi} .
   \label{eq:component_material_mass}
 \end{align}
 %
-We define the current production rate per unit current mixture volume by
+We define the current production rates per unit current mixture volume by
 %
 \[
-  \hat{c}^\al_\xi(\mbf{x},t) = \frac{\dot{c}^\al_\xi}{J_\xi}.
+  \hat{c}^\al_\xi(\mbf{x},t) = \frac{\dot{c}^\al_\xi}{J_\xi},
+  \qquad
+  \hat r^\al_\xi(\mbf{x},t) = \frac{\dot r^\al_\xi}{J_\xi}.
 \]
 %
 The material time derivative of a quantity $\square_\xi$ following the velocity of phase $\zeta$ is
@@ -123,9 +119,10 @@ and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the deriva
 \begin{align}
   \frac{\partial \rho_\xi^\alpha}{\partial t}
   + \nabla_\mbf{x}\cdot\left(\rho_\xi^\alpha\mbf{v}_\xi\right)
-  = \hat{c}^\alpha_\xi .
+  = \hat{c}^\alpha_\xi + \hat r^\alpha_\xi .
   \label{eq:component_spatial_mass}
 \end{align}
+%
 %
 Now introduce the phase partial density
 %
@@ -173,7 +170,7 @@ Substituting this representation into \eqref{eq:component_spatial_mass} gives
 \begin{align}
   \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
   + \nabla_\mbf{x}\cdot\left(\phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
-  = \hat{c}^\alpha_\xi .
+  = \hat{c}^\alpha_\xi + \hat r^\alpha_\xi .
   \label{eq:spatial_mass_2}
 \end{align}
 %
@@ -182,25 +179,25 @@ Summing over $\xi$ and using gives the component mass balance for each $\alpha$
 \begin{align}
    \frac{\partial}{\partial t}\left(\sum_\xi \phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
   + \nabla_\mbf{x}\cdot\left(\sum_\xi \phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
-  = \sum_\xi \hat{c}^\al_\xi .
+  = \sum_\xi \left(\hat{c}^\al_\xi + \hat r^\al_\xi\right) .
   \label{eq:phase_spatial_mass}
 \end{align}
 %
-The right-hand side of \eqref{eq:phase_spatial_mass} distinguishes phase transformations from reactions.  In the present notation, transfer with fixed component index $\alpha$ and changing phase index $\xi$ is interpreted as interphase transfer or phase transformation of the same component.  For example, transfer of component $1$ from phase $A$ to phase $B$ has $\hat c_A^1=-r$ and $\hat c_B^1=r$, so the phase-summed source for that component vanishes.  Thus, for pure phase transformation of a conserved component $\alpha$,
+in the absence of reactions, i.e. $\hat{r}^\al_\xi = 0$ we expect the left-hand side of \eqref{eq:phase_spatial_mass} to vanish as it is a statement of component conservation of mass. For example, transfer of component $1$ from phase $A$ to phase $B$ has $\hat c_A^1=-Y$ and $\hat c_B^1=Y$, so the phase-summed source for that component vanishes.  Thus, for pure phase transformation of a conserved component $\alpha$,
 %
 \begin{align}
   \sum_\xi \hat{c}^\al_\xi = 0.
   \label{eq:phase_spatial_mass_constraint}
 \end{align}
 %
-By contrast, a chemical reaction changes component identity, e.g.\ transfer from $c_A^1$ to $c_B^2$, and therefore generally has $\sum_\xi \hat c_\xi^\alpha \neq 0$ for the individual reacting components.  Reaction source terms must instead satisfy the appropriate stoichiometric conservation laws, such as total mass or elemental conservation.
+By contrast, a chemical reaction changes component identity, e.g.\ transfer from $r_A^1$ to $r_B^2$, and therefore generally has $\sum_\xi \hat r_\xi^\alpha \neq 0$ for the individual reacting components.  Reaction source terms must instead satisfy the appropriate stoichiometric conservation laws, such as total mass or elemental conservation.
 
-Finally, summing over all phases and components with the appropriate internal conservation constraints gives the overall mixture mass balance
+Summing \eqref{eq:phase_spatial_mass} over all phases and components with \eqref{eq:phase_spatial_mass_constraint} gives the overall mixture mass balance
 %
 \begin{align}
   \frac{\partial \rho}{\partial t}
   + \nabla_\mbf{x}\cdot\left(\rho\mbf{v}\right)
-  = 0
+  = \sum_\xi \sum_\alpha \hat{r}^\alpha_\xi
   \label{eq:overall_mass}
 \end{align}
 %
@@ -219,7 +216,14 @@ Equivalently, the barycentric mixture velocity is
   \mbf{v} = \frac{1}{\rho}\sum_\xi \rho_\xi\mbf{v}_\xi.
 \]
 %
-For reactions and phase transformations internal to the mixture, total mass is neither created nor destroyed.  
+The left-hand side \eqref{eq:overall_mass} is a statement of conservation of mass of the mixture and must vanish, this give another constraint.
+%
+\begin{align}
+  \sum_\xi \sum_\alpha \hat{r}^\alpha_\xi = 0
+  \label{eq:overall_mass_constraint}
+\end{align}
+%
+In words, this means that for reactions internal to the mixture, total mass is neither created nor destroyed.  
 
 \input{variational_principle_appendix.tex}
 
