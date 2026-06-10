@@ -16,11 +16,10 @@ with kinetic energy, internal energy, virtual work, and five constraints:
 \begin{align}
 T &= \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \dv,
   \label{eq:T_def} \\
-  U &= \sum_{\xi = \lbrace \xi_s, \xi_f \rbrace} \left[ \int_{\mc{B}_{s 0}} \rho_{\xi_{s0}}\,\psi_{\xi_{s}}(\mbf{F}_{\xi_s}, \bar\rho_{\xi_s}) \,  dV_{\xi_s}
-     + \int_{\mc{B}} \rho_{\xi_f}\,\psi_{\xi_f}(\bar\rho_{\xi_f}, \eta^\al_{\xi_f})  \dv \right] \notag \\ 
-    &\qquad + \int_{\mc{B}} \gamma(S_a, S_g) \dv, 
+  U &= \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \eta^\beta_{\xi})\dv
+    + \int_{\mc{B}} \phi\,\gamma(S_a, S_g) \dv, 
   \label{eq:U_def} \\
-  \delta W &= \sum_\xi \int_{\mc{B}} \left[(\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi + \sum_\alpha \left(\mc{L}^{\alpha}_{\xi c}\,\frac{\delta c^\alpha_\xi}{J_\xi} + \mc{L}^{\alpha}_{\xi r}\,\frac{\delta r^\alpha_\xi}{J_\xi}\right)\right] \,\dv,
+  \delta W &= \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv,
   \label{eq:W_def} \\
   C_1 &= \int_{\mc{B}} \lambda\left(\sum_\xi\phi_\xi - 1\right) \,\dv,
   \label{eq:C1_def} \\
@@ -34,6 +33,9 @@ T &= \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \d
   \label{eq:C5_def}
 \end{align}
 %
+No separate virtual-work coefficient is assigned to phase-transformation or
+reaction mass addition.  Their reversible energetic contributions are included
+through the density-weighted free energy.
 
 We treat $\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho_\xi$, $c_\xi^\alpha$, and $r_\xi^\alpha$ as independent fields (subject to constraints) and compute the variations in what follows.
 
@@ -70,42 +72,53 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 \end{equation}
 
 % ============================================================
-\subsection{Variation of the solid internal energy}
-\label{sec:var_Us_F}
+\subsection{Variation of the phase free energies}
+\label{sec:var_Uxi}
 % ============================================================
 
-The solid contribution is most naturally written over the phase reference measures ${\rm d}V_{\xi_s}$. Accordingly,
-%
-\begin{align}
-  \delta U_{\xi_s} = \sum_{\xi_s} \int_{\mc{B}_{\xi_{s0}}} \rho_{\xi_{s0}} \left[\left.\p{\psi_{\xi_s}}{\mbf{F}_{\xi_{s0}}}\right\vert_{\bar\rho_{\xi_s}} \delta \mbf{F}_{\xi_{s}} 
-   + \left.\p{\psi_{\xi_s}}{\bar\rho_{\xi_s}}\right\vert_{\mbf{F}_{\xi_s}} \delta \bar\rho_{\xi_s} 
-  \right] {\rm d}V_{\xi_s}.
-  \label{eq:deltaU_solid}
-\end{align}
-%
-The pushed-forward form of \eqref{eq:deltaU_solid} is
-%
-\begin{align}
-  \delta U_{\xi_s} = \sum_{\xi_s}\int_{\mc{B}} 
-    \rho_{\xi_s}\left.\p{\psi_{\xi_s}}{\bar\rho_{\xi_s}}\right\vert_{\mbf{F}_{\xi_s}} \delta \bar\rho_{\xi_s}
-    - \sum_\al \frac{c^\al_{\xi_s}+r^\al_{\xi_s}}{J_{\xi_s}}\left.\p{\psi_s}{\bar\rho_{\xi_s}}\right\vert_{\mbf{F}_{\xi_s}} \delta\bar\rho_{\xi_s}
-    - \nabla_{\mbf x} \cdot \bs{\sigma}^\prime_{\xi_s} \cdot \delta \mbf{x}_{\xi_{s}}
-   \dv.
-  \label{eq:deltaU_solid_push}
-\end{align}
-where we've integrated by parts gives to get the standard stress divergence, i.e.\
-%
+For every phase, solid or mobile, write the phase Helmholtz free energy in the
+same current density-weighted form,
 \begin{equation}
-  \int_{\mc{B}_{\xi_{s0}}} \rho_{\xi_{s 0}}\,\left.\p{\psi_{\xi_s}}{\mbf{F}_{\xi_s}}\right\vert_{\bar\rho_{\xi_s}} \delta \mbf{F}_{\xi_s} {\rm d}V_{\xi_s} = -\int_{\mc{B}} \nabla_{\mbf{x}} \cdot \bs\sigma'_{\xi_s} \cdot \delta\mbf{x}_{\xi_s} \dv + \text{boundary terms},
-  \label{eq:stress_variation}
+  U_\xi=\int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^\beta)\,\dv .
+  \label{eq:U_xi_uniform}
 \end{equation}
-%
-where the Terzaghi effective Cauchy stress\footnote{i.e.\ density held fixed} is defined as
-%
+The constitutive dependence on $\mbf F_\xi$ may be trivial for mobile phases,
+but keeping it in the notation allows one calculation for all phases.  The local
+free-energy variation is
 \begin{align}
-  \bs\sigma'_{\xi_s} \equiv  \frac{1}{J_{\xi_s}} \rho_{\xi_{s0}}\left.\p{\psi_s}{\mbf{F}_{\xi_s}}\right\vert_{\bar\rho_{\xi_s}}\, \mbf{F}_{\xi_s}^T
+  \delta\psi_\xi
+  &= \left.\p{\psi_\xi}{\mbf F_\xi}\right\vert_{\bar\rho_\xi,\eta_\xi^\beta}:\delta\mbf F_\xi
+   + \left.\p{\psi_\xi}{\bar\rho_\xi}\right\vert_{\mbf F_\xi,\eta_\xi^\beta}\delta\bar\rho_\xi
+   + \sum_\alpha
+  \left.\p{\psi_\xi}{\eta_\xi^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha}}
+  \delta\eta_\xi^\alpha .
+  \label{eq:delta_psi_uniform}
+\end{align}
+Using \eqref{eq:bd128_mod}, integrating the $\delta\mbf F_\xi$ term by parts,
+and collecting independent variations gives
+\begin{align}
+  \delta U_\xi
+  &= \sum_\xi\int_{\mc B}\Bigg[
+    -\nabla_{\mbf x}\cdot\bs\sigma'_\xi\cdot\delta\mbf x_\xi
+    + \rho_\xi\left.\p{\psi_\xi}{\bar\rho_\xi}\right\vert_{\mbf F_\xi,\eta_\xi^\beta}\delta\bar\rho_\xi \notag\\
+  &\qquad
+    + \sum_\alpha \rho_\xi\left.\p{\psi_\xi}{\eta_\xi^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha}}\delta\eta_\xi^\alpha
+    + \sum_\alpha \psi_\xi\frac{\delta c_\xi^\alpha+\delta r_\xi^\alpha}{J_\xi}
+  \Bigg]\dv + \text{boundary terms}.
+  \label{eq:deltaU_uniform}
+\end{align}
+The corresponding current stress is
+\begin{align}
+  \bs\sigma'_\xi
+  \equiv \rho_\xi\left.\p{\psi_\xi}{\mbf F_\xi}\right\vert_{\bar\rho_\xi,\eta_\xi^\beta}\mbf F_\xi^T .
   \label{eq:var_cauchy_def}
 \end{align}
+For mobile phases this term vanishes when $\psi_\xi$ has no dependence on
+$\mbf F_\xi$.  For a solid pulled back to its reference configuration for
+computation, one may introduce $W_{\xi_s}=J_{\xi_s}\rho_{\xi_s}\psi_{\xi_s}$ and
+$\mbf P_{\xi_s}=J_{\xi_s}\bs\sigma'_{\xi_s}\mbf F_{\xi_s}^{-T}
+=\partial W_{\xi_s}/\partial\mbf F_{\xi_s}$ for the corresponding classical
+reference energy density.
 
 
 
@@ -122,92 +135,74 @@ With three mobile phases (aqueous, oleic, and gas), let
   \qquad
   S_g = \frac{\phi_g}{\phi},
 \]
-so that $S_o = 1-S_a-S_g = \phi_o/\phi$.  We take the interfacial energy to be generated by a three-phase capillary potential,
+so that $S_o = 1-S_a-S_g = \phi_o/\phi$.  The saturations are used here only as
+ratios of the primitive volume-fraction fields; the variations are still taken
+with respect to $\phi_a$, $\phi_o$, and $\phi_g$.  We specialize the interfacial energy density to
 \[
-  U_\gamma = \int_{\mc{B}} \gamma(S_a,S_g)\,\dv,
+  U_\gamma = \int_{\mc{B}} \phi\,\gamma\!\left(S_a,S_g\right)\,\dv.
 \]
-which introduces two independent capillary pressures,
+Following the saturation-based capillary-pressure construction used for the
+two-mobile-phase case, but now taking oil as the reference mobile phase, define
 \begin{equation}
-  p_{c,oa} \equiv -\frac{1}{\phi}\frac{\partial\gamma}{\partial S_a} > 0,
+  p_{c,oa} \equiv -\frac{\partial \gamma}{\partial S_a},
   \qquad
-  p_{c,og} \equiv -\frac{1}{\phi}\frac{\partial\gamma}{\partial S_g} > 0.
+  p_{c,og} \equiv -\frac{\partial \gamma}{\partial S_g} .
   \label{eq:pc_def}
 \end{equation}
-The existence of the scalar potential $\gamma(S_a,S_g)$ imposes the corresponding integrability condition on admissible capillary pressure closures,
+Here $p_{c,oa}=\bar p_o-\bar p_a$ is the oil--aqueous capillary pressure and
+$p_{c,og}=\bar p_o-\bar p_g$ is the additional oil--gas capillary pressure.
+Using $\delta\phi=\delta\phi_a+\delta\phi_o+\delta\phi_g$ and
 \[
-  \frac{\partial}{\partial S_g}\left(\phi p_{c,oa}\right)
-  =
-  \frac{\partial}{\partial S_a}\left(\phi p_{c,og}\right),
-\]
-with the derivatives taken at fixed $\phi$.
-Using
-\[
-  \delta S_a = \frac{\phi_o+\phi_g}{\phi^2}\,\delta\phi_a - \frac{\phi_a}{\phi^2}(\delta\phi_o+\delta\phi_g),
+  \delta S_a=\frac{\delta\phi_a-S_a\delta\phi}{\phi},
   \qquad
-  \delta S_g = \frac{\phi_a+\phi_o}{\phi^2}\,\delta\phi_g - \frac{\phi_g}{\phi^2}(\delta\phi_a+\delta\phi_o),
+  \delta S_g=\frac{\delta\phi_g-S_g\delta\phi}{\phi},
 \]
-together with the inter-component variation identity for the spatial fields, the variation of the interfacial energy contributes
+the algebraic part of the interfacial variation can be written as
+\begin{align}
+  \delta\!\left(\phi\gamma\right)
+  &= \gamma\,\delta\phi
+     + \frac{\partial\gamma}{\partial S_a}\left(\delta\phi_a-S_a\delta\phi\right)
+     + \frac{\partial\gamma}{\partial S_g}\left(\delta\phi_g-S_g\delta\phi\right) \notag\\
+  &= \gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g,
+\end{align}
+where
+\begin{align}
+  \gamma_o &= \gamma + S_a p_{c,oa}+S_g p_{c,og}, \notag\\
+  \gamma_a &= \gamma_o-p_{c,oa}, \notag\\
+  \gamma_g &= \gamma_o-p_{c,og}.
+  \label{eq:primitive_gamma_derivatives}
+\end{align}
+Consequently the capillary pressures are the oil-referenced differences of the
+primitive interfacial potentials,
+\begin{equation}
+  p_{c,oa} \equiv \bar p_o-\bar p_a \equiv \gamma_o-\gamma_a,
+  \qquad
+  p_{c,og} \equiv \bar p_o-\bar p_g \equiv \gamma_o-\gamma_g .
+\end{equation}
+
+The spatial fields must be varied using the inter-species transport identity.
+For the phase displacement $\delta\mbf x_\xi$, the volume-fraction variation
+contains the transported part
+\[
+  \delta_x\phi_\xi = -\nabla_{\mbf x}\cdot(\phi_\xi\delta\mbf x_\xi),
+\]
+in addition to the independent coefficient variation used in the algebraic
+Euler--Lagrange equations.  Consequently,
 \begin{align}
   \delta U_\gamma
-  &= \int_{\mc{B}} \Bigg[
-      \left(-p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\delta\phi_a \notag \\
-  &\qquad\qquad
-      + \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\delta\phi_o \notag \\
-  &\qquad\qquad
-      + \left(p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\delta\phi_g
-    \Bigg] \,\dv \notag \\
-  &\quad + \int_{\mc{B}} \Bigg[
-      \left(-p_{c,oa}\frac{\phi_o+\phi_g}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a \cdot \delta\mbf{x}_a \notag \\
-  &\qquad\qquad
-      + \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o \cdot \delta\mbf{x}_o \notag \\
-  &\qquad\qquad
-      + \left(p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g \cdot \delta\mbf{x}_g
-    \Bigg] \,\dv.
+  &= \int_{\mc B}\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \notag \\
+  &\quad
+  + \int_{\mc B}\left[\phi_a\nabla_{\mbf x}\gamma_a\cdot\delta\mbf x_a
+      + \phi_o\nabla_{\mbf x}\gamma_o\cdot\delta\mbf x_o
+      + \phi_g\nabla_{\mbf x}\gamma_g\cdot\delta\mbf x_g\right]\dv
+  + \text{boundary terms}.
   \label{eq:deltaU_fg}
 \end{align}
+This form keeps the gradient terms generated by the spatial dependence of the
+volume fractions.  They cancel against the corresponding multiplier gradients in
+the phase momentum balances after the volume-fraction Euler--Lagrange equations
+are used.
 
-% ============================================================
-\subsection{Variation of fluid, oleic, and gas energy}
-\label{sec:var_Ufog}
-% ============================================================
-
-For each mobile phase $\xi_f \in \{a,o,g\}$, let
-%
-\begin{equation}
-  U_{\xi_f} = \int_{\mc{B}} \rho_{\xi_f}\psi_{\xi_f} \dv,
-  \label{eq:U_xi_current}
-\end{equation}
-%
-with constitutive functions
-%
-\[
-  \psi_{\xi_f} = \psi_{\xi_f}(\bar\rho_{\xi_f}, \eta^\alpha_{\xi}).
-\]
-%
-%
-take the variation the mobile free energy
-%
-\begin{align}
-  \delta\psi_{\xi_f}
-  &= \left.\p{\psi_{\xi_f}}{\bar\rho_{\xi_f}}\right\vert_{\eta^\al_{\xi}} \delta \bar\rho_\xi + \sum_\al
-  \left.\p{\psi_\xi}{\eta^\al_\xi}\right\vert_{\bar\rho_{\xi_f},\eta^{\beta\neq\al}_\xi}
-  \delta\eta^\al_\xi
-  \label{eq:delta_psi_mobile}
-\end{align}
-%
-Using \eqref{eq:bd128_mod} and collecting coefficients of the independent variations
-therefore gives
-%
-\begin{align}
-  \delta U_{\xi_f}
-  &= \sum_{\xi_f \in\{a,o,g\}} \int_{\mc{B}} \left[
-    \rho_{\xi_f} \left.\p{\psi_{\xi_f}}{\bar\rho_{\xi_f}}\right\vert_{\eta^\alpha_\xi}
-    \delta\bar\rho_{\xi_f} + \sum_\alpha  \left(
-  \left.\rho_\xi\p{\psi_{\xi_f}}{\eta^\alpha_\xi}\right\vert_{\bar\rho_{\xi_f},\eta^{\beta\neq\alpha}_\xi} \delta \eta^\al_\xi + \psi_{\xi_f} \frac{\delta c^\alpha_{\xi_f}+\delta r^\alpha_{\xi_f}}{J_{\xi_f}} \right)
-  \right] \dv.
-  \label{eq:deltaU_mobile_total}
-\end{align}
-Thus the mobile free energies contribute to the \(\delta\bar\rho_\xi\), \(\delta\eta^\alpha_\xi\), and \(\delta c^\alpha_\xi\) coefficients.
 % ============================================================
 \subsection{Variation of constraint $C_1$: volume-fraction}
 \label{sec:var_C1_app}
@@ -388,186 +383,129 @@ The multiplier variation enforces the total mass conservation of reaction source
 
 Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta c^\alpha_\xi/J_\xi$ gives
 \begin{align}
-  0 = & \sum_{\xi_s} \int_{\mc{B}} \Bigg[
-    -\rho_{\xi_s}\mbf{a}_{\xi_s} 
-    + \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi_s} + \rho_{\xi_s}\mbf{g} + \mbf{b}_{\xi_s}
-    - \lambda\nabla_{\mbf{x}}\phi_{\xi_s}
-    - \sum_\alpha\nabla_{\mbf{x}}\mu_{\xi_s}^\alpha
-    + \sum_\alpha \left[\hat{c}_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_{\xi_s}\right) + \hat r_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_{\xi_s}\right)\right]
-  \Bigg]\cdot\delta\mbf{x}_{\xi_s} \,\dv \notag \\
-  &+ \int_{\mc{B}} \Bigg[
-    -\rho_a\mbf{a}_a 
-    + \rho_a\mbf{g} + \mbf{b}_a
-    - \lambda\nabla_{\mbf{x}}\phi_a
-    - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
-    + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right) + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right]
-    + \left(p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_a
-  \Bigg]\cdot\delta\mbf{x}_a \,\dv \notag \\
-  &+ \int_{\mc{B}} \Bigg[
-    -\rho_o\mbf{a}_o 
-    + \rho_o\mbf{g} + \mbf{b}_o
-    - \lambda\nabla_{\mbf{x}}\phi_o
-    - \sum_\alpha\nabla_{\mbf{x}}\mu_o^\alpha
-    + \sum_\alpha \left[\hat{c}_o^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_o\right) + \hat r_o^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_o\right)\right]
-    - \left(p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_g}{\phi}\right)\nabla_{\mbf{x}}\phi_o
-  \Bigg]\cdot\delta\mbf{x}_o \,\dv \notag \\
-  &+ \int_{\mc{B}} \Bigg[
-    -\rho_g\mbf{a}_g 
-    + \rho_g\mbf{g} + \mbf{b}_g
-    - \lambda\nabla_{\mbf{x}}\phi_g
-    - \sum_\alpha\nabla_{\mbf{x}}\mu_g^\alpha
-    + \sum_\alpha \left[\hat{c}_g^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_g\right) + \hat r_g^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_g\right)\right]
-    + \left(-p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}\right)\nabla_{\mbf{x}}\phi_g
-  \Bigg]\cdot\delta\mbf{x}_g \,\dv \notag \\
-&+ \sum_{\xi_s} \int_{\mc{B}} \Bigg[
-  \lambda + \sum_\alpha \frac{\mu_{\xi_s}^\alpha}{\phi_{\xi_s}}
-    \Bigg] \delta\phi_{\xi_s} \,\dv \notag \\
-  &+ \int_{\mc{B}} \Bigg[
-      \lambda + \sum_\alpha \frac{\mu_a^\alpha}{\phi_a}
-      + p_{c,oa}\frac{\phi_o+\phi_g}{\phi} - p_{c,og}\frac{\phi_g}{\phi}
-    \Bigg] \delta\phi_a \,\dv \notag \\
-  &+ \int_{\mc{B}} \Bigg[
-      \lambda + \sum_\alpha \frac{\mu_o^\alpha}{\phi_o}
-      - p_{c,oa}\frac{\phi_a}{\phi} - p_{c,og}\frac{\phi_g}{\phi}
-    \Bigg] \delta\phi_o \,\dv \notag \\
-  &+ \int_{\mc{B}} \Bigg[
-      \lambda + \sum_\alpha \frac{\mu_g^\alpha}{\phi_g}
-      - p_{c,oa}\frac{\phi_a}{\phi} + p_{c,og}\frac{\phi_a+\phi_o}{\phi}
-    \Bigg] \delta\phi_g \,\dv \notag \\
-  &+ \sum_{\xi_s}\int_{\mc{B}} \Bigg[
-    -\left(\rho_{\xi_s} - \sum_\alpha \frac{c_{\xi_s}^\alpha + r_{\xi_s}^\alpha}{J_{\xi_s}}\right)
-    \left.\p{\psi_{\xi_s}}{\bar\rho_{\xi_s}}\right\vert_{\mbf{F}_{\xi_s}}
-    + \sum_\alpha\frac{\mu_{\xi_s}^\alpha}{\bar\rho_{\xi_s}}
-  \Bigg] \delta\bar\rho_{\xi_s} \,\dv \notag \\
-  &+ \sum_{\xi_f} \int_{\mc{B}} \Bigg[
-    -\rho_{\xi_f}\left.\p{\psi_{\xi_f}}{\bar\rho_{\xi_f}}\right\vert_{\eta^\alpha_\xi}
-    + \sum_\alpha\frac{\mu_{\xi_f}^\alpha}{\bar\rho_{\xi_f}}
-  \Bigg] \delta\bar\rho_{\xi_f} \,\dv \notag \\
-&+ \sum_{\xi_f}\sum_\alpha \int_{\mc{B}} \Bigg[
-  \frac{\mu_{\xi_f}^\alpha}{\eta_\xi^\alpha} + \pi_{\xi_f}
-  - \rho_{\xi_f}\left.\p{\psi_{\xi_f}}{\eta^\alpha_\xi}\right\vert_{\bar\rho_{\xi_f},\eta^{\beta\neq\alpha}_\xi}
+  0 = & \sum_{\xi} \int_{\mc{B}} \Bigg[
+    -\rho_{\xi}\mbf{a}_{\xi}
+    + \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
+    - \lambda\nabla_{\mbf{x}}\phi_{\xi}
+    - \sum_\alpha\nabla_{\mbf{x}}\mu_{\xi}^\alpha
+    + \sum_\alpha \left[\hat{c}_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_{\xi}\right)
+      + \hat r_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_{\xi}\right)\right]
+  \Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag \\
+  &- \int_{\mc B}\left[
+    \phi_a\nabla_{\mbf x}\gamma_a\cdot\delta\mbf x_a
+    + \phi_o\nabla_{\mbf x}\gamma_o\cdot\delta\mbf x_o
+    + \phi_g\nabla_{\mbf x}\gamma_g\cdot\delta\mbf x_g
+  \right]\dv \notag \\
+  &+ \sum_\xi \int_{\mc{B}} \Bigg[
+    \lambda + \sum_\alpha \frac{\mu_{\xi}^\alpha}{\phi_{\xi}}
+  \Bigg] \delta\phi_{\xi} \,\dv \notag \\
+  &- \int_{\mc B}\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \notag \\
+  &+ \sum_{\xi}\int_{\mc{B}} \Bigg[
+    -\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\eta_\xi^\beta}
+    + \sum_\alpha\frac{\mu_{\xi}^\alpha}{\bar\rho_{\xi}}
+  \Bigg] \delta\bar\rho_{\xi} \,\dv \notag \\
+  &+ \sum_{\xi}\sum_\alpha \int_{\mc{B}} \Bigg[
+    \frac{\mu_{\xi}^\alpha}{\eta_\xi^\alpha} + \pi_{\xi}
+    - \rho_{\xi}\left.\p{\psi_{\xi}}{\eta^\alpha_\xi}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta^{\beta\neq\alpha}_\xi}
   \Bigg] \delta\eta^\alpha_\xi \,\dv \notag \\
-  &+ \sum_{\xi_s}\sum_\alpha \int_{\mc{B}} \Bigg[
-    \tfrac{1}{2}\mbf{v}_{\xi_s}\cdot\mbf{v}_{\xi_s} + \mc{L}^\alpha_{\xi_s c}
-    - \frac{D_{\xi_s}\tau^\al}{Dt}
-    - \frac{\mu_{\xi_s}^\alpha}{\phi_{\xi_s}\bar\rho_{\xi_s}\eta_{\xi_s}^\alpha}
-  \Bigg] \frac{\delta c^\alpha_{\xi_s}}{J_{\xi_s}} \,\dv \notag \\
-  &+ \sum_{\xi_f}\sum_\alpha \int_{\mc{B}} \Bigg[
-    \tfrac{1}{2}\mbf{v}_{\xi_f}\cdot\mbf{v}_{\xi_f} + \mc{L}^\alpha_{\xi_f c} + \psi_{\xi_f}
-    - \frac{D_{\xi_f}\tau^\al}{Dt}
-    - \frac{\mu_{\xi_f}^\alpha}{\phi_{\xi_f}\bar\rho_{\xi_f}\eta_\xi^\alpha}
-  \Bigg] \frac{\delta c^\alpha_{\xi_f}}{J_{\xi_f}} \,\dv \notag \\
-  &+ \sum_{\xi_s}\sum_\alpha \int_{\mc{B}} \Bigg[
-    \tfrac{1}{2}\mbf{v}_{\xi_s}\cdot\mbf{v}_{\xi_s} + \mc{L}^\alpha_{\xi_s r}
-    - \frac{D_{\xi_s}\zeta}{Dt}
-    - \frac{\mu_{\xi_s}^\alpha}{\phi_{\xi_s}\bar\rho_{\xi_s}\eta_{\xi_s}^\alpha}
-  \Bigg] \frac{\delta r^\alpha_{\xi_s}}{J_{\xi_s}} \,\dv \notag \\
-  &+ \sum_{\xi_f}\sum_\alpha \int_{\mc{B}} \Bigg[
-    \tfrac{1}{2}\mbf{v}_{\xi_f}\cdot\mbf{v}_{\xi_f} + \mc{L}^\alpha_{\xi_f r} + \psi_{\xi_f}
-    - \frac{D_{\xi_f}\zeta}{Dt}
-    - \frac{\mu_{\xi_f}^\alpha}{\phi_{\xi_f}\bar\rho_{\xi_f}\eta_\xi^\alpha}
-  \Bigg] \frac{\delta r^\alpha_{\xi_f}}{J_{\xi_f}} \,\dv + \text{boundary terms}.
+  &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
+    \tfrac{1}{2}\mbf{v}_{\xi}\cdot\mbf{v}_{\xi} - \psi_{\xi}
+    - \frac{D_{\xi}\tau^\al}{Dt}
+    - \frac{\mu_{\xi}^\alpha}{\phi_{\xi}\bar\rho_{\xi}\eta_\xi^\alpha}
+  \Bigg] \frac{\delta c^\alpha_{\xi}}{J_{\xi}} \,\dv \notag \\
+  &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
+    \tfrac{1}{2}\mbf{v}_{\xi}\cdot\mbf{v}_{\xi} - \psi_{\xi}
+    - \frac{D_{\xi}\zeta}{Dt}
+    - \frac{\mu_{\xi}^\alpha}{\phi_{\xi}\bar\rho_{\xi}\eta_\xi^\alpha}
+  \Bigg] \frac{\delta r^\alpha_{\xi}}{J_{\xi}} \,\dv + \text{boundary terms}.
   \label{eq:collected_full}
 \end{align}
 The multiplier variations are omitted here because they simply return the constraint equations~\eqref{eq:C1_def}--\eqref{eq:C5_def}. Since all variations are considered arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
 
 \subsection{Euler--Lagrange equations}
 
-The Euler--Lagrange equations generated from arbirtrary $\delta \phi_{\xi_s}$ gives
-%
+The Euler--Lagrange equations generated by arbitrary $\delta\phi_\xi$ give,
+for phases without an explicit capillary contribution,
 \begin{equation}
-  \phi_{\xi_s} \lambda = - \sum_\alpha \mu^\al_{\xi_s}
+  \phi_\xi \lambda = - \sum_\alpha \mu^\al_\xi .
   \label{eq:el_lambda}
 \end{equation}
-%
-\begin{equation}
-    \rho_{\xi_s}\mbf{a}_{\xi_s} =
-    \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi_s} + \rho_{\xi_s}\mbf{g} + \mbf{b}_{\xi_s}
-    + \phi_{\xi_s} \nabla_{\mbf{x}}\lambda
-    + \sum_\alpha \left[\hat{c}_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_{\xi_s}\right)+\hat r_{\xi_s}^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_{\xi_s}\right)\right]
-\end{equation}
+For the mobile phases the corresponding equations contain the primitive
+capillary potentials shown below in \eqref{eq:el_pc}.
 
-Next, we rearrange the Euler-Lagrange associated with arbitrary $\delta \bar\rho_{\xi_f}$ and define
-%
+The displacement equation obtained from the uniform part of the collected
+principle is
 \begin{equation}
-  \sum_\al \frac{\mu_{\xi_f}^\al}{\phi_{\xi_f}} = \bar\rho^2_{\xi_f} \p{\psi_{\xi_f}}{\bar\rho_{\xi_f}} \equiv \bar{p}_{\xi_f}
+    \rho_{\xi}\mbf{a}_{\xi} =
+    \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
+    + \phi_{\xi} \nabla_{\mbf{x}}\lambda
+    + \sum_\alpha \left[\hat{c}_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_{\xi}\right)
+      +\hat r_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_{\xi}\right)\right],
+  \label{eq:el_momentum_uniform}
 \end{equation}
-%
-where $\bar{p}_{\xi_f}$ is the mobile phase pressure.
+with the mobile-phase capillary-force additions displayed separately below.
 
-The Euler--Lagrange equations associated with arbitrary $\delta\eta_{\xi_f}^\alpha$ give
+The Euler--Lagrange equation associated with arbitrary $\delta\bar\rho_\xi$ gives
 \begin{equation}
-  0 = \frac{\mu_{\xi_f}^\alpha}{\eta_{\xi_f}^\alpha} + \pi_{\xi_f}
-  - \rho_{\xi_f}\left.\p{\psi_{\xi_f}}{\eta_{\xi_f}^\alpha}\right\vert_{\bar\rho_{\xi_f},\eta_{\xi_f}^{\beta\neq\alpha}},
+  \sum_\al \frac{\mu_{\xi}^\al}{\phi_{\xi}}
+  = \bar\rho^2_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf F_\xi,\eta_\xi^\beta}
+  \equiv \bar{p}_{\xi} .
+  \label{eq:phase_pressure_all}
+\end{equation}
+The Euler--Lagrange equations associated with arbitrary $\delta\eta_{\xi}^\alpha$ give
+\begin{equation}
+  0 = \frac{\mu_{\xi}^\alpha}{\eta_{\xi}^\alpha} + \pi_{\xi}
+  - \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}},
   \qquad \alpha=1,\ldots,N,
-  \label{eq:el_eta_mobile}
+  \label{eq:el_eta_all}
 \end{equation}
-while variation with respect to $\pi_{\xi_f}$ returns the composition normalization
+while variation with respect to $\pi_{\xi}$ returns the composition normalization
 constraint
 \begin{equation}
-  \sum_{\alpha=1}^N \eta_{\xi_f}^\alpha = 1.
+  \sum_{\alpha=1}^N \eta_{\xi}^\alpha = 1.
   \label{eq:el_eta_constraint}
 \end{equation}
-Thus $\pi_{\xi_f}$ is the phase-level multiplier that enforces the redundant
-composition coordinate.  Equation~\eqref{eq:el_eta_mobile} may be read
+Thus $\pi_{\xi}$ is the phase-level multiplier that enforces the redundant
+composition coordinate.  Equation~\eqref{eq:el_eta_all} may be read
 componentwise as
 \begin{equation}
-  \rho_{\xi_f}\left.\p{\psi_{\xi_f}}{\eta_{\xi_f}^\alpha}\right\vert_{\bar\rho_{\xi_f},\eta_{\xi_f}^{\beta\neq\alpha}}
-  - \frac{\mu_{\xi_f}^\alpha}{\eta_{\xi_f}^\alpha}
-  = \pi_{\xi_f},
+  \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}}
+  - \frac{\mu_{\xi}^\alpha}{\eta_{\xi}^\alpha}
+  = \pi_{\xi},
   \label{eq:pi_componentwise}
 \end{equation}
-so the same value of $\pi_{\xi_f}$ must be obtained from every component in a
-given phase.  Equivalently, one may subtract the equation for component $\beta$
-from the equation for component $\alpha$ to eliminate $\pi_{\xi_f}$, leaving
-$N-1$ independent composition equations together with
-\eqref{eq:el_eta_constraint}.  In this sense $\pi_{\xi_f}$ is not an additional
-material response; it enforces normalization and records the common value needed
-for consistency among the componentwise composition equations.
-%
+so the same value of $\pi_{\xi}$ must be obtained from every component in a
+given phase.  Equivalently,
 \begin{equation}
-  \rho_{\xi_f}\left.\p{\psi_{\xi_f}}{\eta_{\xi_f}^\alpha}\right\vert_{\bar\rho_{\xi_f},\eta_{\xi_f}^{\kappa\neq\alpha}}
-  - \frac{\mu_{\xi_f}^\alpha}{\eta_{\xi_f}^\alpha}
-  = \rho_{\xi_f}\left.\p{\psi_{\xi_f}}{\eta_{\xi_f}^\beta}\right\vert_{\bar\rho_{\xi_f},\eta_{\xi_f}^{\kappa\neq\beta}}
-  - \frac{\mu_{\xi_f}^\beta}{\eta_{\xi_f}^\beta}
-,
+  \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\alpha}}
+  - \frac{\mu_{\xi}^\alpha}{\eta_{\xi}^\alpha}
+  = \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\beta}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\beta}}
+  - \frac{\mu_{\xi}^\beta}{\eta_{\xi}^\beta}.
   \label{eq:pi_difference}
 \end{equation}
 
 The Euler--Lagrange equations associated with arbitrary $\delta c_\xi^\alpha$
-and $\delta r_\xi^\alpha$ come from the final four terms in the collected
-variational principle.  For phase-transformation mass addition in the solid
-phases,
+and $\delta r_\xi^\alpha$ come from the final two terms in the collected
+variational principle.  Since all phase energies were varied in the same current
+configuration form, the phase-transformation equation is uniform for solid and
+mobile phases:
 \begin{equation}
-  \frac{D_{\xi_s}\tau^\al}{Dt} = \frac{1}{2}\mbf{v}_{\xi_s}\cdot\mbf{v}_{\xi_s}
-  + \mc{L}^\al_{\xi_s c}
-  - \frac{\mu^\alpha_{\xi_s}}{\phi_{\xi_s} \bar\rho_{\xi_s}\eta_{\xi_s}^\alpha},
-  \qquad \xi_s\in\{A,B, \ldots \},
-  \label{eq:el_c_solid}
+  \frac{D_\xi\tau^\al}{Dt}
+  = \frac{1}{2}\mbf{v}_{\xi}\cdot\mbf{v}_{\xi}
+  - \psi_\xi
+  - \frac{\mu^\alpha_{\xi}}{\phi_{\xi} \bar\rho_{\xi}\eta_{\xi}^\alpha}.
+  \label{eq:el_c_all}
 \end{equation}
-and for the mobile phases,
+Reaction mass addition has no separate virtual-work coefficient in the present
+bookkeeping.  Its reversible energetic contribution is supplied by the explicit
+free-energy variation, giving
 \begin{equation}
-   \frac{D_{\xi_f}\tau^\al}{Dt}
-  = \tfrac{1}{2}\mbf{v}_{\xi_f}\cdot\mbf{v}_{\xi_f}
-  + \mc{L}^\alpha_{\xi_f c} + \psi_{\xi_f}
-  - \frac{\mu_{\xi_f}^\alpha}{\phi_{\xi_f}\bar\rho_{\xi_f}\eta_{\xi_f}^\alpha},
-  \qquad \xi_f\in\{a,o,g\}.
-  \label{eq:el_c_mobile}
+  \frac{D_\xi\zeta}{Dt}
+  = \frac{1}{2}\mbf{v}_{\xi}\cdot\mbf{v}_{\xi}
+  - \psi_\xi
+  - \frac{\mu^\alpha_{\xi}}{\phi_{\xi}\bar\rho_{\xi}\eta_{\xi}^\alpha}.
+  \label{eq:el_r_all}
 \end{equation}
-For reaction mass addition, the corresponding solid and mobile equations are
-\begin{align}
-  \frac{D_{\xi_s}\zeta}{Dt}
-  &= \frac{1}{2}\mbf{v}_{\xi_s}\cdot\mbf{v}_{\xi_s}
-  + \mc{L}^\al_{\xi_s r}
-  - \frac{\mu^\alpha_{\xi_s}}{\phi_{\xi_s}\bar\rho_{\xi_s}\eta_{\xi_s}^\alpha},
-  \label{eq:el_r_solid} \\
-  \frac{D_{\xi_f}\zeta}{Dt}
-  &= \tfrac{1}{2}\mbf{v}_{\xi_f}\cdot\mbf{v}_{\xi_f}
-  + \mc{L}^\alpha_{\xi_f r} + \psi_{\xi_f}
-  - \frac{\mu_{\xi_f}^\alpha}{\phi_{\xi_f}\bar\rho_{\xi_f}\eta_{\xi_f}^\alpha},
-  \qquad \xi_f\in\{a,o,g\}.
-  \label{eq:el_r_mobile}
-\end{align}
 The index $\alpha$ is not summed in these equations; each component transfer or
 reaction variation gives its own scalar balance.  For a single-component solid,
 $\eta_{\xi_s}^\alpha=1$.
@@ -584,7 +522,7 @@ and the generalized reaction mass-addition potential by
   \mc{A}_{\xi r} \equiv \frac{D_\xi\zeta}{Dt}.
   \label{eq:generalized_reaction_potential_def}
 \end{equation}
-Equations~\eqref{eq:el_c_solid}--\eqref{eq:el_r_mobile} give explicit
+Equations~\eqref{eq:el_c_all} and \eqref{eq:el_r_all} give explicit
 constitutive expressions for these potentials.  Interphase equilibrium for a
 component is the absence of a thermodynamic driving force for moving that
 component between any two present phases,
@@ -594,50 +532,127 @@ component between any two present phases,
   \label{eq:transfer_potential_equilibrium}
 \end{equation}
 In the local homogeneous, inertialess equilibrium limit, this equality reduces,
-with the Coleman--Noll identification of the transfer work coefficient and a
-thermodynamically consistent phase free energy, to equality of ordinary component
+with a thermodynamically consistent phase free energy, to equality of ordinary component
 chemical potentials, equivalently equality of component fugacities.  The reaction
 potential $\mc{A}_{\xi r}$ similarly supplies the generalized thermodynamic force
 conjugate to reaction mass production subject to the total reaction mass
-constraint.
+constraint.  The equality \eqref{eq:transfer_potential_equilibrium} is therefore
+only the singular local-equilibrium specialization; the dynamic formulation below
+keeps the material derivatives $D_\xi\tau^\alpha/Dt$ as the closure supplied by
+the variational principle.
 
-Using the pressure definition along with the Euler-Lagrange equations associated with the arbitrary $\delta \phi_{f}$ and the definitions of saturations introduced earlier gives three equations
-%
+\subsection{Instantaneous phase-transformation jumps}
+\label{sec:instantaneous_c_jump}
+
+We now allow phase transformation to occur at an instant.  Let $t=t_*$ be the
+instant at which component $\alpha$ is moved between phases.  The cumulative
+transformation variable $c_\xi^\alpha$ then has a jump,
+\begin{equation}
+  \left[\!\left[c_\xi^\alpha\right]\!\right]_{t_*}
+  \equiv c_\xi^{\alpha +}-c_\xi^{\alpha -}
+  = \Delta c_\xi^\alpha .
+\end{equation}
+The corresponding rate is a Dirac delta in time,
+\begin{equation}
+  \hat c_\xi^\alpha
+  = \frac{\Delta c_\xi^\alpha}{J_\xi}\,\delta(t-t_*),
+  \label{eq:chat_jump_decomp}
+\end{equation}
+where $J_\xi$ is evaluated at the jump.  Integrating the component mass balance
+through $t_*$ gives
+\begin{equation}
+  \left[\!\left[\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\right]\!\right]_{t_*}
+  = \frac{\Delta c_\xi^\alpha}{J_\xi},
+  \label{eq:phase_mass_jump_c}
+\end{equation}
+if the reaction source has no delta contribution.  Thus the phase mass of a
+component may jump, but the total amount of that component cannot jump during a
+pure phase transformation.  Variation of $\tau^\alpha$ gives
+\begin{equation}
+  \sum_\xi \frac{\Delta c_\xi^\alpha}{J_\xi}=0 .
+  \label{eq:impulsive_transfer_constraint}
+\end{equation}
+This is the instantaneous form of component conservation.
+
+The field $\tau^\alpha$ is not zero just because the transfer is instantaneous.
+It remains the variable whose material derivative gives the generalized transfer
+potential,
+\begin{equation}
+  \mc A_{\xi c}^\alpha = \frac{D_\xi\tau^\alpha}{Dt} .
+\end{equation}
+If $\tau^\alpha$ itself jumps at $t_*$, then this material derivative also has a
+Dirac delta contribution,
+\begin{equation}
+  \frac{D_\xi\tau^\alpha}{Dt}
+  = \left(\frac{D_\xi\tau^\alpha}{Dt}\right)^- \quad (t<t_*),
+  \qquad
+  \frac{D_\xi\tau^\alpha}{Dt}
+  = \left(\frac{D_\xi\tau^\alpha}{Dt}\right)^+ \quad (t>t_*),
+\end{equation}
+together with the impulse
+\begin{equation}
+  \left[\!\left[\tau^\alpha\right]\!\right]_{t_*}\delta(t-t_*) .
+  \label{eq:tau_distributional_derivative}
+\end{equation}
+For a conservative instantaneous transfer with no extra work assigned to the
+jump, the natural jump condition is continuity of the multiplier,
+\begin{equation}
+  \left[\!\left[\tau^\alpha\right]\!\right]_{t_*}=0 .
+  \label{eq:tau_conservative_jump}
+\end{equation}
+This does not require $\tau^\alpha$ to vanish.  It only says that the same finite
+value of $\tau^\alpha$ is carried through the instant of transfer.  If one allows
+additional work at the jump, then $\tau^\alpha$ may jump, and the jump is the
+corresponding impulsive transfer force.
+
+No separate assumption
+$\mc A_{\xi c}^\alpha=\mc A_{\zeta c}^\alpha$ is imposed here.  The jump in
+$c_\xi^\alpha$, the conservation condition \eqref{eq:impulsive_transfer_constraint},
+and the jump condition for $\tau^\alpha$ are the instantaneous counterparts of
+the smooth variational equations.
+
+Using the pressure definition along with the Euler--Lagrange equations associated
+with the arbitrary $\delta \phi_{f}$ gives three equations
 \begin{subequations}
   \begin{align}
-    0 &= \lambda + \bar{p}_a + (1 - S_a) p_{c,oa} - S_g p_{c,og} \label{eq:el_bc_a} \\
-    0 &= \lambda + \bar{p}_o - S_a p_{c,oa} - S_g p_{c,og} \label{eq:el_bc_b} \\
-    0 &= \lambda + \bar{p}_g - S_a p_{c,oa} + (1 - S_g) p_{c,og} \label{eq:el_bc_c}
+    0 &= \lambda + \bar{p}_a - \gamma_a \label{eq:el_bc_a} \\
+    0 &= \lambda + \bar{p}_o - \gamma_o \label{eq:el_bc_b} \\
+    0 &= \lambda + \bar{p}_g - \gamma_g . \label{eq:el_bc_c}
   \end{align}
   \label{eq:el_pc}
 \end{subequations}
-%
-Subtracting \eqref{eq:el_bc_a} from \eqref{eq:el_bc_b} gives
-%
+Subtracting \eqref{eq:el_bc_a} from \eqref{eq:el_bc_b} and
+\eqref{eq:el_bc_c} from \eqref{eq:el_bc_b} gives the capillary pressure
+relations
 \begin{equation}
-  p_{c,oa} = \bar{p}_o - \bar{p}_a.
+  p_{c,oa}=\bar p_o-\bar p_a=\gamma_o-\gamma_a,
+  \qquad
+  p_{c,og}=\bar p_o-\bar p_g=\gamma_o-\gamma_g .
+  \label{eq:pc_from_phi_variations}
 \end{equation}
-%
-Subtracting \eqref{eq:el_bc_c} from \eqref{eq:el_bc_b} gives
-%
+Thus the capillary pressures are obtained directly from differences of the
+primitive volume-fraction derivatives of the interfacial energy; no independent
+saturation multiplier is required.
+
+\subsection{Identification of the volume-constraint multiplier}
+\label{sec:lambda_identification}
+
+A weighted sum of \eqref{eq:el_pc} gives
 \begin{equation}
-  p_{c,og} = \bar{p}_o - \bar{p}_g
+  \lambda + S_a\bar p_a+S_o\bar p_o+S_g\bar p_g
+  = S_a\gamma_a+S_o\gamma_o+S_g\gamma_g .
+  \label{eq:lambda_weighted_gamma}
 \end{equation}
-%
-Summing equations~\ref{eq:el_pc}
-%
-\begin{align}
-  0 &= 3 \lambda + \bar{p}_a + \bar{p}_o + \bar{p}_g  + (1 - 3 S_a) p_{c,oa} + (1 - 3 S_g) p_{c,og}
-\end{align}
-%
-and solving for $\lambda$ gives
-\begin{align}
-  \lambda &= -\frac{1}{3} \left( \bar{p}_a + \bar{p}_o + \bar{p}_g \right)  - \left(\frac{1}{3} - S_a\right) p_{c,oa} - \left(\frac{1}{3} - S_g \right) p_{c,og} \notag \\
-   &= -\frac{1}{3} \left( \bar{p}_a + \bar{p}_o + \bar{p}_g + p_{c,oa} + p_{c,og} \right)  + S_a p_{c,oa} + S_g p_{c,og} \notag \\
-   &= -\bar{p}_o  + S_a (\bar{p}_o - \bar{p}_a) + S_g (\bar{p}_o - \bar{p}_g) \notag \\
-   &= -S_a \bar{p}_{a} + (S_a + S_g - 1)\bar{p}_o - S_g \bar{p}_g \notag \\
-   &= -\left(S_a \bar{p}_{a} + S_o \bar{p}_o + S_g \bar{p}_g\right)
-\end{align}
+Equivalently, the pressure conjugate to the solid volume constraint is
+\begin{equation}
+  p_E \equiv -\lambda
+  = S_a\bar p_a+S_o\bar p_o+S_g\bar p_g
+    -\left(S_a\gamma_a+S_o\gamma_o+S_g\gamma_g\right).
+  \label{eq:equivalent_pore_pressure}
+\end{equation}
+For the specialized density $\phi\gamma(S_a,S_g)$, Euler's chain-rule identity gives
+$S_a\gamma_a+S_o\gamma_o+S_g\gamma_g=\gamma$, and therefore
+$p_E=\sum_\xi S_\xi\bar p_\xi-\gamma$.
 
 Finally, consider the Euler--Lagrange equation associated with the arbitrary
 aqueous phase displacement $\delta\mbf{x}_a$.  From the collected variational
@@ -647,47 +662,26 @@ principle, the coefficient of $\delta\mbf{x}_a$ gives
   &= \rho_a\mbf{g} + \mbf{b}_a
   - \lambda\nabla_{\mbf{x}}\phi_a
   - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
+  -\phi_a\nabla_{\mbf x}\gamma_a
   + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
-    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right]
-  + \left[(1-S_a)p_{c,oa} - S_g p_{c,og}\right]\nabla_{\mbf{x}}\phi_a .
+    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right].
   \label{eq:el_mom_a_start}
 \end{align}
-Using $\sum_\alpha\mu_a^\alpha = \phi_a\bar p_a$, obtained by rearranging the
-definition of the mobile phase pressure, this becomes
+The oleic and gas equations have the same form with $a$ replaced by $o$ or $g$.
+The important point is that the interfacial variation contributes gradient terms
+$\phi_\xi\nabla\gamma_\xi$, not merely algebraic multiples of
+$\nabla\phi_\xi$.  These terms must be retained until the pressure definitions
+\eqref{eq:el_pc} are substituted.  After substituting the volume-fraction
+Euler--Lagrange equations and using $\sum_\alpha\mu_\xi^\alpha=\phi_\xi\bar p_\xi$,
+the multiplier and capillary-potential gradients combine with the pressure
+potential gradients to give the standard phase pressure-gradient form
 \begin{align}
   \rho_a\mbf{a}_a
-  &= \rho_a\mbf{g} + \mbf{b}_a
-  - \nabla_{\mbf{x}}(\phi_a\bar p_a)
-  + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
-    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right]
-  + \left[(1-S_a)p_{c,oa} - S_g p_{c,og} - \lambda\right]\nabla_{\mbf{x}}\phi_a .
-  \label{eq:el_mom_a_mu_sub}
-\end{align}
-Now substitute the capillary pressure relations
-$p_{c,oa}=\bar p_o-\bar p_a$ and $p_{c,og}=\bar p_o-\bar p_g$, together with
-$\lambda=-\left(S_a\bar p_a+S_o\bar p_o+S_g\bar p_g\right)$.  Since
-\begin{align}
-  (1-S_a)p_{c,oa} - S_g p_{c,og} - \lambda
-  &= (S_o+S_g)(\bar p_o-\bar p_a)
-     - S_g(\bar p_o-\bar p_g)
-     + S_a\bar p_a + S_o\bar p_o + S_g\bar p_g \notag \\
-  &= \bar p_a,
-\end{align}
-the aqueous phase momentum balance reduces to
-\begin{align}
-  \rho_a\mbf{a}_a
-  &= \rho_a\mbf{g} + \mbf{b}_a
-  - \nabla_{\mbf{x}}(\phi_a\bar p_a)
-  + \bar p_a\nabla_{\mbf{x}}\phi_a
-  + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
-    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right] \notag \\
   &= \rho_a\mbf{g} + \mbf{b}_a
   - \phi_a\nabla_{\mbf{x}}\bar p_a
   + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
-    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right].
-  \label{eq:el_mom_a_simplified}
-\end{align}
-\begin{align}
+    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right],
+  \label{eq:el_mom_a_simplified} \\
   \rho_o\mbf{a}_o
   &= \rho_o\mbf{g} + \mbf{b}_o
   - \phi_o\nabla_{\mbf{x}}\bar p_o
