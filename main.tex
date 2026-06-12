@@ -82,7 +82,7 @@ The material time derivative of a quantity $\square_\xi$ following the velocity 
 \[
   \frac{D_\zeta \square_\xi}{Dt}
   = \frac{\partial \square_\xi}{\partial t}
-  + \mbf{v}_\zeta\cdot\nabla_{\mbf{x}}\square_\xi,
+  + \mbf{v}_\zeta \cdot\nabla_{\mbf{x}}\square_\xi,
 \]
 %
 and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the derivative following phase $\xi$.  
@@ -246,9 +246,9 @@ T &= \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \d
   \label{eq:C2_def} \\
   C_3 &= \sum_\xi \int_{\mc{B}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) \dv,
   \label{eq:C3_def} \\
-  C_4 &= \sum_\alpha \int_{\mc{B}} \tau^\alpha \sum_\xi \hat{c}^\al_\xi \dv,
+  C_4 &= \sum_\alpha \int_{\mc{B}} \nu^\alpha \sum_\xi \hat{c}^\al_\xi \dv,
   \label{eq:C4_def} \\
-  C_5 &= \int_{\mc{B}} \zeta \sum_\xi \sum_\alpha \hat r^\al_\xi \dv.
+  C_5 &= \int_{\mc{B}} \tau \sum_\xi \sum_\alpha \hat r^\al_\xi \dv.
   \label{eq:C5_def}
 \end{align}
 %
@@ -277,11 +277,10 @@ summing both sides of \eqref{eq:bd128_mod2} over $\alpha$ gives
 \end{align}
 %
 where we've used $\rho_\xi = \sum_\alpha \rho^\alpha_\xi$.
-\label{sec:var_T_app}
 
 % ============================================================
 \subsection{Variation of the kinetic energy}
-\label{sec:var_Uxi}
+\label{sec:var_T_app}
 % ============================================================
 
 The variation of kinetic energy using \eqref{eq:bd128_mod} is then
@@ -302,10 +301,14 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 
 For every phase, solid or mobile, write the phase Helmholtz free energy in the
 same current density-weighted form,
-\begin{equation}
-  U_\xi=\int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^\beta)\,\dv .
+\begin{align}
+  U_\xi &= \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^1, \eta_\xi^2, \dots, \eta_\xi^N)\,\dv \notag \\
+        &= \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^\beta)\,\dv
   \label{eq:U_xi_uniform}
-\end{equation}
+\end{align}
+Here $\eta_\xi^\beta$ denotes the full list of component mass fractions
+$\{\eta_\xi^1,\ldots,\eta_\xi^N\}$; the index $\beta$ is not summed in this
+argument list.
 The constitutive dependence on $\mbf F_\xi$ may be trivial for mobile phases,
 but keeping it in the notation allows one calculation for all phases.  The local
 free-energy variation is
@@ -529,7 +532,7 @@ The first line vanishes on the constraint surface $\sum_\alpha\eta_\xi^\alpha = 
 
 Recalling
 \begin{equation}
-  C_4 = \sum_\alpha \int_{\mc{B}} \tau^\alpha \sum_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi}  \,\dv,
+  C_4 = \sum_\alpha \int_{\mc{B}} \nu^\alpha \sum_\xi \frac{\dot{c}^\alpha_\xi}{J_\xi}  \,\dv,
   \label{eq:c4_var}
 \end{equation}
 %
@@ -552,10 +555,10 @@ Now expanding the collection and computing the local variations
 %
 Computing the variation of the first term in \eqref{eq:c4_var} gives
 \begin{align}
-  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \tau^\al \left.\delta\hat{c}^\alpha_\xi \right\vert_{\mbf x} \dv \dt 
-  &=  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha  \frac{\tau^\al}{J_\xi} \delta \dot{c}^\alpha_\xi - \tau^\al \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x} - \tau^\al \nabla_{\mbf{x}} \hat{c}^\alpha_\xi \cdot \delta\mbf{x}_\xi \dv \dt \notag \\
-   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \frac{\tau^\al }{J_\xi} \delta \dot{c}^\alpha_\xi  - \tau^\al \nabla_\mbf{x} \cdot \left(\hat{c}^\alpha_\xi \delta \mbf{x}_\xi \right) \dv \dt \notag \\
-   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha  - \frac{D_\xi \tau^\al}{Dt}\frac{\delta c^\alpha_\xi}{J_\xi}  + \frac{\dot{c}^\alpha_\xi}{J_\xi} \nabla_{\mbf x} \tau^\al \cdot  \delta \mbf{x}_\xi  \dv \dt + \text{b.t.}
+  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \nu^\al \left.\delta\hat{c}^\alpha_\xi \right\vert_{\mbf x} \dv \dt 
+  &=  \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha  \frac{\nu^\al}{J_\xi} \delta \dot{c}^\alpha_\xi - \nu^\al \hat{c}^\alpha_\xi \nabla_\mbf{x} \cdot \delta \mbf{x} - \nu^\al \nabla_{\mbf{x}} \hat{c}^\alpha_\xi \cdot \delta\mbf{x}_\xi \dv \dt \notag \\
+   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha \frac{\nu^\al }{J_\xi} \delta \dot{c}^\alpha_\xi  - \nu^\al \nabla_\mbf{x} \cdot \left(\hat{c}^\alpha_\xi \delta \mbf{x}_\xi \right) \dv \dt \notag \\
+   &= \int_{t_1}^{t_2} \int_{\mc{B}} \sum_\xi \sum_\alpha  - \frac{D_\xi \nu^\al}{Dt}\frac{\delta c^\alpha_\xi}{J_\xi}  + \frac{\dot{c}^\alpha_\xi}{J_\xi} \nabla_{\mbf x} \nu^\al \cdot  \delta \mbf{x}_\xi  \dv \dt + \text{b.t.}
    \label{eq:c4_term1}
 \end{align}
 %
@@ -568,14 +571,14 @@ where we've integrated by parts in time (with $\delta c_\xi^\alpha|_{t_1} = \del
 
 The reaction constraint is
 \begin{equation}
-  C_5 = \int_{\mc{B}} \zeta \sum_\xi\sum_\alpha \frac{\dot r_\xi^\alpha}{J_\xi}\,\dv.
+  C_5 = \int_{\mc{B}} \tau \sum_\xi\sum_\alpha \frac{\dot r_\xi^\alpha}{J_\xi}\,\dv.
   \label{eq:c5_var}
 \end{equation}
 Defining $\hat r_\xi^\alpha=\dot r_\xi^\alpha/J_\xi$ and repeating the same calculation as for $C_4$ gives
 \begin{align}
   \int_{t_1}^{t_2}\delta C_5\,\dt
-  &= \int_{t_1}^{t_2}\int_{\mc{B}} \delta\zeta\sum_\xi\sum_\alpha \hat r_\xi^\alpha \,\dv\dt \notag \\
-  &\quad + \int_{t_1}^{t_2}\int_{\mc{B}} \sum_\xi\sum_\alpha \left[-\frac{D_\xi\zeta}{Dt}\frac{\delta r_\xi^\alpha}{J_\xi} + \hat r_\xi^\alpha\nabla_{\mbf{x}}\zeta\cdot\delta\mbf{x}_\xi\right]\dv\dt + \text{b.t.}
+  &= \int_{t_1}^{t_2}\int_{\mc{B}} \delta\tau\sum_\xi\sum_\alpha \hat r_\xi^\alpha \,\dv\dt \notag \\
+  &\quad + \int_{t_1}^{t_2}\int_{\mc{B}} \sum_\xi\sum_\alpha \left[-\frac{D_\xi\tau}{Dt}\frac{\delta r_\xi^\alpha}{J_\xi} + \hat r_\xi^\alpha\nabla_{\mbf{x}}\tau\cdot\delta\mbf{x}_\xi\right]\dv\dt + \text{b.t.}
   \label{eq:c5_variation}
 \end{align}
 The multiplier variation enforces the total mass conservation of reaction sources, $\sum_\xi\sum_\alpha \hat r_\xi^\alpha=0$.
@@ -592,8 +595,8 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
     + \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
     - \lambda\nabla_{\mbf{x}}\phi_{\xi}
     - \sum_\alpha\nabla_{\mbf{x}}\mu_{\xi}^\alpha
-    + \sum_\alpha \left[\hat{c}_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_{\xi}\right)
-      + \hat r_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_{\xi}\right)\right]
+    + \sum_\alpha \left[\hat{c}_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\nu^\al - \mbf{v}_{\xi}\right)
+      + \hat r_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_{\xi}\right)\right]
   \Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag \\
   &- \int_{\mc B}\left[
     \phi_a\nabla_{\mbf x}\gamma_a\cdot\delta\mbf x_a
@@ -614,12 +617,12 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
   \Bigg] \delta\eta^\alpha_\xi \,\dv \notag \\
   &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
     \tfrac{1}{2}\mbf{v}_{\xi}\cdot\mbf{v}_{\xi} - \psi_{\xi}
-    - \frac{D_{\xi}\tau^\al}{Dt}
+    - \frac{D_{\xi}\nu^\al}{Dt}
     - \frac{\mu_{\xi}^\alpha}{\phi_{\xi}\bar\rho_{\xi}\eta_\xi^\alpha}
   \Bigg] \frac{\delta c^\alpha_{\xi}}{J_{\xi}} \,\dv \notag \\
   &+ \sum_\xi\sum_\alpha \int_{\mc{B}} \Bigg[
     \tfrac{1}{2}\mbf{v}_{\xi}\cdot\mbf{v}_{\xi} - \psi_{\xi}
-    - \frac{D_{\xi}\zeta}{Dt}
+    - \frac{D_{\xi}\tau}{Dt}
     - \frac{\mu_{\xi}^\alpha}{\phi_{\xi}\bar\rho_{\xi}\eta_\xi^\alpha}
   \Bigg] \frac{\delta r^\alpha_{\xi}}{J_{\xi}} \,\dv + \text{boundary terms}.
   \label{eq:collected_full}
@@ -643,8 +646,8 @@ principle is
     \rho_{\xi}\mbf{a}_{\xi} =
     \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
     + \phi_{\xi} \nabla_{\mbf{x}}\lambda
-    + \sum_\alpha \left[\hat{c}_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_{\xi}\right)
-      +\hat r_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_{\xi}\right)\right],
+    + \sum_\alpha \left[\hat{c}_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\nu^\al - \mbf{v}_{\xi}\right)
+      +\hat r_{\xi}^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_{\xi}\right)\right],
   \label{eq:el_momentum_uniform}
 \end{equation}
 with the mobile-phase capillary-force additions displayed separately below.
@@ -670,7 +673,6 @@ constraint
   \label{eq:el_eta_constraint}
 \end{equation}
 Thus $\pi_{\xi}$ is the phase-level multiplier that enforces the redundant
-composition coordinate.  Equation~\eqref{eq:el_eta_all} may be read
 componentwise as
 \begin{equation}
   \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}}
@@ -679,28 +681,31 @@ componentwise as
   \label{eq:pi_componentwise}
 \end{equation}
 so the same value of $\pi_{\xi}$ must be obtained from every component in a
-given phase.  Equivalently,
+given phase.  Equivalently, for any two components $\alpha$ and $\beta$,
 \begin{align}
-  \rho_{\xi}\left(\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\alpha}} - \left.\p{\psi_{\xi}}{\eta_{\xi}^\beta}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\beta}} \right)
+  \rho_{\xi}\left(
+    \left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\alpha}}
+    - \left.\p{\psi_{\xi}}{\eta_{\xi}^\beta}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\beta}}
+  \right)
   &= \frac{\mu_{\xi}^\alpha}{\eta_{\xi}^\alpha}
    - \frac{\mu_{\xi}^\beta}{\eta_{\xi}^\beta}.
   \label{eq:pi_difference}
 \end{align}
+Here $\kappa$ denotes the collection of composition components held fixed in the
+partial derivative; it is not summed.
 
-Choosing $\alpha=1$ and \beta = \{2, 3, \ldots, N \} gives a system of $N-1$ equations
+Choosing $\alpha=1$ and comparing against $j=2,3,\ldots,N$ gives a system of
+$N-1$ equations,
 %
 \begin{align}
-  \rho_{\xi}\left(\left.\p{\psi_{\xi}}{\eta_{\xi}^1}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\alpha}} - \left.\p{\psi_{\xi}}{\eta_{\xi}^2}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\beta}} \right)
-  &= \frac{\mu_{\xi}^1}{\eta_{\xi}^\alpha}
-   - \frac{\mu_{\xi}^2}{\eta_{\xi}^\beta}. \\
-  \rho_{\xi}\left(\left.\p{\psi_{\xi}}{\eta_{\xi}^1}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\alpha}} - \left.\p{\psi_{\xi}}{\eta_{\xi}^3}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\beta}} \right)
-  &= \frac{\mu_{\xi}^1}{\eta_{\xi}^\alpha}
-   - \frac{\mu_{\xi}^3}{\eta_{\xi}^\beta}. \\
-   &\vdots \\
-  \rho_{\xi}\left(\left.\p{\psi_{\xi}}{\eta_{\xi}^1}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\alpha}} - \left.\p{\psi_{\xi}}{\eta_{\xi}^N}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\beta}} \right)
-  &= \frac{\mu_{\xi}^1}{\eta_{\xi}^\alpha}
-   - \frac{\mu_{\xi}^N}{\eta_{\xi}^\beta}.
-  \label{eq:pi_difference}
+  \rho_{\xi}\left(
+    \left.\p{\psi_{\xi}}{\eta_{\xi}^1}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq 1}}
+    - \left.\p{\psi_{\xi}}{\eta_{\xi}^j}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq j}}
+  \right)
+  &= \frac{\mu_{\xi}^1}{\eta_{\xi}^1}
+   - \frac{\mu_{\xi}^j}{\eta_{\xi}^j},
+  \qquad j=2,\ldots,N.
+  \label{eq:pi_difference_system}
 \end{align}
 
 
@@ -710,7 +715,7 @@ variational principle.  Since all phase energies were varied in the same current
 configuration form, the phase-transformation equation is uniform for solid and
 mobile phases:
 \begin{equation}
-  \frac{D_\xi\tau^\al}{Dt}
+  \frac{D_\xi\nu^\al}{Dt}
   = \frac{1}{2}\mbf{v}_{\xi}\cdot\mbf{v}_{\xi}
   - \psi_\xi
   - \frac{\mu^\alpha_{\xi}}{\phi_{\xi} \bar\rho_{\xi}\eta_{\xi}^\alpha}.
@@ -720,7 +725,7 @@ Reaction mass addition has no separate virtual-work coefficient in the present
 bookkeeping.  Its reversible energetic contribution is supplied by the explicit
 free-energy variation, giving
 \begin{equation}
-  \frac{D_\xi\zeta}{Dt}
+  \frac{D_\xi\tau}{Dt}
   = \frac{1}{2}\mbf{v}_{\xi}\cdot\mbf{v}_{\xi}
   - \psi_\xi
   - \frac{\mu^\alpha_{\xi}}{\phi_{\xi}\bar\rho_{\xi}\eta_{\xi}^\alpha}.
@@ -757,48 +762,48 @@ through $t_*$ gives
 \end{equation}
 if the reaction source has no delta contribution.  Thus the phase mass of a
 component may jump, but the total amount of that component cannot jump during a
-pure phase transformation.  Variation of $\tau^\alpha$ gives
+pure phase transformation.  Variation of $\nu^\alpha$ gives
 \begin{equation}
   \sum_\xi \frac{\Delta c_\xi^\alpha}{J_\xi}=0 .
   \label{eq:impulsive_transfer_constraint}
 \end{equation}
 This is the instantaneous form of component conservation.
 
-The field $\tau^\alpha$ is not zero just because the transfer is instantaneous.
+The field $\nu^\alpha$ is not zero just because the transfer is instantaneous.
 It remains the variable whose material derivative gives the generalized transfer
 potential,
 \begin{equation}
-  \mc A_{\xi c}^\alpha = \frac{D_\xi\tau^\alpha}{Dt} .
+  \mc A_{\xi c}^\alpha = \frac{D_\xi\nu^\alpha}{Dt} .
 \end{equation}
-If $\tau^\alpha$ itself jumps at $t_*$, then this material derivative also has a
+If $\nu^\alpha$ itself jumps at $t_*$, then this material derivative also has a
 Dirac delta contribution,
 \begin{equation}
-  \frac{D_\xi\tau^\alpha}{Dt}
-  = \left(\frac{D_\xi\tau^\alpha}{Dt}\right)^- \quad (t<t_*),
+  \frac{D_\xi\nu^\alpha}{Dt}
+  = \left(\frac{D_\xi\nu^\alpha}{Dt}\right)^- \quad (t<t_*),
   \qquad
-  \frac{D_\xi\tau^\alpha}{Dt}
-  = \left(\frac{D_\xi\tau^\alpha}{Dt}\right)^+ \quad (t>t_*),
+  \frac{D_\xi\nu^\alpha}{Dt}
+  = \left(\frac{D_\xi\nu^\alpha}{Dt}\right)^+ \quad (t>t_*),
 \end{equation}
 together with the impulse
 \begin{equation}
-  \left[\!\left[\tau^\alpha\right]\!\right]_{t_*}\delta(t-t_*) .
+  \left[\!\left[\nu^\alpha\right]\!\right]_{t_*}\delta(t-t_*) .
   \label{eq:tau_distributional_derivative}
 \end{equation}
 For a conservative instantaneous transfer with no extra work assigned to the
 jump, the natural jump condition is continuity of the multiplier,
 \begin{equation}
-  \left[\!\left[\tau^\alpha\right]\!\right]_{t_*}=0 .
+  \left[\!\left[\nu^\alpha\right]\!\right]_{t_*}=0 .
   \label{eq:tau_conservative_jump}
 \end{equation}
-This does not require $\tau^\alpha$ to vanish.  It only says that the same finite
-value of $\tau^\alpha$ is carried through the instant of transfer.  If one allows
-additional work at the jump, then $\tau^\alpha$ may jump, and the jump is the
+This does not require $\nu^\alpha$ to vanish.  It only says that the same finite
+value of $\nu^\alpha$ is carried through the instant of transfer.  If one allows
+additional work at the jump, then $\nu^\alpha$ may jump, and the jump is the
 corresponding impulsive transfer force.
 
 No separate assumption
 $\mc A_{\xi c}^\alpha=\mc A_{\zeta c}^\alpha$ is imposed here.  The jump in
 $c_\xi^\alpha$, the conservation condition \eqref{eq:impulsive_transfer_constraint},
-and the jump condition for $\tau^\alpha$ are the instantaneous counterparts of
+and the jump condition for $\nu^\alpha$ are the instantaneous counterparts of
 the smooth variational equations.
 
 Using the pressure definition along with the Euler--Lagrange equations associated
@@ -853,8 +858,8 @@ principle, the coefficient of $\delta\mbf{x}_a$ gives
   - \lambda\nabla_{\mbf{x}}\phi_a
   - \sum_\alpha\nabla_{\mbf{x}}\mu_a^\alpha
   -\phi_a\nabla_{\mbf x}\gamma_a
-  + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
-    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right].
+  + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\nu^\al - \mbf{v}_a\right)
+    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_a\right)\right].
   \label{eq:el_mom_a_start}
 \end{align}
 The oleic and gas equations have the same form with $a$ replaced by $o$ or $g$.
@@ -869,20 +874,20 @@ potential gradients to give the standard phase pressure-gradient form
   \rho_a\mbf{a}_a
   &= \rho_a\mbf{g} + \mbf{b}_a
   - \phi_a\nabla_{\mbf{x}}\bar p_a
-  + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_a\right)
-    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_a\right)\right],
+  + \sum_\alpha \left[\hat{c}_a^{\alpha}\left(\nabla_{\mbf{x}}\nu^\al - \mbf{v}_a\right)
+    + \hat r_a^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_a\right)\right],
   \label{eq:el_mom_a_simplified} \\
   \rho_o\mbf{a}_o
   &= \rho_o\mbf{g} + \mbf{b}_o
   - \phi_o\nabla_{\mbf{x}}\bar p_o
-  + \sum_\alpha \left[\hat{c}_o^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_o\right)
-    + \hat r_o^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_o\right)\right],
+  + \sum_\alpha \left[\hat{c}_o^{\alpha}\left(\nabla_{\mbf{x}}\nu^\al - \mbf{v}_o\right)
+    + \hat r_o^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_o\right)\right],
   \label{eq:el_mom_o_simplified} \\
   \rho_g\mbf{a}_g
   &= \rho_g\mbf{g} + \mbf{b}_g
   - \phi_g\nabla_{\mbf{x}}\bar p_g
-  + \sum_\alpha \left[\hat{c}_g^{\alpha}\left(\nabla_{\mbf{x}}\tau^\al - \mbf{v}_g\right)
-    + \hat r_g^{\alpha}\left(\nabla_{\mbf{x}}\zeta - \mbf{v}_g\right)\right].
+  + \sum_\alpha \left[\hat{c}_g^{\alpha}\left(\nabla_{\mbf{x}}\nu^\al - \mbf{v}_g\right)
+    + \hat r_g^{\alpha}\left(\nabla_{\mbf{x}}\tau - \mbf{v}_g\right)\right].
   \label{eq:el_mom_g_simplified}
 \end{align}
 
