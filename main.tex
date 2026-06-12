@@ -77,19 +77,23 @@ Here $\mc{B}$ is the common current mixture region corresponding, through the ph
   \label{eq:material_mass_2}
 \end{equation}
 %
-Taking the material time derivative following phase $\xi$ gives
-%
-\begin{equation}
-  \frac{D_\xi}{Dt}\left(\rho_\xi^\alpha J_\xi\right) = \dot{c}^\alpha_\xi + \dot r^\alpha_\xi,
-\end{equation}
-%
-where $\dot{c}^\alpha_\xi = D_\xi c^\alpha_\xi/Dt$ and $\dot r^\alpha_\xi = D_\xi r^\alpha_\xi/Dt$.  Using
+The material time derivative of a quantity $\square_\xi$ following the velocity of phase $\zeta$ is
 %
 \[
-  \frac{D_\xi J_\xi}{Dt} = J_\xi \nabla_\mbf{x}\cdot\mbf{v}_\xi,
+  \frac{D_\zeta \square_\xi}{Dt}
+  = \frac{\partial \square_\xi}{\partial t}
+  + \mbf{v}_\zeta\cdot\nabla_{\mbf{x}}\square_\xi,
 \]
 %
-we obtain
+and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the derivative following phase $\xi$.  
+%
+Using this definition we take the material time derivative of \eqref{eq:material_mass_2} following phase $\xi$
+%
+\begin{equation}
+  \frac{D_\xi}{Dt}\left(\rho_\xi^\alpha J_\xi\right) = \dot{c}^\alpha_\xi + \dot r^\alpha_\xi.
+\end{equation}
+%
+Using the identity $\dot{J}_\xi = J_\xi \nabla_\mbf{x}\cdot\mbf{v}_\xi$, we obtain
 %
 \begin{align}
   \frac{D_\xi \rho_\xi^\alpha}{Dt}
@@ -106,15 +110,7 @@ We define the current production rates per unit current mixture volume by
   \hat r^\al_\xi(\mbf{x},t) = \frac{\dot r^\al_\xi}{J_\xi}.
 \]
 %
-The material time derivative of a quantity $\square_\xi$ following the velocity of phase $\zeta$ is
-%
-\[
-  \frac{D_\zeta \square_\xi}{Dt}
-  = \frac{\partial \square_\xi}{\partial t}
-  + \mbf{v}_\zeta\cdot\nabla_{\mbf{x}}\square_\xi,
-\]
-%
-and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the derivative following phase $\xi$.  Expanding \eqref{eq:component_material_mass} gives the spatial component mass balance
+Expanding \eqref{eq:component_material_mass} gives the spatial component mass balance of the $\xi$ phase
 %
 \begin{align}
   \frac{\partial \rho_\xi^\alpha}{\partial t}
@@ -151,7 +147,7 @@ The phase volume fraction is defined by
   \phi_\xi = \frac{\dv_\xi}{\dv},
 \]
 %
-where $\dv_\xi$ is a bookkeeping measure of the partial volume occupied by phase $\xi$ in the current mixture volume $\dv$.  The intrinsic density is introduced only at the phase level,
+where $\dv_\xi$ is a the partial volume occupied by phase $\xi$ in the current mixture volume $\dv$.  The intrinsic density is introduced only at the phase level,
 %
 \[
   \bar\rho_\xi = \frac{{\rm d}m_\xi}{\dv_\xi},
@@ -205,12 +201,9 @@ where
 %
 \[
   \rho = \sum_\xi \rho_\xi = \sum_\xi \phi_\xi \bar\rho_\xi,
-  \qquad
-  \rho\mbf{v} = \sum_\xi \rho_\xi\mbf{v}_\xi
-  = \sum_\xi \phi_\xi\bar\rho_\xi\mbf{v}_\xi.
 \]
 %
-Equivalently, the barycentric mixture velocity is
+and the barycentric mixture velocity is
 %
 \[
   \mbf{v} = \frac{1}{\rho}\sum_\xi \rho_\xi\mbf{v}_\xi.
@@ -228,7 +221,7 @@ In words, this means that for reactions internal to the mixture, total mass is n
 \section{Variational Derivation}
 \label{sec:variational}
 
-We derive the governing equations from Hamilton's extended principle, following Bedford \& Drumheller~\cite{drumheller1980thermomechanical} and Drumheller~\cite{drumheller2000}, adapted to a compositional mixture system containing phases ($N$ solid, $1$ aquous, $1$ oelic, and $1$ gas phases) and arbitrary miscible components $\alpha$ within each phase.
+We derive the governing equations from Hamilton's extended principle, following Bedford \& Drumheller~\cite{drumheller1980thermomechanical}, adapted to a compositional mixture system containing phases (solid, aquous, oliec, and gas phases) and arbitrary miscible components $\alpha$ within each phase.
 
 Each phase has volume fraction~$\phi_\xi$, intrinsic density~$\bar\rho_\xi$, bulk density $\rho_\xi = \phi_\xi\bar\rho_\xi$, velocity~$\mbf{v}_\xi$, deformation gradient~$\mbf{F}_\xi$, and Jacobian $J_\xi = \det(\mbf{F}_\xi)$.  
 
@@ -242,7 +235,7 @@ with kinetic energy, internal energy, virtual work, and five constraints:
 \begin{align}
 T &= \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \dv,
   \label{eq:T_def} \\
-  U &= \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \eta^\beta_{\xi})\dv
+  U &= \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \eta^\al_{\xi})\dv
     + \int_{\mc{B}} \phi\,\gamma(S_a, S_g) \dv, 
   \label{eq:U_def} \\
   \delta W &= \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv,
@@ -266,6 +259,7 @@ through the density-weighted free energy.
 We treat $\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho_\xi$, $c_\xi^\alpha$, and $r_\xi^\alpha$ as independent fields (subject to constraints) and compute the variations in what follows.
 
 \subsection{Extending Beford and Drumheller identity 1.28}
+We extend Beford and Drumheller's identity (cf. \cite{drumheller1980thermomechanical} eq.~1.28) to a compositional system
 \begin{align}
   \delta \int_{\mc{B}} \rho^\alpha_\xi \Gamma_\xi \, \dv
   &= \delta \int_{\mc{B}} \left(\rho^\alpha_{\xi 0} + c^\al_\xi + r^\al_\xi \right) \Gamma_\xi \dVxi \notag \\
@@ -290,7 +284,7 @@ where we've used $\rho_\xi = \sum_\alpha \rho^\alpha_\xi$.
 \label{sec:var_Uxi}
 % ============================================================
 
-The variation of kinetic energy of a using \eqref{eq:bd128_mod} is
+The variation of kinetic energy using \eqref{eq:bd128_mod} is then
 \begin{equation}
   \delta T = \sum_\xi \int_{\mc{B}} \rho_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta c^\al_\xi + \delta r^\al_\xi}{J_\xi} \dv.
 \end{equation}
@@ -892,6 +886,7 @@ potential gradients to give the standard phase pressure-gradient form
   \label{eq:el_mom_g_simplified}
 \end{align}
 
-
+\bibliography{all}
+\bibliographystyle{plain}
 
 \end{document}
