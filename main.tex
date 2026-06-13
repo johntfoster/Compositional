@@ -724,38 +724,131 @@ moduli.  This recovers the mixture rules used in the earlier reacting-mixture
 formulation, but avoids introducing a separate mechanical phase for each solid
 mineral.
 
-For the present fully compressible solid model we do not introduce a separate
-distention energy and we do not use a Flory split of the deformation gradient.
-Instead, the solid phase has one deformation gradient $\mbf F_s$ and one phase
-intrinsic density $\bar\rho_s$, while its composition is carried by the phase
-mass fractions $\eta_s^\alpha$.  The phase label remains part of the component
-Helmholtz energy: component $\alpha$ in the solid phase need not have the same
-free energy as component $\alpha$ in a liquid or gas phase.  Thus a more precise
-notation is
+For the present fully compressible solid model we still need the distension
+kinematics before it is meaningful to define an intrinsic stress.  The solid
+phase has a macroscopic skeleton deformation $\mbf F_s$, but the stress carried
+by a solid component is conjugate to the true, or undistended, deformation.  We
+therefore introduce a solid distension tensor $\mbf A_s$ and write
 \begin{equation}
-  \psi_s(\mbf F_s,\bar\rho_s,\eta_s^\beta)
+  \mbf F_s=\mbf A_s\bar{\mbf F}_s,
+  \qquad
+  J_s=a_s\bar J_s,
+  \qquad
+  a_s=\det\mbf A_s,
+  \qquad
+  \bar J_s=\det\bar{\mbf F}_s .
+  \label{eq:solid_distension_decomposition}
+\end{equation}
+Here $\bar{\mbf F}_s$ is the true deformation seen by the load-bearing solid
+material, while $\mbf A_s$ accounts for the change in the relation between the
+solid material volume and the mixture volume.  In the isotropic specialization
+one may set $\mbf A_s=a_s^{1/3}\mbf I$, giving
+\begin{equation}
+  \bar{\mbf F}_s=a_s^{-1/3}\mbf F_s .
+  \label{eq:isotropic_distension_fbar}
+\end{equation}
+This is not the introduction of a separate distension energy.  It is the
+kinematic device needed to separate deformation of the solid material from
+changes in pore-space allocation, packing, and reaction-induced filling.  The
+evolution of $a_s$ follows from the same mass-balance argument used by
+Drumheller and in the earlier reacting-mixture formulation.  Summing the
+component material balances over solid components gives the phase mass balance
+\begin{equation}
+  J_s\phi_s\bar\rho_s
+  =\phi_{s0}\bar\rho_{s0}+c_s,
+  \qquad
+  c_s=\sum_\alpha c_s^\alpha .
+  \label{eq:solid_material_mass_distension}
+\end{equation}
+Using $J_s=a_s\bar J_s$ and imposing true local conservation of mass for the
+solid material,
+\begin{equation}
+  \bar J_s\bar\rho_s=\bar\rho_{s0},
+  \label{eq:solid_true_mass_conservation}
+\end{equation}
+transforms \eqref{eq:solid_material_mass_distension} into
+\begin{equation}
+  a_s\phi_s\bar\rho_{s0}
+  =\phi_{s0}\bar\rho_{s0}+c_s .
+  \label{eq:solid_distension_mass_relation}
+\end{equation}
+Thus the solid volume fraction is tied directly to the motion only when there is
+no mass exchange.  Taking the material time derivative of $J_s=a_s\bar J_s$ gives
+\begin{equation}
+  \frac{D_s a_s/Dt}{a_s}
+  =\frac{D_s J_s/Dt}{J_s}-\frac{D_s\bar J_s/Dt}{\bar J_s} .
+\end{equation}
+Since $D_sJ_s/Dt=J_s\nabla_{\mbf x}\cdot\mbf v_s$ and
+\eqref{eq:solid_true_mass_conservation} implies
+$(D_s\bar J_s/Dt)/\bar J_s=-(D_s\bar\rho_s/Dt)/\bar\rho_s$, the distension
+evolution law is
+\begin{equation}
+  \frac{1}{a_s}\frac{D_s a_s}{Dt}
+  =\nabla_{\mbf x}\cdot\mbf v_s
+  +\frac{1}{\bar\rho_s}\frac{D_s\bar\rho_s}{Dt} .
+  \label{eq:solid_distension_evolution}
+\end{equation}
+For incompressible solid constituents, $D_s\bar\rho_s/Dt=0$, and therefore
+$D_s a_s/Dt=a_s\nabla_{\mbf x}\cdot\mbf v_s$.  If additionally $a_s=J_s$ in the
+reference state, then $a_s=J_s$ for all time; for compressible multicomponent
+solids, however, the intrinsic-density term makes $a_s$ evolve independently of
+$J_s$.
+
+For non-isothermal problems we follow the thermal split used in finite-strain
+thermo-hydro-mechanics, but apply it to the true deformation rather than to the
+total skeleton deformation.  Thus
+\begin{equation}
+  \bar{\mbf F}_s=\bar{\mbf F}_s^M\bar{\mbf F}_s^\theta,
+  \qquad
+  \bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1},
+  \label{eq:true_thermal_split}
+\end{equation}
+where $\bar{\mbf F}_s^\theta$ maps to the thermal stress-free true-solid
+configuration and $\bar{\mbf F}_s^M$ is the mechanical part that enters the
+intrinsic stresses.  For isotropic thermal expansion,
+\begin{equation}
+  \bar{\mbf F}_s^\theta
+  =\exp\left[\int_{\theta_0}^{\theta}\alpha_{\rm sk}(\vartheta,\eta_s^\beta)\,d\vartheta\right]\mbf I,
+  \qquad
+  \bar J_s^\theta
+  =\exp\left[3\int_{\theta_0}^{\theta}\alpha_{\rm sk}(\vartheta,\eta_s^\beta)\,d\vartheta\right].
+  \label{eq:thermal_expansion_split}
+\end{equation}
+Here $\alpha_{\rm sk}$ is a skeleton thermal expansion coefficient that may depend
+on the solid composition.  This is the single-skeleton analogue of assigning
+different thermal expansion behavior to different minerals: the composition
+updates $\alpha_{\rm sk}$, while all solid components remain attached to the same
+true deformation field.
+
+This thermal split does not break the energy-based structure.  It is a
+constitutive reparametrization of the free energy: instead of depending on
+$\bar{\mbf F}_s$ directly, the elastic part of the free energy depends on
+$\bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1}$ and on $\theta$.  The
+phase label remains part of the component Helmholtz energy: component $\alpha$ in
+the solid phase need not have the same free energy as component $\alpha$ in a
+liquid or gas phase.  The multicomponent solid free energy is written as
+\begin{equation}
+  \psi_s(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta)
   =\sum_\alpha \eta_s^\alpha\,
-    \psi_s^\alpha(\mbf F_s,\bar\rho_s^\alpha),
+    \psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s^\alpha,a_s,\theta),
   \label{eq:solid_multicomponent_free_energy}
 \end{equation}
-where $\eta_s^\beta$ denotes the full list of solid component mass fractions and
-$\psi_s^\alpha$ is the Helmholtz free energy of component $\alpha$ when it is in
-the solid phase.  For example, water in a hydrate or ice-like solid would be
-represented by $\psi_s^{\mathrm{H_2O}}$, whereas liquid water would have a
-different function $\psi_\ell^{\mathrm{H_2O}}$.
-
-Equivalently, multiplying by the phase mass per mixture volume gives the current
-Helmholtz energy density
+where $\eta_s^\beta$ denotes the full list of solid component mass fractions.
+Temperature dependence of the free energy supplies entropy and heat capacity in
+the usual way, while the dependence of $\bar{\mbf F}_s^\theta$ on $\theta$ and
+$\eta_s^\beta$ encodes stress-free thermal expansion.  For example, water in a
+hydrate or ice-like solid would be represented by $\psi_s^{\mathrm{H_2O}}$,
+whereas liquid water would have a different function $\psi_\ell^{\mathrm{H_2O}}$.
+Multiplying by the phase mass per mixture volume gives
 \begin{equation}
   \phi_s\bar\rho_s\psi_s
-  =\sum_\alpha \phi_s\bar\rho_s\eta_s^\alpha
-    \psi_s^\alpha(\mbf F_s,\bar\rho_s^\alpha)
-  =\sum_\alpha \rho_s^\alpha\psi_s^\alpha(\mbf F_s,\bar\rho_s^\alpha),
+  =\sum_\alpha \rho_s^\alpha
+    \psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s^\alpha,a_s,\theta),
+  \qquad
+  \rho_s^\alpha=\phi_s\bar\rho_s\eta_s^\alpha .
   \label{eq:solid_volume_energy_sum}
 \end{equation}
-where $\rho_s^\alpha=\phi_s\bar\rho_s\eta_s^\alpha$ is the partial density of
-solid component $\alpha$ per mixture volume.  If one instead wants to express the
-same energy in terms of component volume fractions $\phi_s^\alpha$, then
+If component volume fractions are used instead, then
 \begin{equation}
   \rho_s^\alpha=\phi_s^\alpha\bar\rho_s^\alpha,
   \qquad
@@ -765,16 +858,189 @@ same energy in terms of component volume fractions $\phi_s^\alpha$, then
   =\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\phi_s\bar\rho_s} .
   \label{eq:solid_mass_volume_partitions}
 \end{equation}
-%
-Reactions update the mass partitions $\eta_s^\alpha$
-and therefore the volume fractions $\phi_s^\alpha$ through
-\eqref{eq:solid_mass_volume_partitions}, so the solid stiffness evolves with
-mineral conversion without introducing separate solid velocity fields.
+Reactions update $\eta_s^\alpha$, and therefore $\phi_s^\alpha$, through
+\eqref{eq:solid_mass_volume_partitions}; the distension evolution
+\eqref{eq:solid_distension_evolution} determines how much of that conversion
+changes the true solid deformation.
 
+The intrinsic stresses should not be postulated directly from the free energy in
+this section, because $\bar\rho_s^\alpha$, $a_s$, $\theta$, and the composition may all
+evolve.  Instead, define the component current Helmholtz energy density
+\begin{equation}
+  \bar w_s^\alpha
+  =\bar\rho_s^\alpha\psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s^\alpha,a_s,\theta),
+  \label{eq:intrinsic_current_energy_density}
+\end{equation}
+and let the Coleman--Noll procedure determine the admissible stress response.
+Appendix~\ref{sec:coleman_noll_compositional} shows that the intrinsic Cauchy
+stress is the coefficient of the mechanical true deformation rate and that the
+phase stress is obtained only after projection through the distension kinematics.
+At fixed $a_s$, the isotropic specialization takes the spatial mixture form
+\begin{equation}
+  \bs\sigma_s^{E}
+  =\sum_\alpha \phi_s^\alpha\bar{\bs\sigma}_s^\alpha,
+  \qquad
+  \mbf P_s^{E}=J_s\bs\sigma_s^{E}\mbf F_s^{-T},
+  \label{eq:elastic_phase_stress_from_intrinsic}
+\end{equation}
+while a general distension evolution adds the conjugate distension force coming
+from variations of $a_s$ or $\mbf A_s$.  Thus
+\begin{equation}
+  \mbf P_s'
+  =\mbf P_s^{E}+\mbf P_s^{a},
+  \label{eq:phase_stress_intrinsic_plus_distension}
+\end{equation}
+where $\mbf P_s'$ is the effective phase stress in the Euler--Lagrange equations
+and $\mbf P_s^{a}$ denotes the part generated by the distension closure.  This is
+the precise sense in which the volume-fraction sum of intrinsic component
+stresses is related to the phase stress; it is not an independent postulate.
+Linearizing \eqref{eq:elastic_phase_stress_from_intrinsic} about a common true
+strain gives the corresponding mixture rules for the true solid moduli,
+\begin{equation}
+  \bar G_{\rm eff}=\sum_\alpha\phi_s^\alpha \bar G_s^\alpha,
+  \qquad
+  \bar K_{\rm eff}=\sum_\alpha\phi_s^\alpha \bar K_s^\alpha .
+  \label{eq:solid_modulus_mixture_rule_from_stress}
+\end{equation}
 
+The Biot coupling should be built from these true variables.  Introduce the
+component intrinsic specific volume $\bar v_s^\alpha=1/\bar\rho_s^\alpha$ and
+write $\psi_s^\alpha=\psi_s^\alpha(\bar{\mbf F}_s,\bar v_s^\alpha,a_s)$.  The
+pressure conjugate to $\bar v_s^\alpha$ is
+\begin{equation}
+  \bar p_s^\alpha
+  =-\left.\frac{\partial \psi_s^\alpha}{\partial \bar v_s^\alpha}\right\vert_{\bar{\mbf F}_s,a_s}.
+  \label{eq:component_intrinsic_pressure}
+\end{equation}
+The component Legendre transform is
+\begin{equation}
+  \tilde\psi_s^\alpha(\bar{\mbf F}_s,\bar p_s^\alpha,a_s)
+  =\psi_s^\alpha(\bar{\mbf F}_s,\bar v_s^\alpha,a_s)
+  +\bar p_s^\alpha\bar v_s^\alpha,
+  \qquad
+  \left.\frac{\partial\tilde\psi_s^\alpha}{\partial \bar p_s^\alpha}\right\vert_{\bar{\mbf F}_s,a_s}
+  =\bar v_s^\alpha .
+  \label{eq:component_legendre_transform}
+\end{equation}
+The fixed-pressure intrinsic stress is therefore
+\begin{equation}
+  \bar{\mbf P}_s^{\alpha\prime\prime}
+  =\bar{\mbf P}_s^\alpha
+  -\bar p_s^\alpha\frac{1}{\bar v_{s0}^\alpha}
+    \left.\frac{\partial \bar v_s^\alpha}{\partial \bar{\mbf F}_s}\right\vert_{\bar p_s^\alpha,a_s}.
+  \label{eq:component_biot_stress_transform}
+\end{equation}
+If $\bar v_s^\alpha$ depends on the true volumetric deformation through
+$\bar J_s$, then
+\begin{equation}
+  \bar{\mbf P}_s^\alpha
+  =\bar{\mbf P}_s^{\alpha\prime\prime}
+  +\left(1-B_s^\alpha\right)\bar p_s^\alpha \bar J_s\bar{\mbf F}_s^{-T},
+  \qquad
+  B_s^\alpha
+  =1-\frac{1}{\bar v_{s0}^\alpha}
+    \left.\frac{\partial \bar v_s^\alpha}{\partial \bar J_s}\right\vert_{\bar p_s^\alpha,a_s} .
+  \label{eq:component_generalized_biot}
+\end{equation}
+Projecting this relation through \eqref{eq:solid_distension_decomposition} gives
+the Biot term in the phase stress.  In the present variational formulation the
+scalar multiplying the projected $J_s\mbf F_s^{-T}$ term is the saturation
+multiplier $\lambda$, with the conventional compressive pressure given by
+\begin{equation}
+  p=-\lambda .
+  \label{eq:lambda_pressure_identification}
+\end{equation}
+Consequently a single connected pore pressure gives, in this notation,
+\begin{equation}
+  \mbf P_s' + \lambda J_s\mbf F_s^{-T}
+  =\mbf P_s^{\prime\prime}+B_s^{\rm eff}\lambda J_s\mbf F_s^{-T},
+  \qquad
+  B_s^{\rm eff}=\sum_\alpha\phi_s^\alpha B_s^\alpha,
+  \label{eq:effective_biot_mixture_rule}
+\end{equation}
+up to the same distension-projection terms collected in $\mbf P_s^a$.  Replacing
+$\lambda$ by $-p$ recovers the conventional Biot notation.  In the one-component
+solid/one-fluid limit with trivial distension projection, this reduces to
+\begin{equation}
+  B=1-\frac{1}{v_{s0}}\left.\frac{\partial \bar v_s}{\partial \bar J_s}\right\vert_{-\lambda},
+\end{equation}
+which gives $B=1-K/K_s$ in the small-strain limit.
 
-\section{Missing}
+\subsection{Constitutive specialization: crystallization-driven distension}
+\label{sec:constitutive_crystallization_distension}
 
+The preceding development leaves the distension response abstract through the
+The preceding development leaves the distension response abstract through the
+closure \eqref{eq:solid_distension_evolution}.  A useful specialization is to
+choose a distension free-energy density that incorporates the classical
+thermodynamic crystallization pressure as a driving term.  Since $a_s=\det\mbf
+A_s$ is already the dimensionless volume-change coordinate for distension, we do
+not introduce an independent growth volume.  Instead, the crystallization work is
+written directly against the distension coordinate, with the dimensional volume
+scale absorbed into the definition of the energy density.  Thus let
+\begin{equation}
+  W_a=W_a(a_s,\Omega,
+  \eta_s^\alpha)
+  =W_{\rm mech}(a_s,\eta_s^\alpha)
+  -p_c(\Omega)\,(a_s-a_{s0}),
+  \label{eq:crystallization_distension_energy}
+\end{equation}
+where $W_{\rm mech}$ is the mechanical resistance to changing the solid
+distension and $a_{s0}$ is a reference value.  The thermodynamic crystallization
+pressure is
+\begin{equation}
+  p_c(\Omega)=\frac{R\theta}{V_m}\ln\Omega,
+  \label{eq:classical_crystallization_pressure}
+\end{equation}
+with supersaturation $\Omega$ and molar volume $V_m$.
+
+The supersaturation ratio $\Omega$ is determined by the chemical state, not by
+the mechanical distension variable.  For a precipitation reaction, one may write
+\begin{equation}
+  \Omega=\frac{Q}{K_{\rm eq}},
+  \qquad
+  Q=\prod_i a_i^{\nu_i},
+  \label{eq:supersaturation_activity_ratio}
+\end{equation}
+where $Q$ is the ion activity product, $K_{\rm eq}$ is the equilibrium constant,
+and $a_i$ are activities of the fluid species participating in the
+crystallization reaction.  Equivalently, in the present variational notation,
+$R\theta\ln\Omega$ is the chemical driving force for the crystallization mechanism,
+up to the sign convention used for the stoichiometric coefficients and affinity.
+For a mechanism $m$,
+\begin{equation}
+  R\theta\ln\Omega_m \sim \mc A_m
+  =-\sum_\xi\sum_\alpha \mu_\xi^\alpha\nu_{\xi m}^\alpha .
+  \label{eq:supersaturation_affinity_relation}
+\end{equation}
+Thus $\Omega$ is a shorthand for the chemical affinity supplied by the
+phase/component thermodynamics, while $W_a$ converts that chemical tendency for
+growth into a mechanical distension pressure.
+
+The scalar distension pressure is the force conjugate to $a_s$,
+\begin{equation}
+  p_a
+  =-\left.\frac{\partial W_a}{\partial a_s}\right\vert_{\Omega,\eta_s^\alpha}
+  =-\left.\frac{\partial W_{\rm mech}}{\partial a_s}\right\vert_{\eta_s^\alpha}
+  +p_c(\Omega) .
+  \label{eq:distension_pressure_gradient}
+\end{equation}
+Thus the classical crystallization pressure enters the variational theory as the
+thermodynamic part of the distension pressure, while $W_{\rm mech}$ supplies the
+mechanical resistance of the load-bearing skeleton.  In equilibrium with respect
+to distension, the condition $p_a=0$ gives
+\begin{equation}
+  \left.\frac{\partial W_{\rm mech}}{\partial a_s}\right\vert_{\eta_s^\alpha}
+  =p_c(\Omega),
+  \label{eq:distension_crystallization_balance}
+\end{equation}
+which is the statement that the mechanical distension resistance balances the
+classical crystallization pressure.
+
+\subsection{Classical compositional-flow limit and interpretation of the multipliers}
+\label{sec:classical_compositional_limit}
+The preceding equations contain the usual compositional-reservoir structure as a
+special limit.  The phase/component source is written as
 \begin{equation}
   \hat c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\hat q_m,
   \label{eq:classical_source_form}
@@ -862,6 +1128,170 @@ That is what exposes the conversion-induced momentum production terms and gives
 a direct bridge between mixture mechanics and classical compositional reactive
 transport.
 
+\appendix
+\section{Coleman--Noll procedure for the compositional thermo-reactive mixture}
+\label{sec:coleman_noll_compositional}
+
+This appendix records the thermodynamic restrictions corresponding to the
+constitutive structure used in the text.  The purpose is not to introduce new
+chosen.  For each phase $\xi$ let $E_\xi$, $\psi_\xi$, $s_\xi$, and $\theta$ denote
+internal energy, Helmholtz free energy, entropy, and the common temperature.  We
+use the Legendre relation
+\begin{equation}
+  E_\xi=\psi_\xi+\theta s_\xi .
+  \label{eq:CN_legendre}
+\end{equation}
+The phase energy balance is written in the local form
+\begin{align}
+  \rho_\xi \dot E_\xi
+  +\sum_\alpha \hat c_\xi^\alpha E_\xi
+  =&\; \bs\sigma_\xi':\mbf L_\xi
+  +\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+  -\nabla_{\mbf x}\cdot\mbf q_\xi
+  +\rho_\xi r_\xi+\rho_\xi e_\xi^{\rm int}.
+  \label{eq:CN_energy_balance}
+\end{align}
+There is no separate phase-wise latent conversion force in the present formulation.  The conversion forces enter through the same virtual-power statement used in the variational derivation.  There are two pieces.  First, the mechanism affinity is introduced by
+\begin{equation}
+  \delta W_{\rm conv}
+  =-\sum_m\int_{\mc B}\mc A_m\,\delta\hat q_m\,\dv .
+  \label{eq:CN_affinity_virtual_power}
+\end{equation}
+Second, the stoichiometric constraint
+\begin{equation}
+  \hat c_\xi^\alpha-
+  \sum_m\nu_{\xi m}^\alpha\hat q_m=0
+  \label{eq:CN_stoichiometric_constraint}
+\end{equation}
+is enforced by the multiplier $\mu_\xi^\alpha$.  Thus $\mu_\xi^\alpha$ is not a new Coleman--Noll constitutive force; it is the phase/component conversion potential already obtained in the variational formulation.  Its virtual-power contribution is the term conjugate to the component conversion rate,
+\begin{equation}
+  \sum_\xi\sum_\alpha \mu_\xi^\alpha\hat c_\xi^\alpha,
+  \label{eq:CN_mu_conversion_power}
+\end{equation}
+with the sign chosen consistently with the affinity condition
+\eqref{eq:affinity_multiplier_projection}.  After using
+\eqref{eq:CN_stoichiometric_constraint}, the two conversion-power contributions
+combine as
+\begin{equation}
+  \sum_m\mc A_m\hat q_m
+  +\sum_\xi\sum_\alpha\mu_\xi^\alpha\hat c_\xi^\alpha
+  =\sum_m\left(\mc A_m+
+  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\hat q_m .
+  \label{eq:CN_composition_affinity_projection}
+\end{equation}
+This is the precise sense in which changes of $\eta_\xi^\alpha$ generate a chemical virtual-power term: the mass fractions are not independent thermodynamic rates, but are induced by the component conversion rates and therefore by the mechanism rates $\hat q_m$.
+
+The second law is
+\begin{equation}
+  0\le
+  \sum_\xi\left[\rho_\xi\dot s_\xi
+  +\sum_\alpha\hat c_\xi^\alpha s_\xi
+  +\nabla_{\mbf x}\cdot\left(\frac{\mbf q_\xi}{\theta}\right)
+  -\frac{\rho_\xi r_\xi}{\theta}\right].
+  \label{eq:CN_entropy_inequality}
+\end{equation}
+Substitution of \eqref{eq:CN_legendre}--\eqref{eq:CN_energy_balance} into
+\eqref{eq:CN_entropy_inequality}, together with the conversion virtual power
+\eqref{eq:CN_composition_affinity_projection}, gives
+\begin{align}
+0\le \sum_\xi \frac{1}{\theta}\Big[&
+  \bs\sigma_\xi':\mbf L_\xi
+  +\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+  -\rho_\xi\dot\psi_\xi
+  -\rho_\xi s_\xi\dot \theta
+  -\sum_\alpha \hat c_\xi^\alpha\psi_\xi
+  +\rho_\xi e_\xi^{\rm int}
+\Big]
+-\sum_\xi \frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
++\frac{1}{\theta}\sum_m\left(\mc A_m+
+  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\hat q_m .
+\label{eq:CN_reduced_entropy_general}
+\end{align}
+
+For the solid phase the constitutive variables are
+\begin{equation}
+  \psi_s=\psi_s(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta),
+  \qquad
+  \bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1},
+  \label{eq:CN_solid_state}
+\end{equation}
+with the component representation
+\begin{equation}
+  \phi_s\bar\rho_s\psi_s
+  =\sum_\alpha \rho_s^\alpha
+  \psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s^\alpha,a_s,\theta),
+  \qquad \rho_s^\alpha=\phi_s\bar\rho_s\eta_s^\alpha .
+  \label{eq:CN_component_energy}
+\end{equation}
+For mobile phases $\ell$ we use the compositional-flow form
+\begin{equation}
+  \psi_\ell=\psi_\ell(\bar\rho_\ell,\theta,\eta_\ell^\beta),
+  \qquad \ell\in\{a,o,g\},
+  \label{eq:CN_mobile_energy}
+\end{equation}
+with no intrinsic shear stress.  Expanding $\dot\psi_s$ and $\dot\psi_\ell$ in
+\eqref{eq:CN_reduced_entropy_general}, using
+\eqref{eq:CN_composition_affinity_projection} for the composition/conversion
+terms, collecting independent rates, and using
+$\bs\sigma_s^E:\mbf L_s=(1/J_s)\mbf P_s^E:\dot{\mbf F}_s$ gives the reduced
+entropy inequality
+\begin{align}
+0\le &\frac{1}{\theta}\Bigg[
+  \left(\frac{1}{J_s}\mbf P_s^E
+  -\sum_\alpha \phi_s^\alpha
+   \left.\frac{\partial \bar w_s^\alpha}{\partial \bar{\mbf F}_s^M}\right\vert_{\bar\rho_s^\alpha,a_s,\theta}
+   :\frac{\partial \bar{\mbf F}_s^M}{\partial \mbf F_s}\right):\dot{\mbf F}_s \notag\\
+&+\left(p_a+
+  \left.\frac{\partial W_a}{\partial a_s}\right\vert_{\theta,\Omega,\eta_s^\beta}\right)\dot a_s
++\sum_\ell\left(\phi_\ell\bar p_\ell
+  -\rho_\ell\bar\rho_\ell\left.\frac{\partial\psi_\ell}{\partial\bar\rho_\ell}\right\vert_{\theta,\eta_\ell^\beta}\right)
+  \frac{\dot{\bar\rho}_\ell}{\bar\rho_\ell} \notag\\
+&-\rho_s\left(s_s+
+  \left.\frac{\partial\psi_s}{\partial \theta}\right\vert_{\bar{\mbf F}_s^M,\bar\rho_s,a_s,\eta_s^\beta}\right)\dot \theta
+-\sum_\ell\rho_\ell\left(s_\ell+
+  \left.\frac{\partial\psi_\ell}{\partial \theta}\right\vert_{\bar\rho_\ell,\eta_\ell^\beta}\right)\dot \theta \notag\\
+&+\sum_m\left(\mc A_m+
+  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\hat q_m
++\sum_\xi\rho_\xi e_\xi^{\rm int}
+\Bigg]
+-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2} .
+\label{eq:CN_collected_entropy}
+\end{align}
+Equation~\eqref{eq:CN_collected_entropy} is the Coleman--Noll form used in this
+paper.  Since the rates $\dot{\mbf F}_s$, $\dot a_s$, $\dot{\bar\rho}_\ell$, and
+$\dot \theta$ can be prescribed independently, a sufficient set of constitutive
+restrictions is
+\begin{align}
+  \bs\sigma_s^E
+  &=\sum_\alpha \phi_s^\alpha\bar{\bs\sigma}_s^\alpha,
+  &
+  \bar{\bs\sigma}_s^\alpha
+  &=\left.\frac{\partial \bar w_s^\alpha}{\partial \bar{\mbf F}_s^M}\right|_{\bar\rho_s^\alpha,a_s,\theta}(\bar{\mbf F}_s^M)^T,
+  \label{eq:CN_stress_definition}\\
+  p_a&=-\left.\frac{\partial W_a}{\partial a_s}\right|_{\theta,\Omega,\eta_s^\beta},
+  &
+  \bar p_\ell&=\bar\rho_\ell^2
+  \left.\frac{\partial\psi_\ell}{\partial\bar\rho_\ell}\right|_{\theta,\eta_\ell^\beta},
+  \label{eq:CN_pressure_definitions}\\
+  s_s&=-\left.\frac{\partial\psi_s}{\partial \theta}\right|_{\bar{\mbf F}_s^M,\bar\rho_s,a_s,\eta_s^\beta},
+  &
+  s_\ell&=-\left.\frac{\partial\psi_\ell}{\partial \theta}\right|_{\bar\rho_\ell,\eta_\ell^\beta}.
+  \label{eq:CN_entropy_definitions}
+\end{align}
+The remaining residual dissipation is
+\begin{equation}
+  \mathcal D
+  =\sum_m\left(\mc A_m+
+  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\hat q_m
+  +\sum_\xi\rho_\xi e_\xi^{\rm int}
+  -\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
+  \ge 0,
+  \label{eq:CN_residual_dissipation}
+\end{equation}
+which is satisfied, for example, by Fourier heat conduction and by kinetic
+closures for which the projected affinity has non-negative product with
+$\hat q_m$.  In the reversible, equilibrated limit the variational condition
+\eqref{eq:affinity_multiplier_projection} makes the conversion part vanish.
 \bibliography{all}
 \bibliographystyle{plain}
 
