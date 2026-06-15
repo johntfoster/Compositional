@@ -37,13 +37,13 @@
 \end{abstract}
 
 \section{Material form of conservation of mass}
-Given a differential mass ${\rm d}m^\al_\xi$ of component $\al$ in phase $\xi$, define the component partial density per unit current mixture volume by
+Given a differential mass ${\rm d}m^\al_\xi$ of component $\al$ in phase $\xi$, define the component partial density per current mixture volume by
 %
 \[
   \rho^\al_\xi(\mbf{x}, t) = \frac{{\rm d}m^\al_\xi}{\dv},
 \]
 %
-where $\dv = {\rm d}x_1 {\rm d}x_2 {\rm d}x_3$ is a current-configuration volume element of the mixture.  The current configuration is a common mixture volume; it is not decomposed into separate current phase bodies.  Each phase $\xi$ is instead assigned its own reference coordinates $\mbf{X}_\xi$ and reference volume element
+where $\dv = {\rm d}x_1 {\rm d}x_2 {\rm d}x_3$ is a current-configuration volume element of the mixture.  The current configuration is a common mixture volume occupied by all components simultaneously.  Each phase $\xi$ motion is tracked from its own reference coordinates $\mbf{X}_\xi$ and reference volume element
 %
 \[
   \dVxi = ({\rm d}X_1)_\xi({\rm d}X_2)_\xi({\rm d}X_3)_\xi.
@@ -61,10 +61,10 @@ with phase velocity $\mbf{v}_\xi = \partial \bs{\chi}_\xi/\partial t$ and Jacobi
   J_\xi = \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right).
 \]
 %
-Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial component partial density pulled back to the phase reference coordinates, and let $c^\al_\xi(\mbf{X}_\xi,t)$ denote the cumulative mass of component $\alpha$ added to phase $\xi$ per unit phase reference volume by any internal conversion mechanism.  These mechanisms include both chemical reactions and pure phase transformations.  Conservation of mass for component $\al$ in phase $\xi$ over an arbitrary material region can then be written as
+Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial (evaluted at $\mbf{x}(t=0) = \mbf{X}_\xi$) component partial density, and let $\mathcal{C}^\al_\xi(\mbf{X}_\xi,t)$ denote the mass of component $\alpha$ added to phase $\xi$ per unit phase reference volume by any internal conversion mechanism.  These mechanisms include both chemical reactions and pure phase transformations.  Conservation of mass for component $\al$ in phase $\xi$ over an arbitrary material region can then be written as
 %
 \begin{align}
-  \int_{\mc{B}_{\xi 0}} \left(\rho_{\xi 0}^\al + c^\al_\xi\right)\dVxi
+  \int_{\mc{B}_{\xi 0}} \left(\rho_{\xi 0}^\al + \mc{C}^\al_\xi\right)\dVxi
   &= \int_{\mc{B}} \rho_\xi^\al {\rm d}v 
   = \int_{\mc{B}_{\xi 0}} \rho_{\xi}^\al J_\xi \dVxi .
   \label{eq:material_mass}
@@ -73,7 +73,7 @@ Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial component partial density 
 Here $\mc{B}$ is the common current mixture region corresponding, through the phase-$\xi$ map, to the phase reference region $\mc{B}_{\xi0}$.  Since \eqref{eq:material_mass} must hold for arbitrary $\mc{B}_{\xi0}$,
 %
 \begin{equation}
-  \rho_{\xi 0}^\alpha + c^\alpha_\xi = \rho_\xi^\alpha J_\xi.
+  \rho_{\xi 0}^\alpha + \mc{C}^\alpha_\xi = \rho_\xi^\alpha J_\xi.
   \label{eq:material_mass_2}
 \end{equation}
 %
@@ -85,19 +85,19 @@ The material time derivative of a quantity $\square_\xi$ following the velocity 
   + \mbf{v}_\zeta \cdot\nabla_{\mbf{x}}\square_\xi,
 \]
 %
-and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the derivative following phase $\xi$.  Taking the material time derivative of \eqref{eq:material_mass_2} following phase $\xi$ and using $\dot{J}_\xi = J_\xi \nabla_\mbf{x}\cdot\mbf{v}_\xi$ gives
+and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the material time derivative following phase $\xi$.  Taking the material time derivative of \eqref{eq:material_mass_2} following phase $\xi$ and using $\dot{J}_\xi = J_\xi \nabla_\mbf{x}\cdot\mbf{v}_\xi$ gives
 %
 \begin{align}
   \frac{D_\xi \rho_\xi^\alpha}{Dt}
   + \rho_\xi^\alpha \nabla_\mbf{x}\cdot\mbf{v}_\xi
-  &= \frac{\dot{c}^\alpha_\xi}{J_\xi} .
+  &= \frac{\dot{\mc {C}}^\alpha_\xi}{J_\xi} .
   \label{eq:component_material_mass}
 \end{align}
 %
 We define the current production rate per unit current mixture volume by
 %
 \[
-  \hat{c}^\al_\xi(\mbf{x},t) = \frac{\dot{c}^\al_\xi}{J_\xi}.
+  \dot{c}^\al_\xi(\mbf{x},t) = \frac{\dot{\mc{C}}^\al_\xi}{J_\xi}.
 \]
 %
 Expanding \eqref{eq:component_material_mass} gives the spatial component mass balance of the $\xi$ phase
@@ -105,7 +105,7 @@ Expanding \eqref{eq:component_material_mass} gives the spatial component mass ba
 \begin{align}
   \frac{\partial \rho_\xi^\alpha}{\partial t}
   + \nabla_\mbf{x}\cdot\left(\rho_\xi^\alpha\mbf{v}_\xi\right)
-  = \hat{c}^\alpha_\xi .
+  = \dot{c}^\alpha_\xi .
   \label{eq:component_spatial_mass}
 \end{align}
 %
@@ -130,13 +130,13 @@ Substituting this representation into \eqref{eq:component_spatial_mass} gives
 \begin{align}
   \frac{\partial}{\partial t}\left(\phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
   + \nabla_\mbf{x}\cdot\left(\phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
-  = \hat{c}^\alpha_\xi .
+  = \dot{c}^\alpha_\xi .
   \label{eq:spatial_mass_2}
 \end{align}
 %
-All internal conversion mechanisms are parameterized by current progress rates $\hat q_m$ and phase/component stoichiometric coefficients $\nu_{\xi m}^\alpha$:
+All internal conversion mechanisms are parameterized by current progress rates $\dot r_m$ and phase/component stoichiometric coefficients $\nu_{\xi m}^\alpha$:
 \begin{equation}
-  \hat c_\xi^\alpha = \sum_m \nu_{\xi m}^\alpha \hat q_m .
+  \dot{c}_\xi^\alpha = \sum_m \nu_{\xi m}^\alpha \dot{r}_m .
   \label{eq:unified_stoich_current}
 \end{equation}
 The index $m$ includes chemical reactions and pure phase transformations.  A pure phase transformation of component $\alpha$ from phase $\xi$ to phase $\zeta$ is the special one-to-one stoichiometry $\nu_{\xi m}^\alpha=-1$, $\nu_{\zeta m}^\alpha=+1$, with all other entries zero.  A chemical reaction may change both component identity and phase label.  If each mechanism conserves total mass, $\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha=0$, then the overall mixture mass is conserved automatically.  Component conservation is recovered for those pure phase-transformation mechanisms whose stoichiometry has zero sum over phases for the fixed component.
@@ -162,42 +162,51 @@ T &= \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \d
     + \int_{\mc{B}} \phi\,\gamma(S_a, S_g) \dv, 
   \label{eq:U_def} \\
   \delta W &= \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv
-  - \sum_m\int_{\mc B}\mc A_m\,\delta\hat q_m\,\dv,
+  - \sum_m\int_{\mc B}\mc A_m\,\delta\dot r_m\,\dv,
   \label{eq:W_def} \\
   C_1 &= \int_{\mc{B}} \lambda\left(\sum_\xi\phi_\xi - 1\right) \,\dv,
   \label{eq:C1_def} \\
-  C_2 &= \sum_\xi \sum_\al \int_{\mc{B}_{\xi 0}} \tau^\al_\xi \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0} + c_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi} \right) \dV_\xi, 
+  C_2 &= \sum_\xi \sum_\al \int_{\mc{B}_{\xi 0}} \tau^\al_\xi \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0} + \mc{C}_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi} \right) \dV_\xi, 
   \label{eq:C2_def} \\
   C_3 &= \sum_\xi \int_{\mc{B}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) \dv,
   \label{eq:C3_def} \\
-  C_4 &= \sum_\xi\sum_\alpha\int_{\mc B}\mu_\xi^\alpha\left(\frac{\dot c_\xi^\alpha}{J_\xi}-\sum_m\nu_{\xi m}^\alpha\hat q_m\right)\dv .
+  C_4 &= \sum_\xi\sum_\alpha\int_{\mc B}\mu_\xi^\alpha\left(\frac{\dot{\mc{C}}_\xi^\alpha}{J_\xi}-\sum_m\nu_{\xi m}^\alpha\dot r_m\right)\dv .
   \label{eq:C4_def}
 \end{align}
 %
 The affinities $\mc A_m$ are introduced as generalized conversion forces in the
 virtual-work one-form, conjugate to the current progress-rate variations
-$\delta\hat q_m$.  The kinematic constraint $C_4$ ties those progress rates to
+$\delta\dot r_m$.  The kinematic constraint $C_4$ ties those progress rates to
 the phase-attached accumulated sources through
-$\hat c_\xi^\alpha=\dot c_\xi^\alpha/J_\xi$.  This distinction is essential:
-$\hat c_\xi^\alpha$ is not a freely varied Eulerian scalar, because variation of
+$\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$.  This distinction is essential:
+$\dot c_\xi^\alpha$ is not a freely varied Eulerian scalar, because variation of
 the phase map also varies $J_\xi$.  Chemical reactions and pure phase
 transformations are both represented by the unified stoichiometric
 parameterization \eqref{eq:unified_stoich_current}.  We treat
-$\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho_\xi$, $c_\xi^\alpha$,
-$\hat q_m$, $\mu_\xi^\alpha$, and $\mc A_m$ as variational variables, with
+$\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho_\xi$, $\mc{C}_\xi^\alpha$,
+$\dot r_m$, $\mu_\xi^\alpha$, and $\mc A_m$ as variational variables, with
 additional constitutive closure required for kinetically limited mechanisms.
+
+\subsection{Extending Bedford and Drumheller identity 1.23}
+\label{sec:extended_bd_identity}
+
+The accumulated source $\mc{C}_\xi^\alpha$ is attached to the phase-$\xi$
+reference coordinates, while its current production rate is
+$\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$.  Thus variations of source
+terms must be pushed forward with the same phase map as the corresponding
+component density.
 %
 For any phase field $\Gamma_\xi$, the Bedford--Drumheller identity extends componentwise as
 \begin{align}
   \delta \int_{\mc{B}} \rho^\alpha_\xi \Gamma_\xi \, \dv
   &= \int_{\mc{B}} \left( \rho^\alpha_\xi\delta\Gamma_\xi
-  + \frac{\delta c_\xi^\alpha}{J_\xi}\Gamma_\xi\right)\dv .
+  + \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\Gamma_\xi\right)\dv .
   \label{eq:bd128_mod2}
 \end{align}
 summing both sides of \eqref{eq:bd128_mod2} over $\alpha$ gives
 \begin{align}
   \delta \int_{\mc{B}} \rho_\xi \psi_\xi \, \dv
-  &= \int_{\mc{B}} \left(\rho_\xi \delta \Gamma_\xi + \sum_\alpha \frac{\delta c^\al_\xi}{J_\xi} \Gamma_\xi  \right)  \dv
+  &= \int_{\mc{B}} \left(\rho_\xi \delta \Gamma_\xi + \sum_\alpha \frac{\delta \mc{C}^\al_\xi}{J_\xi} \Gamma_\xi  \right)  \dv
   \label{eq:bd128_mod}
 \end{align}
 %
@@ -210,20 +219,21 @@ where we've used $\rho_\xi = \sum_\alpha \rho^\alpha_\xi$.
 
 The variation of kinetic energy using \eqref{eq:bd128_mod} is then
 \begin{equation}
-  \delta T = \sum_\xi \int_{\mc{B}} \rho_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta c^\al_\xi}{J_\xi} \dv.
+  \delta T = \sum_\xi \int_{\mc{B}} \rho_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}^\al_\xi}{J_\xi} \dv.
 \end{equation}
 Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delta\mbf{x}_\xi\vert_{t_1} = \delta\mbf{x}_\xi\vert_{t_2} = \mbf{0}$, integration by parts in time gives
 \begin{equation}
   \int_{t_1}^{t_2} \delta T \dt
-  = \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left(-\rho_\xi\,\mbf{a}_\xi - \sum_\al \hat c^\alpha_\xi \mbf{v}_\xi \right) \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta c_\xi^\alpha}{J_\xi}  \dv \dt
+  = \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left(-\rho_\xi\,\mbf{a}_\xi - \sum_\al \dot c^\alpha_\xi \mbf{v}_\xi \right) \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}  \dv \dt
   \label{eq:deltaT_app}
 \end{equation}
 \subsection{Variation of the phase free energies}
 \label{sec:var_Uxi}
 % ============================================================
 
-For every phase, solid or mobile, write the phase Helmholtz free energy in the
-same current density-weighted form,
+For every phase, solid or mobile, let $\psi_\xi$ denote the specific Helmholtz
+free energy.  The corresponding contribution to the total free energy is written
+in the same current density-weighted form,
 \begin{align}
   U_\xi &= \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^1, \eta_\xi^2, \dots, \eta_\xi^N)\,\dv \notag \\
         &= \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^\beta)\,\dv
@@ -253,7 +263,7 @@ and collecting independent variations gives
     + \rho_\xi\left.\p{\psi_\xi}{\bar\rho_\xi}\right\vert_{\mbf F_\xi,\eta_\xi^\beta}\delta\bar\rho_\xi \notag\\
   &\qquad
     + \sum_\alpha \rho_\xi\left.\p{\psi_\xi}{\eta_\xi^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha}}\delta\eta_\xi^\alpha
-    + \sum_\alpha \psi_\xi\frac{\delta c_\xi^\alpha}{J_\xi}
+    + \sum_\alpha \psi_\xi\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}
   \Bigg]\dv + \text{boundary terms}.
   \label{eq:deltaU_uniform}
 \end{align}
@@ -380,7 +390,7 @@ The first term enforces the saturation constraint $\sum_\xi\phi_\xi = 1$. The re
 
 The component material mass balance constraint is
 \begin{equation}
-  C_2 = \sum_\xi\sum_\alpha\int_{\mc{B}_{\xi0}}\tau_\xi^\alpha J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0} \eta^\al_{\xi 0} + c_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha} \,dV_\xi.
+  C_2 = \sum_\xi\sum_\alpha\int_{\mc{B}_{\xi0}}\tau_\xi^\alpha \left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0} \eta^\al_{\xi 0} + \mc{C}_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha} \right) \,dV_\xi.
   \label{eq:C2_component_measure}
 \end{equation}
 %
@@ -394,22 +404,22 @@ Hence
   \notag \\
   &\quad
   + \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta_\xi^\alpha}\,\delta\phi_\xi \, {\rm d}V_\xi
+      \tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta_\xi^\alpha}\,\delta\phi_\xi \, {\rm d}V_\xi
   \notag \\
   &\quad
   + \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi \, {\rm d}V_\xi
+      \tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi \bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi \, {\rm d}V_\xi
   \notag \\
   &\quad
   + \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + c_\xi^\alpha}{\phi_\xi \bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta_\xi^\alpha \, {\rm d}V_\xi
+      \tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi \bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta_\xi^\alpha \, {\rm d}V_\xi
   \notag \\
   &\quad
   - \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-      \frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}\,\delta c_\xi^\alpha \, {\rm d}V_\xi.
+      \frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}\,\delta \mc{C}_\xi^\alpha \, {\rm d}V_\xi.
   \label{eq:deltaC2_lines}
 \end{align}
-Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+c_\xi^\alpha=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$, the individual contributions push forward as follows.
+Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$, the individual contributions push forward as follows.
 
 \paragraph{$\delta J_\xi$ terms (from $\delta\mbf{x}_\xi$):}
 \begin{align}
@@ -428,7 +438,7 @@ Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\
     \frac{\tau_\xi^\alpha}{\phi_\xi}\delta\phi_\xi
     + \frac{\tau_\xi^\alpha}{\bar\rho_\xi}\delta\bar\rho_\xi
     + \frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\delta\eta_\xi^\alpha
-    - \frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\frac{\delta c_\xi^\alpha}{J_\xi}
+    - \frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}
   \right]\dv .
   \label{eq:C2_spatial_push}
 \end{align}
@@ -463,30 +473,30 @@ Conversion sources are restricted by the current-rate kinematic constraint
   -\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha} .
   \label{eq:conversion_component_potential}
 \end{equation}
-The variation of $\hat c_\xi^\alpha=\dot c_\xi^\alpha/J_\xi$ must be taken before
+The variation of $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ must be taken before
 using the stoichiometric projection, because the denominator depends on the phase
 map.  Repeating the transport calculation used for phase-attached rates gives
 \begin{align}
   \int_{t_1}^{t_2}\delta C_4\,\dt
   &=\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
-  \delta\mu_\xi^\alpha\left(\hat c_\xi^\alpha-
-  \sum_m\nu_{\xi m}^\alpha\hat q_m\right)\dv\dt \notag\\
+  \delta\mu_\xi^\alpha\left(\dot c_\xi^\alpha-
+  \sum_m\nu_{\xi m}^\alpha\dot r_m\right)\dv\dt \notag\\
   &\quad+\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
-  \left[-\frac{D_\xi\mu_\xi^\alpha}{Dt}\frac{\delta c_\xi^\alpha}{J_\xi}
-  +\hat c_\xi^\alpha\nabla_{\mbf x}\mu_\xi^\alpha\cdot\delta\mbf x_\xi\right]
+  \left[-\frac{D_\xi\mu_\xi^\alpha}{Dt}\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}
+  +\dot c_\xi^\alpha\nabla_{\mbf x}\mu_\xi^\alpha\cdot\delta\mbf x_\xi\right]
   \dv\dt \notag\\
   &\quad-\int_{t_1}^{t_2}\int_{\mc B}\sum_m
   \left(\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)
-  \delta\hat q_m\,\dv\dt+\text{b.t.}
+  \delta\dot r_m\,\dv\dt+\text{b.t.}
   \label{eq:C4_variation}
 \end{align}
-The affinity is not introduced by allowing $\hat c_\xi^\alpha$ to vary freely.
+The affinity is not introduced by allowing $\dot c_\xi^\alpha$ to vary freely.
 It is the generalized conversion force in the virtual-work form
 \begin{equation}
-  \delta W_{\rm conv}=-\sum_m\int_{\mc B}\mc A_m\delta\hat q_m\,\dv .
+  \delta W_{\rm conv}=-\sum_m\int_{\mc B}\mc A_m\delta\dot r_m\,\dv .
   \label{eq:conversion_virtual_work_affinity}
 \end{equation}
-Consequently variation with respect to $\hat q_m$ gives the projected relation
+Consequently variation with respect to $\dot r_m$ gives the projected relation
 \begin{equation}
   \mc A_m + \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha=0,
   \qquad m=1,\ldots,N_m.
@@ -495,22 +505,22 @@ Consequently variation with respect to $\hat q_m$ gives the projected relation
 Thus $\mu_\xi^\alpha$ is a kinematic multiplier enforcing the phase-attached
 push-forward and stoichiometry, while $\mc A_m$ is the thermodynamic force
 conjugate to mechanism progress.  The term
-$\hat c_\xi^\alpha\nabla\mu_\xi^\alpha$ is the part of the mechanical coupling
-that would be lost if $\delta\hat c_\xi^\alpha$ were treated as a free Eulerian
+$\dot c_\xi^\alpha\nabla\mu_\xi^\alpha$ is the part of the mechanical coupling
+that would be lost if $\delta\dot c_\xi^\alpha$ were treated as a free Eulerian
 variation.
 % ============================================================
 \subsection{Collected variational principle}
 \label{sec:collected_var}
 % ============================================================
 
-Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta\hat q_m$ gives
+Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta\dot r_m$ gives
 \begin{align}
   0 = & \sum_{\xi} \int_{\mc{B}} \Bigg[
     -\rho_{\xi}\mbf{a}_{\xi}
     + \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
     - \lambda\nabla_{\mbf{x}}\phi_{\xi}
     - \sum_\alpha\nabla_{\mbf{x}}\tau_{\xi}^\alpha
-    + \sum_\alpha \hat c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
+    + \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
   \Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag \\
   &- \int_{\mc B}\left[
     \phi_a\nabla_{\mbf x}\gamma_a\cdot\delta\mbf x_a
@@ -533,8 +543,8 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
     \tfrac12\mbf v_\xi\cdot\mbf v_\xi-\psi_\xi
     -\frac{D_\xi\mu_\xi^\alpha}{Dt}
     -\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
-  \right]\frac{\delta c_\xi^\alpha}{J_\xi}\,\dv \notag\\
-  &- \sum_m\int_{\mc B}\left(\mc A_m+\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\delta\hat q_m\,\dv + \text{boundary terms}.
+  \right]\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\,\dv \notag\\
+  &- \sum_m\int_{\mc B}\left(\mc A_m+\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\delta\dot r_m\,\dv + \text{boundary terms}.
   \label{eq:collected_full}
 \end{align}
 The multiplier variations are omitted here because they return the constraint equations~\eqref{eq:C1_def}--\eqref{eq:C4_def}. Since all variations are considered arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
@@ -556,7 +566,7 @@ principle is
     \rho_{\xi}\mbf{a}_{\xi} =
     \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
     + \phi_{\xi} \nabla_{\mbf{x}}\lambda
-    + \sum_\alpha \hat c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right),
+    + \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right),
   \label{eq:el_momentum_uniform}
 \end{equation}
 with the mobile-phase capillary-force additions displayed separately below.
@@ -626,14 +636,16 @@ The equations associated with the conversion variables are
   \qquad m=1,\ldots,N_m.
   \label{eq:el_conversion_affinity}
 \end{align}
-Thus the affinity is obtained as the stoichiometric projection of the
-phase-attached conversion potentials, but only after the kinematic push-forward
-$\hat c_\xi^\alpha=\dot c_\xi^\alpha/J_\xi$ has been varied.  If mechanism $m$ is
-reversible and equilibrated, one imposes $\mc A_m=0$.  For kinetically limited
-mechanisms, such as slow fluid--solid reactions, \eqref{eq:el_conversion_affinity}
-supplies the driving force for a constitutive law
-$\hat q_m=\mc K_m(\mc A_m,\text{state})$ rather than an algebraic equilibrium
-equation.  For an instantaneous phase transformation, $\hat q_m$ may be a
+Equation~\eqref{eq:el_conversion_affinity} is not an additional closure relation
+for the state variables.  It defines the mechanism affinity as the stoichiometric
+projection of the phase-attached conversion potentials, but only after the
+kinematic push-forward $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ has been
+varied.  The closure enters only when one prescribes either an equilibrium
+condition $\mc A_m=0$ or a kinetic relation
+$\dot r_m=\mc K_m(\mc A_m,\text{state})$.  Thus, for kinetically limited
+mechanisms such as slow fluid--solid reactions, \eqref{eq:el_conversion_affinity}
+supplies the driving force rather than an algebraic equilibrium equation.  For an
+instantaneous phase transformation, $\dot r_m$ may be a
 measure in time.  In all cases, the phase momentum equations retain the inertial
 production term and the $\nabla\mu_\xi^\alpha$ force generated by adding or
 removing mass in a phase moving with velocity $\mbf v_\xi$.  For a single-component solid,
@@ -647,12 +659,12 @@ rate for the corresponding one-to-one stoichiometric mechanism.  If mechanism
 $m$ moves component $\alpha$ from phase $\xi$ to phase $\zeta$ at $t=t_*$, we may
 write
 \begin{equation}
-  \hat q_m = Q_m\,\delta(t-t_*),
+  \dot r_m = Q_m\,\delta(t-t_*),
   \label{eq:q_jump_decomp}
 \end{equation}
 so that
 \begin{equation}
-  \hat c_\kappa^\beta
+  \dot c_\kappa^\beta
   = \nu_{\kappa m}^\beta Q_m\,\delta(t-t_*)
 \end{equation}
 for the affected phase/component pairs.  Integrating the component mass balance
@@ -682,7 +694,7 @@ For the aqueous phase, the capillary contribution gives the intermediate form
   + \phi_a\nabla_{\mbf x}\lambda
   -\sum_\alpha\nabla_{\mbf x}\tau_a^\alpha
   -\phi_a\nabla_{\mbf x}\gamma_a
-  + \sum_\alpha \hat c_a^{\alpha}\left(\nabla_{\mbf x}\mu_a^\alpha-\mbf{v}_a\right).
+  + \sum_\alpha \dot c_a^{\alpha}\left(\nabla_{\mbf x}\mu_a^\alpha-\mbf{v}_a\right).
   \label{eq:el_mom_a_start}
 \end{align}
 The oleic and gas equations have the same form with $a$ replaced by $o$ or $g$.
@@ -696,17 +708,17 @@ potential gradients to give the standard phase pressure-gradient form
   \rho_a\mbf{a}_a
   &= \rho_a\mbf{g} + \mbf{b}_a
   - \phi_a\nabla_{\mbf{x}}\bar p_a
-  + \sum_\alpha \hat c_a^{\alpha}\left(\nabla_{\mbf x}\mu_a^\alpha-\mbf{v}_a\right),
+  + \sum_\alpha \dot c_a^{\alpha}\left(\nabla_{\mbf x}\mu_a^\alpha-\mbf{v}_a\right),
   \label{eq:el_mom_a_simplified} \\
   \rho_o\mbf{a}_o
   &= \rho_o\mbf{g} + \mbf{b}_o
   - \phi_o\nabla_{\mbf{x}}\bar p_o
-  + \sum_\alpha \hat c_o^{\alpha}\left(\nabla_{\mbf x}\mu_o^\alpha-\mbf{v}_o\right),
+  + \sum_\alpha \dot c_o^{\alpha}\left(\nabla_{\mbf x}\mu_o^\alpha-\mbf{v}_o\right),
   \label{eq:el_mom_o_simplified} \\
   \rho_g\mbf{a}_g
   &= \rho_g\mbf{g} + \mbf{b}_g
   - \phi_g\nabla_{\mbf{x}}\bar p_g
-  + \sum_\alpha \hat c_g^{\alpha}\left(\nabla_{\mbf x}\mu_g^\alpha-\mbf{v}_g\right).
+  + \sum_\alpha \dot c_g^{\alpha}\left(\nabla_{\mbf x}\mu_g^\alpha-\mbf{v}_g\right).
   \label{eq:el_mom_g_simplified}
 \end{align}
 
@@ -830,7 +842,7 @@ liquid or gas phase.  The multicomponent solid free energy is written as
 \begin{equation}
   \psi_s(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta)
   =\sum_\alpha \eta_s^\alpha\,
-    \psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s^\alpha,a_s,\theta),
+    \psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta),
   \label{eq:solid_multicomponent_free_energy}
 \end{equation}
 where $\eta_s^\beta$ denotes the full list of solid component mass fractions.
@@ -843,7 +855,7 @@ Multiplying by the phase mass per mixture volume gives
 \begin{equation}
   \phi_s\bar\rho_s\psi_s
   =\sum_\alpha \rho_s^\alpha
-    \psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s^\alpha,a_s,\theta),
+    \psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta),
   \qquad
   \rho_s^\alpha=\phi_s\bar\rho_s\eta_s^\alpha .
   \label{eq:solid_volume_energy_sum}
@@ -868,7 +880,7 @@ this section, because $\bar\rho_s^\alpha$, $a_s$, $\theta$, and the composition 
 evolve.  Instead, define the component current Helmholtz energy density
 \begin{equation}
   \bar w_s^\alpha
-  =\bar\rho_s^\alpha\psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s^\alpha,a_s,\theta),
+  =\bar\rho_s^\alpha\psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta),
   \label{eq:intrinsic_current_energy_density}
 \end{equation}
 and let the Coleman--Noll procedure determine the admissible stress response.
@@ -970,79 +982,134 @@ which gives $B=1-K/K_s$ in the small-strain limit.
 \label{sec:constitutive_crystallization_distension}
 
 The preceding development leaves the distension response abstract through the
-The preceding development leaves the distension response abstract through the
-closure \eqref{eq:solid_distension_evolution}.  A useful specialization is to
-choose a distension free-energy density that incorporates the classical
-thermodynamic crystallization pressure as a driving term.  Since $a_s=\det\mbf
-A_s$ is already the dimensionless volume-change coordinate for distension, we do
-not introduce an independent growth volume.  Instead, the crystallization work is
-written directly against the distension coordinate, with the dimensional volume
-scale absorbed into the definition of the energy density.  Thus let
+closure \eqref{eq:solid_distension_evolution}.  We now specialize that closure to
+a precipitating solid component by separating three ingredients: the mechanical
+penalty for changing the true solid volume, the chemical driving force for
+crystallization, and the resulting load on the distension coordinate.
+
+The volumetric decomposition is
 \begin{equation}
-  W_a=W_a(a_s,\Omega,
-  \eta_s^\alpha)
-  =W_{\rm mech}(a_s,\eta_s^\alpha)
-  -p_c(\Omega)\,(a_s-a_{s0}),
-  \label{eq:crystallization_distension_energy}
+  J_s=a_s\bar J_s,
+  \qquad
+  \bar J_s=\frac{J_s}{a_s},
+  \label{eq:crystallization_volumetric_split}
 \end{equation}
-where $W_{\rm mech}$ is the mechanical resistance to changing the solid
-distension and $a_{s0}$ is a reference value.  The thermodynamic crystallization
-pressure is
+where $a_s=\det\mbf A_s$ is the distension volume ratio and $\bar J_s$ is the
+true solid volume ratio.  A simple elastic penalty for changing the true solid
+volume of component $\alpha$ is
 \begin{equation}
-  p_c(\Omega)=\frac{R\theta}{V_m}\ln\Omega,
+  W_{\rm mech}^\alpha(J_s,a_s)
+  =\frac{K_s^\alpha}{2}
+  \left[\ln\left(\frac{J_s}{a_s}\right)\right]^2,
+  \label{eq:crystallization_mechanical_energy}
+\end{equation}
+with intrinsic bulk modulus $K_s^\alpha$.  This term vanishes when
+$\bar J_s=1$: distension itself is not penalized unless, at the prescribed
+skeleton deformation $J_s$, it changes the true solid volume.
+
+Crystallization enters as a chemical loading on $a_s$.  The variational theory
+has already identified the generalized force $\mc A_m$ conjugate to the mechanism
+progress rate $\dot r_m$ through
+\begin{equation}
+  \delta W_{\rm conv}
+  =-\sum_m\int_{\mc B}\mc A_m\,\delta\dot r_m\,\dv,
+  \qquad
+  \mc A_m=-\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha .
+  \label{eq:crystallization_affinity_projection_recall}
+\end{equation}
+Because the source law is mass-stoichiometric,
+$\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m$, the affinity $\mc A_m$ is
+mass specific.  For a mechanism $m$ precipitating solid component $\alpha_m$,
+the corresponding crystallization pressure is therefore
+\begin{equation}
+  p_c^{(m)}
+  =\frac{\mc A_m}{\bar v_s^{\alpha_m}}
+  =\bar\rho_s^{\alpha_m}\mc A_m,
+  \qquad
+  \bar v_s^{\alpha_m}=\frac{1}{\bar\rho_s^{\alpha_m}} .
+  \label{eq:crystallization_pressure_affinity_mass_specific}
+\end{equation}
+If one instead uses a molar affinity
+$\mc A_m^{\rm mol}=M_s^{\alpha_m}\mc A_m$, then
+\begin{equation}
+  p_c^{(m)}
+  =\frac{\mc A_m^{\rm mol}}{V_s^{\alpha_m}}
+  =\frac{R\theta}{V_s^{\alpha_m}}\ln\Omega_m,
   \label{eq:classical_crystallization_pressure}
 \end{equation}
-with supersaturation $\Omega$ and molar volume $V_m$.
+which recovers the classical supersaturation formula.  Thus $\Omega_m$ is a
+possible chemical closure for the affinity; it is not an additional variational
+coordinate.
 
-The supersaturation ratio $\Omega$ is determined by the chemical state, not by
-the mechanical distension variable.  For a precipitation reaction, one may write
+The crystallization-loaded distension energy is then
 \begin{equation}
-  \Omega=\frac{Q}{K_{\rm eq}},
-  \qquad
-  Q=\prod_i a_i^{\nu_i},
-  \label{eq:supersaturation_activity_ratio}
+  W_a^\alpha(J_s,a_s,\mc A_m)
+  =W_{\rm mech}^\alpha(J_s,a_s)-p_c^{(m)}\ln a_s
+  =\frac{K_s^\alpha}{2}
+  \left[\ln\left(\frac{J_s}{a_s}\right)\right]^2
+  -p_c^{(m)}\ln a_s .
+  \label{eq:crystallization_distension_energy}
 \end{equation}
-where $Q$ is the ion activity product, $K_{\rm eq}$ is the equilibrium constant,
-and $a_i$ are activities of the fluid species participating in the
-crystallization reaction.  Equivalently, in the present variational notation,
-$R\theta\ln\Omega$ is the chemical driving force for the crystallization mechanism,
-up to the sign convention used for the stoichiometric coefficients and affinity.
-For a mechanism $m$,
-\begin{equation}
-  R\theta\ln\Omega_m \sim \mc A_m
-  =-\sum_\xi\sum_\alpha \mu_\xi^\alpha\nu_{\xi m}^\alpha .
-  \label{eq:supersaturation_affinity_relation}
-\end{equation}
-Thus $\Omega$ is a shorthand for the chemical affinity supplied by the
-phase/component thermodynamics, while $W_a$ converts that chemical tendency for
-growth into a mechanical distension pressure.
+The logarithm is natural for the positive multiplicative variable $a_s$ and is
+normalized so that the chemical work vanishes at $a_s=1$.
 
-The scalar distension pressure is the force conjugate to $a_s$,
+The scalar distension pressure generated by
+\eqref{eq:crystallization_distension_energy} is the force conjugate to $a_s$ at
+fixed skeleton deformation and chemical driving force:
 \begin{equation}
-  p_a
-  =-\left.\frac{\partial W_a}{\partial a_s}\right\vert_{\Omega,\eta_s^\alpha}
-  =-\left.\frac{\partial W_{\rm mech}}{\partial a_s}\right\vert_{\eta_s^\alpha}
-  +p_c(\Omega) .
+  p_a^\alpha
+  =-\left.\frac{\partial W_a^\alpha}{\partial a_s}\right\vert_{J_s,\mc A_m}
+  =\frac{1}{a_s}\left[
+  K_s^\alpha\ln\left(\frac{J_s}{a_s}\right)+p_c^{(m)}\right].
   \label{eq:distension_pressure_gradient}
 \end{equation}
-Thus the classical crystallization pressure enters the variational theory as the
-thermodynamic part of the distension pressure, while $W_{\rm mech}$ supplies the
-mechanical resistance of the load-bearing skeleton.  In equilibrium with respect
-to distension, the condition $p_a=0$ gives
+Equilibrium with respect to distension therefore requires
 \begin{equation}
-  \left.\frac{\partial W_{\rm mech}}{\partial a_s}\right\vert_{\eta_s^\alpha}
-  =p_c(\Omega),
-  \label{eq:distension_crystallization_balance}
+  K_s^\alpha\ln\bar J_s+p_c^{(m)}=0 .
+  \label{eq:distension_equilibrium_crystallization}
 \end{equation}
-which is the statement that the mechanical distension resistance balances the
-classical crystallization pressure.
+In this form the interpretation is direct: supersaturation, through the affinity
+$\mc A_m$, supplies a pressure $p_c^{(m)}$ that biases the otherwise elastic
+relaxation of the true solid volume.
 
+\paragraph{Crystallization Biot coefficient.}
+Because $p_c^{(m)}=\bar\rho_s^{\alpha_m}\mc A_m$ depends on the intrinsic density
+of the precipitating solid component, the crystallization loading also enters
+the component intrinsic-pressure response.  A Biot-type coefficient associated
+with this pressure should therefore be defined after a Legendre transformation
+with respect to the component specific volume.  The variables held fixed are
+important: holding $a_s$ fixed would suppress the distension mechanism.  For
+crystallization-driven distension the relevant derivative holds the total
+skeleton deformation fixed, equivalently $J_s$ in the volumetric specialization:
+\begin{equation}
+  B_{c,s}^{\alpha}
+  =1-\frac{1}{\bar v_{s0}^\alpha}
+  \left.
+  \frac{\partial \bar v_s^\alpha}{\partial \bar J_s}
+  \right|_{\bar p_s^\alpha,\mbf F_s,\mc A_m},
+  \label{eq:crystallization_biot_coefficient}
+\end{equation}
+or, for purely volumetric variations,
+\begin{equation}
+  \left.
+  \frac{\partial \bar v_s^\alpha}{\partial \bar J_s}
+  \right|_{\bar p_s^\alpha,\mbf F_s,\mc A_m}
+  \equiv
+  \left.
+  \frac{\partial \bar v_s^\alpha}{\partial \bar J_s}
+  \right|_{\bar p_s^\alpha,J_s,\mc A_m} .
+  \label{eq:crystallization_biot_fixed_F_equiv}
+\end{equation}
+At fixed $\mbf F_s$, increasing $\bar J_s$ requires the compensating change
+$a_s=J_s/\bar J_s$; this is precisely the crystallization--distension coupling
+measured by $B_{c,s}^\alpha$.
 \subsection{Classical compositional-flow limit and interpretation of the multipliers}
 \label{sec:classical_compositional_limit}
+
 The preceding equations contain the usual compositional-reservoir structure as a
 special limit.  The phase/component source is written as
 \begin{equation}
-  \hat c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\hat q_m,
+  \dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m,
   \label{eq:classical_source_form}
 \end{equation}
 which is the phase-resolved analogue of the standard reactive-transport source
@@ -1050,7 +1117,7 @@ vector $\mbf R=\bs\nu\mbf q$.  Summing \eqref{eq:spatial_mass_2} over phases giv
 \begin{equation}
   \frac{\partial}{\partial t}\left(\sum_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\right)
   +\nabla_{\mbf x}\cdot\left(\sum_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\mbf v_\xi\right)
-  =\sum_\xi\sum_m\nu_{\xi m}^\alpha\hat q_m .
+  =\sum_\xi\sum_m\nu_{\xi m}^\alpha\dot r_m .
   \label{eq:classical_component_balance}
 \end{equation}
 This is the conservative component balance used in compositional reservoir
@@ -1097,23 +1164,23 @@ potentials vanishes.  For a kinetically limited mechanism, such as a slow
 fluid--solid reaction, \eqref{eq:classical_affinity_projection} instead supplies
 the driving force in a closure
 \begin{equation}
-  \hat q_m=\mc K_m(\mc A_m,\text{state}),
-  \qquad \mc A_m\hat q_m\ge 0
+  \dot r_m=\mc K_m(\mc A_m,\text{state}),
+  \qquad \mc A_m\dot r_m\ge 0
 \end{equation}
 with the sign convention used here.  Thus equilibrium chemistry, kinetic
 reactive transport, and phase transformation all use the same stoichiometric
-projection; only the closure for $\hat q_m$ changes.
+projection; only the closure for $\dot r_m$ changes.
 
 The momentum equations contain an additional term absent from purely kinematic
 Darcy-scale compositional balances,
 \begin{equation}
-  \sum_\alpha \hat c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
+  \sum_\alpha \dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
   \label{eq:conversion_momentum_interpretation}
 \end{equation}
-The factor $-\hat c_\xi^\alpha\mbf v_\xi$ is the inertial bookkeeping required
+The factor $-\dot c_\xi^\alpha\mbf v_\xi$ is the inertial bookkeeping required
 when mass is removed from or added to a phase moving with velocity $\mbf v_\xi$.
 The gradient term comes from the variation of the current-rate constraint
-$\hat c_\xi^\alpha=\dot c_\xi^\alpha/J_\xi$ and is therefore the mechanical force
+$\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ and is therefore the mechanical force
 associated with spatial changes in the conversion potential.  These terms vanish
 or are hidden in classical reservoir models when phase momenta are not solved
 explicitly and the phase velocities are supplied by Darcy laws.
@@ -1132,167 +1199,256 @@ transport.
 \section{Coleman--Noll procedure for the compositional thermo-reactive mixture}
 \label{sec:coleman_noll_compositional}
 
-This appendix records the thermodynamic restrictions corresponding to the
-constitutive structure used in the text.  The purpose is not to introduce new
-chosen.  For each phase $\xi$ let $E_\xi$, $\psi_\xi$, $s_\xi$, and $\theta$ denote
-internal energy, Helmholtz free energy, entropy, and the common temperature.  We
-use the Legendre relation
+This appendix records the thermodynamic argument in a form that mirrors the
+kinematic split used in the body of the paper.  The point is not to postulate the
+solid mixture rules, but to show how they appear after the component Helmholtz
+energies are differentiated subject to the density, composition, and distension
+constraints.
+
+For each phase/component pair let
 \begin{equation}
-  E_\xi=\psi_\xi+\theta s_\xi .
+  e_\xi^\alpha=\psi_\xi^\alpha+\theta s_\xi^\alpha
   \label{eq:CN_legendre}
 \end{equation}
-The phase energy balance is written in the local form
+be the Legendre relation.  The primitive Helmholtz free energies are component
+specific, but the volumetric state of a phase is the phase intrinsic density.  Thus
+specific, but the volumetric state of a phase is the phase intrinsic density.  For
+the solid, component additivity is retained while all components share the same
+phase density and true deformation:
 \begin{align}
-  \rho_\xi \dot E_\xi
-  +\sum_\alpha \hat c_\xi^\alpha E_\xi
+  \psi_s^\alpha
+  &=\psi_s^\alpha(\bar{\mbf F}_s^M(\theta, \eta^\beta_\xi), \mbf{A}_s,
+  \bar\rho_s,\mc A_m),
+  \qquad
+  \bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1},
+  \label{eq:CN_component_free_energy_arguments}
+\end{align}
+Here $\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\eta_s^\beta)$ is a
+prescribed stress-free thermal distortion, not an independent thermodynamic
+state.  The dependent quantities
+\begin{equation}
+  \rho_\xi^\alpha=\phi_\xi\bar\rho_\xi\eta_\xi^\alpha,
+  \qquad
+  \sum_\alpha\eta_\xi^\alpha=1,
+  \qquad
+  \bar J_s=\det\bar{\mbf F}_s=\frac{J_s}{a_s}
+  \label{eq:CN_kinematic_dependencies}
+\end{equation}
+are substituted before the entropy inequality is reduced.  In the solid phase we
+now regard the volume fraction as a function of the full distension tensor,
+\begin{equation}
+  \phi_s=\phi_s(\mbf A_s),
+  \qquad
+  \dot\phi_s=\frac{\partial\phi_s}{\partial\mbf A_s}:\dot{\mbf A}_s .
+  \label{eq:CN_phi_A_definition}
+\end{equation}  For the solid, component
+additivity gives
+\begin{equation}
+  \Psi_s=\sum_\alpha\rho_s^\alpha\psi_s^\alpha
+  =\rho_s\sum_\alpha\eta_s^\alpha\psi_s^\alpha,
+  \qquad
+  \psi_s=\sum_\alpha\eta_s^\alpha\psi_s^\alpha .
+  \label{eq:CN_total_helmholtz_density}
+\end{equation}
+The mobile-phase Helmholtz energies are not assumed to be component-additive;
+they are phase EOS potentials $\rho_\ell\psi_\ell(\bar\rho_\ell,\eta_\ell^\beta,\theta)$.
+\begin{align}
+  \sum_\alpha\left(\rho_\xi^\alpha\dot e_\xi^\alpha
+  +\dot c_\xi^\alpha e_\xi^\alpha\right)
   =&\; \bs\sigma_\xi':\mbf L_\xi
   +\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
   -\nabla_{\mbf x}\cdot\mbf q_\xi
   +\rho_\xi r_\xi+\rho_\xi e_\xi^{\rm int}.
   \label{eq:CN_energy_balance}
 \end{align}
-There is no separate phase-wise latent conversion force in the present formulation.  The conversion forces enter through the same virtual-power statement used in the variational derivation.  There are two pieces.  First, the mechanism affinity is introduced by
+For the solid phase, the mechanical power in \eqref{eq:CN_energy_balance} must
+be decomposed with the same kinematic split used in the constitutive law.  In the
+isotropic distension specialization,
 \begin{equation}
-  \delta W_{\rm conv}
-  =-\sum_m\int_{\mc B}\mc A_m\,\delta\hat q_m\,\dv .
-  \label{eq:CN_affinity_virtual_power}
+  \mbf F_s=a_s^{1/3}\bar{\mbf F}_s^M\bar{\mbf F}_s^\theta,
+  \qquad
+  \mbf L_s=\dot{\mbf F}_s\mbf F_s^{-1} .
+  \label{eq:CN_F_split_for_power}
 \end{equation}
-Second, the stoichiometric constraint
+For the reduced mechanical Coleman--Noll collection we hold the prescribed
+stress-free distortion fixed, so that the independent solid kinematic rates are
+$\dot{\bar{\mbf F}}_s^M$, $\dot a_s$, and $\dot{\bar\rho}_s$.  Taking the
+material time derivative and multiplying by $\mbf F_s^{-1}$ gives
 \begin{equation}
-  \hat c_\xi^\alpha-
-  \sum_m\nu_{\xi m}^\alpha\hat q_m=0
-  \label{eq:CN_stoichiometric_constraint}
+  \mbf L_s
+  =\frac{1}{3}\frac{\dot a_s}{a_s}\mbf I
+  +\dot{\bar{\mbf F}}_s^M(\bar{\mbf F}_s^M)^{-1} .
+  \label{eq:CN_L_split_for_power}
 \end{equation}
-is enforced by the multiplier $\mu_\xi^\alpha$.  Thus $\mu_\xi^\alpha$ is not a new Coleman--Noll constitutive force; it is the phase/component conversion potential already obtained in the variational formulation.  Its virtual-power contribution is the term conjugate to the component conversion rate,
+Therefore the solid stress power contains only the reduced rates
 \begin{equation}
-  \sum_\xi\sum_\alpha \mu_\xi^\alpha\hat c_\xi^\alpha,
-  \label{eq:CN_mu_conversion_power}
+  \bs\sigma_s':\mbf L_s
+  =\left[\bs\sigma_s'(\bar{\mbf F}_s^M)^{-T}\right]
+  :\dot{\bar{\mbf F}}_s^M
+  +\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\frac{\dot a_s}{a_s} .
+  \label{eq:CN_stress_power_split}
 \end{equation}
-with the sign chosen consistently with the affinity condition
-\eqref{eq:affinity_multiplier_projection}.  After using
-\eqref{eq:CN_stoichiometric_constraint}, the two conversion-power contributions
-combine as
+The trace of \eqref{eq:CN_L_split_for_power} and the distension evolution law
+then imply
+\begin{align}
+  \operatorname{tr}\mbf L_s
+  &=\frac{\dot a_s}{a_s}
+  +\operatorname{tr}\left[\dot{\bar{\mbf F}}_s^M
+  (\bar{\mbf F}_s^M)^{-1}\right],
+  \label{eq:CN_trace_L_in_terms_of_FM}\\
+  \frac{\dot a_s}{a_s}
+  &=\operatorname{tr}\mbf L_s+\frac{\dot{\bar\rho}_s}{\bar\rho_s},
+  \label{eq:CN_distension_rate_substitution}
+\end{align}
+so the reduced rates satisfy the intrinsic-density constraint
 \begin{equation}
-  \sum_m\mc A_m\hat q_m
-  +\sum_\xi\sum_\alpha\mu_\xi^\alpha\hat c_\xi^\alpha
-  =\sum_m\left(\mc A_m+
-  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\hat q_m .
-  \label{eq:CN_composition_affinity_projection}
+  \operatorname{tr}\left[\dot{\bar{\mbf F}}_s^M
+  (\bar{\mbf F}_s^M)^{-1}\right]
+  =-\frac{\dot{\bar\rho}_s}{\bar\rho_s} .
+  \label{eq:CN_density_constraint_from_trace}
 \end{equation}
-This is the precise sense in which changes of $\eta_\xi^\alpha$ generate a chemical virtual-power term: the mass fractions are not independent thermodynamic rates, but are induced by the component conversion rates and therefore by the mechanism rates $\hat q_m$.
-
-The second law is
+Hence no occurrence of $\mbf L_s$ is needed in the constitutive stress power:
+\eqref{eq:CN_stress_power_split}, together with the constraint
+\eqref{eq:CN_density_constraint_from_trace}, is a power written entirely in
+terms of $\bar{\mbf F}_s^M$, $a_s$, $\bar\rho_s$ and their rates.  Consequently
+$\bs\sigma_s'$ may be specified as a constitutive function of only these reduced
+state variables, rather than of the macroscopic deformation gradient or velocity
+gradient.
 \begin{equation}
   0\le
-  \sum_\xi\left[\rho_\xi\dot s_\xi
-  +\sum_\alpha\hat c_\xi^\alpha s_\xi
+  \sum_\xi\left[\sum_\alpha\left(
+  \rho_\xi^\alpha\dot s_\xi^\alpha
+  +\dot c_\xi^\alpha s_\xi^\alpha\right)
   +\nabla_{\mbf x}\cdot\left(\frac{\mbf q_\xi}{\theta}\right)
   -\frac{\rho_\xi r_\xi}{\theta}\right].
   \label{eq:CN_entropy_inequality}
 \end{equation}
-Substitution of \eqref{eq:CN_legendre}--\eqref{eq:CN_energy_balance} into
-\eqref{eq:CN_entropy_inequality}, together with the conversion virtual power
-\eqref{eq:CN_composition_affinity_projection}, gives
-\begin{align}
-0\le \sum_\xi \frac{1}{\theta}\Big[&
-  \bs\sigma_\xi':\mbf L_\xi
-  +\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
-  -\rho_\xi\dot\psi_\xi
-  -\rho_\xi s_\xi\dot \theta
-  -\sum_\alpha \hat c_\xi^\alpha\psi_\xi
-  +\rho_\xi e_\xi^{\rm int}
-\Big]
--\sum_\xi \frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
-+\frac{1}{\theta}\sum_m\left(\mc A_m+
-  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\hat q_m .
-\label{eq:CN_reduced_entropy_general}
-\end{align}
+The conversion virtual power is the one used in the variational derivation:
+\begin{equation}
+  \sum_m\mc A_m\dot r_m
+  +\sum_\xi\sum_\alpha\mu_\xi^\alpha\dot c_\xi^\alpha
+  =\sum_m\left(\mc A_m+
+  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)
+  \dot r_m .
+  \label{eq:CN_composition_affinity_projection}
+\end{equation}
+After substituting \eqref{eq:CN_legendre} and
+\eqref{eq:CN_energy_balance} into \eqref{eq:CN_entropy_inequality}, the
+reversible part of the reduced inequality contains the mechanical and pressure
+powers minus $\dot\Psi$, plus the conversion term
+\eqref{eq:CN_composition_affinity_projection}.
 
-For the solid phase the constitutive variables are
+The trace of \eqref{eq:CN_L_split_for_power}, together with true solid mass
+conservation, gives
 \begin{equation}
-  \psi_s=\psi_s(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta),
-  \qquad
-  \bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1},
-  \label{eq:CN_solid_state}
+  \operatorname{tr}\left[\dot{\bar{\mbf F}}_s^M(\bar{\mbf F}_s^M)^{-1}\right]
+  +\operatorname{tr}\left[\dot{\bar{\mbf F}}_s^\theta
+  (\bar{\mbf F}_s^\theta)^{-1}\right]
+  =-\frac{\dot{\bar\rho}_s}{\bar\rho_s} .
+  \label{eq:CN_true_density_rate_constraint}
 \end{equation}
-with the component representation
+Thus the reversible solid rates may be collected in terms of
+$\dot{\bar{\mbf F}}_s^M$, $\dot{\bar\rho}_s$, and $\dot\eta_s^\alpha$, with
+$\dot a_s/a_s$ eliminated by \eqref{eq:CN_distension_rate_substitution} when the
+macroscopic volume rate is used.  The component free-energy rate is
 \begin{equation}
-  \phi_s\bar\rho_s\psi_s
-  =\sum_\alpha \rho_s^\alpha
-  \psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s^\alpha,a_s,\theta),
-  \qquad \rho_s^\alpha=\phi_s\bar\rho_s\eta_s^\alpha .
-  \label{eq:CN_component_energy}
+  \dot\psi_s^\alpha
+  =
+  \frac{\partial\psi_s^\alpha}{\partial\bar{\mbf F}_s^M}
+  :
+  \dot{\bar{\mbf F}}_s^M
+  +
+  \frac{\partial\psi_s^\alpha}{\partial\bar\rho_s}\dot{\bar\rho}_s
+  +
+  \frac{\partial\psi_s^\alpha}{\partial a_s}\dot a_s
+  +
+  \frac{\partial\psi_s^\alpha}{\partial\mc A_m}\dot{\mc A}_m .
+  \label{eq:CN_solid_rate_expanded}
 \end{equation}
-For mobile phases $\ell$ we use the compositional-flow form
-\begin{equation}
-  \psi_\ell=\psi_\ell(\bar\rho_\ell,\theta,\eta_\ell^\beta),
-  \qquad \ell\in\{a,o,g\},
-  \label{eq:CN_mobile_energy}
-\end{equation}
-with no intrinsic shear stress.  Expanding $\dot\psi_s$ and $\dot\psi_\ell$ in
-\eqref{eq:CN_reduced_entropy_general}, using
-\eqref{eq:CN_composition_affinity_projection} for the composition/conversion
-terms, collecting independent rates, and using
-$\bs\sigma_s^E:\mbf L_s=(1/J_s)\mbf P_s^E:\dot{\mbf F}_s$ gives the reduced
-entropy inequality
+Here $\dot{\bar{\mbf F}}_s^M$ includes the induced rates of the prescribed
+thermal distortion $\bar{\mbf F}_s^\theta(\theta,\eta_s^\beta)$.  This is where
+the split appears: the free energy is differentiated with respect to the true
+mechanical deformation and the distension variable separately, while the
+kinematic relation above determines how their conjugate forces combine in the
+macroscopic solid power.
+
+Collecting the coefficients of the independent reversible rates gives the solid
+mixture rules.  In the isotropic distension specialization, the power conjugate
+to $\dot a_s$ contributes a spherical part to the macroscopic stress because
+$\partial\mbf F_s/\partial a_s=(3a_s)^{-1}\mbf F_s$ at fixed
+$\bar{\mbf F}_s$.  Up to capillary terms,
 \begin{align}
-0\le &\frac{1}{\theta}\Bigg[
-  \left(\frac{1}{J_s}\mbf P_s^E
-  -\sum_\alpha \phi_s^\alpha
-   \left.\frac{\partial \bar w_s^\alpha}{\partial \bar{\mbf F}_s^M}\right\vert_{\bar\rho_s^\alpha,a_s,\theta}
-   :\frac{\partial \bar{\mbf F}_s^M}{\partial \mbf F_s}\right):\dot{\mbf F}_s \notag\\
-&+\left(p_a+
-  \left.\frac{\partial W_a}{\partial a_s}\right\vert_{\theta,\Omega,\eta_s^\beta}\right)\dot a_s
-+\sum_\ell\left(\phi_\ell\bar p_\ell
-  -\rho_\ell\bar\rho_\ell\left.\frac{\partial\psi_\ell}{\partial\bar\rho_\ell}\right\vert_{\theta,\eta_\ell^\beta}\right)
-  \frac{\dot{\bar\rho}_\ell}{\bar\rho_\ell} \notag\\
-&-\rho_s\left(s_s+
-  \left.\frac{\partial\psi_s}{\partial \theta}\right\vert_{\bar{\mbf F}_s^M,\bar\rho_s,a_s,\eta_s^\beta}\right)\dot \theta
--\sum_\ell\rho_\ell\left(s_\ell+
-  \left.\frac{\partial\psi_\ell}{\partial \theta}\right\vert_{\bar\rho_\ell,\eta_\ell^\beta}\right)\dot \theta \notag\\
-&+\sum_m\left(\mc A_m+
-  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\hat q_m
-+\sum_\xi\rho_\xi e_\xi^{\rm int}
-\Bigg]
--\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2} .
-\label{eq:CN_collected_entropy}
+  \mbf P_s^E
+  =&\;J_s a_s^{-1/3}
+  \frac{\partial\Psi_s}{\partial\bar{\mbf F}_s^M}:
+  \frac{\partial\bar{\mbf F}_s^M}{\partial\bar{\mbf F}_s}
+  +\frac{J_s}{3a_s}\frac{\partial\Psi_s}{\partial a_s}\mbf F_s^{-T}
+  +\mbf P_{\gamma s} .
+  \label{eq:CN_stress_definition}
 \end{align}
-Equation~\eqref{eq:CN_collected_entropy} is the Coleman--Noll form used in this
-paper.  Since the rates $\dot{\mbf F}_s$, $\dot a_s$, $\dot{\bar\rho}_\ell$, and
-$\dot \theta$ can be prescribed independently, a sufficient set of constitutive
-restrictions is
-\begin{align}
-  \bs\sigma_s^E
-  &=\sum_\alpha \phi_s^\alpha\bar{\bs\sigma}_s^\alpha,
-  &
-  \bar{\bs\sigma}_s^\alpha
-  &=\left.\frac{\partial \bar w_s^\alpha}{\partial \bar{\mbf F}_s^M}\right|_{\bar\rho_s^\alpha,a_s,\theta}(\bar{\mbf F}_s^M)^T,
-  \label{eq:CN_stress_definition}\\
-  p_a&=-\left.\frac{\partial W_a}{\partial a_s}\right|_{\theta,\Omega,\eta_s^\beta},
-  &
-  \bar p_\ell&=\bar\rho_\ell^2
-  \left.\frac{\partial\psi_\ell}{\partial\bar\rho_\ell}\right|_{\theta,\eta_\ell^\beta},
-  \label{eq:CN_pressure_definitions}\\
-  s_s&=-\left.\frac{\partial\psi_s}{\partial \theta}\right|_{\bar{\mbf F}_s^M,\bar\rho_s,a_s,\eta_s^\beta},
-  &
-  s_\ell&=-\left.\frac{\partial\psi_\ell}{\partial \theta}\right|_{\bar\rho_\ell,\eta_\ell^\beta}.
+The phase intrinsic pressure conjugate to $\dot{\bar\rho}_s/\bar\rho_s$ is
+\begin{equation}
+  \phi_s\bar p_s
+  =\bar\rho_s\frac{\partial\Psi_s}{\partial\bar\rho_s}
+  +a_s\frac{\partial\Psi_s}{\partial a_s}
+  +\Pi_{\gamma\rho}^s .
+  \label{eq:CN_phase_pressure_definition}
+\end{equation}
+\eqref{eq:CN_phase_pressure_definition} are the Coleman--Noll version of the
+solid split derived earlier: the true deformation, distension, and intrinsic
+density are thermodynamically conjugate to different parts of the reversible
+power, but the kinematic constraint couples their apparent contributions.
+
+The component mixture rules come from the coefficients of
+$\dot\eta_\xi^\alpha$ subject to $\sum_\alpha\dot\eta_\xi^\alpha=0$.  Since
+\begin{equation}
+  \frac{\partial\Psi_\xi}{\partial\eta_\xi^\alpha}
+  =\rho_\xi\left(
+  \psi_\xi^\alpha+
+  \sum_\beta\eta_\xi^\beta
+  \left.\frac{\partial\psi_\xi^\beta}{\partial\eta_\xi^\alpha}\right|_{\mc Z_\eta}
+  \right),
+  \label{eq:CN_composition_derivative}
+\end{equation}
+only differences of these coefficients are independent.  The arbitrary common
+part is the Coleman--Noll counterpart of the phase multiplier $\pi_\xi$ in the
+variational calculation.  Thus the phase free energy
+$\psi_\xi=\sum_\alpha\eta_\xi^\alpha\psi_\xi^\alpha$, the composition forces, and
+the corresponding component mixture rules are not separate assumptions; they are
+produced by differentiating the component-additive storage law under the mass
+fraction constraint.
+
+The entropy is identified from the coefficient of $\dot\theta$:
+\begin{equation}
+  s=-\left.\frac{\partial\Psi}{\partial\theta}\right|_{\mc Z} .
   \label{eq:CN_entropy_definitions}
-\end{align}
-The remaining residual dissipation is
+\end{equation}
+The coefficient of $\dot{\mc A}_m$ records reversible storage associated with
+crystallization/distension.  For the specialization
+$W_a^\alpha=W_{\rm mech}^\alpha-p_c^{(m)}\ln a_s$, with
+$p_c^{(m)}=\bar\rho_s^{\alpha_m}\mc A_m$, the derivative
+$\partial\Psi_s/\partial a_s$ contains the crystallization pressure contribution.
+The equilibrium condition obtained by setting the distension force to zero is
+therefore the same condition derived in the body of the paper, while the Biot
+coefficient introduced after the Legendre transform converts this local
+conjugate force into an effective poromechanical property.
+
+The remaining, nonnegative part of the reduced inequality is
 \begin{equation}
   \mathcal D
-  =\sum_m\left(\mc A_m+
-  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\hat q_m
+  =\sum_m\left(
+  \mc A_m+
+  \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\dot r_m
   +\sum_\xi\rho_\xi e_\xi^{\rm int}
   -\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
-  \ge 0,
+  +\mathcal D_{\rm inelastic}
+  \ge0 .
   \label{eq:CN_residual_dissipation}
 \end{equation}
-which is satisfied, for example, by Fourier heat conduction and by kinetic
-closures for which the projected affinity has non-negative product with
-$\hat q_m$.  In the reversible, equilibrated limit the variational condition
-\eqref{eq:affinity_multiplier_projection} makes the conversion part vanish.
-\bibliography{all}
+In the reversible equilibrated limit the affinity projection removes the first
+term.  Kinetic crystallization, heat conduction, interphase exchange, plasticity,
+damage, and other rate-dependent effects must be specified so that the remaining
+terms are nonnegative.
 \bibliographystyle{plain}
 
 \end{document}
