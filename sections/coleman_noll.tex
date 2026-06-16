@@ -1,0 +1,391 @@
+\section{Coleman--Noll procedure for the compositional thermo-reactive mixture}
+\label{sec:coleman_noll_compositional}
+
+This appendix records the thermodynamic argument in a form that mirrors the
+kinematic split used in the body of the paper.  The point is not to postulate the
+solid mixture rules, but to show how they appear after the component Helmholtz
+energies are differentiated subject to the density, composition, and distension
+constraints.
+
+For each phase/component pair let
+\begin{equation}
+	e_\xi^\alpha=\psi_\xi^\alpha+\theta s_\xi^\alpha
+	\label{eq:CN_legendre}
+\end{equation}
+be the Legendre relation.  We write each phase free energy as a mass-specific
+phase potential
+\begin{equation}
+	\psi_\xi=\sum_\alpha\eta_\xi^\alpha\psi_\xi^\alpha,
+	\qquad
+	\rho_\xi\psi_\xi=\sum_\alpha\rho_\xi^\alpha\psi_\xi^\alpha .
+	\label{eq:CN_phase_free_energy_sum}
+\end{equation}
+For the solid phase we also introduce the component volume fraction within the
+solid phase, denoted $\phi_s^\alpha$.  It is not an independent thermodynamic
+state variable in the Coleman--Noll derivatives; it is a derived volume-weight
+used later to express skeleton mixture rules:
+\begin{equation}
+	\rho_s^\alpha
+	=\phi_s\bar\rho_s\eta_s^\alpha
+	=\phi_s\phi_s^\alpha\bar\rho_s^\alpha,
+	\qquad
+	\sum_\alpha\eta_s^\alpha=1,
+	\qquad
+	\sum_\alpha\phi_s^\alpha=1 .
+	\label{eq:CN_solid_component_volume_fraction}
+\end{equation}
+Thus
+\begin{equation}
+	\bar\rho_s=\sum_\alpha\phi_s^\alpha\bar\rho_s^\alpha,
+	\qquad
+	\eta_s^\alpha=\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\bar\rho_s},
+	\qquad
+	\phi_s^\alpha=\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha} .
+	\label{eq:CN_eta_phi_volume_relation}
+\end{equation}
+The primitive solid component Helmholtz free energies are taken to have the same
+density and composition state variables as the mobile phases,
+\begin{equation}
+	\mathcal{S} = \{\bar{\mbf F}_s^M, a_s, \bar\rho_s,
+	\mc A_m,\theta,\eta_s^\beta \}
+\end{equation}
+%
+
+
+\begin{align}
+	\psi_s^\alpha
+	 & =\psi_s^\alpha(\bar{\mbf F}_s^M, a_s, \bar\rho_s,
+	\mc A_m,\theta,\eta_s^\beta),
+	\qquad
+	\bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1},
+	\label{eq:CN_component_free_energy_arguments}
+\end{align}
+where
+$\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is a
+prescribed stress-free thermal/compositional dilation, not an independent
+thermodynamic state.  Since the Coleman--Noll state variables remain
+$(\bar\rho_s,\eta_s^\beta)$, derivatives of $\bar{\mbf F}_s^\theta$ with respect
+to composition are total derivatives through the derived component volume
+fractions.  Define
+\begin{equation}
+	\mc X_z\equiv\mc X\backslash\{z\},
+	\qquad
+	\mc X\in\{\mc S,\mc F,\mc T_s\},
+	\qquad
+	\mc T_s=\{\theta,\phi_s^\beta\}.
+	\label{eq:CN_fixed_eta_state_set}
+\end{equation}
+We write
+\begin{equation}
+	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}{\eta_s^\beta}
+	=\sum_\gamma
+	\left.\p{\bar{\mbf F}_s^\theta}{\phi_s^\gamma}\heldfixed{\mc T_s}{\phi_s^\gamma}
+	\left.\p{\phi_s^\gamma}{\eta_s^\beta}\heldfixed{\mc S}{\eta_s^\beta} .
+	\label{eq:CN_Ftheta_eta_chain}
+\end{equation}
+For the mobile fluid phases, we postulate the Coleman--Noll state variables
+\begin{equation}
+	\mc F
+	=\left\{\rho_\ell,\eta_\ell^\beta,\theta,\mc A_m\right\},
+	\qquad
+	\psi_\ell^\alpha=\psi_\ell^\alpha(\mc F) .
+	\label{eq:CN_fluid_state_variables}
+\end{equation}
+Thus the fluid-phase free-energy rates entering the entropy inequality are
+\begin{align}
+	\sum_\ell\sum_\alpha\rho_\ell^\alpha\dot\psi_\ell^\alpha
+	 & =\sum_\ell\rho_\ell\sum_\alpha\eta_\ell^\alpha\left(
+	\left.\p{\psi_\ell^\alpha}{\rho_\ell}\heldfixed{\mc F}{\rho_\ell}\dot\rho_\ell
+	+\sum_\beta\left.\p{\psi_\ell^\alpha}{\eta_\ell^\beta}\heldfixed{\mc F}{\eta_\ell^\beta}\dot\eta_\ell^\beta
+	+\left.\p{\psi_\ell^\alpha}{\theta}\heldfixed{\mc F}{\theta}\dot\theta
+	+\left.\p{\psi_\ell^\alpha}{\mc A_m}\heldfixed{\mc F}{\mc A_m}\dot{\mc A}_m
+	\right).
+	\label{eq:CN_fluid_free_energy_rate}
+\end{align}
+The dependent quantities
+\begin{equation}
+	\rho_\xi^\alpha=\phi_\xi\bar\rho_\xi\eta_\xi^\alpha,
+	\qquad
+	\sum_\alpha\eta_\xi^\alpha=1,
+	\qquad
+	\bar J_s=\det\bar{\mbf F}_s=\frac{J_s}{a_s}
+	\label{eq:CN_kinematic_dependencies}
+\end{equation}
+
+For the solid, component additivity gives
+\begin{align}
+	\sum_\alpha\rho_s^\alpha\dot{\psi}_s^\alpha
+	 & =\rho_s\sum_\alpha\eta_s^\alpha\dot\psi_s^\alpha \notag \\
+	 & =\rho_s\sum_\alpha\eta_s^\alpha \bigg(
+	\left.\p{\psi_s^\alpha}{\bar{\mbf{F}}^M_s}\heldfixed{\mc S}{\bar{\mbf F}_s^M}
+	:\dot{\bar{\mbf{F}}}^M_s
+	+\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}{a_s}\dot{a}_s
+	\notag                                                     \\
+	 & \qquad
+	+\left.\p{\psi_s^\alpha}{\bar\rho_s}\heldfixed{\mc S}{\bar\rho_s}\dot{\bar\rho}_s
+	+\sum_\beta\left.\p{\psi_s^\alpha}{\eta_s^\beta}\heldfixed{\mc S}{\eta_s^\beta}\dot\eta_s^\beta
+	\notag                                                     \\
+	 & \qquad
+	+\left.\p{\psi_s^\alpha}{\mc{A}_m}\heldfixed{\mc S}{\mc A_m}\dot{\mc{A}}_m
+	+\left.\p{\psi_s^\alpha}{\theta}\heldfixed{\mc S}{\theta}\dot\theta
+	\bigg).
+	\label{eq:CN_total_helmholtz_density}
+\end{align}
+The Coleman--Noll argument treats $\dot{\bar{\mbf F}}_s$ as the independent
+solid deformation rate.  The mechanical deformation gradient is a dependent
+constitutive argument, so substituting the prescribed thermal/compositional
+stress-free dilation rate gives
+\begin{align}
+	\dot{\bar{\mbf F}}_s^M
+	= & \; \dot{\bar{\mbf F}}_s(\bar{\mbf F}_s^\theta)^{-1}
+	-\bar{\mbf F}_s^M
+	\left.\frac{\partial\bar{\mbf F}_s^\theta}{\partial\theta}\heldfixed{\mc T_s}{\theta}
+	(\bar{\mbf F}_s^\theta)^{-1}\dot\theta \notag           \\
+	  & \;-
+	\sum_\beta
+	\bar{\mbf F}_s^M
+	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}{\eta_s^\beta}
+	(\bar{\mbf F}_s^\theta)^{-1}\dot\eta_s^\beta .
+	\label{eq:CN_FM_rate_chain_rule}
+\end{align}
+It is useful to define the tensor conjugate to the stress-free dilation,
+\begin{equation}
+	\mbf H_s^\alpha
+	= (\bar{\mbf F}_s^M)^T
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}{\bar{\mbf F}_s^M}
+	(\bar{\mbf F}_s^\theta)^{-T} .
+	\label{eq:CN_H_def}
+\end{equation}
+The mobile-phase Helmholtz energies are phase EOS potentials using the
+fluid-state variables in \eqref{eq:CN_fluid_state_variables}.
+\begin{align}
+	\sum_\alpha\left(\rho_\xi^\alpha\dot e_\xi^\alpha
+	+\dot c_\xi^\alpha e_\xi^\alpha\right)
+	= & \; \bs\sigma_\xi':\mbf L_\xi
+	+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+	-\nabla_{\mbf x}\cdot\mbf q_\xi
+	+\rho_\xi r_\xi+\rho_\xi e_\xi^{\rm int}.
+	\label{eq:CN_energy_balance}
+\end{align}
+For the solid phase, the mechanical power in \eqref{eq:CN_energy_balance} must
+be decomposed with the same kinematic split used in the constitutive law.  In the
+isotropic distension specialization,
+\begin{equation}
+	\mbf F_s=a_s^{1/3}\bar{\mbf F}_s,
+	\label{eq:CN_F_split_for_power}
+\end{equation}
+so
+\begin{equation}
+	\mbf L_s
+	=\dot{\mbf F}_s\mbf F_s^{-1}
+	=\frac{1}{3}\frac{\dot a_s}{a_s}\mbf I
+	+\dot{\bar{\mbf F}}_s\bar{\mbf F}_s^{-1} .
+	\label{eq:CN_L_split_for_power}
+\end{equation}
+Therefore
+\begin{equation}
+	\bs\sigma_s':\mbf L_s
+	=\left[\bs\sigma_s'\bar{\mbf F}_s^{-T}\right]
+	:\dot{\bar{\mbf F}}_s
+	+\frac{1}{3a_s}\operatorname{tr}(\bs\sigma_s')\dot a_s .
+	\label{eq:CN_stress_power_split}
+\end{equation}
+The entropy inequality is
+\begin{equation}
+	0\le
+	\sum_\xi\left[\sum_\alpha\left(
+		\rho_\xi^\alpha\dot s_\xi^\alpha
+		+\dot c_\xi^\alpha s_\xi^\alpha\right)
+		+\nabla_{\mbf x}\cdot\left(\frac{\mbf q_\xi}{\theta}\right)
+		-\frac{\rho_\xi r_\xi}{\theta}\right].
+	\label{eq:CN_entropy_inequality}
+\end{equation}
+Using \eqref{eq:CN_energy_balance} to eliminate $\rho_\xi r_\xi$ from
+\eqref{eq:CN_entropy_inequality}, and then using
+$e_\xi^\alpha=\psi_\xi^\alpha+\theta s_\xi^\alpha$, gives the reduced entropy
+inequality
+\begin{align}
+	0\le
+	\sum_\xi \bigg[ &
+		\frac{1}{\theta}\left(
+		\bs\sigma_\xi':\mbf L_\xi
+		+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+		-\sum_\alpha\rho_\xi^\alpha
+		\left(\dot\psi_\xi^\alpha+s_\xi^\alpha\dot\theta\right)
+		-\sum_\alpha\dot c_\xi^\alpha\psi_\xi^\alpha
+		+\rho_\xi e_\xi^{\rm int}\right)
+		-\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
+		\bigg].
+	\label{eq:CN_reduced_entropy_inequality}
+\end{align}
+Substituting \eqref{eq:CN_total_helmholtz_density},
+\eqref{eq:CN_FM_rate_chain_rule}, \eqref{eq:CN_stress_power_split}, and
+\eqref{eq:CN_fluid_free_energy_rate} gives the collected solid--fluid
+contribution.
+\begin{align}
+	0\le\; &
+	\frac{1}{\theta}\Bigg\{
+	\left[
+	\bs\sigma_s'\bar{\mbf F}_s^{-T}
+	-\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}{\bar{\mbf F}_s^M}
+	(\bar{\mbf F}_s^\theta)^{-T}
+	\right]:\dot{\bar{\mbf F}}_s
+	\notag                                               \\
+	       & +\sum_\ell\bs\sigma_\ell':\mbf L_\ell
+	\notag                                               \\
+	       & +\left[
+		\frac{1}{3a_s}\operatorname{tr}(\bs\sigma_s')
+		-\rho_s\sum_\alpha\eta_s^\alpha
+		\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}{a_s}
+		\right]\dot a_s
+	\notag                                               \\
+	       & +\sum_\xi \left[
+		\frac{\phi_\xi \bar p_\xi}{\bar\rho_\xi}
+		-\rho_\xi\sum_\alpha\eta_\xi^\alpha
+		\left.\p{\psi_\xi^\alpha}{\bar\rho_\xi}\heldfixed{\mc F}{\bar\rho_\xi}
+		\right]\dot{\bar\rho}_\xi
+	-\sum_\ell\rho_\ell\sum_\alpha\eta_\ell^\alpha
+	\left.\p{\psi_\ell^\alpha}{\rho_\ell}\heldfixed{\mc F}{\rho_\ell}\dot\rho_\ell
+	\notag                                               \\
+	       & -\sum_\xi\rho_\xi\sum_\alpha\eta_\xi^\alpha
+	\left[
+		s_\xi^\alpha+\left.\p{\psi_\xi^\alpha}{\theta}\heldfixed{\mc F}{\theta}
+		\right]\dot\theta
+	+\rho_s\sum_\alpha\eta_s^\alpha
+	\mbf H_s^\alpha:
+	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}{\theta}\dot\theta
+	\notag                                               \\
+	       & -\sum_\xi\rho_\xi\sum_\beta\left[
+		\sum_\alpha\eta_\xi^\alpha\left(
+		\left.\p{\psi_\xi^\alpha}{\eta_\xi^\beta}\heldfixed{\mc F}{\eta_\xi^\beta}
+		\right)\right]\dot\eta_\xi^\beta
+	+\rho_s\sum_\beta\left[
+		\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
+		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}{\eta_s^\beta}
+		\right]\dot\eta_s^\beta
+	\notag                                               \\
+	       & -\sum_\xi\rho_\xi\sum_\alpha\eta_\xi^\alpha
+	\left.\p{\psi_\xi^\alpha}{\mc A_m}\heldfixed{\mc F}{\mc A_m}\dot{\mc A}_m
+	-\sum_m\left(
+	\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha\psi_\xi^\alpha
+	\right)\dot r_m
+	\notag                                               \\
+	       & +\sum_\xi\rho_\xi e_\xi^{\rm int}
+	-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
+	\Bigg\} .
+	\label{eq:CN_solid_collected_entropy}
+\end{align}
+The deformation coefficient gives
+\begin{align}
+	\bs\sigma_s'
+	 & =\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}{\bar{\mbf F}_s^M}
+	(\bar{\mbf F}_s^M)^T
+	=\phi_s\sum_\alpha\phi_s^\alpha\bar\rho_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}{\bar{\mbf F}_s^M}
+	(\bar{\mbf F}_s^M)^T .
+	\label{eq:CN_stress_definition}
+\end{align}
+The intrinsic skeleton stress may therefore be written as the component volume
+fraction average
+\begin{equation}
+	\bar{\bs\sigma}_s'
+	=\frac{1}{\phi_s}\bs\sigma_s'
+	=\sum_\alpha\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha},
+	\qquad
+	\bar{\bs\sigma}_s^{\prime\alpha}
+	=\bar\rho_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}{\bar{\mbf F}_s^M}
+	(\bar{\mbf F}_s^M)^T .
+	\label{eq:CN_intrinsic_component_stress}
+\end{equation}
+Equivalently, if $\bar\rho_{s0}^\alpha\psi_s^\alpha$ is the energy per
+undistended intrinsic reference volume of component $\alpha$, then
+\begin{equation}
+	\bar{\mbf P}_s^{\prime\alpha}
+	=\bar\rho_{s0}^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}{\bar{\mbf F}_s^M}
+	=\bar J_s \bar{\bs\sigma}_s^{\prime\alpha}
+	(\bar{\mbf F}_s^M)^{-T}
+	\label{eq:CN_intrinsic_pk_stress}
+\end{equation}
+is the undistended intrinsic first Piola--Kirchhoff stress.  The distension and
+pressure coefficients give
+\begin{align}
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	 & = \rho_s a_s \sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}{a_s},
+	\label{eq:CN_distension_force_definition}             \\
+	\bar p_s
+	 & =\left(\bar\rho_s\right)^2\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar\rho_s}\heldfixed{\mc S}{\bar\rho_s} .
+	\label{eq:CN_phase_pressure_definition}
+\end{align}
+The entropy coefficient gives
+\begin{equation}
+	\sum_\alpha\eta_s^\alpha s_s^\alpha
+	=-\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\theta}\heldfixed{\mc S}{\theta}
+	+\sum_\alpha\eta_s^\alpha
+	\mbf H_s^\alpha:
+	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}{\theta} .
+	\label{eq:CN_entropy_definitions}
+\end{equation}
+The coefficients of $\dot\eta_s^\beta$ are subject to
+$\sum_\beta\dot\eta_s^\beta=0$, so only differences of the corresponding
+composition forces are fixed.  The stress-free compositional dilation modifies
+the usual composition coefficient by
+\begin{equation}
+	-\rho_s\sum_\alpha\eta_s^\alpha\left(
+	\left.\p{\psi_s^\alpha}{\eta_s^\beta}\heldfixed{\mc S}{\eta_s^\beta}
+	-\mbf H_s^\alpha:
+	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}{\eta_s^\beta}
+	\right).
+	\label{eq:CN_composition_derivative}
+\end{equation}
+This form gives the desired skeleton mixture rules.  If the Legendre-transformed
+intrinsic law for each component has the small-strain volumetric form
+\begin{equation}
+	\bar\sigma_{m,s}^{\prime\prime\alpha}
+	=K_\alpha^\star\varepsilon_v-b_\alpha\hat p,
+	\label{eq:CN_component_skeleton_linearization}
+\end{equation}
+then $\bar\sigma_{m,s}^{\prime\prime}=\sum_\alpha\phi_s^\alpha
+	\bar\sigma_{m,s}^{\prime\prime\alpha}$ implies
+\begin{equation}
+	K^\star=\sum_\alpha\phi_s^\alpha K_\alpha^\star,
+	\qquad
+	b=\sum_\alpha\phi_s^\alpha b_\alpha .
+	\label{eq:CN_skeleton_mixture_rules}
+\end{equation}
+The mixture-volume stress contribution remains
+$\bs\sigma_s^{\prime\prime}=\phi_s\bar{\bs\sigma}_s^{\prime\prime}$.
+
+Finally, using $\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m$, the
+conversion virtual power from the variational derivation contributes the same
+affinity projection as before,
+\begin{equation}
+	\sum_m\mc A_m\dot r_m
+	+\sum_\xi\sum_\alpha\mu_\xi^\alpha
+	\sum_m\nu_{\xi m}^\alpha\dot r_m
+	=\sum_m\left(\mc A_m+
+	\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\dot r_m .
+	\label{eq:CN_composition_affinity_projection}
+\end{equation}
+After the reversible coefficients have been set to zero, the remaining
+inequality can be written as
+\begin{align}
+	0\le\; &
+	\sum_m\left(\mc A_m+
+	\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\dot r_m
+	+\sum_\xi\rho_\xi e_\xi^{\rm int}
+	-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
+	\notag                                   \\
+	       & -\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\mc A_m}\heldfixed{\mc S}{\mc A_m}\dot{\mc A}_m
+	+\mc D_{\rm inelastic} .
+	\label{eq:CN_residual_dissipation}
+\end{align}
+Kinetic crystallization, heat conduction, interphase exchange, plasticity,
+remaining terms are nonnegative.

@@ -3,6 +3,8 @@
 ## Manuscript source of truth
 
 - Treat `main.tex` as the canonical root of the manuscript. Start from `main.tex`, follow its `\\input`, `\\include`, bibliography, macro, and package declarations, and interpret all included TeX in that root context.
+- Manuscript body files are organized under `sections/`, but they are not standalone documents. Interpret them only through the `main.tex` root context.
+- Store intentional research PDFs in `references/pdfs/` and human reading notes in `references/notes/`. Use the `latex-research-ingest` skill's local `.codex-research/` store for PDF ingestion and retrieval. Treat generated LaTeX, preview, and retrieval state as non-authoritative workflow artifacts.
 - When answering questions about the paper, prefer exact evidence from `main.tex` and included TeX files over memory, generated PDFs, auxiliary files, notes, or ingested reference chunks.
 - Cite source locations as `file:line` whenever making claims about manuscript text, notation, assumptions, derivations, equation labels, or references.
 - Do not infer global notation from isolated snippets. Resolve definitions, labels, counters, macros, and theorem/equation environments through the `main.tex` compilation graph.
@@ -10,34 +12,27 @@
 ## Precision LaTeX parsing and reading
 
 - Act as a precision LaTeX parser and reader, not a loose text searcher. Preserve TeX semantics, macro expansion context, math-mode boundaries, environment nesting, labels, refs, citations, and local definitions.
+- Always inspect `defs.tex` when interpreting notation or shorthand the user writes in chat, since chat shorthand may refer to manuscript macros or local notation conventions.
+- When discussing mathematical notation with the user, show displayed/rendered LaTeX by default. Provide raw TeX source only when the user explicitly asks for code or when an edit/diff requires source-level precision.
 - Before changing equations, labels, notation, cross-references, theorem statements, or bibliography usage, inspect the surrounding TeX source and the relevant definitions/macros.
-- Use chat-preview as the central interactive interface for navigating, previewing, selecting, editing, and discussing manuscript TeX. Prefer chat-preview browser workflows for equation/citation/file inspection when available, while still treating `main.tex` and included source files as authoritative.
-- Use focused equation, citation, file-editor, preview, and browser-side selectors exposed through chat-preview before falling back to older mech-pi-specific workflows or broad filesystem rewrites.
+- Prefer source-based LaTeX inspection rooted at `main.tex`, texlab/LSP diagnostics, and local build artifacts for equation/citation/file inspection.
+- Use focused equation, citation, and source-file inspection before broad filesystem rewrites.
 - Distinguish manuscript source from generated artifacts. LaTeX build products such as `.aux`, `.log`, `.out`, `.bbl`, `.fls`, `.fdb_latexmk`, and PDFs are not authoritative except for diagnostics or rendered-number lookup.
 
 ## texlab / LSP awareness
 
-- The TeX language server `texlab` is available. Use chat-preview/latex-edit integrations or direct LSP diagnostics, definitions, references, document symbols, hovers, renames, and code actions when precise LaTeX navigation or validation is needed.
-- For compile or editor-style issues, prefer chat-preview-driven diagnostics/preview and narrow source edits before making broader changes. Make narrow source edits that address the reported line, label, macro, or environment.
+- The TeX language server `texlab` is available. Use direct LSP diagnostics, definitions, references, document symbols, hovers, renames, and code actions when precise LaTeX navigation or validation is needed.
+- For compile or editor-style issues, prefer texlab diagnostics, LaTeX Workshop output, and narrow source edits before making broader changes. Make narrow source edits that address the reported line, label, macro, or environment.
 - If aux data or equation numbering is stale, compile from `main.tex` or refresh the relevant preview/index before relying on rendered numbers.
 
-## Chat-preview as the central manuscript interface
+## Local research retrieval
 
-- Use `chat-preview-pi` as the primary interface to this repository's TeX workflow: chat, prompt editing, equation browsing/editing, citation/BibTeX inspection, PDF/source preview, file editing, and RAG ingestion should be driven from chat-preview when available.
-- When debugging or changing `chat-preview-pi`, first read and follow `/home/john/Documents/pi-extensions/packages/chat-preview-pi/DESIGN.md`.
-- Conform to the chat-preview design contract: preserve the minimal dark interface, avoid broad layout/theme rewrites without explicit approval, prefer additive/narrow changes, keep frontend/backend APIs explicit, and keep runtime/generated state out of git.
-- Before confirming any chat-preview fix, use browser-control tools to open the running preview when available, reproduce or inspect the issue, and verify the changed behavior. If no preview server is running or browser verification is impossible, state that explicitly and do not present the change as browser-verified.
-- For visual or interaction changes, capture or describe before/after behavior and test through the browser UI, not only TypeScript compilation.
-- Treat mech-pi as a legacy/supplemental toolkit for this project. Do not center new manuscript workflows, guidance, or UI expectations around mech-pi unless the user explicitly asks for mech-pi behavior.
+Use the `latex-research-ingest` skill for research PDF ingestion and retrieval.
+It creates and queries `.codex-research/` without relying on chat-preview,
+rag-pi, or `.ragpi/`.
 
-<!-- RAGPI_INGEST_GUIDANCE_START -->
-## Chat-preview / rag-pi retrieval
-
-When `.ragpi/vector-store.json` exists, treat it as the first-pass retrieval cache for ingested references, background papers, and remembered phrases.
-
-- Use chat-preview `/ingest` for selecting, rectifying, adding/removing, and rebuilding repo-local RAG sources whenever possible.
-- Use `rag_retrieve` for targeted retrieval from `.ragpi/vector-store.json` instead of reading or sending the whole vector store.
-- Do not run broad filesystem searches just to duplicate vector-store retrieval. If retrieval is insufficient, inspect `.ragpi/manifest.json`, `.ragpi/text/`, or source files to verify exact quotations/line numbers before wider searches.
-- If `RAG-PI AUTO-RETRIEVED CONTEXT` is present, use it first when sufficient.
+- Prefer `references/pdfs/` for original PDFs and `references/notes/` for durable notes.
+- Build/update the local store with `research_store.py ingest`.
+- Retrieve targeted context with `research_store.py retrieve`.
+- Do not read or send the whole vector store when a targeted retrieval is enough.
 - For manuscript mechanics claims, the TeX source rooted at `main.tex` still overrides retrieved reference chunks.
-<!-- RAGPI_INGEST_GUIDANCE_END -->

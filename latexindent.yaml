@@ -1,0 +1,20 @@
+defaultIndent: "\t"
+
+# Add a single comment marker directly above each \begin{...} and directly below
+# each \end{...}. These replacements are written to be idempotent: rerunning
+# latexindent should not stack additional marker lines.
+replacements:
+  -
+    amalgamate: 1
+  -
+    substitution: |-
+      s/(?<!^%\n)(?<!\n%\n)^([ \t]*\\begin\{(?!document\b)[^}\n]+\})/%\n$1/gm
+    when: after
+  -
+    substitution: |-
+      s/^([ \t]*\\end\{(?!document\b)[^}\n]+\})(?!\n%$)/$1\n%/gm
+    when: after
+  -
+    substitution: |-
+      s/^%\n(?:%\n)+/%\n/gm
+    when: after

@@ -1,9 +1,12 @@
-# Local/generated files currently not tracked
--
+# Local/generated workflow state
+.codex-research/
+.latex-edit-pi/
 .mechpi/
+.ragpi/
 rescan/
 
 # LaTeX build outputs
+build/
 *.aux
 *.bbl
 *.blg
@@ -11,7 +14,13 @@ rescan/
 *.fls
 *.log
 *.out
-*.pdf
+*.synctex.gz
+main.pdf
+*.bak*
+indent.log
+
+# Research PDFs are intentional source/context files.
+!references/pdfs/*.pdf
 
 # Local note/source files
 bedford_drumheller_identity_1_28_note.tex
