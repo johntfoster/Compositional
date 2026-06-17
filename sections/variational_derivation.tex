@@ -9,12 +9,15 @@ Each phase has volume fraction~$\phi_\xi$, intrinsic density~$\bar\rho_\xi$, bul
 
 The extended Hamilton's principle is
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation*}
 	\int_{t_1}^{t_2}\left[\delta(T - U) + \delta W + \sum_k \delta C_k\right] dt = 0,
 \end{equation*}
+% AGENT-LOCK-END
 %
 with kinetic energy, internal energy, virtual work, and four constraints:
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	T        & = \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \dv,
 	\label{eq:T_def}                                                                                                                                                                                                \\
@@ -33,6 +36,7 @@ with kinetic energy, internal energy, virtual work, and four constraints:
 	C_4      & = \sum_\xi\sum_\alpha\int_{\mc B}\mu_\xi^\alpha\left(\frac{\dot{\mc{C}}_\xi^\alpha}{J_\xi}-\sum_m\nu_{\xi m}^\alpha\dot r_m\right)\dv .
 	\label{eq:C4_def}
 \end{align}
+% AGENT-LOCK-END
 %
 The affinities $\mc A_m$ are introduced as generalized conversion forces in the
 virtual-work one-form, conjugate to the current progress-rate variations
@@ -58,20 +62,24 @@ component density.
 %
 For any phase field $\Gamma_\xi$, the Bedford--Drumheller identity extends componentwise as
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta \int_{\mc{B}} \rho^\alpha_\xi \Gamma_\xi \, \dv
 	 & = \int_{\mc{B}} \left( \rho^\alpha_\xi\delta\Gamma_\xi
 	+ \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\Gamma_\xi\right)\dv .
 	\label{eq:bd128_mod2}
 \end{align}
+% AGENT-LOCK-END
 %
 summing both sides of \eqref{eq:bd128_mod2} over $\alpha$ gives
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta \int_{\mc{B}} \rho_\xi \psi_\xi \, \dv
 	 & = \int_{\mc{B}} \left(\rho_\xi \delta \Gamma_\xi + \sum_\alpha \frac{\delta \mc{C}^\al_\xi}{J_\xi} \Gamma_\xi  \right)  \dv
 	\label{eq:bd128_mod}
 \end{align}
+% AGENT-LOCK-END
 %
 where we've used $\rho_\xi = \sum_\alpha \rho^\alpha_\xi$.
 
@@ -82,17 +90,21 @@ where we've used $\rho_\xi = \sum_\alpha \rho^\alpha_\xi$.
 
 The variation of kinetic energy using \eqref{eq:bd128_mod} is then
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\delta T = \sum_\xi \int_{\mc{B}} \rho_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}^\al_\xi}{J_\xi} \dv.
 \end{equation}
+% AGENT-LOCK-END
 %
 Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delta\mbf{x}_\xi\vert_{t_1} = \delta\mbf{x}_\xi\vert_{t_2} = \mbf{0}$, integration by parts in time gives
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\int_{t_1}^{t_2} \delta T \dt
 	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left(-\rho_\xi\,\mbf{a}_\xi - \sum_\al \dot c^\alpha_\xi \mbf{v}_\xi \right) \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}  \dv \dt
 	\label{eq:deltaT_app}
 \end{equation}
+% AGENT-LOCK-END
 %
 \subsection{Variation of the phase free energies}
 \label{sec:var_Uxi}
@@ -102,11 +114,13 @@ For every phase, solid or mobile, let $\psi_\xi$ denote the specific Helmholtz
 free energy.  The corresponding contribution to the total free energy is written
 in the same current density-weighted form,
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	U_\xi & = \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^1, \eta_\xi^2, \dots, \eta_\xi^N)\,\dv \notag \\
 	      & = \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^\beta)\,\dv
 	\label{eq:U_xi_uniform}
 \end{align}
+% AGENT-LOCK-END
 %
 Here $\eta_\xi^\beta$ denotes the full list of component mass fractions
 $\{\eta_\xi^1,\ldots,\eta_\xi^N\}$; the index $\beta$ is not summed in this
@@ -115,6 +129,7 @@ The constitutive dependence on $\mbf F_\xi$ may be trivial for mobile phases,
 but keeping it in the notation allows one calculation for all phases.  The local
 free-energy variation is
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta\psi_\xi
 	 & = \left.\p{\psi_\xi}{\mbf F_\xi}\right\vert_{\bar\rho_\xi,\eta_\xi^\beta}:\delta\mbf F_\xi
@@ -124,10 +139,12 @@ free-energy variation is
 	\delta\eta_\xi^\alpha .
 	\label{eq:delta_psi_uniform}
 \end{align}
+% AGENT-LOCK-END
 %
 Using \eqref{eq:bd128_mod}, integrating the $\delta\mbf F_\xi$ term by parts,
 and collecting independent variations gives
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta U_\xi
 	 & = \sum_\xi\int_{\mc B}\Bigg[
@@ -139,14 +156,17 @@ and collecting independent variations gives
 		\Bigg]\dv + \text{boundary terms}.
 	\label{eq:deltaU_uniform}
 \end{align}
+% AGENT-LOCK-END
 %
 The corresponding Cauchy stress is
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\bs\sigma'_\xi
 	\equiv \rho_\xi\left.\p{\psi_\xi}{\mbf F_\xi}\right\vert_{\bar\rho_\xi,\eta_\xi^\beta}\mbf F_\xi^T .
 	\label{eq:var_cauchy_def}
 \end{align}
+% AGENT-LOCK-END
 %
 For mobile phases this term vanishes when $\psi_\xi$ has no dependence on
 $\mbf F_\xi$.  For a solid pulled back to its reference configuration for
@@ -179,12 +199,14 @@ with respect to $\phi_a$, $\phi_o$, and $\phi_g$.  We specialize the interfacial
 Following the saturation-based capillary-pressure construction used for the
 two-mobile-phase case, but now taking oil as the reference mobile phase, define
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	p_{c,oa} \equiv -\frac{\partial \gamma}{\partial S_a},
 	\qquad
 	p_{c,og} \equiv -\frac{\partial \gamma}{\partial S_g} .
 	\label{eq:pc_def}
 \end{equation}
+% AGENT-LOCK-END
 %
 Here $p_{c,oa}=\bar p_o-\bar p_a$ is the oil--aqueous capillary pressure and
 $p_{c,og}=\bar p_o-\bar p_g$ is the additional oil--gas capillary pressure.
@@ -196,6 +218,7 @@ Using $\delta\phi=\delta\phi_a+\delta\phi_o+\delta\phi_g$ and
 \]
 the algebraic part of the interfacial variation can be written as
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta\!\left(\phi\gamma\right)
 	 & = \gamma\,\delta\phi
@@ -203,24 +226,29 @@ the algebraic part of the interfacial variation can be written as
 	+ \frac{\partial\gamma}{\partial S_g}\left(\delta\phi_g-S_g\delta\phi\right) \notag \\
 	 & = \gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g,
 \end{align}
+% AGENT-LOCK-END
 %
 where
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\gamma_o & = \gamma + S_a p_{c,oa}+S_g p_{c,og}, \notag \\
 	\gamma_a & = \gamma_o-p_{c,oa}, \notag                  \\
 	\gamma_g & = \gamma_o-p_{c,og}.
 	\label{eq:primitive_gamma_derivatives}
 \end{align}
+% AGENT-LOCK-END
 %
 Consequently the capillary pressures are the oil-referenced differences of the
 primitive interfacial potentials,
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	p_{c,oa} \equiv \bar p_o-\bar p_a \equiv \gamma_o-\gamma_a,
 	\qquad
 	p_{c,og} \equiv \bar p_o-\bar p_g \equiv \gamma_o-\gamma_g .
 \end{equation}
+% AGENT-LOCK-END
 %
 
 The spatial fields must be varied using the inter-species transport identity.
@@ -232,6 +260,7 @@ contains the transported part
 in addition to the independent coefficient variation used in the algebraic
 Euler--Lagrange equations.  Consequently,
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta U_\gamma
 	 & = \int_{\mc B}\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \notag \\
@@ -242,6 +271,7 @@ Euler--Lagrange equations.  Consequently,
 	+ \text{boundary terms}.
 	\label{eq:deltaU_fg}
 \end{align}
+% AGENT-LOCK-END
 %
 This form keeps the gradient terms generated by the spatial dependence of the
 volume fractions.  They cancel against the corresponding multiplier gradients in
@@ -255,20 +285,24 @@ are used.
 
 The constraint $C_1 = \int_{\mc{B}} \lambda(\sum_\xi\phi_\xi - 1)\,\dv$ is written in the current configuration, so the natural variation is Eulerian, i.e. taken at fixed spatial point $\mbf{x}$.  Since each $\phi_\xi$ is a constituent-attached spatial field, we use the Bedford--Drumheller identity
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\left.\delta\phi_\xi\right\vert_{\mbf{x}}
 	= \delta\phi_\xi - \nabla_{\mbf{x}}\phi_\xi\cdot\delta\mbf{x}_\xi,
 	\label{eq:delta_phi_BD_local}
 \end{equation}
+% AGENT-LOCK-END
 %
 to express the variation in terms of the spatial variation $\delta\phi_\xi$ and the motion variation $\delta\mbf{x}_\xi$. Therefore
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta C_1
 	 & = \int_{\mc{B}} \delta\lambda \left(\sum_\xi\phi_\xi - 1\right) \dv
 	+ \sum_\xi \int_{\mc{B}} \lambda\left(\delta\phi_\xi - \nabla_{\mbf{x}}\phi_\xi\cdot\delta\mbf{x}_\xi\right) \dv.
 	\label{eq:deltaC1_app}
 \end{align}
+% AGENT-LOCK-END
 %
 The first term enforces the saturation constraint $\sum_\xi\phi_\xi = 1$. The remaining terms contribute $\lambda$ to each $\delta\phi_\xi$ equation and $-\lambda\nabla_{\mbf{x}}\phi_\xi$ to each momentum variation $\delta\mbf{x}_\xi$.
 
@@ -279,13 +313,16 @@ The first term enforces the saturation constraint $\sum_\xi\phi_\xi = 1$. The re
 
 The component material mass balance constraint is
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	C_2 = \sum_\xi\sum_\alpha\int_{\mc{B}_{\xi0}}\tau_\xi^\alpha \left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0} \eta^\al_{\xi 0} + \mc{C}_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha} \right) \,dV_\xi.
 	\label{eq:C2_component_measure}
 \end{equation}
+% AGENT-LOCK-END
 %
 Hence
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta C_2
 	 & = \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
@@ -308,11 +345,13 @@ Hence
 	\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}\,\delta \mc{C}_\xi^\alpha \, {\rm d}V_\xi.
 	\label{eq:deltaC2_lines}
 \end{align}
+% AGENT-LOCK-END
 %
 Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$, the individual contributions push forward as follows.
 
 \paragraph{$\delta J_\xi$ terms (from $\delta\mbf{x}_\xi$):}
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
 	\tau_\xi^\alpha \delta J_\xi \, dV_\xi
@@ -321,10 +360,12 @@ Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\
 	+ \text{b.t.}
 	\label{eq:C2_dJ}
 \end{align}
+% AGENT-LOCK-END
 %
 
 \paragraph{Spatial field terms:}
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta C_2 \supset \sum_\xi\sum_\alpha\int_{\mc{B}}
 	\left[
@@ -335,6 +376,7 @@ Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\
 		\right]\dv .
 	\label{eq:C2_spatial_push}
 \end{align}
+% AGENT-LOCK-END
 %
 % ============================================================
 \subsection{Variation of constraint $C_3$: mass partition within phase}
@@ -342,6 +384,7 @@ Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\
 % ============================================================
 
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta C_3
 	 & = \sum_\xi \int_{\mc{B}} \delta\pi_\xi \left(\sum_\al \eta_\xi^\al - 1\right) \dv
@@ -350,6 +393,7 @@ Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\
 	+ \sum_\xi \sum_\al \int_{\mc{B}} \pi_\xi \delta\eta^\al_\xi \dv.
 	\label{eq:deltaC3_app}
 \end{align}
+% AGENT-LOCK-END
 %
 The first line vanishes on the constraint surface $\sum_\alpha\eta_\xi^\alpha = 1$ and recovers it as an Euler--Lagrange equation.  The second line contributes $\pi_\xi$ to each $\delta\eta_\xi^\alpha$ Euler--Lagrange equation.
 
@@ -361,6 +405,7 @@ The first line vanishes on the constraint surface $\sum_\alpha\eta_\xi^\alpha = 
 Conversion sources are restricted by the current-rate kinematic constraint
 \eqref{eq:C4_def}.  Define the component conversion potential coefficient
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	G_\xi^\alpha
 	\equiv
@@ -369,11 +414,13 @@ Conversion sources are restricted by the current-rate kinematic constraint
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha} .
 	\label{eq:conversion_component_potential}
 \end{equation}
+% AGENT-LOCK-END
 %
 The variation of $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ must be taken before
 using the stoichiometric projection, because the denominator depends on the phase
 map.  Repeating the transport calculation used for phase-attached rates gives
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\int_{t_1}^{t_2}\delta C_4\,\dt
 	 & =\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
@@ -388,22 +435,27 @@ map.  Repeating the transport calculation used for phase-attached rates gives
 	\delta\dot r_m\,\dv\dt+\text{b.t.}
 	\label{eq:C4_variation}
 \end{align}
+% AGENT-LOCK-END
 %
 The affinity is not introduced by allowing $\dot c_\xi^\alpha$ to vary freely.
 It is the generalized conversion force in the virtual-work form
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\delta W_{\rm conv}=-\sum_m\int_{\mc B}\mc A_m\delta\dot r_m\,\dv .
 	\label{eq:conversion_virtual_work_affinity}
 \end{equation}
+% AGENT-LOCK-END
 %
 Consequently variation with respect to $\dot r_m$ gives the projected relation
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\mc A_m + \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha=0,
 	\qquad m=1,\ldots,N_m.
 	\label{eq:affinity_multiplier_projection}
 \end{equation}
+% AGENT-LOCK-END
 %
 Thus $\mu_\xi^\alpha$ is a kinematic multiplier enforcing the phase-attached
 push-forward and stoichiometry, while $\mc A_m$ is the thermodynamic force
@@ -418,6 +470,7 @@ variation.
 
 Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta\dot r_m$ gives
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	0 = & \sum_{\xi} \int_{\mc{B}} \Bigg[
 	-\rho_{\xi}\mbf{a}_{\xi}
@@ -451,6 +504,7 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
 	    & - \sum_m\int_{\mc B}\left(\mc A_m+\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\delta\dot r_m\,\dv + \text{boundary terms}.
 	\label{eq:collected_full}
 \end{align}
+% AGENT-LOCK-END
 %
 The multiplier variations are omitted here because they return the constraint equations~\eqref{eq:C1_def}--\eqref{eq:C4_def}. Since all variations are considered arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
 
@@ -459,10 +513,12 @@ The multiplier variations are omitted here because they return the constraint eq
 The Euler--Lagrange equations generated by arbitrary $\delta\phi_\xi$ give,
 for phases without an explicit capillary contribution,
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\phi_\xi \lambda = - \sum_\alpha \tau^\al_\xi .
 	\label{eq:el_lambda}
 \end{equation}
+% AGENT-LOCK-END
 %
 For the mobile phases the corresponding equations contain the primitive
 capillary potentials discussed below.
@@ -470,6 +526,7 @@ capillary potentials discussed below.
 The displacement equation obtained from the uniform part of the collected
 principle is
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\rho_{\xi}\mbf{a}_{\xi} =
 	\nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
@@ -477,46 +534,56 @@ principle is
 	+ \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right),
 	\label{eq:el_momentum_uniform}
 \end{equation}
+% AGENT-LOCK-END
 %
 with the mobile-phase capillary-force additions displayed separately below.
 
 The Euler--Lagrange equation associated with arbitrary $\delta\bar\rho_\xi$ gives
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\sum_\al \frac{\tau_{\xi}^\al}{\phi_{\xi}}
 	= \bar\rho^2_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf F_\xi,\eta_\xi^\beta}
 	\equiv \bar{p}_{\xi} .
 	\label{eq:phase_pressure_all}
 \end{equation}
+% AGENT-LOCK-END
 %
 The Euler--Lagrange equations associated with arbitrary $\delta\eta_{\xi}^\alpha$ give
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	0 = \frac{\tau_{\xi}^\alpha}{\eta_{\xi}^\alpha} + \pi_{\xi}
 	- \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}},
 	\qquad \alpha=1,\ldots,N,
 	\label{eq:el_eta_all}
 \end{equation}
+% AGENT-LOCK-END
 %
 while variation with respect to $\pi_{\xi}$ returns the composition normalization
 constraint
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\sum_{\alpha=1}^N \eta_{\xi}^\alpha = 1.
 	\label{eq:el_eta_constraint}
 \end{equation}
+% AGENT-LOCK-END
 %
 Thus $\pi_{\xi}$ is the phase-level multiplier that enforces the redundant
 composition coordinate.  Equation~\eqref{eq:el_eta_all} may be read
 componentwise as
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}}
 	- \frac{\tau_{\xi}^\alpha}{\eta_{\xi}^\alpha}
 	= \pi_{\xi},
 	\label{eq:pi_componentwise}
 \end{equation}
+% AGENT-LOCK-END
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\rho_{\xi}\left(
 	\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\alpha}}
@@ -526,6 +593,7 @@ componentwise as
 	- \frac{\tau_{\xi}^\beta}{\eta_{\xi}^\beta}.
 	\label{eq:pi_difference}
 \end{align}
+% AGENT-LOCK-END
 %
 Here $\kappa$ denotes the collection of composition components held fixed in the
 partial derivative; it is not summed.
@@ -533,6 +601,7 @@ partial derivative; it is not summed.
 Choosing $\alpha=1$ and comparing against $j=2,3,\ldots,N$ gives a system of
 $N-1$ equations,
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\rho_{\xi}\left(
 	\left.\p{\psi_{\xi}}{\eta_{\xi}^1}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq 1}}
@@ -543,9 +612,11 @@ $N-1$ equations,
 	\qquad j=2,\ldots,N.
 	\label{eq:pi_difference_system}
 \end{align}
+% AGENT-LOCK-END
 %
 The equations associated with the conversion variables are
 %
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\frac{D_\xi\mu_\xi^\alpha}{Dt}
 	                                                              & = \frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
@@ -556,6 +627,7 @@ The equations associated with the conversion variables are
 	\qquad m=1,\ldots,N_m.
 	\label{eq:el_conversion_affinity}
 \end{align}
+% AGENT-LOCK-END
 %
 Equation~\eqref{eq:el_conversion_affinity} is not an additional closure relation
 for the state variables.  It defines the mechanism affinity as the stoichiometric

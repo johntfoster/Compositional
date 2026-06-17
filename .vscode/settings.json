@@ -52,8 +52,8 @@
   "[latex]": {
     "editor.defaultFormatter": "James-Yu.latex-workshop"
   },
-  "workbench.colorTheme": "Default Dark Modern",
-  "accessibility.voice.autoSynthesize": true,
+  "workbench.colorTheme": "Dark Modern",
+  "accessibility.voice.autoSynthesize": "on",
   "terminal.integrated.defaultProfile.linux": "fish",
   "terminal.integrated.profiles.linux": {
     "fish": {
