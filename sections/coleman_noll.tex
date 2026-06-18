@@ -199,6 +199,7 @@ elastic stress power to the mobile phases, so
 	= & \; \bs\sigma_\xi':\mbf L_\xi
 	+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
 	+\sum_\alpha\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
+	-\sum_\alpha L_\xi^\alpha\dot c_\xi^\alpha
 	-\nabla_{\mbf x}\cdot\mbf q_\xi
 	+\rho_\xi r_\xi+\rho_\xi e_\xi^{\rm int}.
 	\label{eq:CN_energy_balance}
@@ -207,7 +208,11 @@ The second constraint-power term is the compositional analog of the pressure
 power.  The multipliers $\tau_\xi^\alpha$ enforce component material storage in
 \eqref{eq:C2_def}; when the free energy depends on the normalized composition,
 the admissible composition rate does work against the normalized storage
-multiplier $\tau_\xi^\alpha/\eta_\xi^\alpha$.
+multiplier $\tau_\xi^\alpha/\eta_\xi^\alpha$.  The coefficient
+$L_\xi^\alpha$ is the same component conversion-work potential introduced in
+\eqref{eq:W_def}; the sign convention here is chosen so that a source
+$\dot c_\xi^\alpha$ carries the free-energy cost
+$\psi_\xi^\alpha+L_\xi^\alpha$ in the entropy inequality.
 For the solid phase, the mechanical power in \eqref{eq:CN_energy_balance} must
 be decomposed with the same kinematic split used in the constitutive law.  In the
 isotropic dilation specialization,
@@ -261,7 +266,8 @@ collection is performed on the tangent space
 		& \qquad
 		-\sum_\alpha\rho_\xi^\alpha
 		\left(\dot\psi_\xi^\alpha+s_\xi^\alpha\dot\theta\right)
-		-\sum_\alpha\dot c_\xi^\alpha\psi_\xi^\alpha
+		-\sum_\alpha\dot c_\xi^\alpha
+		\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
 		+\rho_\xi e_\xi^{\rm int}\Big)
 		-\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
 		\bigg].
@@ -314,7 +320,8 @@ contribution.
 		+\sum_\xi \pi_\xi\sum_\beta\dot\eta_\xi^\beta
 		\notag                                               \\
 	       & -\sum_m\left(
-		\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha\psi_\xi^\alpha
+		\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
+		\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
 		\right)\dot r_m
 		\notag                                               \\
 	       & +\sum_\xi\rho_\xi e_\xi^{\rm int}
@@ -471,28 +478,135 @@ The mixture-volume stress contribution remains
 $\bs\sigma_s^{\prime\prime}=\phi_s\bar{\bs\sigma}_s^{\prime\prime}$.
 
 Finally, using $\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m$, the
-conversion virtual power from the variational derivation contributes the
-multiplier part of the affinity projection,
+source term in \eqref{eq:CN_solid_collected_entropy} becomes
 \begin{equation}
-	\sum_m\mc A_m\dot r_m
-	+\sum_\xi\sum_\alpha\mu_\xi^\alpha
-	\sum_m\nu_{\xi m}^\alpha\dot r_m
-	=\sum_m\left(\mc A_m+
-	\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\dot r_m .
+	-\sum_\xi\sum_\alpha \dot c_\xi^\alpha
+	\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
+	=
+	-\sum_m\left(
+	\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
+	\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
+	\right)\dot r_m .
+	\label{eq:CN_helmholtz_source_projection}
+\end{equation}
+This term is the open-system source contribution to the entropy inequality.  To
+make the entropy production use the same component conversion potential that
+appears in the variational stoichiometric constraint, we choose
+\begin{equation}
+	L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi^\alpha .
+	\label{eq:CN_L_mu_psi_closure}
+\end{equation}
+Then $\psi_\xi^\alpha+L_\xi^\alpha=\mu_\xi^\alpha$, and the source projection is
+\begin{equation}
+	-\sum_\xi\sum_\alpha \dot c_\xi^\alpha\mu_\xi^\alpha
+	=
+	-\sum_m\left(
+	\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha\mu_\xi^\alpha
+	\right)\dot r_m .
+	\label{eq:CN_mu_source_projection}
+\end{equation}
+The mechanism affinity identified by the variational conversion constraint is
+\begin{equation}
+	\mc A_m
+	= -\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha .
 	\label{eq:CN_composition_affinity_projection}
 \end{equation}
+Thus the source projection \eqref{eq:CN_mu_source_projection} is exactly
+the mechanism force power.  Define the reaction dissipation by
+\begin{equation}
+	\mc D_{\rm rxn}
+	:=\sum_m\mc A_m\dot r_m .
+	\label{eq:CN_reaction_dissipation}
+\end{equation}
 After the reversible coefficients have been set to zero, the remaining
-inequality can be written as
+inequality can therefore be written as
 \begin{align}
 	0\le\; &
-	\sum_m\left(\mc A_m+
-	\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha
-	-\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha\psi_\xi^\alpha
-	\right)\dot r_m
+	\mc D_{\rm rxn}
 	+\sum_\xi\rho_\xi e_\xi^{\rm int}
-		-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
-		+\mc D_{\rm inelastic} .
+		-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta} .
 	\label{eq:CN_residual_dissipation}
 \end{align}
-Kinetic crystallization, heat conduction, interphase exchange, plasticity,
-remaining terms are nonnegative.
+Admissible reaction kinetics must make $\mc D_{\rm rxn}\ge 0$, for example
+through a closure $\dot r_m=\mc K_m(\mc A_m,\text{state})$ with
+$\mc A_m\dot r_m\ge 0$ for each independent mechanism.
+
+The interphase exchange term can be closed by the same quadratic argument used
+for the three-phase reacting mixture.  Following Bedford and
+Drumheller~\cite{drumheller1980thermomechanical}, conservation of energy for the
+entire mixture requires the internal interaction-energy supplies and the
+interphase momentum supplies to satisfy
+\begin{equation}
+	\sum_\xi\left(
+	\rho_\xi e_\xi^{\rm int}
+	+\mbf b_\xi\cdot\mbf v_\xi
+	\right)=0 .
+	\label{eq:CN_interaction_energy_conservation}
+\end{equation}
+Here $\mbf b_\xi$ is the net interphase momentum supply appearing in the phase
+momentum balance.  Decompose it into pairwise interaction forces,
+\begin{equation}
+	\mbf b_\xi
+	=\sum_{\zeta\ne\xi}\mbf b_{\zeta\xi},
+	\qquad
+	\mbf b_{\zeta\xi}=-\mbf b_{\xi\zeta},
+	\label{eq:CN_pairwise_interaction_force}
+\end{equation}
+where $\mbf b_{\zeta\xi}$ is the force exerted on phase $\xi$ by phase $\zeta$.
+For each unordered pair, let
+\begin{equation}
+	\mbf w_{\xi\zeta}=\mbf v_\xi-\mbf v_\zeta .
+	\label{eq:CN_relative_pair_velocity}
+\end{equation}
+Then \eqref{eq:CN_interaction_energy_conservation} gives
+\begin{equation}
+	\sum_\xi\rho_\xi e_\xi^{\rm int}
+	=-\sum_{\xi<\zeta}\mbf b_{\zeta\xi}\cdot\mbf w_{\xi\zeta}.
+	\label{eq:CN_interaction_power_pairing}
+\end{equation}
+A linear dissipative interaction law may be written as
+\begin{equation}
+	\mbf b_{\zeta\xi}
+	=-\mbf k_{\xi\zeta}^{-1}\mbf w_{\xi\zeta},
+	\qquad
+	\mbf k_{\xi\zeta}=\mbf k_{\xi\zeta}^{T},
+	\qquad
+	\mbf y\cdot\mbf k_{\xi\zeta}\mbf y>0
+	\quad \forall\,\mbf y\ne\mbf 0 .
+	\label{eq:CN_interphase_exchange_law}
+\end{equation}
+Substitution into \eqref{eq:CN_interaction_power_pairing} gives
+\begin{equation}
+	\sum_\xi\rho_\xi e_\xi^{\rm int}
+	=\sum_{\xi<\zeta}
+	\mbf w_{\xi\zeta}\cdot
+	\mbf k_{\xi\zeta}^{-1}\mbf w_{\xi\zeta}
+	\ge 0 .
+	\label{eq:CN_interphase_exchange_positive}
+\end{equation}
+Thus interphase momentum exchange contributes nonnegative entropy production
+whenever the mobility tensors are positive definite.
+
+The heat-conduction term is made admissible by a Fourier-type closure
+\begin{equation}
+	\mbf q_\xi=-\mbf K_\xi\nabla_{\mbf x}\theta,
+	\qquad
+	\mbf K_\xi=\mbf K_\xi^T,
+	\qquad
+	\mbf y\cdot\mbf K_\xi\mbf y\ge 0 ,
+	\label{eq:CN_heat_flux_closure}
+\end{equation}
+with $\theta>0$.  Then
+\begin{equation}
+	-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
+	=
+	\sum_\xi
+	\frac{\nabla_{\mbf x}\theta\cdot
+		\mbf K_\xi\nabla_{\mbf x}\theta}{\theta}
+	\ge 0 .
+	\label{eq:CN_heat_flux_positive}
+\end{equation}
+Equations \eqref{eq:CN_reaction_dissipation},
+\eqref{eq:CN_interphase_exchange_positive}, and
+\eqref{eq:CN_heat_flux_positive} are sufficient to make
+\eqref{eq:CN_residual_dissipation} thermodynamically admissible.

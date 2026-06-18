@@ -25,6 +25,8 @@ with kinetic energy, internal energy, virtual work, and four constraints:
 	+ \int_{\mc{B}} \phi\,\gamma(S_a, S_g) \dv,
 	\label{eq:U_def}                                                                                                                                                                                                \\
 	\delta W & = \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv
+	-\sum_\xi\sum_\alpha\int_{\mc B}L_\xi^\alpha
+	\frac{\delta\mc C_\xi^\alpha}{J_\xi}\,\dv
 	- \sum_m\int_{\mc B}\mc A_m\,\delta\dot r_m\,\dv,
 	\label{eq:W_def}                                                                                                                                                                                                \\
 	C_1      & = \int_{\mc{B}} \lambda\left(\sum_\xi\phi_\xi - 1\right) \,\dv,
@@ -38,18 +40,21 @@ with kinetic energy, internal energy, virtual work, and four constraints:
 \end{align}
 % AGENT-LOCK-END
 %
-The affinities $\mc A_m$ are introduced as generalized conversion forces in the
-virtual-work one-form, conjugate to the current progress-rate variations
-$\delta\dot r_m$.  The kinematic constraint $C_4$ ties those progress rates to
-the phase-attached accumulated sources through
-$\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$.  This distinction is essential:
+The coefficients $L_\xi^\alpha$ are component conversion-work potentials
+conjugate to adding component mass to phase $\xi$.  The affinities $\mc A_m$ are
+introduced as generalized mechanism forces in the virtual-work one-form,
+conjugate to the current progress-rate variations $\delta\dot r_m$.  The
+kinematic constraint $C_4$ ties those progress rates to the phase-attached
+accumulated sources through $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$.
+This distinction is essential:
 $\dot c_\xi^\alpha$ is not a freely varied Eulerian scalar, because variation of
 the phase map also varies $J_\xi$.  Chemical reactions and pure phase
 transformations are both represented by the unified stoichiometric
 parameterization \eqref{eq:unified_stoich_current}.  We treat
 $\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho_\xi$, $\mc{C}_\xi^\alpha$,
-$\dot r_m$, $\mu_\xi^\alpha$, and $\mc A_m$ as variational variables, with
-additional constitutive closure required for kinetically limited mechanisms.
+$\dot r_m$, $\mu_\xi^\alpha$, and $\mc A_m$ as variational variables.  The
+conversion-work potentials $L_\xi^\alpha$ are constitutive inputs, with
+additional closure required for kinetically limited mechanisms.
 
 \subsection{Extending Bedford and Drumheller identity 1.23}
 \label{sec:extended_bd_identity}
@@ -411,6 +416,7 @@ Conversion sources are restricted by the current-rate kinematic constraint
 	\equiv
 	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\psi_\xi
+	-L_\xi^\alpha
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha} .
 	\label{eq:conversion_component_potential}
 \end{equation}
@@ -438,7 +444,9 @@ map.  Repeating the transport calculation used for phase-attached rates gives
 % AGENT-LOCK-END
 %
 The affinity is not introduced by allowing $\dot c_\xi^\alpha$ to vary freely.
-It is the generalized conversion force in the virtual-work form
+The component-level conversion work has already entered through
+\eqref{eq:W_def}; $\mc A_m$ is the generalized mechanism force in the
+virtual-work form
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -497,7 +505,7 @@ Evaluating all variations and collecting by independent variations $\delta\mbf{x
 		- \rho_{\xi}\left.\p{\psi_{\xi}}{\eta^\alpha_\xi}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta^{\beta\neq\alpha}_\xi}
 	\Bigg] \delta\eta^\alpha_\xi \,\dv \notag                                                                                                      \\
 	    & + \sum_\xi\sum_\alpha\int_{\mc B}\left[
-		\tfrac12\mbf v_\xi\cdot\mbf v_\xi-\psi_\xi
+		\tfrac12\mbf v_\xi\cdot\mbf v_\xi-\psi_\xi-L_\xi^\alpha
 		-\frac{D_\xi\mu_\xi^\alpha}{Dt}
 		-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
 	\right]\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\,\dv \notag                                                                                      \\
@@ -621,6 +629,7 @@ The equations associated with the conversion variables are
 	\frac{D_\xi\mu_\xi^\alpha}{Dt}
 	                                                              & = \frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\psi_\xi
+	-L_\xi^\alpha
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha},
 	\label{eq:el_conversion_component}                                                                     \\
 	\mc A_m + \sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha & =0,
@@ -641,8 +650,13 @@ supplies the driving force rather than an algebraic equilibrium equation.  For a
 instantaneous phase transformation, $\dot r_m$ may be a
 measure in time.  In all cases, the phase momentum equations retain the inertial
 production term and the $\nabla\mu_\xi^\alpha$ force generated by adding or
-removing mass in a phase moving with velocity $\mbf v_\xi$.  For a single-component solid,
-$\eta_{\xi_s}^\alpha=1$.
+removing mass in a phase moving with velocity $\mbf v_\xi$.  For a
+single-component solid, $\eta_{\xi_s}^\alpha=1$.
+
+At this variational stage $L_\xi^\alpha$ remains an explicit constitutive
+conversion-work potential.  The identification
+$L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi^\alpha$ is made only later, after the
+entropy inequality has exposed the admissible reaction dissipation.
 
 \subsection{Instantaneous phase-transformation jumps}
 \label{sec:instantaneous_c_jump}
@@ -679,9 +693,6 @@ amounts for the same component.  More general reaction mechanisms use the same
 formula with their prescribed phase/component stoichiometry.  No separate
 multiplier jump condition is needed; the impulsive driving force is the affinity
 $\mc A_m$ conjugate to the measure-valued progress $Q_m$.
-amounts for the same component.  More general reaction mechanisms use the same
-formula with their prescribed phase/component stoichiometry.  No separate
-multiplier jump condition is needed; the impulsive driving force is the affinity
 
 \subsection{Mobile-phase momentum equations}
 \label{sec:mobile_phase_momentum}
@@ -1347,16 +1358,27 @@ variable conjugate to phase/component conversion.  Its evolution equation is
 	\frac{D_\xi\mu_\xi^\alpha}{Dt}
 	=\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\psi_\xi
+	-L_\xi^\alpha
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha} .
 	\label{eq:mu_interpretation}
 \end{equation}
 %
 The first term is the kinetic contribution associated with adding mass to a
-phase moving with velocity $\mbf v_\xi$.  The second is the Helmholtz free energy
-carried by the phase.  The last term is the contribution of the component mass
-constraint; $\tau_\xi^\alpha$ is the multiplier enforcing the storage relation
-between the reference amount of component $\alpha$ and the current partial
-mass density $\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$.  Thus
+phase moving with velocity $\mbf v_\xi$.  The next two terms are the Helmholtz
+free energy and component conversion-work contribution.  The last term is the
+contribution of the component mass constraint; $\tau_\xi^\alpha$ is the
+multiplier enforcing the storage relation between the reference amount of
+component $\alpha$ and the current partial mass density
+$\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$.  After the entropy inequality identifies
+$L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi^\alpha$, this equation becomes
+\begin{equation}
+	\frac{D_\xi\mu_\xi^\alpha}{Dt}
+	=\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	-\mu_\xi^\alpha
+	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha} .
+	\label{eq:mu_interpretation_entropy_closure}
+\end{equation}
+Thus
 $D_\xi\mu_\xi^\alpha/Dt$ is a generalized chemical-mechanical potential.  In a
 quasi-static isothermal limit with negligible kinetic terms and a conventional
 choice of thermodynamic potential, this quantity reduces to the chemical
