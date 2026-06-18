@@ -1,3 +1,4 @@
+% !TeX root = ../main.tex
 \section{Variational Derivation}
 \label{sec:variational}
 
@@ -410,18 +411,6 @@ The first line vanishes on the constraint surface $\sum_\alpha\eta_\xi^\alpha = 
 Conversion sources are restricted by the current-rate kinematic constraint
 \eqref{eq:C4_def}.  Define the component conversion potential coefficient
 %
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{equation}
-	G_\xi^\alpha
-	\equiv
-	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
-	-\psi_\xi
-	-L_\xi^\alpha
-	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha} .
-	\label{eq:conversion_component_potential}
-\end{equation}
-% AGENT-LOCK-END
-%
 The variation of $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ must be taken before
 using the stoichiometric projection, because the denominator depends on the phase
 map.  Repeating the transport calculation used for phase-attached rates gives
@@ -461,15 +450,21 @@ variation.
 \label{sec:collected_var}
 % ============================================================
 
-Evaluating all variations and collecting by independent variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta\dot r_m$ gives
+Evaluating all variations and collecting by independent variations
+$\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$,
+$\delta\eta^\alpha_\xi$, and $\delta\dot r_m$ gives the following reduced
+collection.  In the displacement bracket, the raw multiplier combination
+$-\lambda\nabla_{\mbf x}\phi_\xi-\nabla_{\mbf x}\sum_\alpha\tau_\xi^\alpha$
+has been combined into $\phi_\xi\nabla_{\mbf x}\lambda$ using the corresponding
+volume-fraction coefficient; the mobile-phase capillary terms are displayed
+separately.
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	0 = & \sum_{\xi} \int_{\mc{B}} \Bigg[
 	-\rho_{\xi}\mbf{a}_{\xi}
 	+ \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
-	- \lambda\nabla_{\mbf{x}}\phi_{\xi}
-	- \sum_\alpha\nabla_{\mbf{x}}\tau_{\xi}^\alpha
+		+ \phi_{\xi}\nabla_{\mbf{x}}\lambda
 	+ \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
 	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag                                                                                                    \\
 	    & - \int_{\mc B}\left[
@@ -639,9 +634,8 @@ removing mass in a phase moving with velocity $\mbf v_\xi$.  For a
 single-component solid, $\eta_{\xi_s}^\alpha=1$.
 
 At this variational stage $L_\xi^\alpha$ remains an explicit constitutive
-conversion-work potential.  The identification
-$L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi^\alpha$ is made only later, after the
-entropy inequality has exposed the admissible reaction dissipation.
+conversion-work potential.  An admissible choice of $L_\xi^\alpha$ is identified
+by the Coleman--Noll argument in the next section.
 
 \subsection{Mobile-phase momentum equations}
 \label{sec:mobile_phase_momentum}
@@ -652,7 +646,6 @@ For the aqueous phase, the capillary contribution gives the intermediate form
 	\rho_a\mbf a_a
 	 & = \nabla_{\mbf x}\cdot\bs\sigma'_a + \rho_a\mbf g + \mbf b_a
 	+ \phi_a\nabla_{\mbf x}\lambda
-	-\sum_\alpha\nabla_{\mbf x}\tau_a^\alpha
 	-\phi_a\nabla_{\mbf x}\gamma_a
 	+ \sum_\alpha \dot c_a^{\alpha}\left(\nabla_{\mbf x}\mu_a^\alpha-\mbf{v}_a\right).
 	\label{eq:el_mom_a_start}
@@ -661,10 +654,11 @@ For the aqueous phase, the capillary contribution gives the intermediate form
 The oleic and gas equations have the same form with $a$ replaced by $o$ or $g$.
 The important point is that the interfacial variation contributes gradient terms
 $\phi_\xi\nabla\gamma_\xi$, not merely algebraic multiples of
-$\nabla\phi_\xi$.  These terms must be retained until the volume-fraction pressure relations are substituted.  After substituting the volume-fraction
-Euler--Lagrange equations and using $\sum_\alpha\tau_\xi^\alpha=\phi_\xi\bar p_\xi$,
-the multiplier and capillary-potential gradients combine with the pressure
-potential gradients to give the standard phase pressure-gradient form
+$\nabla\phi_\xi$.  These terms must be retained until the volume-fraction
+pressure relations are substituted.  For a mobile phase,
+$\lambda+\bar p_\xi-\gamma_\xi=0$, so
+$\phi_\xi(\nabla\lambda-\nabla\gamma_\xi)=-\phi_\xi\nabla\bar p_\xi$.  The
+standard phase pressure-gradient form is therefore
 %
 \begin{align}
 	\rho_a\mbf{a}_a
