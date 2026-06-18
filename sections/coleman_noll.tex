@@ -1,12 +1,11 @@
 % !TeX root = ../main.tex
-\section{Coleman--Noll procedure for the compositional thermo-reactive mixture}
+\subsection{Coleman--Noll procedure for the compositional thermo-reactive mixture}
 \label{sec:coleman_noll_compositional}
 
-This appendix records the thermodynamic argument in a form that mirrors the
-kinematic split used in the body of the paper.  The point is not to postulate the
-solid mixture rules, but to show how they appear after the component Helmholtz
-energies are differentiated subject to the density, composition, and dilation
-constraints.
+This subsection records the thermodynamic argument in a form that mirrors the
+kinematic split just introduced.  The point is not to postulate the solid mixture
+rules, but to show how they appear after the component Helmholtz energies are
+differentiated subject to the density, composition, and dilation constraints.
 
 The Coleman--Noll calculation is applied on the reduced constitutive state space.
 It is not a second derivation of the constrained equations of motion.  Constraints
@@ -289,16 +288,15 @@ contribution.
 	\right]:\dot{\bar{\mbf F}}_s
 	\notag                                               \\
 	       & +\left[
-		\frac{1}{3a_s}\operatorname{tr}(\bs\sigma_s')
-		-\rho_s\sum_\alpha\eta_s^\alpha
-		\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
-		\right]\dot a_s
-	\notag                                               \\
-	       & +\sum_\xi \left[
-		\frac{\phi_\xi \bar p_\xi}{\bar\rho_\xi}
-		-\rho_\xi\sum_\alpha\eta_\xi^\alpha
-		\left.\p{\psi_\xi^\alpha}{\bar\rho_\xi}\heldfixed{\mc X_\xi}
-		\right]\dot{\bar\rho}_\xi
+			\frac{1}{3a_s}\operatorname{tr}(\bs\sigma_s')
+			-\rho_s\sum_\alpha\eta_s^\alpha
+			\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
+			\right]\dot a_s
+		+\sum_\xi \left[
+			\frac{\phi_\xi \bar p_\xi}{\bar\rho_\xi}
+			-\rho_\xi\sum_\alpha\eta_\xi^\alpha
+			\left.\p{\psi_\xi^\alpha}{\bar\rho_\xi}\heldfixed{\mc X_\xi}
+			\right]\dot{\bar\rho}_\xi
 		\notag                                               \\
 	       & -\sum_\xi\rho_\xi\sum_\alpha\eta_\xi^\alpha
 		\left[
@@ -314,16 +312,14 @@ contribution.
 		+\rho_s\sum_\beta\left[
 		\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
 		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-		\right]\dot\eta_s^\beta
-		\notag                                               \\
-	       & +\sum_\xi\sum_\beta\frac{\tau_\xi^\beta}{\eta_\xi^\beta}
-		\dot\eta_\xi^\beta
-		+\sum_\xi \pi_\xi\sum_\beta\dot\eta_\xi^\beta
-		\notag                                               \\
-	       & -\sum_m\left(
-		\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
-		\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
-		\right)\dot r_m
+			\right]\dot\eta_s^\beta
+			\notag                                               \\
+	       & +\sum_\xi\sum_\beta\left(\frac{\tau_\xi^\beta}{\eta_\xi^\beta}
+			+\pi_\xi\right)\dot\eta_\xi^\beta
+		-\sum_m\left(
+			\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
+			\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
+			\right)\dot r_m
 		\notag                                               \\
 	       & +\sum_\xi\rho_\xi e_\xi^{\rm int}
 	-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
@@ -459,24 +455,7 @@ The entropy coefficient gives
 	\label{eq:CN_entropy_definitions}
 \end{equation}
 The solid composition restrictions above are the place where stress-free
-compositional dilation modifies the usual composition coefficient.  This form
-gives the desired skeleton mixture rules.  If the Legendre-transformed
-intrinsic law for each component has the small-strain volumetric form
-\begin{equation}
-	\bar\sigma_{m,s}^{\prime\prime\alpha}
-	=K_\alpha^\star\varepsilon_v-b_\alpha\hat p,
-	\label{eq:CN_component_skeleton_linearization}
-\end{equation}
-then $\bar\sigma_{m,s}^{\prime\prime}=\sum_\alpha\phi_s^\alpha
-	\bar\sigma_{m,s}^{\prime\prime\alpha}$ implies
-\begin{equation}
-	K^\star=\sum_\alpha\phi_s^\alpha K_\alpha^\star,
-	\qquad
-	b=\sum_\alpha\phi_s^\alpha b_\alpha .
-	\label{eq:CN_skeleton_mixture_rules}
-\end{equation}
-The mixture-volume stress contribution remains
-$\bs\sigma_s^{\prime\prime}=\phi_s\bar{\bs\sigma}_s^{\prime\prime}$.
+compositional dilation modifies the usual composition coefficient.
 
 Finally, using $\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m$, the
 source term in \eqref{eq:CN_solid_collected_entropy} becomes

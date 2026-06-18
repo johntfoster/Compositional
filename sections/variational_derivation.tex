@@ -537,6 +537,73 @@ The Euler--Lagrange equation associated with arbitrary $\delta\bar\rho_\xi$ give
 \end{equation}
 % AGENT-LOCK-END
 %
+These two Euler--Lagrange relations also recover the capillary-pressure
+construction for the mobile phases.  Let $l\in\{a,o,g\}$ denote a mobile phase.
+The coefficient of $\delta\phi_l$ in \eqref{eq:collected_full} includes the
+primitive interfacial potential $\gamma_l$, so the mobile-phase volume-fraction
+relation is
+%
+\[
+	\lambda+\sum_\alpha\frac{\tau_l^\alpha}{\phi_l}-\gamma_l=0.
+\]
+%
+Using \eqref{eq:phase_pressure_all} gives
+%
+\[
+	\lambda+\bar p_l-\gamma_l=0,
+	\qquad\hbox{or}\qquad
+	\bar p_l=\gamma_l-\lambda .
+\]
+%
+Consequently pressure differences between mobile phases are exactly the
+differences of the primitive interfacial potentials,
+%
+\[
+	\bar p_l-\bar p_k=\gamma_l-\gamma_k .
+\]
+%
+For the oil-referenced definitions above, this gives
+%
+\[
+	\bar p_o-\bar p_a=\gamma_o-\gamma_a=p_{c,oa},
+	\qquad
+	\bar p_o-\bar p_g=\gamma_o-\gamma_g=p_{c,og}.
+\]
+%
+The same relations identify the equivalent pore pressure associated with the
+volume constraint.  Define
+%
+\[
+	\bar p_E\equiv-\lambda .
+\]
+%
+Multiplying $\bar p_l=\gamma_l+\bar p_E$ by the mobile saturations and summing
+over mobile phases gives
+%
+\[
+	\sum_l S_l\bar p_l
+	=
+	\bar p_E+\sum_l S_l\gamma_l .
+\]
+%
+If $U$ denotes the capillary/interfacial energy density per mobile pore volume,
+so that $U\equiv\gamma(S_a,S_g)$, the primitive potentials satisfy
+%
+\[
+	\sum_l S_l\gamma_l
+	=
+	S_a(\gamma_o-p_{c,oa})+S_o\gamma_o+S_g(\gamma_o-p_{c,og})
+	=
+	\gamma
+	\equiv U .
+\]
+%
+Therefore
+%
+\[
+	\bar p_E=\sum_l S_l\bar p_l-U .
+\]
+%
 The Euler--Lagrange equations associated with arbitrary $\delta\eta_{\xi}^\alpha$ give
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
@@ -635,7 +702,8 @@ single-component solid, $\eta_{\xi_s}^\alpha=1$.
 
 At this variational stage $L_\xi^\alpha$ remains an explicit constitutive
 conversion-work potential.  An admissible choice of $L_\xi^\alpha$ is identified
-by the Coleman--Noll argument in the next section.
+by the Coleman--Noll argument in
+Section~\ref{sec:constitutive_models_entropy_inequality}.
 
 \subsection{Mobile-phase momentum equations}
 \label{sec:mobile_phase_momentum}
@@ -679,8 +747,9 @@ standard phase pressure-gradient form is therefore
 \end{align}
 %
 
-\subsection{Multicomponent solid skeleton and recovery of mixture rules}
+\section{Constitutive Models and the Entropy Inequality}
 \label{sec:multicomponent_solid_mixture_rules}
+\label{sec:constitutive_models_entropy_inequality}
 
 The present notation allows the solid skeleton to be treated as a single solid
 phase, denoted here by $s$, while still resolving the mineral or solid components
@@ -825,161 +894,14 @@ liquid or gas phase.  The multicomponent solid free energy is written as
 where $\eta_s^\beta$ denotes the full list of solid component mass fractions.
 Temperature dependence of the free energy supplies entropy and heat capacity in
 the usual way, while the dependence of $\bar{\mbf F}_s^\theta$ on $\theta$ and
-the component volume fractions $\phi_s^\beta$ encodes stress-free thermal expansion.  For example, water in a
-hydrate or ice-like solid would be represented by $\psi_s^{\mathrm{H_2O}}$,
-whereas liquid water would have a different function $\psi_\ell^{\mathrm{H_2O}}$.
-Multiplying by the phase mass per mixture volume gives
-%
-\begin{equation}
-	\phi_s\bar\rho_s\psi_s
-	=\sum_\alpha \rho_s^\alpha
-	\psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta),
-	\qquad
-	\rho_s^\alpha=\phi_s\bar\rho_s\eta_s^\alpha .
-	\label{eq:solid_volume_energy_sum}
-\end{equation}
-%
-If component volume fractions are used instead, then
-%
-\begin{equation}
-	\rho_s^\alpha=\phi_s^\alpha\bar\rho_s^\alpha,
-	\qquad
-	\phi_s\bar\rho_s=\sum_\alpha\phi_s^\alpha\bar\rho_s^\alpha,
-	\qquad
-	\eta_s^\alpha
-	=\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\phi_s\bar\rho_s} .
-	\label{eq:solid_mass_volume_partitions}
-\end{equation}
-%
-Reactions update $\eta_s^\alpha$, and therefore $\phi_s^\alpha$, through
-\eqref{eq:solid_mass_volume_partitions}; the distension evolution
-\eqref{eq:solid_distension_evolution} determines how much of that conversion
-changes the true solid deformation.
+the component volume fractions $\phi_s^\beta$ encodes stress-free thermal
+expansion.  For example, water in a hydrate or ice-like solid would be
+represented by $\psi_s^{\mathrm{H_2O}}$, whereas liquid water would have a
+different function $\psi_\ell^{\mathrm{H_2O}}$.  The thermodynamic restrictions
+that make these constitutive choices admissible are obtained next from the
+entropy inequality.
 
-The intrinsic stresses should not be postulated directly from the free energy in
-this section, because $\bar\rho_s^\alpha$, $a_s$, $\theta$, and the composition may all
-evolve.  Instead, define the component current Helmholtz energy density
-%
-\begin{equation}
-	\bar w_s^\alpha
-	=\bar\rho_s^\alpha\psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta),
-	\label{eq:intrinsic_current_energy_density}
-\end{equation}
-%
-and let the Coleman--Noll procedure determine the admissible stress response.
-Appendix~\ref{sec:coleman_noll_compositional} shows that the intrinsic Cauchy
-stress is the coefficient of the mechanical true deformation rate and that the
-phase stress is obtained only after projection through the distension kinematics.
-At fixed $a_s$, the isotropic specialization takes the spatial mixture form
-%
-\begin{equation}
-	\bs\sigma_s^{E}
-	=\sum_\alpha \phi_s^\alpha\bar{\bs\sigma}_s^\alpha,
-	\qquad
-	\mbf P_s^{E}=J_s\bs\sigma_s^{E}\mbf F_s^{-T},
-	\label{eq:elastic_phase_stress_from_intrinsic}
-\end{equation}
-%
-while a general distension evolution adds the conjugate distension force coming
-from variations of $a_s$ or $\mbf A_s$.  Thus
-%
-\begin{equation}
-	\mbf P_s'
-	=\mbf P_s^{E}+\mbf P_s^{a},
-	\label{eq:phase_stress_intrinsic_plus_distension}
-\end{equation}
-%
-where $\mbf P_s'$ is the effective phase stress in the Euler--Lagrange equations
-and $\mbf P_s^{a}$ denotes the part generated by the distension closure.  This is
-the precise sense in which the volume-fraction sum of intrinsic component
-stresses is related to the phase stress; it is not an independent postulate.
-Linearizing \eqref{eq:elastic_phase_stress_from_intrinsic} about a common true
-strain gives the corresponding mixture rules for the true solid moduli,
-%
-\begin{equation}
-	\bar G_{\rm eff}=\sum_\alpha\phi_s^\alpha \bar G_s^\alpha,
-	\qquad
-	\bar K_{\rm eff}=\sum_\alpha\phi_s^\alpha \bar K_s^\alpha .
-	\label{eq:solid_modulus_mixture_rule_from_stress}
-\end{equation}
-%
-
-The Biot coupling should be built from these true variables.  Introduce the
-component intrinsic specific volume $\bar v_s^\alpha=1/\bar\rho_s^\alpha$ and
-write $\psi_s^\alpha=\psi_s^\alpha(\bar{\mbf F}_s,\bar v_s^\alpha,a_s)$.  The
-pressure conjugate to $\bar v_s^\alpha$ is
-%
-\begin{equation}
-	\bar p_s^\alpha
-	=-\left.\frac{\partial \psi_s^\alpha}{\partial \bar v_s^\alpha}\right\vert_{\bar{\mbf F}_s,a_s}.
-	\label{eq:component_intrinsic_pressure}
-\end{equation}
-%
-The component Legendre transform is
-%
-\begin{equation}
-	\tilde\psi_s^\alpha(\bar{\mbf F}_s,\bar p_s^\alpha,a_s)
-	=\psi_s^\alpha(\bar{\mbf F}_s,\bar v_s^\alpha,a_s)
-	+\bar p_s^\alpha\bar v_s^\alpha,
-	\qquad
-	\left.\frac{\partial\tilde\psi_s^\alpha}{\partial \bar p_s^\alpha}\right\vert_{\bar{\mbf F}_s,a_s}
-	=\bar v_s^\alpha .
-	\label{eq:component_legendre_transform}
-\end{equation}
-%
-The fixed-pressure intrinsic stress is therefore
-%
-\begin{equation}
-	\bar{\mbf P}_s^{\alpha\prime\prime}
-	=\bar{\mbf P}_s^\alpha
-	-\bar p_s^\alpha\frac{1}{\bar v_{s0}^\alpha}
-	\left.\frac{\partial \bar v_s^\alpha}{\partial \bar{\mbf F}_s}\right\vert_{\bar p_s^\alpha,a_s}.
-	\label{eq:component_biot_stress_transform}
-\end{equation}
-%
-If $\bar v_s^\alpha$ depends on the true volumetric deformation through
-$\bar J_s$, then
-%
-\begin{equation}
-	\bar{\mbf P}_s^\alpha
-	=\bar{\mbf P}_s^{\alpha\prime\prime}
-	+\left(1-B_s^\alpha\right)\bar p_s^\alpha \bar J_s\bar{\mbf F}_s^{-T},
-	\qquad
-	B_s^\alpha
-	=1-\frac{1}{\bar v_{s0}^\alpha}
-	\left.\frac{\partial \bar v_s^\alpha}{\partial \bar J_s}\right\vert_{\bar p_s^\alpha,a_s} .
-	\label{eq:component_generalized_biot}
-\end{equation}
-%
-Projecting this relation through \eqref{eq:solid_distension_decomposition} gives
-the Biot term in the phase stress.  In the present variational formulation the
-scalar multiplying the projected $J_s\mbf F_s^{-T}$ term is the saturation
-multiplier $\lambda$, with the conventional compressive pressure given by
-%
-\begin{equation}
-	p=-\lambda .
-	\label{eq:lambda_pressure_identification}
-\end{equation}
-%
-Consequently a single connected pore pressure gives, in this notation,
-%
-\begin{equation}
-	\mbf P_s' + \lambda J_s\mbf F_s^{-T}
-	=\mbf P_s^{\prime\prime}+B_s^{\rm eff}\lambda J_s\mbf F_s^{-T},
-	\qquad
-	B_s^{\rm eff}=\sum_\alpha\phi_s^\alpha B_s^\alpha,
-	\label{eq:effective_biot_mixture_rule}
-\end{equation}
-%
-up to the same distension-projection terms collected in $\mbf P_s^a$.  Replacing
-$\lambda$ by $-p$ recovers the conventional Biot notation.  In the one-component
-solid/one-fluid limit with trivial distension projection, this reduces to
-%
-\begin{equation}
-	B=1-\frac{1}{v_{s0}}\left.\frac{\partial \bar v_s}{\partial \bar J_s}\right\vert_{-\lambda},
-\end{equation}
-%
-which gives $B=1-K/K_s$ in the small-strain limit.
+\input{sections/coleman_noll.tex}
 
 \subsection{Constitutive specialization: crystallization-driven distension}
 \label{sec:constitutive_crystallization_distension}
@@ -1383,5 +1305,3 @@ phase-attached variational mechanics in which the Jacobian $J_\xi$ is varied.
 That is what exposes the conversion-induced momentum production terms and gives
 a direct bridge between mixture mechanics and classical compositional reactive
 transport.
-
-\appendix
