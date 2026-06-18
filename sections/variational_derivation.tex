@@ -906,11 +906,15 @@ entropy inequality.
 \subsection{Constitutive specialization: crystallization-driven distension}
 \label{sec:constitutive_crystallization_distension}
 
-The preceding development leaves the distension response abstract through the
-closure \eqref{eq:solid_distension_evolution}.  We now specialize that closure to
-a precipitating solid component by separating three ingredients: the mechanical
-penalty for changing the true solid volume, the chemical driving force for
-crystallization, and the resulting load on the distension coordinate.
+The preceding development leaves the distension response abstract through
+\eqref{eq:solid_distension_evolution}.  A crystallization closure must now be
+chosen so that the reversible part remains consistent with the Coleman--Noll
+trace-stress restriction \eqref{eq:CN_distension_force_definition}, while the
+irreversible crystallization force remains in the residual entropy production
+\eqref{eq:CN_residual_dissipation}.  Thus crystallization should not be inserted
+as an additional Helmholtz-energy term proportional to $\ln a_s$.  The Helmholtz
+energy supplies the reversible resistance to distension; the reaction affinity
+supplies the thermodynamic driving force.
 
 The volumetric decomposition is
 %
@@ -922,8 +926,8 @@ The volumetric decomposition is
 \end{equation}
 %
 where $a_s=\det\mbf A_s$ is the distension volume ratio and $\bar J_s$ is the
-true solid volume ratio.  A simple elastic penalty for changing the true solid
-volume of component $\alpha$ is
+true solid volume ratio.  A simple reversible penalty for changing the true
+solid volume of component $\alpha$ is
 %
 \begin{equation}
 	W_{\rm mech}^\alpha(J_s,a_s)
@@ -934,11 +938,23 @@ volume of component $\alpha$ is
 %
 with intrinsic bulk modulus $K_s^\alpha$.  This term vanishes when
 $\bar J_s=1$: distension itself is not penalized unless, at the prescribed
-skeleton deformation $J_s$, it changes the true solid volume.
+skeleton deformation $J_s$, it changes the true solid volume.  In the scalar
+specialization represented by \eqref{eq:crystallization_mechanical_energy}, the
+reversible trace stress associated with this penalty is
+%
+\begin{equation}
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	=-K_s^\alpha\ln\bar J_s .
+	\label{eq:crystallization_trace_stress}
+\end{equation}
+%
+This is the specialization of the Coleman--Noll condition
+\eqref{eq:CN_distension_force_definition}.  It is a reversible constitutive
+restriction, not a kinetic law.
 
-Crystallization enters as a chemical loading on $a_s$.  The variational theory
-has already identified the generalized force $\mc A_m$ conjugate to the mechanism
-progress rate $\dot r_m$ through
+Crystallization enters through the mechanism affinity.  The variational theory
+has already identified the generalized force conjugate to the mechanism progress
+rate $\dot r_m$:
 %
 \begin{equation}
 	\delta W_{\rm conv}
@@ -948,106 +964,63 @@ progress rate $\dot r_m$ through
 	\label{eq:crystallization_affinity_projection_recall}
 \end{equation}
 %
-Because the source law is mass-stoichiometric,
-$\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m$, the affinity $\mc A_m$ is
-mass specific.  For a mechanism $m$ precipitating solid component $\alpha_m$,
-the corresponding crystallization pressure is therefore
+For a mechanism $m$ precipitating solid component $\alpha_m$, let
+$p_c^{(m)}$ denote the chemical pressure scale supplied by the crystallization
+closure.  For example, a molar supersaturation closure may be written as
 %
 \begin{equation}
 	p_c^{(m)}
-	=\frac{\mc A_m}{\bar v_s^{\alpha_m}}
-	=\bar\rho_s^{\alpha_m}\mc A_m,
-	\qquad
-	\bar v_s^{\alpha_m}=\frac{1}{\bar\rho_s^{\alpha_m}} .
-	\label{eq:crystallization_pressure_affinity_mass_specific}
-\end{equation}
-%
-If one instead uses a molar affinity
-$\mc A_m^{\rm mol}=M_s^{\alpha_m}\mc A_m$, then
-%
-\begin{equation}
-	p_c^{(m)}
-	=\frac{\mc A_m^{\rm mol}}{V_s^{\alpha_m}}
 	=\frac{R\theta}{V_s^{\alpha_m}}\ln\Omega_m,
 	\label{eq:classical_crystallization_pressure}
 \end{equation}
 %
-which recovers the classical supersaturation formula.  Thus $\Omega_m$ is a
-possible chemical closure for the affinity; it is not an additional variational
-coordinate.
-
-The crystallization-loaded distension energy is then
+where $V_s^{\alpha_m}$ is the molar volume of the precipitating solid component.
+This pressure is not itself added to the Helmholtz free energy.  Instead, the
+mass-specific affinity is the chemical pressure minus the reversible mechanical
+resistance, multiplied by the intrinsic specific volume of the precipitating
+solid component:
 %
 \begin{equation}
-	W_a^\alpha(J_s,a_s,\mc A_m)
-	=W_{\rm mech}^\alpha(J_s,a_s)-p_c^{(m)}\ln a_s
-	=\frac{K_s^\alpha}{2}
-	\left[\ln\left(\frac{J_s}{a_s}\right)\right]^2
-	-p_c^{(m)}\ln a_s .
-	\label{eq:crystallization_distension_energy}
+	\mc A_m
+	=\bar v_s^{\alpha_m}
+	\left(
+	p_c^{(m)}
+	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	\right),
+	\qquad
+	\bar v_s^{\alpha_m}=\frac{1}{\bar\rho_s^{\alpha_m}} .
+	\label{eq:crystallization_affinity_trace_stress}
 \end{equation}
 %
-The logarithm is natural for the positive multiplicative variable $a_s$ and is
-normalized so that the chemical work vanishes at $a_s=1$.
-
-The scalar distension pressure generated by
-\eqref{eq:crystallization_distension_energy} is the force conjugate to $a_s$ at
-fixed skeleton deformation and chemical driving force:
+Using \eqref{eq:crystallization_trace_stress}, this may also be written as
 %
 \begin{equation}
-	p_a^\alpha
-	=-\left.\frac{\partial W_a^\alpha}{\partial a_s}\right\vert_{J_s,\mc A_m}
-	=\frac{1}{a_s}\left[
-	K_s^\alpha\ln\left(\frac{J_s}{a_s}\right)+p_c^{(m)}\right].
-	\label{eq:distension_pressure_gradient}
+	\mc A_m
+	=\bar v_s^{\alpha_m}
+	\left(
+	p_c^{(m)}+K_s^{\alpha_m}\ln\bar J_s
+	\right).
+	\label{eq:crystallization_affinity_volumetric}
 \end{equation}
 %
-Equilibrium with respect to distension therefore requires
+Equilibrium is the reversible limit $\mc A_m=0$, which gives
 %
 \begin{equation}
-	K_s^\alpha\ln\bar J_s+p_c^{(m)}=0 .
+	p_c^{(m)}+K_s^{\alpha_m}\ln\bar J_s=0 .
 	\label{eq:distension_equilibrium_crystallization}
 \end{equation}
 %
-In this form the interpretation is direct: supersaturation, through the affinity
-$\mc A_m$, supplies a pressure $p_c^{(m)}$ that biases the otherwise elastic
-relaxation of the true solid volume.
-
-\paragraph{Crystallization Biot coefficient.}
-Because $p_c^{(m)}=\bar\rho_s^{\alpha_m}\mc A_m$ depends on the intrinsic density
-of the precipitating solid component, the crystallization loading also enters
-the component intrinsic-pressure response.  A Biot-type coefficient associated
-with this pressure should therefore be defined after a Legendre transformation
-with respect to the component specific volume.  The variables held fixed are
-important: holding $a_s$ fixed would suppress the distension mechanism.  For
-crystallization-driven distension the relevant derivative holds the total
-skeleton deformation fixed, equivalently $J_s$ in the volumetric specialization:
+For kinetically limited crystallization, the entropy inequality instead requires
+the kinetic closure to satisfy
 %
 \begin{equation}
-	B_{c,s}^{\alpha}
-	=1-\frac{1}{\bar v_{s0}^\alpha}
-	\left.
-	\frac{\partial \bar v_s^\alpha}{\partial \bar J_s}
-	\right|_{\bar p_s^\alpha,\mbf F_s,\mc A_m},
-	\label{eq:crystallization_biot_coefficient}
+	\mc A_m\dot r_m\ge 0 .
+	\label{eq:crystallization_admissible_kinetics}
 \end{equation}
 %
-or, for purely volumetric variations,
-%
-\begin{equation}
-	\left.
-	\frac{\partial \bar v_s^\alpha}{\partial \bar J_s}
-	\right|_{\bar p_s^\alpha,\mbf F_s,\mc A_m}
-	\equiv
-	\left.
-	\frac{\partial \bar v_s^\alpha}{\partial \bar J_s}
-	\right|_{\bar p_s^\alpha,J_s,\mc A_m} .
-	\label{eq:crystallization_biot_fixed_F_equiv}
-\end{equation}
-%
-At fixed $\mbf F_s$, increasing $\bar J_s$ requires the compensating change
-$a_s=J_s/\bar J_s$; this is precisely the crystallization--distension coupling
-measured by $B_{c,s}^\alpha$.
+Thus supersaturation can still drive distension, but it does so through the
+stoichiometric affinity appearing in the residual dissipation, while the
+mechanical trace stress remains the reversible Coleman--Noll stress response.
 \subsection{Classical compositional-flow limit and interpretation of the multipliers}
 \label{sec:classical_compositional_limit}
 
