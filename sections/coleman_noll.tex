@@ -492,22 +492,17 @@ The mechanism affinity identified by the variational conversion constraint is
 	\label{eq:CN_composition_affinity_projection}
 \end{equation}
 Thus the source projection \eqref{eq:CN_mu_source_projection} is exactly
-the mechanism force power.  Define the reaction dissipation by
-\begin{equation}
-	\mc D_{\rm rxn}
-	:=\sum_m\mc A_m\dot r_m .
-	\label{eq:CN_reaction_dissipation}
-\end{equation}
+the mechanism force power.
 After the reversible coefficients have been set to zero, the remaining
 inequality can therefore be written as
 \begin{align}
 	0\le\; &
-	\mc D_{\rm rxn}
+	\sum_m\mc A_m\dot r_m
 	+\sum_\xi\rho_\xi e_\xi^{\rm int}
 		-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta} .
 	\label{eq:CN_residual_dissipation}
 \end{align}
-Admissible reaction kinetics must make $\mc D_{\rm rxn}\ge 0$, for example
+Admissible reaction kinetics must make $\sum_m\mc A_m\dot r_m\ge 0$, for example
 through a closure $\dot r_m=\mc K_m(\mc A_m,\text{state})$ with
 $\mc A_m\dot r_m\ge 0$ for each independent mechanism.
 
@@ -591,7 +586,6 @@ with $\theta>0$.  Then
 	\ge 0 .
 	\label{eq:CN_heat_flux_positive}
 \end{equation}
-Equations \eqref{eq:CN_reaction_dissipation},
-\eqref{eq:CN_interphase_exchange_positive}, and
+Equations \eqref{eq:CN_interphase_exchange_positive} and
 \eqref{eq:CN_heat_flux_positive} are sufficient to make
 \eqref{eq:CN_residual_dissipation} thermodynamically admissible.
