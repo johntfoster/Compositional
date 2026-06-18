@@ -907,14 +907,14 @@ entropy inequality.
 \label{sec:constitutive_crystallization_distension}
 
 The preceding development leaves the distension response abstract through
-\eqref{eq:solid_distension_evolution}.  A crystallization closure must now be
-chosen so that the reversible part remains consistent with the Coleman--Noll
-trace-stress restriction \eqref{eq:CN_distension_force_definition}, while the
-irreversible crystallization force remains in the residual entropy production
-\eqref{eq:CN_residual_dissipation}.  Thus crystallization should not be inserted
-as an additional Helmholtz-energy term proportional to $\ln a_s$.  The Helmholtz
-energy supplies the reversible resistance to distension; the reaction affinity
-supplies the thermodynamic driving force.
+\eqref{eq:solid_distension_evolution}.  In the present formulation, the closure
+is not obtained by prescribing a separate crystallization-pressure law in
+addition to the Helmholtz free energies.  The Helmholtz energies determine the
+reversible stresses and the Coleman--Noll restrictions, while the multipliers
+$\mu_\xi^\alpha$ are solved as part of the coupled system.  The mechanism
+affinity and any corresponding crystallization pressure are then derived
+quantities.  Thus crystallization should not be inserted as an additional
+Helmholtz-energy term proportional to $\ln a_s$.
 
 The volumetric decomposition is
 %
@@ -950,7 +950,7 @@ reversible trace stress associated with this penalty is
 %
 This is the specialization of the Coleman--Noll condition
 \eqref{eq:CN_distension_force_definition}.  It is a reversible constitutive
-restriction, not a kinetic law.
+restriction produced by the Helmholtz energy, not a kinetic law.
 
 Crystallization enters through the mechanism affinity.  The variational theory
 has already identified the generalized force conjugate to the mechanism progress
@@ -964,9 +964,73 @@ rate $\dot r_m$:
 	\label{eq:crystallization_affinity_projection_recall}
 \end{equation}
 %
-For a mechanism $m$ precipitating solid component $\alpha_m$, let
-$p_c^{(m)}$ denote the chemical pressure scale supplied by the crystallization
-closure.  For example, a molar supersaturation closure may be written as
+Equation~\eqref{eq:crystallization_affinity_projection_recall} is not a second
+constitutive assumption.  It is the Euler--Lagrange relation associated with the
+conversion constraint, and it projects the solved multipliers onto the
+stoichiometric direction of mechanism $m$.  The entropy inequality requires the
+kinetic closure to make this solved driving force admissible:
+%
+\begin{equation}
+	\mc A_m\dot r_m\ge 0 .
+	\label{eq:crystallization_admissible_kinetics}
+\end{equation}
+%
+A simple admissible choice is $\dot r_m=M_m\mc A_m$ with $M_m\ge0$, although a
+one-sided precipitation or dissolution law may be used when the mechanism is
+not reversible.
+
+For comparison with classical crystallization-pressure models, consider a
+mechanism $m$ precipitating solid component $\alpha_m$.  Let the intrinsic
+specific volume of that solid component be
+%
+\begin{equation}
+	\bar v_s^{\alpha_m}=\frac{1}{\bar\rho_s^{\alpha_m}} .
+	\label{eq:crystallization_intrinsic_specific_volume}
+\end{equation}
+%
+The equivalent chemical crystallization pressure is defined by separating the
+solved affinity into a chemical pressure scale and the reversible trace-stress
+resistance:
+%
+\begin{equation}
+	p_c^{(m)}
+	=\frac{\mc A_m}{\bar v_s^{\alpha_m}}
+	+\frac{1}{3}\operatorname{tr}(\bs\sigma_s') .
+	\label{eq:crystallization_affinity_trace_stress}
+\end{equation}
+%
+Equivalently,
+%
+\begin{equation}
+	\mc A_m
+	=\bar v_s^{\alpha_m}
+	\left(
+	p_c^{(m)}
+	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	\right).
+	\label{eq:crystallization_affinity_volumetric}
+\end{equation}
+%
+Using \eqref{eq:crystallization_trace_stress}, this diagnostic pressure may be
+written as
+%
+\begin{equation}
+	p_c^{(m)}
+	=\frac{\mc A_m}{\bar v_s^{\alpha_m}}
+	-K_s^{\alpha_m}\ln\bar J_s .
+	\label{eq:crystallization_pressure_from_affinity}
+\end{equation}
+%
+At reversible equilibrium, $\mc A_m=0$, and the chemical pressure balances the
+mechanical trace stress:
+%
+\begin{equation}
+	p_c^{(m)}+K_s^{\alpha_m}\ln\bar J_s=0 .
+	\label{eq:distension_equilibrium_crystallization}
+\end{equation}
+%
+The usual supersaturation formula can then be read as a diagnostic
+reparametrization of this derived pressure, not as an independent closure:
 %
 \begin{equation}
 	p_c^{(m)}
@@ -975,52 +1039,28 @@ closure.  For example, a molar supersaturation closure may be written as
 \end{equation}
 %
 where $V_s^{\alpha_m}$ is the molar volume of the precipitating solid component.
-This pressure is not itself added to the Helmholtz free energy.  Instead, the
-mass-specific affinity is the chemical pressure minus the reversible mechanical
-resistance, multiplied by the intrinsic specific volume of the precipitating
-solid component:
+Thus the saturation ratio associated with the solved affinity is
 %
 \begin{equation}
-	\mc A_m
-	=\bar v_s^{\alpha_m}
-	\left(
-	p_c^{(m)}
-	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-	\right),
-	\qquad
-	\bar v_s^{\alpha_m}=\frac{1}{\bar\rho_s^{\alpha_m}} .
-	\label{eq:crystallization_affinity_trace_stress}
-\end{equation}
-%
-Using \eqref{eq:crystallization_trace_stress}, this may also be written as
-%
-\begin{equation}
-	\mc A_m
-	=\bar v_s^{\alpha_m}
-	\left(
-	p_c^{(m)}+K_s^{\alpha_m}\ln\bar J_s
+	\Omega_m
+	=\exp\left(
+	\frac{V_s^{\alpha_m}}{R\theta}
+	\left[
+	\frac{\mc A_m}{\bar v_s^{\alpha_m}}
+	+\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	\right]
 	\right).
-	\label{eq:crystallization_affinity_volumetric}
+	\label{eq:crystallization_saturation_ratio_diagnostic}
 \end{equation}
 %
-Equilibrium is the reversible limit $\mc A_m=0$, which gives
-%
-\begin{equation}
-	p_c^{(m)}+K_s^{\alpha_m}\ln\bar J_s=0 .
-	\label{eq:distension_equilibrium_crystallization}
-\end{equation}
-%
-For kinetically limited crystallization, the entropy inequality instead requires
-the kinetic closure to satisfy
-%
-\begin{equation}
-	\mc A_m\dot r_m\ge 0 .
-	\label{eq:crystallization_admissible_kinetics}
-\end{equation}
-%
-Thus supersaturation can still drive distension, but it does so through the
-stoichiometric affinity appearing in the residual dissipation, while the
-mechanical trace stress remains the reversible Coleman--Noll stress response.
+The classical interpretation is recovered after the thermodynamic solve:
+$\Omega_m>1$ corresponds to a positive equivalent chemical pressure,
+$\Omega_m=1$ to chemical saturation in the absence of mechanical resistance, and
+$\Omega_m<1$ to undersaturation.  In this formulation, however, $\Omega_m$ is
+not needed to close the equations.  The closure is supplied by the Helmholtz
+free energies, the balance laws, the conversion constraints, and an admissible
+kinetic law for $\dot r_m$.
+
 \subsection{Classical compositional-flow limit and interpretation of the multipliers}
 \label{sec:classical_compositional_limit}
 
