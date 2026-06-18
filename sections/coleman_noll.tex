@@ -553,21 +553,26 @@ momentum balance.  Decompose it into pairwise interaction forces,
 	\label{eq:CN_pairwise_interaction_force}
 \end{equation}
 where $\mbf b_{\zeta\xi}$ is the force exerted on phase $\xi$ by phase $\zeta$.
-For each unordered pair, let
+For each unordered pair, let $\mbf u_{\xi\zeta}$ denote the pairwise relative
+velocity,
 \begin{equation}
-	\mbf w_{\xi\zeta}=\mbf v_\xi-\mbf v_\zeta .
+	\mbf u_{\xi\zeta}=\mbf v_\xi-\mbf v_\zeta .
 	\label{eq:CN_relative_pair_velocity}
 \end{equation}
+This velocity difference is distinct from mass-weighted Darcy or diffusion
+fluxes, which can be introduced later by multiplying a relative velocity by the
+appropriate partial density or mobility.  The energy pairing remains simplest in
+terms of $\mbf u_{\xi\zeta}$.
 Then \eqref{eq:CN_interaction_energy_conservation} gives
 \begin{equation}
 	\sum_\xi\rho_\xi e_\xi^{\rm int}
-	=-\sum_{\xi<\zeta}\mbf b_{\zeta\xi}\cdot\mbf w_{\xi\zeta}.
+	=-\sum_{\xi<\zeta}\mbf b_{\zeta\xi}\cdot\mbf u_{\xi\zeta}.
 	\label{eq:CN_interaction_power_pairing}
 \end{equation}
 A linear dissipative interaction law may be written as
 \begin{equation}
 	\mbf b_{\zeta\xi}
-	=-\mbf k_{\xi\zeta}^{-1}\mbf w_{\xi\zeta},
+	=-\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta},
 	\qquad
 	\mbf k_{\xi\zeta}=\mbf k_{\xi\zeta}^{T},
 	\qquad
@@ -579,8 +584,8 @@ Substitution into \eqref{eq:CN_interaction_power_pairing} gives
 \begin{equation}
 	\sum_\xi\rho_\xi e_\xi^{\rm int}
 	=\sum_{\xi<\zeta}
-	\mbf w_{\xi\zeta}\cdot
-	\mbf k_{\xi\zeta}^{-1}\mbf w_{\xi\zeta}
+	\mbf u_{\xi\zeta}\cdot
+	\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta}
 	\ge 0 .
 	\label{eq:CN_interphase_exchange_positive}
 \end{equation}
