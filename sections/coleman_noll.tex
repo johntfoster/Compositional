@@ -193,26 +193,48 @@ elastic stress power to the mobile phases, so
 	\bs\sigma_\ell'=\mbf 0 .
 	\label{eq:CN_mobile_stress_free}
 \end{equation}
+The reversible interfacial energy used in the variational formulation must also
+be included in the entropy bookkeeping.  For the mobile phases,
+%
+\[
+	\psi_\gamma^{\rm vol}
+	=\phi\gamma(S_a,S_g),
+	\qquad
+	\dot\psi_\gamma^{\rm vol}
+	=\sum_l\gamma_l\dot\phi_l,
+\]
+%
+where $\gamma_l=\partial(\phi\gamma)/\partial\phi_l$ are the primitive
+interfacial potentials introduced in \eqref{eq:primitive_gamma_derivatives}.
+The volume fractions are constrained by $\sum_\xi\phi_\xi=1$, so their rates
+are not independent.  When the capillary Helmholtz rate is retained explicitly,
+we add the identically vanishing saturation-constraint rate
+$\lambda\sum_\xi\dot\phi_\xi$ and retain the corresponding
+$\dot\phi_\xi/\phi_\xi$ contribution from the component-storage multiplier.
+This capillary Helmholtz energy is taken to be reversible and independent of
+temperature in the present model.  If $\gamma$ were temperature dependent, the
+corresponding interfacial entropy term would have to be retained as well.
 \begin{align}
 	\sum_\alpha\left(\rho_\xi^\alpha\dot e_\xi^\alpha
 	+\dot c_\xi^\alpha e_\xi^\alpha\right)
 	= & \; \bs\sigma_\xi':\mbf L_\xi
 	+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+	+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
 	+\sum_\alpha\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
 	-\sum_\alpha L_\xi^\alpha\dot c_\xi^\alpha
 	-\nabla_{\mbf x}\cdot\mbf q_\xi
 	+\rho_\xi r_\xi+\rho_\xi e_\xi^{\rm int}.
 	\label{eq:CN_energy_balance}
 \end{align}
-The second constraint-power term is the compositional analog of the pressure
-power.  The multipliers $\tau_\xi^\alpha$ enforce component material storage in
-\eqref{eq:C2_def}; when the free energy depends on the normalized composition,
-the admissible composition rate does work against the normalized storage
-multiplier $\tau_\xi^\alpha/\eta_\xi^\alpha$.  The coefficient
-$L_\xi^\alpha$ is the same component conversion-work potential introduced in
-\eqref{eq:W_def}; the sign convention here is chosen so that a source
-$\dot c_\xi^\alpha$ carries the free-energy cost
-$\psi_\xi^\alpha+L_\xi^\alpha$ in the entropy inequality.
+The storage-multiplier terms are the volume-fraction and compositional analogs
+of the pressure power.  The multipliers $\tau_\xi^\alpha$ enforce component
+material storage in \eqref{eq:C2_def}; when the admissible rates
+$\dot\phi_\xi$ and $\dot\eta_\xi^\alpha$ are retained, they do work against the
+normalized storage multipliers $\tau_\xi^\alpha/\phi_\xi$ and
+$\tau_\xi^\alpha/\eta_\xi^\alpha$.  The coefficient $L_\xi^\alpha$ is the same
+component conversion-work potential introduced in \eqref{eq:W_def}; the sign
+convention here is chosen so that a source $\dot c_\xi^\alpha$ carries the
+free-energy cost $\psi_\xi^\alpha+L_\xi^\alpha$ in the entropy inequality.
 For the solid phase, the mechanical power in \eqref{eq:CN_energy_balance} must
 be decomposed with the same kinematic split used in the constitutive law.  In the
 isotropic dilation specialization,
@@ -251,27 +273,35 @@ Using \eqref{eq:CN_energy_balance} to eliminate $\rho_\xi r_\xi$ from
 $e_\xi^\alpha=\psi_\xi^\alpha+\theta s_\xi^\alpha$, gives the reduced entropy
 inequality.  At this stage we also add the identically vanishing rate of the
 composition-normalization constraint,
-$\pi_\xi\sum_\alpha\dot\eta_\xi^\alpha$, so that the Coleman--Noll coefficient
-collection is performed on the tangent space
-\eqref{eq:CN_composition_tangent_constraint}.
+$\pi_\xi\sum_\alpha\dot\eta_\xi^\alpha$, and the identically vanishing
+saturation-constraint rate $\lambda\sum_\xi\dot\phi_\xi$, so that the
+Coleman--Noll coefficient collection is performed on the constrained tangent
+spaces.
 \begin{align}
 	0\le
 	\sum_\xi \bigg[ &
 		\frac{1}{\theta}\Big(
 		\bs\sigma_\xi':\mbf L_\xi
 		+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
-		+\sum_\alpha\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
-		+\pi_\xi\sum_\alpha\dot\eta_\xi^\alpha
+		+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
 		\notag                                                \\
 		& \qquad
+		+\sum_\alpha\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
+		+\pi_\xi\sum_\alpha\dot\eta_\xi^\alpha
 		-\sum_\alpha\rho_\xi^\alpha
 		\left(\dot\psi_\xi^\alpha+s_\xi^\alpha\dot\theta\right)
+		\notag                                                \\
+		& \qquad
 		-\sum_\alpha\dot c_\xi^\alpha
 		\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
 		+\rho_\xi e_\xi^{\rm int}\Big)
 		-\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
-		\bigg].
-	\label{eq:CN_reduced_entropy_inequality}
+		\bigg]
+		\notag                                                \\
+		& +\frac{1}{\theta}\left(
+		\lambda\sum_\xi\dot\phi_\xi
+		-\sum_l\gamma_l\dot\phi_l\right).
+		\label{eq:CN_reduced_entropy_inequality}
 \end{align}
 Substituting \eqref{eq:CN_total_helmholtz_density},
 \eqref{eq:CN_FM_rate_chain_rule}, \eqref{eq:CN_stress_power_split}, and
@@ -316,16 +346,31 @@ contribution.
 			\notag                                               \\
 	       & +\sum_\xi\sum_\beta\left(\frac{\tau_\xi^\beta}{\eta_\xi^\beta}
 			+\pi_\xi\right)\dot\eta_\xi^\beta
-		-\sum_m\left(
-			\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
-			\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
-			\right)\dot r_m
-		\notag                                               \\
-	       & +\sum_\xi\rho_\xi e_\xi^{\rm int}
-	-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
-	\Bigg\} .
+			-\sum_m\left(
+				\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
+				\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
+				\right)\dot r_m
+			\notag                                               \\
+		       & +\lambda\sum_\xi\dot\phi_\xi
+			+\sum_\xi\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
+			-\sum_l\gamma_l\dot\phi_l
+			+\sum_\xi\rho_\xi e_\xi^{\rm int}
+			-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
+			\Bigg\} .
 	\label{eq:CN_solid_collected_entropy}
 \end{align}
+The capillary term is not a new dissipative mechanism.  Since the
+volume-fraction rates are constrained, the mobile-phase coefficient is the
+reversible condition
+\[
+	0=\lambda+\sum_\alpha\frac{\tau_l^\alpha}{\phi_l}-\gamma_l
+	=\lambda+\bar p_l-\gamma_l .
+\]
+Thus the interfacial energy supplies the capillary pressure construction and
+equivalent pressure relation, while leaving no residual entropy production for
+equilibrium capillarity.  A dynamic or hysteretic capillary law would instead
+leave the uncancelled part of the interfacial Helmholtz rate as a capillary
+dissipation term.
 The phase derivative with respect to composition is the derivative of the phase
 Helmholtz potential in \eqref{eq:CN_phase_free_energy_sum}.  For mobile phases no
 elastic stress-free dilation term appears, so the composition coefficient gives

@@ -1111,39 +1111,78 @@ Combining this equivalent-pressure form with
 	\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
 \end{align*}
 %
-Equivalently, collecting the equivalent-pressure term into the total stress,
+Collecting the equivalent-pressure term into the total stress,
 %
-\begin{align}
-	\sum_\xi\rho_\xi\mbf a_\xi
-	= & \; \nabla_{\mbf x}\cdot\left[
-	\bs\sigma_s^{\prime\prime}
-	-B_s\bar p_E\mbf I
-	\right]
-	+\rho\mbf g
-	\notag                                                        \\
-	 & +\sum_\xi\sum_\alpha
-	\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
+\begin{equation}
+	\sum_\xi\rho_\xi\mbf a_\xi = \nabla_{\mbf x}\cdot\left[\bs\sigma_s^{\prime\prime}-B_s\bar p_E\mbf I\right]+\rho\mbf g+\sum_\alpha\sum_\xi\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:overall_momentum_nonlinear_biot}
-\end{align}
+\end{equation}
 %
 When inertia and conversion-momentum production are neglected, this is the
 quasistatic total-stress balance used by Kim, Tchelepi, and Juanes, with
 $\bar p_E$ replacing the saturation-weighted average pressure.
 
-\subsection{Constitutive specialization: crystallization-driven distension}
+\subsection{Distension stress and crystallization pressure in practice}
+\label{sec:distension_stress_crystallization}
 \label{sec:constitutive_crystallization_distension}
 
-The preceding development leaves the distension response abstract through
-\eqref{eq:solid_distension_evolution}.  In the present formulation, the closure
-is not obtained by prescribing a separate crystallization-pressure law in
-addition to the Helmholtz free energies.  The Helmholtz energies determine the
-reversible stresses and the Coleman--Noll restrictions, while the multipliers
-$\mu_\xi^\alpha$ are solved as part of the coupled system.  The mechanism
-affinity and any corresponding crystallization pressure are then derived
-quantities.  Thus crystallization should not be inserted as an additional
-Helmholtz-energy term proportional to $\ln a_s$.
+The nonlinear Biot transformation above is useful for separating the equivalent
+pore-pressure part of the solid stress, but the crystallization response is used
+in a different way.  In this formulation, crystallization pressure is not a
+primary unknown, not an additional pressure inserted into the momentum balance,
+and not a separate Helmholtz-energy postulate.  The primitive constitutive input
+is the Helmholtz free energy of the solid constituents.  Crystallization changes
+the solid composition, the source rates, and the distension state; the stress
+created by that change is then the Helmholtz force conjugate to distension.
 
-The volumetric decomposition is
+The practical calculation is therefore:
+choose the solid Helmholtz energies, solve the balance laws and conversion
+constraints for the state, the multipliers, and the mechanism rates, enforce an
+admissible kinetic law for those rates, and then report a crystallization
+pressure only when it is useful for comparison with classical models or for
+using a kinetic law calibrated in terms of supersaturation.  The Coleman--Noll
+restriction \eqref{eq:solid_final_distension_pressure} is the compatibility
+condition that makes this procedure thermodynamically closed.  It determines the
+hydrostatic stress conjugate to the distension variable:
+%
+\begin{equation}
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	=\rho_s a_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}.
+	\label{eq:distension_stress_restriction}
+\end{equation}
+%
+Thus any Helmholtz energy dependence on $a_s$ contributes a real volumetric
+stress.  Conversely, if one wants to prescribe a distension stress law, the
+admissible Helmholtz energy must be chosen so that
+\eqref{eq:distension_stress_restriction} is satisfied.  This is the precise
+sense in which the distension energy is restricted thermodynamically: the
+right-hand side is not an extra source term, but the hydrostatic part of the
+solid stress.
+
+When the equivalent-pressure split
+\eqref{eq:solid_biot_mixture_rule} is used, the same restriction determines the
+trace carried by the double-prime solid stress:
+%
+\begin{equation}
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\prime})
+	=
+	\rho_s a_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
+	-\left(1-B_s\right)\bar p_E .
+	\label{eq:double_prime_distension_trace}
+\end{equation}
+%
+With this convention, the total-stress momentum balance
+\eqref{eq:overall_momentum_nonlinear_biot} already contains the distension
+stress through $\bs\sigma_s^{\prime\prime}$.  No additional crystallization
+pressure term should be added to that balance unless a separate non-Helmholtz
+mechanism is intentionally introduced.  Crystallization changes the mechanics by
+changing the solid composition, source rates, and distension state; the stress
+penalty follows from the Helmholtz derivative with respect to $a_s$.
+
+For a simple crystallization-driven distension model, decompose the solid volume
+ratio into the distension volume ratio and the true solid volume ratio,
 %
 \begin{equation}
 	J_s=a_s\bar J_s,
@@ -1167,7 +1206,7 @@ with intrinsic bulk modulus $K_s^\alpha$.  This term vanishes when
 $\bar J_s=1$: distension itself is not penalized unless, at the prescribed
 skeleton deformation $J_s$, it changes the true solid volume.  In the scalar
 specialization represented by \eqref{eq:crystallization_mechanical_energy}, the
-reversible trace stress associated with this penalty is
+Coleman--Noll restriction gives the reversible trace stress
 %
 \begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
@@ -1179,9 +1218,9 @@ This is the specialization of the Coleman--Noll condition
 \eqref{eq:CN_distension_force_definition}.  It is a reversible constitutive
 restriction produced by the Helmholtz energy, not a kinetic law.
 
-Crystallization enters through the mechanism affinity.  The variational theory
-has already identified the generalized force conjugate to the mechanism progress
-rate $\dot r_m$:
+Crystallization enters the rate problem through the mechanism affinity.  The
+variational theory has already identified the generalized force conjugate to the
+mechanism progress rate $\dot r_m$:
 %
 \begin{equation}
 	\delta W_{\rm conv}
@@ -1194,8 +1233,8 @@ rate $\dot r_m$:
 Equation~\eqref{eq:crystallization_affinity_projection_recall} is not a second
 constitutive assumption.  It is the Euler--Lagrange relation associated with the
 conversion constraint, and it projects the solved multipliers onto the
-stoichiometric direction of mechanism $m$.  The entropy inequality requires the
-kinetic closure to make this solved driving force admissible:
+stoichiometric direction of mechanism $m$.  The entropy inequality then requires
+the kinetic closure to make this solved driving force admissible:
 %
 \begin{equation}
 	\mc A_m\dot r_m\ge 0 .
@@ -1206,18 +1245,18 @@ A simple admissible choice is $\dot r_m=M_m\mc A_m$ with $M_m\ge0$, although a
 one-sided precipitation or dissolution law may be used when the mechanism is
 not reversible.
 
-For comparison with classical crystallization-pressure models, consider a
-mechanism $m$ precipitating solid component $\alpha_m$.  Let the intrinsic
-specific volume of that solid component be
+This is the point at which a classical crystallization pressure can be recovered.
+Consider a mechanism $m$ precipitating solid component $\alpha_m$, and let the
+intrinsic specific volume of that solid component be
 %
 \begin{equation}
 	\bar v_s^{\alpha_m}=\frac{1}{\bar\rho_s^{\alpha_m}} .
 	\label{eq:crystallization_intrinsic_specific_volume}
 \end{equation}
 %
-The equivalent chemical crystallization pressure is defined by separating the
-solved affinity into a chemical pressure scale and the reversible trace-stress
-resistance:
+After the thermodynamic solve, define the equivalent chemical crystallization
+pressure by separating the solved affinity into a chemical pressure scale and
+the reversible trace-stress resistance:
 %
 \begin{equation}
 	p_c^{(m)}
@@ -1226,7 +1265,7 @@ resistance:
 	\label{eq:crystallization_affinity_trace_stress}
 \end{equation}
 %
-Equivalently,
+Equivalently, the affinity driving the kinetic law is
 %
 \begin{equation}
 	\mc A_m
@@ -1238,8 +1277,14 @@ Equivalently,
 	\label{eq:crystallization_affinity_volumetric}
 \end{equation}
 %
-Using \eqref{eq:crystallization_trace_stress}, this diagnostic pressure may be
-written as
+Equation~\eqref{eq:crystallization_affinity_volumetric} is the operational
+meaning of crystallization pressure in the present theory: if a constitutive or
+experimental law is written in terms of $p_c^{(m)}$, it must be converted into
+the affinity $\mc A_m$ before it is used in the entropy inequality.  The pressure
+$p_c^{(m)}$ is therefore a diagnostic pressure scale for the mechanism, while
+the actual mechanical stress remains the trace stress already contained in
+$\bs\sigma_s^{\prime\prime}$.  Using
+\eqref{eq:crystallization_trace_stress}, the diagnostic pressure is
 %
 \begin{equation}
 	p_c^{(m)}
@@ -1257,7 +1302,7 @@ mechanical trace stress:
 \end{equation}
 %
 The usual supersaturation formula can then be read as a diagnostic
-reparametrization of this derived pressure, not as an independent closure:
+reparametrization of this derived pressure:
 %
 \begin{equation}
 	p_c^{(m)}
@@ -1284,9 +1329,155 @@ The classical interpretation is recovered after the thermodynamic solve:
 $\Omega_m>1$ corresponds to a positive equivalent chemical pressure,
 $\Omega_m=1$ to chemical saturation in the absence of mechanical resistance, and
 $\Omega_m<1$ to undersaturation.  In this formulation, however, $\Omega_m$ is
-not needed to close the equations.  The closure is supplied by the Helmholtz
+not needed as a primary closure variable.  The model is closed by the Helmholtz
 free energies, the balance laws, the conversion constraints, and an admissible
-kinetic law for $\dot r_m$.
+kinetic law for $\dot r_m$.  Classical crystallization-pressure formulas may be
+used by translating them through
+\eqref{eq:crystallization_affinity_volumetric}, but the pressure itself should
+not be added a second time to the momentum balance.
+
+\subsection{Model summary, closures, and equation count}
+\label{sec:model_summary_closure_count}
+
+This section collects the equations that would be assembled in a simulator.  The
+point of the summary is to separate primary unknowns, reversible constitutive
+relations generated by the Helmholtz energies, and genuinely dissipative closure
+laws.  The component mass balances are
+%
+\begin{equation}
+	\frac{\partial}{\partial t}\left(\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\right)
+	+\nabla_{\mbf x}\cdot
+	\left(\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\mbf v_\xi\right)
+	=\sum_m\nu_{\xi m}^\alpha\dot r_m .
+	\label{eq:model_summary_mass_balance}
+\end{equation}
+%
+The phase momentum balances may be kept phasewise in the form
+\eqref{eq:el_momentum_uniform}, with the mobile-phase pressure-gradient
+specialization shown in
+\eqref{eq:el_mom_a_simplified}--\eqref{eq:el_mom_g_simplified}, or summed into
+the overall poromechanics form \eqref{eq:overall_momentum_nonlinear_biot}.  The
+algebraic volume and composition constraints are
+%
+\begin{equation}
+	\sum_\xi\phi_\xi=1,
+	\qquad
+	\sum_\alpha\eta_\xi^\alpha=1,
+	\label{eq:model_summary_constraints}
+\end{equation}
+%
+with the corresponding Euler--Lagrange relations
+%
+\begin{align}
+	\lambda+\bar p_l-\gamma_l & =0,
+	\qquad l\hbox{ mobile}, \notag                                      \\
+	\lambda+\bar p_s         & =0,
+	\qquad
+	\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}=\bar p_\xi,
+	\label{eq:model_summary_pressure_relations}                         \\
+	0                        & =
+	\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}+\pi_\xi
+	-\rho_\xi
+	\left.\p{\psi_\xi}{\eta_\xi^\alpha}\heldfixed{\mc X_\xi}.
+	\label{eq:model_summary_composition_relations}
+\end{align}
+%
+The solid version of \eqref{eq:model_summary_composition_relations} includes the
+stress-free compositional-dilation correction in
+\eqref{eq:CN_solid_composition_multiplier_restriction}.  The intrinsic
+pressures, solid stresses, entropy, and distension stress are not independent
+laws; they are Coleman--Noll derivatives of the Helmholtz energies summarized by
+\eqref{eq:CN_stress_definition}, \eqref{eq:CN_distension_force_definition},
+\eqref{eq:CN_phase_pressure_definition}, and \eqref{eq:CN_entropy_definitions}.
+
+The conversion potentials are solved from
+\eqref{eq:el_conversion_component}.  After the entropy argument identifies
+$L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi^\alpha$, the mechanism affinity is the
+stoichiometric projection
+%
+\begin{equation}
+	\mc A_m=-\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha .
+	\label{eq:model_summary_affinity}
+\end{equation}
+%
+The remaining closure laws are dissipative.  They must be chosen so that
+%
+\begin{equation}
+	\sum_m\mc A_m\dot r_m
+	+\sum_{\xi<\zeta}\mbf u_{\xi\zeta}\cdot
+	\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta}
+	+\sum_\xi
+	\frac{\nabla_{\mbf x}\theta\cdot\mbf K_\xi\nabla_{\mbf x}\theta}{\theta}
+	\ge 0 .
+	\label{eq:model_summary_dissipation}
+\end{equation}
+%
+For example, one may use kinetic laws
+$\dot r_m=\mc K_m(\mc A_m,\hbox{state})$ with
+$\mc A_m\dot r_m\ge0$, pairwise interaction laws
+\eqref{eq:CN_interphase_exchange_law}, and the heat-flux closure
+\eqref{eq:CN_heat_flux_closure}.  A crystallization-pressure law, if used, enters
+only by translating it into the affinity through
+\eqref{eq:crystallization_affinity_volumetric}.
+
+Let $P$ be the number of phases, $N$ the number of components tracked in each
+phase, $N_m$ the number of independent conversion mechanisms, and $d$ the spatial
+dimension.  A convenient fully implicit pointwise unknown set is
+%
+\begin{equation}
+	\mc Z=
+	\left\{
+	\phi_\xi,\bar\rho_\xi,\eta_\xi^\alpha,\mbf v_\xi,
+	\lambda,\tau_\xi^\alpha,\pi_\xi,\mu_\xi^\alpha,\dot r_m,\theta
+	\right\}.
+	\label{eq:model_summary_unknown_set}
+\end{equation}
+%
+The number of scalar unknowns is
+%
+\begin{equation}
+	N_{\rm unk}
+	=P+dP+3PN+2P+N_m+2
+	=dP+3PN+3P+N_m+2 .
+	\label{eq:model_summary_unknown_count}
+\end{equation}
+%
+The same number of scalar equations is supplied by the following blocks:
+%
+\begin{center}
+\begin{tabular}{p{0.62\textwidth}c}
+	Equation block & Count \\
+	\hline
+	Component mass balances \eqref{eq:model_summary_mass_balance} & $PN$ \\
+	Phase momentum balances \eqref{eq:el_momentum_uniform} & $dP$ \\
+	Saturation constraint in \eqref{eq:model_summary_constraints} & $1$ \\
+	Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$ \\
+	Intrinsic-density relations in \eqref{eq:model_summary_pressure_relations} & $P$ \\
+	Composition stationarity \eqref{eq:model_summary_composition_relations} & $PN$ \\
+	Composition normalizations in \eqref{eq:model_summary_constraints} & $P$ \\
+	Conversion-potential equations \eqref{eq:el_conversion_component} & $PN$ \\
+	Kinetic laws for $\dot r_m$ & $N_m$ \\
+	Energy or temperature equation using \eqref{eq:CN_energy_balance} & $1$
+\end{tabular}
+\end{center}
+%
+Thus
+%
+\begin{equation}
+	N_{\rm eq}
+	=PN+dP+1+P+P+PN+P+PN+N_m+1
+	=dP+3PN+3P+N_m+2
+	=N_{\rm unk}.
+	\label{eq:model_summary_equation_count}
+\end{equation}
+%
+This count treats $\mc A_m$ and $\dot c_\xi^\alpha$ as eliminated quantities:
+$\mc A_m$ is substituted from \eqref{eq:model_summary_affinity}, and
+$\dot c_\xi^\alpha$ is substituted from the stoichiometric source term in
+\eqref{eq:model_summary_mass_balance}.  If either is retained as an auxiliary
+unknown, the same number of defining equations is added, so the count is
+unchanged.  For an isothermal model, remove $\theta$ and the energy equation from
+both sides of the count.
 
 \subsection{Classical compositional-flow limit and interpretation of the multipliers}
 \label{sec:classical_compositional_limit}
@@ -1520,21 +1711,22 @@ with the sign convention used here.  Thus equilibrium chemistry, kinetic
 reactive transport, and phase transformation all use the same stoichiometric
 projection; only the closure for $\dot r_m$ changes.
 
-The momentum equations contain an additional term absent from purely kinematic
-Darcy-scale compositional balances,
+The momentum equations contain an additional conversion term absent from purely
+kinematic Darcy-scale compositional balances,
 %
 \begin{equation}
-	\sum_\alpha \dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
+	\sum_\alpha\sum_\xi\dot c_\xi^\alpha
+	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:conversion_momentum_interpretation}
 \end{equation}
 %
-The factor $-\dot c_\xi^\alpha\mbf v_\xi$ is the inertial bookkeeping required
-when mass is removed from or added to a phase moving with velocity $\mbf v_\xi$.
-The gradient term comes from the variation of the current-rate constraint
-$\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ and is therefore the mechanical force
-associated with spatial changes in the conversion potential.  These terms vanish
-or are hidden in classical reservoir models when phase momenta are not solved
-explicitly and the phase velocities are supplied by Darcy laws.
+The term combines the inertial bookkeeping required when mass is removed from or
+added to a moving phase with the gradient force generated by variation of the
+current-rate constraint $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$.  Total
+mass conservation constrains the component source rates, but the explicit form
+above avoids introducing an additional conversion-velocity notation.  These terms
+vanish or are hidden in classical reservoir models when phase momenta are not
+solved explicitly and the phase velocities are supplied by Darcy laws.
 
 Finally, the remaining multipliers have standard constraint interpretations:
 $\lambda$ enforces saturation of the pore volume by the phases,
