@@ -61,10 +61,13 @@ Thus
 	\phi_s^\alpha=\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha} .
 	\label{eq:CN_eta_phi_volume_relation}
 \end{equation}
-The primitive solid component Helmholtz free energies are taken to have the same
-density and composition state variables as the mobile phases,
+For the solid, the primitive component Helmholtz free energies use the physical
+intrinsic density of each solid component, rather than an explicit dependence on
+the mixture intrinsic density $\bar\rho_s$.  Thus the mixture density enters the
+Coleman--Noll calculation through the component-density parametrization
+$\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$:
 \begin{equation}
-	\mathcal{S} = \{\bar{\mbf F}_s^M, a_s, \bar\rho_s,
+	\mathcal{S} = \{\bar{\mbf F}_s^M, a_s, \bar\rho_s^\beta,
 	\theta,\eta_s^\beta \}
 \end{equation}
 %
@@ -72,7 +75,7 @@ density and composition state variables as the mobile phases,
 
 \begin{align}
 	\psi_s^\alpha
-	 & =\psi_s^\alpha(\bar{\mbf F}_s^M, a_s, \bar\rho_s,
+	 & =\psi_s^\alpha(\bar{\mbf F}_s^M, a_s, \bar\rho_s^\alpha,
 	\theta,\eta_s^\beta),
 	\qquad
 	\bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1},
@@ -81,10 +84,22 @@ density and composition state variables as the mobile phases,
 where
 $\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is a
 prescribed stress-free thermal/compositional dilation, not an independent
-thermodynamic state.  Since the Coleman--Noll state variables remain
-$(\bar\rho_s,\eta_s^\beta)$, derivatives of $\bar{\mbf F}_s^\theta$ with respect
-to composition are total derivatives through the derived component volume
-fractions.  Define the state sets
+thermodynamic state.  Since the balance laws still use the mixture variables
+$(\bar\rho_s,\eta_s^\beta)$, density derivatives of the solid energy are
+chain-ruled through $\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$.  In the solid
+specialization used below, a mixture-density change at fixed composition scales
+the component intrinsic densities at fixed component volume fraction:
+\begin{equation}
+	\dot{\bar\rho}_s^\alpha
+	=\frac{\bar\rho_s^\alpha}{\bar\rho_s}\dot{\bar\rho}_s
+	+\sum_\beta
+	\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+	\dot\eta_s^\beta .
+	\label{eq:CN_solid_component_density_rate}
+\end{equation}
+Derivatives of $\bar{\mbf F}_s^\theta$ with respect to composition are also total
+derivatives through the derived component volume fractions.  Define the state
+sets
 \begin{equation}
 	\mc X\in\{\mc S,\mc F,\mc T_s\},
 	\qquad
@@ -153,7 +168,13 @@ For the solid, component additivity gives
 	+\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}\dot{a}_s
 	\notag                                                     \\
 	 & \qquad
-	+\left.\p{\psi_s^\alpha}{\bar\rho_s}\heldfixed{\mc S}\dot{\bar\rho}_s
+	+\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+	\left[
+		\frac{\bar\rho_s^\alpha}{\bar\rho_s}\dot{\bar\rho}_s
+		+\sum_\beta
+		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+		\dot\eta_s^\beta
+		\right]
 	+\sum_\beta\left.\p{\psi_s^\alpha}{\eta_s^\beta}\heldfixed{\mc S}\dot\eta_s^\beta
 	\notag                                                     \\
 	 & \qquad
@@ -322,23 +343,40 @@ contribution.
 			-\rho_s\sum_\alpha\eta_s^\alpha
 			\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
 			\right]\dot a_s
-		+\sum_\xi \left[
-			\frac{\phi_\xi \bar p_\xi}{\bar\rho_\xi}
-			-\rho_\xi\sum_\alpha\eta_\xi^\alpha
-			\left.\p{\psi_\xi^\alpha}{\bar\rho_\xi}\heldfixed{\mc X_\xi}
-			\right]\dot{\bar\rho}_\xi
+		+\left[
+			\frac{\phi_s \bar p_s}{\bar\rho_s}
+			-\rho_s\sum_\alpha\eta_s^\alpha
+			\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+			\frac{\bar\rho_s^\alpha}{\bar\rho_s}
+			\right]\dot{\bar\rho}_s
+		+\sum_l\left[
+			\frac{\phi_l \bar p_l}{\bar\rho_l}
+			-\rho_l\sum_\alpha\eta_l^\alpha
+			\left.\p{\psi_l^\alpha}{\bar\rho_l}\heldfixed{\mc F}
+			\right]\dot{\bar\rho}_l
 		\notag                                               \\
 	       & -\sum_\xi\rho_\xi\sum_\alpha\eta_\xi^\alpha
 		\left[
 			s_\xi^\alpha+\left.\p{\psi_\xi^\alpha}{\theta}\heldfixed{\mc X_\xi}
 			\right]\dot\theta
+		\notag                                               \\
+	       &
 	+\rho_s\sum_\alpha\eta_s^\alpha
 	\mbf H_s^\alpha:
 	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}\dot\theta
 	\notag                                               \\
-	       & -\sum_\xi\rho_\xi\sum_\beta
-		\left.\p{\psi_\xi}{\eta_\xi^\beta}\heldfixed{\mc X_\xi}
-		\dot\eta_\xi^\beta
+	       & -\sum_l\rho_l\sum_\beta
+		\left.\p{\psi_l}{\eta_l^\beta}\heldfixed{\mc F}
+		\dot\eta_l^\beta
+		\notag                                               \\
+	       & -\rho_s\sum_\beta\left[
+			\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+			+\sum_\alpha\eta_s^\alpha
+			\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+			\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+			\right]\dot\eta_s^\beta
+		\notag                                               \\
+	       &
 		+\rho_s\sum_\beta\left[
 		\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
 		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
@@ -346,17 +384,20 @@ contribution.
 			\notag                                               \\
 	       & +\sum_\xi\sum_\beta\left(\frac{\tau_\xi^\beta}{\eta_\xi^\beta}
 			+\pi_\xi\right)\dot\eta_\xi^\beta
-			-\sum_m\left(
-				\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
-				\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
-				\right)\dot r_m
-			\notag                                               \\
-		       & +\lambda\sum_\xi\dot\phi_\xi
-			+\sum_\xi\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
-			-\sum_l\gamma_l\dot\phi_l
-			+\sum_\xi\rho_\xi e_\xi^{\rm int}
-			-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
-			\Bigg\} .
+		\notag                                               \\
+	       & -\sum_m\left(
+			\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
+			\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
+			\right)\dot r_m
+		\notag                                               \\
+	       & +\lambda\sum_\xi\dot\phi_\xi
+		+\sum_\xi\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
+		-\sum_l\gamma_l\dot\phi_l
+		\notag                                               \\
+	       &
+		+\sum_\xi\rho_\xi e_\xi^{\rm int}
+		-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
+		\Bigg\} .
 	\label{eq:CN_solid_collected_entropy}
 \end{align}
 The capillary term is not a new dissipative mechanism.  Since the
@@ -394,15 +435,20 @@ Equivalently,
 	=\pi_\ell .
 	\label{eq:CN_composition_componentwise}
 \end{equation}
-For the solid phase, the same coefficient collection contains the explicit
-stress-free compositional dilation correction from
-\eqref{eq:CN_FM_rate_chain_rule}:
+For the solid phase, the same coefficient collection contains both the
+component-density chain rule and the explicit stress-free compositional dilation
+correction from \eqref{eq:CN_FM_rate_chain_rule}:
 \begin{equation}
 	0=
 	\frac{\tau_s^\beta}{\eta_s^\beta}
 	+\pi_s
 	-\rho_s
-	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+	\left[
+		\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+		+\sum_\alpha\eta_s^\alpha
+		\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+		\right]
 	+\rho_s\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
 	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S},
 	\qquad
@@ -424,12 +470,20 @@ tangent space,
 	\label{eq:CN_composition_projected_restriction}
 \end{equation}
 For the solid, eliminating $\pi_s$ gives the corresponding projected restriction
-with the difference of the dilation corrections retained:
+with the differences of the density-chain and dilation corrections retained:
 \begin{align}
 	 & \rho_s\left(
 	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
 	-\left.\p{\psi_s}{\eta_s^N}\heldfixed{\mc S}
 	\right)
+	+\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+	\left(
+	\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+	-\left.\p{\bar\rho_s^\alpha}{\eta_s^N}\right\vert_{\bar\rho_s}
+	\right)
+	\notag                                                     \\
+	 & \qquad
 	-\rho_s\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
 	\left(
 	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
@@ -477,16 +531,78 @@ undistended intrinsic reference volume of component $\alpha$, then
 	(\bar{\mbf F}_s^M)^{-T}
 	\label{eq:CN_intrinsic_pk_stress}
 \end{equation}
-is the undistended intrinsic first Piola--Kirchhoff stress.  The distension and
-pressure coefficients give
-\begin{align}
+is the undistended intrinsic first Piola--Kirchhoff stress.  The distension
+coefficient gives
+\begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-	 & = \rho_s a_s \sum_\alpha\eta_s^\alpha
+	= \rho_s a_s \sum_\alpha\eta_s^\alpha
 	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S},
-	\label{eq:CN_distension_force_definition}             \\
-	\bar p_\xi
-	 & =\left(\bar\rho_\xi\right)^2\sum_\alpha\eta_\xi^\alpha
-	\left.\p{\psi_\xi^\alpha}{\bar\rho_\xi}\heldfixed{\mc X_\xi} .
+	\label{eq:CN_distension_force_definition}
+\end{equation}
+The solid pressure relation follows from the same coefficient collection.  The
+component mass identity gives
+%
+\[
+	\rho_s^\alpha
+	=\phi_s\bar\rho_s\eta_s^\alpha
+	=\phi_s\phi_s^\alpha\bar\rho_s^\alpha,
+	\qquad
+	\eta_s^\alpha\bar\rho_s
+	=\phi_s^\alpha\bar\rho_s^\alpha .
+\]
+%
+Since $\psi_s^\alpha$ depends on the component intrinsic density rather than
+directly on $\bar\rho_s$, the part of the solid Helmholtz rate proportional to
+$\dot{\bar\rho}_s$ is
+%
+\[
+	\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+	\frac{\bar\rho_s^\alpha}{\bar\rho_s}\dot{\bar\rho}_s .
+\]
+%
+The pressure-power term contributes
+$(\phi_s\bar p_s/\bar\rho_s)\dot{\bar\rho}_s$.  Therefore the coefficient of the
+independent rate $\dot{\bar\rho}_s$ is
+%
+\[
+	0=
+	\frac{\phi_s\bar p_s}{\bar\rho_s}
+	-\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+	\frac{\bar\rho_s^\alpha}{\bar\rho_s}.
+\]
+%
+Using $\rho_s=\phi_s\bar\rho_s$ and
+$\eta_s^\alpha\bar\rho_s=\phi_s^\alpha\bar\rho_s^\alpha$ gives
+%
+\[
+	\bar p_s
+	=\sum_\alpha\phi_s^\alpha
+	\left(\bar\rho_s^\alpha\right)^2
+	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}.
+\]
+%
+Thus, defining each component intrinsic pressure by
+%
+\[
+	\bar p_s^\alpha
+	=\left(\bar\rho_s^\alpha\right)^2
+	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S},
+\]
+%
+the pressure coefficients give
+\begin{align}
+	\bar p_s
+	 & =\sum_\alpha\phi_s^\alpha\bar p_s^\alpha,
+	\qquad
+	\bar p_s^\alpha
+	=\left(\bar\rho_s^\alpha\right)^2
+	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S},
+	\notag                                                   \\
+	\bar p_l
+	 & =\left(\bar\rho_l\right)^2\sum_\alpha\eta_l^\alpha
+	\left.\p{\psi_l^\alpha}{\bar\rho_l}\heldfixed{\mc F} .
 	\label{eq:CN_phase_pressure_definition}
 \end{align}
 The entropy coefficient gives
@@ -499,8 +615,9 @@ The entropy coefficient gives
 	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s} .
 	\label{eq:CN_entropy_definitions}
 \end{equation}
-The solid composition restrictions above are the place where stress-free
-compositional dilation modifies the usual composition coefficient.
+The solid composition restrictions above are the place where component-density
+parametrization and stress-free compositional dilation modify the usual
+composition coefficient.
 
 Finally, using $\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m$, the
 source term in \eqref{eq:CN_solid_collected_entropy} becomes
