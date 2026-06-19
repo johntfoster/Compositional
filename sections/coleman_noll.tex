@@ -343,7 +343,8 @@ contribution.
 			-\rho_s\sum_\alpha\eta_s^\alpha
 			\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
 			\right]\dot a_s
-		+\left[
+		\notag                                               \\
+	       & +\left[
 			\frac{\phi_s \bar p_s}{\bar\rho_s}
 			-\rho_s\sum_\alpha\eta_s^\alpha
 			\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
@@ -355,31 +356,30 @@ contribution.
 			\left.\p{\psi_l^\alpha}{\bar\rho_l}\heldfixed{\mc F}
 			\right]\dot{\bar\rho}_l
 		\notag                                               \\
-	       & -\sum_\xi\rho_\xi\sum_\alpha\eta_\xi^\alpha
-		\left[
+	       & +\left[
+			-\sum_\xi\rho_\xi\sum_\alpha\eta_\xi^\alpha
+			\left(
 			s_\xi^\alpha+\left.\p{\psi_\xi^\alpha}{\theta}\heldfixed{\mc X_\xi}
+			\right)
+			+\rho_s\sum_\alpha\eta_s^\alpha
+			\mbf H_s^\alpha:
+			\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}
 			\right]\dot\theta
-		\notag                                               \\
-	       &
-	+\rho_s\sum_\alpha\eta_s^\alpha
-	\mbf H_s^\alpha:
-	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}\dot\theta
 	\notag                                               \\
 	       & -\sum_l\rho_l\sum_\beta
 		\left.\p{\psi_l}{\eta_l^\beta}\heldfixed{\mc F}
 		\dot\eta_l^\beta
 		\notag                                               \\
-	       & -\rho_s\sum_\beta\left[
-			\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
-			+\sum_\alpha\eta_s^\alpha
+	       & +\rho_s\sum_\beta\left[
+			-\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+			-\sum_\alpha\eta_s^\alpha
 			\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
 			\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
-			\right]\dot\eta_s^\beta
+			\right.
 		\notag                                               \\
-	       &
-		+\rho_s\sum_\beta\left[
-		\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
-		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+	       & \qquad\left.
+			+\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
+			\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
 			\right]\dot\eta_s^\beta
 			\notag                                               \\
 	       & +\sum_\xi\sum_\beta\left(\frac{\tau_\xi^\beta}{\eta_\xi^\beta}
@@ -390,8 +390,9 @@ contribution.
 			\left(\psi_\xi^\alpha+L_\xi^\alpha\right)
 			\right)\dot r_m
 		\notag                                               \\
-	       & +\lambda\sum_\xi\dot\phi_\xi
-		+\sum_\xi\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
+	       & +\sum_\xi\left(
+			\lambda+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}
+			\right)\dot\phi_\xi
 		-\sum_l\gamma_l\dot\phi_l
 		\notag                                               \\
 	       &
