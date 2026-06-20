@@ -18,18 +18,16 @@ we may add identically vanishing constraint-rate terms before collecting
 coefficients.  Composition enters here because the free energies depend explicitly
 on $\eta_\xi^\alpha$; its rate is therefore restricted to the tangent space of
 the mass-fraction constraint,
-\begin{equation}
+\[
 	\sum_\alpha\eta_\xi^\alpha=1,
 	\qquad
 	\sum_\alpha\dot\eta_\xi^\alpha=0 .
-	\label{eq:CN_composition_tangent_constraint}
-\end{equation}
+\]
 
 For each phase/component pair let
-\begin{equation}
+\[
 	e_\xi^\alpha=\psi_\xi^\alpha+\theta s_\xi^\alpha
-	\label{eq:CN_legendre}
-\end{equation}
+\]
 be the Legendre relation.  We write each phase free energy as a mass-specific
 phase potential
 \begin{equation}
@@ -42,7 +40,7 @@ For the solid phase we also introduce the component volume fraction within the
 solid phase, denoted $\phi_s^\alpha$.  It is not an independent thermodynamic
 state variable in the Coleman--Noll derivatives; it is a derived volume-weight
 used later to express skeleton mixture rules:
-\begin{equation}
+\[
 	\rho_s^\alpha
 	=\phi_s\bar\rho_s\eta_s^\alpha
 	=\phi_s\phi_s^\alpha\bar\rho_s^\alpha,
@@ -50,37 +48,37 @@ used later to express skeleton mixture rules:
 	\sum_\alpha\eta_s^\alpha=1,
 	\qquad
 	\sum_\alpha\phi_s^\alpha=1 .
-	\label{eq:CN_solid_component_volume_fraction}
-\end{equation}
+\]
 Thus
-\begin{equation}
-	\bar\rho_s=\sum_\alpha\phi_s^\alpha\bar\rho_s^\alpha,
-	\qquad
-	\eta_s^\alpha=\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\bar\rho_s},
-	\qquad
-	\phi_s^\alpha=\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha} .
-	\label{eq:CN_eta_phi_volume_relation}
-\end{equation}
+\[
+	\begin{aligned}
+		\bar\rho_s
+		 & =\sum_\alpha\phi_s^\alpha\bar\rho_s^\alpha, \\
+		\eta_s^\alpha
+		 & =\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\bar\rho_s}, \\
+		\phi_s^\alpha
+		 & =\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha}.
+	\end{aligned}
+\]
 For the solid, the primitive component Helmholtz free energies use the physical
 intrinsic density of each solid component, rather than an explicit dependence on
 the mixture intrinsic density $\bar\rho_s$.  Thus the mixture density enters the
 Coleman--Noll calculation through the component-density parametrization
 $\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$:
-\begin{equation}
+\[
 	\mathcal{S} = \{\bar{\mbf F}_s^M, a_s, \bar\rho_s^\beta,
 	\theta,\eta_s^\beta \}
-\end{equation}
+\]
 %
 
 
-\begin{align}
+\begin{align*}
 	\psi_s^\alpha
 	 & =\psi_s^\alpha(\bar{\mbf F}_s^M, a_s, \bar\rho_s^\alpha,
 	\theta,\eta_s^\beta),
 	\qquad
-	\bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1},
-	\label{eq:CN_component_free_energy_arguments}
-\end{align}
+	\bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1}.
+\end{align*}
 where
 $\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is a
 prescribed stress-free thermal/compositional dilation, not an independent
@@ -89,47 +87,21 @@ $(\bar\rho_s,\eta_s^\beta)$, density derivatives of the solid energy are
 chain-ruled through $\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$.  In the solid
 specialization used below, a mixture-density change at fixed composition scales
 the component intrinsic densities at fixed component volume fraction:
-\begin{equation}
+\[
 	\dot{\bar\rho}_s^\alpha
 	=\frac{\bar\rho_s^\alpha}{\bar\rho_s}\dot{\bar\rho}_s
 	+\sum_\beta
 	\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
 	\dot\eta_s^\beta .
-	\label{eq:CN_solid_component_density_rate}
-\end{equation}
+\]
 Derivatives of $\bar{\mbf F}_s^\theta$ with respect to composition are also total
 derivatives through the derived component volume fractions.  Define the state
 sets
-\begin{equation}
+\[
 	\mc X\in\{\mc S,\mc F,\mc T_s\},
 	\qquad
 	\mc T_s=\{\theta,\phi_s^\beta\}.
-	\label{eq:CN_fixed_eta_state_set}
-\end{equation}
-When a derivative is written for a generic phase, let
-\begin{equation}
-	\mc X_\xi =
-	\begin{cases}
-		\mc S, & \xi=s,    \\
-		\mc F, & \xi=\ell,
-	\end{cases}
-	\label{eq:CN_phase_state_set}
-\end{equation}
-We use the convention that
-\begin{equation}
-	\left.\p{\Gamma_\xi}{z}\heldfixed{\mc X}
-	\label{eq:CN_held_fixed_convention}
-\end{equation}
-denotes differentiation with respect to $z$ while holding fixed all other
-members of the state set $\mc X$.
-We write
-\begin{equation}
-	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	=\sum_\gamma
-	\left.\p{\bar{\mbf F}_s^\theta}{\phi_s^\gamma}\heldfixed{\mc T_s}
-	\left.\p{\phi_s^\gamma}{\eta_s^\beta}\heldfixed{\mc S} .
-	\label{eq:CN_Ftheta_eta_chain}
-\end{equation}
+\]
 For the mobile fluid phases, we postulate the Coleman--Noll state variables
 \begin{equation}
 	\mc F
@@ -138,6 +110,27 @@ For the mobile fluid phases, we postulate the Coleman--Noll state variables
 	\psi_\ell^\alpha=\psi_\ell^\alpha(\mc F) .
 	\label{eq:CN_fluid_state_variables}
 \end{equation}
+When a derivative is written for a generic phase, let
+\[
+	\mc X_\xi =
+	\begin{cases}
+		\mc S, & \xi=s,    \\
+		\mc F, & \xi=\ell,
+	\end{cases}
+\]
+We use the convention that
+\[
+	\left.\p{\Gamma_\xi}{z}\heldfixed{\mc X}
+\]
+denotes differentiation with respect to $z$ while holding fixed all other
+members of the state set $\mc X$.
+We write
+\[
+	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+	=\sum_\gamma
+	\left.\p{\bar{\mbf F}_s^\theta}{\phi_s^\gamma}\heldfixed{\mc T_s}
+	\left.\p{\phi_s^\gamma}{\eta_s^\beta}\heldfixed{\mc S} .
+\]
 Thus the fluid-phase free-energy rates entering the entropy inequality are
 \begin{align}
 	\sum_\ell\sum_\alpha\rho_\ell^\alpha\dot\psi_\ell^\alpha
