@@ -18,16 +18,18 @@ we may add identically vanishing constraint-rate terms before collecting
 coefficients.  Composition enters here because the free energies depend explicitly
 on $\eta_\xi^\alpha$; its rate is therefore restricted to the tangent space of
 the mass-fraction constraint,
-\[
+\begin{equation}
 	\sum_\alpha\eta_\xi^\alpha=1,
 	\qquad
 	\sum_\alpha\dot\eta_\xi^\alpha=0 .
-\]
+	\label{eq:CN_mass_fraction_tangent_constraint}
+\end{equation}
 
 For each phase/component pair let
-\[
+\begin{equation}
 	e_\xi^\alpha=\psi_\xi^\alpha+\theta s_\xi^\alpha
-\]
+	\label{eq:CN_component_legendre_relation}
+\end{equation}
 be the Legendre relation.  We write each phase free energy as a mass-specific
 phase potential
 \begin{equation}
@@ -40,7 +42,7 @@ For the solid phase we also introduce the component volume fraction within the
 solid phase, denoted $\phi_s^\alpha$.  It is not an independent thermodynamic
 state variable in the Coleman--Noll derivatives; it is a derived volume-weight
 used later to express skeleton mixture rules:
-\[
+\begin{equation}
 	\rho_s^\alpha
 	=\phi_s\bar\rho_s\eta_s^\alpha
 	=\phi_s\phi_s^\alpha\bar\rho_s^\alpha,
@@ -48,9 +50,10 @@ used later to express skeleton mixture rules:
 	\sum_\alpha\eta_s^\alpha=1,
 	\qquad
 	\sum_\alpha\phi_s^\alpha=1 .
-\]
+	\label{eq:CN_solid_component_volume_fraction_identity}
+\end{equation}
 Thus
-\[
+\begin{equation}
 	\begin{aligned}
 		\bar\rho_s
 		 & =\sum_\alpha\phi_s^\alpha\bar\rho_s^\alpha, \\
@@ -59,26 +62,31 @@ Thus
 		\phi_s^\alpha
 		 & =\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha}.
 	\end{aligned}
-\]
+	\label{eq:CN_solid_intrinsic_density_identities}
+\end{equation}
 For the solid, the primitive component Helmholtz free energies use the physical
 intrinsic density of each solid component, rather than an explicit dependence on
 the mixture intrinsic density $\bar\rho_s$.  Thus the mixture density enters the
 Coleman--Noll calculation through the component-density parametrization
 $\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$:
-\[
+\begin{equation}
 	\mathcal{S} = \{\bar{\mbf F}_s^M, a_s, \bar\rho_s^\beta,
 	\theta,\eta_s^\beta \}
-\]
+	\label{eq:CN_solid_state_set}
+\end{equation}
 %
 
 
-\begin{align*}
+\begin{equation}
+\begin{aligned}
 	\psi_s^\alpha
 	 & =\psi_s^\alpha(\bar{\mbf F}_s^M, a_s, \bar\rho_s^\alpha,
 	\theta,\eta_s^\beta),
 	\qquad
 	\bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1}.
-\end{align*}
+\end{aligned}
+	\label{eq:CN_solid_component_free_energy_state}
+\end{equation}
 where
 $\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is a
 prescribed stress-free thermal/compositional dilation, not an independent
@@ -87,21 +95,23 @@ $(\bar\rho_s,\eta_s^\beta)$, density derivatives of the solid energy are
 chain-ruled through $\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$.  In the solid
 specialization used below, a mixture-density change at fixed composition scales
 the component intrinsic densities at fixed component volume fraction:
-\[
+\begin{equation}
 	\dot{\bar\rho}_s^\alpha
 	=\frac{\bar\rho_s^\alpha}{\bar\rho_s}\dot{\bar\rho}_s
 	+\sum_\beta
 	\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
 	\dot\eta_s^\beta .
-\]
+	\label{eq:CN_solid_density_rate_chain_rule}
+\end{equation}
 Derivatives of $\bar{\mbf F}_s^\theta$ with respect to composition are also total
 derivatives through the derived component volume fractions.  Define the state
 sets
-\[
+\begin{equation}
 	\mc X\in\{\mc S,\mc F,\mc T_s\},
 	\qquad
 	\mc T_s=\{\theta,\phi_s^\beta\}.
-\]
+	\label{eq:CN_state_set_collection}
+\end{equation}
 For the mobile fluid phases, we postulate the Coleman--Noll state variables
 \begin{equation}
 	\mc F
@@ -111,26 +121,29 @@ For the mobile fluid phases, we postulate the Coleman--Noll state variables
 	\label{eq:CN_fluid_state_variables}
 \end{equation}
 When a derivative is written for a generic phase, let
-\[
+\begin{equation}
 	\mc X_\xi =
 	\begin{cases}
 		\mc S, & \xi=s,    \\
 		\mc F, & \xi=\ell,
 	\end{cases}
-\]
+	\label{eq:CN_generic_state_set}
+\end{equation}
 We use the convention that
-\[
+\begin{equation}
 	\left.\p{\Gamma_\xi}{z}\heldfixed{\mc X}
-\]
+	\label{eq:CN_held_fixed_notation}
+\end{equation}
 denotes differentiation with respect to $z$ while holding fixed all other
 members of the state set $\mc X$.
 We write
-\[
+\begin{equation}
 	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
 	=\sum_\gamma
 	\left.\p{\bar{\mbf F}_s^\theta}{\phi_s^\gamma}\heldfixed{\mc T_s}
 	\left.\p{\phi_s^\gamma}{\eta_s^\beta}\heldfixed{\mc S} .
-\]
+	\label{eq:CN_thermal_dilation_composition_chain_rule}
+\end{equation}
 Thus the fluid-phase free-energy rates entering the entropy inequality are
 \begin{align}
 	\sum_\ell\sum_\alpha\rho_\ell^\alpha\dot\psi_\ell^\alpha
@@ -210,13 +223,14 @@ elastic stress power to the mobile phases, so
 The reversible interfacial energy used in the variational formulation must also
 be included in the entropy bookkeeping.  For the mobile phases,
 %
-\[
+\begin{equation}
 	\psi_\gamma^{\rm vol}
 	=\phi\gamma(S_a,S_g),
 	\qquad
 	\dot\psi_\gamma^{\rm vol}
 	=\sum_l\gamma_l\dot\phi_l,
-\]
+	\label{eq:CN_interfacial_helmholtz_rate}
+\end{equation}
 %
 where $\gamma_l=\partial(\phi\gamma)/\partial\phi_l$ are the primitive
 interfacial potentials introduced in \eqref{eq:primitive_gamma_derivatives}.
@@ -397,10 +411,11 @@ contribution.
 The capillary term is not a new dissipative mechanism.  Since the
 volume-fraction rates are constrained, the mobile-phase coefficient is the
 reversible condition
-\[
+\begin{equation}
 	0=\lambda+\sum_\alpha\frac{\tau_l^\alpha}{\phi_l}-\gamma_l
 	=\lambda+\bar p_l-\gamma_l .
-\]
+	\label{eq:CN_capillary_reversible_condition}
+\end{equation}
 Thus the interfacial energy supplies the capillary pressure construction and
 equivalent pressure relation, while leaving no residual entropy production for
 equilibrium capillarity.  A dynamic or hysteretic capillary law would instead
@@ -502,12 +517,15 @@ The deformation coefficient gives
 	(\bar{\mbf F}_s^M)^T .
 	\label{eq:CN_stress_definition}
 \end{align}
-The intrinsic skeleton stress may therefore be written as the component volume
-fraction average
+The component partial Cauchy stress uses the current component partial density.
+The intrinsic component stress is the corresponding normalized stress within the
+solid phase:
 \begin{equation}
-	\bar{\bs\sigma}_s'
-	=\frac{1}{\phi_s}\bs\sigma_s'
-	=\sum_\alpha\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha},
+	\bs\sigma_s^{\prime\alpha}
+	=\rho_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
+	(\bar{\mbf F}_s^M)^T
+	=\phi_s\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha},
 	\qquad
 	\bar{\bs\sigma}_s^{\prime\alpha}
 	=\bar\rho_s^\alpha
@@ -515,17 +533,24 @@ fraction average
 	(\bar{\mbf F}_s^M)^T .
 	\label{eq:CN_intrinsic_component_stress}
 \end{equation}
-Equivalently, if $\bar\rho_{s0}^\alpha\psi_s^\alpha$ is the energy per
-undistended intrinsic reference volume of component $\alpha$, then
+Thus
 \begin{equation}
-	\bar{\mbf P}_s^{\prime\alpha}
-	=\bar\rho_{s0}^\alpha
+	\bs\sigma_s'
+	=\sum_\alpha\bs\sigma_s^{\prime\alpha}
+	=\phi_s\sum_\alpha\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha}.
+	\label{eq:CN_solid_partial_stress_sum}
+\end{equation}
+Equivalently, if $\rho_{s0}^\alpha\psi_s^\alpha$ is the energy per component
+reference mixture volume, then
+\begin{equation}
+	\mbf P_s^{\prime\alpha}
+	=\rho_{s0}^\alpha
 	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
-	=\bar J_s \bar{\bs\sigma}_s^{\prime\alpha}
+	=J_s \bs\sigma_s^{\prime\alpha}
 	(\bar{\mbf F}_s^M)^{-T}
 	\label{eq:CN_intrinsic_pk_stress}
 \end{equation}
-is the undistended intrinsic first Piola--Kirchhoff stress.  The distension
+is the component first Piola--Kirchhoff stress.  The distension
 coefficient gives
 \begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
@@ -536,54 +561,59 @@ coefficient gives
 The solid pressure relation follows from the same coefficient collection.  The
 component mass identity gives
 %
-\[
+\begin{equation}
 	\rho_s^\alpha
 	=\phi_s\bar\rho_s\eta_s^\alpha
 	=\phi_s\phi_s^\alpha\bar\rho_s^\alpha,
 	\qquad
 	\eta_s^\alpha\bar\rho_s
 	=\phi_s^\alpha\bar\rho_s^\alpha .
-\]
+	\label{eq:CN_solid_component_mass_identity}
+\end{equation}
 %
 Since $\psi_s^\alpha$ depends on the component intrinsic density rather than
 directly on $\bar\rho_s$, the part of the solid Helmholtz rate proportional to
 $\dot{\bar\rho}_s$ is
 %
-\[
+\begin{equation}
 	\rho_s\sum_\alpha\eta_s^\alpha
 	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
 	\frac{\bar\rho_s^\alpha}{\bar\rho_s}\dot{\bar\rho}_s .
-\]
+	\label{eq:CN_solid_density_rate_pressure_coefficient}
+\end{equation}
 %
 The pressure-power term contributes
 $(\phi_s\bar p_s/\bar\rho_s)\dot{\bar\rho}_s$.  Therefore the coefficient of the
 independent rate $\dot{\bar\rho}_s$ is
 %
-\[
+\begin{equation}
 	0=
 	\frac{\phi_s\bar p_s}{\bar\rho_s}
 	-\rho_s\sum_\alpha\eta_s^\alpha
 	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
 	\frac{\bar\rho_s^\alpha}{\bar\rho_s}.
-\]
+	\label{eq:CN_solid_density_coefficient_zero}
+\end{equation}
 %
 Using $\rho_s=\phi_s\bar\rho_s$ and
 $\eta_s^\alpha\bar\rho_s=\phi_s^\alpha\bar\rho_s^\alpha$ gives
 %
-\[
+\begin{equation}
 	\bar p_s
 	=\sum_\alpha\phi_s^\alpha
 	\left(\bar\rho_s^\alpha\right)^2
 	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}.
-\]
+	\label{eq:CN_solid_pressure_component_sum}
+\end{equation}
 %
 Thus, defining each component intrinsic pressure by
 %
-\[
+\begin{equation}
 	\bar p_s^\alpha
 	=\left(\bar\rho_s^\alpha\right)^2
 	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S},
-\]
+	\label{eq:CN_component_intrinsic_pressure_definition}
+\end{equation}
 %
 the pressure coefficients give
 \begin{align}

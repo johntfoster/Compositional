@@ -2,27 +2,31 @@
 \section{Material form of conservation of mass}
 Given a differential mass ${\rm d}m^\al_\xi$ of component $\al$ in phase $\xi$, define the component partial density per current mixture volume by
 %
-\[
+\begin{equation}
 	\rho^\al_\xi(\mbf{x}, t) = \frac{{\rm d}m^\al_\xi}{\dv},
-\]
+	\label{eq:component_partial_density_definition}
+\end{equation}
 %
 where $\dv = {\rm d}x_1 {\rm d}x_2 {\rm d}x_3$ is a current-configuration volume element of the mixture.  The current configuration is a common mixture volume occupied by all components simultaneously.  Each phase $\xi$ motion is tracked from its own reference coordinates $\mbf{X}_\xi$ and reference volume element
 %
-\[
+\begin{equation}
 	\dVxi = ({\rm d}X_1)_\xi({\rm d}X_2)_\xi({\rm d}X_3)_\xi.
-\]
+	\label{eq:phase_reference_volume_element}
+\end{equation}
 %
 The phase reference coordinates are related to the common current coordinates by a one-to-one, invertible, and continuously differentiable map on the region where that phase is present,
 %
-\[
+\begin{equation}
 	\mbf{x} = \bs{\chi}_\xi(\mbf{X}_\xi,t),
-\]
+	\label{eq:phase_motion_map}
+\end{equation}
 %
 with phase velocity $\mbf{v}_\xi = \partial \bs{\chi}_\xi/\partial t$ and Jacobian
 %
-\[
+\begin{equation}
 	J_\xi = \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right).
-\]
+	\label{eq:phase_jacobian_definition}
+\end{equation}
 %
 Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial (evaluted at $\mbf{x}(t=0) = \mbf{X}_\xi$) component partial density, and let $\mathcal{C}^\al_\xi(\mbf{X}_\xi,t)$ denote the mass of component $\alpha$ added to phase $\xi$ per unit phase reference volume by any internal conversion mechanism.  These mechanisms include both chemical reactions and pure phase transformations.  Conservation of mass for component $\al$ in phase $\xi$ over an arbitrary material region can then be written as
 %
@@ -46,11 +50,12 @@ Here $\mc{B}$ is the common current mixture region corresponding, through the ph
 %
 The material time derivative of a quantity $\square_\xi$ following the velocity of phase $\zeta$ is
 %
-\[
+\begin{equation}
 	\frac{D_\zeta \square_\xi}{Dt}
 	= \frac{\partial \square_\xi}{\partial t}
 	+ \mbf{v}_\zeta \cdot\nabla_{\mbf{x}}\square_\xi,
-\]
+	\label{eq:phase_material_time_derivative_definition}
+\end{equation}
 %
 and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the material time derivative following phase $\xi$.  Taking the material time derivative of \eqref{eq:material_mass_2} following phase $\xi$ and using $\dot{J}_\xi = J_\xi \nabla_\mbf{x}\cdot\mbf{v}_\xi$ gives
 %
@@ -65,9 +70,10 @@ and we use the shorthand $\dot\square_\xi = D_\xi \square_\xi/Dt$ for the materi
 %
 We define the current production rate per unit current mixture volume by
 %
-\[
+\begin{equation}
 	\dot{c}^\al_\xi(\mbf{x},t) = \frac{\dot{\mc{C}}^\al_\xi}{J_\xi}.
-\]
+	\label{eq:current_conversion_rate_definition}
+\end{equation}
 %
 Expanding \eqref{eq:component_material_mass} gives the spatial component mass balance of the $\xi$ phase
 %
@@ -92,11 +98,12 @@ Now introduce the phase partial density $\rho_\xi = \sum_\alpha \rho_\xi^\alpha$
 %
 The phase volume fraction is defined by $\phi_\xi = \dv_\xi/\dv$, and the intrinsic density by $\bar\rho_\xi = {\rm d}m_\xi/\dv_\xi$, so that
 %
-\[
+\begin{equation}
 	\rho_\xi = \phi_\xi \bar\rho_\xi,
 	\qquad
 	\rho_\xi^\alpha = \phi_\xi \bar\rho_\xi \eta^\alpha_\xi.
-\]
+	\label{eq:phase_partial_density_representation}
+\end{equation}
 %
 Substituting this representation into \eqref{eq:component_spatial_mass} gives
 %
