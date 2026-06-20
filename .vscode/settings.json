@@ -2,8 +2,8 @@
   "latex-workshop.latex.rootFile.useSubFile": false,
   "latex-workshop.latex.outDir": "%DIR%/build",
   "latex-workshop.latex.autoBuild.run": "onSave",
-  "latex-workshop.latex.autoClean.run": "onBuilt",
-  "latex-workshop.latex.recipe.default": "lastUsed",
+  "latex-workshop.latex.autoClean.run": "never",
+  "latex-workshop.latex.recipe.default": "first",
   "latex-workshop.latex.recipes": [
     {
       "name": "pdflatex -> bibtex -> pdflatex x2",
@@ -35,7 +35,7 @@
       "command": "/usr/bin/fish",
       "args": [
         "-lc",
-        "bibtex \"%OUTDIR%/%DOCFILE%\""
+        "cd \"%OUTDIR%\"; env BIBINPUTS=\"../:\" BSTINPUTS=\"../:\" bibtex \"%DOCFILE%\""
       ]
     }
   ],
