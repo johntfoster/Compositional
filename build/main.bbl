@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{callen1985thermodynamics}
+Herbert~B. Callen.
+\newblock {\em Thermodynamics and an Introduction to Thermostatistics}.
+\newblock John Wiley and Sons, 2 edition, 1985.
+
+\bibitem{drumheller1980thermomechanical}
+D.S. Drumheller and A.~Bedford.
+\newblock Thermomechanical theory for reacting immiscible mixtures.
+\newblock {\em Arch. Ration. Mech. Anal.;(Germany, Federal Republic of)},
+  73(3), 1980.
+
+\bibitem{liu1972method}
+I-Shih Liu.
+\newblock Method of lagrange multipliers for exploitation of the entropy
+  principle.
+\newblock {\em Archive for Rational Mechanics and Analysis}, 46(2):131--148,
+  1972.
+
+\end{thebibliography}

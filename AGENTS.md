@@ -27,6 +27,7 @@
 
 - The TeX language server `texlab` is available. Use direct LSP diagnostics, definitions, references, document symbols, hovers, renames, and code actions when precise LaTeX navigation or validation is needed.
 - For compile or editor-style issues, prefer texlab diagnostics, LaTeX Workshop output, and narrow source edits before making broader changes. Make narrow source edits that address the reported line, label, macro, or environment.
+- When a LaTeX build is needed and VS Code LaTeX Workshop tooling is available, trigger the build through LaTeX Workshop rather than invoking a raw LaTeX command directly.
 - If aux data or equation numbering is stale, compile from `main.tex` or refresh the relevant preview/index before relying on rendered numbers.
 
 ## Local research retrieval
