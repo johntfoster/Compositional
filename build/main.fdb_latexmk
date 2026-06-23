@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex build/main"] 1782230744 "build/main.aux" "build/main.bbl" "build/main" 1782230745
+["bibtex build/main"] 1782237603 "build/main.aux" "build/main.bbl" "build/main" 1782237604
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   "all.bib" 1782230521 2487 1366808c41dc3fb77355e969b78cc5d6 ""
-  "build/main.aux" 1782230745 36591 3dcdd6e1de8e7bd7541072a98abc7261 "pdflatex"
+  "build/main.aux" 1782237604 36994 375c380dee50d76a3700f65b4c1c8e61 "pdflatex"
   (generated)
   "build/main.bbl"
   "build/main.blg"
-["pdflatex"] 1782230745 "main.tex" "build/main.pdf" "main" 1782230745
+["pdflatex"] 1782237603 "main.tex" "build/main.pdf" "main" 1782237604
   "/etc/texmf/web2c/texmf.cnf" 1751248657 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1246382020 916 f87d7c45f9c908e672703b83b72241a3 ""
@@ -227,14 +227,14 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1776786468 325460 1cee8f8dee02d4e22d8f26e9f8df0176 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1781281926 1455467 a69376171cda13cb87b96ea6887f4427 ""
-  "build/main.aux" 1782230745 36591 3dcdd6e1de8e7bd7541072a98abc7261 "pdflatex"
-  "build/main.bbl" 1782230744 1341 a563fc4a88fa187c2a016e1d6c1c992b "bibtex build/main"
-  "build/main.out" 1782230745 5851 95456428a04df4aa03441b87b6e9a509 "pdflatex"
+  "build/main.aux" 1782237604 36994 375c380dee50d76a3700f65b4c1c8e61 "pdflatex"
+  "build/main.bbl" 1782237603 1341 a563fc4a88fa187c2a016e1d6c1c992b "bibtex build/main"
+  "build/main.out" 1782237604 5851 95456428a04df4aa03441b87b6e9a509 "pdflatex"
   "defs.tex" 1781659639 2791 d0e1555bd1d8382f8060d8e80397ecdf ""
   "main.tex" 1781756490 1335 b76c6ec0107713ea374a20d55895b019 ""
-  "sections/coleman_noll.tex" 1782230736 33961 3c4a1c94b00e86d9ea71fe6b91dc8b41 ""
+  "sections/coleman_noll.tex" 1782237595 34387 81f1c77095b00f1892a7581f5fe23bae ""
   "sections/material_mass.tex" 1781923416 6547 c791e66cb66b6985000dbe53f6af7ada ""
-  "sections/variational_derivation.tex" 1782230387 88844 5803e0b914e5170de50a8b5aaa41e109 ""
+  "sections/variational_derivation.tex" 1782237435 89153 b333955048475c5433af0657c0674eac ""
   (generated)
   "build/main.aux"
   "build/main.log"

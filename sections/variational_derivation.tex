@@ -801,17 +801,23 @@ one may set $\mbf A_s=a_s^{1/3}\mbf I$, giving
 	\label{eq:isotropic_distension_fbar}
 \end{equation}
 %
-The scalar $a_s$ may be a pore-architecture response
-$a_s=a_s(\theta,\eta_s^\beta,\ldots)$ in addition to carrying the mechanical or
-reaction-induced distension implied by the mass balance.  This dependence is
-not the intrinsic thermal expansion of the mineral grains.  It represents the
-temperature- and composition-dependent change of pore volume, packing, and
-solid allocation inside the mixture volume.  Thermo-poroelastic treatments of
-heated saturated rocks make precisely this distinction by assigning a thermal
-expansion coefficient to the pore volume separately from the solid grains, so
-that thermal pressurization depends on the mismatch among fluid, pore-volume,
-and grain expansions~\cite{palciauskas1982thermally,ghabezloo2009stress,ghabezloo2011micromechanics}.
-Here that pore-volume part is carried by $a_s$, while
+We split the scalar distension multiplicatively into a mechanically supplied
+part and a reversible thermal--compositional pore-architecture factor,
+\begin{equation}
+	a_s=a_s^m a_s^\theta(\theta,\phi_s^\beta),
+	\qquad
+	a_s^\theta>0 .
+	\label{eq:solid_scalar_distension_split}
+\end{equation}
+The factor $a_s^\theta$ is not the intrinsic thermal expansion of the mineral
+grains.  It is a reversible stress-free pore-architecture, or pore-volume,
+factor describing the temperature- and solid-volume-fraction-dependent change
+of pore volume, packing, and solid allocation inside the mixture volume.
+Thermo-poroelastic treatments of heated saturated rocks make precisely this
+distinction by assigning a thermal expansion coefficient to the pore volume
+separately from the solid grains, so that thermal pressurization depends on the
+mismatch among fluid, pore-volume, and grain expansions~\cite{palciauskas1982thermally,ghabezloo2009stress,ghabezloo2011micromechanics}.
+Here that pore-volume part is carried by $a_s^\theta$, while
 $\bar{\mbf F}_s^\theta$ below carries the stress-free intrinsic thermal
 dilation of the true solid skeleton.
 
@@ -922,8 +928,10 @@ where $\eta_s^\beta$ denotes the full list of solid component mass fractions.
 Temperature dependence of the free energy supplies entropy and heat capacity in
 the usual way, while the dependence of $\bar{\mbf F}_s^\theta$ on $\theta$ and
 the component volume fractions $\phi_s^\beta$ encodes stress-free intrinsic
-thermal expansion.  Any thermal or compositional dependence of $a_s$ is kept as
-the separate pore-architecture contribution described above.  For example,
+thermal expansion.  Any thermal or compositional dependence of scalar distension
+enters only through the reversible factor
+$a_s^\theta(\theta,\phi_s^\beta)$ in \eqref{eq:solid_scalar_distension_split},
+not through a direct dependence on the mass fractions.  For example,
 water in a hydrate or ice-like solid would be represented by
 $\psi_s^{\mathrm{H_2O}}$, whereas liquid water would have a different function
 $\psi_\ell^{\mathrm{H_2O}}$.  The thermodynamic restrictions that make these
