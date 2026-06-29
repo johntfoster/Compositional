@@ -121,20 +121,16 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 \label{sec:var_Uxi}
 % ============================================================
 
-For every phase, solid or mobile\footnote{We use the term \emph{mobile} to described the combined aqueous, oleic, and gas phases.  Technically, the solid phase is also mobile in that it deforms, but this deformation is small compared to the motion of the other phases.}, let $\psi_\xi$ denote the specific Helmholtz
-free energy.  The corresponding contribution to the total free energy is written
-%
+For every phase, solid or mobile\footnote{We use the term \emph{mobile} to describe the combined aqueous, oleic, and gas phases.  Technically, the solid phase is also mobile in that it deforms, but this deformation is small compared to the motion of the other phases.}, let $\psi_\xi$ denote the specific Helmholtz free energy.  The corresponding contribution to the total free energy is written
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	U \subset U_\xi & = \sum_\xi \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^1, \eta_\xi^2, \dots, \eta_\xi^N)\,\dv \notag \\
+	U \supset U_\xi & = \sum_\xi \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^1, \eta_\xi^2, \dots, \eta_\xi^N)\,\dv \notag \\
 	                & = \sum_\xi \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^\beta)\,\dv
 	\label{eq:U_xi_uniform}
 \end{align}
 % AGENT-LOCK-END
-%
 Here $\eta_\xi^\beta$ denotes the full list of component mass fractions
-$\{\eta_\xi^1,\ldots,\eta_\xi^N\}$; the index $\beta$ is not summed in this
-argument list.
+$\{\eta_\xi^1,\ldots,\eta_\xi^N\}$; the index $\beta$ is not summed in this argument list.
 The constitutive dependence on $\mbf F_\xi$ may be trivial for mobile phases,
 but keeping it in the notation allows one calculation for all phases.  The local
 free-energy variation is
@@ -168,7 +164,7 @@ and collecting independent variations gives
 \end{align}
 % AGENT-LOCK-END
 %
-The corresponding Cauchy stress is
+The corresponding Cauchy effective stress is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -199,13 +195,14 @@ With three mobile phases (aqueous, oleic, and gas), let
 \end{equation}
 so that $S_o = 1-S_a-S_g = \phi_o/\phi$.  The saturations are used here only as
 ratios of the primitive volume-fraction fields; the variations are still taken
-with respect to $\phi_a$, $\phi_o$, and $\phi_g$.  We specialize the interfacial energy density to
+with respect to $\phi_a$, $\phi_o$, and $\phi_g$.  We specialize the interfacial
+energy contribution to
 \begin{equation}
-	U_\gamma = \int_{\mc{B}} \phi\,\gamma\!\left(S_a,S_g\right)\,\dv.
+	U \supset U_\gamma = \int_{\mc{B}} \phi\,\gamma\!\left(S_a,S_g\right)\,\dv.
 	\label{eq:interfacial_energy_density}
 \end{equation}
-Following the saturation-based capillary-pressure construction used for the
-two-mobile-phase case, but now taking oil as the reference mobile phase, define
+Taking the oliec phase as the reference mobile phase, define the two interfacial
+differences
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -216,16 +213,17 @@ two-mobile-phase case, but now taking oil as the reference mobile phase, define
 \end{equation}
 % AGENT-LOCK-END
 %
-Here $p_{c,oa}=\bar p_o-\bar p_a$ is the oil--aqueous capillary pressure and
-$p_{c,og}=\bar p_o-\bar p_g$ is the additional oil--gas capillary pressure.
-Using $\delta\phi=\delta\phi_a+\delta\phi_o+\delta\phi_g$ and
+These quantities are interfacial thermodynamic differences at this point in the
+derivation; their pressure interpretation is obtained only after the collected
+Euler--Lagrange equations identify the phase pressure variables.  Using
+$\delta\phi=\delta\phi_a+\delta\phi_o+\delta\phi_g$ and
 \begin{equation}
 	\delta S_a=\frac{\delta\phi_a-S_a\delta\phi}{\phi},
 	\qquad
 	\delta S_g=\frac{\delta\phi_g-S_g\delta\phi}{\phi},
 	\label{eq:saturation_variations}
 \end{equation}
-the algebraic part of the interfacial variation can be written as
+the variation of $\phi\gamma$ is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -237,7 +235,41 @@ the algebraic part of the interfacial variation can be written as
 \end{align}
 % AGENT-LOCK-END
 %
-where
+where the primitive interfacial potentials are defined as the partial
+derivatives of $\phi\gamma$ with respect to the phase volume fractions:
+%
+\begin{equation}
+	\gamma_\xi
+	\equiv
+	\left.\frac{\partial\left(\phi\gamma\right)}{\partial\phi_\xi}\right|_{\phi_{\zeta\neq\xi}},
+	\qquad \xi\in\{a,o,g\}.
+	\label{eq:primitive_gamma_potential_definition}
+\end{equation}
+%
+In this derivative the total mobile volume fraction is not held fixed.  Since
+$\phi=\phi_a+\phi_o+\phi_g$,
+$\partial\phi/\partial\phi_\xi=1$ for each mobile phase.  The remaining chain-rule
+terms come from the saturation dependence,
+%
+\begin{align*}
+	\left.\frac{\partial S_a}{\partial\phi_a}\right|_{\phi_{o},\phi_g}
+	 & = \frac{1-S_a}{\phi},
+	&
+	\left.\frac{\partial S_g}{\partial\phi_a}\right|_{\phi_{o},\phi_g}
+	 & = -\frac{S_g}{\phi}, \\
+	\left.\frac{\partial S_a}{\partial\phi_o}\right|_{\phi_{a},\phi_g}
+	 & = -\frac{S_a}{\phi},
+	&
+	\left.\frac{\partial S_g}{\partial\phi_o}\right|_{\phi_{a},\phi_g}
+	 & = -\frac{S_g}{\phi}, \\
+	\left.\frac{\partial S_a}{\partial\phi_g}\right|_{\phi_{a},\phi_o}
+	 & = -\frac{S_a}{\phi},
+	&
+	\left.\frac{\partial S_g}{\partial\phi_g}\right|_{\phi_{a},\phi_o}
+	 & = \frac{1-S_g}{\phi}.
+\end{align*}
+%
+For the saturation parameterization above, these derivatives are
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -248,27 +280,46 @@ where
 \end{align}
 % AGENT-LOCK-END
 %
-Consequently the capillary pressures are the oil-referenced differences of the
-primitive interfacial potentials,
+Equivalently, the oil-referenced interfacial differences are
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	p_{c,oa} \equiv \bar p_o-\bar p_a \equiv \gamma_o-\gamma_a,
+	p_{c,oa} \equiv \gamma_o-\gamma_a,
 	\qquad
-	p_{c,og} \equiv \bar p_o-\bar p_g \equiv \gamma_o-\gamma_g .
+	p_{c,og} \equiv \gamma_o-\gamma_g .
 \end{equation}
 % AGENT-LOCK-END
 %
 
-The spatial fields must be varied using the inter-species transport identity.
-For the phase displacement $\delta\mbf x_\xi$, the volume-fraction variation
-contains the transported part
+The preceding calculation accounts only for the independent volume-fraction
+variations at a fixed spatial point.  The phase volume fractions are
+phase-attached spatial fields, so their displacement variations must be treated
+with the Bedford--Drumheller spatial identity (cf.\
+\cite{drumheller1980thermomechanical} equation (1.25)).  For a phase field
+$\phi_\xi$,
 \begin{equation}
-	\delta_x\phi_\xi = -\nabla_{\mbf x}\cdot(\phi_\xi\delta\mbf x_\xi),
+	\left.\delta\phi_\xi\right\vert_{\mbf{x}}
+	= \delta\phi_\xi-\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf x_\xi,
+	\qquad
+	\delta_x\phi_\xi
+	= -\nabla_{\mbf x}\cdot(\phi_\xi\delta\mbf x_\xi),
 	\label{eq:transported_volume_fraction_variation}
 \end{equation}
-in addition to the independent coefficient variation used in the algebraic
-Euler--Lagrange equations.  Consequently,
+where $\delta_x\phi_\xi$ denotes the part generated by transporting the phase
+volume through the current configuration.  The second form follows by combining
+the convective term in the Bedford--Drumheller identity with the variation of
+the phase-carried current volume element.  Therefore
+%
+\begin{align*}
+	\delta U_\gamma
+	 & = \int_{\mc B}
+	\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \\
+	 & \quad
+	-\sum_{\xi\in\{a,o,g\}}\int_{\mc B}
+	\gamma_\xi\nabla_{\mbf x}\cdot(\phi_\xi\delta\mbf x_\xi)\dv .
+\end{align*}
+%
+Integrating the transported terms by parts gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -283,7 +334,7 @@ Euler--Lagrange equations.  Consequently,
 \end{align}
 % AGENT-LOCK-END
 %
-This form keeps the gradient terms generated by the spatial dependence of the
+This form keeps the gradient terms generated by transport of the phase-attached
 volume fractions.  They cancel against the corresponding multiplier gradients in
 the phase momentum balances after the volume-fraction Euler--Lagrange equations
 are used.
@@ -470,30 +521,30 @@ separately.
 	+ \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 	+ \phi_{\xi}\nabla_{\mbf{x}}\lambda
 	+ \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
-	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag                                                                                                    \\
+	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag                                                                                                              \\
 	    & - \int_{\mc B}\left[
 		\phi_a\nabla_{\mbf x}\gamma_a\cdot\delta\mbf x_a
 		+ \phi_o\nabla_{\mbf x}\gamma_o\cdot\delta\mbf x_o
 		+ \phi_g\nabla_{\mbf x}\gamma_g\cdot\delta\mbf x_g
-	\right]\dv \notag                                                                                                                              \\
+	\right]\dv \notag                                                                                                                                        \\
 	    & + \sum_\xi \int_{\mc{B}} \Bigg[
 		\lambda + \sum_\alpha \frac{\tau_{\xi}^\alpha}{\phi_{\xi}}
-	\Bigg] \delta\phi_{\xi} \,\dv \notag                                                                                                           \\
-	    & - \int_{\mc B}\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \notag                                      \\
+	\Bigg] \delta\phi_{\xi} \,\dv \notag                                                                                                                     \\
+	    & - \int_{\mc B}\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \notag                                                \\
 	    & + \sum_{\xi}\int_{\mc{B}} \Bigg[
 		-\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\eta_\xi^\beta}
 		+ \sum_\alpha\frac{\tau_{\xi}^\alpha}{\bar\rho_{\xi}}
-	\Bigg] \delta\bar\rho_{\xi} \,\dv \notag                                                                                                       \\
+	\Bigg] \delta\bar\rho_{\xi} \,\dv \notag                                                                                                                 \\
 	    & + \sum_{\xi}\sum_\alpha \int_{\mc{B}} \Bigg[
 		\frac{\tau_{\xi}^\alpha}{\eta_\xi^\alpha} + \pi_{\xi}
 		- \rho_{\xi}\left.\p{\psi_{\xi}}{\eta^\alpha_\xi}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta^{\beta\neq\alpha}_\xi}
-	\Bigg] \delta\eta^\alpha_\xi \,\dv \notag                                                                                                      \\
+	\Bigg] \delta\eta^\alpha_\xi \,\dv \notag                                                                                                                \\
 	    & + \sum_\xi\sum_\alpha\int_{\mc B}\left[
 		\tfrac12\mbf v_\xi\cdot\mbf v_\xi-\psi_\xi-L_\xi^\alpha
 		-\frac{D_\xi\mu_\xi^\alpha}{Dt}
 		-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
-	\right]\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\,\dv \notag                                                                                      \\
-	    & - \sum_m\int_{\mc B}\left(\mc A_m+\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha\right)\delta\dot r_m\,\dv + \text{boundary terms}.
+	\right]\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\,\dv \notag                                                                                                \\
+	    & - \sum_m\int_{\mc B}\left(\mc A_{(m)}+\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)\delta\dot r_{(m)}\,\dv + \text{boundary terms}.
 	\label{eq:collected_full}
 \end{align}
 % AGENT-LOCK-END
