@@ -201,7 +201,7 @@ energy contribution to
 	U \supset U_\gamma = \int_{\mc{B}} \phi\,\gamma\!\left(S_a,S_g\right)\,\dv.
 	\label{eq:interfacial_energy_density}
 \end{equation}
-Taking the oliec phase as the reference mobile phase, define the two interfacial
+Taking the oleic phase as the reference mobile phase, define the two interfacial
 differences
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
@@ -215,61 +215,78 @@ differences
 %
 These quantities are interfacial thermodynamic differences at this point in the
 derivation; their pressure interpretation is obtained only after the collected
-Euler--Lagrange equations identify the phase pressure variables.  Using
-$\delta\phi=\delta\phi_a+\delta\phi_o+\delta\phi_g$ and
+Euler--Lagrange equations identify the phase pressure variables.
+
+Before varying the interfacial energy, record the transported variation of the
+phase-attached volume fractions.  The Bedford--Drumheller spatial identity
+(cf.\ \cite{drumheller1980thermomechanical} equation (1.25)) gives, for each
+mobile phase field $\phi_\xi$,
+%
+\begin{equation}
+	\left.\delta\phi_\xi\right\vert_{\mbf{x}}
+	= \delta\phi_\xi-\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf x_\xi.
+	\label{eq:transported_volume_fraction_variation}
+\end{equation}
+%
+Combining the convective term with the variation of the phase-carried current
+volume element gives the transported contribution
+\[
+	\delta_x\phi_\xi
+	= -\nabla_{\mbf x}\cdot(\phi_\xi\delta\mbf x_\xi),
+\]
+which is used below.
+
+Using $\delta\phi=\delta\phi_a+\delta\phi_o+\delta\phi_g$ and
 \begin{equation}
 	\delta S_a=\frac{\delta\phi_a-S_a\delta\phi}{\phi},
 	\qquad
 	\delta S_g=\frac{\delta\phi_g-S_g\delta\phi}{\phi},
 	\label{eq:saturation_variations}
 \end{equation}
-the variation of $\phi\gamma$ is
+the fixed-point and transported contributions to $\delta U_\gamma$ are collected
+in one calculation:
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
-	\delta\!\left(\phi\gamma\right)
-	 & = \gamma\,\delta\phi
-	+ \frac{\partial\gamma}{\partial S_a}\left(\delta\phi_a-S_a\delta\phi\right)
-	+ \frac{\partial\gamma}{\partial S_g}\left(\delta\phi_g-S_g\delta\phi\right) \notag \\
-	 & = \gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g,
+	\delta U_\gamma
+	 & = \int_{\mc B}\Big[
+	\gamma\,\delta\phi
+	-p_{c,oa}\left(\delta\phi_a-S_a\delta\phi\right)
+	-p_{c,og}\left(\delta\phi_g-S_g\delta\phi\right)
+	\Big]\dv \notag                                                                           \\
+	 & \quad
+	-\int_{\mc B}\Big[
+	\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)
+	\nabla_{\mbf x}\cdot(\phi_a\delta\mbf x_a) \notag \\
+	& \qquad
+	+\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)
+	\nabla_{\mbf x}\cdot(\phi_o\delta\mbf x_o) \notag \\
+	& \qquad
+	+\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)
+	\nabla_{\mbf x}\cdot(\phi_g\delta\mbf x_g)
+	\Big]\dv \notag                                                                           \\
+	 & = \int_{\mc B}\Big[
+	\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)\delta\phi_a \notag \\
+	& \qquad
+	+\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)\delta\phi_o \notag \\
+	& \qquad
+	+\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)\delta\phi_g
+	\Big]\dv \notag                                                                           \\
+	 & \quad
+	+\int_{\mc B}\Bigg[
+	\phi_a\nabla_{\mbf x}\!\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)\cdot\delta\mbf x_a \notag \\
+	& \qquad
+	+\phi_o\nabla_{\mbf x}\!\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)\cdot\delta\mbf x_o \notag \\
+	& \qquad
+	+\phi_g\nabla_{\mbf x}\!\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)\cdot\delta\mbf x_g
+	\Bigg]\dv
+	+ \text{boundary terms}.
+	\label{eq:deltaU_fg}
 \end{align}
 % AGENT-LOCK-END
 %
-where the primitive interfacial potentials are defined as the partial
-derivatives of $\phi\gamma$ with respect to the phase volume fractions:
-%
-\begin{equation}
-	\gamma_\xi
-	\equiv
-	\left.\frac{\partial\left(\phi\gamma\right)}{\partial\phi_\xi}\right|_{\phi_{\zeta\neq\xi}},
-	\qquad \xi\in\{a,o,g\}.
-	\label{eq:primitive_gamma_potential_definition}
-\end{equation}
-%
-In this derivative the total mobile volume fraction is not held fixed.  Since
-$\phi=\phi_a+\phi_o+\phi_g$,
-$\partial\phi/\partial\phi_\xi=1$ for each mobile phase.  The remaining chain-rule
-terms come from the saturation dependence,
-%
-\begin{align*}
-	\left.\frac{\partial S_a}{\partial\phi_a}\right|_{\phi_{o},\phi_g}
-	 & = \frac{1-S_a}{\phi},
-	&
-	\left.\frac{\partial S_g}{\partial\phi_a}\right|_{\phi_{o},\phi_g}
-	 & = -\frac{S_g}{\phi}, \\
-	\left.\frac{\partial S_a}{\partial\phi_o}\right|_{\phi_{a},\phi_g}
-	 & = -\frac{S_a}{\phi},
-	&
-	\left.\frac{\partial S_g}{\partial\phi_o}\right|_{\phi_{a},\phi_g}
-	 & = -\frac{S_g}{\phi}, \\
-	\left.\frac{\partial S_a}{\partial\phi_g}\right|_{\phi_{a},\phi_o}
-	 & = -\frac{S_a}{\phi},
-	&
-	\left.\frac{\partial S_g}{\partial\phi_g}\right|_{\phi_{a},\phi_o}
-	 & = \frac{1-S_g}{\phi}.
-\end{align*}
-%
-For the saturation parameterization above, these derivatives are
+The three coefficient combinations appearing in \eqref{eq:deltaU_fg} are written
+subsequently as
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -280,64 +297,21 @@ For the saturation parameterization above, these derivatives are
 \end{align}
 % AGENT-LOCK-END
 %
-Equivalently, the oil-referenced interfacial differences are
-%
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{equation}
-	p_{c,oa} \equiv \gamma_o-\gamma_a,
-	\qquad
-	p_{c,og} \equiv \gamma_o-\gamma_g .
-\end{equation}
-% AGENT-LOCK-END
-%
-
-The preceding calculation accounts only for the independent volume-fraction
-variations at a fixed spatial point.  The phase volume fractions are
-phase-attached spatial fields, so their displacement variations must be treated
-with the Bedford--Drumheller spatial identity (cf.\
-\cite{drumheller1980thermomechanical} equation (1.25)).  For a phase field
-$\phi_\xi$,
-\begin{equation}
-	\left.\delta\phi_\xi\right\vert_{\mbf{x}}
-	= \delta\phi_\xi-\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf x_\xi,
-	\qquad
-	\delta_x\phi_\xi
-	= -\nabla_{\mbf x}\cdot(\phi_\xi\delta\mbf x_\xi),
-	\label{eq:transported_volume_fraction_variation}
-\end{equation}
-where $\delta_x\phi_\xi$ denotes the part generated by transporting the phase
-volume through the current configuration.  The second form follows by combining
-the convective term in the Bedford--Drumheller identity with the variation of
-the phase-carried current volume element.  Therefore
-%
-\begin{align*}
-	\delta U_\gamma
-	 & = \int_{\mc B}
-	\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \\
-	 & \quad
-	-\sum_{\xi\in\{a,o,g\}}\int_{\mc B}
-	\gamma_\xi\nabla_{\mbf x}\cdot(\phi_\xi\delta\mbf x_\xi)\dv .
-\end{align*}
-%
-Integrating the transported terms by parts gives
+Thus the oil-referenced interfacial differences are
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
-	\delta U_\gamma
-	 & = \int_{\mc B}\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \notag \\
-	 & \quad
-	+ \int_{\mc B}\left[\phi_a\nabla_{\mbf x}\gamma_a\cdot\delta\mbf x_a
-		+ \phi_o\nabla_{\mbf x}\gamma_o\cdot\delta\mbf x_o
-		+ \phi_g\nabla_{\mbf x}\gamma_g\cdot\delta\mbf x_g\right]\dv
-	+ \text{boundary terms}.
-	\label{eq:deltaU_fg}
+	p_{c,oa} & \equiv \gamma_o-\gamma_a,
+	\label{eq:pcoa_gamma_difference} \\
+	p_{c,og} & \equiv \gamma_o-\gamma_g .
+	\label{eq:pcog_gamma_difference}
 \end{align}
 % AGENT-LOCK-END
 %
-This form keeps the gradient terms generated by transport of the phase-attached
-volume fractions.  They cancel against the corresponding multiplier gradients in
-the phase momentum balances after the volume-fraction Euler--Lagrange equations
-are used.
+The form \eqref{eq:deltaU_fg} keeps the gradient terms generated by transport of
+the phase-attached volume fractions.  They cancel against the corresponding
+multiplier gradients in the phase momentum balances after the volume-fraction
+Euler--Lagrange equations are used.
 
 % ============================================================
 \subsection{Variation of constraint $C_1$: volume-fraction}
@@ -522,15 +496,15 @@ separately.
 	+ \phi_{\xi}\nabla_{\mbf{x}}\lambda
 	+ \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
 	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag                                                                                                              \\
-	    & - \int_{\mc B}\left[
-		\phi_a\nabla_{\mbf x}\gamma_a\cdot\delta\mbf x_a
+	    & - \int_{\mc B}\Big[
+		\phi_a\nabla_{\mbf x}\left(\gamma_o-p_{c,oa}\right)\cdot\delta\mbf x_a
 		+ \phi_o\nabla_{\mbf x}\gamma_o\cdot\delta\mbf x_o
-		+ \phi_g\nabla_{\mbf x}\gamma_g\cdot\delta\mbf x_g
-	\right]\dv \notag                                                                                                                                        \\
+		+ \phi_g\nabla_{\mbf x}\left(\gamma_o-p_{c,og}\right)\cdot\delta\mbf x_g
+	\Big]\dv \notag                                                                                                                                          \\
 	    & + \sum_\xi \int_{\mc{B}} \Bigg[
 		\lambda + \sum_\alpha \frac{\tau_{\xi}^\alpha}{\phi_{\xi}}
 	\Bigg] \delta\phi_{\xi} \,\dv \notag                                                                                                                     \\
-	    & - \int_{\mc B}\left(\gamma_a\delta\phi_a+\gamma_o\delta\phi_o+\gamma_g\delta\phi_g\right)\dv \notag                                                \\
+	    & - \int_{\mc B}\left[\left(\gamma_o-p_{c,oa}\right)\delta\phi_a+\gamma_o\delta\phi_o+\left(\gamma_o-p_{c,og}\right)\delta\phi_g\right]\dv \notag    \\
 	    & + \sum_{\xi}\int_{\mc{B}} \Bigg[
 		-\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\eta_\xi^\beta}
 		+ \sum_\alpha\frac{\tau_{\xi}^\alpha}{\bar\rho_{\xi}}
@@ -781,7 +755,7 @@ For the aqueous phase, the capillary contribution gives the intermediate form
 	\rho_a\mbf a_a
 	 & = \nabla_{\mbf x}\cdot\bs\sigma'_a + \rho_a\mbf g + \mbf b_a
 	+ \phi_a\nabla_{\mbf x}\lambda
-	-\phi_a\nabla_{\mbf x}\gamma_a
+	-\phi_a\nabla_{\mbf x}\left(\gamma_o-p_{c,oa}\right)
 	+ \sum_\alpha \dot c_a^{\alpha}\left(\nabla_{\mbf x}\mu_a^\alpha-\mbf{v}_a\right).
 	\label{eq:el_mom_a_start}
 \end{align}
