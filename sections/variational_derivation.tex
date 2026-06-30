@@ -39,10 +39,10 @@ with kinetic energy, internal energy, virtual work, and four constraints:
 \end{align}
 % AGENT-LOCK-END
 %
-The coefficients $L_\xi^\alpha$ are component generalized forces conjugate to adding component mass to phase $\xi$.  The virutal work includes body forces to due to gravity $\mbf{g}$ and an interaction force $\mbf{b}_\xi$ that is the sum of the interactions applied to the $\xi$ phase by the others.  The affinities $\mc A_{(m)}$ are introduced as generalized mechanism forces conjugate to the current progress-rate variations $\delta\dot r_{(m)}$.  The
+The coefficients $L_\xi^\alpha$ are component generalized forces conjugate to adding component mass to phase $\xi$.  The virtual work includes body forces due to gravity $\mbf{g}$ and an interaction force $\mbf{b}_\xi$ that is the sum of the interactions applied to the $\xi$ phase by the others.  The affinities $\mc A_{(m)}$ are introduced as generalized mechanism forces conjugate to the current progress-rate variations $\delta\dot r_{(m)}$.  The
 kinematic constraint $C_4$ ties those progress rates to the phase-attached
-accumulated sources through $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$. $C_1$ enforces the volumee fraction constraint, $C_2$ enforces ces compoenent mass balance, and $C_3$ enforces the mass fraction constraint within each phase.  The Lagrange multipliers $\lambda$, $\tau_\xi^\alpha$, $\pi_\xi$, and $\mu_\xi^\alpha$ are introduced to enforce these constraints.
-Chemical reactions and pure phase transformations are both represented by the unified stoichiometric parameterization \eqref{eq:unified_stoich_current}.  We treat $\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho_\xi$, $\mc{C}_\xi^\alpha$, and $\dot r_m$, as indepenedet variables (subject to the constaints) and compute variations.
+accumulated sources through $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$. $C_1$ enforces the volume-fraction constraint, $C_2$ enforces component mass balance, and $C_3$ enforces the mass-fraction constraint within each phase.  The Lagrange multipliers $\lambda$, $\tau_\xi^\alpha$, $\pi_\xi$, and $\mu_\xi^\alpha$ are introduced to enforce these constraints.
+Chemical reactions and pure phase transformations are both represented by the unified stoichiometric parameterization \eqref{eq:unified_stoich_current}.  We treat $\mbf{x}_\xi$, $\eta^\alpha_\xi$, $\phi_\xi$, $\bar\rho_\xi$, and $\mc{C}_\xi^\alpha$ as independent state or configuration variables, while the mechanism rates $\dot r_m$ are independent process-rate variables whose variations identify the conjugate affinities.
 
 \subsection{Extending Bedford and Drumheller identity 1.28}
 \label{sec:extended_bd_identity}
@@ -253,33 +253,33 @@ in one calculation:
 	\gamma\,\delta\phi
 	-p_{c,oa}\left(\delta\phi_a-S_a\delta\phi\right)
 	-p_{c,og}\left(\delta\phi_g-S_g\delta\phi\right)
-	\Big]\dv \notag                                                                           \\
+	\Big]\dv \notag                                                                                    \\
 	 & \quad
 	-\int_{\mc B}\Big[
-	\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)
-	\nabla_{\mbf x}\cdot(\phi_a\delta\mbf x_a) \notag \\
-	& \qquad
-	+\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)
-	\nabla_{\mbf x}\cdot(\phi_o\delta\mbf x_o) \notag \\
-	& \qquad
-	+\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)
-	\nabla_{\mbf x}\cdot(\phi_g\delta\mbf x_g)
-	\Big]\dv \notag                                                                           \\
+		\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)
+	\nabla_{\mbf x}\cdot(\phi_a\delta\mbf x_a) \notag                                                  \\
+	 & \qquad
+		+\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)
+	\nabla_{\mbf x}\cdot(\phi_o\delta\mbf x_o) \notag                                                  \\
+	 & \qquad
+		+\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)
+		\nabla_{\mbf x}\cdot(\phi_g\delta\mbf x_g)
+	\Big]\dv \notag                                                                                    \\
 	 & = \int_{\mc B}\Big[
-	\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)\delta\phi_a \notag \\
-	& \qquad
-	+\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)\delta\phi_o \notag \\
-	& \qquad
-	+\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)\delta\phi_g
-	\Big]\dv \notag                                                                           \\
+	\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)\delta\phi_a \notag                               \\
+	 & \qquad
+	+\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)\delta\phi_o \notag                                 \\
+	 & \qquad
+		+\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)\delta\phi_g
+	\Big]\dv \notag                                                                                    \\
 	 & \quad
 	+\int_{\mc B}\Bigg[
 	\phi_a\nabla_{\mbf x}\!\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)\cdot\delta\mbf x_a \notag \\
-	& \qquad
-	+\phi_o\nabla_{\mbf x}\!\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)\cdot\delta\mbf x_o \notag \\
-	& \qquad
-	+\phi_g\nabla_{\mbf x}\!\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)\cdot\delta\mbf x_g
-	\Bigg]\dv
+	 & \qquad
+	+\phi_o\nabla_{\mbf x}\!\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)\cdot\delta\mbf x_o \notag   \\
+	 & \qquad
+		+\phi_g\nabla_{\mbf x}\!\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)\cdot\delta\mbf x_g
+		\Bigg]\dv
 	+ \text{boundary terms}.
 	\label{eq:deltaU_fg}
 \end{align}
@@ -302,7 +302,7 @@ Thus the oil-referenced interfacial differences are
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	p_{c,oa} & \equiv \gamma_o-\gamma_a,
-	\label{eq:pcoa_gamma_difference} \\
+	\label{eq:pcoa_gamma_difference}      \\
 	p_{c,og} & \equiv \gamma_o-\gamma_g .
 	\label{eq:pcog_gamma_difference}
 \end{align}
@@ -318,17 +318,7 @@ Euler--Lagrange equations are used.
 \label{sec:var_C1_app}
 % ============================================================
 
-The constraint $C_1 = \int_{\mc{B}} \lambda(\sum_\xi\phi_\xi - 1)\,\dv$ is written in the current configuration, so the natural variation is Eulerian, i.e. taken at fixed spatial point $\mbf{x}$.  Since each $\phi_\xi$ is a constituent-attached spatial field, we use the Bedford--Drumheller identity
-%
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{equation}
-	\left.\delta\phi_\xi\right\vert_{\mbf{x}}
-	= \delta\phi_\xi - \nabla_{\mbf{x}}\phi_\xi\cdot\delta\mbf{x}_\xi,
-	\label{eq:delta_phi_BD_local}
-\end{equation}
-% AGENT-LOCK-END
-%
-to express the variation in terms of the spatial variation $\delta\phi_\xi$ and the motion variation $\delta\mbf{x}_\xi$. Therefore
+The constraint $C_1 = \int_{\mc{B}} \lambda(\sum_\xi\phi_\xi - 1)\,\dv$ is written in the current configuration, so the natural variation is Eulerian, i.e. taken at fixed spatial point $\mbf{x}$.  Since each $\phi_\xi$ is a constituent-attached spatial field, we use the Bedford--Drumheller identity \eqref{eq:transported_volume_fraction_variation} to express the variation in terms of the spatial variation $\delta\phi_\xi$ and the motion variation $\delta\mbf{x}_\xi$. Therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -361,6 +351,12 @@ Hence
 \begin{align}
 	\delta C_2
 	 & = \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
+	\delta\tau_\xi^\alpha
+	\left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\right)
+	\,{\rm d}V_\xi
+	\notag                                        \\
+	 & \quad
+	+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
 	\tau_\xi^\alpha \delta J_\xi \, {\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
@@ -378,41 +374,33 @@ Hence
 	 & \quad
 	- \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
 	\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}\,\delta \mc{C}_\xi^\alpha \, {\rm d}V_\xi.
-	\label{eq:deltaC2_lines}
-\end{align}
-% AGENT-LOCK-END
-%
-Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$, the individual contributions push forward as follows.
-
-\paragraph{$\delta J_\xi$ terms (from $\delta\mbf{x}_\xi$):}
-%
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{align}
-	\sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\tau_\xi^\alpha \delta J_\xi \, dV_\xi
-	 & = -\sum_\xi\sum_\alpha \int_{\mc{B}}
+	\notag                                        \\
+	 & = \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
+	\delta\tau_\xi^\alpha
+	\left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\right)
+	\,{\rm d}V_\xi
+	\notag                                        \\
+	 & \quad
+	-\sum_\xi\sum_\alpha \int_{\mc{B}}
 	\nabla_{\mbf{x}}\tau_\xi^\alpha \cdot \delta\mbf{x}_\xi \, \dv
-	+ \text{b.t.}
-	\label{eq:C2_dJ}
-\end{align}
-% AGENT-LOCK-END
-%
-
-\paragraph{Spatial field terms:}
-%
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{align}
-	\delta C_2 \supset \sum_\xi\sum_\alpha\int_{\mc{B}}
+	\notag                                        \\
+	 & \quad
+	+ \sum_\xi\sum_\alpha\int_{\mc{B}}
 	\left[
 		\frac{\tau_\xi^\alpha}{\phi_\xi}\delta\phi_\xi
 		+ \frac{\tau_\xi^\alpha}{\bar\rho_\xi}\delta\bar\rho_\xi
 		+ \frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\delta\eta_\xi^\alpha
 		- \frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}
-		\right]\dv .
-	\label{eq:C2_spatial_push}
+		\right]\dv
+	+ \text{b.t.}
+	\label{eq:deltaC2_lines}
 \end{align}
 % AGENT-LOCK-END
 %
+Here the second equality uses $\dv = J_\xi {\rm d}V_\xi$ and
+$\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha
+	=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$.
+
 % ============================================================
 \subsection{Variation of constraint $C_3$: mass partition within phase}
 \label{sec:var_C3_app}
@@ -430,8 +418,7 @@ Using $\dv = J_\xi {\rm d}V_\xi$ and the constraint $\phi_{\xi0}\bar\rho_{\xi0}\
 \end{align}
 % AGENT-LOCK-END
 %
-The first line vanishes on the constraint surface $\sum_\alpha\eta_\xi^\alpha = 1$ and recovers it as an Euler--Lagrange equation.  The second line contributes $\pi_\xi$ to each $\delta\eta_\xi^\alpha$ Euler--Lagrange equation.
-
+The last term in the first line vanishes by recognizing $\sum_\alpha \nabla_{\mbf{x}} \eta_\xi^\alpha = 0$ by \eqref{eq:mass_fraction_constraint}.
 % ============================================================
 % ============================================================
 \subsection{Stoichiometric conversion variations}
@@ -461,34 +448,14 @@ map.  Repeating the transport calculation used for phase-attached rates gives
 \end{align}
 % AGENT-LOCK-END
 %
-The affinity is not introduced by allowing $\dot c_\xi^\alpha$ to vary freely.
-The component-level conversion work has already entered through
-\eqref{eq:W_def}; $\mc A_m$ is the generalized mechanism force conjugate to
-the progress-rate variation $\delta\dot r_m$.  Its stoichiometric
-identification is obtained below as the Euler--Lagrange equation associated with
-$\dot r_m$.
-
-Thus $\mu_\xi^\alpha$ is a kinematic multiplier enforcing the phase-attached
-push-forward and stoichiometry, while $\mc A_m$ is the thermodynamic force
-conjugate to mechanism progress.  The term
-$\dot c_\xi^\alpha\nabla\mu_\xi^\alpha$ is the part of the mechanical coupling
-that would be lost if $\delta\dot c_\xi^\alpha$ were treated as a free Eulerian
-variation.
 % ============================================================
 \subsection{Collected variational principle}
 \label{sec:collected_var}
 % ============================================================
 
-Evaluating all variations and collecting by independent variations
-$\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$,
-$\delta\eta^\alpha_\xi$, and $\delta\dot r_m$ gives the following reduced
-collection.  In the displacement bracket, the raw multiplier combination
-$-\lambda\nabla_{\mbf x}\phi_\xi-\nabla_{\mbf x}\sum_\alpha\tau_\xi^\alpha$
-has been combined into $\phi_\xi\nabla_{\mbf x}\lambda$ using the corresponding
-volume-fraction coefficient; the mobile-phase capillary terms are displayed
-separately.
+Collecting the  coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, together with the independent process-rate variations $\delta\dot r_m$, gives the following reduced collection.
 %
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
+% AGENT-LOCK-BEGIN equation-lock:  do not edit unless explicitly unlocked by user
 \begin{align}
 	0 = & \sum_{\xi} \int_{\mc{B}} \Bigg[
 	-\rho_{\xi}\mbf{a}_{\xi}
@@ -1772,8 +1739,11 @@ only by translating it into the affinity through
 Let $P$ be the number of phases, $N$ the number of components tracked in each
 phase, $N_m$ the number of independent conversion mechanisms, and $d$ the spatial
 dimension.  Using phase displacements as the kinematic unknowns, with velocities
-obtained by time differentiation, a convenient fully implicit pointwise unknown
-accounting is
+obtained by time differentiation, a convenient fully implicit pointwise algebraic
+unknown accounting is as follows.
+%
+This is not a list of state variables only: the mechanism rates $\dot r_m$ are
+process-rate unknowns whose equations are supplied by kinetic laws.
 %
 \begin{center}
 	\begin{tabular}{p{0.72\textwidth}c}
@@ -1786,7 +1756,7 @@ accounting is
 		Saturation multiplier $\lambda$                                                 & $1$   \\
 		Storage multipliers $\tau_\xi^1,\ldots,\tau_\xi^N$ for $\xi=1,\ldots,P$         & $PN$  \\
 		Helmholtz chemical potentials $\mu_\xi^1,\ldots,\mu_\xi^N$ for $\xi=1,\ldots,P$ & $PN$  \\
-		Mechanism rates $\dot r_1,\ldots,\dot r_{N_m}$                                  & $N_m$ \\
+		Mechanism process rates $\dot r_1,\ldots,\dot r_{N_m}$                          & $N_m$ \\
 		Temperature $\theta$                                                            & $1$
 	\end{tabular}
 \end{center}
