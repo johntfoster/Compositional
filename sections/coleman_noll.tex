@@ -60,7 +60,7 @@ the mixture intrinsic density $\bar\rho_s$.  Thus the mixture density enters the
 Coleman--Noll calculation through the component-density parametrization
 $\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$:
 \begin{equation}
-	\mathcal{S} = \{\bar{\mbf F}_s^M, a_s^M, \bar\rho_s^\beta,
+	\mathcal{S} = \{\bar{\mbf F}_s^e, a_s^e, \bar\rho_s^\beta,
 	\theta,\eta_s^\beta \}
 	\label{eq:CN_solid_state_set}
 \end{equation}
@@ -70,19 +70,21 @@ $\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$:
 \begin{equation}
 \begin{aligned}
 	\psi_s^\alpha
-	 & =\psi_s^\alpha(\bar{\mbf F}_s^M, a_s^M, \bar\rho_s^\alpha,
+	 & =\psi_s^\alpha(\bar{\mbf F}_s^e, a_s^e, \bar\rho_s^\alpha,
 	\theta,\eta_s^\beta),
 	\qquad
-	\bar{\mbf F}_s^M=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1}.
+	\bar{\mbf F}_s
+	=\bar{\mbf F}_s^e\bar{\mbf F}_s^p\bar{\mbf F}_s^\theta .
 \end{aligned}
 	\label{eq:CN_solid_component_free_energy_state}
 \end{equation}
 where
 $\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is a
-prescribed stress-free thermal/compositional dilation, not an independent
-thermodynamic state.  Likewise, the isotropic distension is written as
+prescribed stress-free thermal/compositional dilation, and
+$\bar{\mbf F}_s^p$ is a plastic internal variable.  Neither is an elastic
+free-energy argument.  Likewise, the isotropic distension is written as
 \begin{equation}
-	a_s=a_s^M a_s^\theta(\theta,\phi_s^\beta),
+	a_s=a_s^e a_s^p a_s^\theta(\theta,\phi_s^\beta),
 	\qquad
 	a_s^\theta>0 ,
 	\label{eq:CN_scalar_distension_split}
@@ -91,10 +93,11 @@ where $a_s^\theta$ is a reversible stress-free pore-architecture, or
 pore-volume, thermal--compositional factor.  It is distinct from the intrinsic
 mineral thermal dilation carried by $\bar{\mbf F}_s^\theta$ and depends on
 composition through the solid component volume fractions $\phi_s^\beta$, not
-directly through the mass fractions $\eta_s^\beta$.  The total distension $a_s$
-remains the kinematic field in the balance laws and stress power; the mechanical
-free-energy argument is the dependent quantity
-$a_s^M=a_s/a_s^\theta(\theta,\phi_s^\beta)$.  Since the balance laws still use
+directly through the mass fractions $\eta_s^\beta$.  The plastic distension
+$a_s^p$ is an internal variable.  The total distension $a_s$ remains the
+kinematic field in the balance laws and stress power; the elastic free-energy
+argument is the dependent quantity
+$a_s^e=a_s/[a_s^p a_s^\theta(\theta,\phi_s^\beta)]$.  Since the balance laws still use
 the mixture variables $(\bar\rho_s,\eta_s^\beta)$, density derivatives of the
 solid energy are chain-ruled through
 $\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$.  In the solid specialization used
@@ -151,10 +154,12 @@ The corresponding scalar distension rate is most cleanly written in logarithmic
 form:
 \begin{align}
 	\frac{\dot a_s}{a_s}
-		&=\frac{\dot a_s^M}{a_s^M}
+		&=\frac{\dot a_s^e}{a_s^e}
+	+\frac{\dot a_s^p}{a_s^p}
 	+\frac{\dot a_s^\theta}{a_s^\theta}
 	\notag \\
-		&=\frac{\dot a_s^M}{a_s^M}
+		&=\frac{\dot a_s^e}{a_s^e}
+	+\frac{\dot a_s^p}{a_s^p}
 	+\left.\p{\ln a_s^\theta}{\theta}\heldfixed{\phi_s^\gamma}\dot\theta
 	+\sum_\beta\left[
 		\sum_\gamma
@@ -163,9 +168,9 @@ form:
 		\right]\dot\eta_s^\beta .
 	\label{eq:CN_distension_rate_chain_rule}
 \end{align}
-Here $\dot a_s^M/a_s^M$ is the logarithmic rate of the dependent mechanical
-distension induced by the independent field $a_s$ after subtracting the
-stress-free thermal/compositional pore-architecture rate.
+Here $\dot a_s^e/a_s^e$ is the logarithmic rate of the dependent elastic
+distension induced by the independent field $a_s$ after subtracting the plastic
+rate and the stress-free thermal/compositional pore-architecture rate.
 If a model chooses no explicit pore-architecture thermal or compositional
 distension, the last two terms vanish and the earlier rate collection is
 recovered.
@@ -198,17 +203,17 @@ For the solid, component additivity gives
 \begin{align}
 	\sum_\alpha\rho_s^\alpha\dot{\psi}_s^\alpha
 	 & =\rho_s\sum_\alpha\eta_s^\alpha\dot\psi_s^\alpha \notag \\
-	 & =\rho_s\sum_\alpha\eta_s^\alpha \bigg(
-	\left.\p{\psi_s^\alpha}{\bar{\mbf{F}}^M_s}\heldfixed{\mc S}
-	:\dot{\bar{\mbf{F}}}^M_s
-	+a_s^M\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}
-		\frac{\dot a_s^M}{a_s^M}
-	+a_s^M\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}
+	& =\rho_s\sum_\alpha\eta_s^\alpha \bigg(
+	\left.\p{\psi_s^\alpha}{\bar{\mbf{F}}^e_s}\heldfixed{\mc S}
+	:\dot{\bar{\mbf{F}}}^e_s
+	+a_s^e\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}
+		\frac{\dot a_s^e}{a_s^e}
+	+a_s^e\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}
 	\left.\p{\ln a_s^\theta}{\theta}\heldfixed{\phi_s^\gamma}\dot\theta
 	\notag                                                     \\
 	 & \qquad
 	+\sum_\beta
-	a_s^M\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}
+	a_s^e\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}
 	\left[
 		\sum_\gamma
 		\left.\p{\ln a_s^\theta}{\phi_s^\gamma}\heldfixed{\mc T_s}
@@ -232,36 +237,51 @@ For the solid, component additivity gives
 	\label{eq:CN_total_helmholtz_density}
 \end{align}
 The Coleman--Noll argument treats $\dot{\bar{\mbf F}}_s$ as the independent
-solid deformation rate.  The mechanical deformation gradient is a dependent
-constitutive argument, so substituting the prescribed thermal/compositional
-stress-free dilation rate gives
+solid deformation rate.  The elastic deformation gradient is a dependent
+constitutive argument, so substituting the plastic rate and the prescribed
+thermal/compositional stress-free dilation rate gives
 \begin{align}
-	\dot{\bar{\mbf F}}_s^M
-	= & \; \dot{\bar{\mbf F}}_s(\bar{\mbf F}_s^\theta)^{-1}
-	-\bar{\mbf F}_s^M
+	\dot{\bar{\mbf F}}_s^e
+	= & \; \dot{\bar{\mbf F}}_s
+	(\bar{\mbf F}_s^\theta)^{-1}(\bar{\mbf F}_s^p)^{-1}
+	-\bar{\mbf F}_s^e\dot{\bar{\mbf F}}_s^p
+	(\bar{\mbf F}_s^p)^{-1}
+	\notag \\
+	  & \;-
+	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
 	\left.\frac{\partial\bar{\mbf F}_s^\theta}{\partial\theta}\heldfixed{\mc T_s}
-	(\bar{\mbf F}_s^\theta)^{-1}\dot\theta \notag           \\
+	(\bar{\mbf F}_s^\theta)^{-1}(\bar{\mbf F}_s^p)^{-1}\dot\theta \notag           \\
 	  & \;-
 	\sum_\beta
-	\bar{\mbf F}_s^M
+	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
 	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^\theta)^{-1}\dot\eta_s^\beta .
-	\label{eq:CN_FM_rate_chain_rule}
+	(\bar{\mbf F}_s^\theta)^{-1}(\bar{\mbf F}_s^p)^{-1}\dot\eta_s^\beta .
+	\label{eq:CN_Fe_rate_chain_rule}
 \end{align}
+Following Drumheller~\cite{drumheller2000}, the plastic true deformation is
+isochoric.  With the plastic velocity gradient
+\begin{equation*}
+	\mbf L_s^p
+	=\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1},
+	\qquad
+	\det\bar{\mbf F}_s^p=1,
+	\qquad
+	\operatorname{tr}\mbf L_s^p=0 .
+\end{equation*}
 It is useful to define the tensor conjugate to the stress-free dilation,
 \begin{equation}
 	\mbf H_s^\alpha
-	= (\bar{\mbf F}_s^M)^T
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^\theta)^{-T} .
+	= (\bar{\mbf F}_s^p)^T(\bar{\mbf F}_s^e)^T
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	(\bar{\mbf F}_s^p)^{-T}(\bar{\mbf F}_s^\theta)^{-T} .
 	\label{eq:CN_H_def}
 \end{equation}
 It is also useful to name the reversible distension-force residual
 \begin{equation}
 	\mc D_s
 	=\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-	-\rho_s a_s^M\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}.
+	-\rho_s a_s^e\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}.
 	\label{eq:CN_distension_residual_def}
 \end{equation}
 The mobile-phase Helmholtz energies are phase EOS potentials using the
@@ -426,7 +446,7 @@ spaces.
 	\label{eq:CN_reduced_entropy_inequality}
 \end{align}
 Substituting \eqref{eq:CN_total_helmholtz_density},
-\eqref{eq:CN_distension_rate_chain_rule}, \eqref{eq:CN_FM_rate_chain_rule},
+\eqref{eq:CN_distension_rate_chain_rule}, \eqref{eq:CN_Fe_rate_chain_rule},
 \eqref{eq:CN_stress_power_split}, and \eqref{eq:CN_fluid_free_energy_rate}
 gives the collected solid--fluid contribution.
 \begin{align}
@@ -435,11 +455,17 @@ gives the collected solid--fluid contribution.
 	\left[
 	\bs\sigma_s'\bar{\mbf F}_s^{-T}
 	-\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^\theta)^{-T}
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	(\bar{\mbf F}_s^p)^{-T}(\bar{\mbf F}_s^\theta)^{-T}
 	\right]:\dot{\bar{\mbf F}}_s
 	\notag                                               \\
-	       & +\mc D_s\frac{\dot a_s^M}{a_s^M}
+	       & +\mc D_s\frac{\dot a_s^e}{a_s^e}
+	       +\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	       \frac{\dot a_s^p}{a_s^p}
+		+\rho_s\sum_\alpha\eta_s^\alpha
+		\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+		:\bar{\mbf F}_s^e\dot{\bar{\mbf F}}_s^p
+		(\bar{\mbf F}_s^p)^{-1}
 		\notag                                               \\
 	       & +\left[
 			\frac{\phi_s \bar p_s}{\bar\rho_s}
@@ -550,7 +576,7 @@ Equivalently,
 \end{equation}
 For the solid phase, the same coefficient collection contains both the
 component-density chain rule and the explicit stress-free compositional dilation
-correction from \eqref{eq:CN_FM_rate_chain_rule}.  If the reversible pore
+correction from \eqref{eq:CN_Fe_rate_chain_rule}.  If the reversible pore
 architecture factor $a_s^\theta(\theta,\phi_s^\gamma)$ depends on composition,
 the analogous distension chain-rule term passes through the component volume
 fractions:
@@ -636,27 +662,44 @@ The deformation coefficient gives
 \begin{align}
 	\bs\sigma_s'
 	 & =\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^M)^T
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	(\bar{\mbf F}_s^e)^T
 	=\phi_s\sum_\alpha\phi_s^\alpha\bar\rho_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^M)^T .
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	(\bar{\mbf F}_s^e)^T .
 	\label{eq:CN_stress_definition}
 \end{align}
+Consequently, the plastic-deformation power in the residual inequality is the
+single-primed stress mapped to the plastic-flow configuration.  The isochoric
+constraint removes the spherical part, so
+\begin{equation*}
+	\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	:\bar{\mbf F}_s^e\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+	=
+	\left[
+		(\bar{\mbf F}_s^e)^T
+		\left(
+		\bs\sigma_s'
+		-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
+		\right)
+		(\bar{\mbf F}_s^e)^{-T}
+	\right]:\mbf L_s^p .
+\end{equation*}
 The component partial Cauchy stress uses the current component partial density.
 The intrinsic component stress is the corresponding normalized stress within the
 solid phase:
 \begin{equation}
 	\bs\sigma_s^{\prime\alpha}
 	=\rho_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^M)^T
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	(\bar{\mbf F}_s^e)^T
 	=\phi_s\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha},
 	\qquad
 	\bar{\bs\sigma}_s^{\prime\alpha}
 	=\bar\rho_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^M)^T .
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	(\bar{\mbf F}_s^e)^T .
 	\label{eq:CN_intrinsic_component_stress}
 \end{equation}
 Thus
@@ -671,17 +714,17 @@ reference mixture volume, then
 \begin{equation}
 	\mbf P_s^{\prime\alpha}
 	=\rho_{s0}^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^M}\heldfixed{\mc S}
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
 	=J_s \bs\sigma_s^{\prime\alpha}
-	(\bar{\mbf F}_s^M)^{-T}
+	(\bar{\mbf F}_s^e)^{-T}
 	\label{eq:CN_intrinsic_pk_stress}
 \end{equation}
 is the component first Piola--Kirchhoff stress.  The distension
 coefficient gives
 \begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-	= \rho_s a_s^M \sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S},
+	= \rho_s a_s^e \sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S},
 	\label{eq:CN_distension_force_definition}
 \end{equation}
 The solid pressure relation follows from the same coefficient collection.  The
@@ -773,10 +816,10 @@ The entropy coefficient gives
 The solid composition restrictions above are the place where component-density
 parametrization, stress-free compositional dilation, and pore-architecture
 distension modify the usual composition coefficient.  Although $a_s$ is the
-independent kinematic field, the free energy sees only the mechanical argument
-$a_s^M=a_s/a_s^\theta$.  Consequently the distension coefficient
+independent kinematic field, the free energy sees only the elastic argument
+$a_s^e=a_s/(a_s^p a_s^\theta)$.  Consequently the distension coefficient
 \eqref{eq:CN_distension_force_definition} is conjugate to the logarithmic
-mechanical rate $\dot a_s^M/a_s^M$ and the displayed $a_s^\theta$ chain-rule
+elastic rate $\dot a_s^e/a_s^e$ and the displayed $a_s^\theta$ chain-rule
 terms are the reversible generalized forces associated with prescribed
 thermal/compositional pore-architecture change.
 
@@ -821,14 +864,27 @@ After the reversible coefficients have been set to zero, the remaining
 inequality can therefore be written as
 \begin{align}
 	0\le\; &
-	\sum_m\mc A_m\dot r_m
-	+\sum_\xi\rho_\xi e_\xi^{\rm int}
-		-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta} .
+		\sum_m\mc A_m\dot r_m
+		+\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+		\frac{\dot a_s^p}{a_s^p}
+		+\left[
+			(\bar{\mbf F}_s^e)^T
+			\left(
+				\bs\sigma_s'
+				-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
+			\right)
+			(\bar{\mbf F}_s^e)^{-T}
+		\right]:\mbf L_s^p
+		+\sum_\xi\rho_\xi e_\xi^{\rm int}
+			-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta} .
 	\label{eq:CN_residual_dissipation}
 \end{align}
 Admissible reaction kinetics must make $\sum_m\mc A_m\dot r_m\ge 0$, for example
 through a closure $\dot r_m=\mc K_m(\mc A_m,\text{state})$ with
 $\mc A_m\dot r_m\ge 0$ for each independent mechanism.
+The plastic flow rules must likewise make the two plastic power terms
+nonnegative, or make their sum nonnegative if the plastic deformation and
+plastic distension are coupled.
 
 The interphase exchange term can be closed by the same quadratic argument used
 for the three-phase reacting mixture.  Following Bedford and
@@ -911,5 +967,6 @@ with $\theta>0$.  Then
 	\label{eq:CN_heat_flux_positive}
 \end{equation}
 Equations \eqref{eq:CN_interphase_exchange_positive} and
-\eqref{eq:CN_heat_flux_positive} are sufficient to make
-\eqref{eq:CN_residual_dissipation} thermodynamically admissible.
+\eqref{eq:CN_heat_flux_positive}, together with plastic flow rules that make the
+plastic part of \eqref{eq:CN_residual_dissipation} nonnegative, are sufficient
+to make \eqref{eq:CN_residual_dissipation} thermodynamically admissible.
