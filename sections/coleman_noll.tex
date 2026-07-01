@@ -82,7 +82,7 @@ $\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is a
 prescribed stress-free thermal/compositional dilation, not an independent
 thermodynamic state.  Likewise, the isotropic distension is written as
 \begin{equation}
-	a_s=a_s^m a_s^\theta(\theta,\phi_s^\beta),
+	a_s=a_s^M a_s^\theta(\theta,\phi_s^\beta),
 	\qquad
 	a_s^\theta>0 ,
 	\label{eq:CN_scalar_distension_split}
@@ -148,10 +148,10 @@ The corresponding scalar distension rate is most cleanly written in logarithmic
 form:
 \begin{align}
 	\frac{\dot a_s}{a_s}
-	&=\frac{\dot a_s^m}{a_s^m}
+		&=\frac{\dot a_s^M}{a_s^M}
 	+\frac{\dot a_s^\theta}{a_s^\theta}
 	\notag \\
-	&=\frac{\dot a_s^m}{a_s^m}
+		&=\frac{\dot a_s^M}{a_s^M}
 	+\left.\p{\ln a_s^\theta}{\theta}\heldfixed{\phi_s^\gamma}\dot\theta
 	+\sum_\beta\left[
 		\sum_\gamma
@@ -160,7 +160,7 @@ form:
 		\right]\dot\eta_s^\beta .
 	\label{eq:CN_distension_rate_chain_rule}
 \end{align}
-Here $\dot a_s^m/a_s^m$ denotes the logarithmic distension rate supplied by the
+Here $\dot a_s^M/a_s^M$ denotes the logarithmic distension rate supplied by the
 mechanical, storage, or reaction kinematics at fixed temperature and composition.
 If a model chooses no explicit pore-architecture thermal or compositional
 distension, the last two terms vanish and the earlier rate collection is
@@ -198,7 +198,7 @@ For the solid, component additivity gives
 	\left.\p{\psi_s^\alpha}{\bar{\mbf{F}}^M_s}\heldfixed{\mc S}
 	:\dot{\bar{\mbf{F}}}^M_s
 	+a_s\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
-	\frac{\dot a_s^m}{a_s^m}
+		\frac{\dot a_s^M}{a_s^M}
 	+a_s\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
 	\left.\p{\ln a_s^\theta}{\theta}\heldfixed{\phi_s^\gamma}\dot\theta
 	\notag                                                     \\
@@ -435,7 +435,7 @@ gives the collected solid--fluid contribution.
 	(\bar{\mbf F}_s^\theta)^{-T}
 	\right]:\dot{\bar{\mbf F}}_s
 	\notag                                               \\
-	       & +\mc D_s\frac{\dot a_s^m}{a_s^m}
+	       & +\mc D_s\frac{\dot a_s^M}{a_s^M}
 		\notag                                               \\
 	       & +\left[
 			\frac{\phi_s \bar p_s}{\bar\rho_s}
@@ -769,7 +769,7 @@ The entropy coefficient gives
 The solid composition restrictions above are the place where component-density
 parametrization, stress-free compositional dilation, and pore-architecture
 distension modify the usual composition coefficient.  When
-$\dot a_s^m/a_s^m$ is an admissible independent logarithmic distension rate, the distension
+$\dot a_s^M/a_s^M$ is an admissible independent logarithmic distension rate, the distension
 coefficient \eqref{eq:CN_distension_force_definition} makes the explicit
 $a_s^\theta$ chain-rule terms vanish from the reduced entropy and composition
 restrictions; if a model prescribes the reversible pore-architecture factor,
