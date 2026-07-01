@@ -917,9 +917,9 @@ the solid phase need not have the same free energy as component $\alpha$ in a
 liquid or gas phase.  The multicomponent solid free energy is written as
 %
 \begin{equation}
-	\psi_s(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta)
+	\psi_s(\bar{\mbf F}_s^M,\bar\rho_s,a_s^M,\theta,\eta_s^\beta)
 	=\sum_\alpha \eta_s^\alpha\,
-	\psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s,a_s,\theta,\eta_s^\beta),
+	\psi_s^\alpha(\bar{\mbf F}_s^M,\bar\rho_s,a_s^M,\theta,\eta_s^\beta),
 	\label{eq:solid_multicomponent_free_energy}
 \end{equation}
 %
@@ -1042,8 +1042,8 @@ The distension force is the separate Coleman--Noll restriction
 %
 \begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-	=\rho_s a_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}.
+	=\rho_s a_s^M\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}.
 	\label{eq:solid_final_distension_pressure}
 \end{equation}
 %
@@ -1357,8 +1357,8 @@ the total solid stress is the force conjugate to the solid distension:
 %
 \begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-	=\rho_s a_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}.
+	=\rho_s a_s^M\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}.
 	\label{eq:distension_stress_restriction}
 \end{equation}
 %
@@ -1369,8 +1369,8 @@ restriction on the double-prime stress:
 \begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\prime})
 	=
-	\rho_s a_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
+	\rho_s a_s^M\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}
 	-\left(1-B_s\right)\bar p_E .
 	\label{eq:double_prime_distension_trace}
 \end{equation}
@@ -1452,8 +1452,8 @@ Coleman--Noll restriction, use the same Legendre/Biot relation in scalar trace
 form:
 %
 \begin{equation}
-	\rho_s a_s\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
+	\rho_s a_s^M\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}
 	=
 	a_s
 	\left.
@@ -1477,8 +1477,8 @@ Substituting \eqref{eq:component_transformed_volumetric_trace} into
 Equivalently, the component Coleman--Noll distension force is
 %
 \begin{equation}
-	\rho_s a_s\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
+	\rho_s a_s^M\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}
 	=
 	K^{\star\alpha}\ln J_s
 	+\left(1-B_s^\alpha\right)\bar p_s^\alpha .
@@ -1490,8 +1490,8 @@ Summing over solid components gives the total trace condition:
 \begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
 	=
-	\rho_s a_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S},
+	\rho_s a_s^M\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S},
 	\label{eq:crystallization_total_trace_cn_satisfied}
 \end{equation}
 %
@@ -1503,8 +1503,8 @@ equivalent-pressure contribution recovers the double-prime condition:
 	=
 	\sum_\alpha K^{\star\alpha}\ln J_s
 	=
-	\rho_s a_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s}\heldfixed{\mc S}
+	\rho_s a_s^M\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{a_s^M}\heldfixed{\mc S}
 	-\left(1-B_s\right)\bar p_E,
 	\label{eq:crystallization_double_prime_trace_cn_satisfied}
 \end{equation}
