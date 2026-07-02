@@ -656,48 +656,6 @@ Equivalently,
 	=\pi_\ell .
 	\label{eq:CN_composition_componentwise}
 \end{equation}
-For the solid phase, the same coefficient collection contains the
-component-density chain rule and the stress-free compositional derivatives.  If
-the reversible pore-architecture tensor
-$\mbf A_s^\theta(\theta,\phi_s^\gamma)$ depends on composition, the analogous
-distension term passes through the component volume fractions:
-\begin{align}
-	0={} &
-	\frac{\tau_s^\beta}{\eta_s^\beta}
-	+\pi_s
-	-\rho_s
-	\left[
-		\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
-		+\sum_\alpha\eta_s^\alpha
-		\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
-		\right]
-	+\operatorname{tr}\bigg[
-	\bigg(
-	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
-	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
-	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
-	\notag                           \\
-	     & \qquad
-	+\left(
-	\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\bar\rho_s^\alpha-\phi_s\bar p_s
-	\right)\mbf I
-	\bigg)
-	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^\theta)^{-1}
-	\bigg]
-	+\operatorname{tr}\left[
-		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
-		\mbf A_s^e\mbf A_s^p
-		\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-		(\mbf A_s^\theta)^{-1}
-		\right],
-	\notag                           \\
-	     & \qquad \beta=1,\ldots,N .
-	\label{eq:CN_solid_composition_multiplier_restriction}
-\end{align}
 Eliminating $\pi_\ell$ gives the mobile-phase projected restriction on the
 tangent space,
 \begin{equation}
@@ -712,55 +670,6 @@ tangent space,
 	\beta=1,\ldots,N-1 .
 	\label{eq:CN_composition_projected_restriction}
 \end{equation}
-For the solid, the common part of the density-chain contribution is absorbed
-into $\pi_s$ after the pressure identification below.  The remaining
-stress-free compositional terms are reversible generalized forces associated
-with the prescribed dependence of
-$\bar{\mbf F}_s^\theta$ and $\mbf A_s^\theta$ on the derived component volume
-fractions.  Eliminating $\pi_s$ gives
-\begin{align}
-	 & \rho_s\left(
-	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
-	-\left.\p{\psi_s}{\eta_s^N}\heldfixed{\mc S}
-	\right)
-	-\operatorname{tr}\bigg\{
-	\bigg(
-	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
-	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
-	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
-	\notag          \\
-	 & \quad
-	+\left(
-	\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\bar\rho_s^\alpha-\phi_s\bar p_s
-	\right)\mbf I
-	\bigg)
-	\left[
-		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-		-\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^N}\heldfixed{\mc S}
-		\right]
-	(\bar{\mbf F}_s^\theta)^{-1}
-	\bigg\}
-	\notag          \\
-	 & \quad
-	-\operatorname{tr}\bigg\{
-	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
-	\mbf A_s^e\mbf A_s^p
-	\left[
-		\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-		-\left.\p{\mbf A_s^\theta}{\eta_s^N}\heldfixed{\mc S}
-		\right]
-	(\mbf A_s^\theta)^{-1}
-	\bigg\}
-	\notag          \\
-	 & \qquad =
-	\frac{\tau_s^\beta}{\eta_s^\beta}
-	-\frac{\tau_s^N}{\eta_s^N},
-	\qquad
-	\beta=1,\ldots,N-1 .
-	\label{eq:CN_solid_composition_projected_restriction}
-\end{align}
 The elastic true-deformation coefficient gives
 \begin{align}
 	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
@@ -932,6 +841,86 @@ coefficient gives the tensor restriction
 \end{equation}
 Taking $\mbf A_s^e=(a_s^e)^{1/3}\mbf I$ reduces this tensor condition to the
 scalar trace relation used in the isotropic distension model.
+For the solid phase, the composition coefficient contains the component-density
+chain rule and the stress-free compositional derivatives.  At this point the
+pressure identification \eqref{eq:CN_solid_pressure_identification} has removed
+the isotropic density-power term from the true-deformation contribution.  If the
+reversible pore-architecture tensor
+$\mbf A_s^\theta(\theta,\phi_s^\gamma)$ depends on composition, the analogous
+distension term passes through the component volume fractions:
+\begin{align}
+	0={} &
+	\frac{\tau_s^\beta}{\eta_s^\beta}
+	+\pi_s
+	-\rho_s
+	\left[
+		\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+		+\sum_\alpha\eta_s^\alpha
+		\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+		\right]
+	\notag                                                \\
+	 & \quad
+	+\operatorname{tr}\left[
+	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
+	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
+	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+	(\bar{\mbf F}_s^\theta)^{-1}
+	\right]
+	\notag                                                \\
+	 & \quad
+	+\operatorname{tr}\left[
+	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
+	\mbf A_s^e\mbf A_s^p
+	\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+	(\mbf A_s^\theta)^{-1}
+	\right],
+	\notag                                                \\
+	 & \qquad \beta=1,\ldots,N .
+	\label{eq:CN_solid_composition_multiplier_restriction}
+\end{align}
+For the solid, the common part of the density-chain contribution is absorbed
+into $\pi_s$ after the pressure identification.  The remaining stress-free
+compositional terms are reversible generalized forces associated with the
+prescribed dependence of $\bar{\mbf F}_s^\theta$ and $\mbf A_s^\theta$ on the
+derived component volume fractions.  Eliminating $\pi_s$ gives
+\begin{align}
+	 & \rho_s\left(
+	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+	-\left.\p{\psi_s}{\eta_s^N}\heldfixed{\mc S}
+	\right)
+	\notag                                                \\
+	 & \quad
+	-\operatorname{tr}\bigg[
+	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
+	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
+	\left(
+	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+	-\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^N}\heldfixed{\mc S}
+	\right)
+	(\bar{\mbf F}_s^\theta)^{-1}
+	\bigg]
+	\notag                                                \\
+	 & \quad
+	-\operatorname{tr}\bigg[
+	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
+	\mbf A_s^e\mbf A_s^p
+	\left(
+	\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+	-\left.\p{\mbf A_s^\theta}{\eta_s^N}\heldfixed{\mc S}
+	\right)
+	(\mbf A_s^\theta)^{-1}
+	\bigg]
+	\notag                                                \\
+	 & \qquad =
+	\frac{\tau_s^\beta}{\eta_s^\beta}
+	-\frac{\tau_s^N}{\eta_s^N},
+	\qquad
+	\beta=1,\ldots,N-1 .
+	\label{eq:CN_solid_composition_projected_restriction}
+\end{align}
 The entropy coefficient gives
 \begin{align}
 	s_l
@@ -941,22 +930,13 @@ The entropy coefficient gives
 	 & =-\sum_\alpha\eta_s^\alpha
 	\left.\p{\psi_s^\alpha}{\theta}\heldfixed{\mc S}
 	+\frac{1}{\rho_s}
-	\operatorname{tr}\bigg[
-	\bigg(
+	\operatorname{tr}\left[
 	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
 	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
-	\notag                                          \\
-	 & \quad
-	+\left(
-	\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\bar\rho_s^\alpha-\phi_s\bar p_s
-	\right)\mbf I
-	\bigg)
 	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}
 	(\bar{\mbf F}_s^\theta)^{-1}
-	\bigg]
+	\right]
 	\notag                                          \\
 	 & \quad
 	+\frac{1}{\rho_s}
