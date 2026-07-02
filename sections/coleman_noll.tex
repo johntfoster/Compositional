@@ -619,40 +619,27 @@ tangent space,
 	\beta=1,\ldots,N-1 .
 	\label{eq:CN_composition_projected_restriction}
 \end{equation}
-For the solid, eliminating $\pi_s$ gives the corresponding projected restriction
-with the differences of the density-chain and dilation corrections retained:
+For the solid, the density-chain term in
+\eqref{eq:CN_solid_composition_multiplier_restriction} contributes the same
+solid phase-pressure term to each component equation once the component-density
+derivatives are evaluated using \eqref{eq:CN_phase_pressure_definition}.  It
+is therefore absorbed into $\pi_s$ and cancels from the projected restriction.
+The admissible reversible distension restriction
+\eqref{eq:CN_distension_force_definition} is equivalently $\mc D_s=0$, so the
+pore-architecture distension term also drops out.  Eliminating $\pi_s$ gives
 \begin{align}
 	 & \rho_s\left(
-	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
-	-\left.\p{\psi_s}{\eta_s^N}\heldfixed{\mc S}
-	\right)
-	+\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\left(
-	\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
-	-\left.\p{\bar\rho_s^\alpha}{\eta_s^N}\right\vert_{\bar\rho_s}
-	\right)
-	\notag                                                     \\
-	 & \qquad
-	-\rho_s\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
-	\left(
-	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	-\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^N}\heldfixed{\mc S}
-	\right)
-	\notag                                                     \\
-	 & \qquad
-	-\mc D_s
-	\left(
-	\sum_\gamma
-	\left.\p{\ln a_s^\theta}{\phi_s^\gamma}\heldfixed{\mc T_s}
-	\left[
-		\left.\p{\phi_s^\gamma}{\eta_s^\beta}\heldfixed{\mc S}
-		-\left.\p{\phi_s^\gamma}{\eta_s^N}\heldfixed{\mc S}
-		\right]
-	\right)
-	\notag                                                     \\
-	 & \qquad =
-	\frac{\tau_s^\beta}{\eta_s^\beta}
+		\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+		-\left.\p{\psi_s}{\eta_s^N}\heldfixed{\mc S}
+		\right)
+		-\rho_s\sum_\alpha\eta_s^\alpha\mbf H_s^\alpha:
+		\left(
+		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+		-\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^N}\heldfixed{\mc S}
+		\right)
+		\notag                                                     \\
+		 & \qquad =
+		\frac{\tau_s^\beta}{\eta_s^\beta}
 	-\frac{\tau_s^N}{\eta_s^N},
 	\qquad
 	\beta=1,\ldots,N-1 .
@@ -669,14 +656,22 @@ The deformation coefficient gives
 	(\bar{\mbf F}_s^e)^T .
 	\label{eq:CN_stress_definition}
 \end{align}
-Consequently, the plastic-deformation power in the residual inequality is the
-single-primed stress mapped to the plastic-flow configuration.  The isochoric
-constraint removes the spherical part, so
-\begin{equation*}
-	\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
-	:\bar{\mbf F}_s^e\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
-	=
+The Cauchy stress is symmetric, $\bs\sigma_s'=(\bs\sigma_s')^T$.  Consequently,
+the plastic-deformation power in the residual inequality is driven by the
+single-primed stress mapped to the plastic-flow configuration.  Define the
+deviatoric first Piola--Kirchhoff effective stress by
+\begin{align}
+	\mbf S_s'
+	 & \equiv
+	(\bar{\mbf F}_s^e)^{-1}
+	\left(
+	\bs\sigma_s'
+	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
+	\right)
+	\bar{\mbf F}_s^e,
+	\label{eq:CN_plastic_driving_stress} \\
+	\mbf S_s'
+	 & =
 	\left[
 		(\bar{\mbf F}_s^e)^T
 		\left(
@@ -684,8 +679,18 @@ constraint removes the spherical part, so
 		-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
 		\right)
 		(\bar{\mbf F}_s^e)^{-T}
-	\right]:\mbf L_s^p .
-\end{equation*}
+	\right]^T,
+	\label{eq:CN_plastic_driving_stress_transpose} \\
+	\operatorname{tr}\mbf S_s'
+	 & =0,
+	\label{eq:CN_plastic_driving_stress_trace} \\
+	\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	:\bar{\mbf F}_s^e\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+	 & =
+	\operatorname{tr}\left(\mbf S_s'\mbf L_s^p\right).
+	\label{eq:CN_plastic_power_identity}
+\end{align}
 The component partial Cauchy stress uses the current component partial density.
 The intrinsic component stress is the corresponding normalized stress within the
 solid phase:
@@ -862,29 +867,45 @@ Thus the source projection \eqref{eq:CN_mu_source_projection} is exactly
 the mechanism force power.
 After the reversible coefficients have been set to zero, the remaining
 inequality can therefore be written as
-\begin{align}
-	0\le\; &
+\begin{equation}
+	\begin{aligned}
+		0\le{}\; &
 		\sum_m\mc A_m\dot r_m
 		+\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-		\frac{\dot a_s^p}{a_s^p}
-		+\left[
-			(\bar{\mbf F}_s^e)^T
-			\left(
-				\bs\sigma_s'
-				-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
-			\right)
-			(\bar{\mbf F}_s^e)^{-T}
-		\right]:\mbf L_s^p
+		\frac{\dot a_s^p}{a_s^p} \\
+		&+\operatorname{tr}\left(\mbf S_s'\mbf L_s^p\right)
 		+\sum_\xi\rho_\xi e_\xi^{\rm int}
-			-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta} .
+		-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta} .
+	\end{aligned}
 	\label{eq:CN_residual_dissipation}
-\end{align}
+\end{equation}
 Admissible reaction kinetics must make $\sum_m\mc A_m\dot r_m\ge 0$, for example
 through a closure $\dot r_m=\mc K_m(\mc A_m,\text{state})$ with
 $\mc A_m\dot r_m\ge 0$ for each independent mechanism.
-The plastic flow rules must likewise make the two plastic power terms
-nonnegative, or make their sum nonnegative if the plastic deformation and
-plastic distension are coupled.
+Following the same sufficient construction used by Drumheller~\cite{drumheller2000},
+one may choose generic uncoupled flow rules
+\begin{subequations}
+	\label{eq:CN_generic_plastic_flow_rules}
+\begin{align}
+	\mbf L_s^p
+	 & =\Lambda_F(\mc S)\mbf S_s',
+	\label{eq:CN_generic_plastic_deformation_flow_rule} \\
+	\frac{\dot a_s^p}{a_s^p}
+	 & =\Lambda_a(\mc S)\frac{1}{3}\operatorname{tr}(\bs\sigma_s'),
+	\label{eq:CN_generic_plastic_distension_flow_rule} \\
+	\Lambda_F(\mc S)
+	 & \ge0,
+	\label{eq:CN_generic_plastic_deformation_mobility_nonnegative} \\
+	\Lambda_a(\mc S)
+	 & \ge0 .
+	\label{eq:CN_generic_plastic_distension_mobility_nonnegative}
+\end{align}
+\end{subequations}
+with $\Lambda_F(\mc S)$ and $\Lambda_a(\mc S)$ vanishing in a neighborhood of elastic equilibrium.  Then
+the isochoric constraint is preserved by $\operatorname{tr}\mbf S_s'=0$, and the
+two plastic powers in \eqref{eq:CN_residual_dissipation} are nonnegative term by
+term.  More general coupled plastic deformation--distension laws are admissible
+if their combined plastic power is nonnegative.
 
 The interphase exchange term can be closed by the same quadratic argument used
 for the three-phase reacting mixture.  Following Bedford and

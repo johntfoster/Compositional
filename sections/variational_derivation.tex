@@ -1255,9 +1255,9 @@ gives
 This identifies the component nonlinear Biot coefficient as
 %
 \begin{align}
-	B_s^\alpha
+	\Aboxed{B_s^\alpha
 	 & \equiv 1 - \frac{1}{v_{s0}^\alpha}
-	\left.\p{v_s^\alpha}{J_s}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}. \\
+	\left.\p{v_s^\alpha}{J_s}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}} . \\
 	 & \approx 1 - \frac{K^{\star \al }}{K^\al_s}
 	\label{eq:component_nonlinear_biot_coefficient}
 \end{align}
@@ -1499,28 +1499,11 @@ that supplies the double-prime stress also supplies the distension force require
 by \eqref{eq:distension_stress_restriction}.  Once this stress is used in the
 momentum equation, no separate crystallization-pressure force should be added.
 
-It is still useful to name the pressure scale carried by the transformed
-volumetric energy:
-%
-\begin{equation}
-	p_{\rm xtal}^\alpha
-	\equiv
-	K^{\star\alpha}\ln J_s,
-	\label{eq:crystallization_mechanical_energy}
-\end{equation}
-%
-Then
-%
-\begin{equation}
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha})
-	=
-	p_{\rm xtal}^\alpha
-	+\left(1-B_s^\alpha\right)\bar p_s^\alpha .
-	\label{eq:crystallization_trace_stress}
-\end{equation}
-%
-This mechanical pressure scale is not the kinetic driving force.  Crystallization
-enters the thermodynamics through the mechanism affinity.  The variational
+There is therefore no second mechanical pressure to introduce.  The volumetric
+part of the solid Helmholtz energy is already built into
+$\operatorname{tr}(\bs\sigma_s^{\prime\alpha})$, and that stress is the
+mechanical quantity that enters the momentum equation.  Crystallization enters
+the thermodynamics through the mechanism affinity.  The variational
 theory identifies the force conjugate to the mechanism progress rate $\dot r_m$:
 %
 \begin{equation}
@@ -1543,17 +1526,17 @@ A simple admissible choice is $\dot r_m=M_m\mc A_m$ with $M_m\ge0$.  A
 one-sided precipitation or dissolution law may be used when the mechanism is not
 reversible.
 
-Classical crystallization pressure is recovered only after this thermodynamic
-solve.  For a mechanism $m$ precipitating solid component $\alpha_m$, define the
-intrinsic specific volume
+Classical crystallization pressure is therefore best used as a way to prescribe
+or diagnose this affinity, not as an added stress.  For a mechanism $m$
+precipitating solid component $\alpha_m$, define the intrinsic specific volume
 %
 \begin{equation}
 	\bar v_s^{\alpha_m}=\frac{1}{\bar\rho_s^{\alpha_m}} .
 	\label{eq:crystallization_intrinsic_specific_volume}
 \end{equation}
 %
-The equivalent crystallization pressure is the pressure scale obtained by
-combining the chemical affinity with the admissible mechanical trace stress:
+The equivalent classical pressure is the pressure scale whose excess over the
+current solid trace stress represents the chemical driving force:
 %
 \begin{equation}
 	p_c^{(m)}
@@ -1562,7 +1545,8 @@ combining the chemical affinity with the admissible mechanical trace stress:
 	\label{eq:crystallization_affinity_trace_stress}
 \end{equation}
 %
-Equivalently,
+Equivalently, a crystallization-pressure law supplies the algebraic affinity
+restriction
 %
 \begin{equation}
 	\mc A_m
@@ -1574,30 +1558,7 @@ Equivalently,
 	\label{eq:crystallization_affinity_volumetric}
 \end{equation}
 %
-Using \eqref{eq:crystallization_trace_stress}, this diagnostic pressure is
-%
-\begin{equation}
-	p_c^{(m)}
-	=\frac{\mc A_m}{\bar v_s^{\alpha_m}}
-	+p_{\rm xtal}^{\alpha_m}
-	+\left(1-B_s^{\alpha_m}\right)\bar p_s^{\alpha_m}.
-	\label{eq:crystallization_pressure_from_affinity}
-\end{equation}
-%
-At reversible equilibrium,
-%
-\begin{equation}
-	p_c^{(m)}
-	=
-	p_{\rm xtal}^{\alpha_m}
-	+\left(1-B_s^{\alpha_m}\right)\bar p_s^{\alpha_m}.
-	\label{eq:distension_equilibrium_crystallization}
-\end{equation}
-%
-Thus crystallization pressure arises as a diagnostic pressure scale obtained
-from the solved affinity and the admissible mechanical trace stress.  It is not
-an independent constitutive stress.  A classical supersaturation law can be used
-by identifying
+For example, a classical supersaturation law may be written
 %
 \begin{equation}
 	p_c^{(m)}
@@ -1606,7 +1567,32 @@ by identifying
 \end{equation}
 %
 where $V_s^{\alpha_m}$ is the molar volume of the precipitating solid component.
-The saturation ratio associated with the solved thermodynamic state is then
+Substitution into \eqref{eq:crystallization_affinity_volumetric} gives the
+corresponding affinity closure
+%
+\begin{equation}
+	\mc A_m
+	=
+	\bar v_s^{\alpha_m}
+	\left(
+	\frac{R\theta}{V_s^{\alpha_m}}\ln\Omega_m
+	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_m})
+	\right).
+	\label{eq:crystallization_supersaturation_affinity}
+\end{equation}
+%
+At reversible equilibrium, $\mc A_m=0$, so the classical pressure equals the
+current admissible trace stress:
+%
+\begin{equation}
+	p_c^{(m)}
+	=
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_m}) .
+	\label{eq:distension_equilibrium_crystallization}
+\end{equation}
+%
+If the affinity and stress are solved instead, the associated saturation ratio
+is the diagnostic output
 %
 \begin{equation}
 	\Omega_m
@@ -1620,11 +1606,11 @@ The saturation ratio associated with the solved thermodynamic state is then
 	\label{eq:crystallization_saturation_ratio_diagnostic}
 \end{equation}
 %
-In this form, a classical crystallization-pressure formula supplies either a
-diagnostic output or a calibration target for the kinetic law.  The simulator
-still advances the Helmholtz-generated stresses, balance laws, conversion
-constraints, and an admissible law for $\dot r_m$; it does not add
-$p_c^{(m)}$ as a second mechanical load.
+Thus a classical crystallization-pressure formula supplies either an algebraic
+equilibrium restriction, a diagnostic output, or a calibration target for the
+kinetic law.  The simulator still advances the Helmholtz-generated stresses,
+balance laws, conversion constraints, and an admissible law for $\dot r_m$; it
+does not add $p_c^{(m)}$ as a second mechanical load.
 
 \subsection{Model summary, closures, and equation count}
 \label{sec:model_summary_closure_count}
@@ -1682,11 +1668,12 @@ with the corresponding Euler--Lagrange relations
 The composition stationarity equations are used in their projected form, with
 the redundant normal multiplier $\pi_\xi$ eliminated explicitly.  For mobile
 phases this is \eqref{eq:CN_composition_projected_restriction}; for the solid it
-is \eqref{eq:CN_solid_composition_projected_restriction}, where the
-component-density chain-rule and stress-free compositional-dilation corrections
-are retained.  The intrinsic pressures, solid stresses, entropy, and distension
-stress are not independent laws; they are Coleman--Noll derivatives of the
-Helmholtz energies summarized by \eqref{eq:CN_stress_definition},
+is \eqref{eq:CN_solid_composition_projected_restriction}, where the phase-pressure
+and admissible distension-residual terms have cancelled and the stress-free
+compositional-dilation correction remains.  The intrinsic pressures, solid
+stresses, entropy, and distension stress are not independent laws; they are
+Coleman--Noll derivatives of the Helmholtz energies summarized by
+\eqref{eq:CN_stress_definition},
 \eqref{eq:CN_distension_force_definition}, \eqref{eq:CN_phase_pressure_definition},
 and \eqref{eq:CN_entropy_definitions}.
 
@@ -1705,34 +1692,25 @@ mechanism affinity is the stoichiometric projection
 %
 The remaining closure laws are dissipative.  They must be chosen so that
 %
-\begin{align}
-	0\le\; &
+\begin{equation}
+	\begin{aligned}
+		0\le{}\; &
 		\sum_m\mc A_m\dot r_m
 		+\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-		\frac{\dot a_s^p}{a_s^p}
-		\notag \\
-	&\quad
-		+\left[
-			(\bar{\mbf F}_s^e)^T
-			\left(
-				\bs\sigma_s'
-				-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
-			\right)
-			(\bar{\mbf F}_s^e)^{-T}
-		\right]:\mbf L_s^p
-		\notag \\
-	&\quad
+		\frac{\dot a_s^p}{a_s^p} \\
+		&+\operatorname{tr}\left(\mbf S_s'\mbf L_s^p\right)
 		+\sum_{\xi<\zeta}\mbf u_{\xi\zeta}\cdot
-		\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta}
-		+\sum_\xi
+		\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta} \\
+		&+\sum_\xi
 		\frac{\nabla_{\mbf x}\theta\cdot\mbf K_\xi\nabla_{\mbf x}\theta}{\theta} .
-		\label{eq:model_summary_dissipation}
-\end{align}
+	\end{aligned}
+	\label{eq:model_summary_dissipation}
+\end{equation}
 %
 For example, one may use kinetic laws
 $\dot r_m=\mc K_m(\mc A_m,\hbox{state})$ with
-$\mc A_m\dot r_m\ge0$, plastic flow rules that make the displayed plastic
-powers nonnegative, pairwise interaction laws
+$\mc A_m\dot r_m\ge0$, plastic flow rules such as
+\eqref{eq:CN_generic_plastic_flow_rules}, pairwise interaction laws
 \eqref{eq:CN_interphase_exchange_law}, and the heat-flux closure
 \eqref{eq:CN_heat_flux_closure}.  A crystallization-pressure law, if used, enters
 only by translating it into the affinity through

@@ -2,31 +2,31 @@
 \section{Material form of conservation of mass}
 %
 \begin{figure}
-\centering
-\begin{tikzpicture}[scale=0.65]
-	\tikzstyle{pt}=[circle, fill=black, inner sep=0pt, minimum size=5pt]
-	\draw [black, fill=black!20] plot [smooth cycle] coordinates {(-1.0,-1.0) (2,0) (2.5,2) (2,4) (-1,3)};
-	\draw [black, fill=black!20] plot [smooth cycle] coordinates {(7, 0) (10,0) (13.65, 4) (8,4.5)};
-	\draw (2,-4) node[fill=black, minimum size=3pt, inner sep=0pt, label={[label distance=3pt]180:$o$}] (O) {} ;
-	\draw (-0.5,2.8) node[pt] (Xf) {} ;
-	\draw (1.5,0.5) node[pt] (Xs) {} ;
-	\draw (9.0,2) node[pt] (x) {} ;
-	\draw[-latex] (O) -- (Xf) node[midway, fill=white, inner sep=1pt] {$\mbf{X}_\xi$} ;
-	\draw[-latex] (O) -- (Xs) node[midway, fill=white, inner sep=1pt] {$\mbf{X}_\zeta$} ;
-	\draw[-latex] (O) -- (x) node[midway, fill=white, inner sep=1pt] {$\mbf{x}$} ;
-	\draw[bend left, -latex] (Xs) to node[midway, fill=white, inner sep=1pt] {$\bs{\chi}_\zeta$} (x);
-	\draw[bend left, -latex] (Xf) to node[midway, fill=white, inner sep=1pt] {$\bs{\chi}_\xi$} (x);
-	\draw (1.3,1.8) node () {${\mc{B}_0}$} ;
-	\draw (11.1,2) node () {${\mc{B}}$} ;
-	\draw (3.5,-4) node (xaxis) {} ;
-	\draw (2,-2.5) node (yaxis) {} ;
-	\draw (1.0,-5.0) node (zaxis) {} ;
-	\draw[-latex, line width=2pt] (O) -- (xaxis)  {} ;
-	\draw[-latex, line width=2pt] (O) -- (yaxis)  {} ;
-	\draw[-latex, line width=2pt] (O) -- (zaxis)  {} ;
-\end{tikzpicture}
-\caption{Schematic description of mixture kinematics showing the deformation maps, $\bs\chi_\xi$, linking phase reference configurations, $\mbf{X}_\xi$, to the common current configuration, $\mbf{x}$.}
-\label{fig:component_kinematics}
+	\centering
+	\begin{tikzpicture}[scale=0.65]
+		\tikzstyle{pt}=[circle, fill=black, inner sep=0pt, minimum size=5pt]
+		\draw [black, fill=black!20] plot [smooth cycle] coordinates {(-1.0,-1.0) (2,0) (2.5,2) (2,4) (-1,3)};
+		\draw [black, fill=black!20] plot [smooth cycle] coordinates {(7, 0) (10,0) (13.65, 4) (8,4.5)};
+		\draw (2,-4) node[fill=black, minimum size=3pt, inner sep=0pt, label={[label distance=3pt]180:$o$}] (O) {} ;
+		\draw (-0.5,2.8) node[pt] (Xf) {} ;
+		\draw (1.5,0.5) node[pt] (Xs) {} ;
+		\draw (9.0,2) node[pt] (x) {} ;
+		\draw[-latex] (O) -- (Xf) node[midway, fill=white, inner sep=1pt] {$\mbf{X}_\xi$} ;
+		\draw[-latex] (O) -- (Xs) node[midway, fill=white, inner sep=1pt] {$\mbf{X}_\zeta$} ;
+		\draw[-latex] (O) -- (x) node[midway, fill=white, inner sep=1pt] {$\mbf{x}$} ;
+		\draw[bend left, -latex] (Xs) to node[midway, fill=white, inner sep=1pt] {$\bs{\chi}_\zeta$} (x);
+		\draw[bend left, -latex] (Xf) to node[midway, fill=white, inner sep=1pt] {$\bs{\chi}_\xi$} (x);
+		\draw (1.3,1.8) node () {${\mc{B}_0}$} ;
+		\draw (11.1,2) node () {${\mc{B}}$} ;
+		\draw (3.5,-4) node (xaxis) {} ;
+		\draw (2,-2.5) node (yaxis) {} ;
+		\draw (1.0,-5.0) node (zaxis) {} ;
+		\draw[-latex, line width=2pt] (O) -- (xaxis)  {} ;
+		\draw[-latex, line width=2pt] (O) -- (yaxis)  {} ;
+		\draw[-latex, line width=2pt] (O) -- (zaxis)  {} ;
+	\end{tikzpicture}
+	\caption{Schematic description of mixture kinematics showing the deformation maps, $\bs\chi_\xi$, linking phase reference configurations, $\mbf{X}_\xi$, to the common current configuration, $\mbf{x}$.}
+	\label{fig:component_kinematics}
 \end{figure}
 %
 Given a differential mass ${\rm d}m^\al_\xi$ of component $\al$ in phase\footnote{In order to unify notation between fluids, solids, and gases, we adopt a relaxed definition of phase:  A \emph{phase} is the collectional of all \emph{compoenents} moving along a common trajectory $\mbf{\chi}_\xi$.} $\xi$, define the component partial density per current mixture volume by
@@ -60,8 +60,8 @@ with phase deformation gradient $\mbf{F}_\xi$ and Jacobian
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	J_\xi &= \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right), \notag \\
-	      &= \det\left(\mbf{F}_\xi\right).
+	J_\xi & = \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right), \notag \\
+	      & = \det\left(\mbf{F}_\xi\right).
 	\label{eq:phase_jacobian_definition}
 \end{align}
 % AGENT-LOCK-END
@@ -71,7 +71,7 @@ Let $\rho_{\xi0}^\al(\mbf{X}_\xi)$ denote the initial (evaluted at $\mbf{x}(t=0)
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	\int_{\mc{B}_{\xi 0}} \left(\rho_{\xi 0}^\al + \mc{C}^\al_\xi\right)\dVxi
-	 & = \int_{\mc{B}} \rho_\xi^\al \dv \\
+	 & = \int_{\mc{B}} \rho_\xi^\al \dv                     \\
 	 & = \int_{\mc{B}_{\xi 0}} \rho_{\xi}^\al J_\xi \dVxi .
 	\label{eq:material_mass}
 \end{align}
@@ -151,7 +151,7 @@ Summing \eqref{eq:phase_mass_fraction} over $\al$ gives the \emph{mass fraction 
 The \emph{phase volume fraction} is defined as
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-\phi_\xi = \frac{\dv_\xi}{\dv},
+	\phi_\xi = \frac{\dv_\xi}{\dv},
 	\label{eq:phase_volume_fraction}
 \end{equation}
 % AGENT-LOCK-END
@@ -166,15 +166,15 @@ and summing over $\xi$ gives the \emph{volume fraction constraint}
 The \emph{phase intrinsic density} is $\bar\rho_\xi = {\rm d}m_\xi/\dv_\xi$, so that
 %
 \begin{subequations}
-\begin{align}
-	\rho_\xi &= \phi_\xi \bar\rho_\xi,
-	\label{eq:phase_partial_density_representation} \\
-	\rho_\xi^\alpha &= \phi_\xi \bar\rho_\xi \eta^\alpha_\xi.
-	\label{eq:component_partial_density_representation}
-\end{align}
+	\begin{align}
+		\rho_\xi        & = \phi_\xi \bar\rho_\xi,
+		\label{eq:phase_partial_density_representation}            \\
+		\rho_\xi^\alpha & = \phi_\xi \bar\rho_\xi \eta^\alpha_\xi.
+		\label{eq:component_partial_density_representation}
+	\end{align}
 \end{subequations}
 %
-Substituting \eqref{eq:component_partial_density_representation} into \eqref{eq:component_spatial_mass} and summing over all $\xi$ gives the global component mass balance 
+Substituting \eqref{eq:component_partial_density_representation} into \eqref{eq:component_spatial_mass} and summing over all $\xi$ gives the global component mass balance
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
@@ -194,13 +194,13 @@ All internal conversion mechanisms are parameterized by current progress rates $
 \end{equation}
 % AGENT-LOCK-END
 %
-The index $m$ includes chemical reactions and pure phase transformations.  A pure phase transformation of component $\alpha$ from phase $\xi$ to phase $\zeta$ is the special one-to-one stoichiometry $\nu_{\xi m}^\alpha=-1$, $\nu_{\zeta m}^\alpha=+1$, with all other entries zero.  A chemical reaction may change both component identity and phase label.  Substitute \eqref{eq:unified_stoich_current} into \eqref{eq:spatial_mass_2} and summming
+The index $m$ includes chemical reactions and pure phase transformations.  A pure phase transformation of component $\alpha$ from phase $\xi$ to phase $\zeta$ is the special one-to-one stoichiometry $\nu_{\xi (m)}^\alpha=-1$, $\nu_{\zeta (m)}^\alpha=+1$, with all other entries zero.  A chemical reaction may change both component identity and phase label.  Substitute \eqref{eq:unified_stoich_current} into \eqref{eq:spatial_mass_2} and summming
 over $\al$ gives the overall mass balance
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	\frac{\partial}{\partial t}\left(\sum_\xi \sum_\al \phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
 	+ \nabla_\mbf{x}\cdot\left( \sum_\xi \sum_\al \phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
-	&= \sum_\xi \sum_\al \nu^\alpha_{\xi (m)} \dot{r}_{(m)},
+	 & = \sum_\xi \sum_\al \nu^\alpha_{\xi (m)} \dot{r}_{(m)},
 	\label{eq:spatial_mass_3}
 \end{align}
 % AGENT-LOCK-END
@@ -220,7 +220,7 @@ where $\rho = \sum_\xi \rho_\xi$ is the mixture density and $\mbf v$ is the bary
 %
 The right-hand side of \eqref{eq:spatial_mass_3} vanishes due to mechanism stoichimatry, i.e.\  $\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha=0$.
 
-In the next section, we will derive conservation of momentum equations for the phases in the mixture.  It's important to note that $\dot{c}^\al_\xi$ is not treated as indepedent quantity in this procedure, rather $\mc{C}^\al_\xi$, $J_\xi$, $\dot{r}$ are, this leads to constraint between those quantities to ensure mass conservation under volume changes due to the motion of the phases, i.e. 
+In the next section, we will derive conservation of momentum equations for the phases in the mixture.  It's important to note that $\dot{c}^\al_\xi$ is not treated as indepedent quantity in this procedure, rather $\mc{C}^\al_\xi$, $J_\xi$, $\dot{r}$ are, this leads to constraint between those quantities to ensure mass conservation under volume changes due to the motion of the phases, i.e.
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	\sum_\al \sum_\xi \left(\frac{\dot{\mc{C}^\al_\xi}}{J_\xi} -  \sum_m \nu^\al_{\xi (m)} \dot{r}_{(m)} \right) = 0.
