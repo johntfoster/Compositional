@@ -81,8 +81,9 @@ $\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$:
 where
 $\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is a
 prescribed stress-free thermal/compositional dilation, and
-$\bar{\mbf F}_s^p$ is a plastic internal variable.  Neither is an elastic
-free-energy argument.  Likewise, the full distension tensor is written as
+$\bar{\mbf F}_s^p$ is a plastic internal variable whose rate is closed by a
+constitutive flow rule.  Neither is an elastic free-energy argument.  Likewise,
+the full distension tensor is written as
 \begin{equation}
 	\mbf A_s=\mbf A_s^e\mbf A_s^p
 	\mbf A_s^\theta,
@@ -96,9 +97,9 @@ distension.  It is distinct from the intrinsic mineral thermal dilation carried
 by $\bar{\mbf F}_s^\theta$ and depends on composition through the solid
 component volume fractions $\phi_s^\beta$, not directly through the mass
 fractions $\eta_s^\beta$.  The tensor $\mbf A_s^p$ is a plastic internal
-variable.  The total distension tensor $\mbf A_s$ remains the kinematic field in
-the balance laws and stress power; the elastic free-energy argument is the
-dependent quantity
+variable whose rate is closed by a constitutive flow rule.  The total distension
+tensor $\mbf A_s$ remains the kinematic field in the balance laws and stress
+power; the elastic free-energy argument is the dependent quantity
 \[
 	\mbf A_s^e
 	=\mbf A_s(\mbf A_s^\theta)^{-1}(\mbf A_s^p)^{-1}.
@@ -238,7 +239,7 @@ For the solid, component additivity gives
 	\notag                                                     \\
 	 & \qquad
 	+\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\left[
+	\left[ \right.
 		-\bar\rho_s^\alpha\operatorname{tr}
 		\left[
 			\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
@@ -248,14 +249,13 @@ For the solid, component additivity gives
 			\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\gamma}\heldfixed{\mc S}
 			\dot\eta_s^\gamma
 			\right)(\bar{\mbf F}_s^\theta)^{-1}
-			\right]
+	\right]                                                    \\
+	 & \qquad
 		+\sum_\beta
 		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
 		\dot\eta_s^\beta
-		\right]
+		\left. \right]
 	+\sum_\beta\left.\p{\psi_s^\alpha}{\eta_s^\beta}\heldfixed{\mc S}\dot\eta_s^\beta
-	\notag                                                     \\
-	 & \qquad
 	+\left.\p{\psi_s^\alpha}{\theta}\heldfixed{\mc S}\dot\theta
 	\bigg).
 	\label{eq:CN_total_helmholtz_density}
@@ -278,27 +278,31 @@ energies.  We assign no elastic stress power to the mobile phases, so
 	\label{eq:CN_mobile_stress_free}
 \end{equation}
 The reversible interfacial energy used in the variational formulation must also
-be included in the entropy bookkeeping.  For the mobile phases,
+be included in the entropy bookkeeping.  For thermal reservoir simulation, the
+interfacial energy is allowed to depend on temperature through the interfacial
+tension, as in the standard capillary-pressure scaling used in reservoir
+engineering \cite{leverett1941capillary}.  For the mobile phases,
 %
 \begin{equation}
 	\psi_\gamma^{\rm vol}
-	=\phi\gamma(S_a,S_g),
+	=\phi\gamma(S_a,S_g,\theta),
 	\qquad
 	\dot\psi_\gamma^{\rm vol}
-	=\sum_l\gamma_l\dot\phi_l,
+	=\sum_l\gamma_l\dot\phi_l
+	+\phi
+	\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta,
 	\label{eq:CN_interfacial_helmholtz_rate}
 \end{equation}
 %
 where $\gamma_l$ are the interfacial variation coefficients collected in
-\eqref{eq:primitive_gamma_derivatives}.
+\eqref{eq:primitive_gamma_derivatives}, with the saturation derivatives taken at
+fixed temperature.  The associated interfacial entropy per current volume is
+$-\phi\,\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}$.
 The volume fractions are constrained by $\sum_\xi\phi_\xi=1$, so their rates
 are not independent.  When the capillary Helmholtz rate is retained explicitly,
 we add the identically vanishing saturation-constraint rate
 $\lambda\sum_\xi\dot\phi_\xi$ and retain the corresponding
 $\dot\phi_\xi/\phi_\xi$ contribution from the component-storage multiplier.
-This capillary Helmholtz energy is taken to be reversible and independent of
-temperature in the present model.  If $\gamma$ were temperature dependent, the
-corresponding interfacial entropy term would have to be retained as well.
 Define the source-carried specific potentials and entropies by
 \begin{equation}
 	\widehat\psi_\xi^\alpha =
@@ -405,6 +409,23 @@ $\mbf A_s=\mbf A_s^e\mbf A_s^p\mbf A_s^\theta$, the stress power is
 	(\bar{\mbf F}_s^\theta)^{-1}\right]\dot\eta_s^\beta .
 	\label{eq:CN_stress_power_split}
 \end{align}
+For later use, define
+\begin{equation}
+	\mbf H_s
+	=
+	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
+	\bar{\mbf F}_s^e\bar{\mbf F}_s^p .
+	\label{eq:CN_H_def}
+\end{equation}
+Similarly, define
+\begin{equation}
+	\widehat{\mbf H}_s
+	=
+	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
+	\mbf A_s^e\mbf A_s^p .
+	\label{eq:CN_Hhat_def}
+\end{equation}
 The entropy inequality is
 \begin{align}
 	0\le
@@ -466,7 +487,10 @@ spaces.
 	\notag                     \\
 	 & +\frac{1}{\theta}\left(
 	\lambda\sum_\xi\dot\phi_\xi
-	-\sum_l\gamma_l\dot\phi_l\right).
+	-\sum_l\gamma_l\dot\phi_l
+	-\phi\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta
+	+\phi\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta
+	\right).
 	\label{eq:CN_reduced_entropy_inequality}
 \end{align}
 Substituting \eqref{eq:CN_total_helmholtz_density},
@@ -524,39 +548,34 @@ gives the collected solid--fluid contribution:
 	\notag                                                                  \\
 	       & +
 	\bigg[
-	-\sum_l\rho_l
-	\left(
-	s_l+\left.\p{\psi_l}{\theta}\heldfixed{\mc F}
-	\right)
-	-\rho_s\sum_\alpha\eta_s^\alpha
-	\left(
-	s_s^\alpha+\left.\p{\psi_s^\alpha}{\theta}\heldfixed{\mc S}
-	\right)
+		-\sum_l\rho_l
+		\left(
+		s_l+\left.\p{\psi_l}{\theta}\heldfixed{\mc F}
+		\right)
+		-\rho_s\sum_\alpha\eta_s^\alpha
+		\left(
+		s_s^\alpha+\left.\p{\psi_s^\alpha}{\theta}\heldfixed{\mc S}
+		\right)
 	\notag                                                                  \\
 	       & \qquad
-	+\operatorname{tr}\left[
-		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
-		\mbf A_s^e\mbf A_s^p
-		\left.\p{\mbf A_s^\theta}{\theta}\heldfixed{\mc T_s}
-		(\mbf A_s^\theta)^{-1}\right]
+		+\operatorname{tr}\left[
+			\widehat{\mbf H}_s
+			\left.\p{\mbf A_s^\theta}{\theta}\heldfixed{\mc T_s}
+			(\mbf A_s^\theta)^{-1}\right]
 	\notag                                                                  \\
 	       & \qquad
-	+\operatorname{tr}\bigg[
-	\bigg(
-	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
-	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
-	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
-	\notag                                                                  \\
-	       & \qquad\qquad
-	+\left(
-	\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\bar\rho_s^\alpha-\phi_s\bar p_s
-	\right)\mbf I
-	\bigg)
-	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}
-	(\bar{\mbf F}_s^\theta)^{-1}\bigg]
-	\bigg]\dot\theta
+		+\operatorname{tr}\bigg[
+			\bigg(
+			\mbf H_s
+			+\left(
+				\rho_s\sum_\alpha\eta_s^\alpha
+				\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+				\bar\rho_s^\alpha-\phi_s\bar p_s
+				\right)\mbf I
+			\bigg)
+			\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}
+			(\bar{\mbf F}_s^\theta)^{-1}\bigg]
+		\bigg]\dot\theta
 	\notag                                                                  \\
 	       & +\sum_l\left[
 		\frac{\phi_l \bar p_l}{\bar\rho_l}
@@ -569,35 +588,30 @@ gives the collected solid--fluid contribution:
 	\dot\eta_l^\beta
 	\notag                                                                  \\
 	       & +\rho_s\sum_\beta\bigg[
-	-\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
-	-\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+		-\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+		-\sum_\alpha\eta_s^\alpha
+		\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
 	\notag                                                                  \\
 	       & \qquad
-	+\operatorname{tr}\left[
-		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
-		\mbf A_s^e\mbf A_s^p
-		\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-		(\mbf A_s^\theta)^{-1}\right]
+		+\operatorname{tr}\left[
+			\widehat{\mbf H}_s
+			\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+			(\mbf A_s^\theta)^{-1}\right]
 	\notag                                                                  \\
 	       & \qquad
-	+\operatorname{tr}\bigg[
-	\bigg(
-	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
-	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
-	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
-	\notag                                                                  \\
-	       & \qquad\qquad
-	+\left(
-	\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\bar\rho_s^\alpha-\phi_s\bar p_s
-	\right)\mbf I
-	\bigg)
-	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^\theta)^{-1}\bigg]
-	\bigg]\dot\eta_s^\beta
+		+\operatorname{tr}\bigg[
+			\bigg(
+			\mbf H_s
+			+\left(
+				\rho_s\sum_\alpha\eta_s^\alpha
+				\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+				\bar\rho_s^\alpha-\phi_s\bar p_s
+				\right)\mbf I
+			\bigg)
+			\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+			(\bar{\mbf F}_s^\theta)^{-1}\bigg]
+		\bigg]\dot\eta_s^\beta
 	\notag                                                                  \\
 	       & +\sum_\xi\sum_\beta\left(\frac{\tau_\xi^\beta}{\eta_\xi^\beta}
 	+\pi_\xi\right)\dot\eta_\xi^\beta
@@ -611,6 +625,8 @@ gives the collected solid--fluid contribution:
 	\lambda+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}
 	\right)\dot\phi_\xi
 	-\sum_l\gamma_l\dot\phi_l
+	-\phi\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta
+	+\phi\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta
 	\notag                                                                  \\
 	       &
 	+\sum_\xi\rho_\xi e_\xi^{\rm int}
@@ -618,58 +634,6 @@ gives the collected solid--fluid contribution:
 	\Bigg\} .
 	\label{eq:CN_solid_collected_entropy}
 \end{align}
-The capillary term is not a new dissipative mechanism.  Since the
-volume-fraction rates are constrained, the mobile-phase coefficient is the
-reversible condition
-\begin{align}
-	0
-	 & = \lambda+\sum_\alpha\frac{\tau_l^\alpha}{\phi_l}-\gamma_l
-	\notag                                                        \\
-	 & = \lambda+\bar p_l-\gamma_l .
-	\label{eq:CN_capillary_reversible_condition}
-\end{align}
-Thus the interfacial energy supplies the capillary pressure construction and
-equivalent pressure relation, while leaving no residual entropy production for
-equilibrium capillarity.  A dynamic or hysteretic capillary law would instead
-leave the uncancelled part of the interfacial Helmholtz rate as a capillary
-dissipation term.
-The phase derivative with respect to composition is the derivative of the
-corresponding phase Helmholtz potential.  For mobile phases no elastic
-stress-free dilation term appears, so the composition coefficient gives
-the same stationarity condition obtained from Hamilton's principle in
-\eqref{eq:el_eta_all}:
-\begin{equation}
-	0=
-	\frac{\tau_\ell^\beta}{\eta_\ell^\beta}
-	+\pi_\ell
-	-\rho_\ell
-	\left.\p{\psi_\ell}{\eta_\ell^\beta}\heldfixed{\mc F},
-	\qquad
-	\beta=1,\ldots,N .
-	\label{eq:CN_composition_multiplier_restriction}
-\end{equation}
-Equivalently,
-\begin{equation}
-	\rho_\ell
-	\left.\p{\psi_\ell}{\eta_\ell^\beta}\heldfixed{\mc F}
-	-\frac{\tau_\ell^\beta}{\eta_\ell^\beta}
-	=\pi_\ell .
-	\label{eq:CN_composition_componentwise}
-\end{equation}
-Eliminating $\pi_\ell$ gives the mobile-phase projected restriction on the
-tangent space,
-\begin{equation}
-	\rho_\ell\left(
-	\left.\p{\psi_\ell}{\eta_\ell^\beta}\heldfixed{\mc F}
-	-\left.\p{\psi_\ell}{\eta_\ell^N}\heldfixed{\mc F}
-	\right)
-	=
-	\frac{\tau_\ell^\beta}{\eta_\ell^\beta}
-	-\frac{\tau_\ell^N}{\eta_\ell^N},
-	\qquad
-	\beta=1,\ldots,N-1 .
-	\label{eq:CN_composition_projected_restriction}
-\end{equation}
 The elastic true-deformation coefficient gives
 \begin{align}
 	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
@@ -706,22 +670,8 @@ The pressure identification comes from the component mass identity
 	\label{eq:CN_solid_component_mass_identity}
 \end{equation}
 %
-Since $\psi_s^\alpha$ depends on the component intrinsic density rather than
-directly on $\bar\rho_s$, the density part of the solid Helmholtz rate is
-%
-\begin{equation}
-	\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\frac{\bar\rho_s^\alpha}{\bar\rho_s}\dot{\bar\rho}_s .
-	\label{eq:CN_solid_density_rate_pressure_coefficient}
-\end{equation}
-%
-The pressure-power term contributes
-$(\phi_s\bar p_s/\bar\rho_s)\dot{\bar\rho}_s$.  After using
-\eqref{eq:CN_solid_density_rate_drumheller}, their difference is the isotropic
-part of \eqref{eq:CN_stress_definition}.  We identify the reversible solid
-pressure by requiring that this density contribution be represented by
-$\bar p_s$:
+Using this identity in the density-power coefficient gives the reversible solid
+pressure identification
 %
 \begin{equation}
 	\phi_s\bar p_s
@@ -751,20 +701,15 @@ Thus, defining each component intrinsic pressure by
 	\label{eq:CN_component_intrinsic_pressure_definition}
 \end{equation}
 %
-the pressure coefficients give
-\begin{align}
-	\bar p_s
-	 & =\sum_\alpha\phi_s^\alpha\bar p_s^\alpha,
-	\qquad
-	\bar p_s^\alpha
-	=\left(\bar\rho_s^\alpha\right)^2
-	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S},
-	\notag                                       \\
+the solid pressure is
+$\bar p_s=\sum_\alpha\phi_s^\alpha\bar p_s^\alpha$.  The corresponding mobile
+phase pressure is
+\begin{equation}
 	\bar p_l
-	 & =\left(\bar\rho_l\right)^2
+	=\left(\bar\rho_l\right)^2
 	\left.\p{\psi_l}{\bar\rho_l}\heldfixed{\mc F} .
 	\label{eq:CN_phase_pressure_definition}
-\end{align}
+\end{equation}
 Substituting \eqref{eq:CN_solid_pressure_identification} into
 \eqref{eq:CN_stress_definition} removes the isotropic density-power term and
 solves for the single-primed Cauchy stress as
@@ -817,21 +762,7 @@ Thus
 	\phi_s\sum_\alpha\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha}.
 	\label{eq:CN_solid_partial_stress_sum}
 \end{align}
-Equivalently, if $\rho_{s0}^\alpha\psi_s^\alpha$ is the energy per component
-reference mixture volume, then
-\begin{align}
-	\mbf P_s^{\prime\alpha}
-	 & =
-	\rho_{s0}^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
-	\notag \\
-	 & =
-	J_s \bs\sigma_s^{\prime\alpha}
-	(\bar{\mbf F}_s^e)^{-T}
-	\label{eq:CN_intrinsic_pk_stress}
-\end{align}
-is the component first Piola--Kirchhoff stress.  The distension
-coefficient gives the tensor restriction
+The distension coefficient gives the tensor restriction
 \begin{equation}
 	\bs\sigma_s'
 	= \rho_s \sum_\alpha\eta_s^\alpha
@@ -859,25 +790,22 @@ distension term passes through the component volume fractions:
 		\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
 		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
 		\right]
-	\notag                                                \\
-	 & \quad
+	\notag                           \\
+	     & \quad
 	+\operatorname{tr}\left[
-	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
-	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
-	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
-	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	(\bar{\mbf F}_s^\theta)^{-1}
-	\right]
-	\notag                                                \\
-	 & \quad
+		\mbf H_s
+		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+		(\bar{\mbf F}_s^\theta)^{-1}
+		\right]
+	\notag                           \\
+	     & \quad
 	+\operatorname{tr}\left[
-	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
-	\mbf A_s^e\mbf A_s^p
-	\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	(\mbf A_s^\theta)^{-1}
-	\right],
-	\notag                                                \\
-	 & \qquad \beta=1,\ldots,N .
+		\widehat{\mbf H}_s
+		\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+		(\mbf A_s^\theta)^{-1}
+		\right],
+	\notag                           \\
+	     & \qquad \beta=1,\ldots,N .
 	\label{eq:CN_solid_composition_multiplier_restriction}
 \end{align}
 For the solid, the common part of the density-chain contribution is absorbed
@@ -890,30 +818,27 @@ derived component volume fractions.  Eliminating $\pi_s$ gives
 	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
 	-\left.\p{\psi_s}{\eta_s^N}\heldfixed{\mc S}
 	\right)
-	\notag                                                \\
+	\notag          \\
 	 & \quad
 	-\operatorname{tr}\bigg[
-	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
-	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
-	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
-	\left(
-	\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	-\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^N}\heldfixed{\mc S}
-	\right)
-	(\bar{\mbf F}_s^\theta)^{-1}
-	\bigg]
-	\notag                                                \\
+		\mbf H_s
+		\left(
+		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+		-\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^N}\heldfixed{\mc S}
+		\right)
+		(\bar{\mbf F}_s^\theta)^{-1}
+		\bigg]
+	\notag          \\
 	 & \quad
 	-\operatorname{tr}\bigg[
-	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
-	\mbf A_s^e\mbf A_s^p
-	\left(
-	\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
-	-\left.\p{\mbf A_s^\theta}{\eta_s^N}\heldfixed{\mc S}
-	\right)
-	(\mbf A_s^\theta)^{-1}
-	\bigg]
-	\notag                                                \\
+		\widehat{\mbf H}_s
+		\left(
+		\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
+		-\left.\p{\mbf A_s^\theta}{\eta_s^N}\heldfixed{\mc S}
+		\right)
+		(\mbf A_s^\theta)^{-1}
+		\bigg]
+	\notag          \\
 	 & \qquad =
 	\frac{\tau_s^\beta}{\eta_s^\beta}
 	-\frac{\tau_s^N}{\eta_s^N},
@@ -921,6 +846,23 @@ derived component volume fractions.  Eliminating $\pi_s$ gives
 	\beta=1,\ldots,N-1 .
 	\label{eq:CN_solid_composition_projected_restriction}
 \end{align}
+The phase derivative with respect to composition is the derivative of the
+corresponding phase Helmholtz potential.  For mobile phases no elastic
+stress-free dilation term appears, so projecting the composition coefficient
+onto the constrained tangent space gives the same stationarity condition
+obtained from Hamilton's principle in \eqref{eq:el_eta_all}:
+\begin{equation}
+	\rho_\ell\left(
+	\left.\p{\psi_\ell}{\eta_\ell^\beta}\heldfixed{\mc F}
+	-\left.\p{\psi_\ell}{\eta_\ell^N}\heldfixed{\mc F}
+	\right)
+	=
+	\frac{\tau_\ell^\beta}{\eta_\ell^\beta}
+	-\frac{\tau_\ell^N}{\eta_\ell^N},
+	\qquad
+	\beta=1,\ldots,N-1 .
+	\label{eq:CN_composition_projected_restriction}
+\end{equation}
 The entropy coefficient gives
 \begin{align}
 	s_l
@@ -931,18 +873,15 @@ The entropy coefficient gives
 	\left.\p{\psi_s^\alpha}{\theta}\heldfixed{\mc S}
 	+\frac{1}{\rho_s}
 	\operatorname{tr}\left[
-	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
-	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
-	\bar{\mbf F}_s^e\bar{\mbf F}_s^p
-	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}
-	(\bar{\mbf F}_s^\theta)^{-1}
-	\right]
+		\mbf H_s
+		\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc T_s}
+		(\bar{\mbf F}_s^\theta)^{-1}
+		\right]
 	\notag                                          \\
 	 & \quad
 	+\frac{1}{\rho_s}
 	\operatorname{tr}\left[
-		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}(\bs\sigma_s')^T
-		\mbf A_s^e\mbf A_s^p
+		\widehat{\mbf H}_s
 		\left.\p{\mbf A_s^\theta}{\theta}\heldfixed{\mc T_s}
 		(\mbf A_s^\theta)^{-1}
 		\right].

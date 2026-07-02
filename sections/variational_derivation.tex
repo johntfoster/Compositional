@@ -195,10 +195,13 @@ With three mobile phases (aqueous, oleic, and gas), let
 \end{equation}
 so that $S_o = 1-S_a-S_g = \phi_o/\phi$.  The saturations are used here only as
 ratios of the primitive volume-fraction fields; the variations are still taken
-with respect to $\phi_a$, $\phi_o$, and $\phi_g$.  We specialize the interfacial
-energy contribution to
+with respect to $\phi_a$, $\phi_o$, and $\phi_g$.  For thermal reservoir
+simulation the interfacial energy is allowed to depend on temperature, consistent
+with the standard capillary-pressure scaling by interfacial tension in
+reservoir engineering \cite{leverett1941capillary}.  We specialize the
+interfacial energy contribution to
 \begin{equation}
-	U \supset U_\gamma = \int_{\mc{B}} \phi\,\gamma\!\left(S_a,S_g\right)\,\dv.
+	U \supset U_\gamma = \int_{\mc{B}} \phi\,\gamma\!\left(S_a,S_g,\theta\right)\,\dv.
 	\label{eq:interfacial_energy_density}
 \end{equation}
 Taking the oleic phase as the reference mobile phase, define the two interfacial
@@ -214,8 +217,9 @@ differences
 % AGENT-LOCK-END
 %
 These quantities are interfacial thermodynamic differences at this point in the
-derivation; their pressure interpretation is obtained only after the collected
-Euler--Lagrange equations identify the phase pressure variables.
+derivation, with the temperature held fixed in the saturation derivatives; their
+pressure interpretation is obtained only after the collected Euler--Lagrange
+equations identify the phase pressure variables.
 
 Before varying the interfacial energy, record the transported variation of the
 phase-attached volume fractions.  The Bedford--Drumheller spatial identity
@@ -901,8 +905,9 @@ multiplicative split of the true deformation,
 %
 where $\bar{\mbf F}_s^\theta$ maps to the thermal stress-free true-solid
 configuration, $\bar{\mbf F}_s^p$ is the plastic true-deformation internal
-variable, and $\bar{\mbf F}_s^e$ is the elastic part that enters the intrinsic
-stresses.  Following Drumheller~\cite{drumheller2000}, the plastic
+variable whose rate is closed by a constitutive flow rule, and
+$\bar{\mbf F}_s^e$ is the elastic part that enters the intrinsic stresses.
+Following Drumheller~\cite{drumheller2000}, the plastic
 true-deformation flow is isochoric,
 	\begin{equation*}
 		\det\bar{\mbf F}_s^p=1,
