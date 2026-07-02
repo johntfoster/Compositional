@@ -910,20 +910,24 @@ Thus
 \end{align}
 Equivalently, if $\rho_{s0}^\alpha\psi_s^\alpha$ is the energy per component
 reference mixture volume, then
-\begin{equation}
+\begin{align}
 	\mbf P_s^{\prime\alpha}
-	=\rho_{s0}^\alpha
+	 & =
+	\rho_{s0}^\alpha
 	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
-	=J_s \bs\sigma_s^{\prime\alpha}
+	\notag \\
+	 & =
+	J_s \bs\sigma_s^{\prime\alpha}
 	(\bar{\mbf F}_s^e)^{-T}
 	\label{eq:CN_intrinsic_pk_stress}
-\end{equation}
+\end{align}
 is the component first Piola--Kirchhoff stress.  The distension
 coefficient gives the tensor restriction
 \begin{equation}
-	\bs\sigma_s'(\mbf A_s^e)^{-T}
+	\bs\sigma_s'
 	= \rho_s \sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\mbf A_s^e}\heldfixed{\mc S}.
+	\left.\p{\psi_s^\alpha}{\mbf A_s^e}\heldfixed{\mc S}
+	(\mbf A_s^e)^T .
 	\label{eq:CN_distension_force_definition}
 \end{equation}
 Taking $\mbf A_s^e=(a_s^e)^{1/3}\mbf I$ reduces this tensor condition to the
