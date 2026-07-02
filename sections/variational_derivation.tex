@@ -802,29 +802,32 @@ one may set $\mbf A_s=a_s^{1/3}\mbf I$, giving
 %
 Following Drumheller's treatment of reacting immiscible mixtures with
 elastic--plastic true deformation and distension~\cite{drumheller2000}, we
-split the scalar distension directly into elastic, plastic, and reversible
+split the full distension tensor into elastic, plastic, and reversible
 thermal--compositional pore-architecture factors,
 \begin{equation}
-	a_s=a_s^e a_s^p a_s^\theta(\theta,\phi_s^\beta),
+	\mbf A_s=\mbf A_s^e\mbf A_s^p
+	\mbf A_s^\theta,
 	\qquad
-	a_s^e>0,\qquad
-	a_s^p>0,\qquad
-	a_s^\theta>0 .
-	\label{eq:solid_scalar_distension_split}
+	a_s=\det\mbf A_s .
+	\label{eq:solid_tensor_distension_split}
 \end{equation}
-The factor $a_s^\theta$ is not the intrinsic thermal expansion of the mineral
-grains.  It is a reversible stress-free pore-architecture, or pore-volume,
-factor describing the temperature- and solid-volume-fraction-dependent change
-of pore volume, packing, and solid allocation inside the mixture volume.
+The tensor $\mbf A_s^\theta$ is not the intrinsic thermal expansion of the
+mineral grains.  It is a reversible stress-free pore-architecture, or
+pore-volume, factor describing the temperature- and
+solid-volume-fraction-dependent change of pore volume, packing, fabric, and
+solid allocation inside the mixture volume.
 Thermo-poroelastic treatments of heated saturated rocks make precisely this
 distinction by assigning a thermal expansion coefficient to the pore volume
 separately from the solid grains, so that thermal pressurization depends on the
 mismatch among fluid, pore-volume, and grain expansions~\cite{palciauskas1982thermally,ghabezloo2009stress,ghabezloo2011micromechanics}.
-Here that pore-volume part is carried by $a_s^\theta$, while
+Here that pore-volume part is carried by $\mbf A_s^\theta$, while
 $\bar{\mbf F}_s^\theta$ below carries the stress-free intrinsic thermal
-dilation of the true solid skeleton.  The factor $a_s^e$ stores reversible
-distension energy, while $a_s^p$ is an internal variable that records permanent
-pore-architecture or compaction change.
+dilation of the true solid skeleton.  The tensor $\mbf A_s^e$ stores reversible
+distension energy, while $\mbf A_s^p$ is an internal variable that records
+permanent pore-architecture, fabric, or compaction change.  The scalar
+distension model is the isotropic reduction
+$\mbf A_s^\bullet=(a_s^\bullet)^{1/3}\mbf I$ for
+$\bullet\in\{e,p,\theta\}$.
 
 This is not the introduction of a separate distension energy.  It is the
 kinematic device needed to separate deformation of the solid material from
@@ -901,13 +904,13 @@ configuration, $\bar{\mbf F}_s^p$ is the plastic true-deformation internal
 variable, and $\bar{\mbf F}_s^e$ is the elastic part that enters the intrinsic
 stresses.  Following Drumheller~\cite{drumheller2000}, the plastic
 true-deformation flow is isochoric,
-\begin{equation*}
-	\det\bar{\mbf F}_s^p=1,
-	\qquad
-	\mbf L_s^p=\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1},
-	\qquad
-	\operatorname{tr}\mbf L_s^p=0 .
-\end{equation*}
+	\begin{equation*}
+		\det\bar{\mbf F}_s^p=1,
+		\qquad
+		\operatorname{tr}\left[
+		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+		\right]=0 .
+	\end{equation*}
 A yield surface, cap surface, critical-state law, or reaction-assisted
 compaction law can then be introduced as a constitutive specialization of the
 residual dissipation.  For isotropic thermal
@@ -931,16 +934,16 @@ true deformation field.
 This thermal split does not break the energy-based structure.  It is a
 constitutive reparametrization of the free energy: instead of depending on
 $\bar{\mbf F}_s$ directly, the elastic part of the free energy depends on
-$\bar{\mbf F}_s^e$ and $a_s^e$, while $\bar{\mbf F}_s^p$ and $a_s^p$ enter as
-internal variables through the kinematic rates.  The phase label remains part of
-the component Helmholtz energy: component $\alpha$ in the solid phase need not
-have the same free energy as component $\alpha$ in a liquid or gas phase.  The
-multicomponent solid free energy is written as
+$\bar{\mbf F}_s^e$ and $\mbf A_s^e$, while $\bar{\mbf F}_s^p$ and $\mbf A_s^p$
+enter as internal variables through the kinematic rates.  The phase label
+remains part of the component Helmholtz energy: component $\alpha$ in the solid
+phase need not have the same free energy as component $\alpha$ in a liquid or
+gas phase.  The multicomponent solid free energy is written as
 %
 \begin{equation}
-	\psi_s(\bar{\mbf F}_s^e,\bar\rho_s,a_s^e,\theta,\eta_s^\beta)
+	\psi_s(\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s, \eta_s^\alpha, \theta)
 	=\sum_\alpha \eta_s^\alpha\,
-	\psi_s^\alpha(\bar{\mbf F}_s^e,\bar\rho_s,a_s^e,\theta,\eta_s^\beta),
+	\psi_s^\alpha(\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s,  \theta),
 	\label{eq:solid_multicomponent_free_energy}
 \end{equation}
 %
@@ -948,9 +951,9 @@ where $\eta_s^\beta$ denotes the full list of solid component mass fractions.
 Temperature dependence of the free energy supplies entropy and heat capacity in
 the usual way, while the dependence of $\bar{\mbf F}_s^\theta$ on $\theta$ and
 the component volume fractions $\phi_s^\beta$ encodes stress-free intrinsic
-thermal expansion.  Any thermal or compositional dependence of scalar distension
-enters only through the reversible factor
-$a_s^\theta(\theta,\phi_s^\beta)$ in \eqref{eq:solid_scalar_distension_split},
+thermal expansion.  Any thermal or compositional dependence of the distension
+tensor enters only through the reversible factor
+$\mbf A_s^\theta(\theta,\phi_s^\beta)$ in \eqref{eq:solid_tensor_distension_split},
 not through a direct dependence on the mass fractions.  For example,
 water in a hydrate or ice-like solid would be represented by
 $\psi_s^{\mathrm{H_2O}}$, whereas liquid water would have a different function
@@ -1025,12 +1028,12 @@ component pressures,
 	\end{align}
 \end{subequations}
 %
-The distension force is the separate Coleman--Noll restriction
+The distension force is the separate Coleman--Noll tensor restriction
 %
 \begin{equation}
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-	=\rho_s a_s^e\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}.
+	\bs\sigma_s'(\mbf A_s^e)^{-T}
+	=\rho_s\sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\mbf A_s^e}\heldfixed{\mc S}.
 	\label{eq:solid_final_distension_pressure}
 \end{equation}
 %
@@ -1336,8 +1339,10 @@ $\bar p_E$ replacing the saturation-weighted average pressure.
 Crystallization pressure is not introduced here as an additional load in the
 momentum equation.  The mechanical response must first be generated by an
 admissible solid free energy.  The Coleman--Noll restriction
-\eqref{eq:solid_final_distension_pressure} states that the hydrostatic part of
-the total solid stress is the force conjugate to the solid distension:
+\eqref{eq:solid_final_distension_pressure} states that the total solid stress is
+conjugate to the elastic distension tensor.  In the isotropic reduction
+$\mbf A_s^e=(a_s^e)^{1/3}\mbf I$, this tensor condition becomes the familiar
+hydrostatic trace condition:
 %
 \begin{equation}
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
@@ -1361,8 +1366,8 @@ restriction on the double-prime stress:
 %
 Equations~\eqref{eq:distension_stress_restriction} and
 \eqref{eq:double_prime_distension_trace} are not extra balance laws for
-$a_s$; they are admissibility conditions on the reversible solid stress.  The
-solid volume ratios satisfy
+$a_s$; they are the isotropic form of the tensor admissibility condition on the
+reversible solid stress.  The solid volume ratios satisfy
 %
 \begin{equation}
 	J_s=a_s\bar J_s,
@@ -1695,13 +1700,15 @@ The remaining closure laws are dissipative.  They must be chosen so that
 \begin{equation}
 	\begin{aligned}
 		0\le{}\; &
-		\sum_m\mc A_m\dot r_m
-		+\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-		\frac{\dot a_s^p}{a_s^p} \\
-		&+\operatorname{tr}\left(\mbf S_s'\mbf L_s^p\right)
-		+\sum_{\xi<\zeta}\mbf u_{\xi\zeta}\cdot
-		\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta} \\
-		&+\sum_\xi
+			\sum_m\mc A_m\dot r_m
+			+\bs\sigma_s':\mbf A_s^e\dot{\mbf A}_s^p
+			(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}                            \\
+		         & +\operatorname{tr}\left[
+			\mbf S_s'\dot{\bar{\mbf F}}_s^p
+			(\bar{\mbf F}_s^p)^{-1}\right]
+			+\sum_{\xi<\zeta}\mbf u_{\xi\zeta}\cdot
+			\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta}                       \\
+		         & +\sum_\xi
 		\frac{\nabla_{\mbf x}\theta\cdot\mbf K_\xi\nabla_{\mbf x}\theta}{\theta} .
 	\end{aligned}
 	\label{eq:model_summary_dissipation}
@@ -1727,18 +1734,18 @@ process-rate unknowns whose equations are supplied by kinetic laws.
 %
 \begin{center}
 	\begin{tabular}{p{0.72\textwidth}c}
-		Unknown family                                                                  & Count   \\
+		Unknown family                                                                    & Count  \\
 		\hline
-		Phase displacements $u_{\xi 1},\ldots,u_{\xi d}$ for $\xi=1,\ldots,P$           & $dP$    \\
-		Intrinsic phase densities $\bar\rho_\xi$ for $\xi=1,\ldots,P$                   & $P$     \\
-		Phase mass fractions $\eta_\xi^1,\ldots,\eta_\xi^N$ for $\xi=1,\ldots,P$        & $PN$    \\
-		Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                          & $P$     \\
-		Saturation multiplier $\lambda$                                                 & $1$     \\
-		Storage multipliers $\tau_\xi^1,\ldots,\tau_\xi^N$ for $\xi=1,\ldots,P$         & $PN$    \\
-		Helmholtz chemical potentials $\mu_\xi^1,\ldots,\mu_\xi^N$ for $\xi=1,\ldots,P$ & $PN$    \\
-		Mechanism process rates $\dot r_1,\ldots,\dot r_{N_m}$                          & $N_m$   \\
-		Solid plastic internal variables $\bar{\mbf F}_s^p$ and $a_s^p$, when active    & $d^2+1$ \\
-		Temperature $\theta$                                                            & $1$
+		Phase displacements $u_{\xi 1},\ldots,u_{\xi d}$ for $\xi=1,\ldots,P$             & $dP$   \\
+		Intrinsic phase densities $\bar\rho_\xi$ for $\xi=1,\ldots,P$                     & $P$    \\
+		Phase mass fractions $\eta_\xi^1,\ldots,\eta_\xi^N$ for $\xi=1,\ldots,P$          & $PN$   \\
+		Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                            & $P$    \\
+		Saturation multiplier $\lambda$                                                   & $1$    \\
+		Storage multipliers $\tau_\xi^1,\ldots,\tau_\xi^N$ for $\xi=1,\ldots,P$           & $PN$   \\
+		Helmholtz chemical potentials $\mu_\xi^1,\ldots,\mu_\xi^N$ for $\xi=1,\ldots,P$   & $PN$   \\
+		Mechanism process rates $\dot r_1,\ldots,\dot r_{N_m}$                            & $N_m$  \\
+		Solid plastic internal variables $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active & $2d^2$ \\
+		Temperature $\theta$                                                              & $1$
 	\end{tabular}
 \end{center}
 %
@@ -1746,8 +1753,8 @@ The corresponding scalar unknown count is
 %
 \begin{equation}
 	N_{\rm unk}
-	=dP+P+PN+P+1+PN+PN+N_m+(d^2+1)+1
-	=dP+d^2+3PN+2P+N_m+3 ,
+	=dP+P+PN+P+1+PN+PN+N_m+2d^2+1
+	=dP+2d^2+3PN+2P+N_m+2 ,
 	\label{eq:model_summary_unknown_count}
 \end{equation}
 %
@@ -1768,7 +1775,7 @@ The same number of scalar equations is supplied by the following blocks:
 		Composition normalizations in \eqref{eq:model_summary_constraints}                       & $P$      \\
 		Conversion-potential equations \eqref{eq:el_conversion_component}                        & $PN$     \\
 		Kinetic laws for $\dot r_m$                                                              & $N_m$    \\
-		Plastic flow laws for $\bar{\mbf F}_s^p$ and $a_s^p$, when active                        & $d^2+1$  \\
+		Plastic flow laws for $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active                   & $2d^2$   \\
 		Energy or temperature equation using \eqref{eq:CN_energy_balance}                        & $1$
 	\end{tabular}
 \end{center}
@@ -1778,8 +1785,8 @@ Thus
 \begin{equation}
 	\begin{aligned}
 		N_{\rm eq}
-		 & =PN+dP+1+P+P+P(N-1)+P+PN+N_m+(d^2+1)+1 \\
-		 & =dP+d^2+3PN+2P+N_m+3
+		 & =PN+dP+1+P+P+P(N-1)+P+PN+N_m+2d^2+1 \\
+		 & =dP+2d^2+3PN+2P+N_m+2
 		=N_{\rm unk}.
 	\end{aligned}
 	\label{eq:model_summary_equation_count}
