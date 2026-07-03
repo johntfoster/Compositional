@@ -836,39 +836,32 @@ reversible pore-architecture tensor
 $\mbf A_s^\theta(\theta,\phi_s^\gamma)$ depends on composition, the analogous
 distension term passes through the component volume fractions:
 \begin{align}
-	0={} &
+	\rho_s \sum_\alpha\eta_s^\alpha
+	\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
+	\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+	-\pi_s={} &
 	\frac{\tau_s^\beta}{\eta_s^\beta}
-	+\pi_s
 	-\rho_s
-	\left[
-		\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
-		+\sum_\alpha\eta_s^\alpha
-		\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
-		\right]
-	\notag                           \\
-	     & \quad
+	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
+	\notag                                \\
+	          & \quad
 	+\operatorname{tr}\left[
 		\mbf H_s
 		\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
 		(\bar{\mbf F}_s^\theta)^{-1}
 		\right]
-	\notag                           \\
-	     & \quad
+	\notag                                \\
+	          & \quad
 	+\operatorname{tr}\left[
 		\widehat{\mbf H}_s
 		\left.\p{\mbf A_s^\theta}{\eta_s^\beta}\heldfixed{\mc S}
 		(\mbf A_s^\theta)^{-1}
 		\right],
-	\notag                           \\
-	     & \qquad \beta=1,\ldots,N .
+	\notag                                \\
+	          & \qquad \beta=1,\ldots,N .
 	\label{eq:CN_solid_composition_multiplier_restriction}
 \end{align}
-For the solid, the common part of the density-chain contribution is absorbed
-into $\pi_s$ after the pressure identification.  The remaining stress-free
-compositional terms are reversible generalized forces associated with the
-prescribed dependence of $\bar{\mbf F}_s^\theta$ and $\mbf A_s^\theta$ on the
-derived component volume fractions.  Eliminating $\pi_s$ gives
+Notice that the first term on the left hand side of \eqref{eq:CN_solid_composition_multiplier_restriction} is summed over components and is therefor a phase level term. The left hand side of \eqref{eq:CN_solid_composition_multiplier_restriction} is the same for all components, so the difference between any two components gives the projected composition restriction
 \begin{align}
 	 & \rho_s\left(
 	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
