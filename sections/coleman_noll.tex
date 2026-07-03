@@ -231,7 +231,22 @@ For the solid, component additivity gives
 \begin{align}
 	\sum_\alpha\rho_s^\alpha\dot{\psi}_s^\alpha
 	 & =\rho_s\sum_\alpha\eta_s^\alpha\dot\psi_s^\alpha \notag \\
-	 & =\rho_s\sum_\alpha\eta_s^\alpha \bigg(
+	 & =\rho_s\sum_\alpha\eta_s^\alpha \left(
+	\vphantom{
+		\left[
+			\begin{aligned}
+				 & -\bar\rho_s^\alpha\operatorname{tr}
+				\left[
+					\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
+					\right]
+				\\
+				 & +\sum_\beta
+				\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+				\dot\eta_s^\beta
+			\end{aligned}
+			\right]
+	}
+	\right.
 	\left.\p{\psi_s^\alpha}{\bar{\mbf{F}}^e_s}\heldfixed{\mc S}
 	:\dot{\bar{\mbf F}}_s^e
 	+\left.\p{\psi_s^\alpha}{\mbf A_s^e}\heldfixed{\mc S}
@@ -239,7 +254,20 @@ For the solid, component additivity gives
 	\notag                                                     \\
 	 & \qquad
 	+\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\heldfixed{\mc S}
-	\left[ \right.
+	\left[
+		\vphantom{
+			\begin{aligned}
+				 & -\bar\rho_s^\alpha\operatorname{tr}
+				\left[
+					\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
+					\right]
+				\\
+				 & +\sum_\beta
+				\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+				\dot\eta_s^\beta
+			\end{aligned}
+		}
+		\right.
 		-\bar\rho_s^\alpha\operatorname{tr}
 		\left[
 			\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
@@ -249,15 +277,39 @@ For the solid, component additivity gives
 			\left.\p{\bar{\mbf F}_s^\theta}{\eta_s^\gamma}\heldfixed{\mc S}
 			\dot\eta_s^\gamma
 			\right)(\bar{\mbf F}_s^\theta)^{-1}
-	\right]                                                    \\
+	\right] \notag                                             \\
 	 & \qquad
 		+\sum_\beta
 		\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
 		\dot\eta_s^\beta
-		\left. \right]
+		\left. \vphantom{
+			\begin{aligned}
+				 & -\bar\rho_s^\alpha\operatorname{tr}
+				\left[
+					\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
+					\right]
+				\\
+				 & +\sum_\beta
+				\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+				\dot\eta_s^\beta
+			\end{aligned}
+		} \right]
 	+\sum_\beta\left.\p{\psi_s^\alpha}{\eta_s^\beta}\heldfixed{\mc S}\dot\eta_s^\beta
 	+\left.\p{\psi_s^\alpha}{\theta}\heldfixed{\mc S}\dot\theta
-	\bigg).
+	\left. \vphantom{
+		\left[
+			\begin{aligned}
+				 & -\bar\rho_s^\alpha\operatorname{tr}
+				\left[
+					\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
+					\right]
+				\\
+				 & +\sum_\beta
+				\left.\p{\bar\rho_s^\alpha}{\eta_s^\beta}\right\vert_{\bar\rho_s}
+				\dot\eta_s^\beta
+			\end{aligned}
+			\right]
+	} \right).
 	\label{eq:CN_total_helmholtz_density}
 \end{align}
 Following Drumheller~\cite{drumheller2000}, the plastic true deformation is
@@ -634,6 +686,7 @@ gives the collected solid--fluid contribution:
 	\Bigg\} .
 	\label{eq:CN_solid_collected_entropy}
 \end{align}
+\subsubsection{Solid stress terms and pressure identifications}
 The elastic true-deformation coefficient gives
 \begin{align}
 	\mbf A_s^{-1}(\bs\sigma_s')^T\mbf A_s
@@ -773,7 +826,10 @@ The distension coefficient gives the tensor restriction
 Taking $\mbf A_s^e=(a_s^e)^{1/3}\mbf I$ reduces this tensor condition to the
 scalar trace relation used in the isotropic distension model.
 For the solid phase, the composition coefficient contains the component-density
-chain rule and the stress-free compositional derivatives.  At this point the
+chain rule and the stress-free compositional derivatives.
+
+\subsubsection{Solid and mobile phase composition restrictions}
+At this point the
 pressure identification \eqref{eq:CN_solid_pressure_identification} has removed
 the isotropic density-power term from the true-deformation contribution.  If the
 reversible pore-architecture tensor
@@ -863,6 +919,8 @@ obtained from Hamilton's principle in \eqref{eq:el_eta_all}:
 	\beta=1,\ldots,N-1 .
 	\label{eq:CN_composition_projected_restriction}
 \end{equation}
+
+\subsubsection{Entropy restrictions}
 The entropy coefficient gives
 \begin{align}
 	s_l
@@ -895,6 +953,7 @@ stress-free factors contribute directly through their $\theta$ and
 $\eta_s^\beta$ derivatives whenever their rates are driven by the derived
 component volume fractions.
 
+\subsubsection{Generalized forces and mechanism affinities}
 Finally, using $\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m$, the
 source term in \eqref{eq:CN_solid_collected_entropy} becomes
 \begin{align}
@@ -932,27 +991,34 @@ The mechanism affinity identified by the variational conversion constraint is
 \end{equation}
 Thus the source projection \eqref{eq:CN_mu_source_projection} is exactly
 the mechanism force power.
+
+\subsubsection{Plastic flow rules and residual dissipation}
 The plastic-deformation power in the residual inequality is driven by the
-single-primed stress mapped to the plastic-flow configuration.  Define the
+single-primed stress mapped through the distension and true-deformation
+gradients to the plastic-flow configuration.  Define the
 deviatoric first Piola--Kirchhoff effective stress by
 \begin{align}
 	\mbf S_s'
 	 & \equiv
 	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
 	\left(
 	\bs\sigma_s'
 	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
 	\right)
+	\mbf A_s
 	\bar{\mbf F}_s^e,
 	\label{eq:CN_plastic_driving_stress}           \\
 	\mbf S_s'
 	 & =
 	\left[
 		(\bar{\mbf F}_s^e)^T
+		\mbf A_s^T
 		\left(
 		\bs\sigma_s'
 		-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
 		\right)
+		\mbf A_s^{-T}
 		(\bar{\mbf F}_s^e)^{-T}
 		\right]^T,
 	\label{eq:CN_plastic_driving_stress_transpose} \\
