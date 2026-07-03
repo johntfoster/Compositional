@@ -995,45 +995,38 @@ the mechanism force power.
 \subsubsection{Plastic flow rules and residual dissipation}
 The plastic-deformation power in the residual inequality is driven by the
 single-primed stress mapped through the distension and true-deformation
-gradients to the plastic-flow configuration.  Define the
-deviatoric first Piola--Kirchhoff effective stress by
-\begin{align}
+gradients to the plastic-flow configuration.  Because the true-plastic flow is
+isochoric, only the deviatoric part of that mapped stress contributes.  Define
+the deviatoric true-plastic driving stress by
+\begin{equation}
 	\mbf S_s'
-	 & \equiv
+	\equiv
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
 	\left(
-	\bs\sigma_s'
+	(\bs\sigma_s')^T
 	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
 	\right)
 	\mbf A_s
-	\bar{\mbf F}_s^e,
-	\label{eq:CN_plastic_driving_stress}           \\
-	\mbf S_s'
-	 & =
-	\left[
-		(\bar{\mbf F}_s^e)^T
-		\mbf A_s^T
-		\left(
-		\bs\sigma_s'
-		-\frac{1}{3}\operatorname{tr}(\bs\sigma_s')\mbf I
-		\right)
-		\mbf A_s^{-T}
-		(\bar{\mbf F}_s^e)^{-T}
-		\right]^T,
-	\label{eq:CN_plastic_driving_stress_transpose} \\
+	\bar{\mbf F}_s^e .
+	\label{eq:CN_plastic_driving_stress}
+\end{equation}
+The trace-free property follows from the similarity transformation of the
+deviatoric stress:
+\begin{equation}
 	\operatorname{tr}\mbf S_s'
-	 & =0,
-	\label{eq:CN_plastic_driving_stress_trace}     \\
-	\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
-	:\bar{\mbf F}_s^e
-	\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
-	 & =
-	\operatorname{tr}\left[
-		\mbf S_s'\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}\right].
-	\label{eq:CN_plastic_power_identity}
-\end{align}
+	=0 .
+	\label{eq:CN_plastic_driving_stress_trace}
+\end{equation}
+This is the direct analogue of Drumheller's
+\cite[eqs.~(108)--(112)]{drumheller2000} true-plastic driving stress: his
+deviatoric true stress is replaced here by the single-primed stress first mapped
+through the total distension tensor.  The additional thermal and compositional
+factors only supply the separate $\dot\theta$ and $\dot\eta_s^\beta$ terms in
+\eqref{eq:CN_stress_power_split}; they do not alter the plastic driving
+coefficient once the $\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}$ term has
+been isolated.  Substituting this definition rewrites the plastic
+true-deformation power as the trace term below.
 After the reversible coefficients have been set to zero, the remaining
 inequality can therefore be written as
 \begin{equation}
@@ -1059,11 +1052,11 @@ one may choose generic uncoupled flow rules
 	\label{eq:CN_generic_plastic_flow_rules}
 	\begin{align}
 		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
-		 & =\Lambda_F(\mc S)\mbf S_s',
+		 & =\Lambda_F(\mc S)(\mbf S_s')^T,
 		\label{eq:CN_generic_plastic_deformation_flow_rule}            \\
 		\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}
 		 & =\Lambda_A(\mc S)
-		(\mbf A_s^e)^{-1}\bs\sigma_s'\mbf A_s^e,
+		(\mbf A_s^e)^T\bs\sigma_s'(\mbf A_s^e)^{-T},
 		\label{eq:CN_generic_plastic_distension_flow_rule}             \\
 		\Lambda_F(\mc S)
 		 & \ge0,
@@ -1073,17 +1066,18 @@ one may choose generic uncoupled flow rules
 		\label{eq:CN_generic_plastic_distension_mobility_nonnegative}
 	\end{align}
 \end{subequations}
-with $\Lambda_F(\mc S)$ and $\Lambda_A(\mc S)$ vanishing in a neighborhood of elastic equilibrium.  Then
-the isochoric constraint is preserved by $\operatorname{tr}\mbf S_s'=0$, and the
-two plastic powers in \eqref{eq:CN_residual_dissipation} are nonnegative term by
-term.  More general coupled plastic deformation--distension laws are admissible
-if their combined plastic power is nonnegative.
+with $\Lambda_F(\mc S)$ and $\Lambda_A(\mc S)$ vanishing in a neighborhood of
+elastic equilibrium.  Then the isochoric constraint is preserved by
+$\operatorname{tr}\mbf S_s'=0$, and the two plastic powers in
+\eqref{eq:CN_residual_dissipation} are nonnegative term by term.  More general
+coupled plastic deformation--distension laws are admissible if their combined
+plastic power is nonnegative.
 
-The interphase exchange term can be closed by the same quadratic argument used
-for the three-phase reacting mixture.  Following Bedford and
-Drumheller~\cite{drumheller1980thermomechanical}, conservation of energy for the
-entire mixture requires the internal interaction-energy supplies and the
-interphase momentum supplies to satisfy
+The interphase exchange term can be closed by a pairwise quadratic construction
+for reacting porous mixtures~\cite{foster2026reactingporous}.  Following
+Bedford and Drumheller~\cite{drumheller1980thermomechanical}, conservation of
+energy for the entire mixture requires the internal interaction-energy supplies
+and the interphase momentum supplies to satisfy
 \begin{equation}
 	\sum_\xi\left(
 	\rho_\xi e_\xi^{\rm int}
@@ -1101,26 +1095,26 @@ momentum balance.  Decompose it into pairwise interaction forces,
 	\label{eq:CN_pairwise_interaction_force}
 \end{equation}
 where $\mbf b_{\zeta\xi}$ is the force exerted on phase $\xi$ by phase $\zeta$.
-For each unordered pair, let $\mbf u_{\xi\zeta}$ denote the pairwise relative
+For each unordered pair, let $\mbf v_{\xi\zeta}$ denote the pairwise relative
 velocity,
 \begin{equation}
-	\mbf u_{\xi\zeta}=\mbf v_\xi-\mbf v_\zeta .
+	\mbf v_{\xi\zeta}=\mbf v_\xi-\mbf v_\zeta .
 	\label{eq:CN_relative_pair_velocity}
 \end{equation}
 This velocity difference is distinct from mass-weighted Darcy or diffusion
 fluxes, which can be introduced later by multiplying a relative velocity by the
 appropriate partial density or mobility.  The energy pairing remains simplest in
-terms of $\mbf u_{\xi\zeta}$.
+terms of $\mbf v_{\xi\zeta}$.
 Then \eqref{eq:CN_interaction_energy_conservation} gives
 \begin{equation}
 	\sum_\xi\rho_\xi e_\xi^{\rm int}
-	=-\sum_{\xi<\zeta}\mbf b_{\zeta\xi}\cdot\mbf u_{\xi\zeta}.
+	=-\sum_{\xi<\zeta}\mbf b_{\zeta\xi}\cdot\mbf v_{\xi\zeta}.
 	\label{eq:CN_interaction_power_pairing}
 \end{equation}
 A linear dissipative interaction law may be written as
 \begin{equation}
 	\mbf b_{\zeta\xi}
-	=-\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta},
+	=-\mbf k_{\xi\zeta}^{-1}\mbf v_{\xi\zeta},
 	\qquad
 	\mbf k_{\xi\zeta}=\mbf k_{\xi\zeta}^{T},
 	\qquad
@@ -1132,8 +1126,8 @@ Substitution into \eqref{eq:CN_interaction_power_pairing} gives
 \begin{equation}
 	\sum_\xi\rho_\xi e_\xi^{\rm int}
 	=\sum_{\xi<\zeta}
-	\mbf u_{\xi\zeta}\cdot
-	\mbf k_{\xi\zeta}^{-1}\mbf u_{\xi\zeta}
+	\mbf v_{\xi\zeta}\cdot
+	\mbf k_{\xi\zeta}^{-1}\mbf v_{\xi\zeta}
 	\ge 0 .
 	\label{eq:CN_interphase_exchange_positive}
 \end{equation}
