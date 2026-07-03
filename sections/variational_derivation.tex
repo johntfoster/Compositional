@@ -1459,18 +1459,7 @@ written as a restriction on the double-prime stress:
 Equations~\eqref{eq:distension_stress_restriction} and
 \eqref{eq:double_prime_distension_trace} are not extra balance laws for
 $a_s$; they are the scalar form of the tensor admissibility condition on the
-reversible solid stress.  The volumetric split is
-%
-\begin{equation}
-	\ln J_s=\ln a_s+\ln\bar J_s .
-	\label{eq:crystallization_volumetric_split}
-\end{equation}
-%
-Thus a penalty written only in terms of $\ln a_s$ or only in terms of
-$\ln(J_s/a_s)=\ln\bar J_s$ will not, in general, produce the trace required by
-Coleman--Noll.  The compatible elastic pressure scale must be tied to
-$\ln J_s$, because $J_s$ is the product that changes with both the distension
-and the deformation Jacobian.
+reversible solid stress.
 
 The scalar specialization also reduces the plastic-distension power in
 \eqref{eq:CN_residual_dissipation} to a hydrostatic work term:
@@ -1498,6 +1487,19 @@ admissible solid free energy.  The scalar restrictions in
 \eqref{eq:distension_stress_restriction} and
 \eqref{eq:double_prime_distension_trace} specify the hydrostatic trace that any
 isotropic crystallization-pressure model must reproduce.
+
+For this scalar crystallization-pressure specialization, the volumetric split is
+%
+\begin{equation}
+	\ln J_s=\ln a_s+\ln\bar J_s .
+	\label{eq:crystallization_volumetric_split}
+\end{equation}
+%
+Thus a penalty written only in terms of $\ln a_s$ or only in terms of
+$\ln(J_s/a_s)=\ln\bar J_s$ will not, in general, produce the trace required by
+Coleman--Noll.  The compatible elastic pressure scale must be tied to
+$\ln J_s$, because $J_s$ is the product that changes with both the distension
+and the deformation Jacobian.
 
 The component Legendre transform was defined in
 \eqref{eq:solid_legendre_transform_definition} as
@@ -1624,13 +1626,10 @@ part of the solid Helmholtz energy is already built into
 $\operatorname{tr}(\bs\sigma_s^{\prime\alpha})$, and that stress is the
 mechanical quantity that enters the momentum equation.  Crystallization enters
 the thermodynamics through the mechanism affinity.  The variational
-theory identifies the force conjugate to the mechanism progress rate $\dot r_m$:
+theory identifies the force conjugate to the mechanism progress rate $\dot r_{(m)}$:
 %
 \begin{equation}
-	\delta W_{\rm conv}
-	=-\sum_m\int_{\mc B}\mc A_m\,\delta\dot r_m\,\dv,
-	\qquad
-	\mc A_m=-\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha .
+	\mc{A}_{(m)}=-\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
 	\label{eq:crystallization_affinity_projection_recall}
 \end{equation}
 %
@@ -1638,30 +1637,30 @@ The entropy inequality requires the kinetic closure to make this solved driving
 force admissible:
 %
 \begin{equation}
-	\mc A_m\dot r_m\ge 0 .
+	\mc A_{(m)}\dot r_{(m)}\ge 0 .
 	\label{eq:crystallization_admissible_kinetics}
 \end{equation}
 %
-A simple admissible choice is $\dot r_m=M_m\mc A_m$ with $M_m\ge0$.  A
+A simple admissible choice is $\dot r_{(m)}=M_{(m)}\mc A_{(m)}$ with $M_{(m)}\ge0$.  A
 one-sided precipitation or dissolution law may be used when the mechanism is not
 reversible.
 
 Classical crystallization pressure is therefore best used as a way to prescribe
-or diagnose this affinity, not as an added stress.  For a mechanism $m$
-precipitating solid component $\alpha_m$, define the intrinsic specific volume
+or diagnose this affinity, not as an added stress.  For a mechanism $(m)$
+precipitating solid component $\alpha_{(m)}$, define the intrinsic specific volume
 %
 \begin{equation}
-	\bar v_s^{\alpha_m}=\frac{1}{\bar\rho_s^{\alpha_m}} .
+	\bar v_s^{\alpha_{(m)}}=\frac{1}{\bar\rho_s^{\alpha_{(m)}}} .
 	\label{eq:crystallization_intrinsic_specific_volume}
 \end{equation}
 %
 The equivalent classical pressure is the pressure scale whose excess over the
-current solid trace stress represents the chemical driving force:
+current component trace stress represents the chemical driving force:
 %
 \begin{equation}
-	p_c^{(m)}
-	=\frac{\mc A_m}{\bar v_s^{\alpha_m}}
-	+\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_m}) .
+	\bar p^{\alpha_{(m)}}_c
+	=\frac{\mc A_{(m)}}{\bar v_s^{\alpha_{(m)}}}
+	+\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}}) .
 	\label{eq:crystallization_affinity_trace_stress}
 \end{equation}
 %
@@ -1669,11 +1668,11 @@ Equivalently, a crystallization-pressure law supplies the algebraic affinity
 restriction
 %
 \begin{equation}
-	\mc A_m
-	=\bar v_s^{\alpha_m}
+	\mc A_{(m)}
+	=\bar v_s^{\alpha_{(m)}}
 	\left(
-	p_c^{(m)}
-	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_m})
+	\bar p^{\alpha_{(m)}}_c
+	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}})
 	\right).
 	\label{eq:crystallization_affinity_volumetric}
 \end{equation}
@@ -1681,33 +1680,33 @@ restriction
 For example, a classical supersaturation law may be written
 %
 \begin{equation}
-	p_c^{(m)}
-	=\frac{R\theta}{V_s^{\alpha_m}}\ln\Omega_m,
+	\bar p^{\alpha_{(m)}}_c
+	=\frac{R\theta}{V_s^{\alpha_{(m)}}}\ln\Omega_{(m)},
 	\label{eq:classical_crystallization_pressure}
 \end{equation}
 %
-where $V_s^{\alpha_m}$ is the molar volume of the precipitating solid component.
-Substitution into \eqref{eq:crystallization_affinity_volumetric} gives the
-corresponding affinity closure
+where $V_s^{\alpha_{(m)}}$ is the molar volume of the precipitating solid
+component.  Substitution into \eqref{eq:crystallization_affinity_volumetric}
+gives the corresponding affinity closure
 %
 \begin{equation}
-	\mc A_m
+	\mc A_{(m)}
 	=
-	\bar v_s^{\alpha_m}
+	\bar v_s^{\alpha_{(m)}}
 	\left(
-	\frac{R\theta}{V_s^{\alpha_m}}\ln\Omega_m
-	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_m})
+	\frac{R\theta}{V_s^{\alpha_{(m)}}}\ln\Omega_{(m)}
+	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}})
 	\right).
 	\label{eq:crystallization_supersaturation_affinity}
 \end{equation}
 %
-At reversible equilibrium, $\mc A_m=0$, so the classical pressure equals the
-current admissible trace stress:
+At reversible equilibrium, $\mc A_{(m)}=0$, so the component crystallization
+pressure equals the current admissible component trace stress:
 %
 \begin{equation}
-	p_c^{(m)}
+	\bar p^{\alpha_{(m)}}_c
 	=
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_m}) .
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}}) .
 	\label{eq:distension_equilibrium_crystallization}
 \end{equation}
 %
@@ -1715,12 +1714,12 @@ If the affinity and stress are solved instead, the associated saturation ratio
 is the diagnostic output
 %
 \begin{equation}
-	\Omega_m
+	\Omega_{(m)}
 	=\exp\left(
-	\frac{V_s^{\alpha_m}}{R\theta}
+	\frac{V_s^{\alpha_{(m)}}}{R\theta}
 	\left[
-		\frac{\mc A_m}{\bar v_s^{\alpha_m}}
-		+\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_m})
+		\frac{\mc A_{(m)}}{\bar v_s^{\alpha_{(m)}}}
+		+\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}})
 		\right]
 	\right).
 	\label{eq:crystallization_saturation_ratio_diagnostic}
@@ -1729,8 +1728,8 @@ is the diagnostic output
 Thus a classical crystallization-pressure formula supplies either an algebraic
 equilibrium restriction, a diagnostic output, or a calibration target for the
 kinetic law.  The simulator still advances the Helmholtz-generated stresses,
-balance laws, conversion constraints, and an admissible law for $\dot r_m$; it
-does not add $p_c^{(m)}$ as a second mechanical load.
+balance laws, conversion constraints, and an admissible law for $\dot r_{(m)}$;
+it does not add $\bar p^{\alpha_{(m)}}_c$ as a mechanical load.
 
 \subsection{Model summary, closures, and equation count}
 \label{sec:model_summary_closure_count}
@@ -1855,7 +1854,7 @@ process-rate unknowns whose equations are supplied by kinetic laws.
 		Intrinsic phase densities $\bar\rho_\xi$ for $\xi=1,\ldots,P$                     & $P$    \\
 		Phase mass fractions $\eta_\xi^1,\ldots,\eta_\xi^N$ for $\xi=1,\ldots,P$          & $PN$   \\
 		Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                            & $P$    \\
-		Saturation multiplier $\lambda$                                                   & $1$    \\
+		Volume-fraction multiplier $\lambda$                                              & $1$    \\
 		Storage multipliers $\tau_\xi^1,\ldots,\tau_\xi^N$ for $\xi=1,\ldots,P$           & $PN$   \\
 		Helmholtz chemical potentials $\mu_\xi^1,\ldots,\mu_\xi^N$ for $\xi=1,\ldots,P$   & $PN$   \\
 		Mechanism process rates $\dot r_1,\ldots,\dot r_{N_m}$                            & $N_m$  \\
@@ -1867,9 +1866,11 @@ process-rate unknowns whose equations are supplied by kinetic laws.
 The corresponding scalar unknown count is
 %
 \begin{equation}
-	N_{\rm unk}
-	=dP+P+PN+P+1+PN+PN+N_m+2d^2+1
-	=dP+2d^2+3PN+2P+N_m+2 ,
+	\begin{aligned}
+		N_{\rm unk}
+		 & =dP+P+PN+P+1+PN+PN+N_m+2d^2+1 \\
+		 & =dP+2d^2+3PN+2P+N_m+2 ,
+	\end{aligned}
 	\label{eq:model_summary_unknown_count}
 \end{equation}
 %
@@ -1879,15 +1880,15 @@ The same number of scalar equations is supplied by the following blocks:
 	\begin{tabular}{p{0.62\textwidth}c}
 		Equation block                                                                           & Count    \\
 		\hline
-		Component mass balances \eqref{eq:model_summary_mass_balance}                            & $PN$     \\
 		Phase momentum balances \eqref{eq:el_momentum_uniform}                                   & $dP$     \\
-		Saturation constraint in \eqref{eq:model_summary_constraints}                            & $1$      \\
-		Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$      \\
 		Intrinsic-density relations in \eqref{eq:model_summary_pressure_relations}               & $P$      \\
 		Projected composition stationarity
 		\eqref{eq:CN_composition_projected_restriction} and
 		\eqref{eq:CN_solid_composition_projected_restriction}                                    & $P(N-1)$ \\
 		Composition normalizations in \eqref{eq:model_summary_constraints}                       & $P$      \\
+		Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$      \\
+		Volume-fraction constraint in \eqref{eq:model_summary_constraints}                       & $1$      \\
+		Component mass balances \eqref{eq:model_summary_mass_balance}                            & $PN$     \\
 		Conversion-potential equations \eqref{eq:el_conversion_component}                        & $PN$     \\
 		Kinetic laws for $\dot r_m$                                                              & $N_m$    \\
 		Plastic flow laws for $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active                   & $2d^2$   \\
@@ -1900,7 +1901,7 @@ Thus
 \begin{equation}
 	\begin{aligned}
 		N_{\rm eq}
-		 & =PN+dP+1+P+P+P(N-1)+P+PN+N_m+2d^2+1 \\
+		 & =dP+P+P(N-1)+P+P+1+PN+PN+N_m+2d^2+1 \\
 		 & =dP+2d^2+3PN+2P+N_m+2
 		=N_{\rm unk}.
 	\end{aligned}
@@ -1910,7 +1911,7 @@ Thus
 This count treats $\pi_\xi$, $\mc A_m$, and $\dot c_\xi^\alpha$ as eliminated
 quantities: $\pi_\xi$ is removed by projecting the composition stationarity
 relations onto the $N-1$ dimensional tangent space of
-$\sum_\alpha\eta_\xi^\alpha=1$, $\mc A_m$ is substituted from
+$\sum_\alpha\eta_\xi^\alpha=1$, $\mc A_(m)$ is substituted from
 \eqref{eq:model_summary_affinity}, and $\dot c_\xi^\alpha$ is substituted from
 the stoichiometric source term in \eqref{eq:model_summary_mass_balance}.  If any
 of these are retained as auxiliary unknowns, the same number of defining
