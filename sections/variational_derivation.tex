@@ -223,12 +223,18 @@ The total mobile volume fraction and the mobile saturations are
 % AGENT-LOCK-END
 The saturations are used here only as ratios of the primitive volume-fraction
 fields; the variations are still taken with respect to the primitive
-$\phi_l$.  For thermal reservoir simulation the interfacial energy is allowed
-to depend on temperature, consistent with the standard capillary-pressure
-scaling by interfacial tension in reservoir engineering
-\cite{leverett1941capillary}.  The effective mobile interfacial energy density
-is a single constitutive potential of the mobile saturations and temperature,
-and it is not assumed to decompose into additive pair contributions:
+$\phi_l$.  The notation $\left\{S_l\right\}_{l\in\mc M}$ denotes the mobile
+saturation state subject to the constraint in
+\eqref{eq:mobile_saturation_definitions}.  Thus the energy may be written in
+terms of any independent set of mobile saturations, with the remaining
+saturation determined by the constraint; the derivation below keeps the
+constraint explicit instead of choosing a reference mobile phase.  For thermal
+reservoir simulation the interfacial energy is allowed to depend on
+temperature, consistent with the standard capillary-pressure scaling by
+interfacial tension in reservoir engineering \cite{leverett1941capillary}.  The
+effective mobile interfacial energy density is a single constitutive potential
+of this constrained saturation state and temperature, and it is not assumed to
+decompose into additive pair contributions:
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\gamma =
@@ -309,7 +315,9 @@ The phase interfacial potential appearing in \eqref{eq:deltaU_fg} is
 % AGENT-LOCK-END
 %
 where the saturation derivatives are evaluated on the saturation simplex.  The
-wetting/non-wetting interfacial difference associated with an oriented pair is
+oriented wetting/non-wetting pairs specify capillary-pressure differences, not a
+preferred set of independent saturation coordinates.  The wetting/non-wetting
+interfacial difference associated with an oriented pair is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}

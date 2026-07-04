@@ -371,7 +371,11 @@ energies.  No elastic stress power is assigned to the mobile phases, so
 \end{equation}
 % AGENT-LOCK-END
 The reversible interfacial energy used in the variational formulation must also
-be included in the entropy bookkeeping.  For thermal reservoir simulation, the
+be included in the entropy bookkeeping.  The argument
+$\left\{S_l\right\}_{l\in\mc M}$ denotes the constrained mobile saturation state
+defined in \eqref{eq:mobile_saturation_definitions}; equivalently, one may
+choose any independent set of mobile saturations and recover the remaining
+saturation from the constraint.  For thermal reservoir simulation, the
 interfacial energy is allowed to depend on temperature through the interfacial
 tension, as in the standard capillary-pressure scaling used in reservoir
 engineering \cite{leverett1941capillary}.  For the mobile phases,
@@ -390,8 +394,9 @@ engineering \cite{leverett1941capillary}.  For the mobile phases,
 % AGENT-LOCK-END
 %
 where $\gamma_l$ are the interfacial variation coefficients collected in
-\eqref{eq:primitive_gamma_derivatives}, with the saturation derivatives taken at
-fixed temperature.  The associated interfacial entropy per current volume is
+\eqref{eq:primitive_gamma_derivatives}, with the constrained mobile saturation
+state held fixed for the temperature derivative.  The associated interfacial
+entropy per current volume is
 $-\phi\,\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}$.
 The volume fractions are constrained by $\sum_\xi\phi_\xi=1$, so their rates
 are not independent.  When the capillary Helmholtz rate is retained explicitly,
