@@ -729,9 +729,9 @@ gives the collected solid--fluid contribution:
 	+\pi_\xi\right)\dot\eta_\xi^\beta
 	\notag                                                                  \\
 	       & -\sum_m\left(
-	\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
+	\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha
 	\left(\widehat\psi_\xi^\alpha+L_\xi^\alpha\right)
-	\right)\dot r_m
+	\right)\dot r_{(m)}
 	\notag                                                                  \\
 	       & +\sum_\xi\left(
 	\lambda+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}
@@ -1041,7 +1041,7 @@ $\eta_s^\beta$ derivatives whenever their rates are driven by the derived
 component volume fractions.
 
 \subsubsection{Generalized forces and mechanism affinities}
-Finally, using $\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m$, the
+Finally, using $\dot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}$, the
 source term in \eqref{eq:CN_solid_collected_entropy} becomes
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
@@ -1049,9 +1049,9 @@ source term in \eqref{eq:CN_solid_collected_entropy} becomes
 	\left(\widehat\psi_\xi^\alpha+L_\xi^\alpha\right) \notag \\
 	 & \qquad =
 	-\sum_m\left[
-		\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha
+		\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha
 		\left(\widehat\psi_\xi^\alpha+L_\xi^\alpha\right)
-		\right]\dot r_m .
+		\right]\dot r_{(m)} .
 	\label{eq:CN_helmholtz_source_projection}
 \end{align}
 % AGENT-LOCK-END
@@ -1071,16 +1071,16 @@ phase/component source.  The source projection is
 	-\sum_\xi\sum_\alpha \dot c_\xi^\alpha\mu_\xi^\alpha
 	=
 	-\sum_m\left(
-	\sum_\xi\sum_\alpha\nu_{\xi m}^\alpha\mu_\xi^\alpha
-	\right)\dot r_m .
+	\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha\mu_\xi^\alpha
+	\right)\dot r_{(m)} .
 	\label{eq:CN_mu_source_projection}
 \end{equation}
 % AGENT-LOCK-END
 The mechanism affinity identified by the variational conversion constraint is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\mc A_m
-	= -\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi m}^\alpha .
+	\mc A_{(m)}
+	= -\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
 	\label{eq:CN_composition_affinity_projection}
 \end{equation}
 % AGENT-LOCK-END
@@ -1132,7 +1132,7 @@ inequality can therefore be written as
 \begin{equation}
 	\begin{aligned}
 		0\le{}\; &
-		\sum_m\mc A_m\dot r_m
+		\sum_m\mc A_{(m)}\dot r_{(m)}
 		+\bs\sigma_s':\mbf A_s^e\dot{\mbf A}_s^p
 		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}  \\
 		         & +\operatorname{tr}\left[
@@ -1144,9 +1144,9 @@ inequality can therefore be written as
 	\label{eq:CN_residual_dissipation}
 \end{equation}
 % AGENT-LOCK-END
-Admissible reaction kinetics must make $\sum_m\mc A_m\dot r_m\ge 0$, for example
-through a closure $\dot r_m=\mc K_m(\mc A_m,\text{state})$ with
-$\mc A_m\dot r_m\ge 0$ for each independent mechanism.
+Admissible reaction kinetics must make $\sum_m\mc A_{(m)}\dot r_{(m)}\ge 0$, for example
+through a closure $\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\text{state})$ with
+$\mc A_{(m)}\dot r_{(m)}\ge 0$ for each independent mechanism.
 Following the same sufficient construction used by Drumheller~\cite{drumheller2000},
 one may choose generic uncoupled flow rules
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user

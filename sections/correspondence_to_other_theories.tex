@@ -8,7 +8,7 @@ The preceding equations contain the usual compositional-reservoir structure as a
 special limit.  The phase/component source is written as
 %
 \begin{equation}
-	\dot c_\xi^\alpha=\sum_m\nu_{\xi m}^\alpha\dot r_m,
+	\dot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)},
 	\label{eq:classical_source_form}
 \end{equation}
 %
@@ -18,7 +18,7 @@ vector $\mbf R=\bs\nu\mbf q$.  Summing \eqref{eq:spatial_mass_2} over phases giv
 \begin{equation}
 	\frac{\partial}{\partial t}\left(\sum_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\right)
 	+\nabla_{\mbf x}\cdot\left(\sum_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\mbf v_\xi\right)
-	=\sum_\xi\sum_m\nu_{\xi m}^\alpha\dot r_m .
+	=\sum_\xi\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)} .
 	\label{eq:classical_component_balance}
 \end{equation}
 %
@@ -49,7 +49,7 @@ balance
 	\frac{\partial}{\partial t}\left(\phi S_\xi\bar C_\xi^\alpha\right)
 	+\nabla_{\mbf x}\cdot
 	\left(\phi S_\xi\bar C_\xi^\alpha\mbf v_\xi\right)
-	=\sum_m\frac{\nu_{\xi m}^\alpha}{M^\alpha}\dot r_m .
+	=\sum_m\frac{\nu_{\xi (m)}^\alpha}{M^\alpha}\dot r_{(m)} .
 	\label{eq:classical_phase_molar_balance}
 \end{equation}
 %
@@ -69,7 +69,7 @@ For the fixed-skeleton case $\mbf v_s=\mbf 0$, so
 	\frac{\partial}{\partial t}\left(\phi S_\xi\bar C_\xi^\alpha\right)
 	+\nabla_{\mbf x}\cdot
 	\left(\bar C_\xi^\alpha\mbf q_\xi\right)
-	=\sum_m\frac{\nu_{\xi m}^\alpha}{M^\alpha}\dot r_m .
+	=\sum_m\frac{\nu_{\xi (m)}^\alpha}{M^\alpha}\dot r_{(m)} .
 	\label{eq:classical_phase_molar_darcy_balance}
 \end{equation}
 %
@@ -96,7 +96,7 @@ Summing \eqref{eq:classical_phase_molar_darcy_balance} over mobile phases yields
 	\left(\phi\sum_\xi S_\xi\bar C_\xi^\alpha\right)
 	+\nabla_{\mbf x}\cdot
 	\left(\sum_\xi\bar C_\xi^\alpha\mbf q_\xi\right)
-	=\sum_\xi\sum_m\frac{\nu_{\xi m}^\alpha}{M^\alpha}\dot r_m .
+	=\sum_\xi\sum_m\frac{\nu_{\xi (m)}^\alpha}{M^\alpha}\dot r_{(m)} .
 	\label{eq:classical_total_molar_component_balance}
 \end{equation}
 %
@@ -158,7 +158,7 @@ where $x_\xi^\alpha$ is the phase mole fraction.  Flash calculations then impose
 phase-equilibrium closures, commonly written as fugacity equalities.  In the
 present notation the reversible version of such a phase transfer for component
 $\alpha$ from phase $\xi$ to phase $\zeta$ has
-$\nu_{\xi m}^\alpha=-1$ and $\nu_{\zeta m}^\alpha=+1$, so
+	$\nu_{\xi (m)}^\alpha=-1$ and $\nu_{\zeta (m)}^\alpha=+1$, so
 \eqref{eq:classical_equilibrium_affinity} reduces to
 %
 \begin{equation}
@@ -229,15 +229,15 @@ The affinity is the stoichiometric projection of these phase/component
 potentials:
 %
 \begin{equation}
-	\mc A_m
-	=-\sum_\xi\sum_\alpha \mu_\xi^\alpha\nu_{\xi m}^\alpha .
+	\mc A_{(m)}
+	=-\sum_\xi\sum_\alpha \mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
 	\label{eq:classical_affinity_projection}
 \end{equation}
 %
-For an equilibrated mechanism, imposing $\mc A_m=0$ gives
+For an equilibrated mechanism, imposing $\mc A_{(m)}=0$ gives
 %
 \begin{equation}
-	\sum_\xi\sum_\alpha \mu_\xi^\alpha\nu_{\xi m}^\alpha=0,
+	\sum_\xi\sum_\alpha \mu_\xi^\alpha\nu_{\xi (m)}^\alpha=0,
 	\label{eq:classical_equilibrium_affinity}
 \end{equation}
 %
@@ -247,14 +247,14 @@ fluid--solid reaction, \eqref{eq:classical_affinity_projection} instead supplies
 the driving force in a closure
 %
 \begin{equation}
-	\dot r_m=\mc K_m(\mc A_m,\text{state}),
-	\qquad \mc A_m\dot r_m\ge 0
+	\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\text{state}),
+	\qquad \mc A_{(m)}\dot r_{(m)}\ge 0
 	\label{eq:classical_kinetic_affinity_closure}
 \end{equation}
 %
 with the sign convention used here.  Thus equilibrium chemistry, kinetic
 reactive transport, and phase transformation all use the same stoichiometric
-projection; only the closure for $\dot r_m$ changes.
+projection; only the closure for $\dot r_{(m)}$ changes.
 
 The momentum equations contain an additional conversion term absent from purely
 kinematic Darcy-scale compositional balances,
