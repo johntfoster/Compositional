@@ -379,12 +379,12 @@ engineering \cite{leverett1941capillary}.  For the mobile phases,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\psi_\gamma^{\rm vol}
-	=\phi\gamma(S_a,S_g,\theta),
+	=\phi\gamma\left(\left\{S_l\right\}_{l\in\mc M},\theta\right),
 	\qquad
 	\dot\psi_\gamma^{\rm vol}
 	=\sum_l\gamma_l\dot\phi_l
 	+\phi
-	\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta,
+	\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\dot\theta,
 	\label{eq:CN_interfacial_helmholtz_rate}
 \end{equation}
 % AGENT-LOCK-END
@@ -392,7 +392,7 @@ engineering \cite{leverett1941capillary}.  For the mobile phases,
 where $\gamma_l$ are the interfacial variation coefficients collected in
 \eqref{eq:primitive_gamma_derivatives}, with the saturation derivatives taken at
 fixed temperature.  The associated interfacial entropy per current volume is
-$-\phi\,\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}$.
+$-\phi\,\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}$.
 The volume fractions are constrained by $\sum_\xi\phi_\xi=1$, so their rates
 are not independent.  When the capillary Helmholtz rate is retained explicitly,
 we add the identically vanishing volume-fraction-constraint rate
@@ -598,8 +598,8 @@ spaces.
 	 & +\frac{1}{\theta}\left(
 	\lambda\sum_\xi\dot\phi_\xi
 	-\sum_l\gamma_l\dot\phi_l
-	-\phi\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta
-	+\phi\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta
+	-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\dot\theta
+	+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\dot\theta
 	\right).
 	\label{eq:CN_reduced_entropy_inequality}
 \end{align}
@@ -737,8 +737,8 @@ gives the collected solid--fluid contribution:
 	\lambda+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}
 	\right)\dot\phi_\xi
 	-\sum_l\gamma_l\dot\phi_l
-	-\phi\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta
-	+\phi\left.\p{\gamma}{\theta}\right\vert_{S_a,S_g}\dot\theta
+	-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\dot\theta
+	+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\dot\theta
 	\notag                                                                  \\
 	       &
 	+\sum_\xi\rho_\xi e_\xi^{\rm int}

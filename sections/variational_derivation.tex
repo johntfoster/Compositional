@@ -4,10 +4,10 @@
 
 We derive the governing equations from Hamilton's extended principle, following
 Bedford and Drumheller~\cite{drumheller1980thermomechanical}.  The formulation
-is written for a compositional mixture containing solid, aqueous, oleic, and gas
-phases\footnote{The number and names of phases are illustrative; the derivation
-	does not require this particular phase set.} with arbitrary components
-$\alpha$ within each phase.
+is written for a compositional mixture containing a solid phase and an arbitrary
+set $\mc M$ of mobile pore phases.  The symbols $l,k,w,n\in\mc M$ denote mobile
+phases, while $\xi$ ranges over all phases.  Components within each phase are
+indexed by $\alpha$.
 
 \subsection{Variational principle and its terms}
 
@@ -26,7 +26,7 @@ with kinetic energy, internal energy, virtual work, and four constraints:
 	T        & = \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \dv,
 	\label{eq:T_def}                                                                                                                                                                                                \\
 	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \eta^\al_{\xi})\dv
-	+ \int_{\mc{B}} \phi\,\gamma(S_a, S_g) \dv,
+	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_l\right\}_{l\in\mc M}, \theta\right) \dv,
 	\label{eq:U_def}                                                                                                                                                                                                \\
 	\delta W & = \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv
 	-\sum_\xi\sum_\alpha\int_{\mc B}L_\xi^\alpha
@@ -208,51 +208,50 @@ $\mbf F_\xi$.
 \label{sec:var_gamma}
 % ============================================================
 
-With three mobile phases (aqueous, oleic, and gas), let
+Let $\mc I$ denote the set of oriented mobile interfaces.  Each
+$(w,n)\in\mc I$ identifies a wetting phase $w$ and a non-wetting phase $n$.
+The total mobile volume fraction and the mobile saturations are
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\phi = \phi_a + \phi_o + \phi_g,
+	\phi = \sum_{l\in\mc M}\phi_l,
 	\qquad
-	S_a = \frac{\phi_a}{\phi},
+	S_l = \frac{\phi_l}{\phi},
 	\qquad
-	S_g = \frac{\phi_g}{\phi},
+	\sum_{l\in\mc M}S_l=1 .
 	\label{eq:mobile_saturation_definitions}
 \end{equation}
 % AGENT-LOCK-END
-so that $S_o = 1-S_a-S_g = \phi_o/\phi$.  The saturations are used here only as
-ratios of the primitive volume-fraction fields; the variations are still taken
-with respect to $\phi_a$, $\phi_o$, and $\phi_g$.  For thermal reservoir
-simulation the interfacial energy is allowed to depend on temperature, consistent
-with the standard capillary-pressure scaling by interfacial tension in
-reservoir engineering \cite{leverett1941capillary}.  We specialize the
-interfacial energy contribution to
+The saturations are used here only as ratios of the primitive volume-fraction
+fields; the variations are still taken with respect to the primitive
+$\phi_l$.  For thermal reservoir simulation the interfacial energy is allowed
+to depend on temperature, consistent with the standard capillary-pressure
+scaling by interfacial tension in reservoir engineering
+\cite{leverett1941capillary}.  The effective mobile interfacial energy is
+written as a sum over wetting/non-wetting pairs,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	U \supset U_\gamma = \int_{\mc{B}} \phi\,\gamma\!\left(S_a,S_g,\theta\right)\,\dv.
+	\gamma\left(\left\{S_l\right\}_{l\in\mc M},\theta\right)
+	=\sum_{(w,n)\in\mc I}
+	\gamma_{wn}\left(\left\{S_l\right\}_{l\in\mc M},\theta\right).
 	\label{eq:interfacial_energy_density}
 \end{equation}
 % AGENT-LOCK-END
-Taking the oleic phase as the reference mobile phase, define the two interfacial
-differences
+and the corresponding contribution to the internal energy is
 %
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
+% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	p_{c,oa} \equiv -\frac{\partial \gamma}{\partial S_a},
-	\qquad
-	p_{c,og} \equiv -\frac{\partial \gamma}{\partial S_g} .
-	\label{eq:pc_def}
+	U \supset U_\gamma =
+	\int_{\mc{B}}
+	\phi\,\gamma\left(\left\{S_l\right\}_{l\in\mc M},\theta\right)
+	\dv .
+	\label{eq:interfacial_internal_energy}
 \end{equation}
 % AGENT-LOCK-END
-%
-These quantities are interfacial thermodynamic differences at this point in the
-derivation, with the temperature held fixed in the saturation derivatives; their
-pressure interpretation is obtained only after the collected Euler--Lagrange
-equations identify the phase pressure variables.
 
 Before varying the interfacial energy, record the transported variation of the
 phase-attached volume fractions.  The Bedford--Drumheller spatial identity
 (cf.\ \cite{drumheller1980thermomechanical} equation (1.25)) gives, for each
-mobile phase field $\phi_\xi$,
+mobile phase field $\phi_l$,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -266,18 +265,18 @@ Combining the convective term with the variation of the phase-carried current
 volume element gives the transported contribution
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \[
-	\delta_x\phi_\xi
-	= -\nabla_{\mbf x}\cdot(\phi_\xi\delta\mbf x_\xi),
+	\delta_x\phi_l
+	= -\nabla_{\mbf x}\cdot(\phi_l\delta\mbf x_l),
 \]
 % AGENT-LOCK-END
 which is used below.
 
-Using $\delta\phi=\delta\phi_a+\delta\phi_o+\delta\phi_g$ and
+Using
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\delta S_a=\frac{\delta\phi_a-S_a\delta\phi}{\phi},
+	\delta\phi=\sum_{l\in\mc M}\delta\phi_l,
 	\qquad
-	\delta S_g=\frac{\delta\phi_g-S_g\delta\phi}{\phi},
+	\delta S_l=\frac{\delta\phi_l-S_l\delta\phi}{\phi},
 	\label{eq:saturation_variations}
 \end{equation}
 % AGENT-LOCK-END
@@ -287,66 +286,47 @@ in one calculation:
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta U_\gamma
-	 & = \int_{\mc B}\Big[
+	 & = \int_{\mc B}\left[
 	\gamma\,\delta\phi
-	-p_{c,oa}\left(\delta\phi_a-S_a\delta\phi\right)
-	-p_{c,og}\left(\delta\phi_g-S_g\delta\phi\right)
-	\Big]\dv \notag                                                                                    \\
-	 & \quad
-	-\int_{\mc B}\Big[
-		\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)
-	\nabla_{\mbf x}\cdot(\phi_a\delta\mbf x_a) \notag                                                  \\
-	 & \qquad
-		+\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)
-	\nabla_{\mbf x}\cdot(\phi_o\delta\mbf x_o) \notag                                                  \\
-	 & \qquad
-		+\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)
-		\nabla_{\mbf x}\cdot(\phi_g\delta\mbf x_g)
-	\Big]\dv \notag                                                                                    \\
-	 & = \int_{\mc B}\Big[
-	\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)\delta\phi_a \notag                               \\
-	 & \qquad
-	+\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)\delta\phi_o \notag                                 \\
-	 & \qquad
-		+\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)\delta\phi_g
-	\Big]\dv \notag                                                                                    \\
-	 & \quad
-	+\int_{\mc B}\Bigg[
-	\phi_a\nabla_{\mbf x}\!\left(\gamma -(1-S_a)p_{c,oa}+S_g p_{c,og}\right)\cdot\delta\mbf x_a \notag \\
-	 & \qquad
-	+\phi_o\nabla_{\mbf x}\!\left(\gamma +S_a p_{c,oa}+S_g p_{c,og}\right)\cdot\delta\mbf x_o \notag   \\
-	 & \qquad
-		+\phi_g\nabla_{\mbf x}\!\left(\gamma +S_a p_{c,oa}-(1-S_g)p_{c,og}\right)\cdot\delta\mbf x_g
-		\Bigg]\dv
+	+\sum_{l\in\mc M}
+	\left.\p{\gamma}{S_l}\right\vert_{\theta,S_{k\neq l}}
+	\left(\delta\phi_l-S_l\delta\phi\right)
+	\right]\dv \notag                                                                                  \\
+	& \quad
+	-\int_{\mc B}\sum_{l\in\mc M}
+	\gamma_l\nabla_{\mbf x}\cdot(\phi_l\delta\mbf x_l)\dv \notag                                      \\
+	& = \int_{\mc B}\sum_{l\in\mc M}\gamma_l\delta\phi_l\dv \notag                                    \\
+	& \quad
+	+\int_{\mc B}\sum_{l\in\mc M}
+	\phi_l\nabla_{\mbf x}\gamma_l\cdot\delta\mbf x_l\dv
 	+ \text{boundary terms}.
 	\label{eq:deltaU_fg}
 \end{align}
 % AGENT-LOCK-END
 %
-The three coefficient combinations appearing in \eqref{eq:deltaU_fg} are written
-subsequently as
+The phase interfacial potential appearing in \eqref{eq:deltaU_fg} is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{align}
-	\gamma_o & = \gamma + S_a p_{c,oa}+S_g p_{c,og}, \notag \\
-	\gamma_a & = \gamma_o-p_{c,oa}, \notag                  \\
-	\gamma_g & = \gamma_o-p_{c,og}.
+\begin{equation}
+	\gamma_l
+	=
+	\gamma
+	+\left.\p{\gamma}{S_l}\right\vert_{\theta,S_{k\neq l}}
+	-\sum_{k\in\mc M}S_k
+	\left.\p{\gamma}{S_k}\right\vert_{\theta,S_{j\neq k}},
 	\label{eq:primitive_gamma_derivatives}
-\end{align}
+\end{equation}
 % AGENT-LOCK-END
 %
-Thus the oil-referenced interfacial differences are
+where the saturation derivatives are evaluated on the saturation simplex.  The
+wetting/non-wetting interfacial difference associated with an oriented pair is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{subequations}
-	\begin{align}
-		p_{c,oa} & =  \gamma_o-\gamma_a,
-		\label{eq:pcoa_gamma_difference} \\
-		p_{c,og} & = \gamma_o-\gamma_g .
-		\label{eq:pcog_gamma_difference}
-	\end{align}
-	\label{eq:capilary_pressure_def1}
-\end{subequations}
+\begin{equation}
+	p_{c,nw}\equiv\gamma_n-\gamma_w,
+	\qquad (w,n)\in\mc I .
+	\label{eq:pc_def}
+\end{equation}
 % AGENT-LOCK-END
 %
 The form \eqref{eq:deltaU_fg} keeps the gradient terms generated by transport of
@@ -513,14 +493,13 @@ Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\
 	+ \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
 	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag                                                                                                              \\
 	    & - \int_{\mc B}\Big[
-		\phi_a\nabla_{\mbf x}\left(\gamma_o-p_{c,oa}\right)\cdot\delta\mbf x_a
-		+ \phi_o\nabla_{\mbf x}\gamma_o\cdot\delta\mbf x_o
-		+ \phi_g\nabla_{\mbf x}\left(\gamma_o-p_{c,og}\right)\cdot\delta\mbf x_g
+		\sum_{l\in\mc M}
+		\phi_l\nabla_{\mbf x}\gamma_l\cdot\delta\mbf x_l
 	\Big]\dv \notag                                                                                                                                          \\
 	    & + \sum_\xi \int_{\mc{B}} \Bigg[
 		\lambda + \sum_\alpha \frac{\tau_{\xi}^\alpha}{\phi_{\xi}}
 	\Bigg] \delta\phi_{\xi} \,\dv \notag                                                                                                                     \\
-	    & - \int_{\mc B}\left[\left(\gamma_o-p_{c,oa}\right)\delta\phi_a+\gamma_o\delta\phi_o+\left(\gamma_o-p_{c,og}\right)\delta\phi_g\right]\dv \notag    \\
+	    & - \int_{\mc B}\sum_{l\in\mc M}\gamma_l\delta\phi_l\dv \notag                                                                                       \\
 	    & + \sum_{\xi}\int_{\mc{B}} \Bigg[
 		-\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\eta_\xi^\beta}
 		+ \sum_\alpha\frac{\tau_{\xi}^\alpha}{\bar\rho_{\xi}}
@@ -583,7 +562,7 @@ The Euler--Lagrange equation associated with arbitrary $\delta\bar\rho_\xi$ give
 %
 and defines the thermodynamic phase pressures $\bar{p}_\xi$.
 
-Let $l\in\{a,o,g\}$ denote a mobile phase.
+Let $l\in\mc M$ denote a mobile phase.
 The coefficient of $\delta\phi_l$ in \eqref{eq:collected_full} includes the
 primitive interfacial potential $\gamma_l$, so the mobile-phase volume-fraction
 relation is
@@ -616,23 +595,22 @@ differences of the primitive interfacial potentials,
 \end{equation}
 % AGENT-LOCK-END
 %
-Using \eqref{eq:capilary_pressure_def1}, the standard capillary pressure
-relations are recovered:
+Using \eqref{eq:pc_def}, the wetting/non-wetting capillary pressure relation is
+recovered:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{subequations}
-	\begin{empheq}[box=\fbox]{align}
-		p_{c,oa} & =
-		\bar p_o-\bar p_a
-		\label{eq:capillary_pressure_def2_oa} \\
-		p_{c,og} & =
-		\bar p_o-\bar p_g
-		\label{eq:capillary_pressure_def2_og}
-	\end{empheq}
-	\label{eq:oil_referenced_capillary_pressure_recovery}
-\end{subequations}
+\begin{equation}
+	\boxed{p_{c,nw}=\bar p_n-\bar p_w},
+	\qquad (w,n)\in\mc I .
+	\label{eq:wetting_nonwetting_capillary_pressure_recovery}
+\end{equation}
 % AGENT-LOCK-END
 %
+For two mobile phases with $\mc M=\{w,n\}$ and one oriented pair $(w,n)$, this
+reduces to the usual two-phase capillary pressure.  If the pair energy is
+parameterized by the wetting saturation $S_w$, then
+$p_{c,nw}=-\partial\gamma_{wn}/\partial S_w$.
+
 The same relations identify the equivalent pore pressure associated with the
 volume constraint.  Define
 %
@@ -660,8 +638,6 @@ The primitive potentials satisfy
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\sum_l S_l\gamma_l
-	=
-	S_a(\gamma_o-p_{c,oa})+S_o\gamma_o+S_g(\gamma_o-p_{c,og})
 	=
 	\gamma .
 	\label{eq:saturation_weighted_primitive_potential_sum}
@@ -781,46 +757,37 @@ Section~\ref{sec:constitutive_models_entropy_inequality}.
 \subsection{Mobile-phase momentum equations}
 \label{sec:mobile_phase_momentum}
 
-For the aqueous phase, the capillary contribution gives the intermediate form
+For any mobile phase $l\in\mc M$, the capillary contribution gives the
+intermediate form
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\rho_a\mbf a_a
-	 & = \nabla_{\mbf x}\cdot\bs\sigma'_a + \rho_a\mbf g + \mbf b_a
-	+ \phi_a\nabla_{\mbf x}\lambda
-	-\phi_a\nabla_{\mbf x}\left(\gamma_o-p_{c,oa}\right)
-	+ \sum_\alpha \dot c_a^{\alpha}\left(\nabla_{\mbf x}\mu_a^\alpha-\mbf{v}_a\right).
-	\label{eq:el_mom_a_start}
+	\rho_l\mbf a_l
+	 & = \nabla_{\mbf x}\cdot\bs\sigma'_l + \rho_l\mbf g + \mbf b_l
+	+ \phi_l\nabla_{\mbf x}\lambda
+	-\phi_l\nabla_{\mbf x}\gamma_l
+	+ \sum_\alpha \dot c_l^{\alpha}\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf{v}_l\right).
+	\label{eq:el_mom_l_start}
 \end{align}
 % AGENT-LOCK-END
 %
-The oleic and gas equations have the same form with $a$ replaced by $o$ or $g$.
 The important point is that the interfacial variation contributes gradient terms
-$\phi_\xi\nabla\gamma_\xi$, not merely algebraic multiples of
-$\nabla\phi_\xi$.  These terms must be retained until the volume-fraction
+$\phi_l\nabla\gamma_l$, not merely algebraic multiples of
+$\nabla\phi_l$.  These terms must be retained until the volume-fraction
 pressure relations are substituted.  For a mobile phase,
-$\lambda+\bar p_\xi-\gamma_\xi=0$, so
-$\phi_\xi(\nabla\lambda-\nabla\gamma_\xi)=-\phi_\xi\nabla\bar p_\xi$.  The
+$\lambda+\bar p_l-\gamma_l=0$, so
+$\phi_l(\nabla\lambda-\nabla\gamma_l)=-\phi_l\nabla\bar p_l$.  The
 standard phase pressure-gradient form is therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{align}
-	\rho_a\mbf{a}_a
-	 & = \rho_a\mbf{g} + \mbf{b}_a
-	- \phi_a\nabla_{\mbf{x}}\bar p_a
-	+ \sum_\alpha \dot c_a^{\alpha}\left(\nabla_{\mbf x}\mu_a^\alpha-\mbf{v}_a\right),
-	\label{eq:el_mom_a_simplified} \\
-	\rho_o\mbf{a}_o
-	 & = \rho_o\mbf{g} + \mbf{b}_o
-	- \phi_o\nabla_{\mbf{x}}\bar p_o
-	+ \sum_\alpha \dot c_o^{\alpha}\left(\nabla_{\mbf x}\mu_o^\alpha-\mbf{v}_o\right),
-	\label{eq:el_mom_o_simplified} \\
-	\rho_g\mbf{a}_g
-	 & = \rho_g\mbf{g} + \mbf{b}_g
-	- \phi_g\nabla_{\mbf{x}}\bar p_g
-	+ \sum_\alpha \dot c_g^{\alpha}\left(\nabla_{\mbf x}\mu_g^\alpha-\mbf{v}_g\right).
-	\label{eq:el_mom_g_simplified}
-\end{align}
+\begin{equation}
+	\rho_l\mbf{a}_l
+	= \rho_l\mbf{g} + \mbf{b}_l
+	- \phi_l\nabla_{\mbf{x}}\bar p_l
+	+ \sum_\alpha \dot c_l^{\alpha}\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf{v}_l\right),
+	\qquad l\in\mc M .
+	\label{eq:el_mom_l_simplified}
+\end{equation}
 % AGENT-LOCK-END
 %
 
@@ -1187,8 +1154,9 @@ For a closed mixture with pairwise internal interactions,
 %
 The same Euler--Lagrange relations also give the pressure-gradient collapse
 needed to compare with the equivalent-pressure form used in multiphase
-poromechanics.  Since $\phi\gamma(S_a,S_g)$ is homogeneous of degree one in the
-primitive mobile volume fractions, Euler's theorem gives
+poromechanics.  Since
+$\phi\gamma\left(\left\{S_l\right\}_{l\in\mc M},\theta\right)$ is homogeneous
+of degree one in the primitive mobile volume fractions, Euler's theorem gives
 $\phi\gamma=\sum_l\phi_l\gamma_l$, or $\gamma=\sum_lS_l\gamma_l$.  Taking the
 differential of this Euler relation and subtracting the defining differential
 $d(\phi\gamma)=\sum_l\gamma_l\,d\phi_l$ gives the Gibbs--Duhem identity
@@ -1938,8 +1906,7 @@ laws.  The component mass balances are
 %
 The phase momentum balances may be kept phasewise in the form
 \eqref{eq:el_momentum_uniform}, with the mobile-phase pressure-gradient
-specialization shown in
-\eqref{eq:el_mom_a_simplified}--\eqref{eq:el_mom_g_simplified}, or summed into
+specialization shown in \eqref{eq:el_mom_l_simplified}, or summed into
 the overall poromechanics form \eqref{eq:overall_momentum_nonlinear_biot}.  The
 algebraic volume and composition constraints are
 %
