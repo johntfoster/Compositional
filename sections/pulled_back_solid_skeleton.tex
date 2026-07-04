@@ -83,17 +83,17 @@ Define the modified permeability tensor
 %
 Then the admissible relative mass flux is
 %
-\begin{align}
+\begin{empheq}[box=\fbox]{align}
 	\mbf w_l
 	= \rho_l\widetilde{\bs\kappa}_l
-	\left[
-		\rho_l\left(\mbf g-\mbf a_l\right)
-		-\phi_l\nabla_{\mbf x}\bar p_l
-		+\sum_\alpha\dot c_l^\alpha
-		\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_s\right)
-		\right].
+	\left(
+	\rho_l\left(\mbf g-\mbf a_l\right)
+	-\phi_l\nabla_{\mbf x}\bar p_l
+	+\sum_\alpha\dot c_l^\alpha
+	\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_s\right)
+	\right).
 	\label{eq:generalized_mobile_darcy_mass_flux}
-\end{align}
+\end{empheq}
 %
 This expression is the multicomponent mobile-phase analogue of the generalized
 Darcy flux in the earlier reacting-mixture model.  The first two terms are the
@@ -131,11 +131,11 @@ component balances is
 	= & \;
 	\rho_l J_s\mbf F_s^{-1}\widetilde{\bs\kappa}_l
 	\left[
-	\rho_l\left(\mbf g-\mbf a_l\right)
-	+\sum_\alpha\dot c_l^\alpha
-	\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_s\right)
-	\right]
-	\notag \\
+		\rho_l\left(\mbf g-\mbf a_l\right)
+		+\sum_\alpha\dot c_l^\alpha
+		\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_s\right)
+		\right]
+	\notag                             \\
 	  & -\rho_l\phi_l J_s\mbf F_s^{-1}
 	\widetilde{\bs\kappa}_l\mbf F_s^{-T}
 	\nabla_{\mbf X_s}\bar p_l .
@@ -217,7 +217,7 @@ result is
 	\mbf F_s^{-T}
 	\right]
 	+J_s\rho\mbf g
-	\notag \\
+	\notag                      \\
 	  & +J_s\sum_\alpha\sum_\xi
 	\dot c_\xi^\alpha
 	\left(

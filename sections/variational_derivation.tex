@@ -288,14 +288,12 @@ calculation:
 	+\sum_{l\in\mc M}
 	\left.\p{\gamma}{S_l}\right\vert_{\theta,S_{k\neq l}}
 	\left(\delta\phi_l-S_l\delta\phi\right)
-	\right]\dv \notag                                                                                  \\
-	& \quad
+	\right]\dv \notag                                          \\
+	 & \quad
 	-\int_{\mc B}\sum_{l\in\mc M}
-	\gamma_l\nabla_{\mbf x}\phi_l\cdot\delta\mbf x_l\dv \notag                                      \\
-	& = \int_{\mc B}\sum_{l\in\mc M}\gamma_l\delta\phi_l\dv \notag                                    \\
-	& \quad
-	-\int_{\mc B}\sum_{l\in\mc M}
-	\gamma_l\nabla_{\mbf x}\phi_l\cdot\delta\mbf x_l\dv .
+	\gamma_l\nabla_{\mbf x}\phi_l\cdot\delta\mbf x_l\dv \notag \\
+	 & = \int_{\mc B}\sum_{l\in\mc M}\gamma_l\delta\phi_l\dv
+	-\int_{\mc B}\sum_{l\in\mc M}\gamma_l\nabla_{\mbf x}\phi_l\cdot\delta\mbf x_l\dv .
 	\label{eq:deltaU_fg}
 \end{align}
 % AGENT-LOCK-END
@@ -462,11 +460,11 @@ map.  Repeating the transport calculation used for phase-attached rates gives
 	\int_{t_1}^{t_2}\delta C_4\,\dt
 	 & =\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
 	\delta\mu_\xi^\alpha\left(\dot c_\xi^\alpha-
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\right)\dv\dt \notag     \\
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\right)\dv\dt \notag \\
 	 & \quad+\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
 	\left[-\frac{D_\xi\mu_\xi^\alpha}{Dt}\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}
 		+\dot c_\xi^\alpha\nabla_{\mbf x}\mu_\xi^\alpha\cdot\delta\mbf x_\xi\right]
-	\dv\dt \notag                                            \\
+	\dv\dt \notag                                              \\
 	 & \quad-\int_{t_1}^{t_2}\int_{\mc B}\sum_m
 	\left(\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)
 	\delta\dot r_{(m)}\,\dv\dt+\text{b.t.}
@@ -705,16 +703,16 @@ Choosing component $N$ as the reference and comparing against
 $\beta=1,\ldots,N-1$ gives a system of $N-1$ equations,
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-	\begin{align}
-		\rho_{\xi}\left(
-		\left.\p{\psi_{\xi}}{\eta_{\xi}^\beta}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq \beta}}
-		- \left.\p{\psi_{\xi}}{\eta_{\xi}^N}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq N}}
-		\right)
-		 & = \frac{\tau_{\xi}^\beta}{\eta_{\xi}^\beta}
-		- \frac{\tau_{\xi}^N}{\eta_{\xi}^N},
-		\qquad \beta=1,\ldots,N-1.
-		\label{eq:pi_difference_system}
-	\end{align}
+\begin{align}
+	\rho_{\xi}\left(
+	\left.\p{\psi_{\xi}}{\eta_{\xi}^\beta}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq \beta}}
+	- \left.\p{\psi_{\xi}}{\eta_{\xi}^N}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq N}}
+	\right)
+	 & = \frac{\tau_{\xi}^\beta}{\eta_{\xi}^\beta}
+	- \frac{\tau_{\xi}^N}{\eta_{\xi}^N},
+	\qquad \beta=1,\ldots,N-1.
+	\label{eq:pi_difference_system}
+\end{align}
 % AGENT-LOCK-END
 %
 The equations associated with the conversion variables are
@@ -722,11 +720,11 @@ The equations associated with the conversion variables are
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\frac{D_\xi\mu_\xi^\alpha}{Dt}
-	        & = \frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	            & = \frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\psi_\xi
 	-L_\xi^\alpha
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha},
-	\label{eq:el_conversion_component}                               \\
+	\label{eq:el_conversion_component}                                     \\
 	\mc A_{(m)} & =-\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
 	\qquad m=1,\ldots,N_{(m)}.
 	\label{eq:el_conversion_affinity}
@@ -789,14 +787,14 @@ collapse as
 The standard phase pressure-gradient form is therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
+\begin{empheq}[box=\fbox]{equation}
 	\rho_l\mbf{a}_l
 	= \rho_l\mbf{g} + \mbf{b}_l
 	- \phi_l\nabla_{\mbf{x}}\bar p_l
 	+ \sum_\alpha \dot c_l^{\alpha}\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf{v}_l\right),
 	\qquad l\in\mc M .
 	\label{eq:el_mom_l_simplified}
-\end{equation}
+\end{empheq}
 % AGENT-LOCK-END
 %
 
@@ -818,9 +816,8 @@ being assigned separate skeleton motions.
 
 For the present fully compressible solid model we still need the distension
 kinematics before it is meaningful to define an intrinsic stress.  The solid
-phase has a macroscopic skeleton deformation $\mbf F_s$, but the stress carried
-by a solid component is conjugate to the true, or undistended, deformation.  We
-therefore introduce a solid distension tensor $\mbf A_s$ and write
+phase has a macroscopic skeleton deformation $\mbf F_s$, but the stress carried by a solid component is conjugate to the true, or undistended, deformation.  We
+therefore introduce a solid distension gradient tensor $\mbf A_s$ and write
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -837,16 +834,8 @@ therefore introduce a solid distension tensor $\mbf A_s$ and write
 %
 Here $\bar{\mbf F}_s$ is the true deformation seen by the load-bearing solid
 material, while $\mbf A_s$ accounts for the change in the relation between the
-solid material volume and the mixture volume.  In the isotropic specialization
-one may set $\mbf A_s=a_s^{1/3}\mbf I$, giving
 %
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\bar{\mbf F}_s=a_s^{-1/3}\mbf F_s .
-	\label{eq:isotropic_distension_fbar}
-\end{equation}
-% AGENT-LOCK-END
-%
+
 Following Drumheller's treatment of reacting immiscible mixtures with
 elastic--plastic true deformation and distension~\cite{drumheller2000}, we
 split the full distension tensor into elastic, plastic, and reversible
@@ -854,17 +843,15 @@ thermal--compositional pore-architecture factors,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\mbf A_s=\mbf A_s^e\mbf A_s^p
-	\mbf A_s^\theta,
-	\qquad
-	a_s=\det\mbf A_s .
+	\mbf A_s^\theta .
 	\label{eq:solid_tensor_distension_split}
 \end{equation}
 % AGENT-LOCK-END
-The tensor $\mbf A_s^\theta$ is not the intrinsic thermal expansion of the
-mineral grains.  It is a reversible stress-free pore-architecture, or
-pore-volume, factor describing the temperature- and
-solid-volume-fraction-dependent change of pore volume, packing, fabric, and
-solid allocation inside the mixture volume.
+The tensor $\mbf A_s^\theta=\mbf A_s^\theta(\theta,\phi_s^\beta)$ is a
+reversible stress-free pore-architecture, or pore-volume, factor describing the
+temperature- and solid-volume-fraction-dependent change of pore volume, packing,
+fabric, and solid allocation inside the mixture volume.  No explicit functional
+form is prescribed at this level.
 Thermo-poroelastic treatments of heated saturated rocks make precisely this
 distinction by assigning a thermal expansion coefficient to the pore volume
 separately from the solid grains, so that thermal pressurization depends on the
@@ -873,15 +860,11 @@ Here that pore-volume part is carried by $\mbf A_s^\theta$, while
 $\bar{\mbf F}_s^\theta$ below carries the stress-free intrinsic thermal
 dilation of the true solid skeleton.  The tensor $\mbf A_s^e$ stores reversible
 distension energy, while $\mbf A_s^p$ is an internal variable that records
-permanent pore-architecture, fabric, or compaction change.  The scalar
-distension model is the isotropic reduction
-$\mbf A_s^\bullet=(a_s^\bullet)^{1/3}\mbf I$ for
-$\bullet\in\{e,p,\theta\}$.
+permanent pore-architecture, fabric, or compaction change.
 
 The distension tensor is the kinematic device used to separate deformation of
 the solid material from changes in pore-space allocation, packing, and
-reaction-induced filling; it does not by itself introduce a separate
-distension-energy postulate.  The evolution of $a_s$ follows from mass balance
+reaction-induced filling.  The evolution of $a_s$ follows from mass balance
 together with the decomposition $J_s=a_s\bar J_s$.  Summing the component
 material balances over solid components gives the phase mass balance
 %
@@ -916,14 +899,16 @@ transforms \eqref{eq:solid_material_mass_distension} into
 % AGENT-LOCK-END
 %
 Thus the solid volume fraction is tied directly to the motion only when there is
-no mass exchange.  Taking the material time derivative of $J_s=a_s\bar J_s$ gives
+no mass exchange.  The rate split follows from the Jacobian product in
+\eqref{eq:solid_distension_decomposition}: taking the natural logarithm gives
+$\ln J_s=\ln a_s+\ln\bar J_s$, and then taking the material time derivative gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
+\begin{empheq}[box=\fbox]{equation}
 	\frac{\dot a_s}{a_s}
 	=\frac{\dot J_s}{J_s}-\frac{\dot{\bar J}_s}{\bar J_s} .
 	\label{eq:solid_distension_jacobian_rate_split}
-\end{equation}
+\end{empheq}
 % AGENT-LOCK-END
 %
 Since $\dot J_s=J_s\nabla_{\mbf x}\cdot\mbf v_s$ and
@@ -940,11 +925,6 @@ evolution law is
 \end{equation}
 % AGENT-LOCK-END
 %
-For incompressible solid constituents, $\dot{\bar\rho}_s=0$, and therefore
-$\dot a_s=a_s\nabla_{\mbf x}\cdot\mbf v_s$.  If additionally $a_s=J_s$ in the
-reference state, then $a_s=J_s$ for all time; for compressible multicomponent
-solids, however, the intrinsic-density term makes $a_s$ evolve independently of
-$J_s$.
 
 For non-isothermal elastic--plastic problems we use the corresponding
 multiplicative split of the true deformation,
@@ -952,10 +932,6 @@ multiplicative split of the true deformation,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\bar{\mbf F}_s=\bar{\mbf F}_s^e\bar{\mbf F}_s^p\bar{\mbf F}_s^\theta,
-	\qquad
-	\bar{\mbf F}_s^e
-	=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1}
-	(\bar{\mbf F}_s^p)^{-1},
 	\label{eq:true_elastic_plastic_thermal_split}
 \end{equation}
 % AGENT-LOCK-END
@@ -963,7 +939,9 @@ multiplicative split of the true deformation,
 where $\bar{\mbf F}_s^\theta$ maps to the thermal stress-free true-solid
 configuration, $\bar{\mbf F}_s^p$ is the plastic true-deformation internal
 variable whose rate is closed by a constitutive flow rule, and
-$\bar{\mbf F}_s^e$ is the elastic part that enters the intrinsic stresses.
+$\bar{\mbf F}_s^e
+	=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1}(\bar{\mbf F}_s^p)^{-1}$
+is the dependent elastic part that enters the intrinsic stresses.
 Following Drumheller~\cite{drumheller2000}, the plastic
 true-deformation flow is isochoric,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
@@ -977,25 +955,14 @@ true-deformation flow is isochoric,
 % AGENT-LOCK-END
 A yield surface, cap surface, critical-state law, or reaction-assisted
 compaction law can then be introduced as a constitutive specialization of the
-residual dissipation.  For isotropic thermal
-expansion,
-%
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\bar{\mbf F}_s^\theta
-	=\exp\left[\int_{\theta_0}^{\theta}\alpha_{\rm sk}(\vartheta,\phi_s^\beta)\,d\vartheta\right]\mbf I,
-	\qquad
-	\bar J_s^\theta
-	=\exp\left[3\int_{\theta_0}^{\theta}\alpha_{\rm sk}(\vartheta,\phi_s^\beta)\,d\vartheta\right].
-	\label{eq:thermal_expansion_split}
-\end{equation}
-% AGENT-LOCK-END
-%
-Here $\alpha_{\rm sk}$ is a skeleton thermal expansion coefficient that may depend
-on the solid composition.  This is the single-skeleton analogue of assigning
-different thermal expansion behavior to different minerals: the composition
-updates $\alpha_{\rm sk}$, while all solid components remain attached to the same
-true deformation field.
+residual dissipation.  The stress-free true-solid thermal/compositional factor
+is prescribed generically as
+$\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$.
+This is the single-skeleton analogue of assigning different thermal expansion
+behavior to different minerals: the composition may change the prescribed
+stress-free thermal/compositional map, while all solid components remain attached
+to the same true deformation field.  Explicit isotropic or anisotropic thermal
+expansion laws are constitutive specializations.
 
 This thermal split does not break the energy-based structure.  It is a
 constitutive reparametrization of the free energy: instead of depending on
@@ -1100,15 +1067,15 @@ component pressures,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
 	\label{eq:solid_final_pressure_relations}
-	\begin{align}
+	\begin{empheq}[box=\fbox]{align}
 		\bar p_s
-		 & =\sum_\alpha\phi_s^\alpha\bar p_s^\alpha,
+		& =\sum_\alpha\phi_s^\alpha\bar p_s^\alpha,
 		\label{eq:solid_final_intrinsic_pressure}    \\
 		\bar p_s^\alpha
-		 & =\left(\bar\rho_s^\alpha\right)^2
+		& =\left(\bar\rho_s^\alpha\right)^2
 		\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\right\vert_{\bar{\mbf F}_s^e,J_s,\theta,\eta_s^\beta},
 		\label{eq:solid_final_component_pressure}
-	\end{align}
+	\end{empheq}
 \end{subequations}
 % AGENT-LOCK-END
 %
@@ -1116,9 +1083,10 @@ The distension force is the separate Coleman--Noll tensor restriction
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bs\sigma_s'(\mbf A_s^e)^{-T}
+	\bs\sigma_s'
 	=\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\mbf A_s^e}\heldfixed{\mc S}.
+	\left.\p{\psi_s^\alpha}{\mbf A_s^e}\heldfixed{\mc S}
+	(\mbf A_s^e)^T .
 	\label{eq:solid_final_distension_pressure}
 \end{equation}
 % AGENT-LOCK-END
@@ -1452,7 +1420,7 @@ Combining this equivalent-pressure form with
 Collecting the equivalent-pressure term into the total stress,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
+\begin{empheq}[box=\fbox]{equation}
 	\sum_\xi\rho_\xi\mbf a_\xi
 	= \nabla_{\mbf x}\cdot\left[
 		\bs\sigma_s^{\prime\prime}-B_s\bar p_E\mbf I
@@ -1460,7 +1428,7 @@ Collecting the equivalent-pressure term into the total stress,
 	+\rho\mbf g
 	+\sum_\alpha\sum_\xi\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:overall_momentum_nonlinear_biot}
-\end{equation}
+\end{empheq}
 % AGENT-LOCK-END
 %
 When inertia and conversion-momentum production are neglected, this has the
@@ -2020,17 +1988,17 @@ process-rate unknowns whose equations are supplied by kinetic laws.
 %
 \begin{center}
 	\begin{tabular}{p{0.72\textwidth}c}
-		Unknown family                                                                    & Count  \\
+		Unknown family                                                                    & Count     \\
 		\hline
-		Phase displacements $u_{\xi 1},\ldots,u_{\xi d}$ for $\xi=1,\ldots,P$             & $dP$   \\
-		Intrinsic phase densities $\bar\rho_\xi$ for $\xi=1,\ldots,P$                     & $P$    \\
-		Phase mass fractions $\eta_\xi^1,\ldots,\eta_\xi^N$ for $\xi=1,\ldots,P$          & $PN$   \\
-		Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                            & $P$    \\
-		Volume-fraction multiplier $\lambda$                                              & $1$    \\
-		Storage multipliers $\tau_\xi^1,\ldots,\tau_\xi^N$ for $\xi=1,\ldots,P$           & $PN$   \\
-		Helmholtz chemical potentials $\mu_\xi^1,\ldots,\mu_\xi^N$ for $\xi=1,\ldots,P$   & $PN$   \\
-		Mechanism process rates $\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}$                  & $N_{(m)}$  \\
-		Solid plastic internal variables $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active & $2d^2$ \\
+		Phase displacements $u_{\xi 1},\ldots,u_{\xi d}$ for $\xi=1,\ldots,P$             & $dP$      \\
+		Intrinsic phase densities $\bar\rho_\xi$ for $\xi=1,\ldots,P$                     & $P$       \\
+		Phase mass fractions $\eta_\xi^1,\ldots,\eta_\xi^N$ for $\xi=1,\ldots,P$          & $PN$      \\
+		Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                            & $P$       \\
+		Volume-fraction multiplier $\lambda$                                              & $1$       \\
+		Storage multipliers $\tau_\xi^1,\ldots,\tau_\xi^N$ for $\xi=1,\ldots,P$           & $PN$      \\
+		Helmholtz chemical potentials $\mu_\xi^1,\ldots,\mu_\xi^N$ for $\xi=1,\ldots,P$   & $PN$      \\
+		Mechanism process rates $\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}$                  & $N_{(m)}$ \\
+		Solid plastic internal variables $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active & $2d^2$    \\
 		Temperature $\theta$                                                              & $1$
 	\end{tabular}
 \end{center}
@@ -2052,20 +2020,20 @@ The same number of scalar equations is supplied by the following blocks:
 %
 \begin{center}
 	\begin{tabular}{p{0.62\textwidth}c}
-		Equation block                                                                           & Count    \\
+		Equation block                                                                           & Count     \\
 		\hline
-		Phase momentum balances \eqref{eq:el_momentum_uniform}                                   & $dP$     \\
-		Intrinsic-density relations in \eqref{eq:model_summary_pressure_relations}               & $P$      \\
+		Phase momentum balances \eqref{eq:el_momentum_uniform}                                   & $dP$      \\
+		Intrinsic-density relations in \eqref{eq:model_summary_pressure_relations}               & $P$       \\
 		Projected composition stationarity
 		\eqref{eq:CN_composition_projected_restriction} and
-		\eqref{eq:CN_solid_composition_projected_restriction}                                    & $P(N-1)$ \\
-		Composition normalizations in \eqref{eq:model_summary_constraints}                       & $P$      \\
-		Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$      \\
-		Volume-fraction constraint in \eqref{eq:model_summary_constraints}                       & $1$      \\
-		Component mass balances \eqref{eq:model_summary_mass_balance}                            & $PN$     \\
-		Conversion-potential equations \eqref{eq:el_conversion_component}                        & $PN$     \\
-		Kinetic laws for $\dot r_{(m)}$                                                          & $N_{(m)}$    \\
-		Plastic flow laws for $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active                   & $2d^2$   \\
+		\eqref{eq:CN_solid_composition_projected_restriction}                                    & $P(N-1)$  \\
+		Composition normalizations in \eqref{eq:model_summary_constraints}                       & $P$       \\
+		Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$       \\
+		Volume-fraction constraint in \eqref{eq:model_summary_constraints}                       & $1$       \\
+		Component mass balances \eqref{eq:model_summary_mass_balance}                            & $PN$      \\
+		Conversion-potential equations \eqref{eq:el_conversion_component}                        & $PN$      \\
+		Kinetic laws for $\dot r_{(m)}$                                                          & $N_{(m)}$ \\
+		Plastic flow laws for $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active                   & $2d^2$    \\
 		Energy or temperature equation using \eqref{eq:CN_energy_balance}                        & $1$
 	\end{tabular}
 \end{center}
@@ -2089,7 +2057,4 @@ quantities: $\pi_\xi$ is removed by projecting the composition stationarity
 relations onto the $N-1$ dimensional tangent space of
 $\sum_\alpha\eta_\xi^\alpha=1$, $\mc A_{(m)}$ is substituted from
 \eqref{eq:model_summary_affinity}, and $\dot c_\xi^\alpha$ is substituted from
-the stoichiometric source term in \eqref{eq:model_summary_mass_balance}.  If any
-of these are retained as auxiliary unknowns, the same number of defining
-equations is added, so the count is unchanged.  For an isothermal model, remove
-$\theta$ and the energy equation from both sides of the count.
+the stoichiometric source term in \eqref{eq:model_summary_mass_balance}.

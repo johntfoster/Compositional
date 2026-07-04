@@ -63,10 +63,10 @@ The detailed solid component mass partition is introduced below only when the
 stress, pressure, and distension mixture rules are read from the reversible
 coefficients.
 For the solid, the primitive component Helmholtz free energies use the physical
-intrinsic density of each solid component, rather than an explicit dependence on
-the mixture intrinsic density $\bar\rho_s$.  Thus the mixture density enters the
-Coleman--Noll calculation through the component-density parametrization
-$\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$:
+intrinsic density of each solid component.  The mixture density therefore enters
+through the component-density parametrization
+$\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$.  The reduced
+solid state is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\mathcal{S} = \{\bar{\mbf F}_s^e, \mbf A_s^e, \bar\rho_s^\beta,
@@ -79,33 +79,20 @@ $\bar\rho_s^\alpha=\bar\rho_s^\alpha(\bar\rho_s,\eta_s^\beta)$:
 
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\begin{aligned}
-		\psi_s^\alpha
-		 & =\psi_s^\alpha(\bar{\mbf F}_s^e, \mbf A_s^e, \bar\rho_s^\alpha,
-		\theta,\eta_s^\beta),
-		\qquad
-		\bar{\mbf F}_s
-		=\bar{\mbf F}_s^e\bar{\mbf F}_s^p\bar{\mbf F}_s^\theta .
-	\end{aligned}
+	\psi_s^\alpha
+	=\psi_s^\alpha(\bar{\mbf F}_s^e, \mbf A_s^e, \bar\rho_s^\alpha,
+	\theta,\eta_s^\beta).
 	\label{eq:CN_solid_component_free_energy_state}
 \end{equation}
 % AGENT-LOCK-END
-where
-$\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is a
-prescribed stress-free thermal/compositional dilation, and
-$\bar{\mbf F}_s^p$ is a plastic internal variable whose rate is closed by a
-constitutive flow rule.  Neither is an elastic free-energy argument.  Likewise,
-the full distension tensor is written as
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\mbf A_s=\mbf A_s^e\mbf A_s^p
-	\mbf A_s^\theta,
-	\qquad
-	a_s=\det\mbf A_s .
-	\label{eq:CN_tensor_distension_split}
-\end{equation}
-% AGENT-LOCK-END
-The reversible tensor $\mbf A_s^\theta$ is the stress-free
+Here $\bar{\mbf F}_s^e$ is the dependent elastic factor determined by
+\eqref{eq:true_elastic_plastic_thermal_split};
+$\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$ is prescribed,
+and $\bar{\mbf F}_s^p$ is closed by a constitutive flow rule.  Neither
+$\bar{\mbf F}_s^\theta$ nor $\bar{\mbf F}_s^p$ is an elastic free-energy
+argument.  Similarly, the distension split has already been introduced in
+\eqref{eq:solid_tensor_distension_split}.  The reversible tensor
+$\mbf A_s^\theta=\mbf A_s^\theta(\theta,\phi_s^\beta)$ is the stress-free
 thermal--compositional pore-architecture, or pore-volume, part of the
 distension.  It is distinct from the intrinsic mineral thermal dilation carried
 by $\bar{\mbf F}_s^\theta$ and depends on composition through the solid
@@ -113,17 +100,15 @@ component volume fractions $\phi_s^\beta$, not directly through the mass
 fractions $\eta_s^\beta$.  The tensor $\mbf A_s^p$ is a plastic internal
 variable whose rate is closed by a constitutive flow rule.  The total distension
 tensor $\mbf A_s$ remains the kinematic field in the balance laws and stress
-power; the elastic free-energy argument is the dependent quantity
+power; the elastic free-energy argument is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\[
+\begin{equation}
 	\mbf A_s^e
 	=\mbf A_s(\mbf A_s^\theta)^{-1}(\mbf A_s^p)^{-1}.
-\]
+	\label{eq:CN_elastic_distension_argument}
+\end{equation}
 % AGENT-LOCK-END
-The scalar distension specialization is recovered by taking
-$\mbf A_s^\bullet=(a_s^\bullet)^{1/3}\mbf I$ for
-$\bullet\in\{e,p,\theta\}$.  In the Coleman--Noll collection below the
-independent mechanical process rates are
+In the Coleman--Noll collection below the independent mechanical process rates are
 $\dot{\bar{\mbf F}}_s^e$, $\dot{\bar{\mbf F}}_s^p$,
 $\dot{\mbf A}_s^e$, and $\dot{\mbf A}_s^p$.  The total rates
 $\dot{\bar{\mbf F}}_s$ and $\dot{\mbf A}_s$ are reconstructed from these rates
@@ -956,7 +941,7 @@ phase-level term appears in every component equation, subtracting the equation
 for component $N$ from the equation for component $\beta$ eliminates the
 multiplier $\pi_s$ and gives the projected composition restriction
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{align}
+\begin{empheq}[box=\fbox]{align}
 	 & \rho_s\left(
 	\left.\p{\psi_s}{\eta_s^\beta}\heldfixed{\mc S}
 	-\left.\p{\psi_s}{\eta_s^N}\heldfixed{\mc S}
@@ -988,7 +973,7 @@ multiplier $\pi_s$ and gives the projected composition restriction
 	\qquad
 	\beta=1,\ldots,N-1 .
 	\label{eq:CN_solid_composition_projected_restriction}
-\end{align}
+\end{empheq}
 % AGENT-LOCK-END
 The phase derivative with respect to composition is the derivative of the
 corresponding phase Helmholtz potential.  For mobile phases no elastic
@@ -996,7 +981,7 @@ stress-free dilation term appears, so projecting the composition coefficient
 onto the constrained tangent space gives the same stationarity condition
 obtained from Hamilton's principle in \eqref{eq:el_eta_all}:
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
+\begin{empheq}[box=\fbox]{equation}
 	\rho_\ell\left(
 	\left.\p{\psi_\ell}{\eta_\ell^\beta}\heldfixed{\mc F}
 	-\left.\p{\psi_\ell}{\eta_\ell^N}\heldfixed{\mc F}
@@ -1007,7 +992,7 @@ obtained from Hamilton's principle in \eqref{eq:el_eta_all}:
 	\qquad
 	\beta=1,\ldots,N-1 .
 	\label{eq:CN_composition_projected_restriction}
-\end{equation}
+\end{empheq}
 % AGENT-LOCK-END
 
 \subsubsection{Entropy restrictions}
