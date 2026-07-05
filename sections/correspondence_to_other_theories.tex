@@ -113,9 +113,10 @@ source vanishes, but it still changes the phase saturations and phase
 compositions.
 
 The remaining algebraic structure of a traditional compositional simulator is
-also recovered as a closure of the present variables.  The saturation constraint
-\eqref{eq:classical_saturation_identification} is the mobile-phase version of
-$\sum_\xi\phi_\xi=1$ after the solid volume fraction has been separated.  The
+also recovered as a closure of the present variables.  The volume-fraction
+constraint \eqref{eq:classical_saturation_identification} is written in
+mobile-phase saturation coordinates after the solid volume fraction has been
+separated.  The
 within-phase composition constraints are
 %
 \begin{equation}
@@ -188,14 +189,11 @@ is the contribution of the component mass constraint; $\tau_\xi^\alpha$ is the
 multiplier enforcing the storage relation between the reference amount of
 component $\alpha$ and the current partial mass density
 $\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$.  After the entropy inequality identifies
-$L_\xi^\alpha=\mu_\xi^\alpha-\widehat\psi_\xi^\alpha$, where
-$\widehat\psi_l^\alpha=\psi_l$ for mobile phases and
-$\widehat\psi_s^\alpha=\psi_s^\alpha$ for the component-additive solid, the
-closed conversion-potential equations can be written first as
+$L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi$, with \(\psi_s\equiv\psi_s^s\) for
+one-component solid phases, the closed conversion-potential equation is
 \begin{equation}
 	\frac{D_\xi\mu_\xi^\alpha}{Dt}
 	=\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
-	-\psi_\xi+\widehat\psi_\xi^\alpha
 	-\mu_\xi^\alpha
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
 	\label{eq:mu_interpretation_entropy_closure_unified}
@@ -209,15 +207,15 @@ Equivalently, separating mobile and solid phases gives
 		-\mu_l^\alpha
 		-\frac{\tau_l^\alpha}{\phi_l\bar\rho_l\eta_l^\alpha},
 		\qquad l\hbox{ mobile},              \\
-		\frac{D_s\mu_s^\alpha}{Dt}
+		\frac{D_s\mu_s^s}{Dt}
 		 & =\frac{1}{2}\mbf v_s\cdot\mbf v_s
-		-\psi_s+\psi_s^\alpha
-		-\mu_s^\alpha
-		-\frac{\tau_s^\alpha}{\phi_s\bar\rho_s\eta_s^\alpha}.
+		-\mu_s^s
+		-\frac{\tau_s^s}{\phi_s\bar\rho_s^s},
+		\qquad s\in\mc S .
 	\end{align}
 \end{subequations}
-Using the component-additive solid rule, the solid Helmholtz difference is
-$-\psi_s+\psi_s^\alpha=-\sum_\beta\eta_s^\beta\psi_s^\beta+\psi_s^\alpha$.
+For a one-component solid phase, the source-carried Helmholtz term equals the
+phase Helmholtz term, so the solid Helmholtz difference cancels.
 Thus
 $D_\xi\mu_\xi^\alpha/Dt$ is a generalized chemical-mechanical potential.  In a
 quasi-static isothermal limit with negligible kinetic terms and a conventional

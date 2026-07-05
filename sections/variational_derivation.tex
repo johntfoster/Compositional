@@ -802,39 +802,44 @@ The standard phase pressure-gradient form is therefore
 \label{sec:multicomponent_solid_mixture_rules}
 \label{sec:constitutive_models_entropy_inequality}
 
-The present notation allows the solid skeleton to be treated as a single solid
-phase, denoted here by $s$, while still resolving the mineral or solid components
-through the mass fractions $\eta_s^\alpha$.  This is useful when reactions
-convert one solid mineral into another but the products remain part of the same
-load-bearing skeleton and share the same macroscopic deformation map
-$\mbf x=\bs\chi_s(\mbf X_s,t)$.  In that case the solid free energy can be
-chosen so that the component composition only enters through composition-weighted
-moduli.  Component-additive solid mixture rules of this type are used for
-reacting porous mixtures~\cite{foster2026reactingporous}; here they are written
-so that the solid components remain within one mechanical phase rather than
-being assigned separate skeleton motions.
+The variational derivation above admits multicomponent phases.  For the
+constitutive specialization used in the Coleman--Noll argument, we now restrict
+the solid portion of the mixture to a set $\mc S$ of mineral solid phases.  Each
+solid phase carries one active component label, retained in the superscript for
+stoichiometric bookkeeping, and satisfies
+\(\eta_s^s=1\).  Thus the component partial density and phase density coincide,
+\(\rho_s^s=\rho_s\), while reactions still identify the precipitating or
+dissolving solid through the phase/component pair \((s,s)\).  All solid phases
+are attached to a common skeleton trajectory
+\(\mbf x=\bs\chi(\mbf X,t)\), with deformation gradient \(\mbf F\) and Jacobian
+\(J\).
 
 For the present fully compressible solid model we still need the distension
-kinematics before it is meaningful to define an intrinsic stress.  The solid
-phase has a macroscopic skeleton deformation $\mbf F_s$, but the stress carried by a solid component is conjugate to the true, or undistended, deformation.  We
-therefore introduce a solid distension gradient tensor $\mbf A_s$ and write
+kinematics before it is meaningful to define an intrinsic stress.  The common
+skeleton has macroscopic deformation \(\mbf F\), but the stress carried by each
+solid phase is conjugate to that phase's true, or undistended, deformation.  We
+therefore introduce a solid-phase distension gradient tensor \(\mbf A_s\) and
+write
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\mbf F_s=\mbf A_s\bar{\mbf F}_s,
+	\mbf F=\mbf A_s\bar{\mbf F}_s,
 	\qquad
-	J_s=a_s\bar J_s,
+	J=a_s\bar J_s,
 	\qquad
 	a_s=\det\mbf A_s,
 	\qquad
-	\bar J_s=\det\bar{\mbf F}_s .
+	\bar J_s=\det\bar{\mbf F}_s,
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_distension_decomposition}
 \end{equation}
 % AGENT-LOCK-END
 %
-Here $\bar{\mbf F}_s$ is the true deformation seen by the load-bearing solid
-material, while $\mbf A_s$ accounts for the change in the relation between the
-%
+Here $\bar{\mbf F}_s$ is the true deformation seen by solid phase \(s\), while
+$\mbf A_s$ accounts for the phase-specific pore-space allocation, packing, and
+stress-free volume accommodation between the common skeleton motion and the true
+solid deformation.
 
 Following Drumheller's treatment of reacting immiscible mixtures with
 elastic--plastic true deformation and distension~\cite{drumheller2000}, we
@@ -843,47 +848,52 @@ thermal--compositional pore-architecture factors,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\mbf A_s=\mbf A_s^e\mbf A_s^p
-	\mbf A_s^\theta .
+	\mbf A_s^\theta,
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_tensor_distension_split}
 \end{equation}
 % AGENT-LOCK-END
-The tensor $\mbf A_s^\theta=\mbf A_s^\theta(\theta,\phi_s^\beta)$ is a
-reversible stress-free pore-architecture, or pore-volume, factor describing the
-temperature- and solid-volume-fraction-dependent change of pore volume, packing,
-fabric, and solid allocation inside the mixture volume.  No explicit functional
-form is prescribed at this level.
+The tensor $\mbf A_s^\theta=\mbf A_s^\theta(\theta)$ is a reversible stress-free
+pore-architecture, or pore-volume, factor describing the temperature-dependent
+change of pore volume, packing, fabric, and solid allocation associated with
+solid phase \(s\).  No explicit functional form is prescribed at this level.
 Thermo-poroelastic treatments of heated saturated rocks make precisely this
 distinction by assigning a thermal expansion coefficient to the pore volume
 separately from the solid grains, so that thermal pressurization depends on the
 mismatch among fluid, pore-volume, and grain expansions~\cite{palciauskas1982thermally,ghabezloo2009stress,ghabezloo2011micromechanics}.
 Here that pore-volume part is carried by $\mbf A_s^\theta$, while
 $\bar{\mbf F}_s^\theta$ below carries the stress-free intrinsic thermal
-dilation of the true solid skeleton.  The tensor $\mbf A_s^e$ stores reversible
+dilation of the true solid phase.  The tensor $\mbf A_s^e$ stores reversible
 distension energy, while $\mbf A_s^p$ is an internal variable that records
 permanent pore-architecture, fabric, or compaction change.
 
 The distension tensor is the kinematic device used to separate deformation of
 the solid material from changes in pore-space allocation, packing, and
 reaction-induced filling.  The evolution of $a_s$ follows from mass balance
-together with the decomposition $J_s=a_s\bar J_s$.  Summing the component
-material balances over solid components gives the phase mass balance
+together with the decomposition $J=a_s\bar J_s$.  For each one-component solid
+phase, the material balance gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	J_s\phi_s\bar\rho_s
-	=\phi_{s0}\bar\rho_{s0}+\mc{C}_s,
+	J\phi_s\bar\rho_s^s
+	=\phi_{s0}\bar\rho_{s0}^s+\mc{C}_s^s,
 	\qquad
-	\mc{C}_s=\sum_\alpha \mc{C}_s^\alpha .
+	\eta_s^s=1,
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_material_mass_distension}
 \end{equation}
 % AGENT-LOCK-END
 %
-Using $J_s=a_s\bar J_s$ and imposing true local conservation of mass for the
+Using $J=a_s\bar J_s$ and imposing true local conservation of mass for the
 solid material,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar J_s\bar\rho_s=\bar\rho_{s0},
+	\bar J_s\bar\rho_s^s=\bar\rho_{s0}^s,
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_true_mass_conservation}
 \end{equation}
 % AGENT-LOCK-END
@@ -892,8 +902,10 @@ transforms \eqref{eq:solid_material_mass_distension} into
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	a_s\phi_s\bar\rho_{s0}
-	=\phi_{s0}\bar\rho_{s0}+\mc{C}_s .
+	a_s\phi_s\bar\rho_{s0}^s
+	=\phi_{s0}\bar\rho_{s0}^s+\mc{C}_s^s,
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_distension_mass_relation}
 \end{equation}
 % AGENT-LOCK-END
@@ -901,44 +913,51 @@ transforms \eqref{eq:solid_material_mass_distension} into
 Thus the solid volume fraction is tied directly to the motion only when there is
 no mass exchange.  The rate split follows from the Jacobian product in
 \eqref{eq:solid_distension_decomposition}: taking the natural logarithm gives
-$\ln J_s=\ln a_s+\ln\bar J_s$, and then taking the material time derivative gives
+$\ln J=\ln a_s+\ln\bar J_s$, and then taking the material time derivative gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{empheq}[box=\fbox]{equation}
 	\frac{\dot a_s}{a_s}
-	=\frac{\dot J_s}{J_s}-\frac{\dot{\bar J}_s}{\bar J_s} .
+	=\frac{\dot J}{J}-\frac{\dot{\bar J}_s}{\bar J_s} .
 	\label{eq:solid_distension_jacobian_rate_split}
 \end{empheq}
 % AGENT-LOCK-END
 %
-Since $\dot J_s=J_s\nabla_{\mbf x}\cdot\mbf v_s$ and
+Since $\dot J=J\nabla_{\mbf x}\cdot\mbf v_s$ and
 \eqref{eq:solid_true_mass_conservation} implies
-${\dot{\bar J}_s}/{\bar J_s}=-{\dot{\bar\rho}_s}/{\bar\rho_s}$, the distension
+${\dot{\bar J}_s}/{\bar J_s}=-{\dot{\bar\rho}_s^s}/{\bar\rho_s^s}$, the distension
 evolution law is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\frac{\dot a_s}{a_s}
 	=\nabla_{\mbf x}\cdot\mbf v_s
-	+\frac{\dot{\bar\rho}_s}{\bar\rho_s} .
+	+\frac{\dot{\bar\rho}_s^s}{\bar\rho_s^s},
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_distension_evolution}
 \end{equation}
 % AGENT-LOCK-END
 %
 
-For non-isothermal elastic--plastic problems we use the corresponding
-multiplicative split of the true deformation,
+For non-isothermal elastic--plastic problems each solid phase has its own
+stress-free true deformation, plastic true deformation, and elastic true
+deformation, while remaining attached to the common skeleton trajectory:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar{\mbf F}_s=\bar{\mbf F}_s^e\bar{\mbf F}_s^p\bar{\mbf F}_s^\theta,
+	\bar{\mbf F}_s
+	=\bar{\mbf F}_s^e\bar{\mbf F}_s^p\bar{\mbf F}_s^\theta,
+	\qquad
+	s\in\mc S .
 	\label{eq:true_elastic_plastic_thermal_split}
 \end{equation}
 % AGENT-LOCK-END
 %
-where $\bar{\mbf F}_s^\theta$ maps to the thermal stress-free true-solid
-configuration, $\bar{\mbf F}_s^p$ is the plastic true-deformation internal
-variable whose rate is closed by a constitutive flow rule, and
+Here $\bar{\mbf F}_s^\theta$ maps to the thermal stress-free true-solid
+configuration of solid phase \(s\), $\bar{\mbf F}_s^p$ is the plastic
+true-deformation internal variable whose rate is closed by a constitutive flow
+rule, and
 $\bar{\mbf F}_s^e
 	=\bar{\mbf F}_s(\bar{\mbf F}_s^\theta)^{-1}(\bar{\mbf F}_s^p)^{-1}$
 is the dependent elastic part that enters the intrinsic stresses.
@@ -950,50 +969,47 @@ true-deformation flow is isochoric,
 	\qquad
 	\operatorname{tr}\left[
 		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
-		\right]=0 .
+		\right]=0,
+	\qquad
+	s\in\mc S .
 \end{equation*}
 % AGENT-LOCK-END
 A yield surface, cap surface, critical-state law, or reaction-assisted
 compaction law can then be introduced as a constitutive specialization of the
 residual dissipation.  The stress-free true-solid thermal/compositional factor
 is prescribed generically as
-$\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta,\phi_s^\beta)$.
-This is the single-skeleton analogue of assigning different thermal expansion
-behavior to different minerals: the composition may change the prescribed
-stress-free thermal/compositional map, while all solid components remain attached
-to the same true deformation field.  Explicit isotropic or anisotropic thermal
-expansion laws are constitutive specializations.
+$\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta)$.  Explicit isotropic or
+anisotropic thermal expansion laws are constitutive specializations.
 
 This thermal split does not break the energy-based structure.  It is a
 constitutive reparametrization of the free energy: instead of depending on
-$\bar{\mbf F}_s$ directly, the elastic part of the free energy depends on
-$\bar{\mbf F}_s^e$ and $\mbf A_s^e$, while $\bar{\mbf F}_s^p$ and $\mbf A_s^p$
-enter as internal variables through the kinematic rates.  The phase label
-remains part of the component Helmholtz energy: component $\alpha$ in the solid
-phase need not have the same free energy as component $\alpha$ in a liquid or
-gas phase.  The multicomponent solid free energy is written as
+$\bar{\mbf F}$ directly, the elastic part of each solid phase free energy
+depends on $\bar{\mbf F}_s^e$ and $\mbf A_s^e$, while $\bar{\mbf F}_s^p$ and
+$\mbf A_s^p$ enter as internal variables through the kinematic rates.  The
+superscript label is retained for reaction and density bookkeeping, but the
+solid Helmholtz free energy is written with phase-level notation in the
+thermodynamic derivation:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\psi_s(\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s, \eta_s^\alpha, \theta)
-	=\sum_\alpha \eta_s^\alpha\,
-	\psi_s^\alpha(\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s,  \theta),
+	\psi_s
+	=\psi_s(\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s^s,\theta),
+	\qquad
+	\psi_s\equiv\psi_s^s,
+	\qquad
+	\eta_s^s=1,
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_multicomponent_free_energy}
 \end{equation}
 % AGENT-LOCK-END
 %
-where $\eta_s^\beta$ denotes the full list of solid component mass fractions.
 Temperature dependence of the free energy supplies entropy and heat capacity in
 the usual way, while the dependence of $\bar{\mbf F}_s^\theta$ on $\theta$ and
-the component volume fractions $\phi_s^\beta$ encodes stress-free intrinsic
-thermal expansion.  Any thermal or compositional dependence of the distension
-tensor enters only through the reversible factor
-$\mbf A_s^\theta(\theta,\phi_s^\beta)$ in \eqref{eq:solid_tensor_distension_split},
-not through a direct dependence on the mass fractions.  For example,
-water in a hydrate or ice-like solid would be represented by
-$\psi_s^{\mathrm{H_2O}}$, whereas liquid water would have a different function
-$\psi_\ell^{\mathrm{H_2O}}$.  The thermodynamic restrictions that make these
-constitutive choices admissible are obtained next from the entropy inequality.
+the dependence of $\mbf A_s^\theta$ on $\theta$ encode stress-free intrinsic thermal
+expansion and stress-free distension for each solid phase.  The thermodynamic
+restrictions that make these constitutive choices admissible are obtained next
+from the entropy inequality.
 
 \input{sections/coleman_noll.tex}
 
@@ -1001,103 +1017,77 @@ constitutive choices admissible are obtained next from the entropy inequality.
 \label{sec:solid_mixture_rules_nonlinear_biot}
 
 The Coleman--Noll restrictions above close the solid constitutive structure in
-terms of the component Helmholtz energies.  For the single load-bearing skeleton,
-the component volume fractions, mass fractions, and intrinsic densities satisfy
+terms of one Helmholtz energy for each mineral solid phase.  For \(s\in\mc S\),
+the one-component specialization gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{subequations}
+\begin{equation}
+	\rho_s^s=\rho_s=\phi_s\bar\rho_s^s,
+	\qquad
+	\eta_s^s=1,
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_final_density_mixture_rules}
-	\begin{align}
-		\bar\rho_s
-		 & =\sum_\alpha\phi_s^\alpha\bar\rho_s^\alpha,
-		\label{eq:solid_final_intrinsic_density_rule}          \\
-		\eta_s^\alpha
-		 & =\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\bar\rho_s},
-		\label{eq:solid_final_mass_fraction_rule}              \\
-		\phi_s^\alpha
-		 & =\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha}.
-		\label{eq:solid_final_component_volume_fraction_rule}
-	\end{align}
-\end{subequations}
+\end{equation}
 % AGENT-LOCK-END
 %
-The solid Helmholtz energy is the mass-fraction average
-\eqref{eq:solid_multicomponent_free_energy}, while the solid skeleton stress is
-the sum of the component partial stresses.  To keep the reference stress
-definition independent of the composition weighting, define the component
-intrinsic first Piola--Kirchhoff stress by the component reference intrinsic
-density times the elastic deformation derivative,
+The reference stress transformation is now clean because
+\eqref{eq:solid_true_mass_conservation} maps each solid phase intrinsic density
+directly through the common true Jacobian.  Define the intrinsic first
+Piola--Kirchhoff stress by
 %
 \begin{equation}
-	\bar{\mbf P}_s^{\prime\alpha}
+	\bar{\mbf P}_s'
 	=
-	\bar\rho_{s0}^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}.
+	\bar\rho_{s0}^s
+	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}.
 	\label{eq:solid_component_intrinsic_pk_stress_definition}
 \end{equation}
 %
-The intrinsic skeleton stress is obtained by normalizing by the solid volume
-fraction:
+The single-prime Cauchy stress carried by solid phase \(s\) and its intrinsic
+counterpart are
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
 	\label{eq:solid_final_stress_mixture_rule}
 	\begin{align}
-		\bs\sigma_s'
-		 & =\sum_\alpha\bs\sigma_s^{\prime\alpha}
-		=\phi_s\sum_\alpha\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha},
+		\sum_{s\in\mc S}\bs\sigma_s'
+		 & =\sum_{s\in\mc S}\phi_s\bar{\bs\sigma}_s',
 		\label{eq:solid_final_partial_stress_sum_rule}       \\
-		\bs\sigma_s^{\prime\alpha}
-		 & =
-		\rho_s^\alpha
-		\mbf A_s^{-T}
-		\left(
-		\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+		\bs\sigma_s'
+	 & =
+	\rho_s
+	\mbf A_s^{-T}
+	\left(
+		\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
 		(\bar{\mbf F}_s^e)^T
 		\right)
 		\mbf A_s^T,
 		\label{eq:solid_final_component_partial_stress_rule} \\
-		\bar{\bs\sigma}_s^{\prime\alpha}
+		\bar{\bs\sigma}_s'
 		 & =
 		\mbf A_s^{-T}
 		\left(
-		\bar\rho_s^\alpha
-		\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+		\bar\rho_s^s
+		\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
 		(\bar{\mbf F}_s^e)^T
 		\right)
-		\mbf A_s^T,
+		\mbf A_s^T .
 		\label{eq:solid_final_component_stress_rule}
 	\end{align}
 \end{subequations}
 % AGENT-LOCK-END
 %
-The individual component stress in
-\eqref{eq:solid_final_component_stress_rule} is not itself the object that
-appears in the mixture rule; the weighted contribution
-$\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha}$ is.  Using
-\eqref{eq:solid_final_mass_fraction_rule} and
-\eqref{eq:solid_true_mass_conservation},
+Using \(\bar J_s\bar\rho_s^s=\bar\rho_{s0}^s\), the intrinsic stress has the
+standard Piola form inside the distension map:
 %
 \begin{equation}
-	\phi_s^\alpha\bar\rho_s^\alpha
-	=
-	\eta_s^\alpha\bar\rho_s
-	=
-	\frac{\eta_s^\alpha}{\bar J_s}\bar\rho_{s0}.
-	\label{eq:solid_weighted_component_density_transform}
-\end{equation}
-%
-Therefore the weighted component contribution can be written as the modified
-Piola transformation
-%
-\begin{equation}
-	\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha}
+	\bar{\bs\sigma}_s'
 	=
 	\mbf A_s^{-T}
 	\left(
-	\frac{\eta_s^\alpha}{\bar J_s}
-	\frac{\bar\rho_{s0}}{\bar\rho_{s0}^\alpha}
-	\bar{\mbf P}_s^{\prime\alpha}
+	\frac{1}{\bar J_s}
+	\bar{\mbf P}_s'
 	(\bar{\mbf F}_s^e)^T
 	\right)
 	\mbf A_s^T .
@@ -1106,32 +1096,27 @@ Piola transformation
 %
 For the pressure and Biot split below, the Coleman--Noll calculation resolves
 solid density dependence through the physical intrinsic density
-$\bar\rho_s^\alpha$ of each solid component.  With this specialization, the
-intrinsic solid pressure is the component-volume-fraction average of the
-component pressures,
+\(\bar\rho_s^s\) of each solid phase:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{subequations}
+\begin{empheq}[box=\fbox]{equation}
+	\bar p_s=\bar p_s^s
+	=\left(\bar\rho_s^s\right)^2
+	\left.\p{\psi_s}{\bar\rho_s^s}\heldfixed{\mc X_s},
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_final_pressure_relations}
-	\begin{empheq}[box=\fbox]{align}
-		\bar p_s
-		& =\sum_\alpha\phi_s^\alpha\bar p_s^\alpha,
-		\label{eq:solid_final_intrinsic_pressure}    \\
-		\bar p_s^\alpha
-		& =\left(\bar\rho_s^\alpha\right)^2
-		\left.\p{\psi_s^\alpha}{\bar\rho_s^\alpha}\right\vert_{\bar{\mbf F}_s^e,J_s,\theta,\eta_s^\beta},
-		\label{eq:solid_final_component_pressure}
-	\end{empheq}
-\end{subequations}
+\end{empheq}
 % AGENT-LOCK-END
 %
 The distension force is the separate Coleman--Noll tensor restriction
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bs\sigma_s'
-	=\rho_s\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{\mbf A_s^e}\heldfixed{\mc S}
+	\sum_{s\in\mc S}\bs\sigma_s'
+	=
+	\sum_{s\in\mc S}\rho_s
+	\left.\p{\psi_s}{\mbf A_s^e}\heldfixed{\mc X_s}
 	(\mbf A_s^e)^T .
 	\label{eq:solid_final_distension_pressure}
 \end{equation}
@@ -1139,8 +1124,8 @@ The distension force is the separate Coleman--Noll tensor restriction
 %
 These are not independent closure equations for double-prime stress.  They are
 mixture rules generated by the same Helmholtz energies that supply entropy,
-temperature dependence, composition dependence, and the reversible distension
-response.
+temperature dependence, solid-volume-fraction dependence, and the reversible
+distension response.
 
 The same structure gives the overall momentum equation.  Summing the phase
 momentum balances, using the mobile-phase pressure relations, and retaining the
@@ -1148,18 +1133,21 @@ conversion-momentum terms gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\sum_\xi\rho_\xi\mbf a_\xi
-	= \nabla_{\mbf x}\cdot\bs\sigma_s'
-	+\rho\mbf g+\sum_\xi\mbf b_\xi
-	-\phi_s\nabla_{\mbf x}\bar p_E
-	-\sum_l\phi_l\nabla_{\mbf x}\bar p_l
-	+\sum_\xi\sum_\alpha\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right),
+	\begin{aligned}
+		\sum_\xi\rho_\xi\mbf a_\xi
+		={}& \nabla_{\mbf x}\cdot\left(\sum_{s\in\mc S}\bs\sigma_s'\right)
+		+\rho\mbf g+\sum_\xi\mbf b_\xi
+		-\sum_{s\in\mc S}\phi_s\nabla_{\mbf x}\bar p_E
+		-\sum_l\phi_l\nabla_{\mbf x}\bar p_l \\
+		&+\sum_l\sum_\alpha\dot c_l^\alpha\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_l\right)
+		+\sum_{s\in\mc S}\dot c_s^s\left(\nabla_{\mbf x}\mu_s^s-\mbf v_s\right).
+	\end{aligned}
 	\label{eq:overall_momentum_phase_pressure_form}
 \end{equation}
 % AGENT-LOCK-END
 %
-where $l$ ranges over the mobile pore phases and
-$\rho=\sum_\xi\rho_\xi$.  This is the pressure form of the capillary force.  The
+where \(l\) ranges over the mobile pore phases and \(\rho=\sum_\xi\rho_\xi\).
+This is the pressure form of the capillary force.  The
 primitive potentials $\gamma_l$ are useful in the variation, but the
 volume-fraction Euler--Lagrange relation and the component-storage multiplier
 relation combine through \eqref{eq:mobile_capillary_pressure_gradient_collapse}.
@@ -1199,10 +1187,11 @@ Using this identity in \eqref{eq:overall_momentum_phase_pressure_form} gives
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\sum_\xi\rho_\xi\mbf a_\xi
-	= \nabla_{\mbf x}\cdot\bs\sigma_s'
+	= \nabla_{\mbf x}\cdot\left(\sum_{s\in\mc S}\bs\sigma_s'\right)
 	+\rho\mbf g
 	-\nabla_{\mbf x}\bar p_E
-	+\sum_\xi\sum_\alpha\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
+	+\sum_l\sum_\alpha\dot c_l^\alpha\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_l\right)
+	+\sum_{s\in\mc S}\dot c_s^s\left(\nabla_{\mbf x}\mu_s^s-\mbf v_s\right).
 	\label{eq:overall_momentum_equivalent_pressure_uncollected}
 \end{equation}
 % AGENT-LOCK-END
@@ -1211,141 +1200,140 @@ If external momentum is supplied to the mixture, the omitted term
 $\sum_\xi\mbf b_\xi$ is added to the right-hand side.
 
 To connect this result with finite-deformation poromechanics, do the pressure
-transform at the solid-component level.  Unlike a miscible fluid phase, a solid
-skeleton component is a physical constituent with its own intrinsic density,
-current component partial density, and corresponding specific volumes,
+transform phase-by-phase over the solid minerals.  Unlike a miscible fluid phase,
+a mineral solid phase is a physical constituent with its own intrinsic density,
+current partial density, and corresponding specific volumes,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
 	\label{eq:solid_intrinsic_specific_volume}
 	\begin{align}
-		\bar v_s^\alpha
-		 & =\frac{1}{\bar\rho_s^\alpha},
+		\bar v_s^s
+		 & =\frac{1}{\bar\rho_s^s},
 		\label{eq:solid_intrinsic_specific_volume_current}   \\
-		v_s^\alpha
-		 & =\frac{1}{\rho_s^\alpha},
+		v_s^s
+		 & =\frac{1}{\rho_s},
 		\label{eq:solid_component_specific_volume_current}   \\
-		v_{s0}^\alpha
-		 & =\frac{1}{\rho_{s0}^\alpha},
+		v_{s0}^s
+		 & =\frac{1}{\rho_{s0}^s},
 		\label{eq:solid_component_specific_volume_reference} \\
-		\bar v_{s0}^\alpha
-		 & =\frac{1}{\bar\rho_{s0}^\alpha}.
+		\bar v_{s0}^s
+		 & =\frac{1}{\bar\rho_{s0}^s}.
 		\label{eq:solid_intrinsic_specific_volume_reference}
 	\end{align}
 \end{subequations}
 % AGENT-LOCK-END
 %
 The Coleman--Noll density coefficient has already identified the thermodynamic
-component pressure in \eqref{eq:solid_final_component_pressure}.  Equivalently,
-since $\bar v_s^\alpha=1/\bar\rho_s^\alpha$,
+solid pressure in \eqref{eq:solid_final_pressure_relations}.  Equivalently,
+since \(\bar v_s^s=1/\bar\rho_s^s\),
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar p_s^\alpha
-	=-\left.\p{\psi_s^\alpha}{\bar v_s^\alpha}\right\vert_{\bar{\mbf F}_s^e,J_s,\theta,\eta_s^\beta}.
+	\bar p_s^s
+	=-\left.\p{\psi_s}{\bar v_s^s}\right\vert_{\bar{\mbf F}_s^e,J,\theta}.
 	\label{eq:solid_component_pressure_density}
 \end{equation}
 % AGENT-LOCK-END
 %
-The storage multipliers may be normalized by the current volume occupied by each
-solid component,
+The storage multiplier may be normalized by the current volume occupied by each
+solid phase,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar p_s^\alpha
-	=\frac{\tau_s^\alpha}{\phi_s\phi_s^\alpha}.
+	\bar p_s^s
+	=\frac{\tau_s^s}{\phi_s}.
 	\label{eq:solid_component_storage_pressure_definition}
 \end{equation}
 % AGENT-LOCK-END
 %
 This is a normalization of the multiplier, not a separate variation with respect
-to $\bar\rho_s^\alpha$; the mixture pressure is still the average in
-\eqref{eq:solid_final_intrinsic_pressure}.  The component-density dependence has
-already been accounted for in the Coleman--Noll chain rule.  The component
-Legendre transform is therefore
+to \(\bar\rho_s^s\).  The density dependence has already been accounted for in
+the Coleman--Noll chain rule.  The phase Legendre transform is therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
 	\label{eq:solid_legendre_transform_pressure}
 	\begin{align}
-		\widetilde\psi_s^\alpha
-		 & =\psi_s^\alpha+\bar p_s^\alpha v_s^\alpha,
+		\widetilde\psi_s
+		 & =\psi_s+\bar p_s^s v_s^s,
 		\label{eq:solid_legendre_transform_definition} \\
-		\left.\p{\widetilde\psi_s^\alpha}{\bar p_s^\alpha}\right\vert_{\bar{\mbf F}_s^e,J_s,\theta,\eta_s^\beta}
-		 & =v_s^\alpha .
+		\left.\p{\widetilde\psi_s}{\bar p_s^s}\right\vert_{\bar{\mbf F}_s^e,J,\theta}
+		 & =v_s^s .
 		\label{eq:solid_legendre_transform_pressure_derivative}
 	\end{align}
 \end{subequations}
 % AGENT-LOCK-END
 %
-The pressure in the volume-fraction constraint appears only after the component
-pressures are summed.  Since the solid phase carries no mobile capillary
-potential, \eqref{eq:el_lambda} gives
+The pressure in the volume-fraction constraint appears after the solid phase
+pressures are related to the common multiplier.  Since solid phases carry no
+mobile capillary potential, \eqref{eq:el_lambda} gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
 	\label{eq:solid_pressure_equivalent_pressure}
 	\begin{align}
 		\phi_s\lambda
-		 & =-\sum_\alpha\tau_s^\alpha,
+		 & =-\tau_s^s,
 		\label{eq:solid_pressure_lambda_storage_sum} \\
 		\bar p_E
 		 & \equiv-\lambda
-		=\frac{1}{\phi_s}\sum_\alpha\tau_s^\alpha
-		=\sum_\alpha\phi_s^\alpha\bar p_s^\alpha .
+		=\frac{\tau_s^s}{\phi_s}
+		=\bar p_s^s,
+		\qquad s\in\mc S .
 		\label{eq:solid_pressure_equivalent_component_average}
 	\end{align}
 \end{subequations}
 % AGENT-LOCK-END
 %
-Thus the equivalent pressure is the component-volume-fraction average of the
-component pressures; it is not the pressure used to perform the component
-Legendre transforms.  The corresponding stress split follows by differentiating
-the component Legendre transform with respect to the elastic deformation.  The
+Thus the equivalent pressure is the solid pressure appearing in the
+volume-fraction constraint; it is not the pressure used to perform the
+phase-level Legendre transforms.  The corresponding stress split follows by
+differentiating the phase Legendre transform with respect to the elastic deformation.  The
 material component mass relation \eqref{eq:material_mass_2} shows that, when the
 conversion and composition variables are held fixed in this derivative, the
-density dependence induced by $\bar{\mbf F}_s^e$ enters through the Jacobian.
-Equivalently, the component specific volume may be treated as
-$v_s^\alpha=v_s^\alpha(J_s,\bar p_s^\alpha,\theta,\eta_s^\beta)$ for
-this calculation.  Therefore
+density dependence induced by \(\bar{\mbf F}_s^e\) enters through the Jacobian.
+Equivalently, the phase specific volume may be treated as
+\(v_s^s=v_s^s(J,\bar p_s^s,\theta)\) for this calculation.
+Therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\left.\p{v_s^\alpha}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
+	\left.\p{v_s^s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}
 	 & =
-	\left.\p{v_s^\alpha}{J_s}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
-	\p{J_s}{\bar{\mbf F}_s^e} \\
+	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
+	\p{J}{\bar{\mbf F}_s^e} \\
 	 & =
-	\left.\p{v_s^\alpha}{J_s}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
-	J_s(\bar{\mbf F}_s^e)^{-T}.
+	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
+	J(\bar{\mbf F}_s^e)^{-T}.
 	\label{eq:solid_specific_volume_deformation_chain_rule}
 \end{align}
 % AGENT-LOCK-END
 %
-At fixed $\bar p_s^\alpha$, the Legendre transform gives
+At fixed \(\bar p_s^s\), the Legendre transform gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar\rho_{s0}^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	\bar\rho_{s0}^s
+	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
 	=
-	\bar\rho_{s0}^\alpha
-	\left.\p{\widetilde\psi_s^\alpha}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
-	-\bar p_s^\alpha \bar\rho_{s0}^\alpha
-	\left.\p{v_s^\alpha}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}.
+	\bar\rho_{s0}^s
+	\left.\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}
+	-\bar p_s^s \bar\rho_{s0}^s
+	\left.\p{v_s^s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}.
 	\label{eq:solid_legendre_deformation_derivative}
 \end{equation}
 % AGENT-LOCK-END
 %
-The first term is the component first Piola--Kirchhoff stress defined in
+The first term is the intrinsic first Piola--Kirchhoff stress defined in
 \eqref{eq:solid_component_intrinsic_pk_stress_definition}.  The
 Legendre-transformed counterpart is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar{\mbf P}_s^{\prime\prime\alpha}
-	=\bar\rho_{s0}^\alpha
-	\left.\p{\widetilde\psi_s^\alpha}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}.
+	\bar{\mbf P}_s^{\prime\prime}
+	=\bar\rho_{s0}^s
+	\left.\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}.
 	\label{eq:solid_component_double_prime_pk_stress_definition}
 \end{equation}
 % AGENT-LOCK-END
@@ -1354,44 +1342,44 @@ Thus
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar{\mbf P}_s^{\prime\alpha}
+	\bar{\mbf P}_s'
 	=
-	\bar{\mbf P}_s^{\prime\prime\alpha}
-	-\bar p_s^\alpha \bar\rho_{s0}^\alpha
-	\left.\p{v_s^\alpha}{J_s}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
-	J_s(\bar{\mbf F}_s^e)^{-T}.
+	\bar{\mbf P}_s^{\prime\prime}
+	-\bar p_s^s \bar\rho_{s0}^s
+	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
+	J(\bar{\mbf F}_s^e)^{-T}.
 	\label{eq:solid_component_pk_stress_split}
 \end{equation}
 % AGENT-LOCK-END
 %
 Pushing forward through the true deformation and then through the distension
-mapping, with the same $\mbf A_s^{-T}(\cdot)\mbf A_s^T$ operation used in
+mapping, with the same $\mbf A^{-T}(\cdot)\mbf A^T$ operation used in
 \eqref{eq:solid_final_stress_mixture_rule}, gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bs\sigma_s^{\prime\alpha}
+	\bs\sigma_s'
 	=
-	\bs\sigma_s^{\prime\prime\alpha}
-	- \frac{1}{v_{s0}^\alpha}
-	\left.\p{v_s^\alpha}{J_s}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
-	\bar p_s^\alpha\mbf I .
+	\bs\sigma_s^{\prime\prime}
+	- \frac{1}{v_{s0}^s}
+	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
+	\bar p_s^s\mbf I .
 	\label{eq:solid_component_cauchy_stress_push_forward}
 \end{equation}
 % AGENT-LOCK-END
-Here $\bs\sigma_s^{\prime\prime\alpha}$ denotes the current double-prime
-component stress after the same distension mapping has been applied.  The
+Here \(\bs\sigma_s^{\prime\prime}\) denotes the current double-prime stress of
+solid phase \(s\) after the same distension mapping has been applied.  The
 pressure correction remains isotropic because
-$\mbf A_s^{-T}\mbf I\mbf A_s^T=\mbf I$.
+\(\mbf A^{-T}\mbf I\mbf A^T=\mbf I\).
 %
-This identifies the component nonlinear Biot coefficient as
+This identifies the solid-phase nonlinear Biot coefficient as
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\Aboxed{B_s^\alpha
-	 & \equiv 1 - \frac{1}{v_{s0}^\alpha}
-	\left.\p{v_s^\alpha}{J_s}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}} . \\
-	 & \approx 1 - \frac{K^{\star \al }}{K^\al_s}
+	\Aboxed{B_s^s
+	 & \equiv 1 - \frac{1}{v_{s0}^s}
+	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}} . \\
+	 & \approx 1 - \frac{K^{\star s}}{K^s_s}
 	\label{eq:component_nonlinear_biot_coefficient}
 \end{align}
 % AGENT-LOCK-END
@@ -1400,32 +1388,32 @@ With this definition, the transformed component stress split is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bs\sigma_s^{\prime\alpha}
-	=\bs\sigma_s^{\prime\prime\alpha}
-	+\left(1-B_s^\alpha\right)\bar p_s^\alpha\mbf I .
+	\bs\sigma_s'
+	=\bs\sigma_s^{\prime\prime}
+	+\left(1-B_s^s\right)\bar p_s^s\mbf I .
 	\label{eq:component_biot_stress_split}
 \end{equation}
 % AGENT-LOCK-END
 %
-Substitution into the Coleman--Noll mixture rule gives the solid partial stress
+Substitution into the Coleman--Noll mixture rule gives the aggregate solid stress
 split
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\bs\sigma_s'
-	 & =\sum_\alpha\bs\sigma_s^{\prime\prime\alpha}
-	+\sum_\alpha
-	\left(1-B_s^\alpha\right)\bar p_s^\alpha\mbf I,
+	\sum_{s\in\mc S}\bs\sigma_s'
+	 & =\sum_{s\in\mc S}\bs\sigma_s^{\prime\prime}
+	+\sum_{s\in\mc S}
+	\left(1-B_s^s\right)\bar p_s^s\mbf I,
 	\label{eq:solid_biot_mixture_rule_expanded}     \\
-	\bs\sigma_s'
-	 & \equiv \bs\sigma_s^{\prime\prime}
+	\sum_{s\in\mc S}\bs\sigma_s'
+	 & \equiv \bs\sigma^{\prime\prime}
 	+\left(1-B_s\right)\bar p_E\mbf I,
 	\label{eq:solid_biot_mixture_stress_definition} \\
 	\Aboxed{B_s
 	 & =
 		1 - \frac{1}{\bar p_E}
-		\sum_\alpha
-		\left(1-B_s^\alpha\right)\bar p_s^\alpha} .
+		\sum_{s\in\mc S}
+		\left(1-B_s^s\right)\bar p_s^s} .
 	\label{eq:solid_biot_mixture_coefficient_definition}
 \end{align}
 % AGENT-LOCK-END
@@ -1435,13 +1423,13 @@ The plasticity restrictions in \eqref{eq:CN_residual_dissipation} and
 single-prime stress.  Therefore, if a constitutive plasticity model is
 specified in terms of the double-prime stress, the stress must first be mapped
 back through \eqref{eq:solid_biot_mixture_stress_definition}, or through the
-component split \eqref{eq:component_biot_stress_split}, before the plastic
+phase split \eqref{eq:component_biot_stress_split}, before the plastic
 driving stress is evaluated.
 %
-Thus the solid mixture Biot coefficient is obtained only after the component
-pressure contributions have been summed.  In this partial-stress form the
-component stresses already carry the current component partial density
-$\rho_s^\alpha$, rather than an additional intrinsic volume-fraction weight.
+Thus the solid mixture Biot coefficient is obtained only after the solid phase
+pressure contributions have been summed.  In this partial-stress form the phase
+stresses already carry the current phase density \(\rho_s\), rather than an
+additional component mass-fraction weight.
 
 Combining this equivalent-pressure form with
 \eqref{eq:solid_biot_mixture_stress_definition} gives
@@ -1450,13 +1438,14 @@ Combining this equivalent-pressure form with
 \begin{equation}
 	\sum_\xi\rho_\xi\mbf a_\xi
 	= \nabla_{\mbf x}\cdot\left[
-		\bs\sigma_s^{\prime\prime}
+		\bs\sigma^{\prime\prime}
 		+\left(1-B_s\right)
 		\bar p_E\mbf I
 		\right]
 	+\rho\mbf g
 	-\nabla_{\mbf x}\bar p_E
-	+\sum_\xi\sum_\alpha\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
+	+\sum_l\sum_\alpha\dot c_l^\alpha\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_l\right)
+	+\sum_{s\in\mc S}\dot c_s^s\left(\nabla_{\mbf x}\mu_s^s-\mbf v_s\right).
 	\label{eq:overall_momentum_biot_pressure_uncollected}
 \end{equation}
 % AGENT-LOCK-END
@@ -1467,10 +1456,11 @@ Collecting the equivalent-pressure term into the total stress,
 \begin{empheq}[box=\fbox]{equation}
 	\sum_\xi\rho_\xi\mbf a_\xi
 	= \nabla_{\mbf x}\cdot\left[
-		\bs\sigma_s^{\prime\prime}-B_s\bar p_E\mbf I
+		\bs\sigma^{\prime\prime}-B_s\bar p_E\mbf I
 		\right]
 	+\rho\mbf g
-	+\sum_\alpha\sum_\xi\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
+	+\sum_l\sum_\alpha\dot c_l^\alpha\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_l\right)
+	+\sum_{s\in\mc S}\dot c_s^s\left(\nabla_{\mbf x}\mu_s^s-\mbf v_s\right).
 	\label{eq:overall_momentum_nonlinear_biot}
 \end{empheq}
 % AGENT-LOCK-END
@@ -1510,7 +1500,9 @@ For that specialization,
 \begin{equation}
 	\mbf A_s^\bullet=(a_s^\bullet)^{1/3}\mbf I,
 	\qquad
-	\bullet\in\{e,p,\theta\}.
+	\bullet\in\{e,p,\theta\},
+	\qquad
+	s\in\mc S .
 	\label{eq:scalar_distension_factors}
 \end{equation}
 % AGENT-LOCK-END
@@ -1519,7 +1511,9 @@ The scalar distension factors multiply:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	a_s=a_s^e a_s^p a_s^\theta .
+	a_s=a_s^e a_s^p a_s^\theta,
+	\qquad
+	s\in\mc S .
 	\label{eq:scalar_distension_product}
 \end{equation}
 % AGENT-LOCK-END
@@ -1528,7 +1522,9 @@ The true solid deformation becomes
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\mbf F_s=a_s^{1/3}\bar{\mbf F}_s .
+	\mbf F=a_s^{1/3}\bar{\mbf F}_s,
+	\qquad
+	s\in\mc S .
 	\label{eq:scalar_distension_true_deformation}
 \end{equation}
 % AGENT-LOCK-END
@@ -1537,7 +1533,9 @@ The corresponding Jacobian relation is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	J_s=a_s\bar J_s .
+	J=a_s\bar J_s,
+	\qquad
+	s\in\mc S .
 	\label{eq:scalar_distension_jacobian}
 \end{equation}
 % AGENT-LOCK-END
@@ -1547,18 +1545,20 @@ then loses its tensorial distension mapping:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bs\sigma_s^{\prime\alpha}
+	\bs\sigma_s'
 	=
-	\rho_s^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
+	\rho_s
+	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
 	(\bar{\mbf F}_s^e)^T ,
+	\qquad
+	s\in\mc S .
 	\label{eq:scalar_distension_component_stress_rule}
 \end{equation}
 % AGENT-LOCK-END
 %
 and we recover the standard definition of the Cauchy stress in terms of the Helmholtz energy.
 The mixture rule remains
-$\bs\sigma_s'=\sum_\alpha\bs\sigma_s^{\prime\alpha}$, and the Biot split
+\(\sum_{s\in\mc S}\bs\sigma_s'\), and the Biot split
 \eqref{eq:solid_biot_mixture_stress_definition} is unchanged.  The reason is
 that the pressure correction is isotropic, while the scalar distension factors
 cancel in the map $\mbf A_s^{-T}(\cdot)\mbf A_s^T$.
@@ -1569,9 +1569,10 @@ condition
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
-	=\rho_s a_s^e\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}.
+	\frac{1}{3}\operatorname{tr}\left(\sum_{s\in\mc S}\bs\sigma_s'\right)
+	=
+	\sum_{s\in\mc S}\rho_s a_s^e
+	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s}.
 	\label{eq:distension_stress_restriction}
 \end{equation}
 % AGENT-LOCK-END
@@ -1582,10 +1583,10 @@ written as a restriction on the double-prime stress:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\prime})
+	\frac{1}{3}\operatorname{tr}(\bs\sigma^{\prime\prime})
 	=
-	\rho_s a_s^e\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}
+	\sum_{s\in\mc S}\rho_s a_s^e
+	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s}
 	-\left(1-B_s\right)\bar p_E .
 	\label{eq:double_prime_distension_trace}
 \end{equation}
@@ -1593,7 +1594,7 @@ written as a restriction on the double-prime stress:
 %
 Equations~\eqref{eq:distension_stress_restriction} and
 \eqref{eq:double_prime_distension_trace} are not extra balance laws for
-$a_s$; they are the scalar form of the tensor admissibility condition on the
+$a$; they are the scalar form of the tensor admissibility condition on the
 reversible solid stress.
 
 The scalar specialization also reduces the plastic-distension power in
@@ -1601,10 +1602,11 @@ The scalar specialization also reduces the plastic-distension power in
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bs\sigma_s':\mbf A_s^e\dot{\mbf A}_s^p
+	\sum_{s\in\mc S}\bs\sigma_s':
+	\mbf A_s^e\dot{\mbf A}_s^p
 	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}
 	=
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	\sum_{s\in\mc S}\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s'\right)
 	\frac{\dot a_s^p}{a_s^p}.
 	\label{eq:scalar_plastic_distension_power}
 \end{equation}
@@ -1629,47 +1631,49 @@ For this scalar crystallization-pressure specialization, the volumetric split is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\ln J_s=\ln a_s+\ln\bar J_s .
+	\ln J=\ln a_s+\ln\bar J_s,
+	\qquad
+	s\in\mc S .
 	\label{eq:crystallization_volumetric_split}
 \end{equation}
 % AGENT-LOCK-END
 %
 Thus a penalty written only in terms of $\ln a_s$ or only in terms of
-$\ln(J_s/a_s)=\ln\bar J_s$ will not, in general, produce the trace required by
+$\ln(J/a_s)=\ln\bar J_s$ will not, in general, produce the trace required by
 Coleman--Noll.  The compatible elastic pressure scale must be tied to
-$\ln J_s$, because $J_s$ is the product that changes with both the distension
+$\ln J$, because $J$ is the product that changes with both the distension
 and the deformation Jacobian.
 
-The component Legendre transform was defined in
+The solid phase Legendre transform was defined in
 \eqref{eq:solid_legendre_transform_definition} as
-$\widetilde\psi_s^\alpha=\psi_s^\alpha+\bar p_s^\alpha v_s^\alpha$.  Thus the
+$\widetilde\psi_s=\psi_s+\bar p_s^s v_s^s$.  Thus the
 transformed potential generates the double-prime stress, while the
 untransformed Helmholtz energy generates the total stress.  The difference
 between the two stress measures is exactly the Biot pressure correction in
 \eqref{eq:component_biot_stress_split}.  Therefore the Biot pressure contribution
 should not be inserted a second time into the transformed volumetric energy.  For
-a solid component $\alpha$, take the current-volume transformed volumetric stress
+a solid phase \(s\), take the current-volume transformed volumetric stress
 potential to be
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\widetilde W_{\rm vol}^\alpha
+	\widetilde W_{\rm vol}^s
 	=
-	\frac{K^{\star\alpha}}{2}\left(\ln J_s\right)^2 .
+	\frac{K^{\star s}}{2}\left(\ln J\right)^2 .
 	\label{eq:component_transformed_volumetric_energy}
 \end{equation}
 % AGENT-LOCK-END
 %
-The admissibility check is direct.  Holding $\bar J_s$ and $\bar p_s^\alpha$
+The admissibility check is direct.  Holding $\bar J_s$ and $\bar p_s^s$
 fixed,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\left.
-	\p{\widetilde W_{\rm vol}^\alpha}{a_s}
-	\right\vert_{\bar J_s,\bar p_s^\alpha}
+	\p{\widetilde W_{\rm vol}^s}{a_s}
+	\right\vert_{\bar J_s,\bar p_s^s}
 	=
-	\frac{K^{\star\alpha}}{a_s}\ln J_s .
+	\frac{K^{\star s}}{a_s}\ln J .
 	\label{eq:elastic_distension_compatibility}
 \end{equation}
 % AGENT-LOCK-END
@@ -1680,10 +1684,10 @@ Therefore
 \begin{equation}
 	a_s
 	\left.
-	\p{\widetilde W_{\rm vol}^\alpha}{a_s}
-	\right\vert_{\bar J_s,\bar p_s^\alpha}
+	\p{\widetilde W_{\rm vol}^s}{a_s}
+	\right\vert_{\bar J_s,\bar p_s^s}
 	=
-	K^{\star\alpha}\ln J_s .
+	K^{\star s}\ln J .
 	\label{eq:component_transformed_volumetric_trace}
 \end{equation}
 % AGENT-LOCK-END
@@ -1693,9 +1697,9 @@ volumetric potential:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\prime\alpha})
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\prime})
 	=
-	K^{\star\alpha}\ln J_s .
+	K^{\star s}\ln J .
 	\label{eq:component_double_prime_trace_from_energy}
 \end{equation}
 % AGENT-LOCK-END
@@ -1706,14 +1710,14 @@ form:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\rho_s a_s^e\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}
+	\rho_s a_s^e
+	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s}
 	=
 	a_s
 	\left.
-	\p{\widetilde W_{\rm vol}^\alpha}{a_s}
-	\right\vert_{\bar J_s,\bar p_s^\alpha}
-	+\left(1-B_s^\alpha\right)\bar p_s^\alpha .
+	\p{\widetilde W_{\rm vol}^s}{a_s}
+	\right\vert_{\bar J_s,\bar p_s^s}
+	+\left(1-B_s^s\right)\bar p_s^s .
 	\label{eq:component_legendre_trace_bridge}
 \end{equation}
 % AGENT-LOCK-END
@@ -1723,10 +1727,10 @@ Substituting \eqref{eq:component_transformed_volumetric_trace} into
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha})
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
 	=
-	K^{\star\alpha}\ln J_s
-	+\left(1-B_s^\alpha\right)\bar p_s^\alpha .
+	K^{\star s}\ln J
+	+\left(1-B_s^s\right)\bar p_s^s .
 	\label{eq:component_total_trace_biot_compatibility}
 \end{equation}
 % AGENT-LOCK-END
@@ -1735,23 +1739,23 @@ Equivalently, the component Coleman--Noll distension force is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\rho_s a_s^e\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}
+	\rho_s a_s^e
+	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s}
 	=
-	K^{\star\alpha}\ln J_s
-	+\left(1-B_s^\alpha\right)\bar p_s^\alpha .
+	K^{\star s}\ln J
+	+\left(1-B_s^s\right)\bar p_s^s .
 	\label{eq:component_cn_trace_satisfied}
 \end{equation}
 % AGENT-LOCK-END
 %
-Summing over solid components gives the total trace condition:
+Summing over solid phases gives the total trace condition:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
+	\frac{1}{3}\operatorname{tr}\left(\sum_{s\in\mc S}\bs\sigma_s'\right)
 	=
-	\rho_s a_s^e\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S},
+	\sum_{s\in\mc S}\rho_s a_s^e
+	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s},
 	\label{eq:crystallization_total_trace_cn_satisfied}
 \end{equation}
 % AGENT-LOCK-END
@@ -1761,12 +1765,12 @@ equivalent-pressure contribution recovers the double-prime condition:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\prime})
+	\frac{1}{3}\operatorname{tr}(\bs\sigma^{\prime\prime})
 	=
-	\sum_\alpha K^{\star\alpha}\ln J_s
+	\sum_{s\in\mc S} K^{\star s}\ln J
 	=
-	\rho_s a_s^e\sum_\alpha\eta_s^\alpha
-	\left.\p{\psi_s^\alpha}{a_s^e}\heldfixed{\mc S}
+	\sum_{s\in\mc S}\rho_s a_s^e
+	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s}
 	-\left(1-B_s\right)\bar p_E,
 	\label{eq:crystallization_double_prime_trace_cn_satisfied}
 \end{equation}
@@ -1780,7 +1784,7 @@ momentum equation, no separate crystallization-pressure force should be added.
 
 There is therefore no second mechanical pressure to introduce.  The volumetric
 part of the solid Helmholtz energy is already built into
-$\operatorname{tr}(\bs\sigma_s^{\prime\alpha})$, and that stress is the
+$\operatorname{tr}(\bs\sigma_s')$, and that stress is the
 mechanical quantity that enters the momentum equation.  Crystallization enters
 the thermodynamics through the mechanism affinity.  The variational
 theory identifies the force conjugate to the mechanism progress rate $\dot r_{(m)}$:
@@ -1808,11 +1812,11 @@ reversible.
 
 Classical crystallization pressure is therefore best used as a way to prescribe
 or diagnose this affinity, not as an added stress.  For a mechanism $(m)$
-precipitating solid component $\alpha_{(m)}$, define the intrinsic specific volume
+precipitating solid phase \(s_{(m)}\), define the intrinsic specific volume
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar v_s^{\alpha_{(m)}}=\frac{1}{\bar\rho_s^{\alpha_{(m)}}} .
+	\bar v_{s_{(m)}}^{s_{(m)}}=\frac{1}{\bar\rho_{s_{(m)}}^{s_{(m)}}} .
 	\label{eq:crystallization_intrinsic_specific_volume}
 \end{equation}
 % AGENT-LOCK-END
@@ -1822,9 +1826,9 @@ current component trace stress represents the chemical driving force:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar p^{\alpha_{(m)}}_c
-	=\frac{\mc A_{(m)}}{\bar v_s^{\alpha_{(m)}}}
-	+\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}}) .
+	\bar p^{s_{(m)}}_c
+	=\frac{\mc A_{(m)}}{\bar v_{s_{(m)}}^{s_{(m)}}}
+	+\frac{1}{3}\operatorname{tr}(\bs\sigma_{s_{(m)}}') .
 	\label{eq:crystallization_affinity_trace_stress}
 \end{equation}
 % AGENT-LOCK-END
@@ -1835,10 +1839,10 @@ restriction
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\mc A_{(m)}
-	=\bar v_s^{\alpha_{(m)}}
+	=\bar v_{s_{(m)}}^{s_{(m)}}
 	\left(
-	\bar p^{\alpha_{(m)}}_c
-	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}})
+	\bar p^{s_{(m)}}_c
+	-\frac{1}{3}\operatorname{tr}(\bs\sigma_{s_{(m)}}')
 	\right).
 	\label{eq:crystallization_affinity_volumetric}
 \end{equation}
@@ -1848,24 +1852,24 @@ For example, a classical supersaturation law may be written
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar p^{\alpha_{(m)}}_c
-	=\frac{R\theta}{V_s^{\alpha_{(m)}}}\ln\Omega_{(m)},
+	\bar p^{s_{(m)}}_c
+	=\frac{R\theta}{V_s^{s_{(m)}}}\ln\Omega_{(m)},
 	\label{eq:classical_crystallization_pressure}
 \end{equation}
 % AGENT-LOCK-END
 %
-where $V_s^{\alpha_{(m)}}$ is the molar volume of the precipitating solid
-component.  Substitution into \eqref{eq:crystallization_affinity_volumetric}
+where $V_s^{s_{(m)}}$ is the molar volume of the precipitating solid phase.
+Substitution into \eqref{eq:crystallization_affinity_volumetric}
 gives the corresponding affinity closure
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\mc A_{(m)}
 	=
-	\bar v_s^{\alpha_{(m)}}
+	\bar v_{s_{(m)}}^{s_{(m)}}
 	\left(
-	\frac{R\theta}{V_s^{\alpha_{(m)}}}\ln\Omega_{(m)}
-	-\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}})
+	\frac{R\theta}{V_s^{s_{(m)}}}\ln\Omega_{(m)}
+	-\frac{1}{3}\operatorname{tr}(\bs\sigma_{s_{(m)}}')
 	\right).
 	\label{eq:crystallization_supersaturation_affinity}
 \end{equation}
@@ -1876,9 +1880,9 @@ pressure equals the current admissible component trace stress:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar p^{\alpha_{(m)}}_c
+	\bar p^{s_{(m)}}_c
 	=
-	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}}) .
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_{s_{(m)}}') .
 	\label{eq:distension_equilibrium_crystallization}
 \end{equation}
 % AGENT-LOCK-END
@@ -1890,10 +1894,10 @@ is the diagnostic output
 \begin{equation}
 	\Omega_{(m)}
 	=\exp\left(
-	\frac{V_s^{\alpha_{(m)}}}{R\theta}
+	\frac{V_s^{s_{(m)}}}{R\theta}
 	\left[
-		\frac{\mc A_{(m)}}{\bar v_s^{\alpha_{(m)}}}
-		+\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\alpha_{(m)}})
+		\frac{\mc A_{(m)}}{\bar v_{s_{(m)}}^{s_{(m)}}}
+		+\frac{1}{3}\operatorname{tr}(\bs\sigma_{s_{(m)}}')
 		\right]
 	\right).
 	\label{eq:crystallization_saturation_ratio_diagnostic}
@@ -1924,11 +1928,13 @@ laws.  The component mass balances are
 \end{equation}
 % AGENT-LOCK-END
 %
-The phase momentum balances may be kept phasewise in the form
+For \(s\in\mc S\), this balance is used with \(\eta_s^s=1\), giving
+\(\partial_t(\phi_s\bar\rho_s^s)+\nabla_{\mbf x}\cdot(\phi_s\bar\rho_s^s\mbf v_s)
+=\sum_m\nu_{s (m)}^s\dot r_{(m)}\).  The phase momentum balances may be kept phasewise in the form
 \eqref{eq:el_momentum_uniform}, with the mobile-phase pressure-gradient
 specialization shown in \eqref{eq:el_mom_l_simplified}, or summed into
 the overall poromechanics form \eqref{eq:overall_momentum_nonlinear_biot}.  The
-algebraic volume and composition constraints are
+algebraic volume and mobile-composition constraints are
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
@@ -1937,8 +1943,12 @@ algebraic volume and composition constraints are
 		\sum_\xi\phi_\xi
 		 & =1,
 		\label{eq:model_summary_saturation_constraint} \\
-		\sum_\alpha\eta_\xi^\alpha
-		 & =1.
+		\sum_\alpha\eta_l^\alpha
+		 & =1,
+		\qquad l\in\mc M, \\
+		\eta_s^s
+		 & =1,
+		\qquad s\in\mc S .
 		\label{eq:model_summary_mass_fraction_normalization}
 	\end{align}
 \end{subequations}
@@ -1952,24 +1962,30 @@ with the corresponding Euler--Lagrange relations
 	\begin{align}
 		\lambda+\bar p_l-\gamma_l
 		 & =0,
-		\qquad l\hbox{ mobile},
+		\qquad l\in\mc M,
 		\label{eq:model_summary_mobile_pressure_relation} \\
-		\lambda+\bar p_s
+		\lambda+\bar p_s^s
 		 & =0,
+		\qquad s\in\mc S,
 		\label{eq:model_summary_solid_pressure_relation}  \\
-		\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}
-		 & =\bar p_\xi .
+		\sum_\alpha\frac{\tau_l^\alpha}{\phi_l}
+		 & =\bar p_l,
+		\qquad l\in\mc M, \\
+		\frac{\tau_s^s}{\phi_s}
+		 & =\bar p_s^s,
+		\qquad s\in\mc S .
 		\label{eq:model_summary_phase_pressure_relation}
 	\end{align}
 \end{subequations}
 % AGENT-LOCK-END
 %
 The composition stationarity equations are used in their projected form, with
-the redundant normal multiplier $\pi_\xi$ eliminated explicitly.  For mobile
-phases this is \eqref{eq:CN_composition_projected_restriction}; for the solid it
-is \eqref{eq:CN_solid_composition_projected_restriction}, where the phase-pressure
-and admissible distension-residual terms have cancelled and the stress-free
-compositional-dilation correction remains.  The intrinsic pressures, solid
+the redundant normal multiplier $\pi_l$ eliminated explicitly.  For mobile phases
+this is \eqref{eq:CN_composition_projected_restriction}.  For solid phases the
+composition stationarity is replaced by the specialization
+\eqref{eq:CN_solid_composition_projected_restriction}, and solid-volume-fraction
+dependence of the stress-free factors is carried by
+\eqref{eq:CN_solid_volume_fraction_restriction}.  The intrinsic pressures, solid
 stresses, entropy, and distension stress are not independent laws; they are
 Coleman--Noll derivatives of the Helmholtz energies summarized by
 \eqref{eq:CN_stress_definition},
@@ -1979,14 +1995,14 @@ and \eqref{eq:CN_entropy_definitions}.
 The conversion potentials are solved from
 \eqref{eq:el_conversion_component}.  After the entropy argument identifies the
 uniform source-carried closure
-$L_\xi^\alpha=\mu_\xi^\alpha-\widehat\psi_\xi^\alpha$, with
-$\widehat\psi_l^\alpha=\psi_l$ for mobile phases and
-$\widehat\psi_s^\alpha=\psi_s^\alpha$ for the component-additive solid, the
+$L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi$, with \(\psi_s\equiv\psi_s^s\) for
+one-component solid phases, the
 mechanism affinity is the stoichiometric projection
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\mc A_{(m)}=-\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
+	\mc A_{(m)}
+	=-\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
 	\label{eq:model_summary_affinity}
 \end{equation}
 % AGENT-LOCK-END
@@ -1996,13 +2012,14 @@ The remaining closure laws are dissipative.  They must be chosen so that
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\begin{aligned}
-		0\le{}\; &
-		\sum_m\mc A_{(m)}\dot r_{(m)}
-		+\bs\sigma_s':\mbf A_s^e\dot{\mbf A}_s^p
-		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}      \\
-		         & +\operatorname{tr}\left[
-			\mbf S_s'\dot{\bar{\mbf F}}_s^p
-			(\bar{\mbf F}_s^p)^{-1}\right]
+			0\le{}\; &
+			\sum_m\mc A_{(m)}\dot r_{(m)}
+			+\sum_{s\in\mc S}\bs\sigma_s':
+			\mbf A_s^e\dot{\mbf A}_s^p
+			(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}      \\
+			         & +\sum_{s\in\mc S}\operatorname{tr}\left[
+				\mbf S_s'\dot{\bar{\mbf F}}_s^p
+				(\bar{\mbf F}_s^p)^{-1}\right]
 		+\sum_{\xi<\zeta}\mbf v_{\xi\zeta}\cdot
 		\mbf k_{\xi\zeta}^{-1}\mbf v_{\xi\zeta} \\
 		         & +\sum_\xi
@@ -2021,11 +2038,12 @@ $\mc A_{(m)}\dot r_{(m)}\ge0$, plastic flow rules such as
 only by translating it into the affinity through
 \eqref{eq:crystallization_affinity_volumetric}.
 
-Let $P$ be the number of phases, $N$ the number of components tracked in each
-phase, $N_{(m)}$ the number of independent conversion mechanisms, and $d$ the spatial
-dimension.  Using phase displacements as the kinematic unknowns, with velocities
-obtained by time differentiation, a convenient fully implicit pointwise algebraic
-unknown accounting is as follows.
+Let $P_M=|\mc M|$ be the number of mobile phases, $P_S=|\mc S|$ the number of
+solid phases, $P=P_M+P_S$ the total number of phases, $N$ the number of mobile
+components tracked in each mobile phase, $N_{(m)}$ the number of independent
+conversion mechanisms, and $d$ the spatial dimension.  Using phase displacements
+as the kinematic unknowns, with velocities obtained by time differentiation, a
+convenient fully implicit pointwise algebraic unknown accounting is as follows.
 %
 This is not a list of state variables only: the mechanism rates $\dot r_{(m)}$ are
 process-rate unknowns whose equations are supplied by kinetic laws.
@@ -2036,14 +2054,14 @@ process-rate unknowns whose equations are supplied by kinetic laws.
 		\hline
 		Phase displacements $u_{\xi 1},\ldots,u_{\xi d}$ for $\xi=1,\ldots,P$             & $dP$      \\
 		Intrinsic phase densities $\bar\rho_\xi$ for $\xi=1,\ldots,P$                     & $P$       \\
-		Phase mass fractions $\eta_\xi^1,\ldots,\eta_\xi^N$ for $\xi=1,\ldots,P$          & $PN$      \\
-		Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                            & $P$       \\
-		Volume-fraction multiplier $\lambda$                                              & $1$       \\
-		Storage multipliers $\tau_\xi^1,\ldots,\tau_\xi^N$ for $\xi=1,\ldots,P$           & $PN$      \\
-		Helmholtz chemical potentials $\mu_\xi^1,\ldots,\mu_\xi^N$ for $\xi=1,\ldots,P$   & $PN$      \\
-		Mechanism process rates $\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}$                  & $N_{(m)}$ \\
-		Solid plastic internal variables $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active & $2d^2$    \\
-		Temperature $\theta$                                                              & $1$
+			Mobile mass fractions $\eta_l^1,\ldots,\eta_l^N$ for $l=1,\ldots,P_M$             & $P_MN$    \\
+			Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                            & $P$       \\
+			Volume-fraction multiplier $\lambda$                                              & $1$       \\
+			Storage multipliers $\tau_l^\alpha$ and $\tau_s^s$                                & $P_MN+P_S$ \\
+			Helmholtz chemical potentials $\mu_l^\alpha$ and $\mu_s^s$                        & $P_MN+P_S$ \\
+			Mechanism process rates $\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}$                  & $N_{(m)}$ \\
+			Solid plastic internal variables $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active & $2d^2P_S$ \\
+			Temperature $\theta$                                                              & $1$
 	\end{tabular}
 \end{center}
 %
@@ -2052,9 +2070,10 @@ The corresponding scalar unknown count is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\begin{aligned}
-		N_{\rm unk}
-		 & =dP+P+PN+P+1+PN+PN+N_{(m)}+2d^2+1 \\
-		 & =dP+2d^2+3PN+2P+N_{(m)}+2 ,
+			N_{\rm unk}
+			 & =dP+P+P_MN+P+1+\left(P_MN+P_S\right)
+			+\left(P_MN+P_S\right)+N_{(m)}+2d^2P_S+1 \\
+			 & =dP+2d^2P_S+3P_MN+2P_S+2P+N_{(m)}+2 ,
 	\end{aligned}
 	\label{eq:model_summary_unknown_count}
 \end{equation}
@@ -2068,17 +2087,15 @@ The same number of scalar equations is supplied by the following blocks:
 		\hline
 		Phase momentum balances \eqref{eq:el_momentum_uniform}                                   & $dP$      \\
 		Intrinsic-density relations in \eqref{eq:model_summary_pressure_relations}               & $P$       \\
-		Projected composition stationarity
-		\eqref{eq:CN_composition_projected_restriction} and
-		\eqref{eq:CN_solid_composition_projected_restriction}                                    & $P(N-1)$  \\
-		Composition normalizations in \eqref{eq:model_summary_constraints}                       & $P$       \\
-		Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$       \\
-		Volume-fraction constraint in \eqref{eq:model_summary_constraints}                       & $1$       \\
-		Component mass balances \eqref{eq:model_summary_mass_balance}                            & $PN$      \\
-		Conversion-potential equations \eqref{eq:el_conversion_component}                        & $PN$      \\
-		Kinetic laws for $\dot r_{(m)}$                                                          & $N_{(m)}$ \\
-		Plastic flow laws for $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active                   & $2d^2$    \\
-		Energy or temperature equation using \eqref{eq:CN_energy_balance}                        & $1$
+			Projected mobile composition stationarity \eqref{eq:CN_composition_projected_restriction} & $P_M(N-1)$ \\
+			Mobile composition normalizations in \eqref{eq:model_summary_constraints}                & $P_M$     \\
+			Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$       \\
+			Volume-fraction constraint in \eqref{eq:model_summary_constraints}                       & $1$       \\
+			Component mass balances \eqref{eq:model_summary_mass_balance}                            & $P_MN+P_S$ \\
+			Conversion-potential equations \eqref{eq:el_conversion_component}                        & $P_MN+P_S$ \\
+			Kinetic laws for $\dot r_{(m)}$                                                          & $N_{(m)}$ \\
+			Plastic flow laws for $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active                   & $2d^2P_S$ \\
+			Energy or temperature equation using \eqref{eq:CN_energy_balance}                        & $1$
 	\end{tabular}
 \end{center}
 %
@@ -2087,18 +2104,22 @@ Thus
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\begin{aligned}
-		N_{\rm eq}
-		 & =dP+P+P(N-1)+P+P+1+PN+PN+N_{(m)}+2d^2+1 \\
-		 & =dP+2d^2+3PN+2P+N_{(m)}+2
-		=N_{\rm unk}.
+			N_{\rm eq}
+			 & =dP+P+P_M(N-1)+P_M+P+1+\left(P_MN+P_S\right) \\
+			 & \quad
+			+\left(P_MN+P_S\right)+N_{(m)}+2d^2P_S+1 \\
+			 & =dP+2d^2P_S+3P_MN+2P_S+2P+N_{(m)}+2
+			=N_{\rm unk}.
 	\end{aligned}
 	\label{eq:model_summary_equation_count}
 \end{equation}
 % AGENT-LOCK-END
 %
-This count treats $\pi_\xi$, $\mc A_{(m)}$, and $\dot c_\xi^\alpha$ as eliminated
-quantities: $\pi_\xi$ is removed by projecting the composition stationarity
+This count treats $\pi_l$, $\mc A_{(m)}$, and $\dot c_\xi^\alpha$ as eliminated
+quantities: $\pi_l$ is removed by projecting the mobile composition stationarity
 relations onto the $N-1$ dimensional tangent space of
-$\sum_\alpha\eta_\xi^\alpha=1$, $\mc A_{(m)}$ is substituted from
+$\sum_\alpha\eta_l^\alpha=1$, $\mc A_{(m)}$ is substituted from
 \eqref{eq:model_summary_affinity}, and $\dot c_\xi^\alpha$ is substituted from
-the stoichiometric source term in \eqref{eq:model_summary_mass_balance}.
+the stoichiometric source term in \eqref{eq:model_summary_mass_balance}.  The
+solid mass fractions do not add unknowns because \(\eta_s^s=1\) is imposed by the
+one-component solid-phase specialization.
