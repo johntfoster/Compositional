@@ -1023,8 +1023,21 @@ the component volume fractions, mass fractions, and intrinsic densities satisfy
 %
 The solid Helmholtz energy is the mass-fraction average
 \eqref{eq:solid_multicomponent_free_energy}, while the solid skeleton stress is
-the sum of the component partial stresses.  The intrinsic skeleton stress is
-obtained by normalizing by the solid volume fraction:
+the sum of the component partial stresses.  To keep the reference stress
+definition independent of the composition weighting, define the component
+intrinsic first Piola--Kirchhoff stress by the component reference intrinsic
+density times the elastic deformation derivative,
+%
+\begin{equation}
+	\bar{\mbf P}_s^{\prime\alpha}
+	=
+	\bar\rho_{s0}^\alpha
+	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}.
+	\label{eq:solid_component_intrinsic_pk_stress_definition}
+\end{equation}
+%
+The intrinsic skeleton stress is obtained by normalizing by the solid volume
+fraction:
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
@@ -1057,6 +1070,39 @@ obtained by normalizing by the solid volume fraction:
 	\end{align}
 \end{subequations}
 % AGENT-LOCK-END
+%
+The individual component stress in
+\eqref{eq:solid_final_component_stress_rule} is not itself the object that
+appears in the mixture rule; the weighted contribution
+$\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha}$ is.  Using
+\eqref{eq:solid_final_mass_fraction_rule} and
+\eqref{eq:solid_true_mass_conservation},
+%
+\begin{equation}
+	\phi_s^\alpha\bar\rho_s^\alpha
+	=
+	\eta_s^\alpha\bar\rho_s
+	=
+	\frac{\eta_s^\alpha}{\bar J_s}\bar\rho_{s0}.
+	\label{eq:solid_weighted_component_density_transform}
+\end{equation}
+%
+Therefore the weighted component contribution can be written as the modified
+Piola transformation
+%
+\begin{equation}
+	\phi_s^\alpha\bar{\bs\sigma}_s^{\prime\alpha}
+	=
+	\mbf A_s^{-T}
+	\left(
+	\frac{\eta_s^\alpha}{\bar J_s}
+	\frac{\bar\rho_{s0}}{\bar\rho_{s0}^\alpha}
+	\bar{\mbf P}_s^{\prime\alpha}
+	(\bar{\mbf F}_s^e)^T
+	\right)
+	\mbf A_s^T .
+	\label{eq:solid_modified_piola_transformation}
+\end{equation}
 %
 For the pressure and Biot split below, the Coleman--Noll calculation resolves
 solid density dependence through the physical intrinsic density
@@ -1280,29 +1326,27 @@ At fixed $\bar p_s^\alpha$, the Legendre transform gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\rho_{s0}^\alpha
+	\bar\rho_{s0}^\alpha
 	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S}
 	=
-	\rho_{s0}^\alpha
+	\bar\rho_{s0}^\alpha
 	\left.\p{\widetilde\psi_s^\alpha}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
-	-\bar p_s^\alpha \frac{1}{v_{s0}^\alpha}
+	-\bar p_s^\alpha \bar\rho_{s0}^\alpha
 	\left.\p{v_s^\alpha}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}.
 	\label{eq:solid_legendre_deformation_derivative}
 \end{equation}
 % AGENT-LOCK-END
 %
-The first two terms define the component first Piola--Kirchhoff stresses,
+The first term is the component first Piola--Kirchhoff stress defined in
+\eqref{eq:solid_component_intrinsic_pk_stress_definition}.  The
+Legendre-transformed counterpart is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\mbf P_s^{\prime\alpha}
-	=\rho_{s0}^\alpha
-	\left.\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}\heldfixed{\mc S},
-	\qquad
-	\mbf P_s^{\prime\prime\alpha}
-	=\rho_{s0}^\alpha
+	\bar{\mbf P}_s^{\prime\prime\alpha}
+	=\bar\rho_{s0}^\alpha
 	\left.\p{\widetilde\psi_s^\alpha}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}.
-	\label{eq:solid_component_pk_stress_definitions}
+	\label{eq:solid_component_double_prime_pk_stress_definition}
 \end{equation}
 % AGENT-LOCK-END
 %
@@ -1310,10 +1354,10 @@ Thus
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\mbf P_s^{\prime\alpha}
+	\bar{\mbf P}_s^{\prime\alpha}
 	=
-	\mbf P_s^{\prime\prime\alpha}
-	-\bar p_s^\alpha \frac{1}{v_{s0}^\alpha}
+	\bar{\mbf P}_s^{\prime\prime\alpha}
+	-\bar p_s^\alpha \bar\rho_{s0}^\alpha
 	\left.\p{v_s^\alpha}{J_s}\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
 	J_s(\bar{\mbf F}_s^e)^{-T}.
 	\label{eq:solid_component_pk_stress_split}

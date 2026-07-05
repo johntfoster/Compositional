@@ -123,22 +123,40 @@ affect transport.
 
 The current relative flux in \eqref{eq:generalized_mobile_darcy_mass_flux} is
 converted to a flux through surfaces in the solid reference configuration by the
-Piola transform.  Equivalently, the quantity assembled in the reference
-component balances is
+Piola transform.  Define the reference relative mass flux
+%
+\begin{equation}
+	\mbf W_l
+	=
+	J_s\mbf F_s^{-1}\mbf w_l .
+	\label{eq:reference_relative_mass_flux}
+\end{equation}
+%
+Also define the pulled-back modified permeability tensor
+%
+\begin{equation}
+	\widetilde{\mbf K}_l
+	=
+	J_s\mbf F_s^{-1}
+	\widetilde{\bs\kappa}_l
+	\mbf F_s^{-T}.
+	\label{eq:pulled_back_modified_permeability}
+\end{equation}
+%
+The flux assembled in the reference component balances is then
 %
 \begin{align}
-	J_s\mbf F_s^{-1}\mbf w_l
-	= & \;
-	\rho_l J_s\mbf F_s^{-1}\widetilde{\bs\kappa}_l
+	\mbf W_l
+	= & \; \rho_l\widetilde{\mbf K}_l
 	\left[
-		\rho_l\left(\mbf g-\mbf a_l\right)
+		\rho_l\mbf F_s^T\left(\mbf g-\mbf a_l\right)
+		-\phi_l\nabla_{\mbf X_s}\bar p_l
 		+\sum_\alpha\dot c_l^\alpha
-		\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_s\right)
-		\right]
-	\notag                             \\
-	  & -\rho_l\phi_l J_s\mbf F_s^{-1}
-	\widetilde{\bs\kappa}_l\mbf F_s^{-T}
-	\nabla_{\mbf X_s}\bar p_l .
+		\left(
+		\nabla_{\mbf X_s}\mu_l^\alpha
+		-\mbf F_s^T\mbf v_s
+		\right)
+		\right].
 	\label{eq:solid_reference_relative_flux}
 \end{align}
 %
@@ -150,11 +168,11 @@ divergence of a spatial flux obeys
 	J_s\nabla_{\mbf x}\cdot\mbf w_l
 	=
 	\nabla_{\mbf X_s}\cdot
-	\left(J_s\mbf F_s^{-1}\mbf w_l\right).
+	\mbf W_l .
 	\label{eq:solid_reference_flux_divergence}
 \end{equation}
 %
-Equations~\eqref{eq:solid_reference_relative_flux} and
+Equations~\eqref{eq:reference_relative_mass_flux}--\eqref{eq:solid_reference_relative_flux} and
 \eqref{eq:solid_reference_flux_divergence} are the direct multicomponent
 generalization of the reference flux used in the earlier reacting-mixture model,
 with phase labels, component conversion rates, and component chemical-potential
@@ -174,7 +192,7 @@ trajectory gives
 	\left(J_s\phi_l\bar\rho_l\eta_l^\alpha\right)
 	\right\vert_{\mbf X_s}
 	+\nabla_{\mbf X_s}\cdot
-	\left(J_s\mbf F_s^{-1}\eta_l^\alpha\mbf w_l\right)
+	\left(\eta_l^\alpha\mbf W_l\right)
 	=
 	J_s\sum_m\nu_{l (m)}^\alpha\dot r_{(m)} .
 	\label{eq:solid_reference_mobile_component_balance}
@@ -209,13 +227,10 @@ result is
 	J_s\sum_\xi\rho_\xi\mbf a_\xi
 	= & \;
 	\nabla_{\mbf X_s}\cdot
-	\left[
-	J_s
 	\left(
-	\bs\sigma_s^{\prime\prime}-B_s\bar p_E\mbf I
+	\mbf{P}_s^{\prime\prime}-B_s\bar p_E
+	J_s \mbf F_s^{-T}
 	\right)
-	\mbf F_s^{-T}
-	\right]
 	+J_s\rho\mbf g
 	\notag                      \\
 	  & +J_s\sum_\alpha\sum_\xi
@@ -225,6 +240,14 @@ result is
 	\right).
 	\label{eq:solid_reference_overall_momentum}
 \end{align}
+%
+where
+%
+\begin{equation}
+	\mbf{P}_s^{\prime\prime} = J_s \sigma_s^{\prime\prime} \mbf{F}_s^{-T}
+\end{equation}
+%
+is the first Piola-Kirchhoff stress tensor associated with the solid skeleton.
 %
 If a quasi-static solid-skeleton solve is desired, the inertial term on the left
 is dropped.  If the mobile velocities are eliminated with
