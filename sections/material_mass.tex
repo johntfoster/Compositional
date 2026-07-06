@@ -71,12 +71,20 @@ with phase deformation gradient $\mbf{F}_\xi$ and Jacobian
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	J_\xi & = \det\left(\p{\bs{\chi}_\xi}{\mbf{X}_\xi}\right), \notag \\
-	      & = \det\left(\mbf{F}_\xi\right).
-	\label{eq:phase_jacobian_definition}
+	\mathbf{F}_\xi & = \p{\bs{\chi}_\xi}{\mbf{X}_\xi}. \notag     \\
+	               & = \nabla_{\mbf{X}_\xi} \mbf{u}_\xi + \mbf{I}
+	\label{eq:phase_deformation_gradient_definition}
 \end{align}
 % AGENT-LOCK-END
 %
+% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
+\begin{align}
+	J_\xi & =  \det\left(\mbf{F}_\xi\right).
+	\label{eq:phase_jacobian_definition}
+\end{align}
+% AGENT-LOCK-END
+where $\mbf{u}_\xi = \mbf{u}_\xi(\mbf{X}_\xi, t)$ is the phase displacement field, i.e.\ $\mbf{u}_\xi = \mbf{x} - \mbf{X}_\xi$, and $\nabla_{\mbf{X}_\xi}$ is the gradient operator in the phase reference coordinates.
+
 Let $\rho_{\xi0}^\al(\mbf X_\xi)$ denote the initial component partial density,
 evaluated at $\mbf x(t=0)=\mbf X_\xi$.  Let
 $\mathcal{C}^\al_\xi(\mbf X_\xi,t)$ denote the mass of component $\alpha$ added
@@ -255,7 +263,7 @@ where $\rho = \sum_\xi \rho_\xi$ is the mixture density and $\mbf v$ is the
 barycentric mixture velocity
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\mbf{v} = \frac{1}{\rho} \sum_\xi \rho_\xi \mbf{v}_\xi
+	\mbf{v} = \frac{1}{\rho} \sum_\xi \rho_\xi \mbf{v}_\xi.
 \end{align}
 % AGENT-LOCK-END
 %

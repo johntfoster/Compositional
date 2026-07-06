@@ -3,7 +3,7 @@
 \label{sec:coleman_noll_compositional}
 
 This subsection records the thermodynamic restrictions associated with the
-constitutive specialization introduced above.  Mobile phases remain phase-level
+constitutive specialization introduced above.  Fluid phases remain phase-level
 equation-of-state phases with composition variables.  The solid phases form the
 set \(\mc S\); each \(s\in\mc S\) is a one-component mineral phase with active
 component label \(s\), mass fraction \(\eta_s^s=1\), and common skeleton
@@ -20,16 +20,16 @@ formulation and do not introduce additional Coleman--Noll coefficients unless a
 constrained variable is an argument of a constitutive free energy.  Following
 the standard Liu multiplier exploitation of constrained entropy
 inequalities~\cite{liu1972method}, identically vanishing constraint-rate terms
-may be added before collecting coefficients.  Mobile composition enters because
-the mobile free energies depend explicitly on \(\eta_l^\alpha\); its rate is
+may be added before collecting coefficients.  Fluid composition enters because
+the fluid free energies depend explicitly on \(\eta_f^\alpha\); its rate is
 therefore restricted to the tangent space of the mass-fraction constraint,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\sum_\alpha\eta_l^\alpha=1,
+	\sum_\alpha\eta_f^\alpha=1,
 	\qquad
-	\sum_\alpha\dot\eta_l^\alpha=0,
+	\sum_\alpha\dot\eta_f^\alpha=0,
 	\qquad
-	l\in\mc M .
+	f\in\mc F .
 	\label{eq:CN_mass_fraction_tangent_constraint}
 \end{equation}
 % AGENT-LOCK-END
@@ -44,16 +44,16 @@ For the solid phases, the corresponding specialization is the point constraint
 	\label{eq:CN_solid_composition_projected_restriction}
 \end{equation}
 % AGENT-LOCK-END
-Thus no solid composition projection analogous to the mobile projection is left
+Thus no solid composition projection analogous to the fluid projection is left
 after the one-component mineral-phase restriction.
 
 The Coleman--Noll calculation can be written with phase-level Helmholtz
-potentials for both mobile and solid phases.  For a mobile phase \(l\), let
+potentials for both fluid and solid phases.  For a fluid phase \(f\), let
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	e_l=\psi_l+\theta s_l,
+	e_f=\psi_f+\theta s_f,
 	\qquad
-	\psi_l=\psi_l(\bar\rho_l,\eta_l^\beta,\theta).
+	\psi_f=\psi_f(\bar\rho_f,\eta_f^\beta,\theta).
 	\label{eq:CN_fluid_legendre_relation}
 \end{equation}
 % AGENT-LOCK-END
@@ -77,7 +77,7 @@ phase/component pair \((s,s)\); the free-energy derivatives below use
 The held-fixed state sets used below are
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\mc F=\{\bar\rho_l,\eta_l^\beta,\theta\},
+	\mc X_f=\{\bar\rho_f,\eta_f^\beta,\theta\},
 	\qquad
 	\mc X_s=\{\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s^s,\theta\},
 	\qquad
@@ -85,11 +85,11 @@ The held-fixed state sets used below are
 	\label{eq:CN_state_set_collection}
 \end{equation}
 % AGENT-LOCK-END
-Equivalently, for the mobile phases,
+Equivalently, for the fluid phases,
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\mc F
-	=\left\{\bar\rho_l,\eta_l^\beta,\theta\right\}.
+	\mc X_f
+	=\left\{\bar\rho_f,\eta_f^\beta,\theta\right\}.
 	\label{eq:CN_fluid_state_variables}
 \end{equation}
 % AGENT-LOCK-END
@@ -99,7 +99,7 @@ When a derivative is written for a generic phase, let
 	\mc X_\xi =
 	\begin{cases}
 		\mc X_s, & \xi=s\in\mc S, \\
-		\mc F,   & \xi=l\in\mc M .
+		\mc X_f,   & \xi=f\in\mc F .
 	\end{cases}
 	\label{eq:CN_generic_state_set}
 \end{equation}
@@ -176,11 +176,11 @@ component in a solid phase has the same intrinsic density rate as the phase:
 The fluid-phase free-energy rates entering the entropy inequality are
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\sum_l\rho_l\dot\psi_l
-	 & =\sum_l\rho_l\left(
-	\left.\p{\psi_l}{\bar\rho_l}\heldfixed{\mc F}\dot{\bar\rho}_l
-	+\sum_\beta\left.\p{\psi_l}{\eta_l^\beta}\heldfixed{\mc F}\dot\eta_l^\beta
-	+\left.\p{\psi_l}{\theta}\heldfixed{\mc F}\dot\theta
+	\sum_{f\in\mc F}\rho_f\dot\psi_f
+	 & =\sum_{f\in\mc F}\rho_f\left(
+	\left.\p{\psi_f}{\bar\rho_f}\heldfixed{\mc X_f}\dot{\bar\rho}_f
+	+\sum_\beta\left.\p{\psi_f}{\eta_f^\beta}\heldfixed{\mc X_f}\dot\eta_f^\beta
+	+\left.\p{\psi_f}{\theta}\heldfixed{\mc X_f}\dot\theta
 	\right).
 	\label{eq:CN_fluid_free_energy_rate}
 \end{align}
@@ -188,13 +188,13 @@ The fluid-phase free-energy rates entering the entropy inequality are
 The dependent quantities are
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\rho_l^\alpha
-	 & = \phi_l\bar\rho_l\eta_l^\alpha,
+	\rho_f^\alpha
+	 & = \phi_f\bar\rho_f\eta_f^\alpha,
 	\notag                                                   \\
 	\rho_s^s
 	 & = \phi_s\bar\rho_s^s,
 	\notag                                                   \\
-	\sum_\alpha\eta_l^\alpha
+	\sum_\alpha\eta_f^\alpha
 	 & = 1,
 	\qquad
 	\eta_s^s=1,
@@ -240,46 +240,46 @@ plastic true deformation is isochoric:
 \end{equation*}
 % AGENT-LOCK-END
 
-The mobile-phase Helmholtz energies are phase EOS potentials using the
+The fluid-phase Helmholtz energies are phase EOS potentials using the
 fluid-state variables in \eqref{eq:CN_fluid_state_variables}.  They are not
 assumed to decompose into mass-fraction averages of component Helmholtz
-energies.  No elastic stress power is assigned to the mobile phases, so
+energies.  No elastic stress power is assigned to the fluid phases, so
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bs\sigma_l'=\mbf 0 .
-	\label{eq:CN_mobile_stress_free}
+	\bs\sigma_f'=\mbf 0 .
+	\label{eq:CN_fluid_stress_free}
 \end{equation}
 % AGENT-LOCK-END
 
 The reversible interfacial energy used in the variational formulation must also
 be included in the entropy bookkeeping.  The argument
-\(\left\{S_l\right\}_{l\in\mc M}\) denotes the constrained mobile saturation
-state defined in \eqref{eq:mobile_saturation_definitions}.  For thermal
+\(\left\{S_f\right\}_{f\in\mc F}\) denotes the constrained fluid saturation
+state defined in \eqref{eq:fluid_saturation_definitions}.  For thermal
 reservoir simulation, the interfacial energy is allowed to depend on temperature
 through the interfacial tension, as in the standard capillary-pressure scaling
-used in reservoir engineering \cite{leverett1941capillary}.  For the mobile
+used in reservoir engineering \cite{leverett1941capillary}.  For the fluid
 phases,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\psi_\gamma^{\rm vol}
-	=\phi\gamma\left(\left\{S_l\right\}_{l\in\mc M},\theta\right),
+	=\phi\gamma\left(\left\{S_f\right\}_{f\in\mc F},\theta\right),
 	\qquad
 	\dot\psi_\gamma^{\rm vol}
-	=\sum_l\gamma_l\dot\phi_l
+	=\sum_{f\in\mc F}\gamma_f\dot\phi_f
 	+\phi
-	\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\dot\theta,
+	\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\dot\theta,
 	\label{eq:CN_interfacial_helmholtz_rate}
 \end{equation}
 % AGENT-LOCK-END
-where \(\gamma_l\) are the interfacial variation coefficients collected in
-\eqref{eq:primitive_gamma_derivatives}, with the constrained mobile saturation
+where \(\gamma_f\) are the interfacial variation coefficients collected in
+\eqref{eq:primitive_gamma_derivatives}, with the constrained fluid saturation
 state held fixed for the temperature derivative.  The associated interfacial
 entropy per current volume is
-\(-\phi\,\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\).
+\(-\phi\,\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\).
 
 Source mass is assigned the thermodynamic state of the phase in which the source
-appears.  Thus mobile source mass carries \(e_l=\psi_l+\theta s_l\), while solid
+appears.  Thus fluid source mass carries \(e_f=\psi_f+\theta s_f\), while solid
 source mass carries \(e_s=\psi_s+\theta s_s\) with \(\psi_s\equiv\psi_s^s\).
 
 The phase energy balance is
@@ -375,7 +375,7 @@ The entropy inequality is
 Using \eqref{eq:CN_energy_balance} to eliminate \(\rho_\xi r_\xi\), and then
 using the Legendre relations \eqref{eq:CN_fluid_legendre_relation} and
 \eqref{eq:CN_solid_component_legendre_relation}, gives the reduced entropy
-inequality.  We also add the identically vanishing mobile composition-normalization
+inequality.  We also add the identically vanishing fluid composition-normalization
 rate \(\pi_\xi\sum_\alpha\dot\eta_\xi^\alpha\) and the
 volume-fraction-constraint rate \(\lambda\sum_\xi\dot\phi_\xi\).  For a
 one-component solid, the corresponding rate is identically zero because
@@ -383,8 +383,8 @@ one-component solid, the corresponding rate is identically zero because
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	0\le
-	 & \sum_\xi \left[
-	\begin{aligned}
+	 & \sum_\xi
+	\begin{aligned}[t]
 		 & \frac{1}{\theta}\left(
 		\bs\sigma_\xi':\mbf L_\xi
 		+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
@@ -396,15 +396,15 @@ one-component solid, the corresponding rate is identically zero because
 		-\rho_\xi\left(\dot\psi_\xi+s_\xi\dot\theta\right)
 		-\sum_\alpha\dot c_\xi^\alpha
 		\left(\psi_\xi+L_\xi^\alpha\right)
-		+\rho_\xi e_\xi^{\rm int}\right)                 \\
+			+\rho_\xi e_\xi^{\rm int}\right)                 \\
 		 & -\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
 	\end{aligned}
-	\right] \notag \\
+	\notag \\
 	& +\frac{1}{\theta}\left(
 	\lambda\sum_\xi\dot\phi_\xi
-	-\sum_l\gamma_l\dot\phi_l
-	-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\dot\theta
-	+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}\dot\theta
+	-\sum_{f\in\mc F}\gamma_f\dot\phi_f
+	-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\dot\theta
+	+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\dot\theta
 	\right).
 	\label{eq:CN_reduced_entropy_inequality}
 \end{align}
@@ -491,25 +491,25 @@ solid--fluid contribution:
 			(\bar{\mbf F}_s^\theta)^{-1}\right]
 	\right. \notag \\
 	& \left.
-		-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}
-		+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_l\right\}_{l\in\mc M}}
+		-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}
+		+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}
 	\right]\dot\theta
 	\notag \\
-	&+\sum_l\left[
-		\frac{\phi_l \bar p_l}{\bar\rho_l}
-		-\rho_l
-		\left.\p{\psi_l}{\bar\rho_l}\heldfixed{\mc F}
-		\right]\dot{\bar\rho}_l
-	-\sum_l\rho_l\sum_\beta
-	\left.\p{\psi_l}{\eta_l^\beta}\heldfixed{\mc F}
-	\dot\eta_l^\beta
+	&+\sum_{f\in\mc F}\left[
+		\frac{\phi_f \bar p_f}{\bar\rho_f}
+		-\rho_f
+		\left.\p{\psi_f}{\bar\rho_f}\heldfixed{\mc X_f}
+		\right]\dot{\bar\rho}_f
+	-\sum_{f\in\mc F}\rho_f\sum_\beta
+	\left.\p{\psi_f}{\eta_f^\beta}\heldfixed{\mc X_f}
+	\dot\eta_f^\beta
 	\notag \\
-	&+\sum_l\sum_\beta\left(\frac{\tau_l^\beta}{\eta_l^\beta}
-	+\pi_l\right)\dot\eta_l^\beta
+	&+\sum_{f\in\mc F}\sum_\beta\left(\frac{\tau_f^\beta}{\eta_f^\beta}
+	+\pi_f\right)\dot\eta_f^\beta
 	+\sum_\xi\left(
 	\lambda+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}
 	\right)\dot\phi_\xi
-	-\sum_l\gamma_l\dot\phi_l
+	-\sum_{f\in\mc F}\gamma_f\dot\phi_f
 	\notag \\
 	&-\sum_m\left(
 	\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha
@@ -587,12 +587,12 @@ Thus, defining the intrinsic pressure of the one-component solid phase by
 	\label{eq:CN_component_intrinsic_pressure_definition}
 \end{equation}
 % AGENT-LOCK-END
-The corresponding mobile phase pressure is
+The corresponding fluid phase pressure is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar p_l
-	=\left(\bar\rho_l\right)^2
-	\left.\p{\psi_l}{\bar\rho_l}\heldfixed{\mc F}.
+	\bar p_f
+	=\left(\bar\rho_f\right)^2
+	\left.\p{\psi_f}{\bar\rho_f}\heldfixed{\mc X_f}.
 	\label{eq:CN_phase_pressure_definition}
 \end{equation}
 % AGENT-LOCK-END
@@ -667,7 +667,7 @@ The distension coefficient gives the tensor restriction
 Taking \(\mbf A_s^e=(a_s^e)^{1/3}\mbf I\) reduces this tensor condition to the
 scalar trace relation used in the isotropic distension model.
 
-\subsubsection{Solid-volume and mobile-composition restrictions}
+\subsubsection{Solid-volume and fluid-composition restrictions}
 At this point the pressure identification
 \eqref{eq:CN_solid_pressure_identification} has removed the isotropic
 density-power term from the true-deformation contribution.  Since the solid
@@ -683,18 +683,18 @@ each solid phase volume fraction, the coefficient of \(\dot\phi_s\) gives
 	\label{eq:CN_solid_volume_fraction_restriction}
 \end{equation}
 % AGENT-LOCK-END
-For mobile phases no elastic stress-free dilation term appears, so projecting the
-mobile composition coefficient onto the constrained tangent space gives the same
+For fluid phases no elastic stress-free dilation term appears, so projecting the
+fluid composition coefficient onto the constrained tangent space gives the same
 stationarity condition obtained from Hamilton's principle in \eqref{eq:el_eta_all}:
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{empheq}[box=\fbox]{equation}
-	\rho_l\left(
-	\left.\p{\psi_l}{\eta_l^\beta}\heldfixed{\mc F}
-	-\left.\p{\psi_l}{\eta_l^N}\heldfixed{\mc F}
+	\rho_f\left(
+	\left.\p{\psi_f}{\eta_f^\beta}\heldfixed{\mc X_f}
+	-\left.\p{\psi_f}{\eta_f^N}\heldfixed{\mc X_f}
 	\right)
 	=
-	\frac{\tau_l^\beta}{\eta_l^\beta}
-	-\frac{\tau_l^N}{\eta_l^N},
+	\frac{\tau_f^\beta}{\eta_f^\beta}
+	-\frac{\tau_f^N}{\eta_f^N},
 	\qquad
 	\beta=1,\ldots,N-1 .
 	\label{eq:CN_composition_projected_restriction}
@@ -705,9 +705,9 @@ stationarity condition obtained from Hamilton's principle in \eqref{eq:el_eta_al
 The entropy coefficient gives
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	s_l
-	 & =-\left.\p{\psi_l}{\theta}\heldfixed{\mc F},
-	\qquad l\in\mc M, \notag                  \\
+	s_f
+	 & =-\left.\p{\psi_f}{\theta}\heldfixed{\mc X_f},
+	\qquad f\in\mc F, \notag                  \\
 	\rho_s s_s
 	 & =-\rho_s
 	\left.\p{\psi_s}{\theta}\heldfixed{\mc X_s}

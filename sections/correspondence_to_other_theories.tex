@@ -22,7 +22,7 @@ vector $\mbf R=\bs\nu\mbf q$.  Summing \eqref{eq:spatial_mass_2} over phases giv
 	\label{eq:classical_component_balance}
 \end{equation}
 %
-To see the usual reservoir form, restrict attention to the mobile pore phases and
+To see the usual reservoir form, restrict attention to the fluid pore phases and
 write their volume fractions as
 %
 \begin{equation}
@@ -85,11 +85,11 @@ are summed in a compositional simulator.  A standard Darcy closure supplies
 %
 possibly with capillary-pressure relations between the phase pressures.  In the
 present theory this is not postulated at the balance-law level: it is a closure
-that replaces the mobile-phase momentum equation
-\eqref{eq:el_mom_l_simplified} after inertia,
+that replaces the fluid-phase momentum equation
+\eqref{eq:el_mom_f_simplified} after inertia,
 body interactions, and conversion-momentum terms have been specialized.
 
-Summing \eqref{eq:classical_phase_molar_darcy_balance} over mobile phases yields
+Summing \eqref{eq:classical_phase_molar_darcy_balance} over fluid phases yields
 %
 \begin{equation}
 	\frac{\partial}{\partial t}
@@ -115,7 +115,7 @@ compositions.
 The remaining algebraic structure of a traditional compositional simulator is
 also recovered as a closure of the present variables.  The volume-fraction
 constraint \eqref{eq:classical_saturation_identification} is written in
-mobile-phase saturation coordinates after the solid volume fraction has been
+fluid-phase saturation coordinates after the solid volume fraction has been
 separated.  The
 within-phase composition constraints are
 %
@@ -198,15 +198,15 @@ one-component solid phases, the closed conversion-potential equation is
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
 	\label{eq:mu_interpretation_entropy_closure_unified}
 \end{equation}
-Equivalently, separating mobile and solid phases gives
+Equivalently, separating fluid and solid phases gives
 \begin{subequations}
 	\label{eq:mu_interpretation_entropy_closure}
 	\begin{align}
-		\frac{D_l\mu_l^\alpha}{Dt}
-		 & =\frac{1}{2}\mbf v_l\cdot\mbf v_l
-		-\mu_l^\alpha
-		-\frac{\tau_l^\alpha}{\phi_l\bar\rho_l\eta_l^\alpha},
-		\qquad l\hbox{ mobile},              \\
+		\frac{D_f\mu_f^\alpha}{Dt}
+		 & =\frac{1}{2}\mbf v_f\cdot\mbf v_f
+		-\mu_f^\alpha
+		-\frac{\tau_f^\alpha}{\phi_f\bar\rho_f\eta_f^\alpha},
+		\qquad f\in\mc F,                   \\
 		\frac{D_s\mu_s^s}{Dt}
 		 & =\frac{1}{2}\mbf v_s\cdot\mbf v_s
 		-\mu_s^s

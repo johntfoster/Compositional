@@ -4,10 +4,8 @@
 
 We derive the governing equations from Hamilton's extended principle, following
 Bedford and Drumheller~\cite{drumheller1980thermomechanical}.  The formulation
-is written for a compositional mixture containing a solid phase and an arbitrary
-set $\mc M$ of mobile pore phases.  The symbols $l,k,w,n\in\mc M$ denote mobile
-phases, while $\xi$ ranges over all phases.  Components within each phase are
-indexed by $\alpha$.
+is written for a compositional mixture containing arbitrary sets of solid $\mc S$ and fluid $\mc F$ phases.  Here fluid means a nonsolid pore phase, such
+as an aqueous, oleic, or gas phase.  The symbol $s \in \mc{S}$ denotes solid phases and $f \in\mc F$ denotes fluid phases, while $\xi$ ranges over all phases.  Components within each phase are indexed by $\alpha$.
 
 \subsection{Variational principle and its terms}
 
@@ -19,14 +17,14 @@ The extended Hamilton's principle is
 \end{equation*}
 % AGENT-LOCK-END
 %
-with kinetic energy, internal energy, virtual work, and four constraints:
+with kinetic energy $T$, internal energy $U$, virtual work $\delta W$, and four constraints:
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	T        & = \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \dv,
 	\label{eq:T_def}                                                                                                                                                                                                \\
 	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \eta^\al_{\xi})\dv
-	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_l\right\}_{l\in\mc M}, \theta\right) \dv,
+	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F}\right) \dv,
 	\label{eq:U_def}                                                                                                                                                                                                \\
 	\delta W & = \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv
 	-\sum_\xi\sum_\alpha\int_{\mc B}L_\xi^\alpha
@@ -142,8 +140,7 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 \label{sec:var_Uxi}
 % ============================================================
 
-For every phase, solid or mobile\footnote{The term \emph{mobile} denotes the
-	nonsolid pore phases: aqueous, oleic, and gas.}, let $\psi_\xi$ denote the
+For every phase, solid or fluid, let $\psi_\xi$ denote the
 specific Helmholtz free energy.  The corresponding contribution to the total
 free energy is written
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
@@ -155,7 +152,7 @@ free energy is written
 % AGENT-LOCK-END
 Here $\eta_\xi^\beta$ denotes the full list of component mass fractions
 $\{\eta_\xi^1,\ldots,\eta_\xi^N\}$; the index $\beta$ is not summed in this argument list.
-The constitutive dependence on $\mbf F_\xi$ may be trivial for mobile phases,
+The constitutive dependence on $\mbf F_\xi$ may be trivial for fluid phases,
 but keeping it in the notation allows one calculation for all phases.  The local
 free-energy variation is
 %
@@ -188,7 +185,7 @@ and collecting independent variations gives
 \end{align}
 % AGENT-LOCK-END
 %
-The corresponding Cauchy effective stress is
+The corresponding Cauchy effective stress\footnote{Here we use the single primed stress notation $\bs{\sigma}^\prime$ to represent a Terzaghi effective stress, i.e. $\bar\rho_\xi$ held fixed.  Later we will introduce a double-primed stress $\bs{\sigma}^{\prime\prime}$ as a Biot effective stress, i.e. pressure $\bar{p}_\xi$ held fixed.} is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -198,7 +195,7 @@ The corresponding Cauchy effective stress is
 \end{align}
 % AGENT-LOCK-END
 %
-For mobile phases this term vanishes when $\psi_\xi$ has no dependence on
+For fluid phases this term vanishes when $\psi_\xi$ has no dependence on
 $\mbf F_\xi$.
 
 
@@ -208,37 +205,33 @@ $\mbf F_\xi$.
 \label{sec:var_gamma}
 % ============================================================
 
-Let $\mc I$ denote the set of oriented mobile interfaces.  Each
+Let $\mc I$ denote the set of oriented fluid interfaces.  Each
 $(w,n)\in\mc I$ identifies a wetting phase $w$ and a non-wetting phase $n$.
-The total mobile volume fraction and the mobile saturations are
+The total fluid volume fraction and the fluid saturations are
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\phi = \sum_{l\in\mc M}\phi_l,
+	\phi = \sum_{f\in\mc F}\phi_f,
 	\qquad
-	S_l = \frac{\phi_l}{\phi},
+	S_f = \frac{\phi_f}{\phi},
 	\qquad
-	\sum_{l\in\mc M}S_l=1 .
-	\label{eq:mobile_saturation_definitions}
+	\sum_{f\in\mc F}S_f=1 .
+	\label{eq:fluid_saturation_definitions}
 \end{equation}
 % AGENT-LOCK-END
 The saturations are used here only as ratios of the primitive volume-fraction
 fields; the variations are still taken with respect to the primitive
-$\phi_l$.  The notation $\left\{S_l\right\}_{l\in\mc M}$ denotes the mobile
+$\phi_f$.  The notation $\left\{S_f\right\}_{f\in\mc F}$ denotes the fluid
 saturation state subject to the constraint in
-\eqref{eq:mobile_saturation_definitions}.  Thus the energy may be written in
-terms of any independent set of mobile saturations, with the remaining
+\eqref{eq:fluid_saturation_definitions}.  Thus the energy may be written in
+terms of any independent set of fluid saturations, with the remaining
 saturation determined by the constraint; the derivation below keeps the
-constraint explicit instead of choosing a reference mobile phase.  For thermal
-reservoir simulation the interfacial energy is allowed to depend on
-temperature, consistent with the standard capillary-pressure scaling by
-interfacial tension in reservoir engineering \cite{leverett1941capillary}.  The
-effective mobile interfacial energy density is a single constitutive potential
-of this constrained saturation state and temperature, and it is not assumed to
-decompose into additive pair contributions:
+constraint explicit instead of choosing a reference fluid phase.   The
+effective fluid interfacial energy density is a single constitutive potential
+of this constrained saturation state
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\gamma =
-	\gamma\left(\left\{S_l\right\}_{l\in\mc M},\theta\right).
+	\gamma\left(\left\{S_f\right\}_{f\in\mc F}\right).
 	\label{eq:interfacial_energy_density}
 \end{equation}
 % AGENT-LOCK-END
@@ -248,7 +241,7 @@ and the corresponding contribution to the internal energy is
 \begin{equation}
 	U \supset U_\gamma =
 	\int_{\mc{B}}
-	\phi\,\gamma\left(\left\{S_l\right\}_{l\in\mc M},\theta\right)
+	\phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F}\right)
 	\dv .
 	\label{eq:interfacial_internal_energy}
 \end{equation}
@@ -257,7 +250,7 @@ and the corresponding contribution to the internal energy is
 Before varying the interfacial energy, record the transported variation of the
 phase-attached volume fractions.  The Bedford--Drumheller spatial identity
 (cf.\ \cite{drumheller1980thermomechanical} equation (1.25)) gives, for each
-mobile phase field $\phi_l$,
+fluid phase field $\phi_f$,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -270,9 +263,9 @@ mobile phase field $\phi_l$,
 Using
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\delta\phi=\sum_{l\in\mc M}\delta\phi_l,
+	\delta\phi=\sum_{f\in\mc F}\delta\phi_f,
 	\qquad
-	\delta S_l=\frac{\delta\phi_l-S_l\delta\phi}{\phi},
+	\delta S_f=\frac{\delta\phi_f-S_f\delta\phi}{\phi},
 	\label{eq:saturation_variations}
 \end{equation}
 % AGENT-LOCK-END
@@ -285,15 +278,15 @@ calculation:
 	\delta U_\gamma
 	 & = \int_{\mc B}\left[
 	\gamma\,\delta\phi
-	+\sum_{l\in\mc M}
-	\left.\p{\gamma}{S_l}\right\vert_{\theta,S_{k\neq l}}
-	\left(\delta\phi_l-S_l\delta\phi\right)
+	+\sum_{f\in\mc F}
+	\left.\p{\gamma}{S_f}\right\vert_{\theta,S_{g\neq f}}
+	\left(\delta\phi_f-S_f\delta\phi\right)
 	\right]\dv \notag                                          \\
 	 & \quad
-	-\int_{\mc B}\sum_{l\in\mc M}
-	\gamma_l\nabla_{\mbf x}\phi_l\cdot\delta\mbf x_l\dv \notag \\
-	 & = \int_{\mc B}\sum_{l\in\mc M}\gamma_l\delta\phi_l\dv
-	-\int_{\mc B}\sum_{l\in\mc M}\gamma_l\nabla_{\mbf x}\phi_l\cdot\delta\mbf x_l\dv .
+	-\int_{\mc B}\sum_{f\in\mc F}
+	\gamma_f\nabla_{\mbf x}\phi_f\cdot\delta\mbf x_f\dv \notag \\
+	 & = \int_{\mc B}\sum_{f\in\mc F}\gamma_f\delta\phi_f\dv
+	-\int_{\mc B}\sum_{f\in\mc F}\gamma_f\nabla_{\mbf x}\phi_f\cdot\delta\mbf x_f\dv .
 	\label{eq:deltaU_fg}
 \end{align}
 % AGENT-LOCK-END
@@ -302,12 +295,12 @@ The phase interfacial potential appearing in \eqref{eq:deltaU_fg} is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	\gamma_l
+	\gamma_f
 	=
 	\gamma
-	+\left.\p{\gamma}{S_l}\right\vert_{\theta,S_{k\neq l}}
-	-\sum_{k\in\mc M}S_k
-	\left.\p{\gamma}{S_k}\right\vert_{\theta,S_{j\neq k}},
+	+\left.\p{\gamma}{S_f}\right\vert_{\theta,S_{g\neq f}}
+	-\sum_{g\in\mc F}S_g
+	\left.\p{\gamma}{S_g}\right\vert_{\theta,S_{h\neq g}},
 	\label{eq:primitive_gamma_derivatives}
 \end{equation}
 % AGENT-LOCK-END
@@ -489,13 +482,13 @@ Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\
 	+ \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
 	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag                                                                                                              \\
 	    & + \int_{\mc B}\Big[
-		\sum_{l\in\mc M}
-		\gamma_l\nabla_{\mbf x}\phi_l\cdot\delta\mbf x_l
+		\sum_{f\in\mc F}
+		\gamma_f\nabla_{\mbf x}\phi_f\cdot\delta\mbf x_f
 	\Big]\dv \notag                                                                                                                                          \\
 	    & + \sum_\xi \int_{\mc{B}} \Bigg[
 		\lambda + \sum_\alpha \frac{\tau_{\xi}^\alpha}{\phi_{\xi}}
 	\Bigg] \delta\phi_{\xi} \,\dv \notag                                                                                                                     \\
-	    & - \int_{\mc B}\sum_{l\in\mc M}\gamma_l\delta\phi_l\dv \notag                                                                                       \\
+	    & - \int_{\mc B}\sum_{f\in\mc F}\gamma_f\delta\phi_f\dv \notag                                                                                       \\
 	    & + \sum_{\xi}\int_{\mc{B}} \Bigg[
 		-\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\eta_\xi^\beta}
 		+ \sum_\alpha\frac{\tau_{\xi}^\alpha}{\bar\rho_{\xi}}
@@ -528,7 +521,7 @@ for phases without an explicit capillary contribution,
 \end{equation}
 % AGENT-LOCK-END
 %
-For the mobile phases the corresponding equations contain the primitive
+For the fluid phases the corresponding equations contain the primitive
 capillary potentials discussed below.
 
 Substituting \eqref{eq:el_lambda} into the Euler-Lagrange equations associated with arbitrary $\delta \mbf{x}_\xi$ and simplifying gives
@@ -543,7 +536,7 @@ Substituting \eqref{eq:el_lambda} into the Euler-Lagrange equations associated w
 \end{equation}
 % AGENT-LOCK-END
 %
-with the mobile-phase capillary-force additions displayed separately below.
+with the fluid-phase capillary-force additions displayed separately below.
 
 The Euler--Lagrange equation associated with arbitrary $\delta\bar\rho_\xi$ gives
 %
@@ -558,15 +551,15 @@ The Euler--Lagrange equation associated with arbitrary $\delta\bar\rho_\xi$ give
 %
 and defines the thermodynamic phase pressures $\bar{p}_\xi$.
 
-Let $l\in\mc M$ denote a mobile phase.
-The coefficient of $\delta\phi_l$ in \eqref{eq:collected_full} includes the
-primitive interfacial potential $\gamma_l$, so the mobile-phase volume-fraction
+Let $f\in\mc F$ denote a fluid phase.
+The coefficient of $\delta\phi_f$ in \eqref{eq:collected_full} includes the
+primitive interfacial potential $\gamma_f$, so the fluid-phase volume-fraction
 relation is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\lambda+\sum_\alpha\frac{\tau_l^\alpha}{\phi_l}-\gamma_l=0.
-	\label{eq:mobile_volume_fraction_el_relation}
+	\lambda+\sum_\alpha\frac{\tau_f^\alpha}{\phi_f}-\gamma_f=0.
+	\label{eq:fluid_volume_fraction_el_relation}
 \end{equation}
 % AGENT-LOCK-END
 %
@@ -574,20 +567,20 @@ Using \eqref{eq:phase_pressure_all} gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\lambda+\bar p_l-\gamma_l=0,
+	\lambda+\bar p_f-\gamma_f=0,
 	\qquad\hbox{or}\qquad
-	\bar p_l=\gamma_l-\lambda .
-	\label{eq:mobile_pressure_primitive_potential_relation}
+	\bar p_f=\gamma_f-\lambda .
+	\label{eq:fluid_pressure_primitive_potential_relation}
 \end{equation}
 % AGENT-LOCK-END
 %
-Consequently pressure differences between mobile phases are exactly the
+Consequently pressure differences between fluid phases are exactly the
 differences of the primitive interfacial potentials,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar p_l-\bar p_k=\gamma_l-\gamma_k .
-	\label{eq:mobile_pressure_difference_primitive_potential}
+	\bar p_f-\bar p_g=\gamma_f-\gamma_g .
+	\label{eq:fluid_pressure_difference_primitive_potential}
 \end{equation}
 % AGENT-LOCK-END
 %
@@ -602,7 +595,7 @@ recovered:
 \end{equation}
 % AGENT-LOCK-END
 %
-For two mobile phases with $\mc M=\{w,n\}$ and one oriented pair $(w,n)$, this
+For two fluid phases with $\mc F=\{w,n\}$ and one oriented pair $(w,n)$, this
 reduces to the usual two-phase capillary pressure.  If the interfacial energy is
 parameterized by the wetting saturation $S_w$, then
 $p_{c,nw}=-\partial\gamma/\partial S_w$.
@@ -617,14 +610,14 @@ volume constraint.  Define
 \end{equation}
 % AGENT-LOCK-END
 %
-Multiplying $\bar p_l=\gamma_l+\bar p_E$ by the mobile saturations and summing
-over mobile phases gives
+Multiplying $\bar p_f=\gamma_f+\bar p_E$ by the fluid saturations and summing
+over fluid phases gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\sum_l S_l\bar p_l
+	\sum_{f\in\mc F} S_f\bar p_f
 	=
-	\bar p_E+\sum_l S_l\gamma_l .
+	\bar p_E+\sum_{f\in\mc F} S_f\gamma_f .
 	\label{eq:saturation_weighted_pressure_sum}
 \end{equation}
 % AGENT-LOCK-END
@@ -633,7 +626,7 @@ The primitive potentials satisfy
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\sum_l S_l\gamma_l
+	\sum_{f\in\mc F} S_f\gamma_f
 	=
 	\gamma .
 	\label{eq:saturation_weighted_primitive_potential_sum}
@@ -644,7 +637,7 @@ Therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\boxed{\bar p_E=\sum_l S_l\bar p_l-\gamma} .
+	\boxed{\bar p_E=\sum_{f\in\mc F} S_f\bar p_f-\gamma} .
 	\label{eq:equivalent_pore_pressure_capillary_relation}
 \end{equation}
 % AGENT-LOCK-END
@@ -684,21 +677,7 @@ componentwise as
 \end{equation}
 % AGENT-LOCK-END
 %
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{align}
-	\rho_{\xi}\left(
-	\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\alpha}}
-	- \left.\p{\psi_{\xi}}{\eta_{\xi}^\beta}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq\beta}}
-	\right)
-	 & = \frac{\tau_{\xi}^\alpha}{\eta_{\xi}^\alpha}
-	- \frac{\tau_{\xi}^\beta}{\eta_{\xi}^\beta}.
-	\label{eq:pi_difference}
-\end{align}
-% AGENT-LOCK-END
 %
-Here $\kappa$ denotes the collection of composition components held fixed in the
-partial derivative; it is not summed.
-
 Choosing component $N$ as the reference and comparing against
 $\beta=1,\ldots,N-1$ gives a system of $N-1$ equations,
 %
@@ -715,6 +694,9 @@ $\beta=1,\ldots,N-1$ gives a system of $N-1$ equations,
 \end{align}
 % AGENT-LOCK-END
 %
+Here $\kappa$ denotes the collection of composition components held fixed in the
+partial derivative; it is not summed.
+
 The equations associated with the conversion variables are
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
@@ -751,36 +733,36 @@ conversion-work potential.  An admissible choice of $L_\xi^\alpha$ is identified
 by the Coleman--Noll argument in
 Section~\ref{sec:constitutive_models_entropy_inequality}.
 
-\subsection{Mobile-phase momentum equations}
-\label{sec:mobile_phase_momentum}
+\subsection{Fluid-phase momentum equations}
+\label{sec:fluid_phase_momentum}
 
-For any mobile phase $l\in\mc M$, the scalar-transport capillary contribution
+For any fluid phase $f\in\mc F$, the scalar-transport capillary contribution
 gives the intermediate form
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\rho_l\mbf a_l
-	 & = \nabla_{\mbf x}\cdot\bs\sigma'_l + \rho_l\mbf g + \mbf b_l
-	-\lambda\nabla_{\mbf x}\phi_l
-	-\sum_\alpha\nabla_{\mbf x}\tau_l^\alpha
-	+\gamma_l\nabla_{\mbf x}\phi_l
-	+ \sum_\alpha \dot c_l^{\alpha}\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf{v}_l\right).
-	\label{eq:el_mom_l_start}
+	\rho_f\mbf a_f
+	 & = \nabla_{\mbf x}\cdot\bs\sigma'_f + \rho_f\mbf g + \mbf b_f
+	-\lambda\nabla_{\mbf x}\phi_f
+	-\sum_\alpha\nabla_{\mbf x}\tau_f^\alpha
+	+\gamma_f\nabla_{\mbf x}\phi_f
+	+ \sum_\alpha \dot c_f^{\alpha}\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf{v}_f\right).
+	\label{eq:el_mom_f_start}
 \end{align}
 % AGENT-LOCK-END
 %
-Using $\sum_\alpha\tau_l^\alpha=\phi_l\bar p_l$ and
-$\lambda+\bar p_l-\gamma_l=0$, the multiplier and interfacial-gradient terms
+Using $\sum_\alpha\tau_f^\alpha=\phi_f\bar p_f$ and
+$\lambda+\bar p_f-\gamma_f=0$, the multiplier and interfacial-gradient terms
 collapse as
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	-\lambda\nabla_{\mbf x}\phi_l
-	-\nabla_{\mbf x}\left(\phi_l\bar p_l\right)
-	+\gamma_l\nabla_{\mbf x}\phi_l
+	-\lambda\nabla_{\mbf x}\phi_f
+	-\nabla_{\mbf x}\left(\phi_f\bar p_f\right)
+	+\gamma_f\nabla_{\mbf x}\phi_f
 	=
-	-\phi_l\nabla_{\mbf x}\bar p_l .
-	\label{eq:mobile_capillary_pressure_gradient_collapse}
+	-\phi_f\nabla_{\mbf x}\bar p_f .
+	\label{eq:fluid_capillary_pressure_gradient_collapse}
 \end{equation}
 % AGENT-LOCK-END
 %
@@ -788,12 +770,12 @@ The standard phase pressure-gradient form is therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{empheq}[box=\fbox]{equation}
-	\rho_l\mbf{a}_l
-	= \rho_l\mbf{g} + \mbf{b}_l
-	- \phi_l\nabla_{\mbf{x}}\bar p_l
-	+ \sum_\alpha \dot c_l^{\alpha}\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf{v}_l\right),
-	\qquad l\in\mc M .
-	\label{eq:el_mom_l_simplified}
+	\rho_f\mbf{a}_f
+	= \rho_f\mbf{g} + \mbf{b}_f
+	- \phi_f\nabla_{\mbf{x}}\bar p_f
+	+ \sum_\alpha \dot c_f^{\alpha}\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf{v}_f\right),
+	\qquad f\in\mc F .
+	\label{eq:el_mom_f_simplified}
 \end{empheq}
 % AGENT-LOCK-END
 %
@@ -1032,16 +1014,15 @@ the one-component specialization gives
 % AGENT-LOCK-END
 %
 The reference stress transformation is now clean because
-\eqref{eq:solid_true_mass_conservation} maps each solid phase intrinsic density
-directly through the common true Jacobian.  Define the intrinsic first
-Piola--Kirchhoff stress by
+\eqref{eq:material_mass_2} maps each solid phase partial density through the
+common true Jacobian.  Define the partial first Piola--Kirchhoff stress by
 %
 \begin{equation}
-	\bar{\mbf P}_s'
+	\mbf P_s'
 	=
-	\bar\rho_{s0}^s
+	\rho_{s0}^s
 	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}.
-	\label{eq:solid_component_intrinsic_pk_stress_definition}
+	\label{eq:solid_component_partial_pk_stress_definition}
 \end{equation}
 %
 The single-prime Cauchy stress carried by solid phase \(s\) and its intrinsic
@@ -1055,10 +1036,10 @@ counterpart are
 		 & =\sum_{s\in\mc S}\phi_s\bar{\bs\sigma}_s',
 		\label{eq:solid_final_partial_stress_sum_rule}       \\
 		\bs\sigma_s'
-	 & =
-	\rho_s
-	\mbf A_s^{-T}
-	\left(
+		 & =
+		\rho_s
+		\mbf A_s^{-T}
+		\left(
 		\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
 		(\bar{\mbf F}_s^e)^T
 		\right)
@@ -1078,16 +1059,16 @@ counterpart are
 \end{subequations}
 % AGENT-LOCK-END
 %
-Using \(\bar J_s\bar\rho_s^s=\bar\rho_{s0}^s\), the intrinsic stress has the
-standard Piola form inside the distension map:
+Using \(\bar{J}_s \bar\rho_s=\bar\rho_{s0}^s\), the partial stress has the standard Piola form
+inside the distension map:
 %
 \begin{equation}
-	\bar{\bs\sigma}_s'
+	\bs\sigma_s'
 	=
 	\mbf A_s^{-T}
 	\left(
-	\frac{1}{\bar J_s}
-	\bar{\mbf P}_s'
+	\frac{1}{\bar{J}_s}
+	\mbf P_s'
 	(\bar{\mbf F}_s^e)^T
 	\right)
 	\mbf A_s^T .
@@ -1128,29 +1109,29 @@ temperature dependence, solid-volume-fraction dependence, and the reversible
 distension response.
 
 The same structure gives the overall momentum equation.  Summing the phase
-momentum balances, using the mobile-phase pressure relations, and retaining the
+momentum balances, using the fluid-phase pressure relations, and retaining the
 conversion-momentum terms gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\begin{aligned}
 		\sum_\xi\rho_\xi\mbf a_\xi
-		={}& \nabla_{\mbf x}\cdot\left(\sum_{s\in\mc S}\bs\sigma_s'\right)
+		={} & \nabla_{\mbf x}\cdot\left(\sum_{s\in\mc S}\bs\sigma_s'\right)
 		+\rho\mbf g+\sum_\xi\mbf b_\xi
 		-\sum_{s\in\mc S}\phi_s\nabla_{\mbf x}\bar p_E
-		-\sum_l\phi_l\nabla_{\mbf x}\bar p_l \\
-		&+\sum_l\sum_\alpha\dot c_l^\alpha\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_l\right)
+		-\sum_{f\in\mc F}\phi_f\nabla_{\mbf x}\bar p_f                                                     \\
+		    & +\sum_{f\in\mc F}\sum_\alpha\dot c_f^\alpha\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right)
 		+\sum_{s\in\mc S}\dot c_s^s\left(\nabla_{\mbf x}\mu_s^s-\mbf v_s\right).
 	\end{aligned}
 	\label{eq:overall_momentum_phase_pressure_form}
 \end{equation}
 % AGENT-LOCK-END
 %
-where \(l\) ranges over the mobile pore phases and \(\rho=\sum_\xi\rho_\xi\).
+where \(f\) ranges over the fluid pore phases and \(\rho=\sum_\xi\rho_\xi\).
 This is the pressure form of the capillary force.  The
-primitive potentials $\gamma_l$ are useful in the variation, but the
+primitive potentials $\gamma_f$ are useful in the variation, but the
 volume-fraction Euler--Lagrange relation and the component-storage multiplier
-relation combine through \eqref{eq:mobile_capillary_pressure_gradient_collapse}.
+relation combine through \eqref{eq:fluid_capillary_pressure_gradient_collapse}.
 The final balance is therefore written in terms of phase pressure gradients,
 which is the form used in compositional flow.
 For a closed mixture with pairwise internal interactions,
@@ -1165,20 +1146,20 @@ For a closed mixture with pairwise internal interactions,
 The same Euler--Lagrange relations also give the pressure-gradient collapse
 needed to compare with the equivalent-pressure form used in multiphase
 poromechanics.  Since
-$\phi\gamma\left(\left\{S_l\right\}_{l\in\mc M},\theta\right)$ is homogeneous
-of degree one in the primitive mobile volume fractions, Euler's theorem gives
-$\phi\gamma=\sum_l\phi_l\gamma_l$, or $\gamma=\sum_lS_l\gamma_l$.  Taking the
+$\phi\gamma\left(\left\{S_f\right\}_{f\in\mc F},\theta\right)$ is homogeneous
+of degree one in the primitive fluid volume fractions, Euler's theorem gives
+$\phi\gamma=\sum_{f\in\mc F}\phi_f\gamma_f$, or $\gamma=\sum_{f\in\mc F}S_f\gamma_f$.  Taking the
 differential of this Euler relation and subtracting the defining differential
-$d(\phi\gamma)=\sum_l\gamma_l\,d\phi_l$ gives the Gibbs--Duhem identity
-$\sum_l\phi_l\,d\gamma_l=0$ \cite{callen1985thermodynamics}.  In gradient form,
-$\sum_l S_l\nabla_{\mbf x}\gamma_l=\mbf 0$.  Therefore, since
-$\bar p_l=\gamma_l+\bar p_E$,
+$d(\phi\gamma)=\sum_{f\in\mc F}\gamma_f\,d\phi_f$ gives the Gibbs--Duhem identity
+$\sum_{f\in\mc F}\phi_f\,d\gamma_f=0$ \cite{callen1985thermodynamics}.  In gradient form,
+$\sum_{f\in\mc F} S_f\nabla_{\mbf x}\gamma_f=\mbf 0$.  Therefore, since
+$\bar p_f=\gamma_f+\bar p_E$,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\sum_l S_l\nabla_{\mbf x}\bar p_l
+	\sum_{f\in\mc F} S_f\nabla_{\mbf x}\bar p_f
 	=\nabla_{\mbf x}\bar p_E .
-	\label{eq:mobile_pressure_gradient_equivalent_pressure}
+	\label{eq:fluid_pressure_gradient_equivalent_pressure}
 \end{equation}
 % AGENT-LOCK-END
 %
@@ -1190,7 +1171,7 @@ Using this identity in \eqref{eq:overall_momentum_phase_pressure_form} gives
 	= \nabla_{\mbf x}\cdot\left(\sum_{s\in\mc S}\bs\sigma_s'\right)
 	+\rho\mbf g
 	-\nabla_{\mbf x}\bar p_E
-	+\sum_l\sum_\alpha\dot c_l^\alpha\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_l\right)
+	+\sum_{f\in\mc F}\sum_\alpha\dot c_f^\alpha\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right)
 	+\sum_{s\in\mc S}\dot c_s^s\left(\nabla_{\mbf x}\mu_s^s-\mbf v_s\right).
 	\label{eq:overall_momentum_equivalent_pressure_uncollected}
 \end{equation}
@@ -1256,10 +1237,10 @@ the Coleman--Noll chain rule.  The phase Legendre transform is therefore
 	\label{eq:solid_legendre_transform_pressure}
 	\begin{align}
 		\widetilde\psi_s
-		 & =\psi_s+\bar p_s^s v_s^s,
+		 & =\psi_s+\bar p_s^s \bar v_s^s,
 		\label{eq:solid_legendre_transform_definition} \\
 		\left.\p{\widetilde\psi_s}{\bar p_s^s}\right\vert_{\bar{\mbf F}_s^e,J,\theta}
-		 & =v_s^s .
+		 & =\bar v_s^s .
 		\label{eq:solid_legendre_transform_pressure_derivative}
 	\end{align}
 \end{subequations}
@@ -1267,7 +1248,7 @@ the Coleman--Noll chain rule.  The phase Legendre transform is therefore
 %
 The pressure in the volume-fraction constraint appears after the solid phase
 pressures are related to the common multiplier.  Since solid phases carry no
-mobile capillary potential, \eqref{eq:el_lambda} gives
+fluid capillary potential, \eqref{eq:el_lambda} gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
@@ -1275,7 +1256,7 @@ mobile capillary potential, \eqref{eq:el_lambda} gives
 	\begin{align}
 		\phi_s\lambda
 		 & =-\tau_s^s,
-		\label{eq:solid_pressure_lambda_storage_sum} \\
+		\label{eq:solid_pressure_fambda_storage_sum} \\
 		\bar p_E
 		 & \equiv-\lambda
 		=\frac{\tau_s^s}{\phi_s}
@@ -1293,47 +1274,56 @@ differentiating the phase Legendre transform with respect to the elastic deforma
 material component mass relation \eqref{eq:material_mass_2} shows that, when the
 conversion and composition variables are held fixed in this derivative, the
 density dependence induced by \(\bar{\mbf F}_s^e\) enters through the Jacobian.
-Equivalently, the phase specific volume may be treated as
-\(v_s^s=v_s^s(J,\bar p_s^s,\theta)\) for this calculation.
+Equivalently, the intrinsic solid specific volume may be treated as
+\(\bar v_s^s=\bar v_s^s(J,\bar p_s^s,\theta)\) for this calculation, with \(a_s\),
+\(\bar{\mbf F}_s^p\), and \(\theta\) held fixed.  Thus
+\(\bar{\mbf F}_s^\theta\) is also fixed in the derivative below.
 Therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\left.\p{v_s^s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}
+	\left.\p{\bar v_s^s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}
 	 & =
-	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
-	\p{J}{\bar{\mbf F}_s^e} \\
+	\left.\p{\bar v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
+	\frac{\partial J}{\partial\bar{\mbf F}_s^e} \notag
+	\\
 	 & =
-	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
-	J(\bar{\mbf F}_s^e)^{-T}.
+	\left.\p{\bar v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
+	J(\bar{\mbf F}_s^e)^{-T}. \notag
+	\\
+	 & =
+	\left.\p{\bar v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
+	a_s\bar{J}_s(\bar{\mbf F}_s^e)^{-T}.
 	\label{eq:solid_specific_volume_deformation_chain_rule}
 \end{align}
 % AGENT-LOCK-END
 %
-At fixed \(\bar p_s^s\), the Legendre transform gives
+At fixed \(\bar p_s^s\), the Legendre transform gives the fixed-pressure
+Helmholtz derivative
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar\rho_{s0}^s
-	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
+	\rho_{s0}^s
+	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}
 	=
-	\bar\rho_{s0}^s
+	\rho_{s0}^s
 	\left.\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}
-	-\bar p_s^s \bar\rho_{s0}^s
-	\left.\p{v_s^s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}.
+	-\bar p_s^s \rho_{s0}^s
+	\left.\p{\bar v_s^s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}.
 	\label{eq:solid_legendre_deformation_derivative}
 \end{equation}
 % AGENT-LOCK-END
 %
-The first term is the intrinsic first Piola--Kirchhoff stress defined in
-\eqref{eq:solid_component_intrinsic_pk_stress_definition}.  The
-Legendre-transformed counterpart is
+The first term on the right is the single-prime partial first
+Piola--Kirchhoff stress defined in
+\eqref{eq:solid_component_partial_pk_stress_definition}.  The fixed-pressure
+counterpart is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar{\mbf P}_s^{\prime\prime}
-	=\bar\rho_{s0}^s
-	\left.\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}.
+	\mbf P_s^{\prime\prime}
+	=\rho_{s0}^s
+	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\right\vert_{\bar p_s^s,\theta}.
 	\label{eq:solid_component_double_prime_pk_stress_definition}
 \end{equation}
 % AGENT-LOCK-END
@@ -1342,18 +1332,21 @@ Thus
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\bar{\mbf P}_s'
+	\mbf P_s'
 	=
-	\bar{\mbf P}_s^{\prime\prime}
-	-\bar p_s^s \bar\rho_{s0}^s
-	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
-	J(\bar{\mbf F}_s^e)^{-T}.
+	\mbf P_s^{\prime\prime}
+	+\left(1-B_s^s\right)\bar p_s^s
+	\bar{J}_s(\bar{\mbf F}_s^e)^{-T}.
 	\label{eq:solid_component_pk_stress_split}
 \end{equation}
 % AGENT-LOCK-END
 %
-Pushing forward through the true deformation and then through the distension
-mapping, with the same $\mbf A^{-T}(\cdot)\mbf A^T$ operation used in
+The scalar coefficient in \eqref{eq:solid_component_pk_stress_split} is the
+Legendre pressure correction from \eqref{eq:solid_legendre_deformation_derivative}
+and \eqref{eq:solid_specific_volume_deformation_chain_rule}, written in the
+Piola form required for a clean push-forward.  Pushing forward by
+\(\bar{J}_s^{-1}\mbf P_s(\bar{\mbf F}_s^e)^T\) and then through the
+distension mapping, with the same $\mbf A^{-T}(\cdot)\mbf A^T$ operation used in
 \eqref{eq:solid_final_stress_mixture_rule}, gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
@@ -1361,9 +1354,7 @@ mapping, with the same $\mbf A^{-T}(\cdot)\mbf A^T$ operation used in
 	\bs\sigma_s'
 	=
 	\bs\sigma_s^{\prime\prime}
-	- \frac{1}{v_{s0}^s}
-	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}
-	\bar p_s^s\mbf I .
+	+\left(1-B_s^s\right)\bar p_s^s\mbf I .
 	\label{eq:solid_component_cauchy_stress_push_forward}
 \end{equation}
 % AGENT-LOCK-END
@@ -1377,8 +1368,9 @@ This identifies the solid-phase nonlinear Biot coefficient as
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	\Aboxed{B_s^s
-	 & \equiv 1 - \frac{1}{v_{s0}^s}
-	\left.\p{v_s^s}{J}\right\vert_{\bar p_s^s,\theta}} . \\
+	 & \equiv
+		1-\frac{a_s}{v_{s0}^s}
+	\left.\p{\bar v_s^s}{J}\right\vert_{\bar p_s^s,\theta}} . \\
 	 & \approx 1 - \frac{K^{\star s}}{K^s_s}
 	\label{eq:component_nonlinear_biot_coefficient}
 \end{align}
@@ -1407,13 +1399,11 @@ split
 	\label{eq:solid_biot_mixture_rule_expanded}     \\
 	\sum_{s\in\mc S}\bs\sigma_s'
 	 & \equiv \bs\sigma^{\prime\prime}
-	+\left(1-B_s\right)\bar p_E\mbf I,
+	+\left(1-B\right)\bar p_E\mbf I,
 	\label{eq:solid_biot_mixture_stress_definition} \\
-	\Aboxed{B_s
+	\Aboxed{B
 	 & =
-		1 - \frac{1}{\bar p_E}
-		\sum_{s\in\mc S}
-		\left(1-B_s^s\right)\bar p_s^s} .
+		1-\sum_{s\in\mc S}\left(1-B_s^s\right)} .
 	\label{eq:solid_biot_mixture_coefficient_definition}
 \end{align}
 % AGENT-LOCK-END
@@ -1426,26 +1416,32 @@ back through \eqref{eq:solid_biot_mixture_stress_definition}, or through the
 phase split \eqref{eq:component_biot_stress_split}, before the plastic
 driving stress is evaluated.
 %
-Thus the solid mixture Biot coefficient is obtained only after the solid phase
-pressure contributions have been summed.  In this partial-stress form the phase
-stresses already carry the current phase density \(\rho_s\), rather than an
-additional component mass-fraction weight.
+Thus the solid mixture Biot coefficient is obtained only after the solid-phase
+pressure-compliance contributions have been summed.  No additional factor of
+\(\phi_s\) appears in \eqref{eq:component_biot_stress_split}, because
+\(B_s^s\) is defined from the partial Piola stress by multiplication with the
+reference partial density \(\rho_{s0}^s\).  In the single-solid, single-fluid
+limit, \eqref{eq:solid_biot_mixture_coefficient_definition}
+therefore reduces to \(B_s=B_s^s\), recovering the standard Biot form.
 
 Combining this equivalent-pressure form with
-\eqref{eq:solid_biot_mixture_stress_definition} gives
+\eqref{eq:solid_biot_mixture_stress_definition} gives the following compact
+form.  In the conversion-momentum terms, the component sum is over the
+admissible components of each phase; for \(s\in\mc S\), the one-component solid
+specialization gives only the contribution with \(\eta_s^s=1\).
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\sum_\xi\rho_\xi\mbf a_\xi
 	= \nabla_{\mbf x}\cdot\left[
 		\bs\sigma^{\prime\prime}
-		+\left(1-B_s\right)
+		+\left(1-B\right)
 		\bar p_E\mbf I
 		\right]
 	+\rho\mbf g
 	-\nabla_{\mbf x}\bar p_E
-	+\sum_l\sum_\alpha\dot c_l^\alpha\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_l\right)
-	+\sum_{s\in\mc S}\dot c_s^s\left(\nabla_{\mbf x}\mu_s^s-\mbf v_s\right).
+	+\sum_\xi\sum_\alpha
+	\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:overall_momentum_biot_pressure_uncollected}
 \end{equation}
 % AGENT-LOCK-END
@@ -1456,11 +1452,11 @@ Collecting the equivalent-pressure term into the total stress,
 \begin{empheq}[box=\fbox]{equation}
 	\sum_\xi\rho_\xi\mbf a_\xi
 	= \nabla_{\mbf x}\cdot\left[
-		\bs\sigma^{\prime\prime}-B_s\bar p_E\mbf I
+		\bs\sigma^{\prime\prime}-B\bar p_E\mbf I
 		\right]
 	+\rho\mbf g
-	+\sum_l\sum_\alpha\dot c_l^\alpha\left(\nabla_{\mbf x}\mu_l^\alpha-\mbf v_l\right)
-	+\sum_{s\in\mc S}\dot c_s^s\left(\nabla_{\mbf x}\mu_s^s-\mbf v_s\right).
+	+\sum_\xi\sum_\alpha
+	\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:overall_momentum_nonlinear_biot}
 \end{empheq}
 % AGENT-LOCK-END
@@ -1646,14 +1642,12 @@ and the deformation Jacobian.
 
 The solid phase Legendre transform was defined in
 \eqref{eq:solid_legendre_transform_definition} as
-$\widetilde\psi_s=\psi_s+\bar p_s^s v_s^s$.  Thus the
-transformed potential generates the double-prime stress, while the
-untransformed Helmholtz energy generates the total stress.  The difference
-between the two stress measures is exactly the Biot pressure correction in
-\eqref{eq:component_biot_stress_split}.  Therefore the Biot pressure contribution
-should not be inserted a second time into the transformed volumetric energy.  For
-a solid phase \(s\), take the current-volume transformed volumetric stress
-potential to be
+$\widetilde\psi_s=\psi_s+\bar p_s^s \bar v_s^s$.  Thus the
+fixed-pressure stress measure differs from the untransformed Helmholtz stress by
+exactly the Biot pressure correction in \eqref{eq:component_biot_stress_split}.
+Therefore the Biot pressure contribution should not be inserted a second time
+into the fixed-pressure volumetric energy.  For a solid phase \(s\), take the
+current-volume transformed volumetric stress potential to be
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -1931,10 +1925,10 @@ laws.  The component mass balances are
 For \(s\in\mc S\), this balance is used with \(\eta_s^s=1\), giving
 \(\partial_t(\phi_s\bar\rho_s^s)+\nabla_{\mbf x}\cdot(\phi_s\bar\rho_s^s\mbf v_s)
 =\sum_m\nu_{s (m)}^s\dot r_{(m)}\).  The phase momentum balances may be kept phasewise in the form
-\eqref{eq:el_momentum_uniform}, with the mobile-phase pressure-gradient
-specialization shown in \eqref{eq:el_mom_l_simplified}, or summed into
+\eqref{eq:el_momentum_uniform}, with the fluid-phase pressure-gradient
+specialization shown in \eqref{eq:el_mom_f_simplified}, or summed into
 the overall poromechanics form \eqref{eq:overall_momentum_nonlinear_biot}.  The
-algebraic volume and mobile-composition constraints are
+algebraic volume and fluid-composition constraints are
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
@@ -1943,9 +1937,9 @@ algebraic volume and mobile-composition constraints are
 		\sum_\xi\phi_\xi
 		 & =1,
 		\label{eq:model_summary_saturation_constraint} \\
-		\sum_\alpha\eta_l^\alpha
+		\sum_\alpha\eta_f^\alpha
 		 & =1,
-		\qquad l\in\mc M, \\
+		\qquad f\in\mc F,                              \\
 		\eta_s^s
 		 & =1,
 		\qquad s\in\mc S .
@@ -1960,17 +1954,17 @@ with the corresponding Euler--Lagrange relations
 \begin{subequations}
 	\label{eq:model_summary_pressure_relations}
 	\begin{align}
-		\lambda+\bar p_l-\gamma_l
+		\lambda+\bar p_f-\gamma_f
 		 & =0,
-		\qquad l\in\mc M,
-		\label{eq:model_summary_mobile_pressure_relation} \\
+		\qquad f\in\mc F,
+		\label{eq:model_summary_fluid_pressure_relation} \\
 		\lambda+\bar p_s^s
 		 & =0,
 		\qquad s\in\mc S,
-		\label{eq:model_summary_solid_pressure_relation}  \\
-		\sum_\alpha\frac{\tau_l^\alpha}{\phi_l}
-		 & =\bar p_l,
-		\qquad l\in\mc M, \\
+		\label{eq:model_summary_solid_pressure_relation} \\
+		\sum_\alpha\frac{\tau_f^\alpha}{\phi_f}
+		 & =\bar p_f,
+		\qquad f\in\mc F,                                \\
 		\frac{\tau_s^s}{\phi_s}
 		 & =\bar p_s^s,
 		\qquad s\in\mc S .
@@ -1980,7 +1974,7 @@ with the corresponding Euler--Lagrange relations
 % AGENT-LOCK-END
 %
 The composition stationarity equations are used in their projected form, with
-the redundant normal multiplier $\pi_l$ eliminated explicitly.  For mobile phases
+the redundant normal multiplier $\pi_f$ eliminated explicitly.  For fluid phases
 this is \eqref{eq:CN_composition_projected_restriction}.  For solid phases the
 composition stationarity is replaced by the specialization
 \eqref{eq:CN_solid_composition_projected_restriction}, and solid-volume-fraction
@@ -2012,16 +2006,16 @@ The remaining closure laws are dissipative.  They must be chosen so that
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\begin{aligned}
-			0\le{}\; &
-			\sum_m\mc A_{(m)}\dot r_{(m)}
-			+\sum_{s\in\mc S}\bs\sigma_s':
-			\mbf A_s^e\dot{\mbf A}_s^p
-			(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}      \\
-			         & +\sum_{s\in\mc S}\operatorname{tr}\left[
-				\mbf S_s'\dot{\bar{\mbf F}}_s^p
-				(\bar{\mbf F}_s^p)^{-1}\right]
+		0\le{}\; &
+		\sum_m\mc A_{(m)}\dot r_{(m)}
+		+\sum_{s\in\mc S}\bs\sigma_s':
+		\mbf A_s^e\dot{\mbf A}_s^p
+		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}                  \\
+		         & +\sum_{s\in\mc S}\operatorname{tr}\left[
+			\mbf S_s'\dot{\bar{\mbf F}}_s^p
+			(\bar{\mbf F}_s^p)^{-1}\right]
 		+\sum_{\xi<\zeta}\mbf v_{\xi\zeta}\cdot
-		\mbf k_{\xi\zeta}^{-1}\mbf v_{\xi\zeta} \\
+		\mbf k_{\xi\zeta}^{-1}\mbf v_{\xi\zeta}             \\
 		         & +\sum_\xi
 		\frac{\nabla_{\mbf x}\theta\cdot\mbf K_\xi\nabla_{\mbf x}\theta}{\theta} .
 	\end{aligned}
@@ -2038,9 +2032,9 @@ $\mc A_{(m)}\dot r_{(m)}\ge0$, plastic flow rules such as
 only by translating it into the affinity through
 \eqref{eq:crystallization_affinity_volumetric}.
 
-Let $P_M=|\mc M|$ be the number of mobile phases, $P_S=|\mc S|$ the number of
-solid phases, $P=P_M+P_S$ the total number of phases, $N$ the number of mobile
-components tracked in each mobile phase, $N_{(m)}$ the number of independent
+Let $P_F=|\mc F|$ be the number of fluid phases, $P_S=|\mc S|$ the number of
+solid phases, $P=P_F+P_S$ the total number of phases, $N$ the number of fluid
+components tracked in each fluid phase, $N_{(m)}$ the number of independent
 conversion mechanisms, and $d$ the spatial dimension.  Using phase displacements
 as the kinematic unknowns, with velocities obtained by time differentiation, a
 convenient fully implicit pointwise algebraic unknown accounting is as follows.
@@ -2050,18 +2044,18 @@ process-rate unknowns whose equations are supplied by kinetic laws.
 %
 \begin{center}
 	\begin{tabular}{p{0.72\textwidth}c}
-		Unknown family                                                                    & Count     \\
+		Unknown family                                                                    & Count      \\
 		\hline
-		Phase displacements $u_{\xi 1},\ldots,u_{\xi d}$ for $\xi=1,\ldots,P$             & $dP$      \\
-		Intrinsic phase densities $\bar\rho_\xi$ for $\xi=1,\ldots,P$                     & $P$       \\
-			Mobile mass fractions $\eta_l^1,\ldots,\eta_l^N$ for $l=1,\ldots,P_M$             & $P_MN$    \\
-			Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                            & $P$       \\
-			Volume-fraction multiplier $\lambda$                                              & $1$       \\
-			Storage multipliers $\tau_l^\alpha$ and $\tau_s^s$                                & $P_MN+P_S$ \\
-			Helmholtz chemical potentials $\mu_l^\alpha$ and $\mu_s^s$                        & $P_MN+P_S$ \\
-			Mechanism process rates $\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}$                  & $N_{(m)}$ \\
-			Solid plastic internal variables $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active & $2d^2P_S$ \\
-			Temperature $\theta$                                                              & $1$
+		Phase displacements $u_{\xi 1},\ldots,u_{\xi d}$ for $\xi=1,\ldots,P$             & $dP$       \\
+		Intrinsic phase densities $\bar\rho_\xi$ for $\xi=1,\ldots,P$                     & $P$        \\
+		Fluid mass fractions $\eta_f^1,\ldots,\eta_f^N$ for $f=1,\ldots,P_F$              & $P_FN$     \\
+		Phase volume fractions $\phi_\xi$ for $\xi=1,\ldots,P$                            & $P$        \\
+		Volume-fraction multiplier $\lambda$                                              & $1$        \\
+		Storage multipliers $\tau_f^\alpha$ and $\tau_s^s$                                & $P_FN+P_S$ \\
+		Helmholtz chemical potentials $\mu_f^\alpha$ and $\mu_s^s$                        & $P_FN+P_S$ \\
+		Mechanism process rates $\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}$                  & $N_{(m)}$  \\
+		Solid plastic internal variables $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active & $2d^2P_S$  \\
+		Temperature $\theta$                                                              & $1$
 	\end{tabular}
 \end{center}
 %
@@ -2070,10 +2064,10 @@ The corresponding scalar unknown count is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\begin{aligned}
-			N_{\rm unk}
-			 & =dP+P+P_MN+P+1+\left(P_MN+P_S\right)
-			+\left(P_MN+P_S\right)+N_{(m)}+2d^2P_S+1 \\
-			 & =dP+2d^2P_S+3P_MN+2P_S+2P+N_{(m)}+2 ,
+		N_{\rm unk}
+		 & =dP+P+P_FN+P+1+\left(P_FN+P_S\right)
+		+\left(P_FN+P_S\right)+N_{(m)}+2d^2P_S+1 \\
+		 & =dP+2d^2P_S+3P_FN+2P_S+2P+N_{(m)}+2 ,
 	\end{aligned}
 	\label{eq:model_summary_unknown_count}
 \end{equation}
@@ -2083,19 +2077,19 @@ The same number of scalar equations is supplied by the following blocks:
 %
 \begin{center}
 	\begin{tabular}{p{0.62\textwidth}c}
-		Equation block                                                                           & Count     \\
+		Equation block                                                                           & Count      \\
 		\hline
-		Phase momentum balances \eqref{eq:el_momentum_uniform}                                   & $dP$      \\
-		Intrinsic-density relations in \eqref{eq:model_summary_pressure_relations}               & $P$       \\
-			Projected mobile composition stationarity \eqref{eq:CN_composition_projected_restriction} & $P_M(N-1)$ \\
-			Mobile composition normalizations in \eqref{eq:model_summary_constraints}                & $P_M$     \\
-			Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$       \\
-			Volume-fraction constraint in \eqref{eq:model_summary_constraints}                       & $1$       \\
-			Component mass balances \eqref{eq:model_summary_mass_balance}                            & $P_MN+P_S$ \\
-			Conversion-potential equations \eqref{eq:el_conversion_component}                        & $P_MN+P_S$ \\
-			Kinetic laws for $\dot r_{(m)}$                                                          & $N_{(m)}$ \\
-			Plastic flow laws for $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active                   & $2d^2P_S$ \\
-			Energy or temperature equation using \eqref{eq:CN_energy_balance}                        & $1$
+		Phase momentum balances \eqref{eq:el_momentum_uniform}                                   & $dP$       \\
+		Intrinsic-density relations in \eqref{eq:model_summary_pressure_relations}               & $P$        \\
+		Projected fluid composition stationarity \eqref{eq:CN_composition_projected_restriction} & $P_F(N-1)$ \\
+		Fluid composition normalizations in \eqref{eq:model_summary_constraints}                 & $P_F$      \\
+		Volume-fraction Euler--Lagrange relations in \eqref{eq:model_summary_pressure_relations} & $P$        \\
+		Volume-fraction constraint in \eqref{eq:model_summary_constraints}                       & $1$        \\
+		Component mass balances \eqref{eq:model_summary_mass_balance}                            & $P_FN+P_S$ \\
+		Conversion-potential equations \eqref{eq:el_conversion_component}                        & $P_FN+P_S$ \\
+		Kinetic laws for $\dot r_{(m)}$                                                          & $N_{(m)}$  \\
+		Plastic flow laws for $\bar{\mbf F}_s^p$ and $\mbf A_s^p$, when active                   & $2d^2P_S$  \\
+		Energy or temperature equation using \eqref{eq:CN_energy_balance}                        & $1$
 	\end{tabular}
 \end{center}
 %
@@ -2104,21 +2098,21 @@ Thus
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\begin{aligned}
-			N_{\rm eq}
-			 & =dP+P+P_M(N-1)+P_M+P+1+\left(P_MN+P_S\right) \\
-			 & \quad
-			+\left(P_MN+P_S\right)+N_{(m)}+2d^2P_S+1 \\
-			 & =dP+2d^2P_S+3P_MN+2P_S+2P+N_{(m)}+2
-			=N_{\rm unk}.
+		N_{\rm eq}
+		 & =dP+P+P_F(N-1)+P_F+P+1+\left(P_FN+P_S\right) \\
+		 & \quad
+		+\left(P_FN+P_S\right)+N_{(m)}+2d^2P_S+1        \\
+		 & =dP+2d^2P_S+3P_FN+2P_S+2P+N_{(m)}+2
+		=N_{\rm unk}.
 	\end{aligned}
 	\label{eq:model_summary_equation_count}
 \end{equation}
 % AGENT-LOCK-END
 %
-This count treats $\pi_l$, $\mc A_{(m)}$, and $\dot c_\xi^\alpha$ as eliminated
-quantities: $\pi_l$ is removed by projecting the mobile composition stationarity
+This count treats $\pi_f$, $\mc A_{(m)}$, and $\dot c_\xi^\alpha$ as eliminated
+quantities: $\pi_f$ is removed by projecting the fluid composition stationarity
 relations onto the $N-1$ dimensional tangent space of
-$\sum_\alpha\eta_l^\alpha=1$, $\mc A_{(m)}$ is substituted from
+$\sum_\alpha\eta_f^\alpha=1$, $\mc A_{(m)}$ is substituted from
 \eqref{eq:model_summary_affinity}, and $\dot c_\xi^\alpha$ is substituted from
 the stoichiometric source term in \eqref{eq:model_summary_mass_balance}.  The
 solid mass fractions do not add unknowns because \(\eta_s^s=1\) is imposed by the
