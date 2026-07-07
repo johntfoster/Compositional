@@ -1271,7 +1271,7 @@ split
 %
 Thus the solid mixture Biot coefficient is obtained only after the solid-phase
 pressure-compliance contributions have been summed.  No additional factor of
-\(\phi_s\) appears in \eqref{eq:component_biot_stress_split}, because
+\(\phi_s\) appears in \eqref{eq:solid_component_cauchy_stress_push_forward}, because
 \(B_s^s\) is defined from the partial Piola stress by multiplication with the
 reference partial density \(\rho_{s0}^s\).  In the single-solid, single-fluid
 limit, \eqref{eq:solid_biot_mixture_coefficient_definition}
@@ -1297,48 +1297,44 @@ $\bar p_f=\gamma_f+\bar p_E$,
 \end{equation}
 % AGENT-LOCK-END
 %
-Summing the single-solid balance \eqref{eq:single_solid_phase_momentum} with
-the corresponding fluid-phase balances and using
-\eqref{eq:fluid_pressure_gradient_equivalent_pressure} gives
+When the fluid-phase momentum balances are summed, the pressure-gradient term
+first appears with volume-fraction weights.  The saturation weights in
+\eqref{eq:fluid_pressure_gradient_equivalent_pressure} enter only after using
+\(\phi_f=\phi S_f\):
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\sum_\xi\rho_\xi\mbf a_\xi
-	= \nabla_{\mbf x}\cdot\bs\sigma_s'
-	+\rho\mbf g
-	-\nabla_{\mbf x}\bar p_E
-	+\sum_\xi\sum_\alpha
-	\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
-	\label{eq:overall_momentum_equivalent_pressure_uncollected}
-\end{equation}
+\begin{equation*}
+	\begin{aligned}
+		-\sum_{f\in\mc F}\phi_f\nabla_{\mbf x}\bar p_f
+		 & =
+		-\phi\sum_{f\in\mc F}S_f\nabla_{\mbf x}\bar p_f       \\
+		 & =
+		-\phi\nabla_{\mbf x}\bar p_E .
+	\end{aligned}
+\end{equation*}
 % AGENT-LOCK-END
 %
-If external momentum is supplied to the mixture, the omitted term
-$\sum_\xi\mbf b_\xi$ is added to the right-hand side.
-
-Combining this equivalent-pressure form with
-\eqref{eq:solid_biot_mixture_stress_definition} gives the following compact
-form.  In the conversion-momentum terms, the component sum is over the
-admissible components of each phase; for \(s\in\mc S\), the one-component solid
-specialization gives only the contribution with \(\eta_s^s=1\).
+Adding this to the single-solid pressure-gradient term gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\sum_\xi\rho_\xi\mbf a_\xi
-	= \nabla_{\mbf x}\cdot\left[
-		\bs\sigma^{\prime\prime}
-		+\left(1-B\right)
-		\bar p_E\mbf I
-		\right]
-	+\rho\mbf g
-	-\nabla_{\mbf x}\bar p_E
-	+\sum_\xi\sum_\alpha
-	\dot c_\xi^\alpha\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
-	\label{eq:overall_momentum_biot_pressure_uncollected}
-\end{equation}
+\begin{equation*}
+	-\phi_s\nabla_{\mbf x}\bar p_E
+	-\sum_{f\in\mc F}\phi_f\nabla_{\mbf x}\bar p_f
+	=
+	-\left(\phi_s+\phi\right)\nabla_{\mbf x}\bar p_E
+	=
+	-\nabla_{\mbf x}\bar p_E ,
+\end{equation*}
 % AGENT-LOCK-END
 %
-Collecting the equivalent-pressure term into the total stress,
+where the last equality uses the volume-fraction constraint.  Summing the
+single-solid balance with the fluid balances, assuming the pairwise internal
+momentum supplies sum to zero, and substituting the solid stress split
+\eqref{eq:solid_biot_mixture_stress_definition} therefore leads directly to the
+compact overall balance.  In the conversion-momentum
+terms, the component sum is over the admissible components of each phase; for
+\(s\in\mc S\), the one-component solid specialization gives only the
+contribution with \(\eta_s^s=1\).
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{empheq}[box=\fbox]{equation}
@@ -1536,7 +1532,8 @@ The solid phase Legendre transform was defined in
 \eqref{eq:solid_legendre_transform_definition} as
 $\widetilde\psi_s=\psi_s+\bar p_s^s \bar v_s^s$.  Thus the
 fixed-pressure stress measure differs from the untransformed Helmholtz stress by
-exactly the Biot pressure correction in \eqref{eq:component_biot_stress_split}.
+exactly the Biot pressure correction in
+\eqref{eq:solid_component_cauchy_stress_push_forward}.
 Therefore the Biot pressure contribution should not be inserted a second time
 into the fixed-pressure volumetric energy.  For a solid phase \(s\), take the
 current-volume transformed volumetric stress potential to be
