@@ -1170,7 +1170,7 @@ Thus
 	\mbf P_s'
 	=
 	\mbf P_s^{\prime\prime}
-	+\left(1-B_s^s\right)\bar p_s
+	+\left(1-B_s\right)\bar p_s
 	\bar{J}_s(\bar{\mbf F}_s^e)^{-T}.
 	\label{eq:solid_component_pk_stress_split}
 \end{equation}
@@ -1189,7 +1189,7 @@ distension mapping, with the same $\mbf A^{-T}(\cdot)\mbf A^T$ operation used in
 	\bs\sigma_s'
 	=
 	\bs\sigma_s^{\prime\prime}
-	+\left(1-B_s^s\right)\bar p_s\mbf I .
+	+\left(1-B_s\right)\bar p_s\mbf I .
 	\label{eq:solid_component_cauchy_stress_push_forward}
 \end{equation}
 % AGENT-LOCK-END
@@ -1198,11 +1198,11 @@ solid phase \(s\) after the same distension mapping has been applied.  The
 pressure correction remains isotropic because
 \(\mbf A^{-T}\mbf I\mbf A^T=\mbf I\).
 %
-This identifies the solid-phase nonlinear Biot coefficient as
+This identifies the solid-phase nonlinear reaction modified Biot coefficient as
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\Aboxed{B_s^s
+	\Aboxed{B_s
 	 & \equiv
 		1-\frac{a_s}{v_{s0}}
 		\left.\p{\bar v_s}{J}\right\vert_{\bar p_s,\theta}}.
@@ -1260,7 +1260,7 @@ stress split and sum over all solid phases:
 	\sum_{s\in\mc S}\bs\sigma_s'
 	 & =\sum_{s\in\mc S}\bs\sigma_s^{\prime\prime}
 	+\sum_{s\in\mc S}
-	\left(1-B_s^s\right)\bar p_s\mbf I,
+	\left(1-B_s\right)\bar p_s\mbf I,
 	\label{eq:solid_biot_mixture_rule_expanded}     \\
 	\sum_{s\in\mc S}\bs\sigma_s'
 	 & \equiv \bs\sigma^{\prime\prime}
@@ -1268,7 +1268,7 @@ stress split and sum over all solid phases:
 	\label{eq:solid_biot_mixture_stress_definition} \\
 	\Aboxed{B
 	 & =
-		1-\sum_{s\in\mc S}\left(1-B_s^s\right)} .
+		1-\sum_{s\in\mc S}\left(1-B_s\right)} .
 	\label{eq:solid_biot_mixture_coefficient_definition}
 \end{align}
 % AGENT-LOCK-END
@@ -1277,22 +1277,22 @@ stress split and sum over all solid phases:
 Thus the solid mixture Biot coefficient is obtained only after the solid-phase
 pressure-compliance contributions have been summed.  No additional factor of
 \(\phi_s\) appears in \eqref{eq:solid_component_cauchy_stress_push_forward}, because
-\(B_s^s\) is defined from the partial Piola stress by multiplication with the
+\(B_s\) is defined from the partial Piola stress by multiplication with the
 reference partial density \(\rho_{s0}\).  In the single-solid, single-fluid
 limit, \eqref{eq:solid_biot_mixture_coefficient_definition}
-therefore reduces to \(B_s=B_s^s\), recovering the standard Biot form.
+therefore reduces to \(B=B_s\), recovering the standard Biot form.
 
-The same Euler--Lagrange relations also give the pressure-gradient collapse
-needed to compare with the equivalent-pressure form used in multiphase
-poromechanics.  Since
-$\phi\gamma\left(\left\{S_f\right\}_{f\in\mc F},\theta\right)$ is homogeneous
-of degree one in the primitive fluid volume fractions, Euler's theorem gives
-$\phi\gamma=\sum_{f\in\mc F}\phi_f\gamma_f$, or $\gamma=\sum_{f\in\mc F}S_f\gamma_f$.  Taking the
-differential of this Euler relation and subtracting the defining differential
-$d(\phi\gamma)=\sum_{f\in\mc F}\gamma_f\,d\phi_f$ gives the Gibbs--Duhem identity
-$\sum_{f\in\mc F}\phi_f\,d\gamma_f=0$ \cite{callen1985thermodynamics}.  In gradient form,
-$\sum_{f\in\mc F} S_f\nabla_{\mbf x}\gamma_f=\mbf 0$.  Therefore, since
-$\bar p_f=\gamma_f+\bar p_E$,
+The same Euler--Lagrange relations also show why the fluid pressure gradients
+combine into a single equivalent-pressure gradient.  Each fluid pressure is the
+same equivalent pressure plus a capillary offset,
+\(\bar p_f=\bar p_E+\gamma_f\).  The interfacial energy relation
+\eqref{eq:saturation_weighted_primitive_potential_sum} implies that these
+capillary offsets redistribute pressure among the fluid phases without adding a
+net saturation-weighted gradient:
+\(\sum_{f\in\mc F}S_f\nabla_{\mbf x}\gamma_f=\mbf 0\)
+\cite{callen1985thermodynamics}.  Since the saturations also satisfy
+\(\sum_{f\in\mc F}S_f=1\), the saturation-weighted average of the fluid pressure
+gradients leaves only the equivalent-pressure gradient,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -1354,9 +1354,6 @@ contribution with \(\eta_s^s=1\).
 \end{empheq}
 % AGENT-LOCK-END
 %
-When inertia and conversion-momentum production are neglected, this has the
-standard quasistatic total-stress form, with $\bar p_E$ in place of a
-saturation-weighted average pressure.
 
 \subsection{Scalar distension simplifications}
 \label{sec:scalar_distension_simplifications}

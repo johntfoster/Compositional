@@ -10,6 +10,23 @@
 - Cite source locations as `file:line` whenever making claims about manuscript text, notation, assumptions, derivations, equation labels, or references.
 - Do not infer global notation from isolated snippets. Resolve definitions, labels, counters, macros, and theorem/equation environments through the `main.tex` compilation graph.
 
+## Operating checklist for manuscript tasks
+
+- At the start of every manuscript task, read `AGENTS.md`, `VISION.md`, `main.tex`, and `defs.tex` before interpreting section-local notation.
+- If the user cites a rendered equation number, resolve it through the active build artifacts before answering or editing. Prefer `build/main.aux` when the build directory is active.
+- Before answering conceptual questions, identify the exact source equations, definitions, and assumptions that control the question, and cite them as `file:line`.
+- When a notation change affects a derivation, propagate it through state sets, chain-rule terms, thermodynamic forces, restrictions, and downstream prose instead of patching only the visible equation.
+- Separate kinematic fields from constitutive arguments before renaming symbols. Do not replace every occurrence of a symbol merely because one role changed.
+- When the user narrows an edit to a section, subsection, equation, or paragraph, keep edits strictly inside that scope unless the user explicitly expands it.
+- If adding a helper identity only for clarity, prefer an unnumbered display unless the identity is intended to be referenced later.
+- For citation or external-paper equation claims, verify the cited equation in the source PDF before changing manuscript text.
+
+## Response modes
+
+- For interpretive questions, answer from the manuscript source first, then explain the mathematical implication. Avoid importing outside theory unless the manuscript source or user request calls for it.
+- For edit requests, make the smallest source change that fixes the issue, then validate affected labels, references, and display math.
+- For derivation audits, report whether the current source supports the claim, what assumptions would be needed if it does not, and where the downstream equations would change.
+
 ## Precision LaTeX parsing and reading
 
 - Act as a precision LaTeX parser and reader, not a loose text searcher. Preserve TeX semantics, macro expansion context, math-mode boundaries, environment nesting, labels, refs, citations, and local definitions.
