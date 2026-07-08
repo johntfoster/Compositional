@@ -1,8 +1,15 @@
 # AGENTS.md
 
+## Project roadmap
+
+- Read `VISION.md` at the start of repository work and use it as the high-level guide for the three coordinated tracks: theory manuscript, MOOSE implementation and validation, and agent-assisted simulator workflow.
+- Treat these tracks as coupled work, not isolated projects. Manuscript equations should inform implementation tasks; implementation and validation gaps should feed back into the manuscript; agent workflow assets should encode validated simulator practice.
+- Keep the current manuscript as the source of truth for the theory until a separate implementation paper or simulator documentation explicitly supersedes a claim for its own scope.
+- Do not split repository structure, branch strategy, or workflow ownership casually. Prefer small, reversible additions that preserve cross-links between theory, code, validation examples, and agent templates.
+- When a task touches more than one track, state which track owns the immediate edit and which downstream tracks need follow-up.
+
 ## Manuscript source of truth
 
-- Read `VISION.md` at the start of manuscript work and use it as the high-level guide for the paper's purpose, comparisons, and special-case derivations.
 - Treat `main.tex` as the canonical root of the manuscript. Start from `main.tex`, follow its `\\input`, `\\include`, bibliography, macro, and package declarations, and interpret all included TeX in that root context.
 - Manuscript body files are organized under `sections/`, but they are not standalone documents. Interpret them only through the `main.tex` root context.
 - Store intentional research PDFs in `references/pdfs/` and human reading notes in `references/notes/`. Use the `latex-research-ingest` skill's local `.codex-research/` store for PDF ingestion and retrieval. Treat generated LaTeX, preview, and retrieval state as non-authoritative workflow artifacts.
@@ -12,7 +19,8 @@
 
 ## Operating checklist for manuscript tasks
 
-- At the start of every manuscript task, read `AGENTS.md`, `VISION.md`, `main.tex`, and `defs.tex` before interpreting section-local notation.
+- At the start of every repository task, read `AGENTS.md` and `VISION.md`, then classify the task as manuscript theory, MOOSE implementation, validation, agent workflow, or cross-track planning.
+- At the start of every manuscript task, also read `main.tex` and `defs.tex` before interpreting section-local notation.
 - If the user cites a rendered equation number, resolve it through the active build artifacts before answering or editing. Prefer `build/main.aux` when the build directory is active.
 - Before answering conceptual questions, identify the exact source equations, definitions, and assumptions that control the question, and cite them as `file:line`.
 - When a notation change affects a derivation, propagate it through state sets, chain-rule terms, thermodynamic forces, restrictions, and downstream prose instead of patching only the visible equation.
@@ -26,6 +34,35 @@
 - For interpretive questions, answer from the manuscript source first, then explain the mathematical implication. Avoid importing outside theory unless the manuscript source or user request calls for it.
 - For edit requests, make the smallest source change that fixes the issue, then validate affected labels, references, and display math.
 - For derivation audits, report whether the current source supports the claim, what assumptions would be needed if it does not, and where the downstream equations would change.
+- For implementation planning, map each proposed kernel, material, variable, boundary condition, or action back to the controlling manuscript equation, assumption, or special-case reduction before proposing code structure.
+- For validation planning, identify the physical regime, governing reduction, variables, expected observables, and pass/fail criterion. Prefer validation problems that exercise both the mathematical theory and the simulator interface.
+- For agent-workflow tasks, treat templates, schemas, checks, prompts, run commands, and postprocessing scripts as repository artifacts that should be versioned, tested where practical, and kept consistent with the validated MOOSE interface.
+
+## MOOSE implementation track
+
+- Implementation work should grow beside the manuscript in a MOOSE application or clearly named implementation directory, with source, tests, examples, and documentation kept separate from LaTeX manuscript source.
+- Preserve traceability from code to theory. New kernels, materials, actions, boundary conditions, and tests should cite the manuscript equation labels or section names they implement whenever the connection is non-obvious.
+- Start from the smallest useful kernel set. Prefer one validated residual path over broad scaffolding for many equations that are not yet tested.
+- Keep finite-element, finite-volume, material-property, and PorousFlow integration decisions explicit. Do not hide discretization assumptions inside generic names or undocumented helper code.
+- Treat implementation tests as part of the research argument. Unit tests, regression tests, manufactured solutions, special-case reductions, and benchmark input files should be organized so they can support the companion implementation-and-validation paper.
+- Do not rewrite the theory to fit a convenient API without flagging the approximation. If a MOOSE implementation requires a closure, linearization, stabilization, variable choice, or weak-form assumption not present in the manuscript, record that gap in the implementation notes or validation plan.
+
+## Validation and benchmark track
+
+- Maintain a validation matrix as this track develops. Each entry should list the target phenomenon, manuscript reduction, MOOSE objects required, input deck location, reference result, expected outputs, and current status.
+- Begin with special cases already derived or planned in the manuscript: black-oil-style equations, compositional flow, coupled mechanics limits, phase equilibrium reductions, reaction/source problems, and phase-transformation examples.
+- Add reservoir-simulation challenge problems, including SPE comparison-style benchmarks, only with clear notes about which parts of the full theory they validate and which assumptions they impose.
+- Prefer validation problems that can become durable regression tests. If a problem is too expensive for routine testing, create a smaller smoke test or reduced analogue that protects the same implementation path.
+- Keep benchmark data, generated outputs, and postprocessing products distinct. Source input decks, reference data, and analysis scripts are authoritative; transient run outputs are not.
+
+## Agent-assisted simulator workflow
+
+- Build agent-facing simulator assets as explicit files: input-deck templates, parameter schemas, checklist prompts, validation scripts, run recipes, postprocessing recipes, and troubleshooting notes.
+- Generate MOOSE input decks from structured templates whenever possible. Avoid one-off freeform decks unless the task is exploratory and the uncertainty is clearly stated.
+- Before running a generated deck, validate required variables, kernels, materials, boundary conditions, units, mesh assumptions, executioner settings, outputs, and postprocessors against the selected template or schema.
+- Ask clarification questions when the physical problem is underspecified in a way that changes the governing equations, constitutive closures, boundary conditions, initial conditions, or validation target.
+- When a simulation fails, diagnose in layers: input syntax, missing MOOSE objects, inconsistent variables/material properties, solver configuration, discretization/stabilization, then model assumptions.
+- Successful agent workflows should feed back into durable templates and checks so future problem setup becomes more reliable rather than remaining chat-local.
 
 ## Precision LaTeX parsing and reading
 

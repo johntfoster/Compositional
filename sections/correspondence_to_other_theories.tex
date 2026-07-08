@@ -5,136 +5,109 @@
 \label{sec:classical_compositional_limit}
 
 The preceding equations contain the usual compositional-reservoir structure as a
-special limit.  The phase/component source is written as
+special limit.  The phase/component source is
 %
 \begin{equation}
 	\dot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)},
 	\label{eq:classical_source_form}
 \end{equation}
 %
-which is the phase-resolved analogue of the standard reactive-transport source
-vector $\mbf R=\bs\nu\mbf q$.  Summing \eqref{eq:spatial_mass_2} over phases gives
+which is the phase-resolved analogue of the standard reactive-transport source.
+Restrict attention to the fluid pore phases and write their volume fractions as
 %
 \begin{equation}
-	\frac{\partial}{\partial t}\left(\sum_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\right)
-	+\nabla_{\mbf x}\cdot\left(\sum_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\mbf v_\xi\right)
-	=\sum_\xi\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)} .
-	\label{eq:classical_component_balance}
-\end{equation}
-%
-To see the usual reservoir form, restrict attention to the fluid pore phases and
-write their volume fractions as
-%
-\begin{equation}
-	\phi_\xi=\phi S_\xi,
+	\phi_f=\phi S_f,
 	\qquad
-	\sum_{\xi\in\{a,o,g\}}S_\xi=1,
+	\sum_{f\in\mc F}S_f=1,
 	\label{eq:classical_saturation_identification}
 \end{equation}
 %
-where $\phi$ is porosity and $S_\xi$ is the saturation of phase $\xi$.  Let
-$M^\alpha$ be the molar mass of component $\alpha$, and define the phase
-component molar concentration per phase volume by
+where $\phi$ is porosity and $S_f$ is the saturation of fluid phase $f$.
+Substitution in \eqref{eq:component_spatial_mass} gives the mass form of the
+phase/component compositional balance,
 %
 \begin{equation}
-	\bar C_\xi^\alpha
-	=\frac{\bar\rho_\xi\eta_\xi^\alpha}{M^\alpha}.
-	\label{eq:classical_molar_concentration}
-\end{equation}
-%
-Dividing \eqref{eq:spatial_mass_2} by $M^\alpha$ gives the phase-resolved molar
-balance
-%
-\begin{equation}
-	\frac{\partial}{\partial t}\left(\phi S_\xi\bar C_\xi^\alpha\right)
+	\frac{\partial}{\partial t}\left(\phi S_f\bar\rho_f\eta_f^\alpha\right)
 	+\nabla_{\mbf x}\cdot
-	\left(\phi S_\xi\bar C_\xi^\alpha\mbf v_\xi\right)
-	=\sum_m\frac{\nu_{\xi (m)}^\alpha}{M^\alpha}\dot r_{(m)} .
-	\label{eq:classical_phase_molar_balance}
+	\left(\phi S_f\bar\rho_f\eta_f^\alpha\mbf v_f\right)
+	=\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
+	\label{eq:classical_phase_mass_balance}
 \end{equation}
 %
-If the porous skeleton is fixed, or if the equation is written relative to the
-skeleton and the advective solid term is moved to the left-hand storage operator,
-the phase Darcy flux is
+This is the usual phase/component compositional balance, written per unit mass
+rather than per mole.  With mechanical dispersion and molecular diffusion
+omitted, it is the mass counterpart of Balhoff's standard compositional balance
+\cite[eq.~(7.15b)]{balhoff2022multiphase}.  If the equation is written relative
+to the solid skeleton, the phase Darcy flux is
 %
 \begin{equation}
-	\mbf q_\xi=\phi S_\xi(\mbf v_\xi-\mbf v_s).
+	\mbf q_f=\phi S_f(\mbf v_f-\mbf v_s).
 	\label{eq:classical_darcy_flux_definition}
 \end{equation}
 %
 For the fixed-skeleton case $\mbf v_s=\mbf 0$, so
-\eqref{eq:classical_phase_molar_balance} becomes
+\eqref{eq:classical_phase_mass_balance} becomes
 %
 \begin{equation}
-	\frac{\partial}{\partial t}\left(\phi S_\xi\bar C_\xi^\alpha\right)
+	\frac{\partial}{\partial t}\left(\phi S_f\bar\rho_f\eta_f^\alpha\right)
 	+\nabla_{\mbf x}\cdot
-	\left(\bar C_\xi^\alpha\mbf q_\xi\right)
-	=\sum_m\frac{\nu_{\xi (m)}^\alpha}{M^\alpha}\dot r_{(m)} .
-	\label{eq:classical_phase_molar_darcy_balance}
+	\left(\bar\rho_f\eta_f^\alpha\mbf q_f\right)
+	=\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
+	\label{eq:classical_phase_mass_darcy_balance}
 \end{equation}
 %
-This is the phase/component conservation equation used before the phase equations
-are summed in a compositional simulator.  A standard Darcy closure supplies
+The standard Darcy closure follows from
+\eqref{eq:standard_darcy_mass_flux_limit} by taking $\mbf v_s=\mbf 0$ and
+$\bs\kappa_f=\kappa_{fr}(\{S_g\}_{g\in\mc F})\bs\kappa$:
 %
 \begin{equation}
-	\mbf q_\xi
-	=-\frac{k k_{r\xi}}{\mu_\xi}
-	\left(\nabla_{\mbf x}\bar p_\xi-\bar\rho_\xi\mbf g\right),
+	\mbf q_f
+	=-\frac{\kappa_{fr}(\{S_g\}_{g\in\mc F})}{\mu_f}
+	\bs\kappa
+	\left(\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g\right),
 	\label{eq:classical_darcy_closure}
 \end{equation}
 %
-possibly with capillary-pressure relations between the phase pressures.  In the
-present theory this is not postulated at the balance-law level: it is a closure
-that replaces the fluid-phase momentum equation
-\eqref{eq:el_mom_f_simplified} after inertia,
-body interactions, and conversion-momentum terms have been specialized.
+which is Balhoff's Darcy law \cite[eq.~(178)]{balhoff2022multiphase} in the
+present notation.  In the present theory this is not postulated at the
+balance-law level: it is a closure that replaces the fluid-phase momentum
+equation \eqref{eq:el_mom_f_simplified} after inertia, body interactions, and
+conversion-momentum terms have been specialized.
 
-Summing \eqref{eq:classical_phase_molar_darcy_balance} over fluid phases yields
+Summing \eqref{eq:classical_phase_mass_darcy_balance} over fluid phases yields
 %
 \begin{equation}
 	\frac{\partial}{\partial t}
-	\left(\phi\sum_\xi S_\xi\bar C_\xi^\alpha\right)
+	\left(\phi\sum_{f\in\mc F}S_f\bar\rho_f\eta_f^\alpha\right)
 	+\nabla_{\mbf x}\cdot
-	\left(\sum_\xi\bar C_\xi^\alpha\mbf q_\xi\right)
-	=\sum_\xi\sum_m\frac{\nu_{\xi (m)}^\alpha}{M^\alpha}\dot r_{(m)} .
-	\label{eq:classical_total_molar_component_balance}
+	\left(\sum_{f\in\mc F}\bar\rho_f\eta_f^\alpha\mbf q_f\right)
+	=\sum_{f\in\mc F}\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
+	\label{eq:classical_total_mass_component_balance}
 \end{equation}
 %
-This is the conservative component balance used in compositional reservoir
-simulation.  The usual simulator source for component $\alpha$ is therefore the
-phase-summed stoichiometric projection on the right-hand side of
-\eqref{eq:classical_total_molar_component_balance}.  The difference is that the
-present coefficients retain the phase label.  That phase label permits a single
-mechanism to encode both chemical conversion and the phase in which the product
-appears.  A pure phase transformation is the special case in which the component
-label is unchanged and the two nonzero stoichiometric entries are equal and
-opposite; after summing over phases, its contribution to the total component
-source vanishes, but it still changes the phase saturations and phase
-compositions.
+Thus the current balance law already has the standard compositional-flow form
+once the reservoir variables $\phi$ and $S_f$ are introduced.  The difference is
+that the present stoichiometric coefficients retain the phase label.  A pure
+phase transformation is the special case in which the component label is
+unchanged and the two nonzero entries satisfy
+$\nu_{\xi (m)}^\alpha=-1$ and $\nu_{\zeta (m)}^\alpha=+1$; after summing over
+phases, its contribution to the total component source vanishes, but it still
+changes the phase saturations and phase compositions.
 
-The remaining algebraic structure of a traditional compositional simulator is
-also recovered as a closure of the present variables.  The volume-fraction
-constraint \eqref{eq:classical_saturation_identification} is written in
-fluid-phase saturation coordinates after the solid volume fraction has been
-separated.  The
-within-phase composition constraints are
+The remaining algebraic structure is also recovered.  The within-phase
+composition constraints are
 %
 \begin{equation}
-	\sum_\alpha\eta_\xi^\alpha=1
-	\qquad\hbox{or, equivalently,}\qquad
-	x_\xi^\alpha
-	=\frac{\bar C_\xi^\alpha}{\sum_\beta\bar C_\xi^\beta},
-	\quad
-	\sum_\alpha x_\xi^\alpha=1 ,
+	\sum_\alpha\eta_\xi^\alpha=1 ,
 	\label{eq:classical_composition_constraints}
 \end{equation}
 %
-This comparison highlights the central thermodynamic distinction.  A traditional
-compositional simulator typically supplies an equation of state, phase
-equilibrium rules, capillary-pressure relations, component partitioning, and
-mechanical stress laws as separate closure ingredients.  In the present
-formulation the reversible thermodynamic part is instead generated from the
-Helmholtz free-energy structure:
+The thermodynamic distinction appears in how the phase/component potentials are
+obtained.  A traditional compositional simulator supplies an equation of state,
+phase-equilibrium rules, capillary-pressure relations, component partitioning,
+and stress laws as separate closure ingredients.  In the present formulation the
+reversible thermodynamic part is instead generated from the Helmholtz
+free-energy structure:
 %
 \begin{equation}
 	\psi_\xi
@@ -155,12 +128,9 @@ such as mobilities, permeabilities, diffusivities, and reaction-rate laws, but
 the thermodynamic forces driving those laws are generated by the same
 free-energy potential.
 
-where $x_\xi^\alpha$ is the phase mole fraction.  Flash calculations then impose
-phase-equilibrium closures, commonly written as fugacity equalities.  In the
-present notation the reversible version of such a phase transfer for component
-$\alpha$ from phase $\xi$ to phase $\zeta$ has
-	$\nu_{\xi (m)}^\alpha=-1$ and $\nu_{\zeta (m)}^\alpha=+1$, so
-\eqref{eq:classical_equilibrium_affinity} reduces to
+Classical flash calculations impose phase-equilibrium closures, commonly written
+as fugacity equalities.  In the present notation the reversible transfer of
+component $\alpha$ from phase $\xi$ to phase $\zeta$ gives
 %
 \begin{equation}
 	\mu_\zeta^\alpha-\mu_\xi^\alpha=0,
@@ -168,60 +138,22 @@ $\alpha$ from phase $\xi$ to phase $\zeta$ has
 \end{equation}
 %
 which is the chemical-potential form of the fugacity-equality condition used in
-isothermal phase equilibrium.
-
-The multiplier $\mu_\xi^\alpha$ in \eqref{eq:C4_def} is the chemical-potential-like
-variable conjugate to phase/component conversion.  Its evolution equation is
+isothermal phase equilibrium.  In classical compositional models the
+$\mu_\xi^\alpha$ are therefore not solved from an evolution law like
 %
 \begin{equation}
 	\frac{D_\xi\mu_\xi^\alpha}{Dt}
-	=\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
-	-\psi_\xi
-	-L_\xi^\alpha
-	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha} .
-	\label{eq:mu_interpretation}
-\end{equation}
-%
-The first term is the kinetic contribution associated with adding mass to a
-phase moving with velocity $\mbf v_\xi$.  The next two terms are the phase
-Helmholtz free energy and component conversion-work contribution.  The last term
-is the contribution of the component mass constraint; $\tau_\xi^\alpha$ is the
-multiplier enforcing the storage relation between the reference amount of
-component $\alpha$ and the current partial mass density
-$\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$.  After the entropy inequality identifies
-$L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi$, with \(\psi_s\equiv\psi_s^s\) for
-one-component solid phases, the closed conversion-potential equation is
-\begin{equation}
-	\frac{D_\xi\mu_\xi^\alpha}{Dt}
-	=\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	=
+	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\mu_\xi^\alpha
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
 	\label{eq:mu_interpretation_entropy_closure_unified}
 \end{equation}
-Equivalently, separating fluid and solid phases gives
-\begin{subequations}
-	\label{eq:mu_interpretation_entropy_closure}
-	\begin{align}
-		\frac{D_f\mu_f^\alpha}{Dt}
-		 & =\frac{1}{2}\mbf v_f\cdot\mbf v_f
-		-\mu_f^\alpha
-		-\frac{\tau_f^\alpha}{\phi_f\bar\rho_f\eta_f^\alpha},
-		\qquad f\in\mc F,                   \\
-		\frac{D_s\mu_s^s}{Dt}
-		 & =\frac{1}{2}\mbf v_s\cdot\mbf v_s
-		-\mu_s^s
-		-\frac{\tau_s^s}{\phi_s\bar\rho_s^s},
-		\qquad s\in\mc S .
-	\end{align}
-\end{subequations}
-For a one-component solid phase, the source-carried Helmholtz term equals the
-phase Helmholtz term, so the solid Helmholtz difference cancels.
-Thus
-$D_\xi\mu_\xi^\alpha/Dt$ is a generalized chemical-mechanical potential.  In a
-quasi-static isothermal limit with negligible kinetic terms and a conventional
-choice of thermodynamic potential, this quantity reduces to the chemical
-potential (or, equivalently in reservoir practice, to a fugacity/equilibrium
-potential) that appears in phase and reaction equilibrium conditions.
+%
+Instead, they must be defined constitutively from the chosen equation of state,
+composition variables, and temperature.  The variational formulation identifies
+\eqref{eq:mu_interpretation_entropy_closure_unified} as the conversion-potential
+evolution law associated with the phase-attached source constraint.
 
 The affinity is the stoichiometric projection of these phase/component
 potentials:
@@ -245,7 +177,7 @@ fluid--solid reaction, \eqref{eq:classical_affinity_projection} instead supplies
 the driving force in a closure
 %
 \begin{equation}
-	\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\text{state}),
+	\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\mbf\Lambda),
 	\qquad \mc A_{(m)}\dot r_{(m)}\ge 0
 	\label{eq:classical_kinetic_affinity_closure}
 \end{equation}

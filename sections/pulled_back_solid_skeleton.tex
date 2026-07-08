@@ -183,18 +183,20 @@ gradients retained.
 
 For a fluid phase, substituting
 \eqref{eq:relative_flux_velocity_reconstruction} into
-\eqref{eq:model_summary_mass_balance} and writing the storage term on the solid
+\eqref{eq:component_spatial_mass}, using
+\eqref{eq:component_partial_density_representation} and
+\eqref{eq:unified_stoich_current}, and writing the storage term on the solid
 trajectory gives
 %
 \begin{equation}
 	\left.
-		\frac{\partial}{\partial t}
-		\left(J\phi_f\bar\rho_f\eta_f^\alpha\right)
-		\right\vert_{\mbf X}
-		+\nabla_{\mbf X}\cdot
-		\left(\eta_f^\alpha\mbf W_f\right)
-		=
-		J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
+	\frac{\partial}{\partial t}
+	\left(J\phi_f\bar\rho_f\eta_f^\alpha\right)
+	\right\vert_{\mbf X}
+	+\nabla_{\mbf X}\cdot
+	\left(\eta_f^\alpha\mbf W_f\right)
+	=
+	J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
 	\label{eq:solid_reference_fluid_component_balance}
 \end{equation}
 %
@@ -203,13 +205,13 @@ so the relative-flux term is absent:
 %
 \begin{equation}
 	\left.
-		\frac{\partial}{\partial t}
-		\left(J\phi_s\bar\rho_s^s\right)
-		\right\vert_{\mbf X}
-		=
-		J\sum_m\nu_{s (m)}^s\dot r_{(m)},
-		\qquad
-		s\in\mc S .
+	\frac{\partial}{\partial t}
+	\left(J\phi_s\bar\rho_s^s\right)
+	\right\vert_{\mbf X}
+	=
+	J\sum_m\nu_{s (m)}^s\dot r_{(m)},
+	\qquad
+	s\in\mc S .
 	\label{eq:solid_reference_solid_component_balance}
 \end{equation}
 %
@@ -231,11 +233,11 @@ result is
 	= & \;
 	\nabla_{\mbf X}\cdot
 	\left(
-	\mbf{P}^{\prime\prime}-B_s\bar p_E
+	\mbf{P}^{\prime\prime}-B\bar p_E
 	J \mbf F^{-T}
 	\right)
 	+J\rho\mbf g
-	\notag                      \\
+	\notag                            \\
 	  & +J\sum_{f\in\mc F}\sum_\alpha
 	\dot c_f^\alpha
 	\left(
