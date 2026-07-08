@@ -23,8 +23,8 @@ with kinetic energy $T$, internal energy $U$, virtual work $\delta W$, and four 
 \begin{align}
 	T        & = \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \dv,
 	\label{eq:T_def}                                                                                                                                                                                                \\
-	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \eta^\al_{\xi})\dv
-	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F}\right) \dv,
+	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \eta^\al_{\xi},\theta)\dv
+	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F},\theta\right) \dv,
 	\label{eq:U_def}                                                                                                                                                                                                \\
 	\delta W & = \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv
 	-\sum_\xi\sum_\alpha\int_{\mc B}L_\xi^\alpha
@@ -53,6 +53,9 @@ the mechanism progress rates to the phase-attached accumulated sources through
 $\dot c_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi$.  The multipliers
 $\lambda$, $\tau_\xi^\alpha$, $\pi_\xi$, and $\mu_\xi^\alpha$ enforce these
 constraints.
+The variations in this section are mechanical and compositional variations at
+fixed temperature.  Temperature is retained as a constitutive state variable and
+is varied in the Coleman--Noll entropy argument below.
 Chemical reactions and pure phase transformations are both represented by the
 unified stoichiometric parameterization \eqref{eq:unified_stoich_current}.  The
 fields $\mbf x_\xi$, $\eta_\xi^\alpha$, $\phi_\xi$, $\bar\rho_\xi$, and
@@ -159,10 +162,10 @@ free-energy variation is
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta\psi_\xi
-	 & = \left.\p{\psi_\xi}{\mbf F_\xi}\right\vert_{\bar\rho_\xi,\eta_\xi^\beta}:\delta\mbf F_\xi
-	+ \left.\p{\psi_\xi}{\bar\rho_\xi}\right\vert_{\mbf F_\xi,\eta_\xi^\beta}\delta\bar\rho_\xi
+	 & = \left.\p{\psi_\xi}{\mbf F_\xi}\right\vert_{\bar\rho_\xi,\eta_\xi^\beta,\theta}:\delta\mbf F_\xi
+	+ \left.\p{\psi_\xi}{\bar\rho_\xi}\right\vert_{\mbf F_\xi,\eta_\xi^\beta,\theta}\delta\bar\rho_\xi
 	+ \sum_\alpha
-	\left.\p{\psi_\xi}{\eta_\xi^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha}}
+	\left.\p{\psi_\xi}{\eta_\xi^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta}
 	\delta\eta_\xi^\alpha .
 	\label{eq:delta_psi_uniform}
 \end{align}
@@ -1001,7 +1004,7 @@ The Coleman--Noll restrictions above close the solid constitutive structure in
 terms of one Helmholtz energy for each mineral solid phase.  The one-component
 mass identity, solid pressure identification, intrinsic stress relation, and
 distension-force restriction are given in
-\eqref{eq:CN_solid_component_mass_identity},
+\eqref{eq:solid_material_mass_distension},
 \eqref{eq:CN_component_intrinsic_pressure_definition},
 \eqref{eq:CN_intrinsic_component_stress}, and
 \eqref{eq:CN_distension_force_definition}.
@@ -1230,7 +1233,7 @@ for a single solid phase becomes
 \begin{equation}
 	\begin{aligned}
 		\rho_s\mbf a_s
-		={} & \nabla_{\mbf x}\cdot\left(\bs\sigma_s^{\prime\prime} + (1 - B_s) \bar{p}_E \right)
+		={} & \nabla_{\mbf x}\cdot\left(\bs\sigma_s^{\prime\prime} + (1 - B_s) \bar{p}_E\mbf I \right)
 		+\rho_s\mbf g+\mbf b_s
 		-\phi_s\nabla_{\mbf x}\bar p_E
 		+\sum_\alpha
@@ -1374,7 +1377,7 @@ distension pressure remains in the equilibrium stress transformation before the
 symmetry argument is applied; preserving stress symmetry then restricts the full
 distension gradient to a scalar stretch and a rotation.  In the Coleman--Noll
 calculation above, the pressure identification
-\eqref{eq:CN_solid_pressure_identification} removes the isotropic density-power
+\eqref{eq:CN_component_intrinsic_pressure_definition} removes the isotropic density-power
 term before the elastic-distension coefficient is set to zero.  The remaining
 restriction \eqref{eq:CN_distension_force_definition} is tensorial.  Thus the
 scalar reduction below is obtained only by imposing the additional
@@ -1473,7 +1476,7 @@ written as a restriction on the double-prime stress:
 	=
 	\sum_{s\in\mc S}\rho_s a_s^e
 	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s}
-	-\left(1-B_s\right)\bar p_E .
+	-\left(1-B\right)\bar p_E .
 	\label{eq:double_prime_distension_trace}
 \end{equation}
 % AGENT-LOCK-END
@@ -1532,7 +1535,7 @@ and the deformation Jacobian.
 
 The solid phase Legendre transform was defined in
 \eqref{eq:solid_legendre_transform_definition} as
-$\widetilde\psi_s=\psi_s+\bar p_s^s \bar v_s^s$.  Thus the
+$\widetilde\psi_s=\psi_s+\bar p_s \bar v_s$.  Thus the
 fixed-pressure stress measure differs from the untransformed Helmholtz stress by
 exactly the Biot pressure correction in
 \eqref{eq:solid_component_cauchy_stress_push_forward}.
@@ -1549,14 +1552,14 @@ current-volume transformed volumetric stress potential to be
 \end{equation}
 % AGENT-LOCK-END
 %
-The admissibility check is direct.  Holding $\bar J_s$ and $\bar p_s^s$
+The admissibility check is direct.  Holding $\bar J_s$ and $\bar p_s$
 fixed,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\left.
 	\p{\widetilde W_{\rm vol}^s}{a_s}
-	\right\vert_{\bar J_s,\bar p_s^s}
+	\right\vert_{\bar J_s,\bar p_s}
 	=
 	\frac{K^{\star s}}{a_s}\ln J .
 	\label{eq:elastic_distension_compatibility}
@@ -1570,7 +1573,7 @@ Therefore
 	a_s
 	\left.
 	\p{\widetilde W_{\rm vol}^s}{a_s}
-	\right\vert_{\bar J_s,\bar p_s^s}
+	\right\vert_{\bar J_s,\bar p_s}
 	=
 	K^{\star s}\ln J .
 	\label{eq:component_transformed_volumetric_trace}
@@ -1601,8 +1604,8 @@ form:
 	a_s
 	\left.
 	\p{\widetilde W_{\rm vol}^s}{a_s}
-	\right\vert_{\bar J_s,\bar p_s^s}
-	+\left(1-B_s^s\right)\bar p_s^s .
+	\right\vert_{\bar J_s,\bar p_s}
+	+\left(1-B_s\right)\bar p_s .
 	\label{eq:component_legendre_trace_bridge}
 \end{equation}
 % AGENT-LOCK-END
@@ -1615,7 +1618,7 @@ Substituting \eqref{eq:component_transformed_volumetric_trace} into
 	\frac{1}{3}\operatorname{tr}(\bs\sigma_s')
 	=
 	K^{\star s}\ln J
-	+\left(1-B_s^s\right)\bar p_s^s .
+	+\left(1-B_s\right)\bar p_s .
 	\label{eq:component_total_trace_biot_compatibility}
 \end{equation}
 % AGENT-LOCK-END
@@ -1628,7 +1631,7 @@ Equivalently, the component Coleman--Noll distension force is
 	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s}
 	=
 	K^{\star s}\ln J
-	+\left(1-B_s^s\right)\bar p_s^s .
+	+\left(1-B_s\right)\bar p_s .
 	\label{eq:component_cn_trace_satisfied}
 \end{equation}
 % AGENT-LOCK-END
@@ -1656,7 +1659,7 @@ equivalent-pressure contribution recovers the double-prime condition:
 	=
 	\sum_{s\in\mc S}\rho_s a_s^e
 	\left.\p{\psi_s}{a_s^e}\heldfixed{\mc X_s}
-	-\left(1-B_s\right)\bar p_E,
+	-\left(1-B\right)\bar p_E,
 	\label{eq:crystallization_double_prime_trace_cn_satisfied}
 \end{equation}
 % AGENT-LOCK-END
@@ -1793,7 +1796,7 @@ Thus a classical crystallization-pressure formula supplies either an algebraic
 equilibrium restriction, a diagnostic output, or a calibration target for the
 kinetic law.  The simulator still advances the Helmholtz-generated stresses,
 balance laws, conversion constraints, and an admissible law for $\dot r_{(m)}$;
-it does not add $\bar p^{\alpha_{(m)}}_c$ as a mechanical load.
+it does not add $\bar p^{s_{(m)}}_c$ as a mechanical load.
 
 \subsection{Model summary, closures, and equation count}
 \label{sec:model_summary_closure_count}
@@ -1849,7 +1852,7 @@ with the corresponding Euler--Lagrange relations
 		 & =0,
 		\qquad f\in\mc F,
 		\label{eq:model_summary_fluid_pressure_relation} \\
-		\lambda+\bar p_s^s
+			\lambda+\bar p_s
 		 & =0,
 		\qquad s\in\mc S,
 		\label{eq:model_summary_solid_pressure_relation} \\
@@ -1857,7 +1860,7 @@ with the corresponding Euler--Lagrange relations
 		 & =\bar p_f,
 		\qquad f\in\mc F,                                \\
 		\frac{\tau_s^s}{\phi_s}
-		 & =\bar p_s^s,
+		 & =\bar p_s,
 		\qquad s\in\mc S .
 		\label{eq:model_summary_phase_pressure_relation}
 	\end{align}
