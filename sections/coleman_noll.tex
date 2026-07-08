@@ -49,8 +49,7 @@ after the one-component mineral-phase restriction.
 
 The Coleman--Noll calculation can be written with phase-level Helmholtz
 potentials for both fluid and solid phases.  For a fluid phase \(f\), let
-specific entropy be denoted by \(\mathfrak{s}\), so that it is not confused with
-the solid phase label \(s\):
+specific entropy be denoted by \(\mathfrak{s}\):
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	e_f=\psi_f+\theta \mathfrak{s}_f,
@@ -66,9 +65,7 @@ phase/component potential:
 \begin{equation}
 	e_s=\psi_s+\theta \mathfrak{s}_s,
 	\qquad
-	\psi_s\equiv\psi_s^s,
-	\qquad
-	\psi_s=\psi_s(\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s^s,\theta).
+	\psi_s=\psi_s(\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s,\theta).
 	\label{eq:CN_solid_component_legendre_relation}
 \end{equation}
 % AGENT-LOCK-END
@@ -81,7 +78,7 @@ The constitutive state sets for the solid and fluid used below are
 \begin{equation}
 	\mc X_f=\{\bar\rho_f,\eta_f^\beta,\theta\},
 	\qquad
-	\mc X_s=\{\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s^s,\theta\}.
+	\mc X_s=\{\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s,\theta\}.
 	\label{eq:CN_state_set_collection}
 \end{equation}
 % AGENT-LOCK-END
@@ -120,12 +117,10 @@ The total rates \(\dot{\bar{\mbf F}}_s\) and \(\dot{\mbf A}_s\) are
 reconstructed from these rates and from the stress-free thermal rates; they are
 not independent Coleman--Noll rates.
 
-Following Drumheller's density identity for an isochoric plastic true deformation
-\cite[eq.~(87)]{drumheller2000}, but retaining the thermal true-dilation factor
-omitted in Drumheller's model, we use
+Following from \eqref{eq:solid_true_mass_conservation} the density rate for a one-component solid phase is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\frac{\dot{\bar\rho}_s^s}{\bar\rho_s^s}
+	\frac{\dot{\bar\rho}_s}{\bar\rho_s}
 	=-\operatorname{tr}
 	\left[
 		\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
@@ -142,17 +137,17 @@ omitted in Drumheller's model, we use
 	\label{eq:CN_solid_density_rate_drumheller}
 \end{equation}
 % AGENT-LOCK-END
-Thus \(\dot{\bar\rho}_s^s\) is not an independent solid rate.  The single active
-component in a solid phase has the same intrinsic density rate as the phase:
+Thus \(\dot{\bar\rho}_s\) is not an independent solid rate. The plastic terms  vanish because the plastic deformation is isochoric.
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\dot{\bar\rho}_s^s=\dot{\bar\rho}_s,
+\begin{equation*}
+	\det\bar{\mbf F}_s^p=1,
 	\qquad
-	\rho_s^s=\rho_s,
+	\operatorname{tr}\left[
+		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+		\right]=0,
 	\qquad
 	s\in\mc S .
-	\label{eq:CN_solid_density_rate_chain_rule}
-\end{equation}
+\end{equation*}
 % AGENT-LOCK-END
 
 The fluid-phase free-energy rates entering the entropy inequality are
@@ -166,27 +161,6 @@ The fluid-phase free-energy rates entering the entropy inequality are
 	\right).
 	\label{eq:CN_fluid_free_energy_rate}
 \end{align}
-% AGENT-LOCK-END
-The dependent quantities are
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{align}
-	\rho_f^\alpha
-	 & = \phi_f\bar\rho_f\eta_f^\alpha,
-	\notag                              \\
-	\rho_s^s
-	 & = \phi_s\bar\rho_s^s,
-	\notag                              \\
-	\sum_\alpha\eta_f^\alpha
-	 & = 1,
-	\qquad
-	\eta_s^s=1,
-	\notag                              \\
-	\bar J_s
-	 & = \det\bar{\mbf F}_s
-	= \frac{J}{a_s}.
-	\label{eq:CN_kinematic_dependencies}
-\end{align}
-% AGENT-LOCK-END
 
 For the solid phases, the one-component restriction gives
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
@@ -200,32 +174,18 @@ For the solid phases, the one-component restriction gives
 		\right.
 	\notag                              \\
 	    & \left.
-		+\left.\p{\psi_s}{\bar\rho_s^s}\heldfixed{\mc X_s}
-		\dot{\bar\rho}_s^s
+		+\left.\p{\psi_s}{\bar\rho_s}\heldfixed{\mc X_s}
+		\dot{\bar\rho}_s
 		+\left.\p{\psi_s}{\theta}\heldfixed{\mc X_s}\dot\theta
 		\right].
 	\label{eq:CN_total_helmholtz_density}
 \end{align}
 % AGENT-LOCK-END
 Substitution of \eqref{eq:CN_solid_density_rate_drumheller} supplies the
-\(\dot{\bar{\mbf F}}_s^e\) and \(\dot\theta\) coefficients used below.  The
-plastic true deformation is isochoric:
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation*}
-	\det\bar{\mbf F}_s^p=1,
-	\qquad
-	\operatorname{tr}\left[
-		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
-		\right]=0,
-	\qquad
-	s\in\mc S .
-\end{equation*}
-% AGENT-LOCK-END
+\(\dot{\bar{\mbf F}}_s^e\) and \(\dot\theta\) coefficients used below.
 
 The fluid-phase Helmholtz energies are phase EOS potentials using the
-fluid-state variables in \eqref{eq:CN_state_set_collection}.  They are not
-assumed to decompose into mass-fraction averages of component Helmholtz
-energies.  No elastic stress power is assigned to the fluid phases, so
+fluid-state variables in \eqref{eq:CN_state_set_collection}.  No elastic stress power is assigned to the fluid phases, so
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\bs\sigma_f'=\mbf 0 .
@@ -260,9 +220,6 @@ state held fixed for the temperature derivative.  The associated interfacial
 entropy per current volume is
 \(-\phi\,\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\).
 
-Source mass is assigned the thermodynamic state of the phase in which the source
-appears.  Thus fluid source mass carries \(e_f=\psi_f+\theta \mathfrak{s}_f\), while solid
-source mass carries \(e_s=\psi_s+\theta \mathfrak{s}_s\) with \(\psi_s\equiv\psi_s^s\).
 
 The phase energy balance is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
@@ -424,8 +381,8 @@ solid--fluid contribution:
 	+
 	\left(
 	\rho_s
-	\left.\p{\psi_s}{\bar\rho_s^s}\heldfixed{\mc X_s}
-	\bar\rho_s^s
+	\left.\p{\psi_s}{\bar\rho_s}\heldfixed{\mc X_s}
+	\bar\rho_s
 	-\phi_s\bar p_s
 	\right)\mbf I
 	\right)
@@ -521,8 +478,8 @@ The elastic true-deformation coefficient for each solid phase gives
 	-
 	\left(
 	\rho_s
-	\left.\p{\psi_s}{\bar\rho_s^s}\heldfixed{\mc X_s}
-	\bar\rho_s^s
+	\left.\p{\psi_s}{\bar\rho_s}\heldfixed{\mc X_s}
+	\bar\rho_s
 	-\phi_s\bar p_s
 	\right)\mbf I,
 	\qquad
@@ -531,41 +488,12 @@ The elastic true-deformation coefficient for each solid phase gives
 \end{align}
 % AGENT-LOCK-END
 The tensor on the left is the stress power conjugate to
-\(\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}\).  The pressure identification
-comes from the one-component solid mass identity
+\(\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}\).  Thus, defining the intrinsic pressure of the one-component solid phase by
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\rho_s^s
-	=\phi_s\bar\rho_s^s
-	=\rho_s,
-	\qquad
-	\eta_s^s=1,
-	\qquad
-	s\in\mc S .
-	\label{eq:CN_solid_component_mass_identity}
-\end{equation}
-% AGENT-LOCK-END
-Using this identity in the density-power coefficient gives the reversible solid
-pressure identification
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\phi_s\bar p_s
-	=\rho_s
-	\left.\p{\psi_s}{\bar\rho_s^s}\heldfixed{\mc X_s}
-	\bar\rho_s^s,
-	\qquad
-	s\in\mc S .
-	\label{eq:CN_solid_pressure_identification}
-\end{equation}
-% AGENT-LOCK-END
-Thus, defining the intrinsic pressure of the one-component solid phase by
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\bar p_s^s
-	=\left(\bar\rho_s^s\right)^2
-	\left.\p{\psi_s}{\bar\rho_s^s}\heldfixed{\mc X_s},
-	\qquad
-	\bar p_s=\bar p_s^s .
+	\bar p_s
+	=\left(\bar\rho_s\right)^2
+	\left.\p{\psi_s}{\bar\rho_s}\heldfixed{\mc X_s}.
 	\label{eq:CN_component_intrinsic_pressure_definition}
 \end{equation}
 % AGENT-LOCK-END
@@ -578,9 +506,9 @@ The corresponding fluid phase pressure is
 	\label{eq:CN_phase_pressure_definition}
 \end{equation}
 % AGENT-LOCK-END
-Substituting \eqref{eq:CN_solid_pressure_identification} into
-\eqref{eq:CN_stress_definition} removes the isotropic density-power term and
-solves for the phase single-primed solid stress as
+Substituting \eqref{eq:CN_component_intrinsic_pressure_definition} into
+\eqref{eq:CN_stress_definition} removes the isotropic density-power term, then
+solving for the phase Cauchy effective stress as
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\bs\sigma_s'
@@ -602,21 +530,11 @@ intrinsic phase stress is the corresponding normalized stress within the solid
 phase:
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\bs\sigma_s'
-	 & =
-	\rho_s
-	\mbf A_s^{-T}
-	\left(
-	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
-	(\bar{\mbf F}_s^e)^T
-	\right)
-	\mbf A_s^T,
-	\notag \\
 	\bar{\bs\sigma}_s'
-	 & =
+	 & \equiv
 	\mbf A_s^{-T}
 	\left(
-	\bar\rho_s^s
+	\bar\rho_s
 	\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
 	(\bar{\mbf F}_s^e)^T
 	\right)
@@ -649,7 +567,7 @@ The distension coefficient gives the tensor restriction
 
 \subsubsection{Solid-volume and fluid-composition restrictions}
 At this point the pressure identification
-\eqref{eq:CN_solid_pressure_identification} has removed the isotropic
+\eqref{eq:CN_component_intrinsic_pressure_definition} has removed the isotropic
 density-power term from the true-deformation contribution.  Since the solid
 phases have \(\eta_s^s=1\) and their stress-free maps depend on temperature
 only, no additional reversible solid-volume-fraction derivative remains.  For
@@ -777,9 +695,7 @@ the mechanism force power.
 
 \subsubsection{Plastic flow rules and residual dissipation}
 The plastic-deformation power in the residual inequality is driven by the
-single-primed stress of each solid phase mapped through that phase's distension
-and true-deformation gradients to its plastic-flow configuration.  Because each
-true-plastic flow is isochoric, only the deviatoric part of that mapped stress
+effective stress $\bs{\sigma}^\prime$ of each solid phase mapped through that phase's distension and true-deformation gradients to its plastic-flow configuration.  Because each true-plastic flow is isochoric, only the deviatoric part of that mapped stress
 contributes.  Define the deviatoric true-plastic driving stress by
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -834,7 +750,7 @@ written as
 % AGENT-LOCK-END
 Admissible reaction kinetics must make \(\sum_m\mc A_{(m)}\dot r_{(m)}\ge 0\),
 for example through a closure
-\(\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\text{state})\) with
+\(\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\bs\Lambda)\) with
 \(\mc A_{(m)}\dot r_{(m)}\ge 0\) for each independent mechanism.  Following the
 same sufficient construction used by Drumheller~\cite{drumheller2000}, one may
 choose generic uncoupled flow rules
