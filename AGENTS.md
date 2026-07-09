@@ -5,6 +5,13 @@
 - Read `VISION.md` at the start of repository work and use it as the high-level guide for the three coordinated tracks: theory manuscript, MOOSE implementation and validation, and agent-assisted simulator workflow.
 - Treat these tracks as coupled work, not isolated projects. Manuscript equations should inform implementation tasks; implementation and validation gaps should feed back into the manuscript; agent workflow assets should encode validated simulator practice.
 - Keep the current manuscript as the source of truth for the theory until a separate implementation paper or simulator documentation explicitly supersedes a claim for its own scope.
+- The active repository layout is:
+  - `main.tex`, `defs.tex`, `sections/`, `all.bib` -- current theory manuscript.
+  - `implementation_paper/` -- companion finite-element implementation and verification paper.
+  - `moose_app/` -- clean MOOSE application scaffold for the new compositional implementation.
+  - `validation/` -- validation matrix, reference data, and postprocessing assets.
+  - `agent_workflows/` -- input-deck templates, schemas, run recipes, checks, and troubleshooting assets.
+  - `references/` -- source PDFs and durable reading notes.
 - Do not split repository structure, branch strategy, or workflow ownership casually. Prefer small, reversible additions that preserve cross-links between theory, code, validation examples, and agent templates.
 - When a task touches more than one track, state which track owns the immediate edit and which downstream tracks need follow-up.
 
@@ -40,12 +47,16 @@
 
 ## MOOSE implementation track
 
-- Implementation work should grow beside the manuscript in a MOOSE application or clearly named implementation directory, with source, tests, examples, and documentation kept separate from LaTeX manuscript source.
+- Implementation work lives in `moose_app/`, a clean MOOSE application scaffold that is intentionally independent of the earlier three-phase/Talha app. Use the earlier app as technical memory and evidence for AD patterns, not as a source tree to copy.
+- The companion implementation-and-verification manuscript lives in `implementation_paper/`. Its finite-element equations should be written on the reference configuration of the solid skeleton unless John explicitly changes that decision.
+- Keep MOOSE source, tests, examples, and documentation separate from LaTeX manuscript source. Do not put kernels or input decks under the theory manuscript `sections/` tree.
 - Preserve traceability from code to theory. New kernels, materials, actions, boundary conditions, and tests should cite the manuscript equation labels or section names they implement whenever the connection is non-obvious.
 - Start from the smallest useful kernel set. Prefer one validated residual path over broad scaffolding for many equations that are not yet tested.
 - Keep finite-element, finite-volume, material-property, and PorousFlow integration decisions explicit. Do not hide discretization assumptions inside generic names or undocumented helper code.
 - Treat implementation tests as part of the research argument. Unit tests, regression tests, manufactured solutions, special-case reductions, and benchmark input files should be organized so they can support the companion implementation-and-validation paper.
 - Do not rewrite the theory to fit a convenient API without flagging the approximation. If a MOOSE implementation requires a closure, linearization, stabilization, variable choice, or weak-form assumption not present in the manuscript, record that gap in the implementation notes or validation plan.
+- Use MOOSE automatic differentiation by default. Scalar thermodynamic potentials may be exposed through `ADDerivativeParsedMaterial` or derivative-material wrappers so oil/compositional partial derivatives can be generated automatically when the potential is a parsed scalar function of coupled variables. Still write explicit materials/user objects for tensor kinematics, pull-backs, phase closure, flash/EOS solves, tabulated PVT/CALPHAD data, flux laws, constraints, and any nontrivial state transformation.
+- Future kernels should remain residual objects: they consume AD material properties and encode weak-form terms, but they should not hide thermodynamics, phase behavior, and mechanics inside one monolithic object.
 
 ## Validation and benchmark track
 

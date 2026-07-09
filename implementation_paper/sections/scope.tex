@@ -1,0 +1,98 @@
+\section{Scope and manuscript contract}
+\label{sec:scope}
+
+This paper is the implementation and verification companion to the
+multicomponent reacting porous-media theory paper.  Its source of truth is the
+strong-form theory in that manuscript, especially the equations pulled back to
+the solid skeleton \cite{foster2026reactingporous}.  The formulation inherits
+the reacting-mixture setting of Drumheller and Bedford
+\cite{drumheller1980thermomechanical,drumheller2000} and the finite-deformation
+poroelastic structure that motivates the nonlinear Biot coefficient
+\cite{foster2025}.  This document does not rederive the variational theory and
+does not claim that any MOOSE object has already been implemented.  Instead, it
+defines the finite-element residuals, material-property interfaces, validation
+matrix, and unresolved thermodynamic derivatives needed before implementation in
+MOOSE \cite{harbour2025moose}.
+
+The computational body is the reference configuration of the solid skeleton,
+\(\refdomain\).  The solid motion
+\[
+	\mbf x = \bs\chi_s(\mbf X,t), \qquad
+	\mbf F = \Grad \bs\chi_s, \qquad
+	J = \det \mbf F
+\]
+maps \(\refdomain\) to the current mixture domain \(\curdomain\).  All storage
+terms, flux divergences, stress divergences, and source terms in this paper are
+assembled per unit solid reference volume unless explicitly stated otherwise.
+Spatial gradients appear only inside constitutive closures that are immediately
+pulled back by \(\mbf F^{-T}\).
+
+The first implementation target is a fully implicit finite-element solve on
+\(\refdomain\) for displacement, phase/component storage variables, conversion
+potentials or equivalent thermodynamic variables, phase partition variables, and
+the Lagrange multipliers required by the constrained thermodynamics.  The exact
+primitive variable set remains a design choice; the residual and algebraic
+definitions below are written in terms of physical storage and thermodynamic
+variables so that later agents can map them to MOOSE variables without changing
+the mathematics or changing the reference measure of the residuals.
+
+\subsection{Closure requirement and first closed problem}
+\label{sec:closure_requirement}
+
+For the purpose of implementation, the system is closed only when each residual
+term in Section~\ref{sec:reference_solid_weak_forms} is supplied by either a
+finite-element unknown, a boundary condition, or an automatic-differentiation
+material property.  The general multicomponent theory is not closed by this
+scaffold alone; the following list is the contract that a closed implementation
+must satisfy:
+\begin{itemize}[leftmargin=*]
+	\item solid-skeleton kinematics: \(\mbf F\), \(J\), \(\mbf F^{-1}\), and
+	the maps between spatial and reference gradients;
+	\item storage variables: \(M_f^\alpha\) and \(M_s\), including the volume
+	and mass-fraction constraints that define \(\phi_\xi\) and
+	\(\eta_\xi^\alpha\);
+	\item thermodynamic forces: \(\bar p_f\), \(\mu_\xi^\alpha\),
+	\(\bar p_E\), and \(B\), with explicitly recorded held-fixed variables for
+	each derivative;
+	\item flux and stress closures: \(\mbf w_f\), \(\mbf W_f\),
+	\(\widetilde{\bs\kappa}_f\), \(\widetilde{\mbf K}_f\),
+	\(\mbf P^{\prime\prime}\), and the pressure stress contribution
+	\(B\bar p_EJ\mbf F^{-T}\);
+	\item conversion closures: \(\dot r_{(m)}\), \(\dot c_\xi^\alpha\), and
+	any affinity or activity model used by the reaction network.
+	\item phase kinematics for mobile phases: solid-frame advection of
+	phase-attached scalar fields through \(\mbf W_f\).
+\end{itemize}
+If any item in this list is not provided, the corresponding kernel would encode
+an implicit constitutive assumption and the implementation would not yet be a
+closed discretization of the theory.
+
+The first closed review problem is deliberately narrower than the full theory
+but retains the full conversion structure needed for verification.  It is
+isothermal, uses one mobile fluid phase and one solid skeleton phase, prescribes
+a single reaction-rate law, and solves on \(\refdomain\) for displacement,
+solid-reference component storage variables, phase partition variables, and the
+conversion potentials required by the affinity law.  A thermodynamic material
+maps those variables and \(\mbf F\) to
+\(\phi_\xi\), \(\eta_\xi^\alpha\), \(\bar p_f\), \(\mu_\xi^\alpha\),
+\(\bar p_E\), \(B\), and \(\dot c_\xi^\alpha\).  The first kernels therefore
+include the component storage residuals, the solid storage residual, the
+conversion-potential evolution equations, the reference-flux closure, and the
+quasi-static skeleton momentum residual.  Additional
+multifluid phase equilibrium, thermal effects, and plasticity are planned
+extensions.
+
+\subsection{Out of scope for this scaffold}
+\label{sec:out_of_scope}
+
+The following items are deliberately excluded from this initial scaffold:
+\begin{itemize}[leftmargin=*]
+	\item Implemented C++ kernels, materials, actions, input decks, or tests.
+	\item A final choice between direct component-mass variables, pressure-composition variables, or reduced saturation-composition variables.
+	\item Stabilization, upwinding, limiters, or finite-volume alternatives.
+	\item Full benchmark data or production-scale reservoir examples.
+\end{itemize}
+
+Those decisions should be added only after the weak forms, thermodynamic
+closures, and automatic-differentiation dependencies have been checked against
+the theory manuscript.

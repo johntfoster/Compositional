@@ -1,0 +1,113 @@
+\section{MOOSE implementation strategy}
+\label{sec:moose_implementation_strategy}
+
+The MOOSE implementation should be built from residual objects that map
+directly to the weak forms in Section~\ref{sec:reference_solid_weak_forms}.  The
+first implementation milestone is not broad feature coverage; it is one
+validated residual path on the solid reference configuration.
+
+\subsection{Proposed object responsibilities}
+\label{sec:object_responsibilities}
+
+\begin{table}[h]
+	\centering
+	\caption{Initial implementation interfaces.  Names are descriptive
+	placeholders, not required C++ class names.}
+	\label{tab:implementation_interfaces}
+	\small
+	\begin{tabular}{p{0.23\linewidth}p{0.34\linewidth}p{0.26\linewidth}}
+		\toprule
+		Object role & Computes & Weak-form target \\
+		\midrule
+		Solid kinematics material & \(\mbf F\), \(J\), \(\mbf F^{-1}\), \(\mbf v_s\) & all solid-reference residuals \\
+		Phase advection material & \(\mbf v_f\) and \(D_f(\cdot)/Dt\) from \(\mbf W_f\) & Eq.~\eqref{eq:fluid_material_derivative_on_solid_frame} \\
+		Thermodynamics material & \(\bar p_f\), \(\mu_\xi^\alpha\), \(\bar p_E\), \(B\), \(\tau_\xi^\alpha\), \(\pi_\xi\), \(\lambda\) & flux, momentum, algebraic constraints \\
+		Reaction material & \(\dot r_{(m)}\), \(\dot c_\xi^\alpha\), affinities & source and conversion terms \\
+		Reference flux material & \(\mbf W_f\), \(\widetilde{\mbf K}_f\) & Eq.~\eqref{eq:fluid_component_residual} \\
+		Stress material & \(\mbf P^{\prime\prime}\), pressure stress split & Eq.~\eqref{eq:momentum_residual} \\
+		Component kernels & storage, flux, source residuals & Eq.~\eqref{eq:fluid_component_residual} \\
+		Solid kernels & solid storage and conversion residuals & Eq.~\eqref{eq:solid_component_residual} \\
+		Conversion-potential kernels & solid-frame evolution of \(\mu_\xi^\alpha\) & Eqs.~\eqref{eq:fluid_mu_residual}--\eqref{eq:solid_mu_residual} \\
+		Constraint kernels/material solves & partition, pressure, and composition relations & Eqs.~\eqref{eq:implementation_partition_relations}--\eqref{eq:implementation_pi_difference_system} \\
+		Momentum kernels & skeleton force balance & Eq.~\eqref{eq:momentum_residual} \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+All objects should use automatic differentiation from the start.  Non-AD helper
+properties may be acceptable only for constants or diagnostics that do not enter
+Newton derivatives.
+
+\subsection{Automatic-differentiation boundary}
+\label{sec:ad_boundary}
+
+The implementation should separate scalar thermodynamic differentiation from
+tensorial kinematics and residual assembly.  The current MOOSE finding is that
+\texttt{ADDerivativeParsedMaterial} can represent scalar Helmholtz-free-energy
+closures and expose derivatives such as pressures, chemical potentials, and
+selected second derivatives when the independent scalar arguments are chosen
+explicitly.  That capability is useful for local thermodynamic derivatives, but
+it does not remove the need for explicit AD C++ code for solid and fluid
+deformation-gradient kinematics, Piola transformations, pulled-back modified
+permeability, source closures, constraint residuals, conversion-potential
+evolution, and the weak forms in
+Section~\ref{sec:reference_solid_weak_forms}.
+
+Consequently, parsed derivative materials should be treated as thermodynamic
+building blocks rather than as the implementation architecture.  Kernels and
+materials that compute \(\mbf F\), \(J\), \(\mbf F^{-1}\), \(\mbf W_f\),
+\(\mbf v_f\), \(\mbf P^{\prime\prime}\),
+\(B\bar p_EJ\mbf F^{-T}\), and the storage/source terms must retain full AD
+dependence on the finite-element variables and their gradients.
+
+This boundary gives a practical rule for the first code review: a parsed free
+energy may define a scalar potential and its partial derivatives, but a MOOSE
+kernel must still show exactly which weak-form term it contributes to.  If a
+derivative is produced by a parsed material, the input file must document the
+independent variables and the maximum derivative order requested.  If a
+derivative is produced by compiled C++, the material header or source should
+state the thermodynamic identity it implements.
+
+\subsection{Primitive variables}
+\label{sec:primitive_variables}
+
+The scaffold leaves the primitive variables open.  The choice should be made by
+checking which variables give a nonsingular thermodynamic Jacobian and a clean
+mapping to standard reservoir limits.  Candidate sets include:
+\begin{itemize}[leftmargin=*]
+	\item displacement plus independent Lagrangian component masses;
+	\item displacement, phase pressures, saturations, and component fractions with algebraic closures;
+	\item displacement plus thermodynamic potentials and constraint multipliers.
+\end{itemize}
+
+Whichever set is chosen, materials must provide the physical quantities used in
+the residuals: \(M_f^\alpha\), \(M_s\), \(\mbf W_f\),
+\(\mbf P^{\prime\prime}\), \(\bar p_E\), \(B\), \(\mu_\xi^\alpha\),
+\(\tau_\xi^\alpha\), \(\pi_\xi\), \(\lambda\), and \(\dot r_{(m)}\).
+
+The first reviewable implementation plan is closed only for the restricted
+problem stated in Section~\ref{sec:closure_requirement}.  The broader
+primitive-variable contract remains open; once chosen, it must be recorded as
+the map from finite-element variables to the physical quantities appearing in
+the residuals.
+
+\subsection{Discretization defaults}
+\label{sec:discretization_defaults}
+
+The first finite-element discretization should use continuous Lagrange elements
+with a mixed order sufficient to avoid locking or pressure oscillations in the
+poroelastic limit.  A conservative starting point is quadratic displacement and
+linear scalar variables, matching the Taylor--Hood pattern already used in the
+three-phase implementation.  Stabilization should be introduced only after a
+specific failure mode is identified and tied to a documented weak-form
+approximation.
+
+\subsection{Traceability rules}
+\label{sec:traceability_rules}
+
+Each eventual MOOSE object should cite the controlling equation in this paper
+and the corresponding equation or section in the theory manuscript.  Each input
+deck should state the reduction it exercises: compositional flow, black-oil
+limit, poromechanics, reaction-only conversion, phase equilibrium, or a coupled
+benchmark.  Generated exodus output is not validation by itself; every
+verification case needs an observable, a reference result, and a tolerance.

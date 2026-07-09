@@ -1,0 +1,40 @@
+\section{Validation matrix}
+\label{sec:validation_matrix}
+
+The validation suite should grow from reductions with analytic or trusted
+reference solutions toward coupled reservoir-scale benchmarks.  Each entry must
+exercise a defined subset of the closed interface in
+Section~\ref{sec:closure_requirement}; otherwise a passing run would not
+identify which part of the theory has been verified.  Table
+\ref{tab:validation_matrix} is the initial planning matrix.
+
+\begin{table}[ht]
+	\centering
+	\caption{Initial validation and verification plan.}
+	\label{tab:validation_matrix}
+	\small
+	\begin{tabular}{p{0.18\linewidth}p{0.22\linewidth}p{0.24\linewidth}p{0.20\linewidth}}
+		\toprule
+		Case & Active residuals/interfaces & Reference result & Pass criterion \\
+		\midrule
+		Reference kinematics patch & solid kinematics material only & analytic \(\mbf F\), \(J\), and Piola tensor maps & pointwise tensor error below tolerance \\
+		Fluid advection patch & Eq.~\eqref{eq:fluid_material_derivative_on_solid_frame} & prescribed \(\mbf W_f/(J\rho_f)\) and manufactured scalar field & advective derivative error below tolerance \\
+		Thermodynamic derivative check & parsed or compiled free-energy material & analytic or finite-difference derivatives of \(\bar p_f\), \(\mu_\xi^\alpha\), \(\bar p_E\), and \(B\) & derivative error and AD Jacobian error below tolerance \\
+		Algebraic partition check & Eqs.~\eqref{eq:implementation_partition_relations}--\eqref{eq:implementation_pi_difference_system} & manufactured phase split and pressures & constraint residuals and multiplier relations below tolerance \\
+		Single-phase diffusion through fixed skeleton & Eq.~\eqref{eq:fluid_component_residual}, Eq.~\eqref{eq:reference_flux_closure} with no conversion & manufactured diffusion solution & mass error and convergence rate within tolerance \\
+		Reaction-only closed box & Eq.~\eqref{eq:fluid_component_residual}, Eq.~\eqref{eq:solid_component_residual}, Eq.~\eqref{eq:implementation_conversion_rate_constraint}, no flux & analytic ordinary differential equation for Lagrangian masses & storage and volume-constraint errors below tolerance \\
+		Conversion-potential evolution & Eqs.~\eqref{eq:fluid_mu_residual}--\eqref{eq:affinity_projection_residual} & manufactured \(\mu_\xi^\alpha(t,\mbf X)\) and affinity & evolution and affinity errors below tolerance \\
+		Drained reaction cell & component and solid residuals with pressure boundary & constant-pressure analytic reduction & pressure boundary maintained and storage history within tolerance \\
+		Undrained reaction cell & component, solid, and momentum residuals with no flux & analytic or semi-analytic \(J(t)\) and pressure response & displacement, pressure, and mass errors below tolerance \\
+		Terzaghi or Mandel limit & Eq.~\eqref{eq:momentum_residual} plus single-pressure storage reduction & classical poroelastic solution & pressure dissipation and displacement within tolerance \\
+		Classical compositional-flow limit & rigid skeleton, component residuals, Darcy flux, thermodynamic material & trusted compositional simulator or manufactured solution & component inventories and pressure within tolerance \\
+		Phase-equilibrium flash limit & thermodynamic material or user object only & independent flash calculation & phase split and chemical potentials within tolerance \\
+		Coupled reaction--mechanics front & first closed problem plus spatial reaction source & benchmark or refined-solution comparison & front location, stress, and mass balance within tolerance \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+For each case, the repository should eventually contain the input deck,
+postprocessing script, reference data or analytic calculation, and a short note
+identifying which residual terms are active.  Expensive examples should have a
+smaller regression analogue that protects the same implementation path.

@@ -1,0 +1,189 @@
+\section{Algebraic and kinematic closure on the solid frame}
+\label{sec:algebraic_kinematic_closure}
+
+The weak forms in Section~\ref{sec:reference_solid_weak_forms} are not a
+closed finite-element system unless the partition constraints, thermodynamic
+multiplier relations, conversion-potential evolution laws, and phase kinematics
+are solved or supplied as material equations.  This section records those
+relations in the variables needed by a solid-reference implementation.
+
+\subsection{Partition and storage equations}
+\label{sec:partition_storage_equations}
+
+For each phase \(\xi\) and component \(\alpha\), the component partial density,
+phase partial density, intrinsic density, volume fraction, and mass fraction
+are tied by
+\begin{subequations}
+	\label{eq:implementation_partition_relations}
+	\begin{align}
+		\rho_\xi^\alpha
+		 & =\phi_\xi\bar\rho_\xi\eta_\xi^\alpha,
+		\label{eq:implementation_component_density_partition} \\
+		\rho_\xi
+		 & =\phi_\xi\bar\rho_\xi,
+		\label{eq:implementation_phase_density_partition} \\
+		\sum_\xi\phi_\xi
+		 & =1,
+		\label{eq:implementation_volume_partition} \\
+		\sum_\alpha\eta_\xi^\alpha
+		 & =1 .
+		\label{eq:implementation_mass_fraction_partition}
+	\end{align}
+\end{subequations}
+The phase-attached material mass identity gives the pointwise storage relation
+\begin{equation}
+	\rho_{\xi0}^\alpha+\mc C_\xi^\alpha
+	=
+	J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha .
+	\label{eq:implementation_phase_material_storage}
+\end{equation}
+For a fluid phase \(f\), the solid-reference storage that enters the component
+balance is \(J\phi_f\bar\rho_f\eta_f^\alpha\), where \(J\) is the solid
+skeleton Jacobian.  Equation~\eqref{eq:implementation_phase_material_storage}
+is still needed because the current source rate is
+\begin{equation}
+	\dot c_\xi^\alpha
+	=
+	\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+	=
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)} .
+	\label{eq:implementation_conversion_rate_constraint}
+\end{equation}
+Thus \(J_\xi\) is part of the phase-attached definition of
+\(\dot{\mc C}_\xi^\alpha\).  The first solid-reference implementation uses the
+current production rate \(\dot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\)
+directly in the pulled-back source \(J\dot c_\xi^\alpha\), so it does not need a
+separate \(J_f\) residual unless a later constitutive closure evolves
+\(\mc C_f^\alpha\) as a phase-reference history variable.
+
+\subsection{Fluid material derivatives on the solid frame}
+\label{sec:fluid_material_derivatives_solid_frame}
+
+The mobile phase velocity is not introduced through an independent displacement
+or deformation-gradient solve in the first implementation path.  It is
+reconstructed from the reference relative mass flux already used in the
+component balance:
+\begin{equation}
+	\mbf v_f
+	=
+	\mbf v_s+\frac{1}{J\rho_f}\mbf F\mbf W_f .
+	\label{eq:implementation_fluid_velocity_reconstruction}
+\end{equation}
+Therefore any phase-attached scalar field \(q_f\) stored on the solid mesh has
+\begin{equation}
+	\frac{D_f q_f}{Dt}
+	=
+	\left.\frac{\partial q_f}{\partial t}\right|_{\mbf X}
+	+\frac{1}{J\rho_f}\mbf W_f\cdot\Grad q_f .
+	\label{eq:fluid_material_derivative_on_solid_frame}
+\end{equation}
+This identity is the form needed by the conversion-potential residuals.  Mobile
+phase deformation-gradient and Jacobian evolution may be introduced later as
+auxiliary history variables if a constitutive model requires them, but they are
+not separate finite-element residuals in the first solid-reference formulation.
+
+\subsection{Thermodynamic multiplier and partition relations}
+\label{sec:thermodynamic_partition_relations}
+
+The pressure relation needed by the implementation is
+\begin{equation}
+	\bar p_\xi
+	=
+	\bar\rho_\xi^2
+	\left.\frac{\partial\psi_\xi}{\partial\bar\rho_\xi}\right|_{\mbf F_\xi,\eta_\xi^\beta,\theta}.
+	\label{eq:implementation_phase_pressure}
+\end{equation}
+The equivalent pore pressure is
+\begin{equation}
+	\bar p_E
+	=
+	-\lambda
+	=
+	\sum_{f\in\mc F}S_f\bar p_f-\gamma .
+	\label{eq:implementation_equivalent_pressure_relation}
+\end{equation}
+The individual capillary relation
+\(\lambda+\bar p_f-\gamma_f=0\) and the pressure-difference relation
+\(\bar p_f-\bar p_g=\gamma_f-\gamma_g\) are useful diagnostics, but they need
+not be separate residual equations if the selected primitive variables enforce
+\(\bar p_E=-\lambda\) and the capillary closure directly.
+The mass-fraction Euler--Lagrange equations provide the composition partition
+relation on the constrained tangent space:
+\begin{align}
+		\rho_\xi
+		\left(
+		\left.
+		\frac{\partial\psi_\xi}{\partial\eta_\xi^\beta}
+		\right|_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\kappa\neq\beta},\theta}
+		-
+		\left.
+		\frac{\partial\psi_\xi}{\partial\eta_\xi^N}
+		\right|_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\kappa\neq N},\theta}
+		\right)
+		 & =
+		\frac{\tau_\xi^\beta}{\eta_\xi^\beta}
+		-\frac{\tau_\xi^N}{\eta_\xi^N},
+		\quad \beta=1,\ldots,N-1.
+	\label{eq:implementation_pi_difference_system}
+\end{align}
+These algebraic equations are not optional postprocessing quantities.  They are
+part of the nonlinear system that defines \(\phi_\xi\),
+\(\eta_\xi^\alpha\), \(\tau_\xi^\alpha\), \(\lambda\), \(\bar p_f\), and
+\(\bar p_E\) from the chosen primitive variables.  If all component mass
+fractions are solved directly, the unprojected equation with the multiplier
+\(\pi_\xi\) may be used instead, but the projected system is the minimal
+independent implementation form.
+
+\subsection{Conversion potential evolution on the solid frame}
+\label{sec:conversion_potential_solid_frame}
+
+Variation of the phase-attached conversion variables first gives a relation
+containing the conversion-work potential \(L_\xi^\alpha\).  The
+Coleman--Noll restriction \(L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi\) makes the
+admissible conversion-potential equation
+\begin{equation}
+	\Dt{\xi}{\mu_\xi^\alpha}
+	=
+	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	-\mu_\xi^\alpha
+	-\frac{\tau_\xi^\alpha}
+	{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
+	\label{eq:implementation_conversion_potential_evolution_phase}
+\end{equation}
+Using \eqref{eq:fluid_material_derivative_on_solid_frame}, the fluid
+conversion-potential equation is
+\begin{align}
+	\left.\frac{\partial\mu_f^\alpha}{\partial t}\right|_{\mbf X}
+	+\frac{\mbf W_f}{J\rho_f}\cdot\Grad\mu_f^\alpha
+	=
+	\frac{1}{2}\mbf v_f\cdot\mbf v_f
+	-\mu_f^\alpha
+	-\frac{\tau_f^\alpha}
+	{\phi_f\bar\rho_f\eta_f^\alpha}.
+	\label{eq:implementation_mu_fluid_solid_frame}
+\end{align}
+For a solid phase attached to the skeleton, \(\mbf v_s-\mbf v_s=\mbf0\), so
+\begin{align}
+	\left.\frac{\partial\mu_s^s}{\partial t}\right|_{\mbf X}
+	=
+	\frac{1}{2}\mbf v_s\cdot\mbf v_s
+	-\mu_s^s
+	-\frac{\tau_s^s}
+	{\phi_s\bar\rho_s}.
+	\label{eq:implementation_mu_solid_solid_frame}
+\end{align}
+The affinity driving mechanism \(m\) is the stoichiometric projection
+\begin{equation}
+	\mc A_{(m)}
+	=
+	-\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
+	\label{eq:implementation_affinity_projection}
+\end{equation}
+Equations~\eqref{eq:implementation_conversion_potential_evolution_phase}--
+\eqref{eq:implementation_affinity_projection} are required whenever the
+implementation solves conversion potentials or uses affinity-based kinetics.
+For the first closed problem, \(\mu_\xi^\alpha\) is a solved field on the solid
+mesh.  Its residual is given in Section~\ref{sec:conversion_potential_weak_form}
+so that the affinity and reaction-rate law are differentiated consistently by
+MOOSE AD.

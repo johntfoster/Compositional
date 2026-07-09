@@ -5,94 +5,53 @@
 \label{sec:classical_compositional_limit}
 
 The preceding equations contain the usual compositional-reservoir structure as a
-special limit.  The phase/component source is
-%
-\begin{equation}
-	\dot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)},
-	\label{eq:classical_source_form}
-\end{equation}
-%
-which is the phase-resolved analogue of the standard reactive-transport source.
-Restrict attention to the fluid pore phases and write their volume fractions as
-%
-\begin{equation}
-	\phi_f=\phi S_f,
-	\qquad
-	\sum_{f\in\mc F}S_f=1,
-	\label{eq:classical_saturation_identification}
-\end{equation}
-%
-where $\phi$ is porosity and $S_f$ is the saturation of fluid phase $f$.
-Substitution in \eqref{eq:component_spatial_mass} gives the mass form of the
-phase/component compositional balance,
-%
-\begin{equation}
-	\frac{\partial}{\partial t}\left(\phi S_f\bar\rho_f\eta_f^\alpha\right)
-	+\nabla_{\mbf x}\cdot
-	\left(\phi S_f\bar\rho_f\eta_f^\alpha\mbf v_f\right)
-	=\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
-	\label{eq:classical_phase_mass_balance}
-\end{equation}
-%
-This is the usual phase/component compositional balance, written per unit mass
-rather than per mole.  With mechanical dispersion and molecular diffusion
-omitted, it is the mass counterpart of Balhoff's standard compositional balance
-\cite[eq.~(7.15b)]{balhoff2022multiphase}.  If the equation is written relative
-to the solid skeleton, the phase Darcy flux is
-%
-\begin{equation}
-	\mbf q_f=\phi S_f(\mbf v_f-\mbf v_s).
-	\label{eq:classical_darcy_flux_definition}
-\end{equation}
-%
-For the fixed-skeleton case $\mbf v_s=\mbf 0$, so
-\eqref{eq:classical_phase_mass_balance} becomes
-%
-\begin{equation}
-	\frac{\partial}{\partial t}\left(\phi S_f\bar\rho_f\eta_f^\alpha\right)
-	+\nabla_{\mbf x}\cdot
-	\left(\bar\rho_f\eta_f^\alpha\mbf q_f\right)
-	=\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
-	\label{eq:classical_phase_mass_darcy_balance}
-\end{equation}
-%
-The standard Darcy closure follows from
-\eqref{eq:standard_darcy_mass_flux_limit} by taking $\mbf v_s=\mbf 0$ and
-$\bs\kappa_f=\kappa_{fr}(\{S_g\}_{g\in\mc F})\bs\kappa$:
-%
-\begin{equation}
-	\mbf q_f
-	=-\frac{\kappa_{fr}(\{S_g\}_{g\in\mc F})}{\mu_f}
-	\bs\kappa
-	\left(\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g\right),
-	\label{eq:classical_darcy_closure}
-\end{equation}
-%
-which is Balhoff's Darcy law \cite[eq.~(178)]{balhoff2022multiphase} in the
-present notation.  In the present theory this is not postulated at the
-balance-law level: it is a closure that replaces the fluid-phase momentum
-equation \eqref{eq:el_mom_f_simplified} after inertia, body interactions, and
-conversion-momentum terms have been specialized.
-
-Summing \eqref{eq:classical_phase_mass_darcy_balance} over fluid phases yields
+special limit.  Restrict attention to the fluid pore phases, write
+$\phi_f=\phi S_f$ with $\sum_{f\in\mc F}S_f=1$, and use the phase-resolved
+source representation \eqref{eq:unified_stoich_current} in the global component
+balance \eqref{eq:spatial_mass_2}.  The result is
 %
 \begin{equation}
 	\frac{\partial}{\partial t}
 	\left(\phi\sum_{f\in\mc F}S_f\bar\rho_f\eta_f^\alpha\right)
 	+\nabla_{\mbf x}\cdot
-	\left(\sum_{f\in\mc F}\bar\rho_f\eta_f^\alpha\mbf q_f\right)
+	\left(
+	\sum_{f\in\mc F}
+	\phi S_f\bar\rho_f\eta_f^\alpha\mbf v_f
+	\right)
 	=\sum_{f\in\mc F}\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
 	\label{eq:classical_total_mass_component_balance}
 \end{equation}
 %
-Thus the current balance law already has the standard compositional-flow form
-once the reservoir variables $\phi$ and $S_f$ are introduced.  The difference is
-that the present stoichiometric coefficients retain the phase label.  A pure
-phase transformation is the special case in which the component label is
-unchanged and the two nonzero entries satisfy
-$\nu_{\xi (m)}^\alpha=-1$ and $\nu_{\zeta (m)}^\alpha=+1$; after summing over
-phases, its contribution to the total component source vanishes, but it still
-changes the phase saturations and phase compositions.
+This is the usual phase/component compositional balance, written per unit mass
+rather than per mole and with mechanical dispersion and molecular diffusion
+omitted.  It is the mass counterpart of Balhoff's standard compositional balance
+\cite[eq.~(7.15b)]{balhoff2022multiphase}.  Taking $\mbf v_s=\mbf 0$ in
+\eqref{eq:standard_darcy_mass_flux_limit} and using
+$\bs\kappa_f=\kappa_{fr}(\{S_g\}_{g\in\mc F})\bs\kappa$ gives Darcy
+law in the present notation.  The
+current balance law already has the standard compositional-flow form once the
+reservoir variables $\phi$ and $S_f$ are introduced.  The difference is that the
+present stoichiometric coefficients retain the phase label.  A pure phase
+transformation is the special case in which the component label is unchanged and
+the two nonzero entries satisfy $\nu_{\xi (m)}^\alpha=-1$ and
+$\nu_{\zeta (m)}^\alpha=+1$; after summing over phases, its contribution to the
+total component source vanishes, but it still changes the phase saturations and
+phase compositions.
+
+Capillary pressure enters the compositional-flow limit through the interfacial
+energy, not as an independent balance law.  The general theory defines
+saturations through \eqref{eq:fluid_saturation_definitions}, assigns an
+interfacial Helmholtz energy \eqref{eq:interfacial_energy_density}, and recovers
+phase pressure differences in
+\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  Thus capillary laws
+are algebraic pressure-difference closures.  A compositional implementation
+typically chooses one reference pressure and reconstructs the remaining phase
+pressures from capillary-pressure relations before evaluating the Darcy fluxes.
+In the present variational model this is the algebraic specialization of the
+more general statement \(\bar p_f=\bar p_E+\gamma_f\): capillary offsets
+redistribute the phase pressures while the saturation-weighted pressure gradient
+reduces to the equivalent-pressure gradient in
+\eqref{eq:fluid_pressure_gradient_equivalent_pressure}.
 
 The remaining algebraic structure is also recovered.  The within-phase
 composition constraints are
@@ -212,3 +171,295 @@ phase-attached variational mechanics in which the Jacobian $J_\xi$ is varied.
 That is what exposes the conversion-induced momentum production terms and gives
 a direct bridge between mixture mechanics and classical compositional reactive
 transport.
+
+\subsection{Black-oil limit}
+\label{sec:black_oil_limit}
+
+The black-oil model is obtained by further specializing
+\eqref{eq:classical_total_mass_component_balance}.  Take the fluid phases to be
+water, oil, and gas, \(\mc F=\{w,o,g\}\), neglect mechanical dispersion and
+molecular diffusion as above, use a fixed solid frame, and replace the full
+component EOS by black-oil formation-volume factors and solution-gas data.  In
+stock-tank units the phase/component storage factors are identified as
+%
+\begin{equation}
+	\bar\rho_w\eta_w^W=\frac{\rho_{w,{\rm sc}}}{B_w},
+	\qquad
+	\bar\rho_o\eta_o^O=\frac{\rho_{o,{\rm sc}}}{B_o},
+	\qquad
+	\bar\rho_g\eta_g^G=\frac{\rho_{g,{\rm sc}}}{B_g},
+	\qquad
+	\bar\rho_o\eta_o^G=\frac{\rho_{g,{\rm sc}}R_s}{B_o}.
+	\label{eq:black_oil_storage_identifications}
+\end{equation}
+%
+Here \(B_w\), \(B_o\), and \(B_g\) are formation-volume factors, \(R_s\) is the
+dissolved gas-oil ratio, and the subscript \({\rm sc}\) denotes surface
+conditions.  With the phase volumetric flux
+\(\mbf q_f=\phi S_f\mbf v_f\), division of the water, oil-component, and
+gas-component balances by their corresponding surface densities gives
+%
+\begin{align}
+	\frac{\partial}{\partial t}\left(\phi\frac{S_w}{B_w}\right)
+	+\nabla_{\mbf x}\cdot\left(\frac{\mbf q_w}{B_w}\right)
+	 & = \mc Q_w,
+	\label{eq:black_oil_water_balance}                                    \\
+	\frac{\partial}{\partial t}\left(\phi\frac{S_o}{B_o}\right)
+	+\nabla_{\mbf x}\cdot\left(\frac{\mbf q_o}{B_o}\right)
+	 & = \mc Q_o,
+	\label{eq:black_oil_oil_balance}                                      \\
+	\frac{\partial}{\partial t}
+	\left[
+	\phi\left(\frac{S_g}{B_g}+R_s\frac{S_o}{B_o}\right)
+	\right]
+	+\nabla_{\mbf x}\cdot
+	\left[
+	\frac{\mbf q_g}{B_g}
+	+R_s\frac{\mbf q_o}{B_o}
+	\right]
+	 & = \mc Q_g .
+	\label{eq:black_oil_gas_balance}
+\end{align}
+%
+These are the standard black-oil conservation laws: water is present only in the
+water phase, the stock-tank oil component is present in the oil phase, and the
+stock-tank gas component is present in the gas phase and dissolved in the oil
+phase through \(R_s\).  The specialization removes the need for full
+phase-composition unknowns; \(B_f\) and \(R_s\) are supplied as black-oil PVT
+closures instead of being generated by a full compositional flash.
+
+The phase fluxes follow from the same Darcy reduction used in
+\eqref{eq:standard_darcy_mass_flux_limit}.  With
+\(\bs\kappa_f=k_{rf}\bs\kappa\), the fixed-frame flux closure is
+%
+\begin{equation}
+	\mbf q_f
+	=
+	-\frac{k_{rf}}{\mu_f}\bs\kappa
+	\left(\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g\right),
+	\qquad
+	f\in\{w,o,g\}.
+	\label{eq:black_oil_darcy_flux}
+\end{equation}
+%
+If oil pressure is chosen as the black-oil reference pressure, the general
+capillary-pressure closure described above specializes to the usual water-oil and
+gas-oil relations
+%
+\begin{equation}
+	\bar p_w=\bar p_o-p_{cow}(S_w),
+	\qquad
+	\bar p_g=\bar p_o+p_{cgo}(S_g).
+	\label{eq:black_oil_capillary_pressure_closures}
+\end{equation}
+%
+These closures are then used with one pressure, for example \(\bar p_o\), and
+two independent saturations because \(S_w+S_o+S_g=1\).  The remaining phase
+pressures are reconstructed from \eqref{eq:black_oil_capillary_pressure_closures}
+before evaluating \eqref{eq:black_oil_darcy_flux}.
+
+\subsection{Single-solid, single-fluid Biot limit}
+\label{sec:single_solid_single_fluid_biot_limit}
+
+The classical Biot poromechanics equations are recovered by taking one solid
+skeleton phase and one fluid pore phase, \(\mc S=\{s\}\) and \(\mc F=\{f\}\),
+with no reactions or phase transformations.  There is then no fluid-fluid
+interface, no capillary-pressure difference, and the equivalent pressure
+coincides with the unique fluid pressure,
+\(\bar p_E=\bar p_f\).  The solid pressure relation
+\eqref{eq:solid_pressure_equivalent_component_average} also gives
+\(\bar p_s=\bar p_E\).  In this limit
+\eqref{eq:solid_biot_mixture_coefficient_definition} reduces to \(B=B_s\), so the
+nonlinear coefficient in \eqref{eq:component_nonlinear_biot_coefficient} is the
+Biot coefficient of the single skeleton.
+
+With conversion terms removed, the overall momentum balance
+\eqref{eq:overall_momentum_nonlinear_biot} becomes
+%
+\begin{equation}
+	\sum_{\xi\in\{s,f\}}\rho_\xi\mbf a_\xi
+	=
+	\nabla_{\mbf x}\cdot
+	\left(
+	\bs\sigma^{\prime\prime}
+	-B\bar p_f\mbf I
+	\right)
+	+\rho\mbf g .
+	\label{eq:biot_limit_spatial_momentum}
+\end{equation}
+%
+Thus the total Cauchy stress is the fixed-pressure skeleton stress minus the
+Biot pressure correction.  For a quasi-static skeleton solve the inertial term
+is dropped, giving the usual equilibrium equation
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot
+	\left(
+	\bs\sigma^{\prime\prime}
+	-B\bar p_f\mbf I
+	\right)
+	+\rho\mbf g=\mbf 0 .
+	\label{eq:biot_limit_quasistatic_momentum}
+\end{equation}
+%
+The fluid transport equation is the single-fluid specialization of the
+solid-reference component balance.  Let
+\(\mbf w_f=\phi_f\bar\rho_f\left(\mbf v_f-\mbf v_s\right)\) be the current
+relative mass flux and let \(\mbf W_f\) be its Piola transform defined in
+\eqref{eq:reference_relative_mass_flux}.  In
+\eqref{eq:solid_reference_fluid_component_balance}, take the single component in
+the single fluid phase to be the fluid itself.  Then \(\eta_f^f=1\), the
+conversion source vanishes, and the component storage
+\(J\phi_f\bar\rho_f\eta_f^f\) reduces to the Lagrangian fluid mass
+\(J\phi_f\bar\rho_f\).  The corresponding current-balance form is obtained from
+\eqref{eq:component_spatial_mass} by the same specialization and by splitting
+the fluid velocity into solid motion plus relative flux:
+%
+\begin{equation}
+	\frac{\partial}{\partial t}\left(\phi_f\bar\rho_f\right)
+	+\nabla_{\mbf x}\cdot
+	\left(\phi_f\bar\rho_f\mbf v_s\right)
+	+\nabla_{\mbf x}\cdot\mbf w_f
+	=0 .
+\end{equation}
+%
+Using the material derivative following the solid skeleton,
+\({\rm D}_s/{\rm D}t=\partial/\partial t+\mbf v_s\cdot\nabla_{\mbf x}\), this
+becomes
+%
+\begin{equation}
+	\frac{{\rm D}_s}{{\rm D}t}\left(\phi_f\bar\rho_f\right)
+	+\phi_f\bar\rho_f\nabla_{\mbf x}\cdot\mbf v_s
+	+\nabla_{\mbf x}\cdot\mbf w_f
+	=0 .
+\end{equation}
+%
+Since \({\rm D}_sJ/{\rm D}t=J\nabla_{\mbf x}\cdot\mbf v_s\), the first two terms
+combine into the derivative of \(J\phi_f\bar\rho_f\):
+%
+\begin{equation}
+	\frac{1}{J}\frac{{\rm D}_s}{{\rm D}t}
+	\left(J\phi_f\bar\rho_f\right)
+	+\nabla_{\mbf x}\cdot\mbf w_f
+	=0 .
+\end{equation}
+%
+Multiplying by \(J\), using the divergence transform
+\eqref{eq:solid_reference_flux_divergence}, and observing that
+\({\rm D}_s/{\rm D}t=\partial/\partial t\) at fixed \(\mbf X\) gives
+\eqref{eq:biot_limit_reference_fluid_mass}:
+%
+\begin{equation}
+	\frac{\partial}{\partial t}
+	\left(J\phi_f\bar\rho_f\right)
+	+\nabla_{\mbf X}\cdot\mbf W_f
+	=0 .
+	\label{eq:biot_limit_reference_fluid_mass}
+\end{equation}
+%
+Thus the finite-deformation storage variable is the Lagrangian fluid mass
+\(J\phi_f\bar\rho_f\).  Equivalently, with \(\Phi_f=J\phi_f\),
+%
+\begin{equation}
+	\frac{\partial}{\partial t}\left(\Phi_f\bar\rho_f\right)
+	+\nabla_{\mbf X}\cdot\mbf W_f
+	=0 .
+\end{equation}
+%
+If the fluid is barotropic, \(\bar\rho_f=\bar\rho_f\left(\bar p_f\right)\), and
+\({\rm d}\bar\rho_f/{\rm d}\bar p_f=\bar\rho_f/K_f\), then
+\eqref{eq:biot_limit_reference_fluid_mass} can be written as
+%
+\begin{equation}
+	\bar\rho_f
+	\left[
+	\frac{\partial \Phi_f}{\partial t}
+	+\frac{\Phi_f}{K_f}
+	\frac{\partial \bar p_f}{\partial t}
+	\right]
+	+\nabla_{\mbf X}\cdot\mbf W_f
+	=0 .
+\end{equation}
+%
+To reach the classical Biot storage equation, the finite-deformation porosity
+law is also specialized to its standard poromechanics tangent form
+\cite{coussy2004poromechanics}.  With \(B\) fixed over the increment,
+%
+\begin{equation}
+	\frac{\partial\Phi_f}{\partial t}
+	=
+	B\frac{1}{J}\frac{\partial J}{\partial t}
+	+\frac{B-\Phi_f}{K_s}
+	\frac{\partial\bar p_f}{\partial t},
+	\qquad
+	\frac{1}{M}
+	=
+	\frac{B-\Phi_f}{K_s}
+	+\frac{\Phi_f}{K_f}.
+\end{equation}
+%
+Substitution gives the finite-deformation pressure-storage balance
+%
+\begin{equation}
+	B\frac{1}{J}\frac{\partial J}{\partial t}
+	+\frac{1}{M}\frac{\partial\bar p_f}{\partial t}
+	+\frac{1}{\bar\rho_f}\nabla_{\mbf X}\cdot\mbf W_f
+	=0 .
+\end{equation}
+%
+Finally, for small strain, \(J\simeq 1+\nabla_{\mbf x}\cdot\mbf u\), and the
+reference flux term reduces to the divergence of the current volumetric relative
+flux \(\mbf q_f=\mbf w_f/\bar\rho_f\).  The Darcy specialization
+\eqref{eq:standard_darcy_mass_flux_limit} gives, in the current configuration,
+%
+\begin{equation}
+	\phi_f\left(\mbf v_f-\mbf v_s\right)
+	=
+	-\frac{\bs\kappa_f}{\mu_f}
+	\left(\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g\right).
+	\label{eq:biot_limit_darcy_law}
+\end{equation}
+%
+Equations \eqref{eq:biot_limit_quasistatic_momentum},
+\eqref{eq:biot_limit_reference_fluid_mass}, and
+\eqref{eq:biot_limit_darcy_law} are the finite-deformation single-fluid
+poromechanics form of the model.
+
+The familiar small-strain Biot equations follow by linearizing the skeleton
+motion, using a linear elastic law for \(\bs\sigma^{\prime\prime}\), and
+substituting the Darcy flux directly into the fluid balance.  The source-free
+reduced system is
+%
+\begin{subequations}
+	\label{eq:linear_biot_limit}
+	\begin{align}
+		\nabla_{\mbf x}\cdot
+		\left(
+		\bs\sigma^{\prime\prime}
+		-B\bar p_f\mbf I
+		\right)
+		+\rho\mbf g
+		 & =\mbf 0,
+		\label{eq:linear_biot_momentum} \\
+		\frac{1}{M}\frac{\partial \bar p_f}{\partial t}
+		+B\frac{\partial}{\partial t}
+		\left(\nabla_{\mbf x}\cdot\mbf u\right)
+		-\nabla_{\mbf x}\cdot
+		\left[
+		\frac{\bs\kappa_f}{\mu_f}
+		\left(\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g\right)
+		\right]
+		 & =0.
+		\label{eq:linear_biot_fluid_content}
+	\end{align}
+\end{subequations}
+%
+Here \(\mbf u\) is the small displacement of the skeleton, \(M\) is the Biot
+storage modulus obtained from the barotropic fluid tangent and the porosity
+tangent above.  The pressure coupling in \eqref{eq:linear_biot_momentum} comes
+from the same fixed-pressure Legendre stress split that produced
+\eqref{eq:solid_component_cauchy_stress_push_forward}; the fluid-content coupling
+in \eqref{eq:linear_biot_fluid_content} is the small-strain form of the
+finite-deformation storage \(J\phi_f\bar\rho_f\).  Thus the classical Biot system
+is not an independent theory here, but the single-solid, single-fluid,
+no-conversion, linearized limit of the variational mixture model.

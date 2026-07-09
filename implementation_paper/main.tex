@@ -1,0 +1,59 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage[affil-it]{authblk}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks = true,
+	linkcolor = blue,
+	citecolor = blue,
+	urlcolor = gray,
+}
+
+\input{defs.tex}
+
+\title{Finite-element implementation and verification of a multicomponent reacting porous-media theory on the solid reference configuration}
+
+\author[1,2,3]{John T. Foster}
+\author[1]{Syed Talha Tirmizi}
+\author[1]{Emmanuel Ikpesu}
+\author[1,3]{Marc Hesse}
+
+\affil[1]{Hildebrand Department of Petroleum and Geosystems Engineering, The University of Texas at Austin}
+\affil[2]{Department of Aerospace Engineering and Engineering Mechanics, The University of Texas at Austin}
+\affil[3]{Oden Institute for Computational Engineering and Sciences, The University of Texas at Austin}
+
+\date{\today}
+
+\begin{document}
+\sloppy
+\maketitle
+
+\begin{abstract}
+	This companion manuscript records the finite-element form, implementation
+	interfaces, and verification plan for the multicomponent reacting porous-media
+	theory developed in the companion theory paper.  The computational body is
+	the reference configuration of the solid skeleton, and every residual is
+	assembled per unit solid reference volume.  The immediate purpose is to define
+	a closed first implementation problem and to separate it from the broader
+	theory: residuals, constitutive material interfaces,
+	automatic-differentiation boundaries, validation problems, and unresolved
+	thermodynamic derivatives are identified before MOOSE kernels are written.
+\end{abstract}
+
+\input{sections/scope.tex}
+\input{sections/algebraic_kinematic_closure.tex}
+\input{sections/reference_solid_weak_forms.tex}
+\input{sections/moose_implementation_strategy.tex}
+\input{sections/validation_matrix.tex}
+\input{sections/open_questions.tex}
+
+\bibliographystyle{plain}
+\bibliography{../all}
+
+\end{document}

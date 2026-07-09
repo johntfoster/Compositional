@@ -1,0 +1,67 @@
+\section{Open thermodynamic and AD derivative questions}
+\label{sec:open_questions}
+
+This section records issues that must be resolved before declaring the MOOSE
+implementation thermodynamically faithful.
+
+The automatic-differentiation strategy is no longer an open yes-or-no question:
+MOOSE can use \texttt{ADDerivativeParsedMaterial} for scalar free-energy
+derivatives, while tensor kinematics, phase closure algorithms, flux laws,
+constraints, and weak forms still require explicit AD-aware implementation.
+The open questions below specify where that division must be made precise.
+
+\begin{enumerate}[leftmargin=*]
+	\item \textbf{Primitive-variable Jacobian.}  Determine which primitive
+	variables give robust AD derivatives for \(\bar p_f\),
+	\(\mu_\xi^\alpha\), \(\bar p_E\), \(B\), and the phase fractions while
+	respecting the volume and mass-fraction constraints.  This is open for the
+	full theory, but the first closed problem uses solid-reference component
+	storage variables, partition variables, and conversion potentials until a
+	better primitive set is justified.
+
+	\item \textbf{Held-fixed variables.}  For every derivative inherited from the
+	Helmholtz free energy, record what is held fixed: entropy or temperature,
+	component masses or mass fractions, intrinsic densities, solid distension,
+	and skeleton deformation.  These choices control the stress and pressure
+	terms in the Newton matrix.
+
+	\item \textbf{Equivalent pressure and nonlinear Biot coefficient.}  Verify
+	the AD path for \(\bar p_E\) and \(B\) against the theory manuscript,
+	including the distinction between pore-volume filling and stress-generating
+	skeleton deformation.
+
+	\item \textbf{Reaction-rate derivatives.}  Decide whether kinetics depend on
+	current volume fractions, Lagrangian component masses, chemical potentials,
+	affinities, or activities.  The implementation should include the full AD
+	derivative of the chosen closure.
+
+	\item \textbf{Flux derivative completeness.}  Check derivatives of
+	\(\mbf W_f\) with respect to \(\mbf F\), \(J\), phase fractions, intrinsic
+	densities, potentials, pressure-like variables, reaction rates, and
+	permeability.  The pulled-back permeability
+	\(J\mbf F^{-1}\widetilde{\bs\kappa}_f\mbf F^{-T}\) is a likely source of
+	missing terms, especially because
+	\(\widetilde{\bs\kappa}_f\) itself contains
+	\(\sum_\alpha\dot c_f^\alpha\mbf I\).
+
+	\item \textbf{Fluid phase kinematics.}  Decide whether any later closure
+	requires \(J_f\) or \(\mbf F_f\) as a finite-element variable, material
+	internal variable, or user-object state.  The first review problem does not
+	require those fields as residual unknowns; it discretizes solid-frame
+	advection directly by \(\mbf W_f/(J\rho_f)\).  Separate \(J_f\) or
+	\(\mbf F_f\) evolution should be added only if a later constitutive closure
+	needs the full fluid phase map or phase-reference history variables.
+
+	\item \textbf{Constraint enforcement.}  Compare variable elimination,
+	multiplier residuals, and constrained material solves for the volume-fraction
+	and mass-fraction constraints.  The selected method must preserve the
+	thermodynamic interpretation of pressure and component potentials.
+
+	\item \textbf{Consistent units.}  Audit whether each source term is per
+	current mixture volume or per solid reference volume before multiplying by
+	\(J\).  This is especially important for reaction rates, conversion
+	momentum, and boundary fluxes.
+\end{enumerate}
+
+These questions should remain visible in the paper until each is answered by a
+derivation, a source-code trace, and at least one verification case.

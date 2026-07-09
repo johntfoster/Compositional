@@ -3,6 +3,10 @@
 This repository contains the LaTeX source and research context for the
 multicomponent reactive flow manuscript.
 
+The repository is now organized around the theory manuscript, a clean MOOSE app
+scaffold, a companion finite-element implementation paper, validation assets,
+and agent-facing simulator workflow templates.
+
 ## Manuscript
 
 `main.tex` is the manuscript root. It declares the packages, loads `defs.tex`,
@@ -17,6 +21,20 @@ Current section files live in `sections/`:
 
 Shared macros and notation helpers live in `defs.tex`. Bibliographic entries
 live in `all.bib`.
+
+## Implementation Track
+
+The new MOOSE application scaffold lives in `moose_app/`. It is intentionally
+independent of the earlier three-phase reacting-mixture app; that older code is
+design memory, not a source tree to branch or copy.
+
+The companion finite-element implementation and verification paper lives in
+`implementation_paper/`. Its working principle is that finite-element weak
+forms are written on the reference configuration of the solid skeleton.
+
+Validation planning, reference data, and postprocessing assets live in
+`validation/`. Agent-facing input-deck templates, schemas, run recipes, and
+checks live in `agent_workflows/`.
 
 ## Editing and Preview
 

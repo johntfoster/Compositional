@@ -1,0 +1,244 @@
+\section{Weak forms on the solid reference configuration}
+\label{sec:reference_solid_weak_forms}
+
+Let \(\test{\mbf u}\), \(\test q_f^\alpha\), and \(\test q_s\) denote
+finite-element test functions on \(\refdomain\).  Boundary subsets with
+prescribed traction or flux are denoted by \(\Gamma_{0t}\) and
+\(\Gamma_{0W}\).  The reference outward unit normal is \(\mbf N\).
+
+\subsection{Fluid component balance}
+\label{sec:fluid_component_weak_form}
+
+For component \(\alpha\) in fluid phase \(f\), define the solid-reference
+storage
+\[
+	M_f^\alpha = J\phi_f\bar\rho_f\eta_f^\alpha .
+\]
+The strong form on the solid trajectory is
+\[
+	\left.\frac{\partial M_f^\alpha}{\partial t}\right|_{\mbf X}
+	+\Div\left(\eta_f^\alpha\mbf W_f\right)
+	=
+	J\sum_m \nu_{f(m)}^\alpha \dot r_{(m)} .
+\]
+The weak form uses the same reference measure; no current-volume source term is
+inserted without the explicit pull-back factor \(J\).
+The Galerkin residual is
+\begin{align}
+	R_f^\alpha
+	=&
+	\int_{\refdomain}
+	\test q_f^\alpha
+	\left[
+		\left.\frac{\partial M_f^\alpha}{\partial t}\right|_{\mbf X}
+		-
+		J\sum_m \nu_{f(m)}^\alpha \dot r_{(m)}
+	\right]\dd V
+	\nonumber \\
+	&-
+	\int_{\refdomain}
+	\Grad \test q_f^\alpha \cdot
+	\left(\eta_f^\alpha\mbf W_f\right)\dd V
+	+
+	\int_{\Gamma_{0W}}
+	\test q_f^\alpha
+	\eta_f^\alpha\bar W_f
+	\dd A .
+	\label{eq:fluid_component_residual}
+\end{align}
+Here \(\bar W_f=\mbf W_f\cdot\mbf N\) is the prescribed outward reference mass
+flux of the phase before multiplication by \(\eta_f^\alpha\).  The sign
+convention makes outward flux positive.
+
+\subsection{Solid component or solid phase balance}
+\label{sec:solid_component_weak_form}
+
+For a one-component solid phase \(s\), the storage variable is
+\[
+	M_s = J\phi_s\bar\rho_s .
+\]
+Because each solid phase is attached to the skeleton, there is no relative-flux
+term:
+\begin{equation}
+	R_s =
+	\int_{\refdomain}
+	\test q_s
+	\left[
+		\left.\frac{\partial M_s}{\partial t}\right|_{\mbf X}
+		-
+		J\sum_m \nu_{s(m)}^s \dot r_{(m)}
+	\right]\dd V .
+	\label{eq:solid_component_residual}
+\end{equation}
+If several solid components share a solid phase, this residual must be promoted
+to a component balance with the appropriate mass fractions and conversion
+sources.
+
+\subsection{Fluid phase kinematic residuals}
+\label{sec:phase_kinematic_weak_forms}
+
+No mobile-phase deformation-gradient or Jacobian residual is part of the first
+solid-reference finite-element system.  Phase-attached scalar derivatives are
+evaluated with \eqref{eq:fluid_material_derivative_on_solid_frame}, using the
+same \(\mbf W_f\) that enters the component balance.  If a later closure
+requires \(J_f\) or the full tensor \(\mbf F_f\), their evolution should be
+introduced as auxiliary/history kinematics and tied back to the phase map at
+that point.
+
+\subsection{Reference flux closure}
+\label{sec:reference_flux_closure}
+
+The reference relative mass flux entering
+\eqref{eq:fluid_component_residual} has the form
+\begin{align}
+	\mbf W_f
+	=
+	\rho_f\widetilde{\mbf K}_f
+	\left[
+		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
+		-\phi_f\Grad \bar p_f
+		+
+		\sum_\alpha\dot c_f^\alpha
+		\left(
+			\Grad \mu_f^\alpha
+			-\mbf F^T\mbf v_s
+		\right)
+	\right],
+	\label{eq:reference_flux_closure}
+\end{align}
+where \(\rho_f=\phi_f\bar\rho_f\) and
+\begin{equation}
+	\widetilde{\mbf K}_f
+	=
+	J\mbf F^{-1}
+	\left(
+		\phi_f^2\mu_f\bs\kappa_f^{-1}
+		+\sum_\alpha\dot c_f^\alpha\mbf I
+	\right)^{-1}
+	\mbf F^{-T}.
+	\label{eq:reference_modified_permeability}
+\end{equation}
+This is the Piola transform of the current generalized Darcy mass flux.  The
+terms involving \(\dot c_f^\alpha\) are part of the conversion-momentum
+structure of the theory and must not be dropped when reactions or phase
+transformations produce appreciable mass in a mobile phase.
+
+\subsection{Conversion-potential residuals}
+\label{sec:conversion_potential_weak_form}
+
+Let \(\test m_\xi^\alpha\) be the scalar test function for
+\(\mu_\xi^\alpha\).  For a mobile fluid phase, the Galerkin residual associated
+with \eqref{eq:implementation_mu_fluid_solid_frame} is
+\begin{align}
+	R_{\mu_f^\alpha}
+	=&
+	\int_{\refdomain}
+	\test m_f^\alpha
+	\left[
+		\left.\frac{\partial\mu_f^\alpha}{\partial t}\right|_{\mbf X}
+		+\frac{\mbf W_f}{J\rho_f}\cdot\Grad\mu_f^\alpha
+		-\frac{1}{2}\mbf v_f\cdot\mbf v_f
+		+\mu_f^\alpha
+		+\frac{\tau_f^\alpha}
+		{\phi_f\bar\rho_f\eta_f^\alpha}
+	\right]\dd V .
+	\label{eq:fluid_mu_residual}
+\end{align}
+For a one-component solid phase attached to the skeleton,
+\eqref{eq:implementation_mu_solid_solid_frame} gives
+\begin{align}
+	R_{\mu_s^s}
+	=&
+	\int_{\refdomain}
+	\test m_s^s
+	\left[
+		\left.\frac{\partial\mu_s^s}{\partial t}\right|_{\mbf X}
+		-\frac{1}{2}\mbf v_s\cdot\mbf v_s
+		+\mu_s^s
+		+\frac{\tau_s^s}
+		{\phi_s\bar\rho_s}
+	\right]\dd V .
+	\label{eq:solid_mu_residual}
+\end{align}
+The mechanism affinity \eqref{eq:implementation_affinity_projection} is then an
+algebraic material property or constraint residual coupled to the reaction-rate
+law.  If a local equilibrium mechanism is enforced, the residual is
+\begin{equation}
+	R_{\mc A_{(m)}}=
+	\int_{\refdomain}
+	\test a_{(m)}
+	\left[
+		\mc A_{(m)}
+		+\sum_\xi\sum_\alpha
+		\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+	\right]\dd V ,
+	\label{eq:affinity_projection_residual}
+\end{equation}
+with \(\test a_{(m)}\) the test function for an affinity multiplier or local
+constraint variable.
+
+\subsection{Overall momentum balance}
+\label{sec:momentum_weak_form}
+
+Let \(\mbf P^{\prime\prime}\) be the skeleton effective first
+Piola--Kirchhoff stress and \(B\bar p_E J\mbf F^{-T}\) the equivalent pore
+pressure contribution.  The quasi-static implementation target is
+\begin{align}
+	R_u
+	=&
+	\int_{\refdomain}
+	\Grad \test{\mbf u} :
+	\left(
+		\mbf P^{\prime\prime}
+		-
+		B\bar p_E J\mbf F^{-T}
+	\right)\dd V
+	-
+	\int_{\refdomain}
+	\test{\mbf u}\cdot J\rho\mbf g\dd V
+	\nonumber \\
+	&-
+	\int_{\refdomain}
+	\test{\mbf u}\cdot J
+	\left[
+		\sum_f\sum_\alpha
+		\dot c_f^\alpha
+		\left(
+			\grad\mu_f^\alpha-\mbf v_f
+		\right)
+		+
+		\sum_s
+		\dot c_s^s
+		\left(
+			\grad\mu_s^s-\mbf v_s
+		\right)
+	\right]\dd V
+	\nonumber \\
+	&-
+	\int_{\Gamma_{0t}}
+	\test{\mbf u}\cdot \bar{\mbf t}_0\dd A .
+	\label{eq:momentum_residual}
+\end{align}
+For low-speed reservoir applications the inertial term from the full momentum
+balance is omitted.  If retained, the term
+\(\int_{\refdomain}\test{\mbf u}\cdot J\sum_\xi\rho_\xi\mbf a_\xi\dd V\)
+is added to \eqref{eq:momentum_residual} with the same sign convention as the
+chosen time integrator.  In a fully reference-form implementation, the spatial
+gradients in the conversion-momentum terms should be evaluated through
+\(\grad(\cdot)=\mbf F^{-T}\Grad(\cdot)\) for fields stored on the solid mesh,
+while \(\mbf v_f\) is reconstructed from
+\eqref{eq:implementation_fluid_velocity_reconstruction}.
+
+\subsection{Constraint residuals}
+\label{sec:constraint_residuals}
+
+Volume fractions and phase/component mass fractions satisfy
+\[
+	\sum_\xi \phi_\xi = 1, \qquad
+	\sum_\alpha \eta_\xi^\alpha = 1 .
+\]
+The implementation may enforce these constraints by eliminating dependent
+variables, by solving pressure or potential multipliers, or by adding explicit
+constraint residuals.  The selected strategy must preserve the thermodynamic
+conjugacy used to define \(\bar p_f\), \(\bar p_E\), \(B\), and
+\(\mu_\xi^\alpha\).  This is a design constraint, not a numerical preference.
