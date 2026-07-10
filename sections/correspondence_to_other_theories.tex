@@ -51,7 +51,7 @@ In the present variational model this is the algebraic specialization of the
 more general statement \(\bar p_f=\bar p_E+\gamma_f\): capillary offsets
 redistribute the phase pressures while the saturation-weighted pressure gradient
 reduces to the equivalent-pressure gradient in
-\eqref{eq:fluid_pressure_gradient_equivalent_pressure}.
+\eqref{eq:MC_fluid_pressure_gradient_rollup}.
 
 The remaining algebraic structure is also recovered.  The within-phase
 composition constraints are
@@ -87,7 +87,7 @@ component $\alpha$ from phase $\xi$ to phase $\zeta$ gives
 which is the chemical-potential form of the fugacity-equality condition used in
 isothermal phase equilibrium.  In classical compositional models the
 $\mu_\xi^\alpha$ are therefore not solved from the conversion-potential evolution
-law \eqref{eq:CN_admissible_conversion_component}.  Instead, they must be
+law \eqref{eq:MC_admissible_conversion_component}.  Instead, they must be
 defined constitutively from the chosen equation of state, composition variables,
 and temperature.
 
@@ -244,14 +244,14 @@ with no reactions or phase transformations.  There is then no fluid-fluid
 interface, no capillary-pressure difference, and the equivalent pressure
 coincides with the unique fluid pressure,
 \(\bar p_E=\bar p_f\).  The solid pressure relation
-\eqref{eq:solid_pressure_equivalent_component_average} also gives
+\eqref{eq:MC_phase_equivalent_pressure} also gives
 \(\bar p_s=\bar p_E\).  In this limit
-\eqref{eq:solid_biot_mixture_coefficient_definition} reduces to \(B=B_s\), so the
-nonlinear coefficient in \eqref{eq:component_nonlinear_biot_coefficient} is the
+\eqref{eq:MC_solid_biot_rollup_coefficient} reduces to \(B=B_s\), so the
+nonlinear coefficient in \eqref{eq:MC_phase_biot_coefficient} is the
 Biot coefficient of the single skeleton.
 
 With conversion terms removed, the overall momentum balance
-\eqref{eq:overall_momentum_nonlinear_biot} becomes
+\eqref{eq:MC_overall_momentum_nonlinear_biot} becomes
 %
 \begin{equation}
 	\sum_{\xi\in\{s,f\}}\rho_\xi\mbf a_\xi
@@ -435,7 +435,7 @@ Here \(\mbf u\) is the small displacement of the skeleton, \(M\) is the Biot
 storage modulus obtained from the barotropic fluid tangent and the porosity
 tangent above.  The pressure coupling in \eqref{eq:linear_biot_momentum} comes
 from the same fixed-pressure Legendre stress split that produced
-\eqref{eq:solid_component_cauchy_stress_push_forward}; the fluid-content coupling
+\eqref{eq:MC_phase_biot_split}; the fluid-content coupling
 in \eqref{eq:linear_biot_fluid_content} is the small-strain form of the
 finite-deformation storage \(J\phi_f\bar\rho_f\).  Thus the classical Biot system
 is not an independent theory here, but the single-solid, single-fluid,

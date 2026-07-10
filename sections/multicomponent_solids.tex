@@ -1,6 +1,8 @@
 % !TeX root = ../main.tex
-\section{Multicomponent solid entropy inequality}
+\section{Constitutive Models and the Entropy Inequality}
 \label{sec:multicomponent_solid_skeletons}
+\label{sec:multicomponent_solid_mixture_rules}
+\label{sec:constitutive_models_entropy_inequality}
 
 The variational derivation above allows every phase to carry component mass
 fractions.  In this section the solid phases retain that full compositional
@@ -23,8 +25,10 @@ properties.
 \subsection{Solid kinematics and state variables}
 \label{sec:MC_solid_kinematics}
 
-The solid kinematic split is phase-specific but uses the common skeleton
-deformation:
+Extending Drumheller's distension/true-deformation split for reacting mixtures
+\cite{drumheller2000} and its porous-media form in Foster et
+al.~\cite{foster2026reactingporous}, the solid kinematic split is
+phase-specific but uses the common skeleton deformation:
 %
 \begin{equation}
 	\mbf F=\mbf A_s\bar{\mbf F}_s,
@@ -41,8 +45,10 @@ deformation:
 %
 The distension tensor \(\mbf A_s\) stores pore-space allocation, packing,
 stress-free swelling, and reaction-induced accommodation between the common
-skeleton motion and the true solid deformation \(\bar{\mbf F}_s\).  The elastic,
-plastic, and stress-free thermal/compositional factors are
+skeleton motion and the true solid deformation \(\bar{\mbf F}_s\).  Following
+Drumheller's elastic--plastic treatment of true deformation and distension
+\cite{drumheller2000}, the elastic, plastic, and stress-free
+thermal/compositional factors are
 %
 \begin{subequations}
 	\label{eq:MC_solid_kinematic_splits}
@@ -75,9 +81,12 @@ stress-free maps, and may depend on temperature and solid composition:
 \end{equation}
 %
 This is where adsorption swelling, desorption shrinkage, hydrate cage volume,
-and composition-dependent thermal expansion enter the mechanics.  The plastic
-variables \(\mbf A_s^p\) and \(\bar{\mbf F}_s^p\) are internal variables.  The
-true-plastic flow is assumed isochoric:
+and composition-dependent thermal expansion enter the mechanics.
+Thermo-poroelastic models make the same physical distinction by assigning pore
+volume, fluid, and grain thermal expansions separately
+\cite{palciauskas1982thermally,ghabezloo2009stress,ghabezloo2011micromechanics}.
+The plastic variables \(\mbf A_s^p\) and \(\bar{\mbf F}_s^p\) are internal
+variables.  The true-plastic flow is assumed isochoric:
 %
 \begin{equation}
 	\det\bar{\mbf F}_s^p=1,
@@ -349,37 +358,37 @@ The free-energy rates are
 	\sum_{s\in\mc S}
 	\rho_s
 	\left[
-	\left.
-	\p{\psi_s}{\bar{\mbf F}_s^e}
-	\right\vert_{\mc X_s}
-	:
-	\dot{\bar{\mbf F}}_s^e
-	+
-	\left.
-	\p{\psi_s}{\mbf A_s^e}
-	\right\vert_{\mc X_s}
-	:
-	\dot{\mbf A}_s^e
-	\right.
+		\left.
+		\p{\psi_s}{\bar{\mbf F}_s^e}
+		\right\vert_{\mc X_s}
+		:
+		\dot{\bar{\mbf F}}_s^e
+		+
+		\left.
+		\p{\psi_s}{\mbf A_s^e}
+		\right\vert_{\mc X_s}
+		:
+		\dot{\mbf A}_s^e
+		\right.
 	\notag       \\
 	    & \left.
-	+
-	\left.
-	\p{\psi_s}{\bar\rho_s}
-	\right\vert_{\mc X_s}
-	\dot{\bar\rho}_s
-	+
-	\sum_\beta
-	\left.
-	\p{\psi_s}{\eta_s^\beta}
-	\right\vert_{\mc X_s}
-	\dot\eta_s^\beta
-	+
-	\left.
-	\p{\psi_s}{\theta}
-	\right\vert_{\mc X_s}
-	\dot\theta
-	\right].
+		+
+		\left.
+		\p{\psi_s}{\bar\rho_s}
+		\right\vert_{\mc X_s}
+		\dot{\bar\rho}_s
+		+
+		\sum_\beta
+		\left.
+		\p{\psi_s}{\eta_s^\beta}
+		\right\vert_{\mc X_s}
+		\dot\eta_s^\beta
+		+
+		\left.
+		\p{\psi_s}{\theta}
+		\right\vert_{\mc X_s}
+		\dot\theta
+		\right].
 	\label{eq:MC_solid_free_energy_rate}
 \end{align}
 %
@@ -393,7 +402,9 @@ The fluid phases carry no elastic stress:
 \end{equation}
 %
 The interfacial Helmholtz contribution is retained exactly as in the
-variational derivation:
+variational derivation.  Allowing \(\gamma\) to depend on temperature is
+consistent with standard capillary-pressure scaling used in reservoir
+engineering \cite{leverett1941capillary}:
 %
 \begin{equation}
 	\psi_\gamma
@@ -490,29 +501,29 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	    & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-	(\mbf A_s^p)^{-1}
-	(\mbf A_s^e)^{-1}
-	(\bs\sigma_s')^T
-	\mbf A_s^e\mbf A_s^p
-	\left.
-	\p{\mbf A_s^\theta}{\theta}
-	\right\vert_{\mc X_s}
-	(\mbf A_s^\theta)^{-1}
-	\right]\dot\theta
+		(\mbf A_s^p)^{-1}
+		(\mbf A_s^e)^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s^e\mbf A_s^p
+		\left.
+		\p{\mbf A_s^\theta}{\theta}
+		\right\vert_{\mc X_s}
+		(\mbf A_s^\theta)^{-1}
+		\right]\dot\theta
 	\notag  \\
 	    & +
 	\sum_{s\in\mc S}
 	\sum_\beta
 	\operatorname{tr}\left[
-	(\mbf A_s^p)^{-1}
-	(\mbf A_s^e)^{-1}
-	(\bs\sigma_s')^T
-	\mbf A_s^e\mbf A_s^p
-	\left.
-	\p{\mbf A_s^\theta}{\eta_s^\beta}
-	\right\vert_{\mc X_s}
-	(\mbf A_s^\theta)^{-1}
-	\right]\dot\eta_s^\beta
+		(\mbf A_s^p)^{-1}
+		(\mbf A_s^e)^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s^e\mbf A_s^p
+		\left.
+		\p{\mbf A_s^\theta}{\eta_s^\beta}
+		\right\vert_{\mc X_s}
+		(\mbf A_s^\theta)^{-1}
+		\right]\dot\eta_s^\beta
 	\notag  \\
 	    & +
 	\sum_{s\in\mc S}
@@ -572,7 +583,8 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 \end{align}
 %
 
-The entropy inequality is
+Following the standard Liu multiplier exploitation of constrained entropy
+inequalities \cite{liu1972method}, the entropy inequality is
 %
 \begin{align}
 	0\le{} &
@@ -784,15 +796,15 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	       & \left.
 	+
 	\operatorname{tr}\left[
-	(\mbf A_s^p)^{-1}
-	(\mbf A_s^e)^{-1}
-	(\bs\sigma_s')^T
-	\mbf A_s^e\mbf A_s^p
-	\left.
-	\p{\mbf A_s^\theta}{\eta_s^\beta}
-	\right\vert_{\mc X_s}
-	(\mbf A_s^\theta)^{-1}
-	\right]
+		(\mbf A_s^p)^{-1}
+		(\mbf A_s^e)^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s^e\mbf A_s^p
+		\left.
+		\p{\mbf A_s^\theta}{\eta_s^\beta}
+		\right\vert_{\mc X_s}
+		(\mbf A_s^\theta)^{-1}
+		\right]
 	\right.
 	\notag          \\
 	       & \left.
@@ -858,15 +870,15 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	+
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-	(\mbf A_s^p)^{-1}
-	(\mbf A_s^e)^{-1}
-	(\bs\sigma_s')^T
-	\mbf A_s^e\mbf A_s^p
-	\left.
-	\p{\mbf A_s^\theta}{\theta}
-	\right\vert_{\mc X_s}
-	(\mbf A_s^\theta)^{-1}
-	\right]
+		(\mbf A_s^p)^{-1}
+		(\mbf A_s^e)^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s^e\mbf A_s^p
+		\left.
+		\p{\mbf A_s^\theta}{\theta}
+		\right\vert_{\mc X_s}
+		(\mbf A_s^\theta)^{-1}
+		\right]
 	\right.
 	\notag          \\
 	       & \left.
@@ -1078,7 +1090,7 @@ The fluid composition projection is
 The multicomponent solid composition projection is
 %
 \begin{empheq}[box=\fbox]{align}
-	 & \rho_s
+	& \rho_s
 	\left(
 	\left.
 	\p{\psi_s}{\eta_s^\beta}
@@ -1089,7 +1101,7 @@ The multicomponent solid composition projection is
 	\right\vert_{\mc X_s}
 	\right)
 	\notag    \\
-	 & \quad
+	& \quad
 	-
 	\operatorname{tr}\left[
 		(\mbf A_s^p)^{-1}
@@ -1108,7 +1120,7 @@ The multicomponent solid composition projection is
 		(\mbf A_s^\theta)^{-1}
 		\right]
 	\notag    \\
-	 & \quad
+	& \quad
 	-
 	\operatorname{tr}\left[
 	\left(
@@ -1122,7 +1134,7 @@ The multicomponent solid composition projection is
 	\right)
 	\right.
 	\notag    \\
-	 & \left.
+	& \left.
 	\quad
 	\left(
 	\left.
@@ -1136,7 +1148,7 @@ The multicomponent solid composition projection is
 	(\bar{\mbf F}_s^\theta)^{-1}
 	\right]
 	\notag    \\
-	 & \qquad
+	& \qquad
 	=
 	\frac{\tau_s^\beta}{\eta_s^\beta}
 	-
@@ -1167,15 +1179,15 @@ The entropy coefficient gives
 	\right\vert_{\mc X_s}
 	+
 	\operatorname{tr}\left[
-	(\mbf A_s^p)^{-1}
-	(\mbf A_s^e)^{-1}
-	(\bs\sigma_s')^T
-	\mbf A_s^e\mbf A_s^p
-	\left.
-	\p{\mbf A_s^\theta}{\theta}
-	\right\vert_{\mc X_s}
-	(\mbf A_s^\theta)^{-1}
-	\right]
+		(\mbf A_s^p)^{-1}
+		(\mbf A_s^e)^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s^e\mbf A_s^p
+		\left.
+		\p{\mbf A_s^\theta}{\theta}
+		\right\vert_{\mc X_s}
+		(\mbf A_s^\theta)^{-1}
+		\right]
 	\notag  \\
 	    & +
 	\operatorname{tr}\left[
@@ -1393,9 +1405,12 @@ gradients would require a different solid kinematic split and new residual
 plastic powers.
 
 It remains to make the interaction and heat-conduction terms in
-\eqref{eq:MC_residual_dissipation} nonnegative.  Conservation of total mixture
-energy requires the internal interaction-energy supplies and the interphase
-momentum supplies to satisfy
+\eqref{eq:MC_residual_dissipation} nonnegative.  For reacting porous mixtures a
+pairwise quadratic construction gives an admissible interphase exchange
+\cite{foster2026reactingporous}.  Following Bedford and Drumheller
+\cite{drumheller1980thermomechanical}, conservation of total mixture energy
+requires the internal interaction-energy supplies and the interphase momentum
+supplies to satisfy
 %
 \begin{equation}
 	\sum_\xi
@@ -1499,7 +1514,45 @@ Equations \eqref{eq:MC_interphase_exchange_positive} and
 plastic flow laws, are sufficient to make
 \eqref{eq:MC_residual_dissipation} nonnegative.
 
-\subsection{Phase Biot coefficient from a fixed-pressure Legendre transform}
+\subsection{Representative mechanisms}
+\label{sec:MC_examples_single_component_specialization}
+
+An absorption/desorption mechanism transferring component \(g\) between a
+mobile phase \(f\) and a solid phase \(s\) may be written
+%
+\begin{equation}
+	\nu_{s (m)}^g=1,
+	\qquad
+	\nu_{f (m)}^g=-1,
+	\qquad
+	\nu_{\xi (m)}^\alpha=0
+	\quad\hbox{otherwise}.
+	\label{eq:MC_sorption_stoichiometry}
+\end{equation}
+%
+The affinity is
+%
+\begin{equation}
+	\mc A_{(m)}
+	=
+	\mu_f^g-\mu_s^g .
+	\label{eq:MC_sorption_affinity}
+\end{equation}
+%
+An admissible kinetic law must satisfy
+\(\mc A_{(m)}\dot r_{(m)}\ge0\).  The absorbed amount \(\eta_s^g\) can also
+enter \(\psi_s\), \(\mbf A_s^\theta\), \(\bar{\mbf F}_s^\theta\), and the
+plastic flow law, so sorption can change stiffness, yield strength, swelling,
+and compaction behavior in one thermodynamic state.
+
+For methane hydrate or a clathrate solid, host water and guest methane are solid
+components of the same load-bearing solid phase.  Hydrate formation and
+dissociation are conversion mechanisms between mobile components and solid
+components.  Cage occupancy changes the solid composition; that composition may
+change the free energy, thermal expansion, stress-free cage volume, and plastic
+response without introducing a second solid displacement field.
+
+\subsection{Phase reaction-modified Biot coefficients}
 \label{sec:MC_phase_biot_legendre_transform}
 
 The restrictions above define the single-prime solid stress directly from the
@@ -1507,7 +1560,8 @@ phase Helmholtz energy.  That stress is the natural stress in the entropy
 inequality because it is conjugate to the elastic rates at fixed intrinsic
 solid density.  Poromechanics measurements and pressure-based momentum balances
 are usually cleaner at fixed solid pressure.  The corresponding double-prime
-stress is obtained by a phase-level Legendre transform before any additive
+stress is obtained by a phase-level Legendre transform in the standard
+thermodynamic sense \cite{callen1985thermodynamics}, before any additive
 component specialization is introduced.
 
 Define the phase and intrinsic specific volumes
@@ -1635,7 +1689,7 @@ Using the Legendre transform at fixed \(\bar p_s\),
 Substitution of \eqref{eq:MC_phase_specific_volume_deformation_chain_rule}
 identifies the phase nonlinear Biot coefficient
 %
-\begin{equation}
+\begin{empheq}[box=\fbox]{equation}
 	B_s
 	\equiv
 	1
@@ -1647,12 +1701,14 @@ identifies the phase nonlinear Biot coefficient
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_phase_biot_coefficient}
-\end{equation}
+\end{empheq}
 %
 The coefficient is a skeleton-volume tangent evaluated in the current reacted
 state.  The factor \(a_s\) maps the common skeleton Jacobian to the true solid
 Jacobian and therefore carries the current pore-space allocation, packing, and
-stress-free volume accommodation into the coefficient.  The phase Piola split is
+stress-free volume accommodation into the coefficient.  When the distension
+split is suppressed, this reduces to the nonlinear Biot coefficient form
+derived in \cite{foster2025}.  The phase Piola split is
 %
 \begin{equation}
 	\mbf P_s'
@@ -1897,6 +1953,33 @@ Then the pressure, stress, and distension restrictions become
 	\end{align}
 \end{subequations}
 %
+The component pressures in
+\eqref{eq:MC_additive_component_pressure} are also recoverable from the storage
+multipliers.  The phase-level restriction
+\eqref{eq:MC_phase_equivalent_pressure} fixes only the sum
+\(\sum_\alpha\tau_s^\alpha/\phi_s=\bar p_s\).  In the additive component
+specialization this sum is resolved by identifying the component storage
+contribution per phase volume with the component's contribution to the
+phase-pressure average:
+%
+\begin{equation*}
+	\frac{\tau_s^\alpha}{\phi_s}
+	=
+	\phi_s^\alpha\bar p_s^\alpha,
+	\qquad
+	\bar p_s^\alpha
+	=
+	\frac{\tau_s^\alpha}{\phi_s\phi_s^\alpha},
+	\qquad
+	s\in\mc S .
+\end{equation*}
+%
+Summing this identity over components recovers
+\eqref{eq:MC_additive_pressure_average} and
+\eqref{eq:MC_phase_equivalent_pressure}.  Thus the component pressures needed
+below are determined once the storage multipliers and component solid-volume
+fractions are known.
+
 The residual inequality is written in terms of the phase plastic powers, so the
 safest component-resolved plastic closure lets components modify the mobility
 of the common phase plastic rates.  One sufficient additive form is
@@ -2354,7 +2437,7 @@ crystallization pressure equals the admissible current phase trace stress.  If
 the affinity and stress are solved instead, \(\Omega_{(m)}\) is a diagnostic
 output.
 
-\subsection{Multicomponent model summary}
+\section{Multicomponent model summary}
 \label{sec:MC_model_summary_closure_count}
 
 This section records the unknown and equation accounting for the model assembled
@@ -2414,41 +2497,3 @@ component Biot coefficient \eqref{eq:MC_additive_component_biot} collapses to
 the phase coefficient \(B_s\), the phase coefficients roll up through
 \eqref{eq:MC_solid_biot_rollup_coefficient}, and the summed balance becomes
 \eqref{eq:MC_overall_momentum_nonlinear_biot}.
-
-\subsection{Examples}
-\label{sec:MC_examples_single_component_specialization}
-
-An absorption/desorption mechanism transferring component \(g\) between a
-mobile phase \(f\) and a solid phase \(s\) may be written
-%
-\begin{equation}
-	\nu_{s (m)}^g=1,
-	\qquad
-	\nu_{f (m)}^g=-1,
-	\qquad
-	\nu_{\xi (m)}^\alpha=0
-	\quad\hbox{otherwise}.
-	\label{eq:MC_sorption_stoichiometry}
-\end{equation}
-%
-The affinity is
-%
-\begin{equation}
-	\mc A_{(m)}
-	=
-	\mu_f^g-\mu_s^g .
-	\label{eq:MC_sorption_affinity}
-\end{equation}
-%
-An admissible kinetic law must satisfy
-\(\mc A_{(m)}\dot r_{(m)}\ge0\).  The absorbed amount \(\eta_s^g\) can also
-enter \(\psi_s\), \(\mbf A_s^\theta\), \(\bar{\mbf F}_s^\theta\), and the
-plastic flow law, so sorption can change stiffness, yield strength, swelling,
-and compaction behavior in one thermodynamic state.
-
-For methane hydrate or a clathrate solid, host water and guest methane are solid
-components of the same load-bearing solid phase.  Hydrate formation and
-dissociation are conversion mechanisms between mobile components and solid
-components.  Cage occupancy changes the solid composition; that composition may
-change the free energy, thermal expansion, stress-free cage volume, and plastic
-response without introducing a second solid displacement field.
