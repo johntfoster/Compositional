@@ -2451,8 +2451,11 @@ products below are replaced by the corresponding phase sums.  Let \(N_{(m)}\)
 be the number of independent conversion mechanisms and \(d\) the spatial
 dimension.
 
-\begin{center}
-	\begin{tabular}{p{0.72\textwidth}c}
+\begin{table}[htbp]
+	\centering
+	\caption{Unknown families for a fully implicit pointwise discretization of the multicomponent model.}
+	\label{tab:MC_unknown_family_count}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{0.72\textwidth}r}
 		Unknown family                                                                                 & Count                                     \\
 		\hline
 		Phase displacements \(u_{\xi 1},\ldots,u_{\xi d}\) for \(\xi=1,\ldots,P\)                      & \(dP\)                                    \\
@@ -2468,12 +2471,15 @@ dimension.
 		Solid plastic internal variables \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active          & \(2d^2P_{\mc S}\)                         \\
 		Temperature \(\theta\)                                                                         & \(1\)
 	\end{tabular}
-\end{center}
+\end{table}
 %
 The matching equation blocks are
 %
-\begin{center}
-	\begin{tabular}{p{0.62\textwidth}c}
+\begin{table}[htbp]
+	\centering
+	\caption{Equation blocks and closure counts for the multicomponent model.}
+	\label{tab:MC_equation_block_count}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{0.62\textwidth}r}
 		Equation block                                                                                                                                                   & Count                                     \\
 		\hline
 		Phase momentum balances \eqref{eq:el_momentum_uniform}, or the summed balance \eqref{eq:MC_overall_momentum_nonlinear_biot} when a common displacement is solved & \(dP\) or \(d\)                           \\
@@ -2489,7 +2495,7 @@ The matching equation blocks are
 		Plastic flow laws for \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active                                                                                       & \(2d^2P_{\mc S}\)                         \\
 		Energy or temperature equation using \eqref{eq:MC_energy_balance}                                                                                                & \(1\)
 	\end{tabular}
-\end{center}
+\end{table}
 %
 In the single-component solid specialization, the solid composition unknowns and
 projected solid composition equations collapse because \(\eta_s^s=1\).  The
