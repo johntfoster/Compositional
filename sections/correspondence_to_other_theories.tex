@@ -66,20 +66,8 @@ obtained.  A traditional compositional simulator supplies an equation of state,
 phase-equilibrium rules, capillary-pressure relations, component partitioning,
 and stress laws as separate closure ingredients.  In the present formulation the
 reversible thermodynamic part is instead generated from the Helmholtz
-free-energy structure:
-%
-\begin{equation}
-	\psi_\xi
-	\quad\Longrightarrow\quad
-	\bar p_\xi,\quad
-	\mathfrak{s}_\xi,\quad
-	\bs\sigma_s',\quad
-	\rho_\xi\left.\p{\psi_\xi}{\eta_\xi^\alpha}\right\vert_{\cdots},\quad
-	\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}.
-	\label{eq:helmholtz_generates_reversible_closures}
-\end{equation}
-%
-Thus pressure, entropy, stress, composition derivatives, and normalized
+free-energy structure.  Thus pressure, entropy, stress, composition derivatives,
+and normalized
 component storage potentials are not independent reversible closures; they are
 conjugate derivatives or multipliers associated with the constrained Helmholtz
 structure.  Transport and reaction kinetics still require dissipative closures,
@@ -98,21 +86,10 @@ component $\alpha$ from phase $\xi$ to phase $\zeta$ gives
 %
 which is the chemical-potential form of the fugacity-equality condition used in
 isothermal phase equilibrium.  In classical compositional models the
-$\mu_\xi^\alpha$ are therefore not solved from an evolution law like
-%
-\begin{equation}
-	\frac{D_\xi\mu_\xi^\alpha}{Dt}
-	=
-	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
-	-\mu_\xi^\alpha
-	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
-	\label{eq:mu_interpretation_entropy_closure_unified}
-\end{equation}
-%
-Instead, they must be defined constitutively from the chosen equation of state,
-composition variables, and temperature.  The variational formulation identifies
-\eqref{eq:mu_interpretation_entropy_closure_unified} as the conversion-potential
-evolution law associated with the phase-attached source constraint.
+$\mu_\xi^\alpha$ are therefore not solved from the conversion-potential evolution
+law \eqref{eq:CN_admissible_conversion_component}.  Instead, they must be
+defined constitutively from the chosen equation of state, composition variables,
+and temperature.
 
 The affinity is the stoichiometric projection of these phase/component
 potentials:
@@ -324,21 +301,21 @@ the fluid velocity into solid motion plus relative flux:
 \end{equation}
 %
 Using the material derivative following the solid skeleton,
-\({\rm D}_s/{\rm D}t=\partial/\partial t+\mbf v_s\cdot\nabla_{\mbf x}\), this
+\(D_s/Dt=\partial/\partial t+\mbf v_s\cdot\nabla_{\mbf x}\), this
 becomes
 %
 \begin{equation}
-	\frac{{\rm D}_s}{{\rm D}t}\left(\phi_f\bar\rho_f\right)
+	\frac{D_s}{Dt}\left(\phi_f\bar\rho_f\right)
 	+\phi_f\bar\rho_f\nabla_{\mbf x}\cdot\mbf v_s
 	+\nabla_{\mbf x}\cdot\mbf w_f
 	=0 .
 \end{equation}
 %
-Since \({\rm D}_sJ/{\rm D}t=J\nabla_{\mbf x}\cdot\mbf v_s\), the first two terms
+Since \(D_sJ/Dt=J\nabla_{\mbf x}\cdot\mbf v_s\), the first two terms
 combine into the derivative of \(J\phi_f\bar\rho_f\):
 %
 \begin{equation}
-	\frac{1}{J}\frac{{\rm D}_s}{{\rm D}t}
+	\frac{1}{J}\frac{D_s}{Dt}
 	\left(J\phi_f\bar\rho_f\right)
 	+\nabla_{\mbf x}\cdot\mbf w_f
 	=0 .
@@ -346,7 +323,7 @@ combine into the derivative of \(J\phi_f\bar\rho_f\):
 %
 Multiplying by \(J\), using the divergence transform
 \eqref{eq:solid_reference_flux_divergence}, and observing that
-\({\rm D}_s/{\rm D}t=\partial/\partial t\) at fixed \(\mbf X\) gives
+\(D_s/Dt=\partial/\partial t\) at fixed \(\mbf X\) gives
 \eqref{eq:biot_limit_reference_fluid_mass}:
 %
 \begin{equation}
