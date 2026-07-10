@@ -50,7 +50,7 @@ plastic, and stress-free thermal/compositional factors are
 		\mbf A_s
 		 & =
 		\mbf A_s^e\mbf A_s^p\mbf A_s^\theta,
-		\label{eq:MC_solid_distension_split}       \\
+		\label{eq:MC_solid_distension_split} \\
 		\bar{\mbf F}_s
 		 & =
 		\bar{\mbf F}_s^e
@@ -134,11 +134,11 @@ volume fractions \(\phi_s^\alpha\) are useful, they satisfy
 		 & =
 		\sum_\alpha
 		\phi_s^\alpha\bar\rho_s^\alpha,
-		\label{eq:MC_solid_intrinsic_density_rule}       \\
+		\label{eq:MC_solid_intrinsic_density_rule} \\
 		\eta_s^\alpha
 		 & =
 		\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\bar\rho_s},
-		\label{eq:MC_solid_mass_fraction_rule}           \\
+		\label{eq:MC_solid_mass_fraction_rule}     \\
 		\phi_s^\alpha
 		 & =
 		\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha},
@@ -209,9 +209,9 @@ composition-dependent stress-free true deformation:
 	\left[
 		\dot{\bar{\mbf F}}_s^e
 		(\bar{\mbf F}_s^e)^{-1}
-	\right]
-	\notag                                                        \\
-	 & -
+		\right]
+	\notag  \\
+	    & -
 	\operatorname{tr}\left[
 		\left(
 		\left.
@@ -226,7 +226,7 @@ composition-dependent stress-free true deformation:
 		\dot\eta_s^\beta
 		\right)
 		(\bar{\mbf F}_s^\theta)^{-1}
-	\right].
+		\right].
 	\label{eq:MC_solid_density_rate}
 \end{align}
 %
@@ -272,15 +272,15 @@ component free energy:
 	\widehat\psi_\xi^\alpha
 	=
 	\begin{cases}
-		\psi_f,                         & \xi=f\in\mc F, \\
-		\widehat\psi_s^\alpha,          & \xi=s\in\mc S,
+		\psi_f,                & \xi=f\in\mc F, \\
+		\widehat\psi_s^\alpha, & \xi=s\in\mc S,
 	\end{cases}
 	\qquad
 	\widehat{\mathfrak{s}}_\xi^\alpha
 	=
 	\begin{cases}
-		\mathfrak{s}_f,                         & \xi=f\in\mc F, \\
-		\widehat{\mathfrak{s}}_s^\alpha,        & \xi=s\in\mc S.
+		\mathfrak{s}_f,                  & \xi=f\in\mc F, \\
+		\widehat{\mathfrak{s}}_s^\alpha, & \xi=s\in\mc S.
 	\end{cases}
 	\label{eq:MC_source_carried_free_energy}
 \end{equation}
@@ -352,8 +352,8 @@ The free-energy rates are
 	:
 	\dot{\mbf A}_s^e
 	\right.
-	\notag                                                        \\
-	 & \left.
+	\notag       \\
+	    & \left.
 	+
 	\left.
 	\p{\psi_s}{\bar\rho_s}
@@ -425,8 +425,8 @@ The phase energy balance is
 	\sum_\alpha
 	\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}
 	\dot\eta_\xi^\alpha
-	\notag                                                        \\
-	 & -
+	\notag  \\
+	    & -
 	\sum_\alpha
 	L_\xi^\alpha\dot c_\xi^\alpha
 	-
@@ -466,9 +466,9 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 		(\bs\sigma_s')^T
 		\dot{\mbf A}_s^e
 		(\mbf A_s^e)^{-1}
-	\right]
-	\notag                                                        \\
-	 & +
+		\right]
+	\notag  \\
+	    & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 		(\mbf A_s^e)^{-1}
@@ -476,88 +476,88 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 		\mbf A_s^e
 		\dot{\mbf A}_s^p
 		(\mbf A_s^p)^{-1}
-	\right]
-	\notag                                                        \\
-	 & +
+		\right]
+	\notag  \\
+	    & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-		(\mbf A_s^p)^{-1}
-		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s^e\mbf A_s^p
-		\left.
-		\p{\mbf A_s^\theta}{\theta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		(\mbf A_s^\theta)^{-1}
+	(\mbf A_s^p)^{-1}
+	(\mbf A_s^e)^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s^e\mbf A_s^p
+	\left.
+	\p{\mbf A_s^\theta}{\theta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\mbf A_s^\theta)^{-1}
 	\right]\dot\theta
-	\notag                                                        \\
-	 & +
+	\notag  \\
+	    & +
 	\sum_{s\in\mc S}
 	\sum_\beta
 	\operatorname{tr}\left[
-		(\mbf A_s^p)^{-1}
-		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s^e\mbf A_s^p
-		\left.
-		\p{\mbf A_s^\theta}{\eta_s^\beta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		(\mbf A_s^\theta)^{-1}
+	(\mbf A_s^p)^{-1}
+	(\mbf A_s^e)^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s^e\mbf A_s^p
+	\left.
+	\p{\mbf A_s^\theta}{\eta_s^\beta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\mbf A_s^\theta)^{-1}
 	\right]\dot\eta_s^\beta
-	\notag                                                        \\
-	 & +
+	\notag  \\
+	    & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-		\mbf A_s^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s
-		\dot{\bar{\mbf F}}_s^e
-		(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\dot{\bar{\mbf F}}_s^e
+	(\bar{\mbf F}_s^e)^{-1}
 	\right]
-	\notag                                                        \\
-	 & +
+	\notag  \\
+	    & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-		(\bar{\mbf F}_s^e)^{-1}
-		\mbf A_s^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s
-		\bar{\mbf F}_s^e
-		\dot{\bar{\mbf F}}_s^p
-		(\bar{\mbf F}_s^p)^{-1}
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\bar{\mbf F}_s^e
+	\dot{\bar{\mbf F}}_s^p
+	(\bar{\mbf F}_s^p)^{-1}
 	\right]
-	\notag                                                        \\
-	 & +
+	\notag  \\
+	    & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-		(\bar{\mbf F}_s^p)^{-1}
-		(\bar{\mbf F}_s^e)^{-1}
-		\mbf A_s^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s
-		\bar{\mbf F}_s^e
-		\bar{\mbf F}_s^p
-		\left.
-		\p{\bar{\mbf F}_s^\theta}{\theta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^p)^{-1}
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\bar{\mbf F}_s^e
+	\bar{\mbf F}_s^p
+	\left.
+	\p{\bar{\mbf F}_s^\theta}{\theta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\bar{\mbf F}_s^\theta)^{-1}
 	\right]\dot\theta
-	\notag                                                        \\
-	 & +
+	\notag  \\
+	    & +
 	\sum_{s\in\mc S}
 	\sum_\beta
 	\operatorname{tr}\left[
-		(\bar{\mbf F}_s^p)^{-1}
-		(\bar{\mbf F}_s^e)^{-1}
-		\mbf A_s^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s
-		\bar{\mbf F}_s^e
-		\bar{\mbf F}_s^p
-		\left.
-		\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^p)^{-1}
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\bar{\mbf F}_s^e
+	\bar{\mbf F}_s^p
+	\left.
+	\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\bar{\mbf F}_s^\theta)^{-1}
 	\right]\dot\eta_s^\beta .
 	\label{eq:MC_stress_power_split}
 \end{align}
@@ -569,19 +569,19 @@ The entropy inequality is
 	0\le{} &
 	\sum_\xi
 	\left[
-	\rho_\xi\dot{\mathfrak{s}}_\xi
-	+
-	\sum_\alpha
-	\dot c_\xi^\alpha
-	\widehat{\mathfrak{s}}_\xi^\alpha
-	+
-	\nabla_{\mbf x}\cdot
-	\left(
-	\frac{\mbf q_\xi}{\theta}
-	\right)
-	-
-	\frac{\rho_\xi r_\xi}{\theta}
-	\right].
+		\rho_\xi\dot{\mathfrak{s}}_\xi
+		+
+		\sum_\alpha
+		\dot c_\xi^\alpha
+		\widehat{\mathfrak{s}}_\xi^\alpha
+		+
+		\nabla_{\mbf x}\cdot
+		\left(
+		\frac{\mbf q_\xi}{\theta}
+		\right)
+		-
+		\frac{\rho_\xi r_\xi}{\theta}
+		\right].
 	\label{eq:MC_entropy_inequality}
 \end{align}
 %
@@ -608,7 +608,7 @@ identically vanishing mass-fraction tangent terms
 		\sum_\alpha
 		\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}
 		\dot\eta_\xi^\alpha
-		\right.                                             \\
+		\right.             \\
 		 & \left.
 		+
 		\pi_\xi\sum_\alpha\dot\eta_\xi^\alpha
@@ -625,12 +625,12 @@ identically vanishing mass-fraction tangent terms
 		\right)
 		+
 		\rho_\xi e_\xi^{\rm int}
-		\right)                                             \\
+		\right)             \\
 		 & -
 		\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
 	\end{aligned}
-	\notag                                                        \\
-	 & +
+	\notag     \\
+	       & +
 	\frac{1}{\theta}
 	\left(
 	\lambda\sum_\xi\dot\phi_\xi
@@ -675,44 +675,44 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		\right)
 		\dot{\mbf A}_s^e
 		(\mbf A_s^e)^{-1}
-	\right]
-	\notag                                                        \\
-	 & +
+		\right]
+	\notag          \\
+	       & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-		\left(
-		\mbf A_s^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s
-		-
-		\rho_s
-		\bar{\mbf F}_s^e
-		\left(
-		\left.
-		\p{\psi_s}{\bar{\mbf F}_s^e}
-		\right\vert_{\mc X_s^{\rm mc}}
-		\right)^T
-		\right.
-		\right.
-		\notag                                                    \\
-	 & \left.
-		\left.
-		+
-		\left(
-		\rho_s
-		\left.
-		\p{\psi_s}{\bar\rho_s}
-		\right\vert_{\mc X_s^{\rm mc}}
-		\bar\rho_s
-		-
-		\phi_s\bar p_s
-		\right)\mbf I
-		\right)
-		\dot{\bar{\mbf F}}_s^e
-		(\bar{\mbf F}_s^e)^{-1}
+	\left(
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	-
+	\rho_s
+	\bar{\mbf F}_s^e
+	\left(
+	\left.
+	\p{\psi_s}{\bar{\mbf F}_s^e}
+	\right\vert_{\mc X_s^{\rm mc}}
+	\right)^T
+	\right.
+	\right.
+	\notag          \\
+	       & \left.
+	\left.
+	+
+	\left(
+	\rho_s
+	\left.
+	\p{\psi_s}{\bar\rho_s}
+	\right\vert_{\mc X_s^{\rm mc}}
+	\bar\rho_s
+	-
+	\phi_s\bar p_s
+	\right)\mbf I
+	\right)
+	\dot{\bar{\mbf F}}_s^e
+	(\bar{\mbf F}_s^e)^{-1}
 	\right]
-	\notag                                                        \\
-	 & +
+	\notag          \\
+	       & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 		(\mbf A_s^e)^{-1}
@@ -720,21 +720,21 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		\mbf A_s^e
 		\dot{\mbf A}_s^p
 		(\mbf A_s^p)^{-1}
-	\right]
-	\notag                                                        \\
-	 & +
+		\right]
+	\notag          \\
+	       & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-		(\bar{\mbf F}_s^e)^{-1}
-		\mbf A_s^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s
-		\bar{\mbf F}_s^e
-		\dot{\bar{\mbf F}}_s^p
-		(\bar{\mbf F}_s^p)^{-1}
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\bar{\mbf F}_s^e
+	\dot{\bar{\mbf F}}_s^p
+	(\bar{\mbf F}_s^p)^{-1}
 	\right]
-	\notag                                                        \\
-	 & +
+	\notag          \\
+	       & +
 	\sum_{f\in\mc F}
 	\left[
 		\frac{\phi_f\bar p_f}{\bar\rho_f}
@@ -743,10 +743,10 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		\left.
 		\p{\psi_f}{\bar\rho_f}
 		\right\vert_{\mc X_f}
-	\right]
+		\right]
 	\dot{\bar\rho}_f
-	\notag                                                        \\
-	 & +
+	\notag          \\
+	       & +
 	\sum_{f\in\mc F}
 	\sum_\beta
 	\left[
@@ -757,147 +757,147 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		\left.
 		\p{\psi_f}{\eta_f^\beta}
 		\right\vert_{\mc X_f}
-	\right]\dot\eta_f^\beta
-	\notag                                                        \\
-	 & +
+		\right]\dot\eta_f^\beta
+	\notag          \\
+	       & +
 	\sum_{s\in\mc S}
 	\sum_\beta
 	\left[
-		\frac{\tau_s^\beta}{\eta_s^\beta}
-		+\pi_s
-		-
-		\rho_s
-		\left.
-		\p{\psi_s}{\eta_s^\beta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		\right.
-		\notag                                                    \\
-	 & \left.
-		+
-		\operatorname{tr}\left[
-			(\mbf A_s^p)^{-1}
-			(\mbf A_s^e)^{-1}
-			(\bs\sigma_s')^T
-			\mbf A_s^e\mbf A_s^p
-			\left.
-			\p{\mbf A_s^\theta}{\eta_s^\beta}
-			\right\vert_{\mc X_s^{\rm mc}}
-			(\mbf A_s^\theta)^{-1}
-		\right]
-		\right.
-		\notag                                                    \\
-	 & \left.
-		+
-		\operatorname{tr}\left[
-			\left(
-			(\bar{\mbf F}_s^p)^{-1}
-			(\bar{\mbf F}_s^e)^{-1}
-			\mbf A_s^{-1}
-			(\bs\sigma_s')^T
-			\mbf A_s
-			\bar{\mbf F}_s^e
-			\bar{\mbf F}_s^p
-			\right.
-			\right.
-			\right.
-			\notag                                                \\
-	 & \left.
-			\left.
-			\left.
-			+
-			\left(
-			\rho_s
-			\left.
-			\p{\psi_s}{\bar\rho_s}
-			\right\vert_{\mc X_s^{\rm mc}}
-			\bar\rho_s
-			-
-			\phi_s\bar p_s
-			\right)\mbf I
-			\right)
-			\left.
-			\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
-			\right\vert_{\mc X_s^{\rm mc}}
-			(\bar{\mbf F}_s^\theta)^{-1}
-		\right]
+	\frac{\tau_s^\beta}{\eta_s^\beta}
+	+\pi_s
+	-
+	\rho_s
+	\left.
+	\p{\psi_s}{\eta_s^\beta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	\right.
+	\notag          \\
+	       & \left.
+	+
+	\operatorname{tr}\left[
+	(\mbf A_s^p)^{-1}
+	(\mbf A_s^e)^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s^e\mbf A_s^p
+	\left.
+	\p{\mbf A_s^\theta}{\eta_s^\beta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\mbf A_s^\theta)^{-1}
+	\right]
+	\right.
+	\notag          \\
+	       & \left.
+	+
+	\operatorname{tr}\left[
+	\left(
+	(\bar{\mbf F}_s^p)^{-1}
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\bar{\mbf F}_s^e
+	\bar{\mbf F}_s^p
+	\right.
+	\right.
+	\right.
+	\notag          \\
+	       & \left.
+	\left.
+	\left.
+	+
+	\left(
+	\rho_s
+	\left.
+	\p{\psi_s}{\bar\rho_s}
+	\right\vert_{\mc X_s^{\rm mc}}
+	\bar\rho_s
+	-
+	\phi_s\bar p_s
+	\right)\mbf I
+	\right)
+	\left.
+	\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\bar{\mbf F}_s^\theta)^{-1}
+	\right]
 	\right]\dot\eta_s^\beta
-	\notag                                                        \\
-	 & +
+	\notag          \\
+	       & +
 	\left[
-		-\sum_{f\in\mc F}
-		\rho_f
-		\left(
-		\mathfrak{s}_f
-		+
-		\left.
-		\p{\psi_f}{\theta}
-		\right\vert_{\mc X_f}
-		\right)
-		-
-		\sum_{s\in\mc S}
-		\rho_s
-		\left(
-		\mathfrak{s}_s
-		+
-		\left.
-		\p{\psi_s}{\theta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		\right)
-		\right.
-		\notag                                                    \\
-	 & \left.
-		+
-		\sum_{s\in\mc S}
-		\operatorname{tr}\left[
-			(\mbf A_s^p)^{-1}
-			(\mbf A_s^e)^{-1}
-			(\bs\sigma_s')^T
-			\mbf A_s^e\mbf A_s^p
-			\left.
-			\p{\mbf A_s^\theta}{\theta}
-			\right\vert_{\mc X_s^{\rm mc}}
-			(\mbf A_s^\theta)^{-1}
-		\right]
-		\right.
-		\notag                                                    \\
-	 & \left.
-		+
-		\sum_{s\in\mc S}
-		\operatorname{tr}\left[
-			\left(
-			(\bar{\mbf F}_s^p)^{-1}
-			(\bar{\mbf F}_s^e)^{-1}
-			\mbf A_s^{-1}
-			(\bs\sigma_s')^T
-			\mbf A_s
-			\bar{\mbf F}_s^e
-			\bar{\mbf F}_s^p
-			\right.
-			\right.
-			\right.
-			\notag                                                \\
-	 & \left.
-			\left.
-			\left.
-			+
-			\left(
-			\rho_s
-			\left.
-			\p{\psi_s}{\bar\rho_s}
-			\right\vert_{\mc X_s^{\rm mc}}
-			\bar\rho_s
-			-
-			\phi_s\bar p_s
-			\right)\mbf I
-			\right)
-			\left.
-			\p{\bar{\mbf F}_s^\theta}{\theta}
-			\right\vert_{\mc X_s^{\rm mc}}
-			(\bar{\mbf F}_s^\theta)^{-1}
-		\right]
+	-\sum_{f\in\mc F}
+	\rho_f
+	\left(
+	\mathfrak{s}_f
+	+
+	\left.
+	\p{\psi_f}{\theta}
+	\right\vert_{\mc X_f}
+	\right)
+	-
+	\sum_{s\in\mc S}
+	\rho_s
+	\left(
+	\mathfrak{s}_s
+	+
+	\left.
+	\p{\psi_s}{\theta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	\right)
+	\right.
+	\notag          \\
+	       & \left.
+	+
+	\sum_{s\in\mc S}
+	\operatorname{tr}\left[
+	(\mbf A_s^p)^{-1}
+	(\mbf A_s^e)^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s^e\mbf A_s^p
+	\left.
+	\p{\mbf A_s^\theta}{\theta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\mbf A_s^\theta)^{-1}
+	\right]
+	\right.
+	\notag          \\
+	       & \left.
+	+
+	\sum_{s\in\mc S}
+	\operatorname{tr}\left[
+	\left(
+	(\bar{\mbf F}_s^p)^{-1}
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\bar{\mbf F}_s^e
+	\bar{\mbf F}_s^p
+	\right.
+	\right.
+	\right.
+	\notag          \\
+	       & \left.
+	\left.
+	\left.
+	+
+	\left(
+	\rho_s
+	\left.
+	\p{\psi_s}{\bar\rho_s}
+	\right\vert_{\mc X_s^{\rm mc}}
+	\bar\rho_s
+	-
+	\phi_s\bar p_s
+	\right)\mbf I
+	\right)
+	\left.
+	\p{\bar{\mbf F}_s^\theta}{\theta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\bar{\mbf F}_s^\theta)^{-1}
+	\right]
 	\right]\dot\theta
-	\notag                                                        \\
-	 & +
+	\notag          \\
+	       & +
 	\sum_\xi
 	\left(
 	\lambda
@@ -908,16 +908,16 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	-
 	\sum_{f\in\mc F}
 	\gamma_f\dot\phi_f
-	\notag                                                        \\
-	 & -
+	\notag          \\
+	       & -
 	\sum_m
 	\left(
 	\sum_\xi
 	\sum_\alpha
 	\nu_{\xi (m)}^\alpha
 	\left(
-	\widehat\psi_\xi^\alpha+L_\xi^\alpha
-	\right)
+		\widehat\psi_\xi^\alpha+L_\xi^\alpha
+		\right)
 	\right)\dot r_{(m)}
 	+
 	\sum_\xi\rho_\xi e_\xi^{\rm int}
@@ -1079,7 +1079,7 @@ The multicomponent solid composition projection is
 	\p{\psi_s}{\eta_s^N}
 	\right\vert_{\mc X_s^{\rm mc}}
 	\right)
-	\notag                                                        \\
+	\notag    \\
 	 & \quad
 	-
 	\operatorname{tr}\left[
@@ -1097,36 +1097,36 @@ The multicomponent solid composition projection is
 		\right\vert_{\mc X_s^{\rm mc}}
 		\right)
 		(\mbf A_s^\theta)^{-1}
-	\right]
-	\notag                                                        \\
+		\right]
+	\notag    \\
 	 & \quad
 	-
 	\operatorname{tr}\left[
-		\left(
-		(\bar{\mbf F}_s^p)^{-1}
-		(\bar{\mbf F}_s^e)^{-1}
-		\mbf A_s^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s
-		\bar{\mbf F}_s^e
-		\bar{\mbf F}_s^p
-		\right)
-		\right.
-		\notag                                                    \\
+	\left(
+	(\bar{\mbf F}_s^p)^{-1}
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\bar{\mbf F}_s^e
+	\bar{\mbf F}_s^p
+	\right)
+	\right.
+	\notag    \\
 	 & \left.
-		\quad
-		\left(
-		\left.
-		\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		-
-		\left.
-		\p{\bar{\mbf F}_s^\theta}{\eta_s^N}
-		\right\vert_{\mc X_s^{\rm mc}}
-		\right)
-		(\bar{\mbf F}_s^\theta)^{-1}
+	\quad
+	\left(
+	\left.
+	\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	-
+	\left.
+	\p{\bar{\mbf F}_s^\theta}{\eta_s^N}
+	\right\vert_{\mc X_s^{\rm mc}}
+	\right)
+	(\bar{\mbf F}_s^\theta)^{-1}
 	\right]
-	\notag                                                        \\
+	\notag    \\
 	 & \qquad
 	=
 	\frac{\tau_s^\beta}{\eta_s^\beta}
@@ -1148,7 +1148,7 @@ The entropy coefficient gives
 	\right\vert_{\mc X_f},
 	\qquad
 	f\in\mc F,
-	\notag                                                        \\
+	\notag  \\
 	\rho_s\mathfrak{s}_s
 	={} &
 	-
@@ -1158,29 +1158,29 @@ The entropy coefficient gives
 	\right\vert_{\mc X_s^{\rm mc}}
 	+
 	\operatorname{tr}\left[
-		(\mbf A_s^p)^{-1}
-		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s^e\mbf A_s^p
-		\left.
-		\p{\mbf A_s^\theta}{\theta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		(\mbf A_s^\theta)^{-1}
+	(\mbf A_s^p)^{-1}
+	(\mbf A_s^e)^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s^e\mbf A_s^p
+	\left.
+	\p{\mbf A_s^\theta}{\theta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\mbf A_s^\theta)^{-1}
 	\right]
-	\notag                                                        \\
-	 & +
+	\notag  \\
+	    & +
 	\operatorname{tr}\left[
-		(\bar{\mbf F}_s^p)^{-1}
-		(\bar{\mbf F}_s^e)^{-1}
-		\mbf A_s^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s
-		\bar{\mbf F}_s^e
-		\bar{\mbf F}_s^p
-		\left.
-		\p{\bar{\mbf F}_s^\theta}{\theta}
-		\right\vert_{\mc X_s^{\rm mc}}
-		(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^p)^{-1}
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	(\bs\sigma_s')^T
+	\mbf A_s
+	\bar{\mbf F}_s^e
+	\bar{\mbf F}_s^p
+	\left.
+	\p{\bar{\mbf F}_s^\theta}{\theta}
+	\right\vert_{\mc X_s^{\rm mc}}
+	(\bar{\mbf F}_s^\theta)^{-1}
 	\right],
 	\qquad
 	s\in\mc S .
@@ -1195,22 +1195,22 @@ Using \(\dot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\), the source
 term in \eqref{eq:MC_collected_entropy} becomes
 %
 \begin{align}
-	&-\sum_\xi\sum_\alpha
+	 & -\sum_\xi\sum_\alpha
 	\dot c_\xi^\alpha
 	\left(
 	\widehat\psi_\xi^\alpha+L_\xi^\alpha
 	\right)
-	\notag \\
-	&\qquad
+	\notag                  \\
+	 & \qquad
 	=
 	-\sum_m
 	\left[
-	\sum_\xi\sum_\alpha
-	\nu_{\xi (m)}^\alpha
-	\left(
-	\widehat\psi_\xi^\alpha+L_\xi^\alpha
-	\right)
-	\right]\dot r_{(m)} .
+		\sum_\xi\sum_\alpha
+		\nu_{\xi (m)}^\alpha
+		\left(
+		\widehat\psi_\xi^\alpha+L_\xi^\alpha
+		\right)
+		\right]\dot r_{(m)} .
 	\label{eq:MC_helmholtz_source_projection}
 \end{align}
 %
@@ -1232,7 +1232,7 @@ Then the source projection becomes
 	-\sum_m
 	\left(
 	\sum_\xi\sum_\alpha
-	\nu_{\xi (m)}^\alpha\mu_\xi^\alpha
+	\mu_\xi^\alpha \nu_{\xi (m)}^\alpha
 	\right)\dot r_{(m)} ,
 	\label{eq:MC_mu_source_projection}
 \end{equation}
@@ -1262,8 +1262,47 @@ The same admissible \(L_\xi^\alpha\) gives the component conversion relation
 	\label{eq:MC_admissible_conversion_component}
 \end{equation}
 %
-
-After the reversible coefficients are set to zero, the residual inequality is
+\subsubsection{Plastic flow rules and residual dissipation}
+The plastic-deformation power in the residual inequality is driven by the
+single-prime effective stress of each solid phase mapped through that phase's
+distension and true-deformation gradients to its plastic-flow configuration.
+Because each true-plastic flow is isochoric, only the deviatoric part of that
+mapped stress contributes to the true-plastic power.  Define the deviatoric
+true-plastic driving stress by
+%
+\begin{equation*}
+	\mbf S_s'
+	\equiv
+	(\bar{\mbf F}_s^e)^{-1}
+	\mbf A_s^{-1}
+	\left(
+	(\bs\sigma_s')^T
+	-\frac{1}{3}
+	\operatorname{tr}\left(\bs\sigma_s'\right)\mbf I
+	\right)
+	\mbf A_s
+	\bar{\mbf F}_s^e,
+	\qquad
+	s\in\mc S .
+\end{equation*}
+%
+The trace-free property follows from the similarity transformation of the
+deviatoric stress:
+%
+\begin{equation*}
+	\operatorname{tr}\mbf S_s'
+	=0,
+	\qquad
+	s\in\mc S .
+\end{equation*}
+%
+Thus any spherical part of the mapped true-plastic driving stress does no power
+against \(\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}\).  This is the direct
+analogue of Drumheller's \cite[eqs.~(108)--(112)]{drumheller2000}
+true-plastic driving stress: his deviatoric true stress is replaced here by the
+phase single-prime solid stress first mapped through that phase's distension
+tensor.  After the reversible coefficients have been set to zero, the remaining
+inequality can therefore be written as
 %
 \begin{equation}
 	\begin{aligned}
@@ -1277,24 +1316,15 @@ After the reversible coefficients are set to zero, the residual inequality is
 		(\mbf A_s^p)^{-1}
 		(\mbf A_s^e)^{-1}
 		\\
-		&+
+		         & +
 		\sum_{s\in\mc S}
 		\operatorname{tr}\left[
-			(\bar{\mbf F}_s^e)^{-1}
-			\mbf A_s^{-1}
-			\left(
-			(\bs\sigma_s')^T
-			-
-			\frac{1}{3}
-			\operatorname{tr}(\bs\sigma_s')\mbf I
-			\right)
-			\mbf A_s
-			\bar{\mbf F}_s^e
+			\mbf S_s'
 			\dot{\bar{\mbf F}}_s^p
 			(\bar{\mbf F}_s^p)^{-1}
-		\right]
+			\right]
 		\\
-		&+
+		         & +
 		\sum_\xi\rho_\xi e_\xi^{\rm int}
 		-
 		\sum_\xi
@@ -1303,10 +1333,101 @@ After the reversible coefficients are set to zero, the residual inequality is
 	\label{eq:MC_residual_dissipation}
 \end{equation}
 %
-Reaction kinetics must make
-\(\sum_m\mc A_{(m)}\dot r_{(m)}\ge0\).  Plastic flow laws must make the two
-solid plastic powers nonnegative.  Interphase exchange and heat conduction may
-be closed by
+Admissible reaction kinetics must make
+\(\sum_m\mc A_{(m)}\dot r_{(m)}\ge0\), for example through a closure
+\(\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\bs\Lambda)\) with
+\(\mc A_{(m)}\dot r_{(m)}\ge0\) for each independent mechanism.  Following the
+same sufficient construction used by Drumheller~\cite{drumheller2000}, one may
+choose generic uncoupled flow rules
+%
+\begin{subequations}
+	\label{eq:MC_generic_plastic_flow_rules}
+	\begin{align}
+		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+		 & =
+		\Lambda_{\bar{\mbf F}_s}(\mc X_s^{\rm mc})
+		(\mbf S_s')^T,
+		\label{eq:MC_generic_plastic_deformation_flow_rule}            \\
+		\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}
+		 & =
+		\Lambda_{\mbf A_s}(\mc X_s^{\rm mc})
+		(\mbf A_s^e)^T
+		\bs\sigma_s'
+		(\mbf A_s^e)^{-T},
+		\label{eq:MC_generic_plastic_distension_flow_rule}             \\
+		\Lambda_{\bar{\mbf F}_s}(\mc X_s^{\rm mc})
+		 & \ge0,
+		\label{eq:MC_generic_plastic_deformation_mobility_nonnegative} \\
+		\Lambda_{\mbf A_s}(\mc X_s^{\rm mc})
+		 & \ge0,
+		\qquad
+		s\in\mc S .
+		\label{eq:MC_generic_plastic_distension_mobility_nonnegative}
+	\end{align}
+\end{subequations}
+%
+Then the isochoric constraint is preserved by
+\(\operatorname{tr}\mbf S_s'=0\), and the two plastic powers in
+\eqref{eq:MC_residual_dissipation} are nonnegative term by term.  Composition
+dependence of the plastic closure is admissible at this residual level.  It
+does not add a new Coleman--Noll coefficient unless the plastic variables are
+eliminated as instantaneous functions of \(\eta_s^\beta\).  With the present
+internal-variable description, composition-dependent hardening, softening,
+yield strength, and mobility enter through flow laws for
+\(\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}\) and
+\(\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}\) whose arguments include
+\(\eta_s^\beta\).  Component-resolved plastic closures for the additive
+specialization are described below.  More general coupled plastic
+deformation--distension laws are admissible if their combined plastic power is
+nonnegative.  A stronger model with component-specific plastic deformation
+gradients would require a different solid kinematic split and new residual
+plastic powers.
+
+It remains to make the interaction and heat-conduction terms in
+\eqref{eq:MC_residual_dissipation} nonnegative.  Conservation of total mixture
+energy requires the internal interaction-energy supplies and the interphase
+momentum supplies to satisfy
+%
+\begin{equation}
+	\sum_\xi
+	\left(
+	\rho_\xi e_\xi^{\rm int}
+	+\mbf b_\xi\cdot\mbf v_\xi
+	\right)
+	=0 .
+	\label{eq:MC_interaction_energy_conservation}
+\end{equation}
+%
+Decompose the net momentum supply into pairwise forces,
+%
+\begin{equation}
+	\mbf b_\xi
+	=
+	\sum_{\zeta\ne\xi}
+	\mbf b_{\zeta\xi},
+	\qquad
+	\mbf b_{\zeta\xi}
+	=
+	-\mbf b_{\xi\zeta},
+	\label{eq:MC_pairwise_interaction_force}
+\end{equation}
+%
+where \(\mbf b_{\zeta\xi}\) is the force exerted on phase \(\xi\) by phase
+\(\zeta\).  Then \eqref{eq:MC_interaction_energy_conservation} gives the
+pairwise interaction power
+%
+\begin{equation}
+	\sum_\xi\rho_\xi e_\xi^{\rm int}
+	=
+	-\sum_{\xi<\zeta}
+	\mbf b_{\zeta\xi}\cdot
+	\left(
+	\mbf v_\xi-\mbf v_\zeta
+	\right).
+	\label{eq:MC_interaction_power_pairing}
+\end{equation}
+%
+A sufficient dissipative closure is
 %
 \begin{subequations}
 	\label{eq:MC_interaction_heat_closures}
@@ -1327,15 +1448,384 @@ be closed by
 	\end{align}
 \end{subequations}
 %
-Together with pairwise momentum exchange and total interaction-energy
-conservation, these choices make the interaction and heat-conduction
-contributions nonnegative.
+where \(\mbf y\cdot\mbf k_{\xi\zeta}\mbf y>0\) for every
+\(\mbf y\ne\mbf 0\), \(\mbf y\cdot\mbf K_\xi\mbf y\ge0\), and \(\theta>0\).
+Substitution into \eqref{eq:MC_interaction_power_pairing} gives
+%
+\begin{equation}
+	\sum_\xi\rho_\xi e_\xi^{\rm int}
+	=
+	\sum_{\xi<\zeta}
+	\left(
+	\mbf v_\xi-\mbf v_\zeta
+	\right)
+	\cdot
+	\mbf k_{\xi\zeta}^{-1}
+	\left(
+	\mbf v_\xi-\mbf v_\zeta
+	\right)
+	\ge0 ,
+	\label{eq:MC_interphase_exchange_positive}
+\end{equation}
+%
+and the heat-conduction part becomes
+%
+\begin{equation}
+	-\sum_\xi
+	\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
+	=
+	\sum_\xi
+	\frac{
+		\nabla_{\mbf x}\theta
+		\cdot
+		\mbf K_\xi
+		\nabla_{\mbf x}\theta
+	}{\theta}
+	\ge0 .
+	\label{eq:MC_heat_flux_positive}
+\end{equation}
+%
+Equations \eqref{eq:MC_interphase_exchange_positive} and
+\eqref{eq:MC_heat_flux_positive}, together with admissible reaction kinetics and
+plastic flow laws, are sufficient to make
+\eqref{eq:MC_residual_dissipation} nonnegative.
+
+\subsection{Phase Biot coefficient from a fixed-pressure Legendre transform}
+\label{sec:MC_phase_biot_legendre_transform}
+
+The restrictions above define the single-prime solid stress directly from the
+phase Helmholtz energy.  That stress is the natural stress in the entropy
+inequality because it is conjugate to the elastic rates at fixed intrinsic
+solid density.  Poromechanics measurements and pressure-based momentum balances
+are usually cleaner at fixed solid pressure.  The corresponding double-prime
+stress is obtained by a phase-level Legendre transform before any additive
+component specialization is introduced.
+
+Define the phase and intrinsic specific volumes
+%
+\begin{equation}
+	v_s=\frac{1}{\rho_s},
+	\qquad
+	v_{s0}=\frac{1}{\rho_{s0}},
+	\qquad
+	\bar v_s=\frac{1}{\bar\rho_s},
+	\qquad
+	\bar v_{s0}=\frac{1}{\bar\rho_{s0}},
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_phase_specific_volumes}
+\end{equation}
+%
+The phase pressure definition \eqref{eq:MC_solid_pressure_definition} is
+equivalently
+%
+\begin{equation}
+	\bar p_s
+	=
+	-
+	\left.
+	\p{\psi_s}{\bar v_s}
+	\right\vert_{\mc X_s^{\rm mc}},
+	\qquad
+	s\in\mc S ,
+	\label{eq:MC_phase_pressure_specific_volume}
+\end{equation}
+%
+where \(\bar v_s\) is the specific-volume representation of the density
+argument \(\bar\rho_s\) in \(\mc X_s^{\rm mc}\).  The phase Legendre transform is
+%
+\begin{subequations}
+	\label{eq:MC_phase_legendre_transform}
+	\begin{align}
+		\widetilde\psi_s
+		 & =
+		\psi_s+\bar p_s\bar v_s,
+		\label{eq:MC_phase_legendre_transform_definition} \\
+		\left.
+		\p{\widetilde\psi_s}{\bar p_s}
+		\right\vert_{\bar{\mbf F}_s^e,\mbf A_s^e,\eta_s^\beta,\theta}
+		 & =
+		\bar v_s .
+		\label{eq:MC_phase_legendre_transform_pressure_derivative}
+	\end{align}
+\end{subequations}
+%
+For the fixed-pressure elastic derivative, the density dependence induced by
+\(\bar{\mbf F}_s^e\) enters through the true Jacobian \(J=a_s\bar J_s\).  The
+current values of the distension, plastic, stress-free, thermal, and composition
+variables are part of the state at which the tangent is evaluated, while the
+differentiation is taken at fixed phase pressure, temperature, and composition:
+%
+\begin{align}
+	\left.
+	\p{\bar v_s}{\bar{\mbf F}_s^e}
+	\right\vert_{\bar p_s,\theta,\eta_s^\beta}
+	 & =
+	\left.
+	\p{\bar v_s}{J}
+	\right\vert_{\bar p_s,\theta,\eta_s^\beta}
+	\frac{\partial J}{\partial\bar{\mbf F}_s^e}
+	\notag \\
+	 & =
+	\left.
+	\p{\bar v_s}{J}
+	\right\vert_{\bar p_s,\theta,\eta_s^\beta}
+	a_s\bar J_s
+	(\bar{\mbf F}_s^e)^{-T}.
+	\label{eq:MC_phase_specific_volume_deformation_chain_rule}
+\end{align}
+%
+The phase reference energy per unit skeleton reference volume is
+\(\rho_{s0}\psi_s\).  The single-prime and double-prime phase Piola stresses are
+defined by
+%
+\begin{subequations}
+	\label{eq:MC_phase_pk_stresses}
+	\begin{align}
+		\mbf P_s'
+		 & =
+		\rho_{s0}
+		\left.
+		\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar p_s,\theta,\eta_s^\beta}
+		\label{eq:MC_phase_single_prime_pk_stress} \\
+		\rho_{s0}
+		\left.
+		\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar p_s,\theta,\eta_s^\beta}
+		 & =
+		\rho_{s0}
+		\left.
+		\p{\psi_s}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar v_s,\eta_s^\beta,\theta},
+		\label{eq:MC_phase_legendre_pk_identity}   \\
+		\mbf P_s^{\prime\prime}
+		 & =
+		\rho_{s0}
+		\left.
+		\p{\psi_s}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar p_s,\theta,\eta_s^\beta}.
+		\label{eq:MC_phase_double_prime_pk_stress}
+	\end{align}
+\end{subequations}
+%
+Using the Legendre transform at fixed \(\bar p_s\),
+%
+\begin{equation}
+	\mbf P_s'
+	=
+	\mbf P_s^{\prime\prime}
+	+
+	\bar p_s\rho_{s0}
+	\left.
+	\p{\bar v_s}{\bar{\mbf F}_s^e}
+	\right\vert_{\bar p_s,\theta,\eta_s^\beta}.
+	\label{eq:MC_phase_pk_legendre_split}
+\end{equation}
+%
+Substitution of \eqref{eq:MC_phase_specific_volume_deformation_chain_rule}
+identifies the phase nonlinear Biot coefficient
+%
+\begin{equation}
+	B_s
+	\equiv
+	1
+	-
+	\frac{a_s}{v_{s0}}
+	\left.
+	\p{\bar v_s}{J}
+	\right\vert_{\bar p_s,\theta,\eta_s^\beta},
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_phase_biot_coefficient}
+\end{equation}
+%
+The coefficient is a skeleton-volume tangent evaluated in the current reacted
+state.  The factor \(a_s\) maps the common skeleton Jacobian to the true solid
+Jacobian and therefore carries the current pore-space allocation, packing, and
+stress-free volume accommodation into the coefficient.  The phase Piola split is
+%
+\begin{equation}
+	\mbf P_s'
+	=
+	\mbf P_s^{\prime\prime}
+	+
+	\left(1-B_s\right)
+	\bar p_s
+	\bar J_s
+	(\bar{\mbf F}_s^e)^{-T}.
+	\label{eq:MC_phase_pk_biot_split}
+\end{equation}
+%
+Pushing the Piola stresses forward by
+\(\bar J_s^{-1}(\cdot)(\bar{\mbf F}_s^e)^T\), and then through the same
+distension map used in \eqref{eq:MC_solid_stress_definition}, leaves the
+pressure correction isotropic.  Hence the phase Cauchy stress split is
+%
+\begin{equation}
+	\bs\sigma_s'
+	=
+	\bs\sigma_s^{\prime\prime}
+	+
+	\left(1-B_s\right)\bar p_s\mbf I,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_phase_biot_split}
+\end{equation}
+%
+This phase relation is independent of whether the solid Helmholtz energy can be
+resolved into additive component energies.  The additive specialization below
+only supplies an additional internal mixture rule for computing \(B_s\) and
+\(\bs\sigma_s^{\prime\prime}\) from component-level quantities.
+
+\subsection{Phase and overall momentum after the Biot transform}
+\label{sec:MC_phase_overall_momentum_biot}
+
+Using the equivalent pressure \(\bar p_E=-\lambda\), the solid
+volume-fraction restriction \eqref{eq:MC_solid_volume_fraction_restriction}
+gives
+%
+\begin{equation}
+	\bar p_E
+	=
+	-\lambda
+	=
+	\sum_\alpha\frac{\tau_s^\alpha}{\phi_s}
+	=
+	\bar p_s,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_phase_equivalent_pressure}
+\end{equation}
+%
+Substituting \eqref{eq:MC_phase_biot_split} into the solid phase momentum
+balance \eqref{eq:el_momentum_uniform} gives the fixed-pressure form
+%
+\begin{equation}
+	\begin{aligned}
+		\rho_s\mbf a_s
+		={} &
+		\nabla_{\mbf x}\cdot
+		\left[
+			\bs\sigma_s^{\prime\prime}
+			+
+			\left(1-B_s\right)\bar p_E\mbf I
+			\right]
+		+\rho_s\mbf g+\mbf b_s
+		-\phi_s\nabla_{\mbf x}\bar p_E
+		\\
+		    & +
+		\sum_\alpha
+		\dot c_s^\alpha
+		\left(
+		\nabla_{\mbf x}\mu_s^\alpha-\mbf v_s
+		\right),
+		\qquad
+		s\in\mc S .
+	\end{aligned}
+	\label{eq:MC_solid_phase_momentum_biot}
+\end{equation}
+%
+The plasticity restrictions remain written in terms of the single-prime stress
+because \(\bs\sigma_s'\) is the stress appearing in the residual inequality.  If
+a plastic model is calibrated in terms of \(\bs\sigma_s^{\prime\prime}\), the
+phase split \eqref{eq:MC_phase_biot_split} must be applied before evaluating the
+plastic driving stress.
+
+The solid-phase Biot contributions roll up after summing the solid partial
+stresses:
+%
+\begin{align}
+	\sum_{s\in\mc S}\bs\sigma_s'
+	 & =
+	\sum_{s\in\mc S}\bs\sigma_s^{\prime\prime}
+	+
+	\sum_{s\in\mc S}
+	\left(1-B_s\right)\bar p_s\mbf I,
+	\label{eq:MC_solid_biot_rollup_expanded}   \\
+	\sum_{s\in\mc S}\bs\sigma_s'
+	 & \equiv
+	\bs\sigma^{\prime\prime}
+	+
+	\left(1-B\right)\bar p_E\mbf I,
+	\label{eq:MC_solid_biot_rollup_definition} \\
+	B
+	 & =
+	1-\sum_{s\in\mc S}\left(1-B_s\right).
+	\label{eq:MC_solid_biot_rollup_coefficient}
+\end{align}
+%
+Thus the overall Biot coefficient is obtained only after phase pressure
+compliance contributions have been summed.  No additional volume-fraction weight
+appears in \eqref{eq:MC_solid_biot_rollup_coefficient}, because the phase
+coefficient \(B_s\) was defined from the phase partial Piola stress per unit
+skeleton reference volume.  In the single-solid, single-fluid limit,
+\(B=B_s\), recovering the standard Biot form.
+
+The fluid pressure-gradient terms combine with the same equivalent pressure.
+Writing \(\phi_f=\phi S_f\), using \(\sum_{f\in\mc F}S_f=1\), and using the
+capillary redistribution relation implied by the interfacial energy gives
+%
+\begin{equation}
+	-\sum_{f\in\mc F}\phi_f\nabla_{\mbf x}\bar p_f
+	=
+	-\phi\nabla_{\mbf x}\bar p_E .
+	\label{eq:MC_fluid_pressure_gradient_rollup}
+\end{equation}
+%
+Adding the solid pressure-gradient contribution and using the volume-fraction
+constraint gives
+%
+\begin{equation}
+	-\sum_{s\in\mc S}\phi_s\nabla_{\mbf x}\bar p_E
+	-\sum_{f\in\mc F}\phi_f\nabla_{\mbf x}\bar p_f
+	=
+	-\nabla_{\mbf x}\bar p_E .
+	\label{eq:MC_pressure_gradient_overall_rollup}
+\end{equation}
+%
+Summing the phase momentum balances, assuming the pairwise internal momentum
+supplies sum to zero, and substituting
+\eqref{eq:MC_solid_biot_rollup_definition} gives the compact overall balance
+%
+\begin{empheq}[box=\fbox]{equation}
+	\sum_\xi\rho_\xi\mbf a_\xi
+	=
+	\nabla_{\mbf x}\cdot
+	\left[
+		\bs\sigma^{\prime\prime}
+		-
+		B\bar p_E\mbf I
+		\right]
+	+\rho\mbf g
+	+\sum_\xi\sum_\alpha
+	\dot c_\xi^\alpha
+	\left(
+	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
+	\right).
+	\label{eq:MC_overall_momentum_nonlinear_biot}
+\end{empheq}
 
 \subsection{Additive component specialization}
 \label{sec:MC_additive_component_specialization}
 
 The generic derivation above does not assume that the solid Helmholtz energy is
-additive.  The additive model is obtained by choosing component potentials
+additive.  The additive specialization is useful when a solid phase is a single
+co-deforming skeleton whose stored energy can nevertheless be resolved into
+component-carried contributions.  Examples include adsorbed species in a
+mineral framework, bound water, substitutions or defects in a mineral lattice,
+and guest occupancy in hydrate cages.  In these cases the components do not
+have separate solid velocities or separate deformation gradients; they share
+the same \(\bar{\mbf F}_s^e\) and \(\mbf A_s^e\).  The additive split is
+therefore a thermodynamic bookkeeping assumption, not a kinematic separation of
+the solid.  It also need not be an ideal-mixture assumption, because each
+component potential may depend on the full composition \(\eta_s^\beta\).
+Nonideal component interactions can therefore enter through the composition
+dependence of \(\psi_s^\alpha\), while the generic nonadditive formulation
+above remains available when such an additive representation is too
+restrictive.
+
+The additive model is obtained by choosing component potentials
 \(\psi_s^\alpha\) and writing
 %
 \begin{equation}
@@ -1360,7 +1850,7 @@ Then the pressure, stress, and distension restrictions become
 		 & =
 		\sum_\alpha
 		\phi_s^\alpha\bar p_s^\alpha,
-		\label{eq:MC_additive_pressure_average} \\
+		\label{eq:MC_additive_pressure_average}   \\
 		\bar p_s^\alpha
 		 & =
 		(\bar\rho_s^\alpha)^2
@@ -1372,7 +1862,7 @@ Then the pressure, stress, and distension restrictions become
 		 & =
 		\sum_\alpha
 		\bs\sigma_s^{\prime\alpha},
-		\label{eq:MC_additive_stress_sum} \\
+		\label{eq:MC_additive_stress_sum}         \\
 		\bs\sigma_s^{\prime\alpha}
 		 & =
 		\rho_s^\alpha
@@ -1384,7 +1874,7 @@ Then the pressure, stress, and distension restrictions become
 		(\bar{\mbf F}_s^e)^T
 		\right)
 		\mbf A_s^T,
-		\label{eq:MC_additive_component_stress} \\
+		\label{eq:MC_additive_component_stress}   \\
 		\bs\sigma_s'
 		 & =
 		\rho_s
@@ -1398,10 +1888,118 @@ Then the pressure, stress, and distension restrictions become
 	\end{align}
 \end{subequations}
 %
-The fixed-pressure transformation may be performed componentwise.  Define
-\(\bar v_s^\alpha=1/\bar\rho_s^\alpha\) and
-\(v_{s0}^\alpha=1/\rho_{s0}^\alpha\).  The component nonlinear Biot coefficient
-is
+The residual inequality is written in terms of the phase plastic powers, so the
+safest component-resolved plastic closure lets components modify the mobility
+of the common phase plastic rates.  One sufficient additive form is
+%
+\begin{subequations}
+	\label{eq:MC_component_resolved_plastic_flow_rules}
+	\begin{align}
+		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+		 & =
+		\left(
+		\sum_\alpha
+		\Lambda_{\bar{\mbf F}_s}^\alpha(\mc X_s^{\rm mc})
+		\right)
+		(\mbf S_s')^T,
+		\label{eq:MC_component_true_plastic_flow_rule}       \\
+		\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}
+		 & =
+		\left(
+		\sum_\alpha
+		\Lambda_{\mbf A_s}^\alpha(\mc X_s^{\rm mc})
+		\right)
+		(\mbf A_s^e)^T
+		\bs\sigma_s'
+		(\mbf A_s^e)^{-T},
+		\label{eq:MC_component_distension_plastic_flow_rule} \\
+		\sum_\alpha
+		\Lambda_{\bar{\mbf F}_s}^\alpha(\mc X_s^{\rm mc})
+		 & \ge0,
+		\qquad
+		\sum_\alpha
+		\Lambda_{\mbf A_s}^\alpha(\mc X_s^{\rm mc})
+		\ge0 .
+		\label{eq:MC_component_plastic_mobilities}
+	\end{align}
+\end{subequations}
+%
+These rules do not assign separate solid velocities or separate total
+deformation gradients to the components.  They assign separate component
+mobility contributions to the common solid plastic rates.  Only the summed
+mobilities enter the phase plastic powers, so the sums must be nonnegative;
+requiring each component mobility to be nonnegative is the stronger
+specialization in which each component contribution is separately dissipative.
+More general component-indexed flow directions are admissible only if the
+resulting combined plastic power in \eqref{eq:MC_residual_dissipation} remains
+nonnegative.
+
+\subsubsection{Component Biot coefficient derivation}
+\label{sec:MC_component_biot_derivation}
+
+The additive rules above give the component single-prime stress.  To obtain the
+double-prime stress used in pressure-based momentum balances, the fixed-pressure
+Legendre transformation must be performed at the component level before the
+component stresses are summed.
+%
+Let \(\bar v_s^\alpha=1/\bar\rho_s^\alpha\),
+\(v_{s0}^\alpha=1/\rho_{s0}^\alpha\), and
+\(\widetilde\psi_s^\alpha
+=\psi_s^\alpha+\bar p_s^\alpha\bar v_s^\alpha\).  The component
+fixed-pressure Legendre transform follows the same steps as the phase-level
+transform in \S\ref{sec:MC_phase_biot_legendre_transform}, with
+\(\bar p_s^\alpha\) replacing \(\bar p_s\) and \(\bar v_s^\alpha\) replacing
+\(\bar v_s\).  The component reference energy per unit skeleton reference
+volume is \(\rho_{s0}^\alpha\psi_s^\alpha\), so the single-prime and
+double-prime component partial Piola stresses are
+%
+\begin{subequations}
+	\label{eq:MC_additive_component_pk_stresses}
+	\begin{align}
+		\mbf P_s^{\prime\alpha}
+		 & =
+		\rho_{s0}^\alpha
+		\left.
+		\p{\widetilde\psi_s^\alpha}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
+		\label{eq:MC_additive_component_single_prime_pk_stress} \\
+		\rho_{s0}^\alpha
+		\left.
+		\p{\widetilde\psi_s^\alpha}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}
+		 & =
+		\rho_{s0}^\alpha
+		\left.
+		\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar v_s^\alpha,\eta_s^\beta,\theta},
+		\label{eq:MC_additive_component_legendre_pk_identity}   \\
+		\mbf P_s^{\prime\prime\alpha}
+		 & =
+		\rho_{s0}^\alpha
+		\left.
+		\p{\psi_s^\alpha}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}.
+		\label{eq:MC_additive_component_double_prime_pk_stress}
+	\end{align}
+\end{subequations}
+%
+Using the Legendre transform at fixed \(\bar p_s^\alpha\),
+%
+\begin{equation}
+	\mbf P_s^{\prime\alpha}
+	=
+	\mbf P_s^{\prime\prime\alpha}
+	+
+	\bar p_s^\alpha\rho_{s0}^\alpha
+	\left.
+	\p{\bar v_s^\alpha}{\bar{\mbf F}_s^e}
+	\right\vert_{\bar p_s^\alpha,\theta,\eta_s^\beta}.
+	\label{eq:MC_additive_component_pk_legendre_split}
+\end{equation}
+%
+Using the same \(J=a_s\bar J_s\) chain rule as in the phase-level derivation,
+the pressure correction in \eqref{eq:MC_additive_component_pk_legendre_split}
+identifies the component nonlinear Biot coefficient
 %
 \begin{equation}
 	B_s^\alpha
@@ -1415,7 +2013,23 @@ is
 	\label{eq:MC_additive_component_biot}
 \end{equation}
 %
-The component stress split is
+and gives the component Piola split
+%
+\begin{equation}
+	\mbf P_s^{\prime\alpha}
+	=
+	\mbf P_s^{\prime\prime\alpha}
+	+
+	(1-B_s^\alpha)\bar p_s^\alpha
+	\bar J_s
+	(\bar{\mbf F}_s^e)^{-T}.
+	\label{eq:MC_additive_component_pk_biot_split}
+\end{equation}
+%
+Pushing either component Piola stress forward by the operation
+\(\bar J_s^{-1}(\cdot)(\bar{\mbf F}_s^e)^T\), and then through the same
+distension map used in \eqref{eq:MC_additive_component_stress}, leaves the
+pressure correction isotropic.  Hence the component Cauchy stress split is
 %
 \begin{equation}
 	\bs\sigma_s^{\prime\alpha}
@@ -1457,7 +2071,341 @@ This additive specialization is the old multicomponent-solid mixture-rule
 structure, now embedded in the full entropy inequality with plastic,
 distension, thermal, and composition-dependent stress-free terms retained.
 
-\subsection{Examples and single-component specialization}
+\subsection{Single-component solid specialization}
+\label{sec:MC_single_component_rollup}
+
+The single-component mineral solid used in the following section is recovered
+from the additive theory by choosing one active component in each solid phase and
+imposing
+%
+\begin{equation}
+	\eta_s^s=1,
+	\qquad
+	\dot\eta_s^s=0,
+	\qquad
+	\phi_s^s=1,
+	\qquad
+	\bar\rho_s^s=\bar\rho_s .
+	\label{eq:MC_single_component_constraints}
+\end{equation}
+%
+Then \eqref{eq:MC_solid_general_free_energy} reduces to the one-component solid
+free energy
+%
+\begin{equation}
+	\psi_s
+	=
+	\psi_s(
+	\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s,\theta),
+	\label{eq:MC_single_component_free_energy}
+\end{equation}
+%
+the solid composition projection \eqref{eq:MC_solid_composition_projection}
+vanishes identically, and the additive component rules reduce to
+%
+\begin{equation}
+	\bar p_s^s=\bar p_s,
+	\qquad
+	\bs\sigma_s^{\prime s}=\bs\sigma_s',
+	\qquad
+	\bs\sigma_s^{\prime\prime s}=\bs\sigma_s^{\prime\prime},
+	\qquad
+	B_s^s=B_s .
+	\label{eq:MC_single_component_reductions}
+\end{equation}
+%
+This shows that the one-component solid is not a separate theory.  It is the
+degenerate point of the multicomponent solid simplex.  All stress-free thermal
+maps, plastic variables, distension variables, and source terms remain
+phase-level objects, but the solid composition tangent space has dimension zero.
+
+For this specialization, the phase-level Biot coefficient
+\eqref{eq:MC_phase_biot_coefficient}, the phase stress split
+\eqref{eq:MC_phase_biot_split}, the solid phase momentum balance
+\eqref{eq:MC_solid_phase_momentum_biot}, and the overall balance
+\eqref{eq:MC_overall_momentum_nonlinear_biot} reduce to the one-component
+solid formulas used in the following section.  In the single-solid,
+single-fluid limit, the overall mixture coefficient
+\eqref{eq:MC_solid_biot_rollup_coefficient} gives \(B=B_s\).
+
+\subsection{Scalar distension simplifications}
+\label{sec:MC_scalar_distension_simplifications}
+
+The tensor distension theory admits a scalar specialization when the
+pore-architecture change is isotropic.  Scalar distension changes the local
+solid volume but not the shape of the pore architecture.  Anisotropic
+pore-collapse or fabric evolution requires retaining the tensor
+\(\mbf A_s\), or adding another structural variable.  The scalar specialization
+is imposed on the elastic, plastic, and stress-free distension factors:
+%
+\begin{equation}
+	\mbf A_s^\bullet=(a_s^\bullet)^{1/3}\mbf I,
+	\qquad
+	\bullet\in\{e,p,\theta\},
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_scalar_distension_factors}
+\end{equation}
+%
+The factors multiply,
+%
+\begin{equation}
+	a_s=a_s^e a_s^p a_s^\theta,
+	\qquad
+	s\in\mc S ,
+	\label{eq:MC_scalar_distension_product}
+\end{equation}
+%
+and the true solid deformation relation becomes
+%
+\begin{equation}
+	\mbf F=a_s^{1/3}\bar{\mbf F}_s,
+	\qquad
+	J=a_s\bar J_s .
+	\label{eq:MC_scalar_distension_deformation}
+\end{equation}
+%
+For a generic multicomponent solid, the tensor distension restriction
+\eqref{eq:MC_distension_force_definition} reduces to the trace condition
+%
+\begin{equation}
+	\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s'\right)
+	=
+	\rho_s
+	\left.
+	\p{\psi_s}{a_s^e}
+	\right\vert_{\mc X_s^{\rm mc}}
+	a_s^e,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_scalar_distension_stress_restriction}
+\end{equation}
+%
+Using the phase-level Biot transform, the same condition can be written as a
+restriction on the phase double-prime trace:
+%
+\begin{equation}
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\prime})
+	=
+	\rho_s
+	\left.
+	\p{\psi_s}{a_s^e}
+	\right\vert_{\mc X_s^{\rm mc}}
+	a_s^e
+	-\left(1-B_s\right)\bar p_s,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_scalar_double_prime_distension_trace}
+\end{equation}
+%
+These are not additional evolution equations for \(a_s\).  They are the scalar
+form of the reversible tensor admissibility condition.  The scalar specialization
+also reduces the plastic-distension power in
+\eqref{eq:MC_residual_dissipation} to
+%
+\begin{equation}
+	\sum_{s\in\mc S}\bs\sigma_s':
+	\mbf A_s^e\dot{\mbf A}_s^p
+	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}
+	=
+	\sum_{s\in\mc S}
+	\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s'\right)
+	\frac{\dot a_s^p}{a_s^p}.
+	\label{eq:MC_scalar_plastic_distension_power}
+\end{equation}
+%
+Thus scalar plastic distension is hydrostatic compaction or dilation driven by
+the single-prime mean stress.
+
+\subsection{Distension and crystallization pressure}
+\label{sec:MC_distension_crystallization_pressure}
+
+Crystallization pressure is not an extra force added to
+\eqref{eq:MC_overall_momentum_nonlinear_biot}.  It must be represented either by
+an admissible solid free energy, by an admissible kinetic law, or by an
+algebraic affinity restriction.  In the scalar setting, the volumetric split is
+%
+\begin{equation}
+	\ln J=\ln a_s+\ln\bar J_s,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_crystallization_volumetric_split}
+\end{equation}
+%
+Therefore a volumetric penalty written only in terms of \(\ln a_s\), or only in
+terms of \(\ln\bar J_s\), does not generally reproduce the scalar
+Coleman--Noll trace condition.  The transformed fixed-pressure volumetric
+potential should generate the double-prime stress; the Biot pressure correction
+has already been accounted for in \eqref{eq:MC_phase_biot_split}.  A
+simple scalar choice is
+%
+\begin{equation}
+	\widetilde W_{{\rm vol},s}
+	=
+	\frac{K_s^\star}{2}
+	\left(\ln J\right)^2 .
+	\label{eq:MC_component_transformed_volumetric_energy}
+\end{equation}
+%
+Holding \(\bar J_s\) and \(\bar p_s\) fixed,
+%
+\begin{equation}
+	a_s
+	\left.
+	\p{\widetilde W_{{\rm vol},s}}{a_s}
+	\right\vert_{\bar J_s,\bar p_s}
+	=
+	K_s^\star\ln J .
+	\label{eq:MC_component_transformed_volumetric_trace}
+\end{equation}
+%
+Thus the transformed volumetric potential supplies
+%
+\begin{equation}
+	\frac{1}{3}\operatorname{tr}(\bs\sigma_s^{\prime\prime})
+	=
+	K_s^\star\ln J ,
+	\label{eq:MC_component_double_prime_trace_from_energy}
+\end{equation}
+%
+and the original Helmholtz trace required by the scalar distension restriction is
+%
+\begin{equation}
+	\rho_s
+	\left.
+	\p{\psi_s}{a_s^e}
+	\right\vert_{\mc X_s^{\rm mc}}
+	a_s^e
+	=
+	K_s^\star\ln J
+	+\left(1-B_s\right)\bar p_s .
+	\label{eq:MC_component_cn_trace_satisfied}
+\end{equation}
+%
+This is exactly \eqref{eq:MC_scalar_double_prime_distension_trace}.  Once the
+stress generated by the energy is inserted into the momentum equation, no
+separate crystallization-pressure load should be inserted.
+
+Crystallization can instead be prescribed or diagnosed through the mechanism
+affinity.  For a mechanism \((m)\) precipitating solid phase \(s_{(m)}\),
+%
+\begin{equation}
+	\mc A_{(m)}
+	=
+	-
+	\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
+	\qquad
+	\mc A_{(m)}\dot r_{(m)}\ge0 .
+	\label{eq:MC_crystallization_affinity_kinetics}
+\end{equation}
+%
+If a classical crystallization pressure \(\bar p_{c,s_{(m)}}\) is used, it is
+best interpreted as an algebraic affinity law:
+%
+\begin{equation}
+	\mc A_{(m)}
+	=
+	\bar v_{s_{(m)}}
+	\left[
+	\bar p_{c,s_{(m)}}
+	-\frac{1}{3}
+	\operatorname{tr}
+	\left(
+	\bs\sigma_{s_{(m)}}'
+	\right)
+	\right],
+	\qquad
+	\bar v_{s_{(m)}}=\frac{1}{\bar\rho_{s_{(m)}}}.
+	\label{eq:MC_crystallization_affinity_volumetric}
+\end{equation}
+%
+For example, the classical supersaturation formula
+\(\bar p_{c,s_{(m)}}=R\theta\ln\Omega_{(m)}/V_{s_{(m)}}\) gives
+%
+\begin{equation}
+	\mc A_{(m)}
+	=
+	\bar v_{s_{(m)}}
+	\left[
+		\frac{R\theta}{V_{s_{(m)}}}
+		\ln\Omega_{(m)}
+		-\frac{1}{3}
+		\operatorname{tr}
+		\left(
+		\bs\sigma_{s_{(m)}}'
+		\right)
+		\right].
+	\label{eq:MC_crystallization_supersaturation_affinity}
+\end{equation}
+%
+At reversible equilibrium, \(\mc A_{(m)}=0\), and the classical
+crystallization pressure equals the admissible current phase trace stress.  If
+the affinity and stress are solved instead, \(\Omega_{(m)}\) is a diagnostic
+output.
+
+\subsection{Multicomponent model summary}
+\label{sec:MC_model_summary_closure_count}
+
+This section records the unknown and equation accounting for the model assembled
+above.  The count is only a bookkeeping device for a fully implicit pointwise
+discretization; the actual implementation may eliminate some variables locally.
+Let \(P_{\mc F}=|\mc F|\), \(P_{\mc S}=|\mc S|\), and
+\(P=P_{\mc F}+P_{\mc S}\).  Let \(N^{\rm F}\) be the number of tracked
+components in each fluid phase and \(N^{\rm S}\) the number of tracked
+components in each solid phase.  If the component counts vary by phase, the
+products below are replaced by the corresponding phase sums.  Let \(N_{(m)}\)
+be the number of independent conversion mechanisms and \(d\) the spatial
+dimension.
+
+\begin{center}
+	\begin{tabular}{p{0.72\textwidth}c}
+		Unknown family                                                                                 & Count                                     \\
+		\hline
+		Phase displacements \(u_{\xi 1},\ldots,u_{\xi d}\) for \(\xi=1,\ldots,P\)                      & \(dP\)                                    \\
+		Intrinsic phase densities \(\bar\rho_\xi\) for \(\xi=1,\ldots,P\)                              & \(P\)                                     \\
+		Fluid mass fractions \(\eta_f^\alpha\)                                                         & \(P_{\mc F}N^{\rm F}\)                    \\
+		Solid mass fractions \(\eta_s^\alpha\)                                                         & \(P_{\mc S}N^{\rm S}\)                    \\
+		Phase volume fractions \(\phi_\xi\)                                                            & \(P\)                                     \\
+		Volume-fraction multiplier \(\lambda\)                                                         & \(1\)                                     \\
+		Storage multipliers \(\tau_\xi^\alpha\)                                                        & \(P_{\mc F}N^{\rm F}+P_{\mc S}N^{\rm S}\) \\
+		Helmholtz chemical potentials \(\mu_\xi^\alpha\)                                               & \(P_{\mc F}N^{\rm F}+P_{\mc S}N^{\rm S}\) \\
+		Solid distension tensors \(\mbf A_s\), or scalar factors \(a_s\), for \(s=1,\ldots,P_{\mc S}\) & \(d^2P_{\mc S}\) or \(P_{\mc S}\)         \\
+		Mechanism process rates \(\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}\)                             & \(N_{(m)}\)                               \\
+		Solid plastic internal variables \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active          & \(2d^2P_{\mc S}\)                         \\
+		Temperature \(\theta\)                                                                         & \(1\)
+	\end{tabular}
+\end{center}
+%
+The matching equation blocks are
+%
+\begin{center}
+	\begin{tabular}{p{0.62\textwidth}c}
+		Equation block                                                                                                                                                   & Count                                     \\
+		\hline
+		Phase momentum balances \eqref{eq:el_momentum_uniform}, or the summed balance \eqref{eq:MC_overall_momentum_nonlinear_biot} when a common displacement is solved & \(dP\) or \(d\)                           \\
+		Component mass balances \eqref{eq:component_spatial_mass}                                                                                                        & \(P_{\mc F}N^{\rm F}+P_{\mc S}N^{\rm S}\) \\
+		Projected fluid composition stationarity \eqref{eq:MC_fluid_composition_projection}                                                                              & \(P_{\mc F}(N^{\rm F}-1)\)                \\
+		Projected solid composition stationarity \eqref{eq:MC_solid_composition_projection}                                                                              & \(P_{\mc S}(N^{\rm S}-1)\)                \\
+		Fluid and solid composition normalizations                                                                                                                       & \(P_{\mc F}+P_{\mc S}\)                   \\
+		Volume-fraction restrictions \eqref{eq:MC_volume_fraction_restrictions} and constraint \eqref{eq:volume_fraction_constraint}                                     & \(P+1\)                                   \\
+		Pressure-density restrictions \eqref{eq:MC_phase_pressure_definitions}                                                                                           & \(P\)                                     \\
+		Conversion-potential equations \eqref{eq:MC_admissible_conversion_component}                                                                                     & \(P_{\mc F}N^{\rm F}+P_{\mc S}N^{\rm S}\) \\
+		Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                                                         & \(P_{\mc S}\)                             \\
+		Kinetic laws for \(\dot r_{(m)}\)                                                                                                                                & \(N_{(m)}\)                               \\
+		Plastic flow laws for \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active                                                                                       & \(2d^2P_{\mc S}\)                         \\
+		Energy or temperature equation using \eqref{eq:MC_energy_balance}                                                                                                & \(1\)
+	\end{tabular}
+\end{center}
+%
+In the single-component solid specialization, the solid composition unknowns and
+projected solid composition equations collapse because \(\eta_s^s=1\).  The
+component Biot coefficient \eqref{eq:MC_additive_component_biot} collapses to
+the phase coefficient \(B_s\), the phase coefficients roll up through
+\eqref{eq:MC_solid_biot_rollup_coefficient}, and the summed balance becomes
+\eqref{eq:MC_overall_momentum_nonlinear_biot}.
+
+\subsection{Examples}
 \label{sec:MC_examples_single_component_specialization}
 
 An absorption/desorption mechanism transferring component \(g\) between a
@@ -1494,43 +2442,3 @@ dissociation are conversion mechanisms between mobile components and solid
 components.  Cage occupancy changes the solid composition; that composition may
 change the free energy, thermal expansion, stress-free cage volume, and plastic
 response without introducing a second solid displacement field.
-
-The single-component mineral solid used in the following section is recovered by
-choosing one active component and imposing
-%
-\begin{equation}
-	\eta_s^s=1,
-	\qquad
-	\dot\eta_s^s=0,
-	\qquad
-	\phi_s^s=1,
-	\qquad
-	\bar\rho_s^s=\bar\rho_s .
-	\label{eq:MC_single_component_constraints}
-\end{equation}
-%
-Then \eqref{eq:MC_solid_general_free_energy} reduces to
-%
-\begin{equation}
-	\psi_s
-	=
-	\psi_s(
-	\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s,\theta),
-	\label{eq:MC_single_component_free_energy}
-\end{equation}
-%
-the solid composition projection \eqref{eq:MC_solid_composition_projection}
-vanishes identically, and the additive mixture rules reduce to
-%
-\begin{equation}
-	\bar p_s^s=\bar p_s,
-	\qquad
-	\bs\sigma_s^{\prime s}=\bs\sigma_s',
-	\qquad
-	B_s^s=B_s .
-	\label{eq:MC_single_component_reductions}
-\end{equation}
-%
-Thus the current one-component solid entropy inequality is the specialization
-obtained by imposing \(\eta_s^s=1\) before the Coleman--Noll coefficients are
-collected.
