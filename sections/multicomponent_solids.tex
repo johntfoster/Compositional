@@ -47,36 +47,35 @@ The distension tensor \(\mbf A_s\) stores pore-space allocation, packing,
 stress-free swelling, and reaction-induced accommodation between the common
 skeleton motion and the true solid deformation \(\bar{\mbf F}_s\).  Following
 Drumheller's elastic--plastic treatment of true deformation and distension
-\cite{drumheller2000}, the elastic, plastic, and stress-free
-thermal/compositional factors are
+\cite{drumheller2000}, the elastic, plastic, and stress-free factors are
 %
 \begin{subequations}
 	\label{eq:MC_solid_kinematic_splits}
 	\begin{align}
 		\mbf A_s
 		 & =
-		\mbf A_s^e\mbf A_s^p\mbf A_s^\theta,
+		\mbf A_s^e\mbf A_s^p\mbf A_s^0,
 		\label{eq:MC_solid_distension_split} \\
 		\bar{\mbf F}_s
 		 & =
 		\bar{\mbf F}_s^e
 		\bar{\mbf F}_s^p
-		\bar{\mbf F}_s^\theta .
+		\bar{\mbf F}_s^0 .
 		\label{eq:MC_solid_true_split}
 	\end{align}
 \end{subequations}
 %
-Here \(\mbf A_s^\theta\) and \(\bar{\mbf F}_s^\theta\) are reversible
-stress-free maps, and may depend on temperature and solid composition:
+Here \(\mbf A_s^0\) and \(\bar{\mbf F}_s^0\) are reversible
+stress-free maps that can include temperature and solid-composition effects:
 %
 \begin{equation}
-	\mbf A_s^\theta
+	\mbf A_s^0
 	=
-	\mbf A_s^\theta(\theta,\eta_s^\beta),
+	\mbf A_s^0(\theta,\eta_s^\beta),
 	\qquad
-	\bar{\mbf F}_s^\theta
+	\bar{\mbf F}_s^0
 	=
-	\bar{\mbf F}_s^\theta(\theta,\eta_s^\beta).
+	\bar{\mbf F}_s^0(\theta,\eta_s^\beta).
 	\label{eq:MC_solid_stress_free_maps}
 \end{equation}
 %
@@ -106,13 +105,13 @@ The dependent elastic arguments are
 	\mbf A_s^e
 	=
 	\mbf A_s
-	(\mbf A_s^\theta)^{-1}
+	(\mbf A_s^0)^{-1}
 	(\mbf A_s^p)^{-1},
 	\qquad
 	\bar{\mbf F}_s^e
 	=
 	\bar{\mbf F}_s
-	(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^0)^{-1}
 	(\bar{\mbf F}_s^p)^{-1}.
 	\label{eq:MC_solid_elastic_arguments}
 \end{equation}
@@ -224,17 +223,17 @@ composition-dependent stress-free true deformation:
 	\operatorname{tr}\left[
 		\left(
 		\left.
-		\p{\bar{\mbf F}_s^\theta}{\theta}
+		\p{\bar{\mbf F}_s^0}{\theta}
 		\right\vert_{\mc X_s}
 		\dot\theta
 		+
 		\sum_\beta
 		\left.
-		\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
+		\p{\bar{\mbf F}_s^0}{\eta_s^\beta}
 		\right\vert_{\mc X_s}
 		\dot\eta_s^\beta
 		\right)
-		(\bar{\mbf F}_s^\theta)^{-1}
+		(\bar{\mbf F}_s^0)^{-1}
 		\right].
 	\label{eq:MC_solid_density_rate}
 \end{align}
@@ -506,9 +505,9 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 		(\bs\sigma_s')^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
-		\p{\mbf A_s^\theta}{\theta}
+		\p{\mbf A_s^0}{\theta}
 		\right\vert_{\mc X_s}
-		(\mbf A_s^\theta)^{-1}
+		(\mbf A_s^0)^{-1}
 		\right]\dot\theta
 	\notag  \\
 	    & +
@@ -520,9 +519,9 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 		(\bs\sigma_s')^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
-		\p{\mbf A_s^\theta}{\eta_s^\beta}
+		\p{\mbf A_s^0}{\eta_s^\beta}
 		\right\vert_{\mc X_s}
-		(\mbf A_s^\theta)^{-1}
+		(\mbf A_s^0)^{-1}
 		\right]\dot\eta_s^\beta
 	\notag  \\
 	    & +
@@ -558,9 +557,9 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
 	\left.
-	\p{\bar{\mbf F}_s^\theta}{\theta}
+	\p{\bar{\mbf F}_s^0}{\theta}
 	\right\vert_{\mc X_s}
-	(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^0)^{-1}
 	\right]\dot\theta
 	\notag  \\
 	    & +
@@ -575,9 +574,9 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
 	\left.
-	\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
+	\p{\bar{\mbf F}_s^0}{\eta_s^\beta}
 	\right\vert_{\mc X_s}
-	(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^0)^{-1}
 	\right]\dot\eta_s^\beta .
 	\label{eq:MC_stress_power_split}
 \end{align}
@@ -801,9 +800,9 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		(\bs\sigma_s')^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
-		\p{\mbf A_s^\theta}{\eta_s^\beta}
+		\p{\mbf A_s^0}{\eta_s^\beta}
 		\right\vert_{\mc X_s}
-		(\mbf A_s^\theta)^{-1}
+		(\mbf A_s^0)^{-1}
 		\right]
 	\right.
 	\notag          \\
@@ -837,9 +836,9 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\right)\mbf I
 	\right)
 	\left.
-	\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
+	\p{\bar{\mbf F}_s^0}{\eta_s^\beta}
 	\right\vert_{\mc X_s}
-	(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^0)^{-1}
 	\right]
 	\right]\dot\eta_s^\beta
 	\notag          \\
@@ -875,9 +874,9 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		(\bs\sigma_s')^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
-		\p{\mbf A_s^\theta}{\theta}
+		\p{\mbf A_s^0}{\theta}
 		\right\vert_{\mc X_s}
-		(\mbf A_s^\theta)^{-1}
+		(\mbf A_s^0)^{-1}
 		\right]
 	\right.
 	\notag          \\
@@ -912,9 +911,9 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\right)\mbf I
 	\right)
 	\left.
-	\p{\bar{\mbf F}_s^\theta}{\theta}
+	\p{\bar{\mbf F}_s^0}{\theta}
 	\right\vert_{\mc X_s}
-	(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^0)^{-1}
 	\right]
 	\right]\dot\theta
 	\notag          \\
@@ -1110,14 +1109,14 @@ The multicomponent solid composition projection is
 		\mbf A_s^e\mbf A_s^p
 		\left(
 		\left.
-		\p{\mbf A_s^\theta}{\eta_s^\beta}
+		\p{\mbf A_s^0}{\eta_s^\beta}
 		\right\vert_{\mc X_s}
 		-
 		\left.
-		\p{\mbf A_s^\theta}{\eta_s^N}
+		\p{\mbf A_s^0}{\eta_s^N}
 		\right\vert_{\mc X_s}
 		\right)
-		(\mbf A_s^\theta)^{-1}
+		(\mbf A_s^0)^{-1}
 		\right]
 	\notag    \\
 	& \quad
@@ -1138,14 +1137,14 @@ The multicomponent solid composition projection is
 	\quad
 	\left(
 	\left.
-	\p{\bar{\mbf F}_s^\theta}{\eta_s^\beta}
+	\p{\bar{\mbf F}_s^0}{\eta_s^\beta}
 	\right\vert_{\mc X_s}
 	-
 	\left.
-	\p{\bar{\mbf F}_s^\theta}{\eta_s^N}
+	\p{\bar{\mbf F}_s^0}{\eta_s^N}
 	\right\vert_{\mc X_s}
 	\right)
-	(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^0)^{-1}
 	\right]
 	\notag    \\
 	& \qquad
@@ -1184,9 +1183,9 @@ The entropy coefficient gives
 		(\bs\sigma_s')^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
-		\p{\mbf A_s^\theta}{\theta}
+		\p{\mbf A_s^0}{\theta}
 		\right\vert_{\mc X_s}
-		(\mbf A_s^\theta)^{-1}
+		(\mbf A_s^0)^{-1}
 		\right]
 	\notag  \\
 	    & +
@@ -1199,9 +1198,9 @@ The entropy coefficient gives
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
 	\left.
-	\p{\bar{\mbf F}_s^\theta}{\theta}
+	\p{\bar{\mbf F}_s^0}{\theta}
 	\right\vert_{\mc X_s}
-	(\bar{\mbf F}_s^\theta)^{-1}
+	(\bar{\mbf F}_s^0)^{-1}
 	\right],
 	\qquad
 	s\in\mc S .
@@ -1404,6 +1403,43 @@ nonnegative.  A stronger model with component-specific plastic deformation
 gradients would require a different solid kinematic split and new residual
 plastic powers.
 
+This admissibility statement is deliberately weaker than an associated
+plasticity postulate.  In classical soil and rock plasticity, associated flow
+uses the same function to define both the onset of plastic loading and the
+direction of irreversible deformation.  Many geomaterials are modeled
+non-associatively because the mechanisms that control shear strength are not
+the same mechanisms that control dilatancy, pore collapse, grain rearrangement,
+cementation, dissolution, or precipitation.  Imposing associated flow on a
+frictional material can therefore predict an unrealistic volumetric response.
+The present mixture formulation has the same physical separation, but it is
+expressed through the distension split rather than through a classical yield
+surface and plastic potential.  The elastic stress follows from the
+stress-generating part of the free energy, whereas
+\(\mbf A_s^p\) describes irreversible pore-volume or solid-packing change.
+Its evolution is thermodynamically admissible when its contribution to
+\eqref{eq:MC_residual_dissipation} is nonnegative; it need not be normal to the
+elastic stress potential, nor to the same scalar loading function used to
+calibrate shear yielding.  Thus plastic distension may be driven by hydrostatic
+stress, composition, reaction affinity, cementation state, or other internal
+variables, provided the resulting coupled deformation--distension power remains
+nonnegative.  In this sense the formulation contains the physical content
+usually associated with non-associated flow in geomechanics without making
+normality a constitutive axiom.
+
+This distinction is important because non-associated plasticity is not
+thermodynamically consistent merely because it is useful empirically.  Once the
+plastic flow direction is separated from the yield or loading function, the
+plastic stress power need not be nonnegative automatically, the usual
+maximum-dissipation interpretation may be lost, and the algorithmic tangent is
+generally nonsymmetric.  The present formulation does not remove all of those
+mathematical and numerical consequences.  Rather, it fixes the thermodynamic
+accounting problem by displaying the true-plastic and plastic-distension powers
+explicitly in \eqref{eq:MC_residual_dissipation}.  A non-associated closure is
+admissible only after its chosen rates are tested against those conjugate power
+terms.  The uncoupled rules in \eqref{eq:MC_generic_plastic_flow_rules} give one
+sufficient construction, while more general coupled rules must satisfy the same
+nonnegative combined plastic-power requirement.
+
 It remains to make the interaction and heat-conduction terms in
 \eqref{eq:MC_residual_dissipation} nonnegative.  For reacting porous mixtures a
 pairwise quadratic construction gives an admissible interphase exchange
@@ -1541,7 +1577,7 @@ The affinity is
 %
 An admissible kinetic law must satisfy
 \(\mc A_{(m)}\dot r_{(m)}\ge0\).  The absorbed amount \(\eta_s^g\) can also
-enter \(\psi_s\), \(\mbf A_s^\theta\), \(\bar{\mbf F}_s^\theta\), and the
+enter \(\psi_s\), \(\mbf A_s^0\), \(\bar{\mbf F}_s^0\), and the
 plastic flow law, so sorption can change stiffness, yield strength, swelling,
 and compaction behavior in one thermodynamic state.
 
@@ -2234,7 +2270,7 @@ is imposed on the elastic, plastic, and stress-free distension factors:
 \begin{equation}
 	\mbf A_s^\bullet=(a_s^\bullet)^{1/3}\mbf I,
 	\qquad
-	\bullet\in\{e,p,\theta\},
+	\bullet\in\{e,p,0\},
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_scalar_distension_factors}
@@ -2243,7 +2279,7 @@ is imposed on the elastic, plastic, and stress-free distension factors:
 The factors multiply,
 %
 \begin{equation}
-	a_s=a_s^e a_s^p a_s^\theta,
+	a_s=a_s^e a_s^p a_s^0,
 	\qquad
 	s\in\mc S ,
 	\label{eq:MC_scalar_distension_product}
