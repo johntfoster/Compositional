@@ -1812,8 +1812,8 @@ balance \eqref{eq:el_momentum_uniform} gives the fixed-pressure form
 			+
 			\left(1-B_s\right)\bar p_E\mbf I
 			\right]
-		+\rho_s\mbf g+\mbf b_s
 		-\phi_s\nabla_{\mbf x}\bar p_E
+		+\rho_s\mbf g+\mbf b_s
 		\\
 		    & +
 		\sum_\alpha
@@ -1850,9 +1850,12 @@ stresses:
 	+
 	\left(1-B\right)\bar p_E\mbf I,
 	\label{eq:MC_solid_biot_rollup_definition} \\
-	B
+	\Aboxed{
+		B
 	 & =
-	1-\sum_{s\in\mc S}\left(1-B_s\right).
+		1-\sum_{s\in\mc S}\left(1-B_s\right)
+	}
+	.
 	\label{eq:MC_solid_biot_rollup_coefficient}
 \end{align}
 %
@@ -1862,6 +1865,35 @@ appears in \eqref{eq:MC_solid_biot_rollup_coefficient}, because the phase
 coefficient \(B_s\) was defined from the phase partial Piola stress per unit
 skeleton reference volume.  In the single-solid, single-fluid limit,
 \(B=B_s\), recovering the standard Biot form.
+
+After summing the solid phase balances, the Biot pressure part in
+\eqref{eq:MC_solid_phase_momentum_biot} can be rewritten using
+\eqref{eq:MC_solid_biot_rollup_definition}:
+%
+\begin{align*}
+	 & \nabla_{\mbf x}\cdot
+	\left[
+		\sum_{s\in\mc S}
+		\left(1-B_s\right)\bar p_E\mbf I
+		\right]
+	-
+	\sum_{s\in\mc S}\phi_s\nabla_{\mbf x}\bar p_E
+	\\
+	 & \qquad =
+	\nabla_{\mbf x}\cdot
+	\left[
+		-B\bar p_E\mbf I
+		\right]
+	+
+	\left(
+	1-\sum_{s\in\mc S}\phi_s
+	\right)
+	\nabla_{\mbf x}\bar p_E .
+\end{align*}
+%
+The volume-fraction constraint identifies the coefficient of
+\(\nabla_{\mbf x}\bar p_E\) in this solid remainder with the total fluid volume
+fraction \(\phi=\sum_{f\in\mc F}\phi_f\).
 
 The fluid pressure-gradient terms combine with the same equivalent pressure.
 Writing \(\phi_f=\phi S_f\), using \(\sum_{f\in\mc F}S_f=1\), and using the
@@ -1874,14 +1906,14 @@ capillary redistribution relation implied by the interfacial energy gives
 	\label{eq:MC_fluid_pressure_gradient_rollup}
 \end{equation}
 %
-Adding the solid pressure-gradient contribution and using the volume-fraction
-constraint gives
+Adding this solid remainder and the fluid contribution in
+\eqref{eq:MC_fluid_pressure_gradient_rollup} gives
 %
 \begin{equation}
-	-\sum_{s\in\mc S}\phi_s\nabla_{\mbf x}\bar p_E
+	\phi\nabla_{\mbf x}\bar p_E
 	-\sum_{f\in\mc F}\phi_f\nabla_{\mbf x}\bar p_f
 	=
-	-\nabla_{\mbf x}\bar p_E .
+	0 .
 	\label{eq:MC_pressure_gradient_overall_rollup}
 \end{equation}
 %
@@ -1907,7 +1939,7 @@ supplies sum to zero, and substituting
 	\label{eq:MC_overall_momentum_nonlinear_biot}
 \end{empheq}
 
-\subsection{Additive component specialization}
+\subsection{Additive solid component specialization}
 \label{sec:MC_additive_component_specialization}
 
 The generic derivation above does not assume that the solid Helmholtz energy is
@@ -2062,7 +2094,7 @@ More general component-indexed flow directions are admissible only if the
 resulting combined plastic power in \eqref{eq:MC_residual_dissipation} remains
 nonnegative.
 
-\subsubsection{Component Biot coefficient derivation}
+\subsubsection{Component reaction-modified Biot coefficient derivation}
 \label{sec:MC_component_biot_derivation}
 
 The additive rules above give the component single-prime stress.  To obtain the
@@ -2429,7 +2461,7 @@ affinity.  For a mechanism \((m)\) precipitating solid phase \(s_{(m)}\),
 	\label{eq:MC_crystallization_affinity_kinetics}
 \end{equation}
 %
-If a classical crystallization pressure \(\bar p_{c,s_{(m)}}\) is used, it is
+If a classical crystallization pressure \(\bar p_{\text{xtal},s_{(m)}}\) is used, it is
 best interpreted as an algebraic affinity law:
 %
 \begin{equation}
@@ -2437,7 +2469,7 @@ best interpreted as an algebraic affinity law:
 	=
 	\bar v_{s_{(m)}}
 	\left[
-	\bar p_{c,s_{(m)}}
+	\bar p_{\text{xtal},s_{(m)}}
 	-\frac{1}{3}
 	\operatorname{tr}
 	\left(
@@ -2450,7 +2482,7 @@ best interpreted as an algebraic affinity law:
 \end{equation}
 %
 For example, the classical supersaturation formula
-\(\bar p_{c,s_{(m)}}=R\theta\ln\Omega_{(m)}/V_{s_{(m)}}\) gives
+\(\bar p_{\text{xtal},s_{(m)}}=R\theta\ln\Omega_{(m)}/V_{s_{(m)}}\) gives
 %
 \begin{equation}
 	\mc A_{(m)}
