@@ -4,12 +4,17 @@
 
 We derive the governing equations from Hamilton's extended principle, following
 Bedford and Drumheller~\cite{drumheller1980thermomechanical}.  The formulation
-is written for a compositional mixture containing arbitrary sets of solid $\mc S$ and fluid $\mc F$ phases.  Here fluid means a nonsolid pore phase, such
-as an aqueous, oleic, or gas phase.  The symbol $s \in \mc{S}$ denotes solid phases and $f \in\mc F$ denotes fluid phases, while $\xi = \mc{S} \cup \mc{F}$ ranges over all phases.  Components within each phase are indexed by $\alpha$.
+is written for a compositional mixture containing arbitrary sets of solid $\mc S$
+and fluid $\mc F$ phases.  Here fluid means a nonsolid pore phase, such as an
+aqueous, oleic, or gas phase.  The symbol $s \in \mc{S}$ denotes a solid phase,
+$f \in\mc F$ denotes a fluid phase, and $\xi \in \mc{S} \cup \mc{F}$ ranges over
+all phases.  Components within each phase are indexed by $\alpha$.
 
 \subsection{Variational principle and its terms}
 
-The extended Hamilton's principle is
+Let \(t_1\) and \(t_2\) be the endpoint times and let \(\delta\) denote an
+admissible virtual variation that vanishes at those endpoints.  The extended
+Hamilton's principle is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation*}
@@ -17,7 +22,11 @@ The extended Hamilton's principle is
 \end{equation*}
 % AGENT-LOCK-END
 %
-with kinetic energy $T$, internal energy $U$, virtual work $\delta W$, and four constraints:
+with kinetic energy $T$, internal energy $U$, virtual work $\delta W$, and four
+constraints \(C_1,\ldots,C_4\).  The body force per unit phase mass is
+\(\mbf g\), \(L_\xi^\alpha\) is the component conversion-work potential,
+\(\mc A_{(m)}\) is the affinity of mechanism \((m)\), and \(\theta\) is the
+absolute temperature:
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -53,6 +62,25 @@ the mechanism progress rates to the phase-attached accumulated sources through
 $\dot c_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi$.  The multipliers
 $\lambda$, $\tau_\xi^\alpha$, $\pi_\xi$, and $\mu_\xi^\alpha$ enforce these
 constraints.
+
+The signs of the conversion-work terms in \(\delta W\) fix the thermodynamic
+force convention used throughout the paper.  The variables
+\(\mc C_\xi^\alpha\) and \(\dot r_{(m)}\) are internal conversion coordinates,
+not externally prescribed displacement coordinates.  Thus
+\(L_\xi^\alpha\) and \(\mc A_{(m)}\) are written as internal generalized forces
+conjugate to insertion of component mass and to mechanism progress,
+respectively, and their virtual work enters with the opposite sign from the
+corresponding virtual conversion.  With the stoichiometric convention in
+\eqref{eq:C4_def}, this choice identifies the mechanism affinity as minus the
+stoichiometric projection of the component conversion potentials.  A forward
+reaction that lowers the appropriate thermodynamic potential then has positive
+affinity, and admissible kinetics make the product
+\(\mc A_{(m)}\dot r_{(m)}\) nonnegative in the residual dissipation inequality.
+One could reverse the signs only by redefining the conversion potentials and
+affinities everywhere downstream; the present convention is chosen so that
+positive affinity times positive progress represents dissipated thermodynamic
+driving power.
+
 The variations in this section are mechanical and compositional variations at
 fixed temperature.  Temperature is retained as a constitutive state variable and
 is varied in the Coleman--Noll entropy argument below.
@@ -145,8 +173,8 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 % ============================================================
 
 For every phase, solid or fluid, let $\psi_\xi$ denote the
-specific Helmholtz free energy.  The corresponding contribution to the total
-free energy is written
+specific Helmholtz free energy and let \(N\) be the number of tracked components
+in that phase.  The corresponding contribution to the total free energy is written
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	U \supset U_\xi & = \sum_\xi \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^1, \eta_\xi^2, \dots, \eta_\xi^N)\,\dv \notag \\
@@ -294,7 +322,8 @@ calculation:
 \end{align}
 % AGENT-LOCK-END
 %
-The subscript $g$ is the set of all fluid phases excluding the varied phase $f$, in this case the $S_g \ne S_f$ are held fixed in the variation.
+The subscript $g$ denotes the set of all fluid phases excluding the varied phase
+$f$; in this variation, the \(S_g\ne S_f\) are held fixed.
 The phase interfacial potential appearing in \eqref{eq:deltaU_fg} is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
@@ -309,7 +338,7 @@ The phase interfacial potential appearing in \eqref{eq:deltaU_fg} is
 \end{equation}
 % AGENT-LOCK-END
 %
-where the saturation derivatives are evaluated on the saturation simplex and the same ``held fixed'' notation convection applies.  The
+where the saturation derivatives are evaluated on the saturation simplex and the same ``held fixed'' notation convention applies.  The
 oriented wetting/non-wetting pairs specify capillary-pressure differences.  The wetting/non-wetting
 interfacial difference associated with an oriented pair is
 %
@@ -366,7 +395,8 @@ The component material mass balance constraint is
 \end{equation}
 % AGENT-LOCK-END
 %
-Hence
+The multiplier \(\tau_\xi^\alpha\) enforces the component material-mass balance
+for component \(\alpha\) in phase \(\xi\).  Its variation gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -420,7 +450,7 @@ Hence
 %
 Here the second equality uses $\dv = J_\xi {\rm d}V_\xi$ and
 $\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha
-	=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$. ``b.t.'' denotes boundary terms generated by integration-by-parts that are ommitted here for brevity.
+	=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$. ``b.t.'' denotes boundary terms generated by integration by parts that are omitted here for brevity.
 
 % ============================================================
 \subsection{Variation of constraint \texorpdfstring{$C_3$}{C3}: mass partition within phase}
@@ -473,7 +503,7 @@ map.  Repeating the transport calculation used for phase-attached rates gives
 \label{sec:collected_var}
 % ============================================================
 
-Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, $\mc{C}^\al_\xi$, together with the independent process-rate variations $\delta\dot r_{(m)}$, gives the following collection before substituting any Euler--Lagrange equation back into another variation.
+Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta\mc{C}^\al_\xi$, together with the independent process-rate variations $\delta\dot r_{(m)}$, gives the following collection before substituting any Euler--Lagrange equation back into another variation.
 %
 % AGENT-LOCK-BEGIN equation-lock:  do not edit unless explicitly unlocked by user
 \begin{align}
@@ -526,7 +556,7 @@ for phases without an explicit capillary contribution,
 %
 For the fluid phases the corresponding equations contain the primitive capillary potentials discussed below.
 
-Substituting \eqref{eq:el_lambda} into the Euler-Lagrange equations associated with arbitrary $\delta \mbf{x}_\xi$ and simplifying gives
+Substituting \eqref{eq:el_lambda} into the Euler--Lagrange equations associated with arbitrary $\delta \mbf{x}_\xi$ and simplifying gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -725,7 +755,7 @@ projection of the phase-attached conversion potentials, but only after the
 kinematic push-forward $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ has been
 varied.  The closure enters only when one prescribes either an equilibrium
 condition $\mc A_{(m)}=0$ or a kinetic relation
-$\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)}, \bf{\Lambda})$, where $\Lambda$ is a vector of internal state variables.  Thus, for kinetically limited
+$\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)}, \bs{\Lambda})$, where \(\bs{\Lambda}\) is a vector of internal state variables.  Thus, for kinetically limited
 mechanisms such as slow fluid--solid reactions, \eqref{eq:el_conversion_affinity}
 supplies the driving force rather than an algebraic equilibrium equation.  For an
 instantaneous phase transformation, $\dot r_{(m)}$ may be a
@@ -786,4 +816,3 @@ The standard phase pressure-gradient form is therefore
 %
 
 \input{sections/multicomponent_solids.tex}
-

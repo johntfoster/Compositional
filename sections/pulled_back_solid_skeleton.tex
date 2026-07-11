@@ -200,7 +200,7 @@ trajectory gives
 	\label{eq:solid_reference_fluid_component_balance}
 \end{equation}
 %
-For each one-component solid phase, the phase velocity is the skeleton velocity,
+For each one-component solid phase \(s\), the phase velocity is the skeleton velocity,
 so the relative-flux term is absent:
 %
 \begin{equation}
@@ -225,7 +225,10 @@ by the fluid relative fluxes.
 
 The overall momentum balance \eqref{eq:MC_overall_momentum_nonlinear_biot} can be
 written on the solid trajectory by applying the Piola transform to the stress
-divergence and multiplying the remaining spatial source terms by $J$.  The
+divergence and multiplying the remaining spatial source terms by $J$.  Let
+\(\mbf P^{\prime\prime}=J\bs\sigma^{\prime\prime}\mbf F^{-T}\) denote the
+first Piola--Kirchhoff stress associated with the fixed-pressure skeleton
+stress.  The
 result is
 %
 \begin{align}
@@ -251,13 +254,13 @@ result is
 	\label{eq:solid_reference_overall_momentum}
 \end{align}
 %
-where
+with
 %
 \begin{equation}
 	\mbf{P}^{\prime\prime} = J\bs\sigma^{\prime\prime}\mbf{F}^{-T}
 \end{equation}
 %
-is the first Piola-Kirchhoff stress tensor associated with the solid skeleton.
+as the corresponding first Piola--Kirchhoff stress tensor.
 %
 If a quasi-static solid-skeleton solve is desired, the inertial term on the left
 is dropped.  If the fluid velocities are eliminated with

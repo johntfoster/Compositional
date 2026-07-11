@@ -45,7 +45,7 @@ interfacial Helmholtz energy \eqref{eq:interfacial_energy_density}, and recovers
 phase pressure differences in
 \eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  Thus capillary laws
 are algebraic pressure-difference closures.  A compositional implementation
-typically chooses one reference pressure and reconstructs the remaining phase
+typically chooses one reference pressure and reconstructs the other phase
 pressures from capillary-pressure relations before evaluating the Darcy fluxes.
 In the present variational model this is the algebraic specialization of the
 more general statement \(\bar p_f=\bar p_E+\gamma_f\): capillary offsets
@@ -170,10 +170,12 @@ stock-tank units the phase/component storage factors are identified as
 	\label{eq:black_oil_storage_identifications}
 \end{equation}
 %
-Here \(B_w\), \(B_o\), and \(B_g\) are formation-volume factors, \(R_s\) is the
+Here \(W\), \(O\), and \(G\) label stock-tank water, oil, and gas components;
+\(B_w\), \(B_o\), and \(B_g\) are formation-volume factors; \(R_s\) is the
 dissolved gas-oil ratio, and the subscript \({\rm sc}\) denotes surface
-conditions.  With the phase volumetric flux
-\(\mbf q_f=\phi S_f\mbf v_f\), division of the water, oil-component, and
+conditions.  Let \(\mbf q_f=\phi S_f\mbf v_f\) be the phase volumetric flux and
+let \(\mc Q_w\), \(\mc Q_o\), and \(\mc Q_g\) denote the corresponding
+surface-volume source terms.  Division of the water, oil-component, and
 gas-component balances by their corresponding surface densities gives
 %
 \begin{align}
@@ -345,7 +347,8 @@ Thus the finite-deformation storage variable is the Lagrangian fluid mass
 \end{equation}
 %
 If the fluid is barotropic, \(\bar\rho_f=\bar\rho_f\left(\bar p_f\right)\), and
-\({\rm d}\bar\rho_f/{\rm d}\bar p_f=\bar\rho_f/K_f\), then
+\({\rm d}\bar\rho_f/{\rm d}\bar p_f=\bar\rho_f/K_f\), where \(K_f\) is the
+fluid bulk modulus, then
 \eqref{eq:biot_limit_reference_fluid_mass} can be written as
 %
 \begin{equation}
@@ -361,7 +364,9 @@ If the fluid is barotropic, \(\bar\rho_f=\bar\rho_f\left(\bar p_f\right)\), and
 %
 To reach the classical Biot storage equation, the finite-deformation porosity
 law is also specialized to its standard poromechanics tangent form
-\cite{coussy2004poromechanics}.  With \(B\) fixed over the increment,
+\cite{coussy2004poromechanics}.  With \(B\) fixed over the increment, \(K_s\)
+denoting the solid-grain bulk modulus, and \(M\) denoting the Biot storage
+modulus,
 %
 \begin{equation}
 	\frac{\partial\Phi_f}{\partial t}
@@ -432,9 +437,8 @@ reduced system is
 	\end{align}
 \end{subequations}
 %
-Here \(\mbf u\) is the small displacement of the skeleton, \(M\) is the Biot
-storage modulus obtained from the barotropic fluid tangent and the porosity
-tangent above.  The pressure coupling in \eqref{eq:linear_biot_momentum} comes
+Here \(\mbf u\) is the small displacement of the skeleton.  The pressure
+coupling in \eqref{eq:linear_biot_momentum} comes
 from the same fixed-pressure Legendre stress split that produced
 \eqref{eq:MC_phase_biot_split}; the fluid-content coupling
 in \eqref{eq:linear_biot_fluid_content} is the small-strain form of the

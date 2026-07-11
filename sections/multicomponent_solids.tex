@@ -65,8 +65,10 @@ Drumheller's elastic--plastic treatment of true deformation and distension
 	\end{align}
 \end{subequations}
 %
-Here \(\mbf A_s^0\) and \(\bar{\mbf F}_s^0\) are reversible
-stress-free maps that can include temperature and solid-composition effects:
+Here \(\mbf A_s^e\) and \(\bar{\mbf F}_s^e\) are elastic factors,
+\(\mbf A_s^p\) and \(\bar{\mbf F}_s^p\) are plastic internal variables, and
+\(\mbf A_s^0\) and \(\bar{\mbf F}_s^0\) are reversible stress-free maps that can
+include temperature and solid-composition effects:
 %
 \begin{equation}
 	\mbf A_s^0
@@ -84,8 +86,7 @@ and composition-dependent thermal expansion enter the mechanics.
 Thermo-poroelastic models make the same physical distinction by assigning pore
 volume, fluid, and grain thermal expansions separately
 \cite{palciauskas1982thermally,ghabezloo2009stress,ghabezloo2011micromechanics}.
-The plastic variables \(\mbf A_s^p\) and \(\bar{\mbf F}_s^p\) are internal
-variables.  The true-plastic flow is assumed isochoric:
+The true-plastic flow is assumed isochoric:
 %
 \begin{equation}
 	\det\bar{\mbf F}_s^p=1,
@@ -306,7 +307,8 @@ component free energy:
 \subsection{Coleman--Noll inequality}
 \label{sec:MC_coleman_noll_inequality}
 
-For fluid phases,
+Let \(e_\xi\) denote the specific internal energy of phase \(\xi\), and let
+\(\mathfrak{s}_\xi\) denote its specific entropy.  For fluid phases,
 %
 \begin{equation}
 	e_f=\psi_f+\theta\mathfrak{s}_f,
@@ -423,7 +425,11 @@ engineering \cite{leverett1941capillary}:
 \end{equation}
 %
 
-The phase energy balance is
+Let \(\widehat e_\xi^\alpha\) be the specific internal energy carried by newly
+created component mass, \(\mbf L_\xi=\nabla_{\mbf x}\mbf v_\xi\) the phase
+velocity gradient, \(\mbf q_\xi\) the heat flux, \(\rho_\xi r_\xi\) the external
+heat supply per unit current mixture volume, and \(\rho_\xi e_\xi^{\rm int}\)
+the internal energy supply from interphase exchange.  The phase energy balance is
 %
 \begin{align}
 	\rho_\xi\dot e_\xi
@@ -1287,8 +1293,8 @@ The plastic-deformation power in the residual inequality is driven by the
 single-prime effective stress of each solid phase mapped through that phase's
 distension and true-deformation gradients to its plastic-flow configuration.
 Because each true-plastic flow is isochoric, only the deviatoric part of that
-mapped stress contributes to the true-plastic power.  Define the deviatoric
-true-plastic driving stress by
+mapped stress contributes to the true-plastic power.  Define \(\mbf S_s'\) as the
+deviatoric true-plastic driving stress:
 %
 \begin{equation*}
 	\mbf S_s'
@@ -1356,7 +1362,8 @@ inequality can therefore be written as
 Admissible reaction kinetics must make
 \(\sum_m\mc A_{(m)}\dot r_{(m)}\ge0\), for example through a closure
 \(\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\bs\Lambda)\) with
-\(\mc A_{(m)}\dot r_{(m)}\ge0\) for each independent mechanism.  Following the
+\(\mc A_{(m)}\dot r_{(m)}\ge0\) for each independent mechanism.  Here
+\(\bs\Lambda\) denotes the internal variables used by the kinetic law.  Following the
 same sufficient construction used by Drumheller~\cite{drumheller2000}, one may
 choose generic uncoupled flow rules
 %
@@ -1487,7 +1494,9 @@ pairwise interaction power
 	\label{eq:MC_interaction_power_pairing}
 \end{equation}
 %
-A sufficient dissipative closure is
+A sufficient dissipative closure is obtained by introducing symmetric positive
+definite interphase mobility tensors \(\mbf k_{\xi\zeta}\) and symmetric
+positive semidefinite heat-conductivity tensors \(\mbf K_\xi\):
 %
 \begin{subequations}
 	\label{eq:MC_interaction_heat_closures}
@@ -1554,7 +1563,8 @@ plastic flow laws, are sufficient to make
 \label{sec:MC_examples_single_component_specialization}
 
 An absorption/desorption mechanism transferring component \(g\) between a
-mobile phase \(f\) and a solid phase \(s\) may be written
+mobile phase \(f\) and a solid phase \(s\) may be written with the following
+stoichiometric coefficients:
 %
 \begin{equation}
 	\nu_{s (m)}^g=1,
@@ -1581,7 +1591,7 @@ enter \(\psi_s\), \(\mbf A_s^0\), \(\bar{\mbf F}_s^0\), and the
 plastic flow law, so sorption can change stiffness, yield strength, swelling,
 and compaction behavior in one thermodynamic state.
 
-For methane hydrate or a clathrate solid, host water and guest methane are solid
+For methane hydrate or another clathrate solid, host water and guest methane are solid
 components of the same load-bearing solid phase.  Hydrate formation and
 dissociation are conversion mechanisms between mobile components and solid
 components.  Cage occupancy changes the solid composition; that composition may
@@ -1739,7 +1749,7 @@ identifies the phase nonlinear Biot coefficient
 	\label{eq:MC_phase_biot_coefficient}
 \end{empheq}
 %
-The coefficient is a skeleton-volume tangent evaluated in the current reacted
+The coefficient \(B_s\) is a skeleton-volume tangent evaluated in the current reacted
 state.  The factor \(a_s\) maps the common skeleton Jacobian to the true solid
 Jacobian and therefore carries the current pore-space allocation, packing, and
 stress-free volume accommodation into the coefficient.  When the distension
@@ -1959,7 +1969,8 @@ above remains available when such an additive representation is too
 restrictive.
 
 The additive model is obtained by choosing component potentials
-\(\psi_s^\alpha\) and writing
+\(\psi_s^\alpha\), component intrinsic densities \(\bar\rho_s^\alpha\), and
+component pressures \(\bar p_s^\alpha\), then writing
 %
 \begin{equation}
 	\psi_s
@@ -2173,7 +2184,8 @@ identifies the component nonlinear Biot coefficient
 	\label{eq:MC_additive_component_biot}
 \end{empheq}
 %
-and gives the component Piola split
+where \(B_s^\alpha\) is the component nonlinear Biot coefficient.  This gives the
+component Piola split
 %
 \begin{equation}
 	\mbf P_s^{\prime\alpha}
@@ -2398,7 +2410,7 @@ terms of \(\ln\bar J_s\), does not generally reproduce the scalar
 Coleman--Noll trace condition.  The transformed fixed-pressure volumetric
 potential should generate the double-prime stress; the Biot pressure correction
 has already been accounted for in \eqref{eq:MC_phase_biot_split}.  A
-simple scalar choice is
+simple scalar choice, with tangent bulk modulus \(K_s^\star\), is
 %
 \begin{equation}
 	\widetilde W_{{\rm vol},s}
@@ -2482,7 +2494,9 @@ best interpreted as an algebraic affinity law:
 \end{equation}
 %
 For example, the classical supersaturation formula
-\(\bar p_{\text{xtal},s_{(m)}}=R\theta\ln\Omega_{(m)}/V_{s_{(m)}}\) gives
+\(\bar p_{\text{xtal},s_{(m)}}=R\theta\ln\Omega_{(m)}/V_{s_{(m)}}\), where
+\(R\) is the gas constant, \(\Omega_{(m)}\) is the supersaturation ratio, and
+\(V_{s_{(m)}}\) is the molar volume of the precipitating solid, gives
 %
 \begin{equation}
 	\mc A_{(m)}
