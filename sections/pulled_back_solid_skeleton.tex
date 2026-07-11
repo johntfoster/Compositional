@@ -1,5 +1,5 @@
-\section{Pulled-back equations on the solid skeleton}
-\label{sec:pulled_back_solid_skeleton}
+\section{Reservoir Simulation}
+\label{sec:reservoir_simulation}
 
 This section rewrites the transport and mechanics equations in a form suitable
 for solution on the trajectory of the solid skeleton.  The solid motion
@@ -241,15 +241,10 @@ result is
 	\right)
 	+J\rho\mbf g
 	\notag                            \\
-	  & +J\sum_{f\in\mc F}\sum_\alpha
-	\dot c_f^\alpha
+	  & +J\sum_\xi\sum_\alpha
+	\dot c_\xi^\alpha
 	\left(
-	\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f
-	\right)
-	+J\sum_{s\in\mc S}
-	\dot c_s^s
-	\left(
-	\nabla_{\mbf x}\mu_s^s-\mbf v_s
+	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
 	\right).
 	\label{eq:solid_reference_overall_momentum}
 \end{align}
@@ -269,3 +264,93 @@ solved with $\mbf v_f=\mbf v_s+\mbf w_f/\rho_f$ for fluid phases and
 $\mbf v_s$ for the solid phase.  This leaves the solid displacement, the
 Lagrangian partial masses, and the fluid relative fluxes as the natural fields
 for a reference-configuration implementation.
+
+\subsection{Summary of the reservoir-simulation solve block}
+\label{sec:reservoir_simulation_solve_block}
+
+For a solid-reference reservoir simulator, the coupled solve can be assembled
+from the overall momentum balance, the component storage equations, the
+relative flux reconstruction, and the capillary-pressure relations.  In the
+general finite-deformation form, the mechanics equation is
+\eqref{eq:solid_reference_overall_momentum}:
+%
+\begin{align}
+	J\sum_\xi\rho_\xi\mbf a_\xi
+	= & \;
+	\nabla_{\mbf X}\cdot
+	\left(
+	\mbf{P}^{\prime\prime}-B\bar p_E
+	J \mbf F^{-T}
+	\right)
+	+J\rho\mbf g
+	\notag                            \\
+	  & +J\sum_\xi\sum_\alpha
+	\dot c_\xi^\alpha
+	\left(
+	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
+	\right).
+	\label{eq:reservoir_simulation_overall_momentum_summary}
+\end{align}
+%
+The fluid component balances on the same solid trajectory are
+%
+\begin{equation}
+	\left.
+	\frac{\partial}{\partial t}
+	\left(J\phi_f\bar\rho_f\eta_f^\alpha\right)
+	\right\vert_{\mbf X}
+	+\nabla_{\mbf X}\cdot
+	\left(\eta_f^\alpha\mbf W_f\right)
+	=
+	J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} ,
+	\qquad f\in\mc F ,
+	\label{eq:reservoir_simulation_fluid_component_summary}
+\end{equation}
+%
+with current velocities reconstructed from the relative mass fluxes by
+%
+\begin{equation}
+	\mbf v_f
+	=\mbf v_s+\frac{\mbf w_f}{\rho_f},
+	\qquad
+	\mbf W_f=J\mbf F^{-1}\mbf w_f .
+	\label{eq:reservoir_simulation_velocity_flux_summary}
+\end{equation}
+%
+The corresponding admissible reference flux is
+%
+\begin{align}
+	\mbf W_f
+	= & \; \rho_f\widetilde{\mbf K}_f
+	\left[
+		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
+		-\phi_f\nabla_{\mbf X}\bar p_f
+		+\sum_\alpha\dot c_f^\alpha
+		\left(
+		\nabla_{\mbf X}\mu_f^\alpha
+		-\mbf F^T\mbf v_s
+		\right)
+		\right],
+	\qquad f\in\mc F .
+	\label{eq:reservoir_simulation_reference_flux_summary}
+\end{align}
+%
+When conversion and fluid inertia are negligible, this reduces to the familiar
+Darcy relative flux in \eqref{eq:standard_darcy_mass_flux_limit}.  Capillary
+pressure closes the phase pressures algebraically through the saturation state,
+%
+\begin{equation}
+	\phi = \sum_{f\in\mc F}\phi_f,
+	\qquad
+	S_f = \frac{\phi_f}{\phi},
+	\qquad
+	p_{c,nw}=\bar p_n-\bar p_w,
+	\qquad (w,n)\in\mc I .
+	\label{eq:reservoir_simulation_capillary_summary}
+\end{equation}
+%
+Equivalently, a simulator may choose one reference pressure and reconstruct the
+other fluid pressures from the selected capillary-pressure laws before
+evaluating the fluxes.  The same algebraic reconstruction is what makes the
+saturation-weighted pressure gradient collapse to the equivalent-pressure
+gradient in \eqref{eq:MC_fluid_pressure_gradient_rollup}.
