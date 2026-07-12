@@ -215,7 +215,11 @@ mass addition follow from the reference kinetic energy; neither is postulated.
 
 \subsection{Reversible internal virtual power}
 
-At fixed temperature, let the specific phase Helmholtz free energy have the
+Temperature is included as a constitutive state variable but is not varied in
+the virtual-power principle.  The mechanical and compositional virtual powers
+are evaluated at fixed temperature; the actual temperature rate and the heat
+flux enter later through the energy balance and the entropy inequality.  At
+fixed temperature, let the specific phase Helmholtz free energy have the
 constitutive dependence
 %
 \begin{equation}
@@ -446,67 +450,58 @@ relative component fluxes.  The dissipative virtual power is
 	\delta\mbf j_{\xi,{\rm diff}}^\alpha\,\dv.
 	\label{eq:vp_dissipative_power}
 \end{align}
-%
-Unlike the corresponding terms in an energy-valued Hamilton integrand, every
-pairing in \eqref{eq:vp_dissipative_power} is a virtual power.
 
 \subsection{Virtual power of the volume-fraction constraint}
 
 The transport identity needed for the volume-fraction and mass-fraction
-constraints is derived once here.  Consider a one-parameter family of phase
-motions \(\mbf x_\xi^\epsilon(\mbf X_\xi,t)\) and spatial volume-fraction
-fields \(\phi_\xi^\epsilon(\mbf x,t)\).  Pulling the spatial field back to the
-phase reference configuration gives
+constraints is derived once here. Pulling the current volume fraction back to
+the phase reference configuration gives the reference factor
 %
 \begin{equation*}
-	\phi_\xi^\epsilon
+	\phi_\xi\left(\mbf x_\xi(\mbf X_\xi,t),t\right)J_\xi.
+\end{equation*}
+%
+Taking its material time derivative and using
+\(\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\mbf v_\xi\) gives
+%
+\begin{align*}
+	\frac{D_\xi}{Dt}\left(\phi_\xi J_\xi\right)
+	={}&
+	J_\xi
 	\left(
-	\mbf x_\xi^\epsilon(\mbf X_\xi,t),t
+	\dot\phi_\xi
+	+
+	\phi_\xi\nabla_{\mbf x}\cdot\mbf v_\xi
+	\right),
+	\\
+	\dot\phi_\xi
+	={}&
+	\left.\frac{\partial\phi_\xi}{\partial t}\right\vert_{\mbf x}
+	+
+	\nabla_{\mbf x}\phi_\xi\cdot\mbf v_\xi.
+\end{align*}
+%
+Thus the fixed-spatial rate of the pointwise saturation constraint
+\(\sum_\xi\phi_\xi=1\) is
+%
+\begin{equation*}
+	0
+	=
+	\sum_\xi
+	\left.\frac{\partial\phi_\xi}{\partial t}\right\vert_{\mbf x}
+	=
+	\sum_\xi
+	\left(
+	\dot\phi_\xi
+	-
+	\nabla_{\mbf x}\phi_\xi\cdot\mbf v_\xi
 	\right).
 \end{equation*}
 %
-Differentiating this composition with respect to \(\epsilon\) at fixed
-\(\mbf X_\xi\) and evaluating at \(\epsilon=0\) gives
-%
-\begin{align*}
-	\left.
-	\frac{d}{d\epsilon}
-	\phi_\xi^\epsilon
-	\left(
-	\mbf x_\xi^\epsilon(\mbf X_\xi,t),t
-	\right)
-	\right\vert_{\epsilon=0}
-	={}&
-	\left.
-	\frac{d\phi_\xi^\epsilon}{d\epsilon}
-	\right\vert_{\mbf x,\epsilon=0}
-	+
-	\nabla_{\mbf x}\phi_\xi\cdot
-	\left.
-	\frac{d\mbf x_\xi^\epsilon}{d\epsilon}
-	\right\vert_{\mbf X_\xi,\epsilon=0}
-	\\
-	={}&
-	\left.\delta\dot\phi_\xi\right\vert_{\mbf x}
-	+
-	\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf v_\xi.
-\end{align*}
-%
-The reference-side derivative is the phase-attached virtual material rate
-\(\delta\dot\phi_\xi\), while the motion derivative is the virtual phase
-velocity \(\delta\mbf v_\xi\).  Solving for the fixed-spatial variation and
-pushing the result forward to the current configuration gives
-%
-\begin{equation*}
-	\left.\delta\dot\phi_\xi\right\vert_{\mbf x}
-	=
-	\delta\dot\phi_\xi
-	-
-	\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf v_\xi.
-\end{equation*}
-%
-The pointwise constraint is \(\sum_\xi\phi_\xi=1\), so its fixed-spatial
-virtual rate is
+At the virtual-rate level, vary the pulled-back factor
+\(\delta\left(\phi_\xi J_\xi\right)\) and use
+\(\delta\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\delta\mbf v_\xi\). Substituting
+this compatible virtual motion into the fixed-spatial rate identity gives
 %
 \begin{equation}
 	\sum_\xi
@@ -779,7 +774,7 @@ multiplier.  The second term in
 multiplier-gradient contribution to momentum; it is not inserted as an
 assumed body force.
 
-The flux contribution is integrated by parts before it is virtualized,
+The flux contribution is integrated by parts before taking its variation,
 %
 \begin{align}
 	\int_{\mc B}\mu_\xi^\alpha
@@ -987,7 +982,7 @@ Substitution of
 		\label{eq:vp_collected_principle}
 \end{align}
 %
-For compactness in the momentum equations, define the total current-volume
+For compactness in the balance equations below, define the total current-volume
 component mass-addition rate by
 %
 \begin{equation*}
@@ -1003,8 +998,8 @@ component mass-addition rate by
 \end{equation*}
 %
 This notation combines conversion and relative-transport accumulation only
-where they multiply the same momentum factor; the two rates remain separate in
-their balance and dissipation equations.
+where they multiply the same mechanical or thermodynamic factor; the two rates
+remain separate in their balance and dissipation equations.
 
 The multiplier variations return the four constraints.  Because the remaining
 virtual rates and accumulated-state variations are arbitrary, their coefficients
@@ -1065,24 +1060,23 @@ is obtained in \eqref{eq:vp_fluid_volume_fraction_relation}.
 Using \eqref{eq:vp_el_lambda} in the coefficient of
 \(\delta\mbf v_\xi\) gives the phase momentum equation
 %
-\begin{align}
+\begin{equation}
 	\rho_\xi\mbf a_\xi
-	={}&
+	=
 	\nabla_{\mbf x}\cdot\bs\sigma_\xi'
 	+
 	\rho_\xi\mbf g
 	+
 	\mbf b_\xi
 	+
-		\phi_\xi\nabla_{\mbf x}\lambda
-		\notag\\
-		&+
-		\sum_\alpha\dot m_\xi^\alpha
-		\left(
+	\phi_\xi\nabla_{\mbf x}\lambda
+	+
+	\sum_\alpha\dot m_\xi^\alpha
+	\left(
 	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
 	\right).
 	\label{eq:vp_momentum_uniform}
-\end{align}
+\end{equation}
 %
 Thus both conversion and relative-transport accumulation contribute through the
 same chemical-potential gradient and are combined in \(\dot m_\xi^\alpha\),
@@ -1364,18 +1358,17 @@ For a fluid free energy with no explicit dependence on \(\mbf F_f\),
 \eqref{eq:vp_effective_stress_definition} gives \(\bs\sigma_f'=\mbf0\).  The
 fluid-phase momentum equation is therefore
 %
-\begin{empheq}[box=\fbox]{align}
+\begin{empheq}[box=\fbox]{equation}
 	\rho_f\mbf a_f
-	={}&
+	=
 	\rho_f\mbf g
 	+
 	\mbf b_f
 	-
-		\phi_f\nabla_{\mbf x}\bar p_f
-		\notag\\
-		&+
-		\sum_\alpha\dot m_f^\alpha
-		\left(
+	\phi_f\nabla_{\mbf x}\bar p_f
+	+
+	\sum_\alpha\dot m_f^\alpha
+	\left(
 	\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f
 	\right),
 	\qquad f\in\mc F.

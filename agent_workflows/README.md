@@ -24,6 +24,8 @@ back to validated MOOSE examples and the equations they instantiate.
 - `decision_trees/equation_number_lookup.md` -- rendered equation number lookup
   workflow.
 - `checklists/pre_edit_scope.md` -- pre-edit scope and traceability checks.
+- `checklists/citation_verification.md` -- citation reality, source-support,
+  DOI, and BibTeX verification workflow.
 - `checklists/post_edit_validation.md` -- post-edit validation checks.
 - `schemas/problem_spec.schema.json` -- structured problem specification schema
   for future generated MOOSE decks.

@@ -86,7 +86,9 @@ hydrate-cage volume changes, and composition-dependent thermal expansion.
 Thermo-poroelastic models make the same physical distinction by assigning pore
 volume, fluid, and grain thermal expansions separately
 \cite{palciauskas1982thermally,ghabezloo2009stress,ghabezloo2011micromechanics}.
-The true-plastic flow is assumed isochoric,
+As in standard finite-strain multiplicative plasticity
+\cite{simo1988framework,simo1998} and Drumheller's mixture treatment
+\cite{drumheller2000}, the true-plastic flow is assumed isochoric,
 %
 \begin{equation}
 	\det\bar{\mbf F}_s^p=1,
@@ -147,30 +149,35 @@ volume fractions \(\phi_s^\alpha\) are useful, they satisfy
 		\eta_s^\alpha
 		 & =
 		\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\bar\rho_s},
-		\label{eq:MC_solid_mass_fraction_rule}     \\
+		\label{eq:MC_solid_mass_fraction_rule}
+	\end{align}
+	\begin{equation}
 		\phi_s^\alpha
-		 & =
+		=
 		\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha},
 		\qquad
 		\sum_\alpha\phi_s^\alpha=1 .
 		\label{eq:MC_solid_component_volume_fraction_rule}
-	\end{align}
+	\end{equation}
 \end{subequations}
 %
 
-The component material balances give
+The component material balances include both conversion and relative-transport
+accumulations,
 %
 \begin{equation}
 	J\phi_s\bar\rho_s\eta_s^\alpha
 	=
 	\phi_{s0}\bar\rho_{s0}\eta_{s0}^\alpha
-	+\mc C_s^\alpha,
+	+\mc C_s^\alpha
+	+\mc D_s^\alpha,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_solid_component_material_mass}
 \end{equation}
 %
-Summing over components gives
+Since \(\sum_\alpha\mc D_s^\alpha=0\) by
+\eqref{eq:transport_accumulation_zero_sum}, summing over components gives
 %
 \begin{equation}
 	J\phi_s\bar\rho_s
@@ -199,13 +206,13 @@ With true local conservation in the solid material,
 %
 The rate form follows from \(J=a_s\bar J_s\),
 %
-\begin{equation}
+\begin{empheq}[box=\fbox]{equation}
 	\frac{\dot a_s}{a_s}
 	=
 	\nabla_{\mbf x}\cdot\mbf v_s
 	+\frac{\dot{\bar\rho}_s}{\bar\rho_s}.
 	\label{eq:MC_solid_distension_evolution}
-\end{equation}
+\end{empheq}
 %
 For the held-fixed derivatives used next, let
 \(\mc X_s=\{\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s,
@@ -243,20 +250,29 @@ composition-dependent stress-free true deformation,
 \end{align}
 %
 
-The generic multicomponent solid Helmholtz energy is
+The generic fluid and multicomponent solid Helmholtz energies are
 %
 \begin{equation}
+\begin{alignedat}{2}
+	\psi_f
+	& =
+	\psi_f(
+	\bar\rho_f,\eta_f^\beta,\theta),
+	\qquad&
+	f\in\mc F,
+	\\
 	\psi_s
-	=
+	& =
 	\psi_s(
 	\bar{\mbf F}_s^e,\mbf A_s^e,
 	\bar\rho_s,\eta_s^\beta,\theta),
-	\qquad
-	s\in\mc S ,
+	\qquad&
+	s\in\mc S .
+\end{alignedat}
 	\label{eq:MC_solid_general_free_energy}
 \end{equation}
 %
-with state set
+with state sets
 %
 \begin{equation}
 	\mc X_s
@@ -289,10 +305,15 @@ Helmholtz free energy \(\psi_\xi\), and entropy \(\mathfrak{s}_\xi\).  A
 component resolution of the solid Helmholtz energy is introduced only in the
 additive specialization of \sref{MC_additive_component_specialization}.
 
-\subsection{Coleman--Noll inequality}
-\label{sec:MC_coleman_noll_inequality}
+\subsection{Coleman--Noll procedure}
+\label{sec:MC_coleman_noll_procedure}
 
-Let \(e_\xi\) denote the specific internal energy of phase \(\xi\), and let
+The Coleman--Noll procedure is the standard constitutive exploitation of the
+local entropy inequality: the constitutive state dependence and balance laws are
+substituted into the inequality, coefficients of independent admissible rates
+are collected, and the remaining residual terms are required to be dissipative
+\cite{coleman1974thermodynamics}.  Let \(e_\xi\) denote the specific internal
+energy of phase \(\xi\), and let
 \(\mathfrak{s}_\xi\) denote its specific entropy.  For fluid phases,
 %
 \begin{equation}
@@ -415,17 +436,16 @@ specific internal energy \(e_\xi\) of the phase receiving or losing that mass.
 Let \(\mbf L_\xi=\nabla_{\mbf x}\mbf v_\xi\) be the phase
 velocity gradient, \(\mbf q_\xi\) the heat flux, \(\rho_\xi r_\xi\) the external
 heat supply per unit current mixture volume, and \(\rho_\xi e_\xi^{\rm int}\)
-the internal energy supply from interphase exchange.  The phase energy balance is
+the internal energy supply from interphase exchange.  Using the total
+current-volume component mass-addition rate
+\(\dot m_\xi^\alpha=\dot c_\xi^\alpha+\dot{\mc D}_\xi^\alpha/J_\xi\) and the
+chemical-potential multiplier convention, the phase energy balance is
 %
 \begin{align}
 	\rho_\xi\dot e_\xi
 	+
 		\sum_\alpha
-		\dot c_\xi^\alpha
-		e_\xi
-	+
-		\sum_\alpha
-		\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+		\dot m_\xi^\alpha
 		e_\xi
 	={} &
 	\bs\sigma_\xi':\mbf L_\xi
@@ -433,9 +453,7 @@ the internal energy supply from interphase exchange.  The phase energy balance i
 	\phi_\xi\bar p_\xi
 	\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
 	+
-	\sum_\alpha
-	\frac{\pi_\xi^\alpha}{\phi_\xi}
-	\dot\phi_\xi
+	\bar p_\xi\dot\phi_\xi
 	+
 	\sum_\alpha
 	\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}
@@ -443,11 +461,9 @@ the internal energy supply from interphase exchange.  The phase energy balance i
 	\notag  \\
 	    & -
 	\sum_\alpha
-	L_\xi^\alpha\dot c_\xi^\alpha
-	-
-	\sum_\alpha
-		L_\xi^\alpha
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\left(
+	\mu_\xi^\alpha-\psi_\xi
+	\right)\dot m_\xi^\alpha
 	-
 	\nabla_{\mbf x}\cdot\mbf q_\xi
 	+
@@ -586,17 +602,13 @@ inequalities \cite{liu1972method}, the entropy inequality is
 \begin{align}
 	0\le{} &
 	\sum_\xi
-	\left[
-		\rho_\xi\dot{\mathfrak{s}}_\xi
-		+
-		\sum_\alpha
-		\dot c_\xi^\alpha
-		\mathfrak{s}_\xi
-		+
-		\sum_\alpha
-		\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-		\mathfrak{s}_\xi
-		+
+		\left[
+			\rho_\xi\dot{\mathfrak{s}}_\xi
+			+
+			\sum_\alpha
+			\dot m_\xi^\alpha
+			\mathfrak{s}_\xi
+			+
 		\nabla_{\mbf x}\cdot
 		\left(
 		\frac{\mbf q_\xi}{\theta}
@@ -617,46 +629,39 @@ identically vanishing mass-fraction tangent terms
 	\sum_\xi
 	\begin{aligned}[t]
 		 & \frac{1}{\theta}
+			\left(
+			\bs\sigma_\xi':\mbf L_\xi
+			+
+			\phi_\xi\bar p_\xi
+			\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+			-
+			\rho_\xi
+				\left(
+				\dot\psi_\xi+\mathfrak{s}_\xi\dot\theta
+				\right)
+			-
+			\sum_\alpha
+			\dot m_\xi^\alpha
+			\mu_\xi^\alpha
+			+
+			\rho_\xi e_\xi^{\rm int}
+		\right)
+		-
+		\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
+	\end{aligned}
+	\notag     \\
+	       & +
+	\frac{1}{\theta}
+	\sum_\xi
 		\left(
-		\bs\sigma_\xi':\mbf L_\xi
-		+
-		\phi_\xi\bar p_\xi
-		\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
-		+
-		\sum_\alpha
-		\frac{\pi_\xi^\alpha}{\phi_\xi}
-		\dot\phi_\xi
+		\bar p_\xi\dot\phi_\xi
 		+
 		\sum_\alpha
 		\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}
 		\dot\eta_\xi^\alpha
-		\right.             \\
-		 & \left.
 		+
 		\Pi_\xi\sum_\alpha\dot\eta_\xi^\alpha
-		-
-		\rho_\xi
-		\left(
-		\dot\psi_\xi+\mathfrak{s}_\xi\dot\theta
 		\right)
-		-
-		\sum_\alpha
-		\dot c_\xi^\alpha
-		\left(
-		\psi_\xi+L_\xi^\alpha
-		\right)
-		-
-		\sum_\alpha
-		\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-		\left(
-		\psi_\xi+L_\xi^\alpha
-		\right)
-		+
-		\rho_\xi e_\xi^{\rm int}
-		\right)             \\
-		 & -
-		\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
-	\end{aligned}
 	\notag     \\
 	       & +
 	\frac{1}{\theta}
@@ -664,7 +669,7 @@ identically vanishing mass-fraction tangent terms
 		\lambda\sum_\xi\dot\phi_\xi
 		-
 		\sum_{f\in\mc F}\gamma_f\dot\phi_f
-		\right).
+	\right).
 	\label{eq:MC_reduced_entropy_inequality}
 \end{align}
 %
@@ -919,8 +924,7 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\left(
 	\lambda
 	+
-	\sum_\alpha
-	\frac{\pi_\xi^\alpha}{\phi_\xi}
+	\bar p_\xi
 	\right)\dot\phi_\xi
 	-
 	\sum_{f\in\mc F}
@@ -929,13 +933,11 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	       & -
 	\sum_m
 	\left(
-	\sum_\xi
-	\sum_\alpha
-	\nu_{\xi (m)}^\alpha
-	\left(
-		\psi_\xi+L_\xi^\alpha
-		\right)
-	\right)\dot r_{(m)}
+			\sum_\xi
+			\sum_\alpha
+			\nu_{\xi (m)}^\alpha
+			\mu_\xi^\alpha
+		\right)\dot r_{(m)}
 	-
 	\sum_\xi\sum_\alpha
 	\left(
@@ -1053,19 +1055,17 @@ The volume-fraction coefficients give
 		 & =
 		\lambda
 		+
-		\sum_\alpha
-		\frac{\pi_s^\alpha}{\phi_s},
-		\qquad
+		\bar p_s,
+		\qquad &
 		s\in\mc S,
 		\label{eq:MC_solid_volume_fraction_restriction} \\
 		0
 		 & =
 		\lambda
 		+
-		\sum_\alpha
-		\frac{\pi_f^\alpha}{\phi_f}
+		\bar p_f
 		-\gamma_f,
-		\qquad
+		\qquad &
 		f\in\mc F .
 		\label{eq:MC_fluid_volume_fraction_restriction}
 	\end{align}
@@ -1225,18 +1225,14 @@ different terms.  Substitution of the conversion constraint
 \begin{align}
 	&-\sum_\xi\sum_\alpha
 	\dot c_\xi^\alpha
-	\left(
-	\psi_\xi+L_\xi^\alpha
-	\right)
+	\mu_\xi^\alpha
 	\notag\\
 	&\qquad=
 	-\sum_m
 	\left[
 		\sum_\xi\sum_\alpha
 		\nu_{\xi (m)}^\alpha
-		\left(
-		\psi_\xi+L_\xi^\alpha
-		\right)
+		\mu_\xi^\alpha
 	\right]\dot r_{(m)}.
 	\label{eq:MC_helmholtz_source_projection}
 \end{align}
@@ -1246,16 +1242,13 @@ The transport-accumulation contribution is
 \begin{equation}
 	-\sum_\xi\sum_\alpha
 	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-	\left(
-		\psi_\xi+L_\xi^\alpha
-	\right).
+	\mu_\xi^\alpha .
 	\label{eq:MC_helmholtz_transport_accumulation}
 \end{equation}
 %
 Using \eqref{eq:component_transport_accumulation_constraint} and the product
 rule converts this term into a boundary divergence and the local transport power
-after using the chemical-potential identification
-\eqref{eq:MC_L_mu_psi_closure},
+in chemical-potential form,
 %
 \begin{equation}
 	-\sum_\xi\sum_\alpha
@@ -1271,10 +1264,11 @@ The discarded divergence belongs to boundary chemical-energy transport, not
 local entropy production.  This is the standard species-flux contribution in
 continuum thermodynamics of reacting mixtures
 ~\cite{bothe2015continuum,gray2009tcat_transport}.
-Converted and relatively transported mass of the same component enter the
-phase material measure only through their sum.  In the phase-level theory they
-carry the phase free energy \(\psi_\xi\), so they have one chemical potential
-and one generalized work potential,
+Converted and relatively transported mass of the same component enter the phase
+material measure only through their sum.  In the phase-level theory they carry
+the phase free energy \(\psi_\xi\), so the generalized work potential in
+\eqref{eq:vp_component_potential_evolution} is absorbed into the
+chemical-potential multiplier by
 %
 \begin{equation}
 	\mu_\xi^\alpha
@@ -1283,21 +1277,7 @@ and one generalized work potential,
 	\label{eq:MC_L_mu_psi_closure}
 \end{equation}
 %
-Then the reaction projection becomes
-%
-\begin{align}
-	-\sum_\xi\sum_\alpha
-	\dot c_\xi^\alpha\mu_\xi^\alpha
-	&=
-	-\sum_m
-	\left(
-	\sum_\xi\sum_\alpha
-	\mu_\xi^\alpha \nu_{\xi (m)}^\alpha
-	\right)\dot r_{(m)},
-	\label{eq:MC_mu_source_projection}
-\end{align}
-%
-and the mechanism affinity is
+The mechanism affinity is
 %
 \begin{equation}
 	\mc A_{(m)}
@@ -2045,8 +2025,6 @@ gives
 	\bar p_E
 	=
 	-\lambda
-	=
-	\sum_\alpha\frac{\pi_s^\alpha}{\phi_s}
 	=
 	\bar p_s,
 	\qquad
