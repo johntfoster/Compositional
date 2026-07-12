@@ -16,3 +16,7 @@ Each validation entry should record:
 
 Generated run outputs should stay outside this directory unless they become
 curated reference data.
+
+The durable matrix lives in `validation_matrix.yml`. Add or update an entry
+whenever a new validation case, benchmark, expected observable, reference-data
+source, or pass/fail criterion becomes part of the implementation plan.

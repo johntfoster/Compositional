@@ -1,0 +1,96 @@
+# MOOSE implementation traceability notes.
+# This file complements implementation_paper/equation_to_moose_map.yml with
+# app-local object planning and implementation assumptions.
+
+schema_version: 1
+principles:
+  - "Keep residual kernels small and traceable to named manuscript equations or reductions."
+  - "Use AD materials for thermodynamic properties when possible."
+  - "Keep EOS, phase equilibrium, tensor kinematics, pull-backs, and nontrivial state transformations explicit."
+  - "Record every implementation closure, stabilization, and discretization choice that is not present in the theory manuscript."
+
+object_families:
+  kinematics:
+    status: planned
+    likely_directories:
+      - "include/materials"
+      - "src/materials"
+    manuscript_basis:
+      - "solid-skeleton kinematics and pull-back sections"
+    required_notes:
+      - "reference/current configuration"
+      - "Jacobian and deformation-gradient definitions"
+
+  thermodynamics:
+    status: planned
+    likely_directories:
+      - "include/materials"
+      - "src/materials"
+      - "include/userobjects"
+      - "src/userobjects"
+    manuscript_basis:
+      - "Coleman-Noll restrictions"
+      - "variational thermodynamic forces"
+    required_notes:
+      - "state set"
+      - "held-fixed variables"
+      - "derivative source: parsed expression, compiled material, tabulated object, or EOS solve"
+
+  transport:
+    status: planned
+    likely_directories:
+      - "include/kernels"
+      - "src/kernels"
+      - "include/fvkernels"
+      - "src/fvkernels"
+    manuscript_basis:
+      - "component and phase mass balances"
+    required_notes:
+      - "FE or FV variable choice"
+      - "flux law"
+      - "stabilization/upwinding"
+
+  mechanics:
+    status: planned
+    likely_directories:
+      - "include/kernels"
+      - "src/kernels"
+      - "include/materials"
+      - "src/materials"
+    manuscript_basis:
+      - "reference solid weak forms"
+    required_notes:
+      - "stress measure"
+      - "coupling terms retained"
+      - "boundary traction convention"
+
+  reactions:
+    status: planned
+    likely_directories:
+      - "include/materials"
+      - "src/materials"
+      - "include/userobjects"
+      - "src/userobjects"
+    manuscript_basis:
+      - "conversion mechanisms and affinity relations"
+    required_notes:
+      - "mechanism index convention"
+      - "mass conservation check"
+      - "equilibrium or kinetic law"
+
+validation_links:
+  - validation_id: "black_oil_style_smoke"
+    status: planned
+    object_families:
+      - transport
+      - thermodynamics
+  - validation_id: "reaction_source_affinity_smoke"
+    status: planned
+    object_families:
+      - reactions
+      - thermodynamics
+  - validation_id: "poromechanics_limit_smoke"
+    status: planned
+    object_families:
+      - mechanics
+      - kinematics

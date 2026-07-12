@@ -1,0 +1,78 @@
+# Validation matrix for the multicomponent reactive flow implementation.
+# Keep generated run outputs outside this file; store only durable case metadata.
+
+schema_version: 1
+entries:
+  - id: black_oil_style_smoke
+    status: planned
+    target_phenomenon: "Black-oil-style pressure, saturation, and component balance reduction"
+    manuscript_reduction:
+      - "correspondence_to_other_theories: black-oil-style specialization"
+      - "phase/component mass balance labels to be resolved before implementation"
+    configuration: "reference solid skeleton with reservoir-style current-volume observables"
+    variables:
+      - "oil pressure or equivalent pressure"
+      - "water saturation"
+      - "gas saturation"
+      - "component densities or compositions as required by the selected reduction"
+    moose_objects_required:
+      kernels: []
+      materials: []
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck: "moose_app/examples/black_oil_style_smoke.i"
+    reference_result: "manufactured or reduced analytic result to be defined"
+    expected_outputs:
+      - "mass balance residual norms"
+      - "phase pressure and saturation fields"
+    pass_fail: "not defined"
+    notes: "First durable case should be small enough for routine regression."
+
+  - id: reaction_source_affinity_smoke
+    status: planned
+    target_phenomenon: "Reaction/source term with affinity-controlled production"
+    manuscript_reduction:
+      - "Coleman-Noll conversion-potential relation"
+      - "material mass source definitions"
+    configuration: "single-cell or one-dimensional reduced source problem"
+    variables:
+      - "component densities"
+      - "reaction progress or mechanism rate"
+    moose_objects_required:
+      kernels: []
+      materials: []
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck: "moose_app/examples/reaction_source_affinity_smoke.i"
+    reference_result: "closed-form source integration or manufactured solution"
+    expected_outputs:
+      - "component mass histories"
+      - "affinity and source-rate diagnostics"
+    pass_fail: "not defined"
+    notes: "Use this to validate thermodynamic source bookkeeping before broad transport."
+
+  - id: poromechanics_limit_smoke
+    status: planned
+    target_phenomenon: "Coupled mechanics limit related to familiar poromechanics"
+    manuscript_reduction:
+      - "correspondence_to_other_theories: poromechanics or Biot-style limit"
+      - "reference solid weak-form equations from implementation paper"
+    configuration: "reference solid skeleton mechanics with simplified fluid coupling"
+    variables:
+      - "solid displacement"
+      - "fluid pressure or equivalent pressure"
+    moose_objects_required:
+      kernels: []
+      materials: []
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck: "moose_app/examples/poromechanics_limit_smoke.i"
+    reference_result: "manufactured displacement-pressure solution"
+    expected_outputs:
+      - "mechanical residual norms"
+      - "pressure-displacement comparison fields"
+    pass_fail: "not defined"
+    notes: "Use a reduced mechanics case before coupling to full compositional flow."

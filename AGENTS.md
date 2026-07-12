@@ -12,6 +12,7 @@
   - `validation/` -- validation matrix, reference data, and postprocessing assets.
   - `agent_workflows/` -- input-deck templates, schemas, run recipes, checks, and troubleshooting assets.
   - `references/` -- source PDFs and durable reading notes.
+- Use `agent_workflows/decision_trees/request_router.md` as the first routing aid when a task is not purely local. Use the narrower decision trees, checklists, schemas, and runbooks under `agent_workflows/` when their trigger matches the request.
 - Do not split repository structure, branch strategy, or workflow ownership casually. Prefer small, reversible additions that preserve cross-links between theory, code, validation examples, and agent templates.
 - When a task touches more than one track, state which track owns the immediate edit and which downstream tracks need follow-up.
 
@@ -44,6 +45,7 @@
 - For implementation planning, map each proposed kernel, material, variable, boundary condition, or action back to the controlling manuscript equation, assumption, or special-case reduction before proposing code structure.
 - For validation planning, identify the physical regime, governing reduction, variables, expected observables, and pass/fail criterion. Prefer validation problems that exercise both the mathematical theory and the simulator interface.
 - For agent-workflow tasks, treat templates, schemas, checks, prompts, run commands, and postprocessing scripts as repository artifacts that should be versioned, tested where practical, and kept consistent with the validated MOOSE interface.
+- For cross-track implementation planning, keep `implementation_paper/equation_to_moose_map.yml`, `moose_app/doc/theory_traceability.yml`, and `validation/validation_matrix.yml` aligned when a decision becomes durable.
 
 ## MOOSE implementation track
 
@@ -85,6 +87,8 @@
 - Do not introduce new derived variables, helper tensors, residuals, rate symbols, force maps, or shorthand symbols such as `L`, `R`, `Q`, `C`, or similar unless you first ask the user and receive explicit approval. When revising entropy inequalities or Coleman--Noll collections, write the terms directly in the primitive manuscript variables instead of introducing helper notation.
 - For mechanism-indexed quantities, use parenthesized subscripts on the variables, such as `\dot r_{(m)}`, `\nu_{\xi (m)}^\alpha`, and `\mc A_{(m)}`. Do not parenthesize the dummy summation index under the summation sign: write `\sum_m`, not `\sum_{(m)}`.
 - Do not write numbered display equations as chained multiple-equals expressions on one line. When a result needs multiple equality steps, use an `align` environment and align the equals signs vertically so each step is visually and mathematically clear.
+- Treat displayed equations as grammatical parts of their surrounding sentences. Punctuate each display accordingly, and do not place a colon at the end of the prose immediately preceding a display that completes the same sentence.
+- Write manuscript prose for a new audience versed in continuum mechanics and reservoir simulation. The text must be self-contained and must not read as a development note to the author, assume knowledge of prior conversations, or refer implicitly to discarded formulations and earlier drafting decisions.
 - Do not use manual delimiter sizing commands such as `\Big`, `\bigg`, `\Bigg`, or related variants for parentheses, brackets, or braces. Use nested automatic delimiters such as `\left(` and `\right)`, `\left[` and `\right]`, or `\left\{` and `\right\}` instead.
 - Treat text between `% AGENT-LOCK-BEGIN` and `% AGENT-LOCK-END` as protected manuscript source. Do not edit locked equations or surrounding locked text unless the user explicitly says to unlock them or explicitly names the locked equation as an edit target.
 - Prefer source-based LaTeX inspection rooted at `main.tex`, texlab/LSP diagnostics, and local build artifacts for equation/citation/file inspection.

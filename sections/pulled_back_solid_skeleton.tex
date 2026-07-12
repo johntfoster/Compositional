@@ -1,4 +1,4 @@
-\section{Reservoir Simulation}
+\section{Reservoir simulation}
 \label{sec:reservoir_simulation}
 
 This section rewrites the transport and mechanics equations in a form suitable
@@ -10,7 +10,8 @@ $\mbf F$ and Jacobian $J$.
 \subsection{Relative flux vectors}
 \label{sec:relative_flux_vectors}
 
-The phase momentum equations above determine consistent Darcy-scale relative
+The phase momentum equation \eqref{eq:vp_fluid_momentum_simplified} determines
+consistent Darcy-scale relative
 fluxes once the interphase drag is written in terms of a velocity relative to the
 solid skeleton.  For each fluid phase $f$, define the current relative mass
 flux by
@@ -30,9 +31,8 @@ Thus
 	\label{eq:relative_flux_velocity_reconstruction}
 \end{equation}
 %
-The same linear-drag argument used in the reacting-mixture formulation closes
-the part of the fluid-phase interaction force produced by motion through the
-skeleton as
+A linear interphase-drag closure represents the part of the fluid-phase
+interaction force produced by motion through the skeleton as
 %
 \begin{equation}
 	\mbf b_f
@@ -47,27 +47,31 @@ $\bs\kappa_f$.
 
 Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 \eqref{eq:fluid_phase_drag_law} into the fluid momentum balance
-\eqref{eq:el_mom_f_simplified} gives, for each fluid phase,
+\eqref{eq:vp_fluid_momentum_simplified} gives, for each fluid phase,
 %
 \begin{align}
 	\frac{1}{\rho_f}
 	\left(
-	\phi_f^2\mu_f\bs\kappa_f^{-1}
-	+\sum_\alpha\dot c_f^\alpha\mbf I
+		\phi_f^2\mu_f\bs\kappa_f^{-1}
+		+\sum_\alpha\dot m_f^\alpha\mbf I
 	\right)\mbf w_f
 	= & \;
 	\rho_f\left(\mbf g-\mbf a_f\right)
 	-\phi_f\nabla_{\mbf x}\bar p_f
 	\notag                          \\
-	  & +\sum_\alpha\dot c_f^\alpha
+	  & +\sum_\alpha\dot m_f^\alpha
 	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_s\right),
 	\label{eq:relative_flux_linear_system}
 \end{align}
 %
-The term $\sum_\alpha\dot c_f^\alpha\mbf I$ is the same reaction-induced
-correction that appears in the three-phase reacting-mixture flux law.  It comes
-from the velocity carried inside the conversion-momentum term, not from appending
-a source to the mass balance after the fact.
+The isotropic rate correction contains both conversion and transport
+accumulation.  The transport contribution sums to zero by
+\eqref{eq:averaged_relative_flux_sum} and
+\eqref{eq:reference_transport_accumulation_rate}, but it is retained here to
+show its origin.  The conversion and transport-accumulation chemical-potential
+gradients remain on
+the right, while the fluxes are closed by
+\eqref{eq:MC_relative_transport_closures}.
 
 Define the modified permeability tensor
 %
@@ -75,8 +79,8 @@ Define the modified permeability tensor
 	\widetilde{\bs\kappa}_f
 	=
 	\left(
-	\phi_f^2\mu_f\bs\kappa_f^{-1}
-	+\sum_\alpha\dot c_f^\alpha\mbf I
+		\phi_f^2\mu_f\bs\kappa_f^{-1}
+		+\sum_\alpha\dot m_f^\alpha\mbf I
 	\right)^{-1}.
 	\label{eq:modified_relative_flux_permeability}
 \end{equation}
@@ -88,22 +92,24 @@ Then the admissible relative mass flux is
 	= \rho_f\widetilde{\bs\kappa}_f
 	\left(
 	\rho_f\left(\mbf g-\mbf a_f\right)
-	-\phi_f\nabla_{\mbf x}\bar p_f
-	+\sum_\alpha\dot c_f^\alpha
-	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_s\right)
+		-\phi_f\nabla_{\mbf x}\bar p_f
+		+\sum_\alpha\dot m_f^\alpha
+		\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_s\right)
 	\right).
 	\label{eq:generalized_fluid_darcy_mass_flux}
 \end{empheq}
 %
-This expression is the multicomponent fluid-phase analogue of the generalized
-Darcy flux in the earlier reacting-mixture model.  The first two terms are the
-usual body-force and pressure-gradient contributions.  The last term is the
-thermodynamic conversion correction: mass transfer into or out of phase $f$
-drives relative motion through gradients of the solved component potentials
-$\mu_f^\alpha$ and through the momentum carried by the solid frame.
+This expression is the multicomponent fluid-phase analogue of a generalized
+Darcy flux. The first two terms are the
+body-force and pressure-gradient contributions, while the last term is the
+component-mass-addition momentum contribution.  Chemical-potential gradients
+drive component-relative transport through
+\eqref{eq:MC_relative_transport_closures}; that dissipative role is distinct
+from their momentum-production role in the mass-addition variation.
 
-When conversion is absent, $\dot c_f^\alpha=0$, and when fluid-phase
-inertia is negligible, \eqref{eq:generalized_fluid_darcy_mass_flux} reduces to
+When component mass-addition effects are negligible,
+\(\dot m_f^\alpha=0\), and when fluid-phase inertia is negligible,
+\eqref{eq:generalized_fluid_darcy_mass_flux} reduces to
 %
 \begin{equation}
 	\phi_f\left(\mbf v_f-\mbf v_s\right)
@@ -112,11 +118,11 @@ inertia is negligible, \eqref{eq:generalized_fluid_darcy_mass_flux} reduces to
 	\label{eq:standard_darcy_mass_flux_limit}
 \end{equation}
 %
-which is Darcy's law for phase $f$ relative to the deforming solid skeleton.  In
-the reacting case, \eqref{eq:generalized_fluid_darcy_mass_flux} should be used
-instead of \eqref{eq:standard_darcy_mass_flux_limit} whenever conversion rates
-are large enough for momentum production or gradients of $\mu_f^\alpha$ to
-affect transport.
+This is Darcy's law for phase $f$ relative to the deforming solid skeleton. In
+the general case, \eqref{eq:generalized_fluid_darcy_mass_flux} should be used
+instead of \eqref{eq:standard_darcy_mass_flux_limit} whenever net component
+accumulation rates are large enough for momentum production to affect phase
+transport.
 
 \subsection{Solid-reference relative fluxes}
 \label{sec:solid_reference_relative_fluxes}
@@ -132,7 +138,7 @@ Piola transform.  Define the reference relative mass flux
 	\label{eq:reference_relative_mass_flux}
 \end{equation}
 %
-Also define the pulled-back modified permeability tensor
+Define the pulled-back modified permeability tensor
 %
 \begin{equation}
 	\widetilde{\mbf K}_f
@@ -151,11 +157,8 @@ The flux assembled in the reference component balances is then
 	\left[
 		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
 		-\phi_f\nabla_{\mbf X}\bar p_f
-		+\sum_\alpha\dot c_f^\alpha
-		\left(
-		\nabla_{\mbf X}\mu_f^\alpha
-		-\mbf F^T\mbf v_s
-		\right)
+		+\sum_\alpha\dot m_f^\alpha
+		\left(\nabla_{\mbf X}\mu_f^\alpha-\mbf F^T\mbf v_s\right)
 		\right].
 	\label{eq:solid_reference_relative_flux}
 \end{align}
@@ -172,9 +175,9 @@ divergence of a spatial flux obeys
 	\label{eq:solid_reference_flux_divergence}
 \end{equation}
 %
-Equations~\eqref{eq:reference_relative_mass_flux}--\eqref{eq:solid_reference_relative_flux} and
-\eqref{eq:solid_reference_flux_divergence} are the direct multicomponent
-generalization of the reference flux used in the earlier reacting-mixture model,
+Equations~\eqref{eq:reference_relative_mass_flux}--\eqref{eq:solid_reference_relative_flux}
+and \eqref{eq:solid_reference_flux_divergence} give the multicomponent
+generalization of the reference flux,
 with phase labels, component conversion rates, and component chemical-potential
 gradients retained.
 
@@ -183,10 +186,9 @@ gradients retained.
 
 For a fluid phase, substituting
 \eqref{eq:relative_flux_velocity_reconstruction} into
-\eqref{eq:component_spatial_mass}, using
-\eqref{eq:component_partial_density_representation} and
-\eqref{eq:unified_stoich_current}, and writing the storage term on the solid
-trajectory gives
+\eqref{eq:averaged_component_spatial_mass}, using
+\eqref{eq:component_partial_density_representation}, and writing the storage
+term on the solid trajectory gives
 %
 \begin{equation}
 	\left.
@@ -194,14 +196,23 @@ trajectory gives
 	\left(J\phi_f\bar\rho_f\eta_f^\alpha\right)
 	\right\vert_{\mbf X}
 	+\nabla_{\mbf X}\cdot
-	\left(\eta_f^\alpha\mbf W_f\right)
+	\left[
+	\eta_f^\alpha\mbf W_f
+	+
+	J\mbf F^{-1}
+	\left(
+	\mbf j_{f,{\rm disp}}^\alpha
+	+
+	\mbf j_{f,{\rm diff}}^\alpha
+	\right)
+	\right]
 	=
 	J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
 	\label{eq:solid_reference_fluid_component_balance}
 \end{equation}
 %
 For each one-component solid phase \(s\), the phase velocity is the skeleton velocity,
-so the relative-flux term is absent:
+so the relative-flux term is absent,
 %
 \begin{equation}
 	\left.
@@ -217,8 +228,9 @@ so the relative-flux term is absent:
 %
 Thus the solid-reference storage variables are the Lagrangian fluid component
 masses \(J\phi_f\bar\rho_f\eta_f^\alpha\) and the Lagrangian solid phase masses
-\(J\phi_s\bar\rho_s^s\), while transport through the solid mesh is carried only
-by the fluid relative fluxes.
+\(J\phi_s\bar\rho_s^s\).  Transport through the solid mesh contains both bulk
+fluid motion relative to the skeleton and component diffusion or dispersion
+relative to the fluid phase.
 
 \subsection{Overall momentum on the solid trajectory}
 \label{sec:solid_reference_overall_momentum}
@@ -228,8 +240,7 @@ written on the solid trajectory by applying the Piola transform to the stress
 divergence and multiplying the remaining spatial source terms by $J$.  Let
 \(\mbf P^{\prime\prime}=J\bs\sigma^{\prime\prime}\mbf F^{-T}\) denote the
 first Piola--Kirchhoff stress associated with the fixed-pressure skeleton
-stress.  The
-result is
+stress. This transformation gives
 %
 \begin{align}
 	J\sum_\xi\rho_\xi\mbf a_\xi
@@ -240,21 +251,10 @@ result is
 	J \mbf F^{-T}
 	\right)
 	+J\rho\mbf g
-	+J\sum_\xi\sum_\alpha
-	\dot c_\xi^\alpha
-	\left(
-	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
-	\right).
+	+J\sum_\xi\sum_\alpha\dot m_\xi^\alpha
+	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:solid_reference_overall_momentum}
 \end{align}
-%
-with
-%
-\begin{equation}
-	\mbf{P}^{\prime\prime} = J\bs\sigma^{\prime\prime}\mbf{F}^{-T}
-\end{equation}
-%
-as the corresponding first Piola--Kirchhoff stress tensor.
 %
 If a quasi-static solid-skeleton solve is desired, the inertial term on the left
 is dropped.  If the fluid velocities are eliminated with
@@ -271,7 +271,7 @@ For a solid-reference reservoir simulator, the coupled solve can be assembled
 from the overall momentum balance, the component storage equations, the
 relative flux reconstruction, and the capillary-pressure relations.  In the
 general finite-deformation form, the mechanics equation is
-\eqref{eq:solid_reference_overall_momentum}:
+\eqref{eq:solid_reference_overall_momentum},
 %
 \begin{align}
 	\mbf{0}
@@ -282,11 +282,8 @@ general finite-deformation form, the mechanics equation is
 	J \mbf F^{-T}
 	\right)
 	+J\rho\mbf g
-	+J\sum_\xi\sum_\alpha
-	\dot c_\xi^\alpha
-	\left(
-	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
-	\right).
+	+J\sum_\xi\sum_\alpha\dot m_\xi^\alpha
+	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:reservoir_simulation_overall_momentum_summary}
 \end{align}
 %
@@ -298,7 +295,16 @@ The fluid component balances on the same solid trajectory are
 	\left(J\phi_f\bar\rho_f\eta_f^\alpha\right)
 	\right\vert_{\mbf X}
 	+\nabla_{\mbf X}\cdot
-	\left(\eta_f^\alpha\mbf W_f\right)
+	\left[
+	\eta_f^\alpha\mbf W_f
+	+
+	J\mbf F^{-1}
+	\left(
+	\mbf j_{f,{\rm disp}}^\alpha
+	+
+	\mbf j_{f,{\rm diff}}^\alpha
+	\right)
+	\right]
 	=
 	J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} ,
 	\qquad f\in\mc F ,
@@ -321,20 +327,20 @@ The corresponding admissible reference flux is
 	\mbf W_f
 	= & \; \rho_f\widetilde{\mbf K}_f
 	\left[
-		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
-		-\phi_f\nabla_{\mbf X}\bar p_f
-		+\sum_\alpha\dot c_f^\alpha
-		\left(
-		\nabla_{\mbf X}\mu_f^\alpha
-		-\mbf F^T\mbf v_s
-		\right)
+		\begin{aligned}
+			&\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
+			-\phi_f\nabla_{\mbf X}\bar p_f
+			+\sum_\alpha\dot m_f^\alpha
+			\left(\nabla_{\mbf X}\mu_f^\alpha-\mbf F^T\mbf v_s\right)
+		\end{aligned}
 		\right],
 	\qquad f\in\mc F .
 	\label{eq:reservoir_simulation_reference_flux_summary}
 \end{align}
 %
-When conversion and fluid inertia are negligible, this reduces to the familiar
-Darcy relative flux in \eqref{eq:standard_darcy_mass_flux_limit}.  Capillary
+When component mass-addition effects and fluid inertia are negligible, this reduces
+to the familiar Darcy relative flux in
+\eqref{eq:standard_darcy_mass_flux_limit}.  Capillary
 pressure closes the phase pressures algebraically through the saturation state,
 %
 \begin{equation}
@@ -349,6 +355,6 @@ pressure closes the phase pressures algebraically through the saturation state,
 %
 Equivalently, a simulator may choose one reference pressure and reconstruct the
 other fluid pressures from the selected capillary-pressure laws before
-evaluating the fluxes.  The same algebraic reconstruction is what makes the
+evaluating the fluxes. This algebraic reconstruction also makes the
 saturation-weighted pressure gradient collapse to the equivalent-pressure
 gradient in \eqref{eq:MC_fluid_pressure_gradient_rollup}.

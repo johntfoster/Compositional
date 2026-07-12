@@ -29,6 +29,8 @@ constraints \(C_1,\ldots,C_4\).  The body force per unit phase mass is
 absolute temperature:
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
+\begingroup
+\small
 \begin{align}
 	T        & = \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \dv,
 	\label{eq:T_def}                                                                                                                                                                                                \\
@@ -37,60 +39,72 @@ absolute temperature:
 	\label{eq:U_def}                                                                                                                                                                                                \\
 	\delta W & = \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv
 	-\sum_\xi\sum_\alpha\int_{\mc B}L_\xi^\alpha
-	\frac{\delta\mc C_\xi^\alpha}{J_\xi}\,\dv
-	- \sum_m\int_{\mc B}\mc A_{(m)}\,\delta\dot r_{(m)} \dv,
+	\frac{\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}\,\dv
+	- \sum_m\int_{\mc B}\mc A_{(m)}\,\delta\dot r_{(m)} \dv
+	\notag\\
+	&\quad
+	-\sum_\xi\sum_\alpha\int_{\mc B}
+	\mbf M_{\xi,{\rm disp}}^\alpha
+	\cdot\delta\mbf j_{\xi,{\rm disp}}^\alpha\,\dv
+	\notag\\
+	&\quad
+	-\sum_\xi\sum_\alpha\int_{\mc B}
+	\mbf M_{\xi,{\rm diff}}^\alpha
+	\cdot\delta\mbf j_{\xi,{\rm diff}}^\alpha\,\dv,
 	\label{eq:W_def}                                                                                                                                                                                                \\
 	C_1      & = \int_{\mc{B}} \lambda\left(\sum_\xi\phi_\xi - 1\right) \,\dv,
 	\label{eq:C1_def}                                                                                                                                                                                               \\
-	C_2      & = \sum_\xi \sum_\al \int_{\mc{B}_{\xi 0}} \tau^\al_\xi \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0} + \mc{C}_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi} \right) \dV_\xi,
+	C_2      & = \sum_\xi \sum_\al \int_{\mc{B}_{\xi 0}} \tau^\al_\xi \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0} + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi} \right) \dV_\xi,
 	\label{eq:C2_def}                                                                                                                                                                                               \\
 	C_3      & = \sum_\xi \int_{\mc{B}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) \dv,
 	\label{eq:C3_def}                                                                                                                                                                                               \\
-	C_4      & = \sum_\xi\sum_\alpha\int_{\mc B}\mu_\xi^\alpha\left(\frac{\dot{\mc{C}}_\xi^\alpha}{J_\xi}-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\right)\dv .
+	C_4      & = \sum_\xi\sum_\alpha\int_{\mc B}\mu_\xi^\alpha
+	\begin{aligned}[t]
+		\left[\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\right.
+		&+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm disp}}^\alpha
+		\\
+		&\left.+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm diff}}^\alpha\right]
+	\end{aligned}
+	\dv .
 	\label{eq:C4_def}
 \end{align}
+\endgroup
 % AGENT-LOCK-END
 %
-The coefficients $L_\xi^\alpha$ are component generalized forces conjugate to
-adding component mass to phase $\xi$.  The virtual work includes gravity
+The coefficient $L_\xi^\alpha$ is the component generalized force conjugate to
+both conversion and transport accumulation.  The virtual work includes gravity
 $\mbf g$ and the net interphase interaction force $\mbf b_\xi$ applied to phase
-$\xi$.  The affinities $\mc A_{(m)}$ are generalized mechanism forces conjugate
-to the current progress-rate variations $\delta\dot r_{(m)}$.  Constraint $C_1$
-enforces the volume-fraction constraint, $C_2$ enforces component mass balance,
-$C_3$ enforces mass-fraction normalization within each phase, and $C_4$ ties
-the mechanism progress rates to the phase-attached accumulated sources through
-$\dot c_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi$.  The multipliers
-$\lambda$, $\tau_\xi^\alpha$, $\pi_\xi$, and $\mu_\xi^\alpha$ enforce these
-constraints.
+$\xi$.  The affinities $\mc A_{(m)}$ are generalized forces conjugate to the
+progress-rate variations, while \(\mbf M_{\xi,{\rm disp}}^\alpha\) and
+\(\mbf M_{\xi,{\rm diff}}^\alpha\) are generalized forces conjugate to the two
+relative fluxes.  Constraint $C_1$ enforces the volume-fraction constraint,
+$C_2$ enforces the augmented component material measure, $C_3$ enforces
+mass-fraction normalization, and $C_4$ enforces the complete component-rate
+constraint, including conversion stoichiometry and the divergence of the
+relative flux.  Because converted and relatively transported mass enter the
+same component material measure, one multiplier \(\mu_\xi^\alpha\) is conjugate
+to their combined rate.
 
-The signs of the conversion-work terms in \(\delta W\) fix the thermodynamic
-force convention used throughout the paper.  The variables
-\(\mc C_\xi^\alpha\) and \(\dot r_{(m)}\) are internal conversion coordinates,
-not externally prescribed displacement coordinates.  Thus
-\(L_\xi^\alpha\) and \(\mc A_{(m)}\) are written as internal generalized forces
-conjugate to insertion of component mass and to mechanism progress,
-respectively, and their virtual work enters with the opposite sign from the
-corresponding virtual conversion.  With the stoichiometric convention in
-\eqref{eq:C4_def}, this choice identifies the mechanism affinity as minus the
-stoichiometric projection of the component conversion potentials.  A forward
-reaction that lowers the appropriate thermodynamic potential then has positive
-affinity, and admissible kinetics make the product
-\(\mc A_{(m)}\dot r_{(m)}\) nonnegative in the residual dissipation inequality.
-One could reverse the signs only by redefining the conversion potentials and
-affinities everywhere downstream; the present convention is chosen so that
-positive affinity times positive progress represents dissipated thermodynamic
-driving power.
+The conversion coordinate and progress rates remain in Hamilton's extended
+principle because their variations enforce the kinematic stoichiometry and
+identify the associated affinity, following the generalized-coordinate
+construction of Bedford and Drumheller~\cite{drumheller1980thermomechanical}.
+The unresolved velocities
+\(\widetilde{\mbf v}_\xi\) and \(\widehat{\mbf u}_\xi^\alpha\), through their
+induced flux variations, enter the same extended principle as dissipative
+virtual-power terms.  This is the Hamilton--d'Alembert form of the rate
+variation used in Onsager formulations
+~\cite{drumheller1980thermomechanical,doi2011onsager,wang2021onsager}.
 
 The variations in this section are mechanical and compositional variations at
 fixed temperature.  Temperature is retained as a constitutive state variable and
 is varied in the Coleman--Noll entropy argument below.
-Chemical reactions, sorption/desorption, and pure phase transformations are
-represented by the unified stoichiometric parameterization
-\eqref{eq:unified_stoich_current}.  The
-fields $\mbf x_\xi$, $\eta_\xi^\alpha$, $\phi_\xi$, $\bar\rho_\xi$, and
-$\mc C_\xi^\alpha$ are varied independently, while the mechanism rates
-$\dot r_{(m)}$ are independent process-rate variables whose variations identify
-the conjugate affinities.
+The fields $\mbf x_\xi$, $\eta_\xi^\alpha$, $\phi_\xi$, $\bar\rho_\xi$, and
+$\mc C_\xi^\alpha$ are varied independently.  The mechanism rates and the two
+relative fluxes are independent process rates.  Their virtual powers identify
+the corresponding generalized-force equations, while the entropy inequality
+subsequently restricts their constitutive dependence on those rates.
 
 \subsection{Extending Bedford and Drumheller identity 1.28}
 \label{sec:extended_bd_identity}
@@ -100,11 +114,11 @@ give an identity for the variation of a constituent-attached spatial field
 $\Gamma_\xi$ weighted by the current phase density $\rho_\xi$.  The same
 transport argument extends componentwise to the compositional setting used here.
 
-The accumulated source $\mc{C}_\xi^\alpha$ is attached to the phase-$\xi$
-reference coordinates, while its current production rate is
-$\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$.  Thus variations of source
-terms must be pushed forward with the same phase map as the corresponding
-component density.
+The conversion and transport accumulations \(\mc C_\xi^\alpha\) and
+\(\mc D_\xi^\alpha\) are attached to the phase-$\xi$ reference coordinates.
+Their sum is the added component mass appearing in
+\eqref{eq:augmented_component_material_measure}, so its variation must be pushed
+forward with the same phase map as the corresponding component density.
 %
 For any phase field $\Gamma_\xi$, the Bedford--Drumheller identity extends componentwise as
 %
@@ -112,22 +126,22 @@ For any phase field $\Gamma_\xi$, the Bedford--Drumheller identity extends compo
 \begin{align}
 	\delta \int_{\mc{B}} \rho^\alpha_\xi \Gamma_\xi \, \dv
 	 & = \delta \int_{\mc{B}_{\xi0}}
-	\left(\rho^\alpha_{\xi0}+\mc{C}_\xi^\alpha\right)
+	\left(\rho^\alpha_{\xi0}+\mc{C}_\xi^\alpha+\mc D_\xi^\alpha\right)
 	\Gamma_\xi \,\dVxi \notag        \\
 	 & = \int_{\mc{B}_{\xi0}}
 	\left[
-		\delta\left(\rho^\alpha_{\xi0}+\mc{C}_\xi^\alpha\right)\Gamma_\xi
+	\delta\left(\rho^\alpha_{\xi0}+\mc{C}_\xi^\alpha+\mc D_\xi^\alpha\right)\Gamma_\xi
 		+ J_\xi\rho^\alpha_\xi\delta\Gamma_\xi
 	\right]\dVxi \notag              \\
 	 & = \int_{\mc{B}_{\xi0}}
 	\left[
-		\delta\mc{C}_\xi^\alpha\Gamma_\xi
+	\left(\delta\mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha\right)\Gamma_\xi
 		+ J_\xi\rho^\alpha_\xi\delta\Gamma_\xi
 	\right]\dVxi \notag              \\
 	 & = \int_{\mc{B}}
 	\left(
 	\rho^\alpha_\xi\delta\Gamma_\xi
-	+ \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\Gamma_\xi
+	+ \frac{\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}\Gamma_\xi
 	\right)\dv .
 	\label{eq:bd128_mod2}
 \end{align}
@@ -138,7 +152,7 @@ Summing both sides of \eqref{eq:bd128_mod2} over $\alpha$ gives
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta \int_{\mc{B}} \rho_\xi \Gamma_\xi \, \dv
-	 & = \int_{\mc{B}} \left(\rho_\xi \delta \Gamma_\xi + \sum_\alpha \frac{\delta \mc{C}^\al_\xi}{J_\xi} \Gamma_\xi  \right)  \dv
+	 & = \int_{\mc{B}} \left[\rho_\xi \delta \Gamma_\xi + \sum_\alpha \frac{\delta \mc{C}^\al_\xi+\delta\mc D_\xi^\alpha}{J_\xi} \Gamma_\xi  \right]  \dv
 	\label{eq:bd128_mod}
 \end{align}
 % AGENT-LOCK-END
@@ -154,7 +168,7 @@ The variation of kinetic energy using \eqref{eq:bd128_mod} is then
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	\delta T = \sum_\xi \int_{\mc{B}} \rho_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}^\al_\xi}{J_\xi} \dv.
+	\delta T = \sum_\xi \int_{\mc{B}} \rho_\xi\,\mbf{v}_\xi \cdot \delta\mbf{v}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}^\al_\xi+\delta\mc D_\xi^\alpha}{J_\xi} \dv.
 \end{equation}
 % AGENT-LOCK-END
 %
@@ -163,7 +177,7 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\int_{t_1}^{t_2} \delta T \dt
-	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left(-\rho_\xi\,\mbf{a}_\xi - \sum_\al \dot c^\alpha_\xi \mbf{v}_\xi \right) \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}  \dv \dt
+	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left[-\rho_\xi\,\mbf{a}_\xi - \sum_\al \frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi} \mbf{v}_\xi \right] \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}  \dv \dt
 	\label{eq:deltaT_app}
 \end{equation}
 % AGENT-LOCK-END
@@ -211,7 +225,7 @@ and collecting independent variations gives
 	+ \rho_\xi\left.\p{\psi_\xi}{\bar\rho_\xi}\right\vert_{\mbf F_\xi,\eta_\xi^\beta}\delta\bar\rho_\xi \notag \\
 	 & \qquad
 		+ \sum_\alpha \rho_\xi\left.\p{\psi_\xi}{\eta_\xi^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha}}\delta\eta_\xi^\alpha
-		+ \sum_\alpha \psi_\xi\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}
+		+ \sum_\alpha \psi_\xi\frac{\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}
 		\Bigg]\dv + \text{boundary terms}.
 	\label{eq:deltaU_uniform}
 \end{align}
@@ -390,7 +404,7 @@ The component material mass balance constraint is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	C_2 = \sum_\xi\sum_\alpha\int_{\mc{B}_{\xi0}}\tau_\xi^\alpha \left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0} \eta^\al_{\xi 0} + \mc{C}_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha} \right) \,dV_\xi.
+	C_2 = \sum_\xi\sum_\alpha\int_{\mc{B}_{\xi0}}\tau_\xi^\alpha \left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0} \eta^\al_{\xi 0} + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha} \right) \,dV_\xi.
 	\label{eq:C2_component_measure}
 \end{equation}
 % AGENT-LOCK-END
@@ -403,7 +417,7 @@ for component \(\alpha\) in phase \(\xi\).  Its variation gives
 	\delta C_2
 	 & = \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
 	\delta\tau_\xi^\alpha
-	\left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\right)
+	\left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\right)
 	\,{\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
@@ -412,23 +426,24 @@ for component \(\alpha\) in phase \(\xi\).  Its variation gives
 	\notag                                        \\
 	 & \quad
 	+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta_\xi^\alpha}\,\delta\phi_\xi \, {\rm d}V_\xi
+	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta_\xi^\alpha}\,\delta\phi_\xi \, {\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi \bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi \, {\rm d}V_\xi
+	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi \, {\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi \bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta_\xi^\alpha \, {\rm d}V_\xi
+	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta_\xi^\alpha \, {\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	- \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}\,\delta \mc{C}_\xi^\alpha \, {\rm d}V_\xi.
+	\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}
+	\left(\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha\right) \, {\rm d}V_\xi.
 	\notag                                        \\
 	 & = \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
 	\delta\tau_\xi^\alpha
-	\left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\right)
+	\left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\right)
 	\,{\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
@@ -441,7 +456,8 @@ for component \(\alpha\) in phase \(\xi\).  Its variation gives
 		\frac{\tau_\xi^\alpha}{\phi_\xi}\delta\phi_\xi
 		+ \frac{\tau_\xi^\alpha}{\bar\rho_\xi}\delta\bar\rho_\xi
 		+ \frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\delta\eta_\xi^\alpha
-		- \frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}
+		- \frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+		\frac{\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}
 		\right]\dv
 	+ \text{b.t.}
 	\label{eq:deltaC2_lines}
@@ -449,7 +465,7 @@ for component \(\alpha\) in phase \(\xi\).  Its variation gives
 % AGENT-LOCK-END
 %
 Here the second equality uses $\dv = J_\xi {\rm d}V_\xi$ and
-$\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha
+$\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha+\mc D_\xi^\alpha
 	=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$. ``b.t.'' denotes boundary terms generated by integration by parts that are omitted here for brevity.
 
 % ============================================================
@@ -470,50 +486,110 @@ $\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha
 % AGENT-LOCK-END
 %
 The last term in the first line vanishes by recognizing $\sum_\alpha \nabla_{\mbf{x}} \eta_\xi^\alpha = 0$ by \eqref{eq:mass_fraction_constraint}.
-% ============================================================
-% ============================================================
+
 \subsection{Stoichiometric conversion variations}
 \label{sec:stoich_conversion_variations}
-% ============================================================
-Conversion sources are restricted by the current-rate kinematic constraint
-\eqref{eq:C4_def}.
-The variation of $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ must be taken before
-using the stoichiometric projection, because the denominator depends on the phase
-map.  Repeating the transport calculation used for phase-attached rates gives
+
+Conversion sources are restricted by \eqref{eq:C4_def}.  The variation of
+$\dot c_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi$ must be taken before using the
+stoichiometric projection because the denominator depends on the phase map.
+Repeating the transport calculation for a phase-attached rate gives
 %
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\int_{t_1}^{t_2}\delta C_4\,\dt
-	 & =\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
+	&=\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
 	\delta\mu_\xi^\alpha\left(\dot c_\xi^\alpha-
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\right)\dv\dt \notag \\
-	 & \quad+\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
-	\left[-\frac{D_\xi\mu_\xi^\alpha}{Dt}\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}
-		+\dot c_\xi^\alpha\nabla_{\mbf x}\mu_\xi^\alpha\cdot\delta\mbf x_\xi\right]
-	\dv\dt \notag                                              \\
-	 & \quad-\int_{t_1}^{t_2}\int_{\mc B}\sum_m
-	\left(\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\right)\dv\dt
+	\notag\\
+	&\quad+\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
+	\left[-\frac{D_\xi\mu_\xi^\alpha}{Dt}
+	\frac{\delta\mc C_\xi^\alpha}{J_\xi}
+	+\dot c_\xi^\alpha\nabla_{\mbf x}\mu_\xi^\alpha\cdot
+	\delta\mbf x_\xi\right]\dv\dt
+	\notag\\
+	&\quad-\int_{t_1}^{t_2}\int_{\mc B}\sum_m
+	\left(\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)
 	\delta\dot r_{(m)}\,\dv\dt+\text{b.t.}
 	\label{eq:C4_variation}
 \end{align}
-% AGENT-LOCK-END
 %
+Every term in the conversion part \eqref{eq:C4_variation} multiplies an
+admissible variation.  The remaining transport part of the same constraint is
+varied separately below only to keep the calculation readable.
+
+\subsection{Transport-accumulation variations}
+\label{sec:transport_accumulation_variations}
+
+The transport part of constraint \(C_4\) enforces the relative-transport terms
+in the complete component-rate balance.  Varying the phase-attached transport
+accumulation, the phase map, and the two fluxes, then integrating by parts in
+time and space gives
+%
+\begin{align}
+	\left.\int_{t_1}^{t_2}\delta C_4\,\dt\right|_{\rm transport}
+	={}&
+	\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
+	\delta\mu_\xi^\alpha
+	\left[
+	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	+
+	\nabla_{\mbf x}\cdot
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)
+	\right]\dv\dt
+	\notag\\
+	&+
+	\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
+	\left[
+	-\frac{D_\xi\mu_\xi^\alpha}{Dt}
+	\frac{\delta\mc D_\xi^\alpha}{J_\xi}
+	+
+	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\nabla_{\mbf x}\mu_\xi^\alpha\cdot\delta\mbf x_\xi
+	\right]\dv\dt
+	\notag\\
+	&-
+	\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
+	\nabla_{\mbf x}\mu_\xi^\alpha\cdot
+	\left(
+	\delta\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\delta\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)\dv\dt
+	+
+	\text{b.t.}
+	\label{eq:C4_transport_variation}
+\end{align}
+%
+Thus every transport contribution multiplies a variation.  Together with the
+conversion terms in \eqref{eq:C4_variation}, the multiplier variation returns
+the complete component-rate balance, while both flux variations receive the
+same component-potential gradient \(\nabla_{\mbf x}\mu_\xi^\alpha\).
+
 % ============================================================
 \subsection{Collected variational principle}
 \label{sec:collected_var}
 % ============================================================
 
-Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta\mc{C}^\al_\xi$, together with the independent process-rate variations $\delta\dot r_{(m)}$, gives the following collection before substituting any Euler--Lagrange equation back into another variation.
+Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\xi$, $\delta\bar\rho_\xi$, $\delta\eta^\alpha_\xi$, and $\delta\mc{C}^\al_\xi$ gives the following collection before substituting any Euler--Lagrange equation back into another variation.
 %
 % AGENT-LOCK-BEGIN equation-lock:  do not edit unless explicitly unlocked by user
+\begingroup
 \begin{align}
-	0 = & \int_{t_1}^{t_2} \left \{ \sum_{\xi} \int_{\mc{B}} \Bigg[
+	0 = & \int_{t_1}^{t_2} \{ \sum_{\xi} \int_{\mc{B}} \Bigg[
 	-\rho_{\xi}\mbf{a}_{\xi}
 	+ \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 	-\lambda\nabla_{\mbf{x}}\phi_\xi
 	-\sum_\alpha\nabla_{\mbf{x}}\tau_\xi^\alpha
-	+ \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
-	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \right. \notag                                                                                                                          \\
+		+ \sum_\alpha \dot c_{\xi}^{\alpha}
+		\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
+		+\sum_\alpha\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+		\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right)
+	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag                                                                                                                          \\
 	    & + \int_{\mc B}\Big[
 		\sum_{f\in\mc F}
 		\gamma_f\nabla_{\mbf x}\phi_f\cdot\delta\mbf x_f
@@ -526,21 +602,75 @@ Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\
 		-\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\eta_\xi^\beta}
 		+ \sum_\alpha\frac{\tau_{\xi}^\alpha}{\bar\rho_{\xi}}
 	\Bigg] \delta\bar\rho_{\xi} \,\dv \notag                                                                                                                                     \\
-	    & + \sum_{\xi}\sum_\alpha \int_{\mc{B}} \Bigg[
-		\frac{\tau_{\xi}^\alpha}{\eta_\xi^\alpha} + \pi_{\xi}
-		- \rho_{\xi}\left.\p{\psi_{\xi}}{\eta^\alpha_\xi}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta^{\beta\neq\alpha}_\xi}
-	\Bigg] \delta\eta^\alpha_\xi \,\dv \notag                                                                                                                                    \\
+	    & + \sum_{\xi}\sum_\alpha \int_{\mc{B}}
+		\left[
+		\frac{\tau_{\xi}^\alpha}{\eta_\xi^\alpha}+\pi_{\xi}
+		-\rho_{\xi}
+		\left.\p{\psi_{\xi}}{\eta^\alpha_\xi}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta^{\beta\neq\alpha}_\xi}
+		\right]
+		\delta\eta^\alpha_\xi\,\dv \notag \\
 	    & + \sum_\xi\sum_\alpha\int_{\mc B}\left[
 		\tfrac12\mbf v_\xi\cdot\mbf v_\xi-\psi_\xi-L_\xi^\alpha
 		-\frac{D_\xi\mu_\xi^\alpha}{Dt}
 		-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
-	\right]\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\,\dv \notag                                                                                                                    \\
-	    & \left. - \sum_m\int_{\mc B}\left(\mc A_{(m)}+\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)\delta\dot r_{(m)}\,\dv \right\} \dt + \text{boundary terms}.
+		\right]\frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\,\dv
+		\notag\\
+		&\quad
+		+\sum_\xi\sum_\alpha\int_{\mc B}\left[
+		\tfrac12\mbf v_\xi\cdot\mbf v_\xi-\psi_\xi
+		-L_\xi^\alpha
+		-\frac{D_\xi\mu_\xi^\alpha}{Dt}
+		-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+		\right]\frac{\delta \mc D_\xi^\alpha}{J_\xi}\,\dv
+		\notag\\
+		&\quad
+		-\sum_m\int_{\mc B}
+		\left(\mc A_{(m)}+\sum_\xi\sum_\alpha
+		\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)
+		\delta\dot r_{(m)}\,\dv
+		\notag\\
+		&\quad
+		-\sum_\xi\sum_\alpha\int_{\mc B}
+		\left(\mbf M_{\xi,{\rm disp}}^\alpha
+		+\nabla_{\mbf x}\mu_\xi^\alpha\right)
+		\cdot\delta\mbf j_{\xi,{\rm disp}}^\alpha\,\dv
+		\notag\\
+		&\quad
+		-\sum_\xi\sum_\alpha\int_{\mc B}
+		\left(\mbf M_{\xi,{\rm diff}}^\alpha
+		+\nabla_{\mbf x}\mu_\xi^\alpha\right)
+		\cdot\delta\mbf j_{\xi,{\rm diff}}^\alpha\,\dv \} \dt
+	    \notag\\
+	    & \quad + \text{boundary terms}.
 	\label{eq:collected_full}
 \end{align}
+\endgroup
 % AGENT-LOCK-END
 %
-The multiplier variations are omitted here because they return the constraint equations~\eqref{eq:C1_def}--\eqref{eq:C4_def}. Since all variations are considered arbitrary, each bracketed integrand must vanish pointwise, yielding the Euler--Lagrange equations.
+The multiplier variations are omitted here because they return the constraint
+equations~\eqref{eq:C1_def}--\eqref{eq:C4_def}.  Since all displayed variations
+are arbitrary, each bracketed integrand must vanish pointwise, yielding the
+Euler--Lagrange equations.
+
+The equations generated by the independent relative-flux variations are
+%
+\begin{align}
+	\mbf M_{\xi,{\rm disp}}^\alpha
+	+\nabla_{\mbf x}\mu_\xi^\alpha
+	&=\mbf 0,
+	\label{eq:hamilton_dispersion_force_balance}
+	\\
+	\mbf M_{\xi,{\rm diff}}^\alpha
+	+\nabla_{\mbf x}\mu_\xi^\alpha
+	&=\mbf 0.
+	\label{eq:hamilton_diffusion_force_balance}
+\end{align}
+%
+These equations are understood after projection onto the admissible zero-sum
+component-flux subspace; equivalently, a component-independent force may be
+added without changing virtual power.  They are generalized-force balances,
+not constitutive laws.  Constitutive relations between each \(\mbf M\) and its
+flux are restricted by the entropy inequality below.
 
 \subsection{Euler--Lagrange equations}
 
@@ -563,7 +693,10 @@ Substituting \eqref{eq:el_lambda} into the Euler--Lagrange equations associated 
 	\rho_{\xi}\mbf{a}_{\xi} =
 	\nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 	+ \phi_{\xi} \nabla_{\mbf{x}}\lambda
-	+ \sum_\alpha \dot c_{\xi}^{\alpha}\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right),
+	+ \sum_\alpha \dot c_{\xi}^{\alpha}
+	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
+	+\sum_\alpha\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right),
 	\label{eq:el_momentum_uniform}
 \end{equation}
 % AGENT-LOCK-END
@@ -738,33 +871,34 @@ The equations associated with the conversion variables are
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\frac{D_\xi\mu_\xi^\alpha}{Dt}
-	            & = \frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	&= \frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\psi_\xi
 	-L_\xi^\alpha
 	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha},
-	\label{eq:el_conversion_component}                                     \\
-	\mc A_{(m)} & =-\sum_\xi\sum_\alpha\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
-	\qquad m=1,\ldots,N_{(m)}.
+	\label{eq:el_conversion_component}
+	\\
+	\mc A_{(m)}
+	&=-\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha.
 	\label{eq:el_conversion_affinity}
 \end{align}
 % AGENT-LOCK-END
 %
-Equation~\eqref{eq:el_conversion_affinity} is not an additional closure relation
-for the state variables.  It defines the mechanism affinity as the stoichiometric
-projection of the phase-attached conversion potentials, but only after the
-kinematic push-forward $\dot c_\xi^\alpha=\dot{\mc{C}}_\xi^\alpha/J_\xi$ has been
-varied.  The closure enters only when one prescribes either an equilibrium
-condition $\mc A_{(m)}=0$ or a kinetic relation
-$\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)}, \bs{\Lambda})$, where \(\bs{\Lambda}\) is a vector of internal state variables.  Thus, for kinetically limited
-mechanisms such as slow fluid--solid reactions, \eqref{eq:el_conversion_affinity}
-supplies the driving force rather than an algebraic equilibrium equation.  For an
-instantaneous phase transformation, $\dot r_{(m)}$ may be a
-measure in time.  In all cases, the phase momentum equations retain the inertial
-production term and the $\nabla\mu_\xi^\alpha$ force generated by adding or
-removing mass in a phase moving with velocity $\mbf v_\xi$.
+Equation \eqref{eq:el_conversion_affinity} identifies affinity from the
+conversion kinematics; it does not prescribe a kinetic law.  A kinetic law is
+introduced only after the entropy inequality restricts admissible dissipation
+~\cite{bothe2015continuum,doi2011onsager}.
+
+Variation with respect to \(\mc D_\xi^\alpha\) returns the same component-potential
+equation \eqref{eq:el_conversion_component} as variation with respect to
+\(\mc C_\xi^\alpha\).  This equality follows because both accumulations enter
+the material measure through \(\mc C_\xi^\alpha+\mc D_\xi^\alpha\), have the same
+generalized work potential, and are governed by the same multiplier.  The
+relative-flux equations therefore contain the same component chemical-potential
+gradient \(\nabla_{\mbf x}\mu_\xi^\alpha\) that enters conversion.
 
 At this stage $L_\xi^\alpha$ remains an explicit constitutive
-conversion-work potential.  An admissible choice of $L_\xi^\alpha$ is identified
+component-transfer potential.  An admissible choice of $L_\xi^\alpha$ is identified
 by the Coleman--Noll argument in
 Section~\ref{sec:constitutive_models_entropy_inequality}.
 
@@ -778,10 +912,15 @@ gives the intermediate form
 \begin{align}
 	\rho_f\mbf a_f
 	 & = \nabla_{\mbf x}\cdot\bs\sigma'_f + \rho_f\mbf g + \mbf b_f
+	\notag\\
+	&\quad
 	-\lambda\nabla_{\mbf x}\phi_f
 	-\sum_\alpha\nabla_{\mbf x}\tau_f^\alpha
 	+\gamma_f\nabla_{\mbf x}\phi_f
-	+ \sum_\alpha \dot c_f^{\alpha}\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf{v}_f\right).
+	+ \sum_\alpha \dot c_f^{\alpha}
+	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf{v}_f\right)
+	+\sum_\alpha\frac{\dot{\mc D}_f^\alpha}{J_f}
+	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right).
 	\label{eq:el_mom_f_start}
 \end{align}
 % AGENT-LOCK-END
@@ -808,7 +947,10 @@ The standard phase pressure-gradient form is therefore
 	\rho_f\mbf{a}_f
 	= \rho_f\mbf{g} + \mbf{b}_f
 	- \phi_f\nabla_{\mbf{x}}\bar p_f
-	+ \sum_\alpha \dot c_f^{\alpha}\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf{v}_f\right),
+	+ \sum_\alpha \dot c_f^{\alpha}
+	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf{v}_f\right)
+	+\sum_\alpha\frac{\dot{\mc D}_f^\alpha}{J_f}
+	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right),
 	\qquad f\in\mc F .
 	\label{eq:el_mom_f_simplified}
 \end{empheq}

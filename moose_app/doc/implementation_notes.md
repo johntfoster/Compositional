@@ -3,6 +3,9 @@
 This file is the first durable map between the compositional theory manuscript,
 the companion implementation paper, and future MOOSE objects.
 
+For object-level traceability, also update `theory_traceability.yml`. For
+paper-level equation mapping, update `implementation_paper/equation_to_moose_map.yml`.
+
 ## Governing Reference Configuration
 
 Finite-element mechanics work should be written on the reference configuration

@@ -37,12 +37,41 @@ compositional flow, reactions, and phase transformations}
 
 %
 \begin{abstract}
-	TBD
+	A thermodynamically consistent theory is developed for multicomponent,
+	multiphase porous media undergoing finite deformation, chemical reaction, and
+	phase transformation. Component mass conservation is first written for
+	phase-attached material regions and then volume averaged. This procedure
+	identifies molecular-diffusion and mechanical-dispersion fluxes and their
+	accumulated contributions to the component material measures. Mobile fluids
+	and load-bearing multicomponent solids are treated with the same
+	phase/component bookkeeping, while solid composition consistently influences
+	stress-free deformation, elasticity, plastic flow, and the nonlinear Biot
+	coupling. The distinctive contribution is to vary the phase motion, component
+	composition, conversion progress, relative component fluxes, and accumulated
+	component mass within one constrained virtual-power framework. Because the
+	component material measures and phase Jacobians are varied together, conversion
+	and relative-transport accumulation generate momentum terms that are absent
+	from conventional compositional balances. These terms produce a generalized
+	Darcy-like relative-flux law in which component mass-addition rates modify the
+	effective resistance and introduce chemical-potential-gradient and
+	momentum-production contributions in addition to the usual pressure, gravity,
+	and inertia terms. The same framework gives composition stationarity and
+	normalization equations, chemical-potential evolution equations, and
+	interphase equilibrium as equality of component chemical potentials. It
+	therefore provides a coupled route for determining phase compositions from a
+	Helmholtz free energy without imposing a separate flash calculation as an
+	external closure. The entropy inequality identifies admissible stress,
+	pressure, reaction-affinity, drag, diffusion, dispersion, and plastic-flow
+	relations. Standard compositional flow, black-oil flow, nonlinear
+	poromechanics, and the single-solid, single-fluid Biot theory follow as special
+	limits, and the full system is pulled back to the solid reference configuration
+	for finite-deformation reservoir simulation.
 \end{abstract}
 %
 
 \input{sections/material_mass.tex}
-\input{sections/variational_derivation.tex}
+\input{sections/virtual_power_derivation.tex}
+\input{sections/multicomponent_solids.tex}
 \input{sections/correspondence_to_other_theories.tex}
 \input{sections/pulled_back_solid_skeleton.tex}
 

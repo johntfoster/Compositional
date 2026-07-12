@@ -1,0 +1,105 @@
+# Traceability map from manuscript and implementation-paper equations to future
+# MOOSE objects. Fill exact labels as kernels and materials are introduced.
+
+schema_version: 1
+maps:
+  - id: component_mass_balance
+    status: planned
+    source:
+      theory_manuscript:
+        labels:
+          - "eq:component_spatial_mass"
+        sections:
+          - "sections/material_mass.tex"
+      implementation_paper:
+        labels: []
+        sections:
+          - "sections/reference_solid_weak_forms.tex"
+    role: "component or phase mass residual"
+    moose_plan:
+      variables: []
+      kernels: []
+      materials: []
+      userobjects: []
+      boundary_conditions: []
+    assumptions_to_record:
+      - "reference/current configuration used by the residual"
+      - "FE or FV discretization choice"
+      - "flux closure and stabilization"
+
+  - id: thermodynamic_potentials
+    status: planned
+    source:
+      theory_manuscript:
+        labels: []
+        sections:
+          - "sections/coleman_noll.tex"
+          - "sections/variational_derivation.tex"
+      implementation_paper:
+        labels: []
+        sections:
+          - "sections/algebraic_kinematic_closure.tex"
+    role: "free energy, chemical potential, pressure, and derivative material properties"
+    moose_plan:
+      variables: []
+      kernels: []
+      materials:
+        - "ADDerivativeParsedMaterial for scalar potentials where sufficient"
+      userobjects:
+        - "EOS or phase-equilibrium user objects when parsed expressions are insufficient"
+      boundary_conditions: []
+    assumptions_to_record:
+      - "state variables held fixed by each derivative"
+      - "phase split or equilibrium algorithm"
+      - "regularization near vanishing phases"
+
+  - id: reference_solid_mechanics
+    status: planned
+    source:
+      theory_manuscript:
+        labels: []
+        sections:
+          - "sections/pulled_back_solid_skeleton.tex"
+          - "sections/variational_derivation.tex"
+      implementation_paper:
+        labels: []
+        sections:
+          - "sections/reference_solid_weak_forms.tex"
+    role: "reference-solid-skeleton mechanics residual"
+    moose_plan:
+      variables:
+        - "solid displacement"
+      kernels: []
+      materials:
+        - "deformation gradients, Jacobians, pull-backs, stress measures"
+      userobjects: []
+      boundary_conditions: []
+    assumptions_to_record:
+      - "reference solid skeleton configuration"
+      - "finite-strain versus small-strain reduction"
+      - "coupling terms retained in each validation case"
+
+  - id: reactions_and_sources
+    status: planned
+    source:
+      theory_manuscript:
+        labels:
+          - "eq:CN_admissible_conversion_component"
+        sections:
+          - "sections/material_mass.tex"
+          - "sections/coleman_noll.tex"
+      implementation_paper:
+        labels: []
+        sections: []
+    role: "reaction rates, source terms, affinities, and source-carried energy"
+    moose_plan:
+      variables: []
+      kernels: []
+      materials: []
+      userobjects:
+        - "reaction-rate laws and affinity evaluators"
+      boundary_conditions: []
+    assumptions_to_record:
+      - "mechanism indexing"
+      - "equilibrium versus kinetic closure"
+      - "mass and energy consistency checks"

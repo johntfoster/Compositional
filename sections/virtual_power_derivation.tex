@@ -1,0 +1,1383 @@
+% !TeX root = ../main.tex
+\section{Extended Lagrange--d'Alembert principle in virtual-power form}
+\label{sec:virtual_power_derivation}
+
+The governing equations are derived here from an extended
+Lagrange--d'Alembert principle written in virtual-power form.  Its time-integrated
+constrained structure follows the extended Hamilton principles developed by
+Bedford and Drumheller for porous media and reacting immiscible mixtures, in
+which constituent motions, volume fractions, and conversion variables are
+varied together
+~\cite{bedford1979variational,drumheller1980thermomechanical,bedford1983theories}.
+The organization of its integrand into internal, external, inertial, and
+constraint virtual powers follows the continuum-mechanical method of virtual
+power, whose classical statement is instantaneous
+~\cite{germain1973virtualpower,gurtin2010continua}.  The time integral converts
+these virtual powers into virtual work and permits temporal integration by parts
+for accumulated state coordinates.  Reaction progress and relative component
+fluxes are included as independent dissipative process rates; their constitutive
+force--rate relations are subsequently restricted by an Onsager dissipation
+potential~\cite{doi2011onsager,wang2021onsager}.
+
+The mixture contains arbitrary sets of solid phases \(\mc S\) and fluid phases
+\(\mc F\).  The index \(\xi\in\mc S\cup\mc F\) denotes a phase, \(\alpha\)
+denotes a component in that phase, and \((m)\) denotes a conversion mechanism.
+Each phase has its own motion \(\mbf x_\xi\), velocity \(\mbf v_\xi\),
+deformation gradient \(\mbf F_\xi\), and Jacobian
+\(J_\xi=\det\mbf F_\xi\).  Its current component density is
+\(\rho_\xi^\alpha=\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\).
+The component storage multiplier is \(\pi_\xi^\alpha\), the phase
+composition-normalization multiplier is \(\Pi_\xi\), and the component-rate
+constraint multiplier is \(\mu_\xi^\alpha\).  The entropy inequality in
+\sref{MC_residual_dissipation} identifies this same multiplier as the
+thermodynamic chemical potential. All quantities are considered over an
+arbitrary interval \(t\in[t_1,t_2]\). The accumulated conversion and transport
+masses, \(\mc C_\xi^\alpha\) and \(\mc D_\xi^\alpha\), are primitive state
+coordinates. Their rate variations are therefore compatible variations,
+\(\delta\dot{\mc C}_\xi^\alpha
+=D_\xi(\delta\mc C_\xi^\alpha)/Dt\) and
+\(\delta\dot{\mc D}_\xi^\alpha
+=D_\xi(\delta\mc D_\xi^\alpha)/Dt\), rather than independent virtual rates.
+The accumulated-mass variations are taken to vanish at \(t_1\) and \(t_2\),
+which later permits temporal integration by parts without endpoint terms.
+
+Let \(\delta\mbf v_\xi\) be an arbitrary virtual phase velocity.  The symbols
+\(\delta\dot\phi_\xi\), \(\delta\dot{\bar\rho}_\xi\), and
+\(\delta\dot\eta_\xi^\alpha\) denote independent virtual state rates.  In
+contrast, \(\delta\mc C_\xi^\alpha\) and \(\delta\mc D_\xi^\alpha\) vary the
+accumulated state coordinates described above. The independent dissipative
+process-rate variations are
+\(\delta\dot r_{(m)}\), \(\delta\mbf j_{\xi,{\rm disp}}^\alpha\), and
+\(\delta\mbf j_{\xi,{\rm diff}}^\alpha\).  Multiplier variations enforce the
+four constraints.  The extended Lagrange--d'Alembert principle in
+virtual-power form is
+%
+\begin{equation}
+	\int_{t_1}^{t_2}\left(
+	\delta\mc P_{\rm in}
+	+
+	\delta\mc P_{\rm rev}
+	+
+	\delta\mc P_{\rm ext}
+	+
+	\sum_{k=1}^4\delta\mc P_{C_k}
+	+
+	\delta\mc P_{\rm diss}
+	\right)\dt
+	=0,
+	\label{eq:vp_principle}
+\end{equation}
+%
+for every admissible collection of these virtual fields.  The subscripts
+\({\rm in}\), \({\rm rev}\), \({\rm ext}\), and \({\rm diss}\) denote inertial,
+reversible, external, and dissipative virtual power, respectively, while
+\(C_k\) denotes the four constraint contributions.  The statement is
+time-integrated as in the Bedford--Drumheller constrained Hamilton formulation,
+whereas each term in its integrand is expressed as a virtual power.
+
+\subsection{Reference mass measure and virtual rates}
+
+For component \(\alpha\) of phase \(\xi\), the augmented mass per unit phase
+reference volume is
+%
+\begin{equation}
+	\rho_{\xi0}^\alpha
+	+
+	\mc C_\xi^\alpha
+	+
+	\mc D_\xi^\alpha
+	=
+	J_\xi\rho_\xi^\alpha.
+	\label{eq:vp_reference_component_measure}
+\end{equation}
+%
+Here \(\rho_{\xi0}^\alpha\) is fixed, \(\mc C_\xi^\alpha\) is accumulated mass
+added by conversion, and \(\mc D_\xi^\alpha\) is accumulated mass added by
+relative component transport. Consequently, the virtual rate of mass addition
+to this referential measure is
+\(\delta\dot{\mc C}_\xi^\alpha
++\delta\dot{\mc D}_\xi^\alpha\). Dividing this sum by \(J_\xi\) gives the
+corresponding virtual mass-addition rate per unit current mixture volume; no
+additional mass variable is introduced.
+
+Variations of the phase motion also change the volume ratio between the phase
+reference and current configurations. The compatible virtual Jacobian rate is
+%
+\begin{equation}
+	\delta\dot J_\xi
+	=
+	J_\xi\nabla_{\mbf x}\cdot\delta\mbf v_\xi.
+	\label{eq:vp_virtual_jacobian_rate}
+\end{equation}
+%
+This follows by linearizing
+\(\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\mbf v_\xi\) at the current state.
+
+\subsection{Inertial virtual power}
+
+The phase kinetic energy is first written on the phase reference configuration,
+%
+\begin{align}
+	T_\xi
+	&=
+	\int_{\mc B_{\xi0}}
+	\frac{1}{2}
+	\sum_\alpha
+	\left(
+	\rho_{\xi0}^\alpha
+	+
+	\mc C_\xi^\alpha
+	+
+	\mc D_\xi^\alpha
+	\right)
+	\mbf v_\xi\cdot\mbf v_\xi\,\dVxi.
+	\label{eq:vp_reference_kinetic_energy}
+\end{align}
+%
+The first variation with respect to the phase velocity and accumulated
+reference component masses is
+%
+\begin{align}
+	\delta T_\xi
+	={}&
+	\int_{\mc B_{\xi0}}
+	\sum_\alpha
+	\left(
+	\rho_{\xi0}^\alpha+\mc C_\xi^\alpha+\mc D_\xi^\alpha
+	\right)
+	\mbf v_\xi\cdot\delta\mbf v_\xi\,\dVxi
+	\notag\\
+	&+
+	\int_{\mc B_{\xi0}}
+	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	\sum_\alpha
+	\left(
+	\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha
+	\right)\dVxi.
+	\label{eq:vp_reference_kinetic_differential}
+\end{align}
+%
+The momentum conjugate to the phase velocity is therefore
+%
+\begin{equation}
+	\sum_\alpha
+	\left(
+	\rho_{\xi0}^\alpha+\mc C_\xi^\alpha+\mc D_\xi^\alpha
+	\right)\mbf v_\xi
+	=
+	J_\xi\rho_\xi\mbf v_\xi.
+	\label{eq:vp_reference_phase_momentum}
+\end{equation}
+%
+Taking its material time derivative gives
+%
+\begin{align}
+	\frac{D_\xi}{Dt}
+	\left(J_\xi\rho_\xi\mbf v_\xi\right)
+	={}&
+	J_\xi\rho_\xi\mbf a_\xi
+	+
+	\sum_\alpha
+	\left(
+	\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha
+	\right)\mbf v_\xi.
+	\label{eq:vp_reference_momentum_rate}
+\end{align}
+%
+The inertial virtual power is the negative momentum-rate pairing together with
+the kinetic-energy pairing conjugate to virtual mass addition.  Pushing
+\eqref{eq:vp_reference_momentum_rate} forward with
+\(\dv=J_\xi\dVxi\) gives
+%
+\begin{align}
+	\delta\mc P_{\rm in}
+	={}&
+	\sum_\xi\int_{\mc B}
+	\left[
+		-\rho_\xi\mbf a_\xi
+		-
+		\sum_\alpha
+		\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+		\mbf v_\xi
+	\right]\cdot\delta\mbf v_\xi\,\dv
+	\notag\\
+	&+
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	\frac{
+		\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha
+	}{J_\xi}\,\dv.
+	\label{eq:vp_inertial_power}
+\end{align}
+%
+Thus the open-system inertia and the kinetic contribution conjugate to component
+mass addition follow from the reference kinetic energy; neither is postulated.
+
+\subsection{Reversible internal virtual power}
+
+At fixed temperature, let the specific phase Helmholtz free energy have the
+constitutive dependence
+%
+\begin{equation}
+	\psi_\xi
+	=
+	\psi_\xi
+	\left(
+	\mbf F_\xi,
+	\bar\rho_\xi,
+	\left\{\eta_\xi^\alpha\right\},
+	\theta
+	\right).
+	\label{eq:vp_phase_free_energy_state}
+\end{equation}
+%
+Its virtual material rate is
+%
+\begin{align}
+	\delta\dot\psi_\xi
+	={}&
+	\left.
+	\frac{\partial\psi_\xi}{\partial\mbf F_\xi}
+	\right\vert_{\bar\rho_\xi,\eta_\xi^\beta,\theta}
+	:
+	\left(
+	\nabla_{\mbf x}\delta\mbf v_\xi\,\mbf F_\xi
+	\right)
+	\notag\\
+	&+
+	\left.
+	\frac{\partial\psi_\xi}{\partial\bar\rho_\xi}
+	\right\vert_{\mbf F_\xi,\eta_\xi^\beta,\theta}
+	\delta\dot{\bar\rho}_\xi
+	+
+	\sum_\alpha
+	\left.
+	\frac{\partial\psi_\xi}{\partial\eta_\xi^\alpha}
+	\right\vert_{\mbf F_\xi,\bar\rho_\xi,
+	\eta_\xi^{\beta\ne\alpha},\theta}
+	\delta\dot\eta_\xi^\alpha.
+	\label{eq:vp_free_energy_virtual_rate}
+\end{align}
+%
+Define the phase effective Cauchy stress by
+%
+\begin{equation}
+	\bs\sigma_\xi'
+	\equiv
+	\rho_\xi
+	\left.
+	\frac{\partial\psi_\xi}{\partial\mbf F_\xi}
+	\right\vert_{\bar\rho_\xi,\eta_\xi^\beta,\theta}
+	\mbf F_\xi^T.
+	\label{eq:vp_effective_stress_definition}
+\end{equation}
+%
+The phase contribution to reversible internal virtual power is therefore
+%
+\begin{align}
+	\delta\mc P_{\rm phase}
+	={}&
+	-\sum_\xi\int_{\mc B}
+	\bs\sigma_\xi':\nabla_{\mbf x}\delta\mbf v_\xi\,\dv
+	\notag\\
+	&-
+	\sum_\xi\int_{\mc B}
+	\rho_\xi
+	\left.
+	\frac{\partial\psi_\xi}{\partial\bar\rho_\xi}
+	\right\vert_{\mbf F_\xi,\eta_\xi^\beta,\theta}
+	\delta\dot{\bar\rho}_\xi\,\dv
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\rho_\xi
+	\left.
+	\frac{\partial\psi_\xi}{\partial\eta_\xi^\alpha}
+	\right\vert_{\mbf F_\xi,\bar\rho_\xi,
+	\eta_\xi^{\beta\ne\alpha},\theta}
+	\delta\dot\eta_\xi^\alpha\,\dv
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\psi_\xi
+	\frac{
+		\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha
+	}{J_\xi}\,\dv.
+	\label{eq:vp_phase_internal_power_before_parts}
+\end{align}
+%
+Spatial integration by parts of the stress term gives
+%
+\begin{align}
+	-\int_{\mc B}
+	\bs\sigma_\xi':\nabla_{\mbf x}\delta\mbf v_\xi\,\dv
+	={}&
+	\int_{\mc B}
+	\nabla_{\mbf x}\cdot\bs\sigma_\xi'
+	\cdot\delta\mbf v_\xi\,\dv
+	-
+	\int_{\partial\mc B}
+	\left(\bs\sigma_\xi'\mbf n\right)
+	\cdot\delta\mbf v_\xi\,\mathrm da.
+	\label{eq:vp_stress_integration_by_parts}
+\end{align}
+%
+The boundary term supplies the effective-stress traction and is omitted from the
+local field equations collected in \eqref{eq:vp_collected_principle}.
+
+\subsection{Variation of internal surface energy}
+
+For the interfacial energy, define the total fluid fraction and saturations by
+%
+\begin{equation}
+	\phi
+	=
+	\sum_{f\in\mc F}\phi_f,
+	\qquad
+	S_f
+	=
+	\frac{\phi_f}{\phi},
+	\qquad
+	\sum_{f\in\mc F}S_f=1.
+	\label{eq:vp_fluid_saturation_definitions}
+\end{equation}
+%
+The virtual saturation rates are
+%
+\begin{equation}
+	\delta\dot S_f
+	=
+	\frac{
+	\delta\dot\phi_f-S_f\sum_{g\in\mc F}\delta\dot\phi_g
+	}{\phi}.
+	\label{eq:vp_virtual_saturation_rate}
+\end{equation}
+%
+Let the interfacial energy density be
+%
+\begin{equation}
+	\gamma
+	=
+	\gamma
+	\left(
+	\left\{S_f\right\}_{f\in\mc F},\theta
+	\right).
+	\label{eq:vp_interfacial_energy_density}
+\end{equation}
+%
+Its derivative with respect to the primitive fluid volume fractions is
+%
+\begin{equation}
+	\gamma_f
+	=
+	\gamma
+	+
+	\left.
+	\frac{\partial\gamma}{\partial S_f}
+	\right\vert_{S_{g\ne f}}
+	-
+	\sum_{g\in\mc F}S_g
+	\left.
+	\frac{\partial\gamma}{\partial S_g}
+	\right\vert_{S_{h\ne g}}.
+	\label{eq:vp_interfacial_phase_derivative}
+\end{equation}
+%
+Using this simplex derivative and transporting each phase-attached volume
+fraction by its own virtual velocity gives
+%
+\begin{align}
+	\delta\mc P_\gamma
+	={}&
+	-\int_{\mc B}\sum_{f\in\mc F}
+	\gamma_f\delta\dot\phi_f\,\dv
+	+
+	\int_{\mc B}\sum_{f\in\mc F}
+	\gamma_f\nabla_{\mbf x}\phi_f
+	\cdot\delta\mbf v_f\,\dv.
+	\label{eq:vp_interfacial_internal_power}
+\end{align}
+%
+The total reversible contribution is
+\(\delta\mc P_{\rm rev}=\delta\mc P_{\rm phase}+\delta\mc P_\gamma\).
+
+\subsection{External and dissipative virtual powers}
+
+Let \(\mbf g\) denote gravitational acceleration, \(\mbf b_\xi\) the momentum
+supply to phase \(\xi\) from interphase interactions, and \(L_\xi^\alpha\) the
+generalized work potential conjugate to accumulated component mass.  Their
+external virtual power is
+%
+\begin{equation}
+	\delta\mc P_{\rm ext}
+	=
+	\sum_\xi\int_{\mc B}
+	\left(
+	\rho_\xi\mbf g+\mbf b_\xi
+	\right)\cdot\delta\mbf v_\xi\,\dv
+	-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	L_\xi^\alpha
+	\frac{
+		\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha
+	}{J_\xi}\,\dv.
+	\label{eq:vp_external_power}
+\end{equation}
+%
+Let \(\mc A_{(m)}\) denote the generalized force conjugate to mechanism rate
+\(\dot r_{(m)}\), and let \(\mbf M_{\xi,{\rm disp}}^\alpha\) and
+\(\mbf M_{\xi,{\rm diff}}^\alpha\) denote the forces conjugate to the two
+relative component fluxes.  The dissipative virtual power is
+%
+\begin{align}
+	\delta\mc P_{\rm diss}
+	={}&
+	-\sum_m\int_{\mc B}
+	\mc A_{(m)}\delta\dot r_{(m)}\,\dv
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\mbf M_{\xi,{\rm disp}}^\alpha\cdot
+	\delta\mbf j_{\xi,{\rm disp}}^\alpha\,\dv
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\mbf M_{\xi,{\rm diff}}^\alpha\cdot
+	\delta\mbf j_{\xi,{\rm diff}}^\alpha\,\dv.
+	\label{eq:vp_dissipative_power}
+\end{align}
+%
+Unlike the corresponding terms in an energy-valued Hamilton integrand, every
+pairing in \eqref{eq:vp_dissipative_power} is a virtual power.
+
+\subsection{Virtual power of the volume-fraction constraint}
+
+The transport identity needed for the volume-fraction and mass-fraction
+constraints is derived once here.  Consider a one-parameter family of phase
+motions \(\mbf x_\xi^\epsilon(\mbf X_\xi,t)\) and spatial volume-fraction
+fields \(\phi_\xi^\epsilon(\mbf x,t)\).  Pulling the spatial field back to the
+phase reference configuration gives
+%
+\begin{equation*}
+	\phi_\xi^\epsilon
+	\left(
+	\mbf x_\xi^\epsilon(\mbf X_\xi,t),t
+	\right).
+\end{equation*}
+%
+Differentiating this composition with respect to \(\epsilon\) at fixed
+\(\mbf X_\xi\) and evaluating at \(\epsilon=0\) gives
+%
+\begin{align*}
+	\left.
+	\frac{d}{d\epsilon}
+	\phi_\xi^\epsilon
+	\left(
+	\mbf x_\xi^\epsilon(\mbf X_\xi,t),t
+	\right)
+	\right\vert_{\epsilon=0}
+	={}&
+	\left.
+	\frac{d\phi_\xi^\epsilon}{d\epsilon}
+	\right\vert_{\mbf x,\epsilon=0}
+	+
+	\nabla_{\mbf x}\phi_\xi\cdot
+	\left.
+	\frac{d\mbf x_\xi^\epsilon}{d\epsilon}
+	\right\vert_{\mbf X_\xi,\epsilon=0}
+	\\
+	={}&
+	\left.\delta\dot\phi_\xi\right\vert_{\mbf x}
+	+
+	\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf v_\xi.
+\end{align*}
+%
+The reference-side derivative is the phase-attached virtual material rate
+\(\delta\dot\phi_\xi\), while the motion derivative is the virtual phase
+velocity \(\delta\mbf v_\xi\).  Solving for the fixed-spatial variation and
+pushing the result forward to the current configuration gives
+%
+\begin{equation*}
+	\left.\delta\dot\phi_\xi\right\vert_{\mbf x}
+	=
+	\delta\dot\phi_\xi
+	-
+	\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf v_\xi.
+\end{equation*}
+%
+The pointwise constraint is \(\sum_\xi\phi_\xi=1\), so its fixed-spatial
+virtual rate is
+%
+\begin{equation}
+	\sum_\xi
+	\left(
+	\delta\dot\phi_\xi
+	-
+	\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf v_\xi
+	\right)
+	=
+	\sum_\xi
+	\left.\delta\dot\phi_\xi\right\vert_{\mbf x}
+	=0.
+	\label{eq:vp_volume_fraction_virtual_constraint}
+\end{equation}
+%
+The augmented virtual power is therefore
+%
+\begin{align}
+	\delta\mc P_{C_1}
+	={}&
+	\int_{\mc B}\delta\lambda
+	\sum_\xi
+	\left(
+	\dot\phi_\xi
+	-
+	\nabla_{\mbf x}\phi_\xi\cdot\mbf v_\xi
+	\right)\dv
+	\notag\\
+	&+
+	\sum_\xi\int_{\mc B}\lambda
+	\left(
+	\delta\dot\phi_\xi
+	-
+	\nabla_{\mbf x}\phi_\xi\cdot\delta\mbf v_\xi
+	\right)\dv.
+	\label{eq:vp_C1_power}
+\end{align}
+%
+The multiplier variation preserves \(\sum_\xi\phi_\xi=1\) from an admissible
+initial state.  The remaining terms contribute \(\lambda\) to the virtual
+volume-fraction rate and \(-\lambda\nabla_{\mbf x}\phi_\xi\) to the virtual
+phase velocity.
+
+\subsection{Virtual power of the component material-measure constraint}
+
+Taking the material time derivative of
+\eqref{eq:vp_reference_component_measure}, using
+\(\rho_\xi^\alpha=\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\), and dividing by
+\(J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\) gives the rate identity
+%
+\begin{align}
+	0={}&
+	\nabla_{\mbf x}\cdot\mbf v_\xi
+	-
+	\frac{
+	\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha
+	}{J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+	+
+	\frac{\dot\phi_\xi}{\phi_\xi}
+	+
+	\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+	+
+	\frac{\dot\eta_\xi^\alpha}{\eta_\xi^\alpha}.
+	\label{eq:vp_component_measure_rate_constraint}
+\end{align}
+%
+Its virtual rate is obtained term by term as
+%
+\begin{align}
+	0={}&
+	\nabla_{\mbf x}\cdot\delta\mbf v_\xi
+	-
+	\frac{
+		\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha
+	}{J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+	+
+	\frac{\delta\dot\phi_\xi}{\phi_\xi}
+	+
+	\frac{\delta\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+	+
+	\frac{\delta\dot\eta_\xi^\alpha}{\eta_\xi^\alpha}.
+	\label{eq:vp_component_measure_virtual_rate}
+\end{align}
+%
+Multiplication by \(\pi_\xi^\alpha\), summation, and integration give
+%
+\begin{align}
+	\delta\mc P_{C_2}
+	={}&
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\delta\pi_\xi^\alpha
+	\left[
+	\nabla_{\mbf x}\cdot\mbf v_\xi
+	-
+	\frac{
+	\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha
+	}{J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+	+
+	\frac{\dot\phi_\xi}{\phi_\xi}
+	+
+	\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+	+
+	\frac{\dot\eta_\xi^\alpha}{\eta_\xi^\alpha}
+	\right]\dv
+	\notag\\
+	&+
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\pi_\xi^\alpha
+	\left[
+	\nabla_{\mbf x}\cdot\delta\mbf v_\xi
+	+
+	\frac{\delta\dot\phi_\xi}{\phi_\xi}
+	+
+	\frac{\delta\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+	+
+	\frac{\delta\dot\eta_\xi^\alpha}{\eta_\xi^\alpha}
+	\right.\notag\\
+	&\left.\hspace{42mm}
+	-
+	\frac{
+		\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha
+	}{J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+	\right]\dv.
+	\label{eq:vp_C2_power_before_parts}
+\end{align}
+%
+Spatial integration by parts yields
+%
+\begin{align}
+	\sum_\alpha\int_{\mc B}
+	\pi_\xi^\alpha
+	\nabla_{\mbf x}\cdot\delta\mbf v_\xi\,\dv
+	={}&
+	-\int_{\mc B}
+	\sum_\alpha\nabla_{\mbf x}\pi_\xi^\alpha
+	\cdot\delta\mbf v_\xi\,\dv
+	+
+	\text{b.t.}
+	\label{eq:vp_C2_integration_by_parts}
+\end{align}
+%
+This derives, rather than assumes, the storage-multiplier gradient in the phase
+momentum equation.  The multiplier variation preserves
+\eqref{eq:vp_reference_component_measure} from an admissible initial state.
+
+\subsection{Virtual power of the mass-fraction constraint}
+
+Applying the pull-back identity in
+\eqref{eq:vp_volume_fraction_virtual_constraint} to each phase-attached mass
+fraction gives the virtual rate of
+\(\sum_\alpha\eta_\xi^\alpha=1\),
+%
+\begin{equation}
+	\sum_\alpha
+	\left(
+	\delta\dot\eta_\xi^\alpha
+	-
+	\nabla_{\mbf x}\eta_\xi^\alpha\cdot\delta\mbf v_\xi
+	\right)
+	=0.
+	\label{eq:vp_mass_fraction_virtual_constraint}
+\end{equation}
+%
+Because \(\sum_\alpha\nabla_{\mbf x}\eta_\xi^\alpha=\mbf0\), its augmented
+virtual power reduces to
+%
+\begin{align}
+	\delta\mc P_{C_3}
+	={}&
+	\sum_\xi\int_{\mc B}\delta\Pi_\xi
+	\sum_\alpha
+	\left(
+	\dot\eta_\xi^\alpha
+	-
+	\nabla_{\mbf x}\eta_\xi^\alpha\cdot\mbf v_\xi
+	\right)\dv
+	+
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\Pi_\xi\delta\dot\eta_\xi^\alpha\,\dv.
+	\label{eq:vp_C3_power}
+\end{align}
+%
+The multiplier variation preserves \(\sum_\alpha\eta_\xi^\alpha=1\) from an
+admissible initial state.
+
+\subsection{Virtual power of the component-rate constraint}
+
+The complete current-volume component-rate constraint is
+%
+\begin{align}
+	0={}&
+	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+	-
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
+	+
+	\nabla_{\mbf x}\cdot
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right).
+	\label{eq:vp_complete_component_rate_constraint}
+\end{align}
+%
+The displacement coupling cannot be omitted because the two accumulation rates
+are referential.  For example, their multiplier pairing pulls back as
+%
+\begin{align}
+	\int_{\mc B}
+	\mu_\xi^\alpha
+	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}\,\dv
+	={}&
+	\int_{\mc B_{\xi0}}
+	\mu_\xi^\alpha\left(\mbf x_\xi(\mbf X_\xi,t),t\right)
+	\left(
+	\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha
+	\right)\dVxi.
+	\label{eq:vp_component_rate_pullback}
+\end{align}
+%
+Its variation contains the compatible accumulation-rate variation
+%
+\begin{align}
+	\delta\left(
+	\int_{\mc B_{\xi0}}
+	\mu_\xi^\alpha
+	\left(
+	\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha
+	\right)\dVxi
+	\right)
+	={}&
+	\int_{\mc B}
+	\mu_\xi^\alpha
+	\frac{
+	\delta\dot{\mc C}_\xi^\alpha+\delta\dot{\mc D}_\xi^\alpha
+	}{J_\xi}\,\dv
+	\notag\\
+	&+
+	\int_{\mc B}
+	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\nabla_{\mbf x}\mu_\xi^\alpha
+	\cdot\delta\mbf v_\xi\,\dv.
+	\label{eq:vp_component_rate_pullback_variation}
+\end{align}
+%
+The first term in \eqref{eq:vp_component_rate_pullback_variation} must be
+integrated by parts in time.  Because the accumulated-mass variations vanish at
+\(t_1\) and \(t_2\),
+%
+\begin{align*}
+	&\int_{t_1}^{t_2}\int_{\mc B}
+	\mu_\xi^\alpha
+	\frac{
+	\delta\dot{\mc C}_\xi^\alpha+
+	\delta\dot{\mc D}_\xi^\alpha
+	}{J_\xi}\,\dv\dt
+	\\
+	&\qquad={}
+	-\int_{t_1}^{t_2}\int_{\mc B}
+	\frac{D_\xi\mu_\xi^\alpha}{Dt}
+	\frac{
+	\delta\mc C_\xi^\alpha+
+	\delta\mc D_\xi^\alpha
+	}{J_\xi}\,\dv\dt.
+\end{align*}
+%
+Thus the accumulated masses produce the material derivative of the component-rate
+multiplier.  The second term in
+\eqref{eq:vp_component_rate_pullback_variation} is the source of the
+multiplier-gradient contribution to momentum; it is not inserted as an
+assumed body force.
+
+The flux contribution is integrated by parts before it is virtualized,
+%
+\begin{align}
+	\int_{\mc B}\mu_\xi^\alpha
+	\nabla_{\mbf x}\cdot\mbf j_{\xi,k}^\alpha\,\dv
+	={}&
+	-\int_{\mc B}
+	\nabla_{\mbf x}\mu_\xi^\alpha\cdot
+	\mbf j_{\xi,k}^\alpha\,\dv
+	+
+	\text{b.t.},
+	\qquad
+	k\in\left\{{\rm disp},{\rm diff}\right\}.
+	\label{eq:vp_flux_constraint_parts}
+\end{align}
+%
+Consequently its process-rate variation is
+%
+\begin{equation}
+	-\int_{\mc B}
+	\nabla_{\mbf x}\mu_\xi^\alpha\cdot
+	\delta\mbf j_{\xi,k}^\alpha\,\dv.
+	\label{eq:vp_flux_constraint_variation}
+\end{equation}
+%
+After the temporal integration by parts, collecting the multiplier,
+accumulation, motion, mechanism-rate, and flux variations gives
+%
+\begin{align}
+	\delta\mc P_{C_4}
+	={}&
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\delta\mu_\xi^\alpha
+	\left[
+	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+	-
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
+	\right.\notag\\
+	&\left.\hspace{36mm}
+	+
+	\nabla_{\mbf x}\cdot
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)
+	\right]\dv
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\frac{D_\xi\mu_\xi^\alpha}{Dt}
+	\frac{
+	\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha
+	}{J_\xi}\,\dv
+	\notag\\
+	&+
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\nabla_{\mbf x}\mu_\xi^\alpha
+	\cdot\delta\mbf v_\xi\,\dv
+	\notag\\
+	&-
+	\sum_m\int_{\mc B}
+	\left(
+	\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+	\right)\delta\dot r_{(m)}\,\dv
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\nabla_{\mbf x}\mu_\xi^\alpha\cdot
+	\left(
+	\delta\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\delta\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)\dv
+	+
+	\text{b.t.}
+	\label{eq:vp_C4_power}
+\end{align}
+
+\subsection{Collected virtual-power principle}
+
+Substitution of
+\eqref{eq:vp_inertial_power},
+\eqref{eq:vp_phase_internal_power_before_parts},
+\eqref{eq:vp_stress_integration_by_parts},
+\eqref{eq:vp_interfacial_internal_power},
+\eqref{eq:vp_external_power},
+\eqref{eq:vp_dissipative_power}, and
+\eqref{eq:vp_C1_power}--\eqref{eq:vp_C4_power} into
+\eqref{eq:vp_principle} gives, after collecting independent virtual rates,
+%
+\begin{align}
+	0={}&
+	\sum_\xi\int_{\mc B}
+	\left[
+	-\rho_\xi\mbf a_\xi
+	+
+	\nabla_{\mbf x}\cdot\bs\sigma_\xi'
+	+
+	\rho_\xi\mbf g
+	+
+		\mbf b_\xi
+		-
+		\lambda\nabla_{\mbf x}\phi_\xi
+		-
+		\sum_\alpha\nabla_{\mbf x}\pi_\xi^\alpha
+		+
+		\sum_\alpha
+		\dot m_\xi^\alpha
+	\left(
+	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
+	\right)
+	\right]\cdot\delta\mbf v_\xi\,\dv
+	\notag\\
+	&+
+	\sum_{f\in\mc F}\int_{\mc B}
+	\gamma_f\nabla_{\mbf x}\phi_f\cdot\delta\mbf v_f\,\dv
+	\notag\\
+	&+
+	\sum_\xi\int_{\mc B}
+	\left[
+	\lambda
+	+
+	\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}
+	\right]\delta\dot\phi_\xi\,\dv
+	\notag\\
+	&-
+	\sum_{f\in\mc F}\int_{\mc B}
+	\gamma_f\delta\dot\phi_f\,\dv
+	\notag\\
+	&+
+	\sum_\xi\int_{\mc B}
+	\left[
+	-\rho_\xi
+	\left.
+	\frac{\partial\psi_\xi}{\partial\bar\rho_\xi}
+	\right\vert_{\mbf F_\xi,\eta_\xi^\beta,\theta}
+	+
+	\sum_\alpha\frac{\pi_\xi^\alpha}{\bar\rho_\xi}
+	\right]\delta\dot{\bar\rho}_\xi\,\dv
+	\notag\\
+	&+
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\left[
+	\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}
+	+
+	\Pi_\xi
+	-
+	\rho_\xi
+	\left.
+	\frac{\partial\psi_\xi}{\partial\eta_\xi^\alpha}
+	\right\vert_{\mbf F_\xi,\bar\rho_\xi,
+	\eta_\xi^{\beta\ne\alpha},\theta}
+	\right]\delta\dot\eta_\xi^\alpha\,\dv
+	\notag\\
+	&+
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\left[
+	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	-
+	\psi_\xi
+	-
+	L_\xi^\alpha
+		-
+		\frac{D_\xi\mu_\xi^\alpha}{Dt}
+		-
+	\frac{\pi_\xi^\alpha}
+	{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+	\right]
+	\frac{\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}
+	\,\dv
+	\notag\\
+	&-
+	\sum_m\int_{\mc B}
+	\left[
+	\mc A_{(m)}
+	+
+	\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+	\right]\delta\dot r_{(m)}\,\dv
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\left(
+	\mbf M_{\xi,{\rm disp}}^\alpha
+	+
+	\nabla_{\mbf x}\mu_\xi^\alpha
+	\right)\cdot
+	\delta\mbf j_{\xi,{\rm disp}}^\alpha\,\dv
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha\int_{\mc B}
+	\left(
+	\mbf M_{\xi,{\rm diff}}^\alpha
+	+
+	\nabla_{\mbf x}\mu_\xi^\alpha
+	\right)\cdot
+	\delta\mbf j_{\xi,{\rm diff}}^\alpha\,\dv
+	\notag\\
+	&+
+	\text{multiplier variations}
+	+
+	\text{boundary powers}.
+		\label{eq:vp_collected_principle}
+\end{align}
+%
+For compactness in the momentum equations, define the total current-volume
+component mass-addition rate by
+%
+\begin{equation*}
+	\dot m_\xi^\alpha
+	\equiv
+	\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+	+
+	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	=
+	\dot c_\xi^\alpha
+	+
+	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}.
+\end{equation*}
+%
+This notation combines conversion and relative-transport accumulation only
+where they multiply the same momentum factor; the two rates remain separate in
+their balance and dissipation equations.
+
+The multiplier variations return the four constraints.  Because the remaining
+virtual rates and accumulated-state variations are arbitrary, their coefficients
+vanish independently.
+In particular, the phase-momentum coefficient contains
+%
+\begin{equation*}
+	\sum_\alpha
+		\dot m_\xi^\alpha
+	\left(
+	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
+	\right),
+\end{equation*}
+%
+whose multiplier-gradient part was derived explicitly in
+\eqref{eq:vp_component_rate_pullback}--
+\eqref{eq:vp_component_rate_pullback_variation}.  The reaction and relative-flux
+coefficients give
+%
+\begin{align}
+	\mc A_{(m)}
+	&=
+	-\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
+	\label{eq:vp_affinity_balance}
+	\\
+	\mbf M_{\xi,k}^\alpha
+	&=
+	-\nabla_{\mbf x}\mu_\xi^\alpha,
+	\qquad
+	k\in\left\{{\rm disp},{\rm diff}\right\}.
+	\label{eq:vp_relative_flux_force_balance}
+\end{align}
+%
+These are generalized-force balances rather than constitutive laws.  Admissible
+constitutive relations between the generalized forces and their process rates
+must make the corresponding reaction and relative-transport powers
+nonnegative.  A quadratic dissipation potential then gives the linear Onsager
+closures, while nonlinear convex dissipation potentials provide the analogous
+farther-from-equilibrium rate laws~\cite{doi2011onsager,gurtin2010continua}.
+
+\subsection{Field equations from virtual power}
+
+The coefficient of each independent virtual rate in
+\eqref{eq:vp_collected_principle} must vanish.  For a phase without an explicit
+capillary contribution, the coefficient of \(\delta\dot\phi_\xi\) gives
+%
+\begin{equation}
+	\phi_\xi\lambda
+	=
+	-\sum_\alpha\pi_\xi^\alpha.
+	\label{eq:vp_el_lambda}
+\end{equation}
+%
+The corresponding fluid-phase relation retains the interfacial contribution and
+is obtained in \eqref{eq:vp_fluid_volume_fraction_relation}.
+
+Using \eqref{eq:vp_el_lambda} in the coefficient of
+\(\delta\mbf v_\xi\) gives the phase momentum equation
+%
+\begin{align}
+	\rho_\xi\mbf a_\xi
+	={}&
+	\nabla_{\mbf x}\cdot\bs\sigma_\xi'
+	+
+	\rho_\xi\mbf g
+	+
+	\mbf b_\xi
+	+
+		\phi_\xi\nabla_{\mbf x}\lambda
+		\notag\\
+		&+
+		\sum_\alpha\dot m_\xi^\alpha
+		\left(
+	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
+	\right).
+	\label{eq:vp_momentum_uniform}
+\end{align}
+%
+Thus both conversion and relative-transport accumulation contribute through the
+same chemical-potential gradient and are combined in \(\dot m_\xi^\alpha\),
+while their rates remain distinct in the component balance.
+
+The coefficient of \(\delta\dot{\bar\rho}_\xi\) gives
+%
+\begin{equation}
+	\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}
+	=
+	\bar\rho_\xi^2
+	\left.
+	\frac{\partial\psi_\xi}{\partial\bar\rho_\xi}
+	\right\vert_{\mbf F_\xi,\eta_\xi^\beta,\theta}.
+	\label{eq:vp_phase_pressure_pi}
+\end{equation}
+%
+Define the thermodynamic phase pressure by
+%
+\begin{equation}
+	\boxed{
+	\bar p_\xi
+	\equiv
+	\bar\rho_\xi^2
+	\left.
+	\frac{\partial\psi_\xi}{\partial\bar\rho_\xi}
+	\right\vert_{\mbf F_\xi,\eta_\xi^\beta,\theta}
+	}.
+	\label{eq:vp_phase_pressure_definition}
+\end{equation}
+%
+For a fluid phase, the coefficient of \(\delta\dot\phi_f\) in
+\eqref{eq:vp_collected_principle} includes the primitive interfacial potential,
+%
+\begin{equation}
+	\lambda
+	+
+	\sum_\alpha\frac{\pi_f^\alpha}{\phi_f}
+	-
+	\gamma_f
+	=0.
+	\label{eq:vp_fluid_volume_fraction_relation}
+\end{equation}
+%
+Using \eqref{eq:vp_phase_pressure_definition} gives
+%
+\begin{equation}
+	\lambda+\bar p_f-\gamma_f=0,
+	\qquad
+	\bar p_f=\gamma_f-\lambda.
+	\label{eq:vp_fluid_pressure_primitive_relation}
+\end{equation}
+%
+Consequently,
+%
+\begin{equation}
+	\bar p_f-\bar p_g
+	=
+	\gamma_f-\gamma_g.
+	\label{eq:vp_fluid_pressure_difference}
+\end{equation}
+%
+Let \(\mc I\) be the set of oriented wetting/non-wetting fluid-phase pairs.
+For \((w,n)\in\mc I\), define
+%
+\begin{equation}
+	p_{c,nw}
+	\equiv
+	\gamma_n-\gamma_w.
+	\label{eq:vp_capillary_potential_difference}
+\end{equation}
+%
+Then
+%
+\begin{empheq}[box=\fbox]{equation}
+	p_{c,nw}
+	=
+	\bar p_n-\bar p_w,
+	\qquad
+	(w,n)\in\mc I.
+	\label{eq:vp_capillary_pressure_recovery}
+\end{empheq}
+%
+For two fluid phases and an interfacial energy parameterized by the wetting
+saturation, this reduces to
+\(p_{c,nw}=-\partial\gamma/\partial S_w\).
+
+The multiplier \(\lambda\) also determines the equivalent pore pressure.  Define
+%
+\begin{equation}
+	\bar p_E
+	\equiv
+	-\lambda.
+	\label{eq:vp_equivalent_pore_pressure_definition}
+\end{equation}
+%
+Multiplying \(\bar p_f=\gamma_f+\bar p_E\) by \(S_f\), summing over the fluid
+phases, and using \(\sum_{f\in\mc F}S_f=1\) gives
+%
+\begin{equation}
+	\sum_{f\in\mc F}S_f\bar p_f
+	=
+	\bar p_E
+	+
+	\sum_{f\in\mc F}S_f\gamma_f.
+	\label{eq:vp_saturation_weighted_pressure_sum}
+\end{equation}
+%
+The definition \eqref{eq:vp_interfacial_phase_derivative} implies
+%
+\begin{equation}
+	\sum_{f\in\mc F}S_f\gamma_f
+	=
+	\gamma.
+	\label{eq:vp_saturation_weighted_interfacial_sum}
+\end{equation}
+%
+Therefore,
+%
+\begin{equation}
+	\boxed{
+	\bar p_E
+	=
+	\sum_{f\in\mc F}S_f\bar p_f-\gamma
+	}.
+	\label{eq:vp_equivalent_pore_pressure_relation}
+\end{equation}
+
+For a phase with \(N\) tracked components, the coefficients of the independent
+virtual composition rates give
+%
+\begin{equation}
+	0
+	=
+	\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}
+	+
+	\Pi_\xi
+	-
+	\rho_\xi
+	\left.
+	\frac{\partial\psi_\xi}{\partial\eta_\xi^\alpha}
+	\right\vert_{\mbf F_\xi,\bar\rho_\xi,
+	\eta_\xi^{\beta\ne\alpha},\theta},
+	\qquad
+	\alpha=1,\ldots,N.
+	\label{eq:vp_composition_stationarity}
+\end{equation}
+%
+The multiplier variation preserves
+%
+\begin{equation}
+	\sum_{\alpha=1}^N\eta_\xi^\alpha=1.
+	\label{eq:vp_composition_constraint}
+\end{equation}
+%
+Equation \eqref{eq:vp_composition_stationarity} can be written componentwise as
+%
+\begin{equation}
+	\rho_\xi
+	\left.
+	\frac{\partial\psi_\xi}{\partial\eta_\xi^\alpha}
+	\right\vert_{\mbf F_\xi,\bar\rho_\xi,
+	\eta_\xi^{\beta\ne\alpha},\theta}
+	-
+	\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}
+	=
+	\Pi_\xi.
+	\label{eq:vp_composition_multiplier_componentwise}
+\end{equation}
+%
+Choosing component \(N\) as the reference and comparing it with
+\(\beta=1,\ldots,N-1\) eliminates \(\Pi_\xi\),
+%
+\begin{align}
+	\rho_\xi
+	\left(
+	\left.
+	\frac{\partial\psi_\xi}{\partial\eta_\xi^\beta}
+	\right\vert_{\mbf F_\xi,\bar\rho_\xi,
+	\eta_\xi^{\kappa\ne\beta},\theta}
+	-
+	\left.
+	\frac{\partial\psi_\xi}{\partial\eta_\xi^N}
+	\right\vert_{\mbf F_\xi,\bar\rho_\xi,
+	\eta_\xi^{\kappa\ne N},\theta}
+	\right)
+	={}&
+	\frac{\pi_\xi^\beta}{\eta_\xi^\beta}
+	-
+	\frac{\pi_\xi^N}{\eta_\xi^N},
+	\qquad
+	\beta=1,\ldots,N-1.
+	\label{eq:vp_composition_difference_system}
+\end{align}
+%
+Here \(\kappa\) denotes the components held fixed in the indicated partial
+derivative and is not summed.
+
+The common coefficient of
+\(\delta\mc C_\xi^\alpha/J_\xi\) and
+\(\delta\mc D_\xi^\alpha/J_\xi\) gives the component-rate-multiplier evolution
+equation
+%
+\begin{equation}
+	\frac{D_\xi\mu_\xi^\alpha}{Dt}
+	=
+	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	-
+	\psi_\xi
+	-
+	L_\xi^\alpha
+	-
+	\frac{\pi_\xi^\alpha}
+	{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
+	\label{eq:vp_component_potential_evolution}
+\end{equation}
+%
+Both accumulation mechanisms give the same equation because they enter the
+reference mass measure through
+\(\mc C_\xi^\alpha+\mc D_\xi^\alpha\), have the same generalized work
+potential, and are governed by the same multiplier.  This is the
+phase/component analogue of the Bedford--Drumheller multiplier evolution
+equation~\cite[eq.~(48)]{drumheller2000}.  The process-rate
+coefficients independently give the affinity and relative-flux force balances
+\eqref{eq:vp_affinity_balance} and
+\eqref{eq:vp_relative_flux_force_balance}.  These balances do not prescribe
+kinetic or transport laws; admissible constitutive laws must satisfy the entropy
+inequality.
+
+\subsection{Fluid-phase momentum equations}
+\label{sec:vp_fluid_phase_momentum}
+
+For any fluid phase \(f\in\mc F\), retaining the scalar-transport capillary
+contribution in \eqref{eq:vp_momentum_uniform} gives
+%
+\begin{align}
+	\rho_f\mbf a_f
+	={}&
+	\nabla_{\mbf x}\cdot\bs\sigma_f'
+	+
+	\rho_f\mbf g
+	+
+	\mbf b_f
+	-
+	\lambda\nabla_{\mbf x}\phi_f
+	-
+	\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha
+	\notag\\
+		&+
+		\gamma_f\nabla_{\mbf x}\phi_f
+		+
+		\sum_\alpha\dot m_f^\alpha
+		\left(
+	\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f
+	\right).
+	\label{eq:vp_fluid_momentum_intermediate}
+\end{align}
+%
+Using
+\(\sum_\alpha\pi_f^\alpha=\phi_f\bar p_f\) from
+\eqref{eq:vp_phase_pressure_pi} and
+\(\lambda+\bar p_f-\gamma_f=0\) from
+\eqref{eq:vp_fluid_pressure_primitive_relation}, the multiplier and interfacial
+gradient terms reduce as
+%
+\begin{align}
+	-&\lambda\nabla_{\mbf x}\phi_f
+	-
+	\nabla_{\mbf x}\left(\phi_f\bar p_f\right)
+	+
+	\gamma_f\nabla_{\mbf x}\phi_f
+	\notag\\
+	&=
+	-\phi_f\nabla_{\mbf x}\bar p_f.
+	\label{eq:vp_fluid_pressure_gradient_collapse}
+\end{align}
+%
+For a fluid free energy with no explicit dependence on \(\mbf F_f\),
+\eqref{eq:vp_effective_stress_definition} gives \(\bs\sigma_f'=\mbf0\).  The
+fluid-phase momentum equation is therefore
+%
+\begin{empheq}[box=\fbox]{align}
+	\rho_f\mbf a_f
+	={}&
+	\rho_f\mbf g
+	+
+	\mbf b_f
+	-
+		\phi_f\nabla_{\mbf x}\bar p_f
+		\notag\\
+		&+
+		\sum_\alpha\dot m_f^\alpha
+		\left(
+	\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f
+	\right),
+	\qquad f\in\mc F.
+	\label{eq:vp_fluid_momentum_simplified}
+\end{empheq}
