@@ -4,8 +4,8 @@
 \subsection{Classical compositional-flow limit and interpretation of the multipliers}
 \label{sec:classical_compositional_limit}
 
-The averaged component balance contains the standard compositional-reservoir
-structure as a special limit. Restrict attention to the fluid pore phases, write
+The averaged component balance reduces to the standard compositional-reservoir
+balance after the fluid pore phases are isolated. Write
 $\phi_f=\phi S_f$ with $\sum_{f\in\mc F}S_f=1$, and use the averaged global
 component balance \eqref{eq:averaged_global_component_balance}. The result is
 %
@@ -29,14 +29,98 @@ component balance \eqref{eq:averaged_global_component_balance}. The result is
 %
 This is the usual phase/component compositional balance, written per unit mass
 rather than per mole and with mechanical dispersion and molecular diffusion
-retained explicitly.  Setting both relative fluxes to zero gives the mass
-counterpart of Balhoff's standard compositional balance
-\cite[eq.~(7.15b)]{balhoff2022multiphase}.  Taking $\mbf v_s=\mbf 0$ in
-\eqref{eq:standard_darcy_mass_flux_limit} and using
-$\bs\kappa_f=\kappa_{fr}(\{S_g\}_{g\in\mc F})\bs\kappa$ gives Darcy
-law in the manuscript notation. The balance already has the standard
-compositional-flow form once the
-reservoir variables $\phi$ and $S_f$ are introduced.  The difference is that the
+retained explicitly.  Setting both relative fluxes to zero recovers the mass
+counterpart of Balhoff's advective compositional balance
+\cite[eq.~(7.15b)]{balhoff2022multiphase}.  To keep the relative fluxes,
+classical compositional simulation must supply the chemical potentials
+algebraically, because it does not evolve \(\mu_f^\alpha\) through the
+multiplier equation \eqref{eq:MC_admissible_conversion_component}.  Taking
+\(\mbf v_s=\mbf 0\) in \eqref{eq:standard_darcy_mass_flux_limit} and using
+$\bs\kappa_f=\kappa_{fr}(\{S_g\}_{g\in\mc F})\bs\kappa$ gives the Darcy
+law in the manuscript notation.  A concrete classical closure set is
+%
+\begin{align*}
+	\mbf v_s &= \mbf 0, \\
+	\phi S_f\mbf v_f
+	&=
+	-\frac{\bs\kappa\,\kappa_{fr}(\{S_g\}_{g\in\mc F})}{\mu_f}
+	\left(
+	\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g
+	\right), \\
+	\bar p_f &= \bar p_{\rm ref}+p_{c,f}(\{S_g\}_{g\in\mc F}), \\
+	\bar\rho_f &= \bar\rho_f(\bar p_{\rm ref},T,\{\eta_f^\beta\}_{\beta}), \qquad
+	\mu_f = \mu_f(\bar p_{\rm ref},T,\{\eta_f^\beta\}_{\beta}), \\
+	\mu_f^\alpha
+	&=
+	\frac{\partial g_f}{\partial\eta_f^\alpha}
+	(\bar p_f,T,\{\eta_f^\beta\}_{\beta}), \\
+	\mbf j_{f,{\rm disp}}^\alpha+\mbf j_{f,{\rm diff}}^\alpha
+	&=
+	-\sum_\beta
+	\left(
+	\mbf D_{f,{\rm disp}}^{\alpha\beta}
+	+
+	\mbf D_{f,{\rm diff}}^{\alpha\beta}
+	\right)
+	\nabla_{\mbf x}\mu_f^\beta, \\
+	\mu_f^\alpha &= \mu_g^\alpha
+	\quad \text{for equilibrated fluid phases } f,g .
+\end{align*}
+%
+Here \(g_f\) is the classical phase thermodynamic potential supplied by the EOS
+or flash model.  In an isothermal composition-diffusion specialization at fixed
+phase pressure,
+%
+\begin{equation*}
+	\nabla_{\mbf x}\mu_f^\beta
+	=
+	\sum_\gamma
+	\frac{\partial^2 g_f}{\partial\eta_f^\beta\partial\eta_f^\gamma}
+	\nabla_{\mbf x}\eta_f^\gamma ,
+\end{equation*}
+%
+so the admissible \(D\nabla\mu\) closures become standard composition-gradient
+diffusion and dispersion laws.
+Substituting these closures into
+\eqref{eq:classical_total_mass_component_balance} gives
+%
+\begin{multline*}
+	\frac{\partial}{\partial t}
+	\left(\phi\sum_{f\in\mc F}S_f\bar\rho_f\eta_f^\alpha\right)
+	-
+	\nabla_{\mbf x}\cdot
+	\left[
+	\sum_{f\in\mc F}
+	\bar\rho_f\eta_f^\alpha
+	\frac{\bs\kappa\,\kappa_{fr}(\{S_g\}_{g\in\mc F})}{\mu_f}
+	\left(
+	\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g
+	\right)
+	\right. \\
+	\left.
+	+
+	\sum_\beta\sum_\gamma
+	\left(
+	\mbf D_{f,{\rm disp}}^{\alpha\beta}
+	+
+	\mbf D_{f,{\rm diff}}^{\alpha\beta}
+	\right)
+	\frac{\partial^2 g_f}{\partial\eta_f^\beta\partial\eta_f^\gamma}
+	\nabla_{\mbf x}\eta_f^\gamma
+	\right]
+	=
+	\sum_{f\in\mc F}\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
+\end{multline*}
+%
+This is the standard reservoir compositional-flow form: storage is written in
+terms of porosity, saturation, phase density, and phase composition; transport is
+the phase Darcy flux multiplied by the component mass fraction; capillary
+pressure reconstructs phase pressures from the chosen reference pressure
+\(\bar p_{\rm ref}\); and the EOS or flash closure supplies densities,
+viscosities, equilibrium compositions, and the chemical-potential/composition
+tangent that converts the entropy-admissible \(D\nabla\mu\) flux into the usual
+Fickian composition-gradient form.
+The difference is that the
 present stoichiometric coefficients retain the phase label.  A pure phase
 transformation is the special case in which the component label is unchanged and
 the two nonzero entries satisfy $\nu_{\xi (m)}^\alpha=-1$ and
@@ -59,24 +143,21 @@ redistribute the phase pressures while the saturation-weighted pressure gradient
 reduces to the equivalent-pressure gradient in
 \eqref{eq:MC_fluid_pressure_gradient_rollup}.
 
-The remaining algebraic structure is also recovered.  The within-phase
-composition constraints are
+The usual within-phase composition constraint is also recovered:
 %
 \begin{equation}
 	\sum_\alpha\eta_\xi^\alpha=1 .
 	\label{eq:classical_composition_constraints}
 \end{equation}
 %
-The thermodynamic distinction appears in how the phase/component potentials are
-obtained.  A traditional compositional simulator supplies an equation of state,
+The difference is how the phase/component potentials are obtained.  A
+traditional compositional simulator supplies an equation of state,
 phase-equilibrium rules, capillary-pressure relations, component partitioning,
-and stress laws as separate closure ingredients. In this formulation, the
-reversible thermodynamic part is instead generated from the Helmholtz
-free-energy structure.  Thus pressure, entropy, stress, composition derivatives,
-and normalized
-component storage potentials are not independent reversible closures; they are
-conjugate derivatives or multipliers associated with the constrained Helmholtz
-structure.  Transport and reaction kinetics still require dissipative closures,
+and stress laws as separate inputs. In this formulation, the reversible
+thermodynamic quantities instead come from the Helmholtz free energy.  Thus
+pressure, entropy, stress, composition derivatives, and normalized component
+storage potentials are derivatives or multipliers of the same constrained
+energy.  Transport and reaction kinetics still require dissipative closures,
 such as mobilities, permeabilities, diffusivities, and reaction-rate laws, but
 the thermodynamic forces driving those laws are generated by the same
 free-energy potential.
@@ -99,8 +180,7 @@ constitutive chemical potential in
 equation \eqref{eq:MC_admissible_conversion_component} determines its motion
 from prescribed initial data.
 
-The affinity is the stoichiometric projection of these phase/component
-potentials,
+The affinity is the stoichiometric sum of these phase/component potentials,
 %
 \begin{equation}
 	\mc A_{(m)}
@@ -130,7 +210,7 @@ linear form is
 %
 with the sign convention used here.  Thus equilibrium chemistry, kinetic
 reactive transport, and phase transformation all use the same stoichiometric
-projection; only the closure for $\dot r_{(m)}$ changes.
+sum; only the closure for $\dot r_{(m)}$ changes.
 
 The momentum equations contain the total component mass-addition rate absent
 from purely kinematic Darcy-scale compositional balances,
@@ -159,10 +239,10 @@ the augmented phase/component storage relation.  The component multiplier
 constraint and is identified thermodynamically as the chemical potential.
 Converted and transported mass enter the same component material
 measure and therefore share the same multiplier, chemical potential, and
-generalized work potential \(L_\xi^\alpha\). The distinguishing feature of this formulation is
-not the stoichiometric source form itself, but the fact that it is embedded in a
-phase-attached variational mechanics in which the Jacobian $J_\xi$ is varied.
-That is what exposes the conversion-induced momentum term and gives
+generalized work potential \(L_\xi^\alpha\). What is different here is not the
+stoichiometric source itself. It is that the source is placed inside a
+phase-attached variational mechanics statement in which the Jacobian $J_\xi$ is
+varied. That is what exposes the conversion-induced momentum term and gives
 a direct bridge between mixture mechanics and classical compositional reactive
 transport.
 
