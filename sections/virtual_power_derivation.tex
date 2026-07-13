@@ -86,12 +86,13 @@ Lagrange--d'Alembert principle in virtual-power form is
 \end{equation}
 %
 for every admissible collection of these virtual fields.  The subscripts
-\({\rm in}\), \({\rm ext}\), \({\rm rev}\), \({\rm diss}\), and \({\rm elec}\) denote inertial,
-external, reversible, dissipative, and electrical virtual power, respectively, while
-\(C_k\) denotes the four constraint contributions.  The statement is
-time-integrated as in the Bedford--Drumheller constrained Hamilton formulation,
-whereas each term in its integrand is expressed as a virtual power.  The
-electrical contribution is absent in the neutral specialization.
+\({\rm in}\), \({\rm ext}\), \({\rm rev}\), \({\rm diss}\), and \({\rm elec}\)
+denote inertial, external, reversible, dissipative, and electrical virtual
+power, respectively, while \(C_k\) denotes the constraint contributions.  The
+statement is time-integrated as in the Bedford--Drumheller constrained Hamilton
+formulation, whereas each term in its integrand is expressed as a virtual power.
+The electrical virtual power and \(C_5\) are absent in the neutral
+specialization.
 
 \subsection{Reference mass measure and virtual rates}
 
@@ -873,7 +874,148 @@ accumulation, motion, mechanism-rate, and flux variations gives
 	\label{eq:vp_C4_power}
 \end{align}
 
-\subsection{Electric enthalpy and the charge constraint}
+\subsection{Electrical virtual power}
+
+The electric-field contribution is a reversible power, not a component-balance
+constraint.  In the electroquasistatic specialization, the electric potential
+\(\varphi\) generates a single spatial electric field.  Each phase has a
+current-volume electric enthalpy \(\omega^{+}_{\xi}\), just as each phase has a
+Helmholtz free energy \(\psi_\xi\),
+%
+\begin{equation}
+	\mbf E=-\nabla_{\mbf x}\varphi,
+	\qquad
+	\mbf d_\xi
+	=
+	-\left.
+	\frac{\partial\omega^{+}_{\xi}}{\partial\mbf E}
+	\right\vert_{\mc X_\xi},
+	\qquad
+	\mbf d=\sum_\xi\phi_\xi\mbf d_\xi .
+	\label{eq:electric_field_definitions}
+\end{equation}
+%
+Here \(\omega^{+}_{\xi}\) is an electric enthalpy per unit current volume of
+phase \(\xi\), and \(\mc X_\xi\) denotes the corresponding phase, compositional,
+mechanical, and thermal state variables on which the dielectric closure may
+depend.  The total current-volume electrical enthalpy is
+\(\sum_\xi\phi_\xi\omega^{+}_{\xi}\), and the total electric displacement is the
+volume-fraction-weighted sum in \eqref{eq:electric_field_definitions}.  A
+linear dielectric is recovered by choosing
+\(\omega^{+}_{\xi}=-\frac{1}{2}\mbf E\cdot\bs\epsilon_\xi\mbf E\), which gives
+\(\mbf d_\xi=\bs\epsilon_\xi\mbf E\).  The field \(\mbf E\) is not a phase field;
+the phase index only records that each material phase may have a different
+constitutive response to the common spatial field.
+
+The reversible electric-enthalpy power is pulled back with the same phase map
+used elsewhere in the virtual-power construction:
+%
+\begin{align}
+	\delta\mc P_{\rm elec}
+	={}&
+	\sum_\xi\int_{\mc B_{\xi0}}
+	\left[
+	J_\xi
+	\phi_\xi
+	\left.
+	\frac{\partial\omega^{+}_{\xi}}{\partial\mbf E}
+	\right\vert_{\mc X_\xi}
+	\cdot\delta\dot{\mbf E}_\xi
+	+
+	\phi_\xi\omega^{+}_{\xi}\delta\dot J_\xi
+	+
+	J_\xi
+	\left(
+	\sum_\alpha\varrho_\xi^\alpha
+	\right)
+	\delta\dot\varphi
+	\right]\dVxi .
+	\label{eq:vp_electrical_power_pullback}
+\end{align}
+%
+Using \(\delta\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\delta\mbf v_\xi\), this
+pushes forward to the current form
+%
+\begin{align}
+	\delta\mc P_{\rm elec}
+	={}&
+	\sum_\xi\int_{\mc B}
+	\left[
+	\phi_\xi
+	\left.
+	\frac{\partial\omega^{+}_{\xi}}{\partial\mbf E}
+	\right\vert_{\mc X_\xi}
+	\cdot\delta\dot{\mbf E}_\xi
+	+
+	\phi_\xi\omega^{+}_{\xi}
+	\nabla_{\mbf x}\cdot\delta\mbf v_\xi
+	+
+	\left(
+	\sum_\alpha\varrho_\xi^\alpha
+	\right)
+	\delta\dot\varphi
+	\right]\dv .
+	\label{eq:vp_electrical_power}
+\end{align}
+%
+The virtual field rate in \eqref{eq:vp_electrical_power} is not independent of
+the virtual phase motion used to pull back the corresponding electrical
+enthalpy contribution.  It satisfies
+%
+\begin{equation}
+	\delta\dot{\mbf E}_\xi
+	=
+	-\nabla_{\mbf x}\delta\dot\varphi
+	-
+	\left(
+	\nabla_{\mbf x}\delta\mbf v_\xi
+	\right)^T\mbf E.
+	\label{eq:vp_electric_field_variation}
+\end{equation}
+%
+Substituting \eqref{eq:vp_electric_field_variation}, using
+\(\mbf d_\xi=-\partial\omega^{+}_{\xi}/\partial\mbf E\) and
+\(\mbf d=\sum_\xi\phi_\xi\mbf d_\xi\), and integrating by parts gives the
+potential-rate coefficient
+%
+\begin{align}
+	\delta\mc P_{\rm elec}^{\varphi}
+	={}&
+	\int_{\mc B}
+	\left(
+	\varrho-\nabla_{\mbf x}\cdot\mbf d
+	\right)\delta\dot\varphi\,\dv
+	+
+	\text{b.t.},
+	\label{eq:vp_electric_potential_variation}
+\end{align}
+%
+and the mechanical coefficient
+%
+\begin{align}
+	\delta\mc P_{\rm elec}^{\rm mech}
+	={}&
+	\sum_\xi
+	\int_{\mc B}
+	\bs{\sigma}^{+}_{\xi}
+	:
+	\nabla_{\mbf x}\delta\mbf v_\xi\,\dv ,
+	\label{eq:vp_electrical_mechanical_power}
+\end{align}
+%
+where the reversible electrical, or Maxwell, stress assigned to the phase
+pullback is
+%
+\begin{equation}
+	\bs{\sigma}^{+}_{\xi}
+	=
+	\phi_\xi\omega^{+}_{\xi}\mbf I
+	+
+	\phi_\xi\mbf E\otimes\mbf d_\xi .
+	\label{eq:vp_electrical_stress_definition}
+\end{equation}
+
+\subsection{Virtual power of the charge constraint}
 
 The charge bookkeeping in \sref{conservation_of_charge} gives a fifth
 constraint, obtained by summing the component-rate constraint
@@ -906,8 +1048,8 @@ component charge per unit mass \(z_\xi^\alpha\):
 This constraint is not an additional component mass balance.  It is the
 charge-projected part of the same component-rate bookkeeping, and its multiplier
 must be conjugate to charge.  Since the conjugate scalar has units of energy per
-unit charge, we denote it directly by the electric potential \(\varphi\).  The
-constraint power is
+unit charge, we use the same electric potential \(\varphi\) that appears in
+\eqref{eq:electric_field_definitions}.  The constraint power is
 %
 \begin{align}
 	\mc P_{C_5}
@@ -1012,104 +1154,7 @@ The factor multiplying \(\varphi\) is \(z_\xi^\alpha\), not \(\varrho\):
 \(z_\xi^\alpha\varphi\) has the units of a component chemical potential.  The
 multiplier \(\varphi\) does not make \eqref{eq:vp_C5_charge_constraint} vanish by
 its value; stationarity with respect to arbitrary \(\delta\varphi\) enforces that
-constraint.  The same scalar is also used to generate the electroquasistatic
-field,
-%
-\begin{equation}
-	\mbf E=-\nabla_{\mbf x}\varphi,
-	\qquad
-	\mbf d
-	=
-	-\left.
-	\frac{\partial\omega_{\rm elec}}{\partial\mbf E}
-	\right\vert_{\mc X_\xi}.
-	\label{eq:electric_field_definitions}
-\end{equation}
-%
-Here \(\omega_{\rm elec}\) is an electric enthalpy per unit current mixture
-volume.  The notation \(\mc X_\xi\) denotes the mechanical, compositional, and
-thermal state variables already used by the phase Helmholtz energies.  A linear
-dielectric is recovered by choosing
-\(\omega_{\rm elec}=-\frac{1}{2}\mbf E\cdot\bs\epsilon\mbf E\), which gives
-\(\mbf d=\bs\epsilon\mbf E\).  In reference-form solid calculations this
-current-volume term is pulled back as \(J\omega_{\rm elec}\), with the same
-Jacobian used for the current-volume virtual power.  Consequently the
-electrical energy contributes not only to the potential equation but also to the
-mechanical coefficient associated with the mapping used to pull back the current
-domain.
-
-The reversible electric-enthalpy power is kept separate from the charge
-constraint:
-%
-\begin{align}
-	\delta\mc P_{\rm elec}
-	={}&
-	\int_{\mc B}
-	\left[
-	\left.
-	\frac{\partial\omega_{\rm elec}}{\partial\mbf E}
-	\right\vert_{\mc X_\xi}
-	\cdot\delta\dot{\mbf E}
-	+
-	\omega_{\rm elec}\nabla_{\mbf x}\cdot\delta\mbf v
-	+
-	\varrho\delta\dot\varphi
-	\right]\dv .
-	\label{eq:vp_electrical_power}
-\end{align}
-%
-The virtual field rate in \eqref{eq:vp_electrical_power} is not independent of
-the virtual motion.  It satisfies
-%
-\begin{equation}
-	\delta\dot{\mbf E}
-	=
-	-\nabla_{\mbf x}\delta\dot\varphi
-	-
-	\left(
-	\nabla_{\mbf x}\delta\mbf v
-	\right)^T\mbf E.
-	\label{eq:vp_electric_field_variation}
-\end{equation}
-%
-Substituting \eqref{eq:vp_electric_field_variation}, using
-\(\mbf d=-\partial\omega_{\rm elec}/\partial\mbf E\), and integrating by parts
-gives the potential-rate coefficient
-%
-\begin{align}
-	\delta\mc P_{\rm elec}^{\varphi}
-	={}&
-	\int_{\mc B}
-	\left(
-	\varrho-\nabla_{\mbf x}\cdot\mbf d
-	\right)\delta\dot\varphi\,\dv
-	+
-	\text{b.t.},
-	\label{eq:vp_electric_potential_variation}
-\end{align}
-%
-and the mechanical coefficient
-%
-\begin{align}
-	\delta\mc P_{\rm elec}^{\rm mech}
-	={}&
-	\int_{\mc B}
-	\bs\sigma_{\rm elec}
-	:
-	\nabla_{\mbf x}\delta\mbf v\,\dv ,
-	\label{eq:vp_electrical_mechanical_power}
-\end{align}
-%
-where the reversible electrical, or Maxwell, stress is
-%
-\begin{equation}
-	\bs\sigma_{\rm elec}
-	=
-	\omega_{\rm elec}\mbf I
-	+
-	\mbf E\otimes\mbf d .
-	\label{eq:vp_electrical_stress_definition}
-\end{equation}
+constraint.
 
 \subsection{Collected virtual-power principle}
 
@@ -1130,6 +1175,8 @@ Substitution of
 	0={}&
 	\sum_\xi\int_{\mc B}
 	\left[
+	\begin{aligned}
+	&
 	-\rho_\xi\mbf a_\xi
 	+
 	\nabla_{\mbf x}\cdot\bs\sigma_\xi'
@@ -1141,23 +1188,22 @@ Substitution of
 		\lambda\nabla_{\mbf x}\phi_\xi
 		-
 		\sum_\alpha\nabla_{\mbf x}\pi_\xi^\alpha
+		-
+		\nabla_{\mbf x}\cdot\bs{\sigma}^{+}_{\xi}
+		\\
+		&\quad
 		+
 		\sum_\alpha
 		\dot m_\xi^\alpha
 	\left(
 	\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi
 	\right)
+	\end{aligned}
 	\right]\cdot\delta\mbf v_\xi\,\dv
 	\notag\\
 	&+
 	\sum_{f\in\mc F}\int_{\mc B}
 	\gamma_f\nabla_{\mbf x}\phi_f\cdot\delta\mbf v_f\,\dv
-	\notag\\
-	&+
-	\int_{\mc B}
-	\bs\sigma_{\rm elec}
-	:
-	\nabla_{\mbf x}\delta\mbf v\,\dv
 	\notag\\
 	&+
 	\sum_\xi\int_{\mc B}
@@ -1242,33 +1288,11 @@ Substitution of
 	\notag\\
 	&+
 	\int_{\mc B}
-	\delta\varphi
-	\sum_\xi\sum_\alpha
-	z_\xi^\alpha
-	\left[
-	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
-	-
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
-	\right.\notag\\
-	&\left.\hspace{39mm}
-	+
-	\nabla_{\mbf x}\cdot
-	\left(
-	\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)
-	\right]\dv
-	\notag\\
-	&+
-	\int_{\mc B}
 	\left(
 	\varrho-\nabla_{\mbf x}\cdot\mbf d
 	\right)\delta\dot\varphi\,\dv
 	\notag\\
 	&+
-	\text{multiplier variations}
-	+
 	\text{boundary powers}.
 		\label{eq:vp_collected_principle}
 \end{align}
@@ -1292,58 +1316,15 @@ This notation combines conversion and relative-transport accumulation only
 where they multiply the same mechanical or thermodynamic factor; the two rates
 remain separate in their balance and dissipation equations.
 
-The multiplier variations return the original four constraints together with the
-charge-projected constraint \(C_5\).  Since \(C_5\) is a charge-weighted linear
-combination of the component-rate constraints, it changes the interpretation of
-the component multiplier rather than adding an independent component balance.
-The coefficient of \(\delta\varphi\) enforces \(C_5\).  The coefficient of the
-virtual potential rate returns Gauss' law,
-%
-\begin{equation}
-	\nabla_{\mbf x}\cdot\mbf d=\varrho .
-	\label{eq:gauss_law}
-\end{equation}
-%
-Thus Gauss' law is the Euler--Lagrange equation associated with the reversible
-electric enthalpy.  The use of \(\varphi\) as the \(C_5\) multiplier is therefore
-not arbitrary: it is the scalar conjugate to charge, its negative gradient is
-the electric field, and its Euler--Lagrange equation is Gauss' law.  This field
-equation is distinct from the dielectric closure, which is the constitutive
-choice of \(\omega_{\rm elec}\), or equivalently of \(\mbf d\), as a function of
-electric, mechanical, compositional, and thermal state.  The natural electrical
-boundary condition is prescribed normal displacement \(\mbf d\cdot\mbf n\),
-while the essential boundary condition is prescribed \(\varphi\), up to an
-arbitrary additive gauge.
-
-The electroquasistatic field equation \eqref{eq:gauss_law} and the local charge
-balance \eqref{eq:mixture_charge_balance} are compatible because
-%
-\begin{equation}
-	\nabla_{\mbf x}\cdot
-	\left(
-	\dot{\mbf d}
-	+
-	\mbf i
-	\right)
-	=0 .
-	\label{eq:charge_gauss_compatibility}
-\end{equation}
-%
-The solenoidal part of \(\dot{\mbf d}+\mbf i\) is not resolved in this
-electroquasistatic reduction.  A full electromagnetic specialization would add a
-vector potential, magnetic induction, Faraday's law, Ampere--Maxwell balance,
-and the corresponding electromagnetic momentum and energy fluxes.  The scalar
-potential theory used here is the first specialization for ion exchange,
-double-layer, electro-osmotic, and electrochemical porous-flow models in which
-magnetic induction is not a primary state variable.  Independent polarization
-would require an additional internal variable and either a stationarity or
-dissipation law; those effects are omitted here because the reservoir-scale
-model uses a dielectric closure through \(\omega_{\rm elec}\) and \(\mbf d\).
-The mechanical coefficient in \eqref{eq:vp_electrical_mechanical_power}
-contributes the reversible Maxwell stress \(\bs\sigma_{\rm elec}\) to whichever
-motion carries the current electrical domain.  For a linear dielectric this
-contribution reduces to
-\(\mbf E\otimes\mbf d-\frac{1}{2}\left(\mbf E\cdot\mbf d\right)\mbf I\).
+The multiplier variations enforce the original four constraints together with
+the charge-projected constraint \(C_5\).  Since \(C_5\) is a charge-weighted
+linear combination of the component-rate constraints, it changes the
+interpretation of the component multiplier rather than adding an independent
+component balance.  The coefficient of the virtual potential rate gives the
+electrical Euler--Lagrange equation discussed after the fluid momentum balance.
+The phase Maxwell terms in \eqref{eq:vp_collected_principle} are the
+integrated-by-parts form of \eqref{eq:vp_electrical_mechanical_power}; their
+boundary parts are included with the other boundary powers.
 Because the remaining virtual rates and accumulated-state variations are
 arbitrary, their coefficients vanish independently.
 In particular, the phase-momentum coefficient contains
@@ -1442,6 +1423,8 @@ Using \eqref{eq:vp_el_lambda} in the coefficient of
 	\rho_\xi\mbf a_\xi
 	=
 	\nabla_{\mbf x}\cdot\bs\sigma_\xi'
+	-
+	\nabla_{\mbf x}\cdot\bs{\sigma}^{+}_{\xi}
 	+
 	\rho_\xi\mbf g
 	+
@@ -1694,6 +1677,8 @@ contribution in \eqref{eq:vp_momentum_uniform} gives
 	\rho_f\mbf a_f
 	={}&
 	\nabla_{\mbf x}\cdot\bs\sigma_f'
+	-
+	\nabla_{\mbf x}\cdot\bs{\sigma}^{+}_{f}
 	+
 	\rho_f\mbf g
 	+
@@ -1743,6 +1728,8 @@ fluid-phase momentum equation is therefore
 	+
 	\mbf b_f
 	-
+	\nabla_{\mbf x}\cdot\bs{\sigma}^{+}_{f}
+	-
 	\phi_f\nabla_{\mbf x}\bar p_f
 	+
 	\sum_\alpha\dot m_f^\alpha
@@ -1752,3 +1739,70 @@ fluid-phase momentum equation is therefore
 	\qquad f\in\mc F.
 	\label{eq:vp_fluid_momentum_simplified}
 \end{empheq}
+
+\subsection{Electrical field equations}
+\label{sec:vp_electrical_field_equations}
+
+The electrical equations follow from the two appearances of the potential
+\(\varphi\).  Its multiplier variation in \(C_5\) enforces the charge-projected
+component-rate constraint \eqref{eq:vp_C5_charge_constraint}.  This does not add
+an independent component balance; it records the charge projection of the
+component-rate bookkeeping and gives the component-rate multiplier the
+electrochemical form \eqref{eq:vp_electrochemical_potential_definition}.
+
+The independent virtual potential rate \(\delta\dot\varphi\) comes from the
+electric enthalpy power.  Its coefficient in
+\eqref{eq:vp_collected_principle} gives Gauss' law,
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot\mbf d=\varrho .
+	\label{eq:gauss_law}
+\end{equation}
+%
+Thus Gauss' law is the Euler--Lagrange equation associated with the reversible
+electric enthalpy.  The use of \(\varphi\) as the \(C_5\) multiplier is therefore
+not arbitrary: it is the scalar conjugate to charge, its negative gradient is
+the electric field, and its Euler--Lagrange equation is Gauss' law.  This field
+equation is distinct from the dielectric closure, which is the constitutive
+choice of \(\omega^{+}_{\xi}\), or equivalently of \(\mbf d_\xi\), as a
+function of electric, mechanical, compositional, and thermal state.  The natural
+electrical boundary condition is prescribed normal total displacement
+\(\mbf d\cdot\mbf n\), while the essential boundary condition is prescribed
+\(\varphi\), up to an arbitrary additive gauge.
+
+The electroquasistatic field equation \eqref{eq:gauss_law} and the local charge
+balance \eqref{eq:mixture_charge_balance} are compatible because
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot
+	\left(
+	\dot{\mbf d}
+	+
+	\mbf i
+	\right)
+	=0 .
+	\label{eq:charge_gauss_compatibility}
+\end{equation}
+%
+The solenoidal part of \(\dot{\mbf d}+\mbf i\) is not resolved in this
+electroquasistatic reduction.  A full electromagnetic specialization would add a
+vector potential, magnetic induction, Faraday's law, Ampere--Maxwell balance,
+and the corresponding electromagnetic momentum and energy fluxes.  The scalar
+potential theory used here is the first specialization for ion exchange,
+double-layer, electro-osmotic, and electrochemical porous-flow models in which
+magnetic induction is not a primary state variable.
+
+The mechanical coefficient in \eqref{eq:vp_electrical_mechanical_power}
+contributes a reversible Maxwell stress to each phase motion through the
+phase-attributed pullback of the phase electric enthalpy.  Its local
+contribution appears in \eqref{eq:vp_collected_principle} and in
+\eqref{eq:vp_momentum_uniform} as
+\(-\nabla_{\mbf x}\cdot\bs{\sigma}^{+}_{\xi}\).  Summing the
+phase-attributed stresses recovers the mixture Maxwell stress because
+\(\mbf d=\sum_\xi\phi_\xi\mbf d_\xi\).  For a linear dielectric the summed
+stress reduces to
+\(\mbf E\otimes\mbf d-\frac{1}{2}\left(\mbf E\cdot\mbf d\right)\mbf I\).
+Independent polarization would require an additional internal variable and
+either a stationarity or dissipation law; those effects are omitted here because
+the reservoir-scale model uses a dielectric closure through
+\(\omega^{+}_{\xi}\) and \(\mbf d_\xi\).

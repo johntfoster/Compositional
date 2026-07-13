@@ -299,31 +299,31 @@ coefficients are projected onto the corresponding tangent spaces by
 subtracting the \(N\)th component coefficient from the \(\beta=1,\ldots,N-1\)
 coefficients.
 
-Electrical effects enter the free-energy structure through the current-volume
-electric enthalpy \(\omega_{\rm elec}\) introduced in
-\sref{virtual_power_derivation}.  Its derivative with respect to \(\mbf E\)
-defines \(\mbf d\), and stationarity with respect to \(\varphi\) gives Gauss'
-law.  Derivatives with respect to deformation, porosity, saturation,
-composition, and temperature add reversible Maxwell and dielectric
-contributions to the corresponding Coleman--Noll restrictions.
-When this contribution is used in a solid-reference energy, the spatial density
-is pulled back by the appropriate Jacobian; varying that mapping produces the
-mechanical term in \eqref{eq:vp_electrical_mechanical_power}.  These reversible
-terms are not dissipative.  Independent polarization, dielectric relaxation, and
-switching are omitted in the present reservoir-scale model.  Their induced
-dielectric effect can still be represented, when needed, by the constitutive
-choice of \(\omega_{\rm elec}\), or equivalently by a permittivity closure for
-\(\mbf d\).
+Electrical effects enter the free-energy structure through the phase
+current-volume electric enthalpies \(\omega^{+}_{\xi}\) introduced in
+\sref{virtual_power_derivation}.  The electric field is a single spatial field,
+but each phase may have its own dielectric response to that field, in the same
+sense that each phase has its own Helmholtz free energy \(\psi_\xi\).  The
+derivative of \(\omega^{+}_{\xi}\) with respect to \(\mbf E\) defines the
+phase displacement \(\mbf d_\xi\), and the total displacement is
+\(\mbf d=\sum_\xi\phi_\xi\mbf d_\xi\).  Stationarity with respect to
+\(\varphi\) gives Gauss' law.  Derivatives with respect to deformation,
+porosity, saturation, composition, and temperature add reversible Maxwell and
+dielectric contributions to the corresponding Coleman--Noll restrictions.
+These reversible terms are not dissipative.  Independent polarization,
+dielectric relaxation, and switching are omitted in the present reservoir-scale
+model.  Their induced dielectric effect can still be represented, when needed,
+by the constitutive choice of \(\omega^{+}_{\xi}\), or equivalently by a
+permittivity closure for \(\mbf d_\xi\).
 In the collection below, the nonelectrical phase Helmholtz derivatives are
 written explicitly, while the electric-potential coefficient is displayed as a
-separate electrical term.  The
-mechanical Maxwell-type contribution in
-\eqref{eq:vp_electrical_mechanical_power} is added to the stress coefficient for
-the motion that carries the electric field.  If \(\omega_{\rm elec}\) is not
-eliminated by a dielectric closure and depends on a mechanical, compositional,
-or thermal state variable, its partial derivative is added to the matching
-reversible coefficient before imposing the corresponding Coleman--Noll
-restriction.
+separate electrical term.  The mechanical Maxwell-type contribution in
+\eqref{eq:vp_electrical_mechanical_power} is assigned to each phase momentum
+coefficient by the volume-fraction-weighted pullback.  If
+\(\omega^{+}_{\xi}\) is not eliminated by a dielectric closure and depends on a
+mechanical, compositional, or thermal state variable, its partial derivative is
+added to the matching reversible coefficient before imposing the corresponding
+Coleman--Noll restriction.
 
 No component additivity has been imposed.  Consequently, the generic
 Coleman--Noll argument uses only the phase internal energy \(e_\xi\),
@@ -1063,27 +1063,26 @@ Substitution of \eqref{eq:MC_solid_pressure_definition} into
 	\label{eq:MC_solid_stress_definition}
 \end{equation}
 %
-When the current electrical domain is carried by this solid skeleton, the
-reversible electrical contribution derived in
-\eqref{eq:vp_electrical_mechanical_power} is added to the right-hand side of
-\eqref{eq:MC_solid_stress_definition}.  Thus the single-prime stress used in the
-mechanical balance contains the additional current-space Maxwell stress
+The reversible electrical contribution derived in
+\eqref{eq:vp_electrical_mechanical_power} assigns a phase-attributed Maxwell
+stress to the solid phase when the solid phase map is varied.  Thus the
+single-prime stress used in the solid mechanical balance contains the additional
+current-space Maxwell stress
 %
 \begin{equation}
-	\bs\sigma_{\rm elec}
+	\bs{\sigma}^{+}_{s}
 	=
-	\omega_{\rm elec}\mbf I
+	\phi_s\omega^{+}_{s}\mbf I
 	+
-	\mbf E\otimes\mbf d .
+	\phi_s\mbf E\otimes\mbf d_s .
 	\label{eq:MC_solid_electrical_stress_contribution}
 \end{equation}
 %
 For the linear dielectric enthalpy
-\(\omega_{\rm elec}=-\frac{1}{2}\mbf E\cdot\mbf d\), this is the usual Maxwell stress
-\(\mbf E\otimes\mbf d-\frac{1}{2}\left(\mbf E\cdot\mbf d\right)\mbf I\).  If
-the electric enthalpy is assigned to a different mixture motion or partitioned
-among several phase motions, the same tensor contribution is assigned by that
-kinematic closure rather than by the charge balance.
+\(\omega^{+}_{\xi}=-\frac{1}{2}\mbf E\cdot\mbf d_\xi\), the sum of the
+phase-attributed stresses is the usual Maxwell stress
+\(\mbf E\otimes\mbf d-\frac{1}{2}\left(\mbf E\cdot\mbf d\right)\mbf I\), with
+\(\mbf d=\sum_\xi\phi_\xi\mbf d_\xi\).
 
 The reversible distension coefficient gives
 %
