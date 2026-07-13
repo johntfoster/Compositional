@@ -304,20 +304,26 @@ electric enthalpy \(\omega_{\rm elec}\) introduced in
 \sref{virtual_power_derivation}.  Its derivative with respect to \(\mbf E\)
 defines \(\mbf d\), and stationarity with respect to \(\varphi\) gives Gauss'
 law.  Derivatives with respect to deformation, porosity, saturation,
-composition, temperature, and polarization add reversible Maxwell, dielectric,
-and polarization contributions to the corresponding Coleman--Noll restrictions.
+composition, and temperature add reversible Maxwell and dielectric
+contributions to the corresponding Coleman--Noll restrictions.
 When this contribution is used in a solid-reference energy, the spatial density
-is pulled back by the appropriate Jacobian.  These reversible terms are not
-dissipative.  A polarization field contributes to the residual inequality only
-when it is treated as a dissipative internal variable rather than eliminated by
-stationarity.
+is pulled back by the appropriate Jacobian; varying that mapping produces the
+mechanical term in \eqref{eq:vp_electrical_mechanical_power}.  These reversible
+terms are not dissipative.  Independent polarization, dielectric relaxation, and
+switching are omitted in the present reservoir-scale model.  Their induced
+dielectric effect can still be represented, when needed, by the constitutive
+choice of \(\omega_{\rm elec}\), or equivalently by a permittivity closure for
+\(\mbf d\).
 In the collection below, the nonelectrical phase Helmholtz derivatives are
-written explicitly, while the electric-potential coefficient and any independent
-polarization coefficient are displayed as separate electrical terms.  If
-\(\omega_{\rm elec}\) is not eliminated by a dielectric closure and depends on a
-mechanical, compositional, or thermal state variable, its partial derivative is
-added to the matching reversible coefficient before imposing the corresponding
-Coleman--Noll restriction.
+written explicitly, while the electric-potential coefficient is displayed as a
+separate electrical term.  The
+mechanical Maxwell-type contribution in
+\eqref{eq:vp_electrical_mechanical_power} is added to the stress coefficient for
+the motion that carries the electric field.  If \(\omega_{\rm elec}\) is not
+eliminated by a dielectric closure and depends on a mechanical, compositional,
+or thermal state variable, its partial derivative is added to the matching
+reversible coefficient before imposing the corresponding Coleman--Noll
+restriction.
 
 No component additivity has been imposed.  Consequently, the generic
 Coleman--Noll argument uses only the phase internal energy \(e_\xi\),
@@ -973,18 +979,6 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		\right)\dot\varphi
 		\notag          \\
 	       &+
-		\left[
-		-\left.\frac{\partial\omega_{\rm elec}}{\partial\mbf P}\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
-		+
-		\nabla_{\mbf x}\cdot
-		\left.
-		\frac{\partial\omega_{\rm elec}}
-		{\partial\nabla_{\mbf x}\mbf P}
-		\right\vert_{\mbf E,\mbf P,\mc X_\xi}
-		\right]\cdot\dot{\mbf P}
-		\notag          \\
-	       & \quad
-		+
 		\sum_\xi\rho_\xi e_\xi^{\rm int}
 		-
 		\sum_\xi
@@ -1069,6 +1063,28 @@ Substitution of \eqref{eq:MC_solid_pressure_definition} into
 	\label{eq:MC_solid_stress_definition}
 \end{equation}
 %
+When the current electrical domain is carried by this solid skeleton, the
+reversible electrical contribution derived in
+\eqref{eq:vp_electrical_mechanical_power} is added to the right-hand side of
+\eqref{eq:MC_solid_stress_definition}.  Thus the single-prime stress used in the
+mechanical balance contains the additional current-space Maxwell stress
+%
+\begin{equation}
+	\bs\sigma_{\rm elec}
+	=
+	\omega_{\rm elec}\mbf I
+	+
+	\mbf E\otimes\mbf d .
+	\label{eq:MC_solid_electrical_stress_contribution}
+\end{equation}
+%
+For the linear dielectric enthalpy
+\(\omega_{\rm elec}=-\frac{1}{2}\mbf E\cdot\mbf d\), this is the usual Maxwell stress
+\(\mbf E\otimes\mbf d-\frac{1}{2}\left(\mbf E\cdot\mbf d\right)\mbf I\).  If
+the electric enthalpy is assigned to a different mixture motion or partitioned
+among several phase motions, the same tensor contribution is assigned by that
+kinematic closure rather than by the charge balance.
+
 The reversible distension coefficient gives
 %
 \begin{equation}
@@ -1378,13 +1394,27 @@ therefore
 This is the standard species-flux contribution in continuum thermodynamics of
 reacting mixtures~\cite{bothe2015continuum,gray2009tcat_transport}.
 
-With electrical effects, the charge coupling \(\varrho\varphi\) in
-\eqref{eq:electric_enthalpy_functional} adds electric work to the coefficient
-of each charged component mass measure.  The component-rate multiplier
-\(\mu_\xi^\alpha\) is therefore interpreted as an electrochemical potential.  If
-one separates a nonelectrical chemical part, then
-\(\mu_\xi^\alpha=\mu_{\xi,{\rm chem}}^\alpha+z_\xi^\alpha\varphi\).  The local
-conversion and transport powers retain their original form,
+With electrical effects, the charge-projected constraint \(C_5\)
+\eqref{eq:vp_C5_charge_constraint} adds electric work to the coefficient of each
+charged component mass measure.  The variational derivation writes the
+chemomechanical component-rate multiplier as \(\hat{\mu}_\xi^\alpha\) and uses
+the electric potential \(\varphi\) directly as the multiplier conjugate to the
+charge projection.  The component-rate multiplier used below is therefore the
+electrochemical potential
+%
+\begin{equation}
+	\mu_\xi^\alpha
+	=
+	\hat{\mu}_\xi^\alpha
+	+
+	z_\xi^\alpha\varphi .
+	\label{eq:MC_electrochemical_multiplier_split}
+\end{equation}
+%
+The factor multiplying \(\varphi\) is the component charge per unit mass
+\(z_\xi^\alpha\), not the mixture charge density \(\varrho\).  With this
+identification, the local conversion and transport powers retain their original
+form,
 %
 \begin{align}
 	-\sum_\xi\sum_\alpha
@@ -1416,7 +1446,24 @@ conversion and transport powers retain their original form,
 %
 For a local mechanism satisfying
 \eqref{eq:mechanism_charge_conservation}, the explicit electric-potential part
-of the decomposed affinity cancels.  Ion exchange enters the residual
+of the decomposed affinity cancels:
+%
+\begin{equation*}
+	-\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+	=
+	-\sum_\xi\sum_\alpha
+	\hat{\mu}_\xi^\alpha\nu_{\xi (m)}^\alpha
+	-
+	\varphi
+	\sum_\xi\sum_\alpha
+	z_\xi^\alpha\nu_{\xi (m)}^\alpha
+	=
+	-\sum_\xi\sum_\alpha
+	\hat{\mu}_\xi^\alpha\nu_{\xi (m)}^\alpha .
+\end{equation*}
+%
+Ion exchange enters the residual
 inequality through the same mechanism-rate power as other reactions, while the
 electric field affects the exchange problem through electrochemical transport,
 Gauss' law, and the state dependence of the free energy.
@@ -1512,16 +1559,20 @@ true-plastic driving stress: his deviatoric true stress is replaced here by the
 phase single-prime solid stress first mapped through that phase's distension
 tensor.  Starting from \eqref{eq:MC_collected_entropy}, the residual inequality
 below follows after substituting the reversible restrictions
-\eqref{eq:MC_phase_pressure_definitions}, \eqref{eq:MC_solid_stress_definition},
-	\eqref{eq:MC_distension_force_definition},
-	\eqref{eq:MC_volume_fraction_restrictions},
-	\eqref{eq:MC_fluid_composition_projection},
-	\eqref{eq:MC_solid_composition_projection}, and
-	\eqref{eq:MC_entropy_definitions}, together with the Gauss-law restriction
-	\eqref{eq:gauss_law} and the source and transport reductions
-	\eqref{eq:MC_helmholtz_source_projection},
-	\eqref{eq:MC_affinity_projection}, and
-	\eqref{eq:MC_relative_transport_power}.  In the electrical theory, the
+	\eqref{eq:MC_phase_pressure_definitions}, \eqref{eq:MC_solid_stress_definition},
+		\eqref{eq:MC_distension_force_definition},
+		\eqref{eq:MC_volume_fraction_restrictions},
+		\eqref{eq:MC_fluid_composition_projection},
+		\eqref{eq:MC_solid_composition_projection}, and
+		\eqref{eq:MC_entropy_definitions}, together with the Gauss-law restriction
+		\eqref{eq:gauss_law}.  When the electrical enthalpy is mechanically active,
+		the stress restriction also includes
+		\eqref{eq:MC_solid_electrical_stress_contribution}, so the Maxwell-type
+		term is removed with the other reversible mechanical terms.  The source and
+		transport reductions are
+		\eqref{eq:MC_helmholtz_source_projection},
+		\eqref{eq:MC_affinity_projection}, and
+		\eqref{eq:MC_relative_transport_power}.  In the electrical theory, the
 	corresponding electrochemical reductions are
 	\eqref{eq:MC_electrochemical_affinity_projection} and
 	\eqref{eq:MC_electrochemical_relative_transport_power}.  With those
@@ -1542,19 +1593,6 @@ below follows after substituting the reversible restrictions
 		\nabla_{\mbf x}\mu_\xi^\alpha
 		\\
 		         &+
-			\left[
-			\begin{aligned}
-			&-\left.\frac{\partial\omega_{\rm elec}}{\partial\mbf P}\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
-			\\
-			&+
-		\nabla_{\mbf x}\cdot
-		\left.
-		\frac{\partial\omega_{\rm elec}}
-		{\partial\nabla_{\mbf x}\mbf P}
-		\right\vert_{\mbf E,\mbf P,\mc X_\xi}
-		\end{aligned}
-		\right]\cdot\dot{\mbf P}
-		+
 		\sum_{s\in\mc S}
 		\bs\sigma_s':
 		\mbf A_s^e
@@ -1772,36 +1810,12 @@ required to determine it
 tensors can be added without changing the variational statement when the
 material requires them~\cite{doi2011onsager}.
 
-The polarization term in \eqref{eq:MC_residual_dissipation} gives the analogous
-restriction for dielectric relaxation or switching.  If \(\mbf P\) is not an
-independent dissipative internal variable, then
-\eqref{eq:polarization_stationarity} removes this term.  Otherwise an
-uncoupled sufficient closure is
-%
-\begin{align}
-	\dot{\mbf P}
-	={}&
-	\Lambda_{\mbf P}
-	\left[
-	-\left.
-	\frac{\partial\omega_{\rm elec}}{\partial\mbf P}
-	\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
-	+
-	\nabla_{\mbf x}\cdot
-	\left.
-	\frac{\partial\omega_{\rm elec}}
-	{\partial\nabla_{\mbf x}\mbf P}
-	\right\vert_{\mbf E,\mbf P,\mc X_\xi}
-	\right],
-	\qquad
-	\Lambda_{\mbf P}\ge0,
-	\label{eq:MC_polarization_dissipation_closure}
-\end{align}
-%
-which makes the polarization contribution to
-\eqref{eq:MC_residual_dissipation} nonnegative.  More general Onsager
-cross-couplings between polarization, charged fluxes, reactions, and heat flow
-are admissible when the combined dissipation potential is nonnegative.
+No residual polarization term appears in \eqref{eq:MC_residual_dissipation}
+because independent polarization is not included as a state variable.  Models
+for induced-polarization measurements, ferroelectric switching, or dielectric
+relaxation would enlarge the electrical state and add a corresponding
+stationarity or dissipative evolution law; those mechanisms are deliberately
+left outside the present reservoir-flow specialization.
 
 Following the same sufficient construction used by
 Drumheller~\cite{drumheller2000}, one may choose generic uncoupled plastic flow
