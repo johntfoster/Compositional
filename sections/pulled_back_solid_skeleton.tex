@@ -1,4 +1,4 @@
-\section{Reservoir simulation}
+\section{Solid-reference form for reservoir simulation}
 \label{sec:reservoir_simulation}
 
 This section rewrites the transport and mechanics equations in a form suitable
@@ -11,10 +11,9 @@ $\mbf F$ and Jacobian $J$.
 \label{sec:relative_flux_vectors}
 
 The phase momentum equation \eqref{eq:vp_fluid_momentum_simplified} determines
-consistent Darcy-scale relative
-fluxes once the interphase drag is written in terms of a velocity relative to the
-solid skeleton.  For each fluid phase $f$, define the current relative mass
-flux by
+Darcy-scale relative fluxes once interphase drag is written in terms of a
+velocity relative to the solid skeleton.  For each fluid phase \(f\), define the
+current relative mass flux by
 %
 \begin{equation}
 	\mbf w_f
@@ -100,10 +99,10 @@ Then the admissible relative mass flux is
 \end{empheq}
 %
 This expression is the multicomponent fluid-phase analogue of a generalized
-Darcy flux. The first two terms are the
-body-force and pressure-gradient contributions, while the last term is the
-component-mass-addition momentum contribution.  Chemical-potential gradients
-drive component-relative transport through
+Darcy flux.  The first two terms are the body-force and pressure-gradient
+contributions, while the last term is the component-mass-addition momentum
+contribution.  Chemical-potential gradients drive component-relative transport
+through
 \eqref{eq:MC_relative_transport_closures}; that dissipative role is distinct
 from their momentum-production role in the mass-addition variation.
 
@@ -118,7 +117,7 @@ When component mass-addition effects are negligible,
 	\label{eq:standard_darcy_mass_flux_limit}
 \end{equation}
 %
-This is Darcy's law for phase $f$ relative to the deforming solid skeleton. In
+This is Darcy's law for phase \(f\) relative to the deforming solid skeleton.  In
 the general case, \eqref{eq:generalized_fluid_darcy_mass_flux} should be used
 instead of \eqref{eq:standard_darcy_mass_flux_limit} whenever net component
 accumulation rates are large enough for momentum production to affect phase
@@ -240,7 +239,7 @@ written on the solid trajectory by applying the Piola transform to the stress
 divergence and multiplying the remaining spatial source terms by $J$.  Let
 \(\mbf P^{\prime\prime}=J\bs\sigma^{\prime\prime}\mbf F^{-T}\) denote the
 first Piola--Kirchhoff stress associated with the fixed-pressure skeleton
-stress. This transformation gives
+stress.  This transformation gives
 %
 \begin{align}
 	J\sum_\xi\rho_\xi\mbf a_\xi
@@ -355,6 +354,6 @@ pressure closes the phase pressures algebraically through the saturation state,
 %
 Equivalently, a simulator may choose one reference pressure and reconstruct the
 other fluid pressures from the selected capillary-pressure laws before
-evaluating the fluxes. This algebraic reconstruction also makes the
+evaluating the fluxes.  This algebraic reconstruction also makes the
 saturation-weighted pressure gradient collapse to the equivalent-pressure
 gradient in \eqref{eq:MC_fluid_pressure_gradient_rollup}.

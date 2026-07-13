@@ -299,6 +299,26 @@ coefficients are projected onto the corresponding tangent spaces by
 subtracting the \(N\)th component coefficient from the \(\beta=1,\ldots,N-1\)
 coefficients.
 
+Electrical effects enter the free-energy structure through the current-volume
+electric enthalpy \(\omega_{\rm elec}\) introduced in
+\sref{virtual_power_derivation}.  Its derivative with respect to \(\mbf E\)
+defines \(\mbf d\), and stationarity with respect to \(\varphi\) gives Gauss'
+law.  Derivatives with respect to deformation, porosity, saturation,
+composition, temperature, and polarization add reversible Maxwell, dielectric,
+and polarization contributions to the corresponding Coleman--Noll restrictions.
+When this contribution is used in a solid-reference energy, the spatial density
+is pulled back by the appropriate Jacobian.  These reversible terms are not
+dissipative.  A polarization field contributes to the residual inequality only
+when it is treated as a dissipative internal variable rather than eliminated by
+stationarity.
+In the collection below, the nonelectrical phase Helmholtz derivatives are
+written explicitly, while the electric-potential coefficient and any independent
+polarization coefficient are displayed as separate electrical terms.  If
+\(\omega_{\rm elec}\) is not eliminated by a dielectric closure and depends on a
+mechanical, compositional, or thermal state variable, its partial derivative is
+added to the matching reversible coefficient before imposing the corresponding
+Coleman--Noll restriction.
+
 No component additivity has been imposed.  Consequently, the generic
 Coleman--Noll argument uses only the phase internal energy \(e_\xi\),
 Helmholtz free energy \(\psi_\xi\), and entropy \(\mathfrak{s}_\xi\).  A
@@ -944,14 +964,30 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\mbf j_{\xi,{\rm disp}}^\alpha
 	+
 	\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)\cdot
-	\nabla_{\mbf x}\mu_\xi^\alpha
-	\notag          \\
+		\right)\cdot
+		\nabla_{\mbf x}\mu_\xi^\alpha
+		\notag          \\
+	       &+
+		\left(
+		\varrho-\nabla_{\mbf x}\cdot\mbf d
+		\right)\dot\varphi
+		\notag          \\
+	       &+
+		\left[
+		-\left.\frac{\partial\omega_{\rm elec}}{\partial\mbf P}\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
+		+
+		\nabla_{\mbf x}\cdot
+		\left.
+		\frac{\partial\omega_{\rm elec}}
+		{\partial\nabla_{\mbf x}\mbf P}
+		\right\vert_{\mbf E,\mbf P,\mc X_\xi}
+		\right]\cdot\dot{\mbf P}
+		\notag          \\
 	       & \quad
-	+
-	\sum_\xi\rho_\xi e_\xi^{\rm int}
-	-
-	\sum_\xi
+		+
+		\sum_\xi\rho_\xi e_\xi^{\rm int}
+		-
+		\sum_\xi
 	\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
 	.
 	\label{eq:MC_collected_entropy}
@@ -1342,6 +1378,49 @@ therefore
 This is the standard species-flux contribution in continuum thermodynamics of
 reacting mixtures~\cite{bothe2015continuum,gray2009tcat_transport}.
 
+With electrical effects, the charge coupling \(\varrho\varphi\) in
+\eqref{eq:electric_enthalpy_functional} adds electric work to the coefficient
+of each charged component mass measure.  The component-rate multiplier
+\(\mu_\xi^\alpha\) is therefore interpreted as an electrochemical potential.  If
+one separates a nonelectrical chemical part, then
+\(\mu_\xi^\alpha=\mu_{\xi,{\rm chem}}^\alpha+z_\xi^\alpha\varphi\).  The local
+conversion and transport powers retain their original form,
+%
+\begin{align}
+	-\sum_\xi\sum_\alpha
+	\dot c_\xi^\alpha\mu_\xi^\alpha
+	&=
+	\sum_m
+	\mc A_{(m)}\dot r_{(m)},
+	\qquad
+	\mc A_{(m)}
+	=
+	-\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
+	\label{eq:MC_electrochemical_affinity_projection}
+	\\
+	-\sum_\xi\sum_\alpha
+	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\mu_\xi^\alpha
+	&=
+	-\sum_\xi\sum_\alpha
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)\cdot\nabla_{\mbf x}\mu_\xi^\alpha
+	+
+	\text{b.t.}
+	\label{eq:MC_electrochemical_relative_transport_power}
+\end{align}
+%
+For a local mechanism satisfying
+\eqref{eq:mechanism_charge_conservation}, the explicit electric-potential part
+of the decomposed affinity cancels.  Ion exchange enters the residual
+inequality through the same mechanism-rate power as other reactions, while the
+electric field affects the exchange problem through electrochemical transport,
+Gauss' law, and the state dependence of the free energy.
+
 Converted and relatively transported mass of the same component enter the phase
 material measure only through their sum.  The variational derivation leaves the
 generalized work potential \(L_\xi^\alpha\) explicit in
@@ -1434,15 +1513,20 @@ phase single-prime solid stress first mapped through that phase's distension
 tensor.  Starting from \eqref{eq:MC_collected_entropy}, the residual inequality
 below follows after substituting the reversible restrictions
 \eqref{eq:MC_phase_pressure_definitions}, \eqref{eq:MC_solid_stress_definition},
-\eqref{eq:MC_distension_force_definition},
-\eqref{eq:MC_volume_fraction_restrictions},
-\eqref{eq:MC_fluid_composition_projection},
-\eqref{eq:MC_solid_composition_projection}, and
-\eqref{eq:MC_entropy_definitions}, together with the source and transport
-reductions \eqref{eq:MC_helmholtz_source_projection},
-\eqref{eq:MC_affinity_projection}, and
-\eqref{eq:MC_relative_transport_power}.  With those substitutions made, the
-remaining inequality can be written as
+	\eqref{eq:MC_distension_force_definition},
+	\eqref{eq:MC_volume_fraction_restrictions},
+	\eqref{eq:MC_fluid_composition_projection},
+	\eqref{eq:MC_solid_composition_projection}, and
+	\eqref{eq:MC_entropy_definitions}, together with the Gauss-law restriction
+	\eqref{eq:gauss_law} and the source and transport reductions
+	\eqref{eq:MC_helmholtz_source_projection},
+	\eqref{eq:MC_affinity_projection}, and
+	\eqref{eq:MC_relative_transport_power}.  In the electrical theory, the
+	corresponding electrochemical reductions are
+	\eqref{eq:MC_electrochemical_affinity_projection} and
+	\eqref{eq:MC_electrochemical_relative_transport_power}.  With those
+	substitutions made, the Gauss-law restriction removes the
+	electric-potential-rate term and the remaining inequality can be written as
 %
 \begin{equation}
 	\begin{aligned}
@@ -1456,6 +1540,20 @@ remaining inequality can be written as
 		\mbf j_{\xi,{\rm diff}}^\alpha
 		\right)\cdot
 		\nabla_{\mbf x}\mu_\xi^\alpha
+		\\
+		         &+
+			\left[
+			\begin{aligned}
+			&-\left.\frac{\partial\omega_{\rm elec}}{\partial\mbf P}\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
+			\\
+			&+
+		\nabla_{\mbf x}\cdot
+		\left.
+		\frac{\partial\omega_{\rm elec}}
+		{\partial\nabla_{\mbf x}\mbf P}
+		\right\vert_{\mbf E,\mbf P,\mc X_\xi}
+		\end{aligned}
+		\right]\cdot\dot{\mbf P}
 		+
 		\sum_{s\in\mc S}
 		\bs\sigma_s':
@@ -1483,17 +1581,18 @@ remaining inequality can be written as
 %
 \subsubsection{Constitutive restrictions for the process-rate forces}
 
-The conversion and relative-transport rates have all been varied in the
-extended Lagrange--d'Alembert principle.  The variational force balances
-\eqref{eq:vp_affinity_balance} and
-\eqref{eq:vp_relative_flux_force_balance} are therefore already written in
-terms of the chemical-potential multiplier \(\mu_\xi^\alpha\) identified by the
-entropy inequality.  The relative component fluxes only redistribute mass among
-the components of a phase; they do not move the whole phase mass together.
-Consequently, adding the same chemical potential to every component in a phase
-does not change the transport power.  The driving quantities are therefore
-chemical-potential differences, as in standard mixture and Maxwell--Stefan
-descriptions~\cite{bothe2015continuum}.
+The extended Lagrange--d'Alembert principle varies the conversion and
+relative-transport rates, while the entropy inequality restricts the
+constitutive relation between those rates and their forces.  The variational
+force balances \eqref{eq:vp_affinity_balance} and
+\eqref{eq:vp_relative_flux_force_balance} are already written in terms of the
+chemical-potential multiplier \(\mu_\xi^\alpha\) identified by the entropy
+inequality.  In the electrical theory this multiplier is electrochemical.  The
+relative component fluxes redistribute mass among the components of a phase;
+they do not move the whole phase mass together.  Adding the same component
+potential to every component in a phase therefore does not change the transport
+power.  The driving quantities are component-potential differences, with the
+neutral theory recovered by setting \(z_\xi^\alpha=0\).
 
 Substitution of the entropy-identified chemical force into the transport term of
 \eqref{eq:MC_residual_dissipation} gives
@@ -1522,7 +1621,7 @@ Thus \(\mc A_{(m)}\) is conjugate to \(\dot r_{(m)}\), while each
 \(\mbf M_{\xi,k}^\alpha\) is conjugate to its relative flux
 \(\mbf j_{\xi,k}^\alpha\).  Diffusion and dispersion are distinct dissipative
 mechanisms with potentially different resistance operators, even though both
-respond to the same component chemical-potential gradient.
+respond to the same component-potential gradient.
 
 The variational equations alone do not prescribe how the dissipative forces
 depend on their rates.  The residual inequality
@@ -1663,13 +1762,46 @@ The resulting constitutively admissible rates satisfy
 \end{align}
 %
 Averaging gives separate diffusion and dispersion rates, but the entropy
-inequality gives both rates the same chemical-potential driving force.  The
-resistance tensors are constitutive choices.  In particular, the dispersion
-mobility may depend on resolved flow and pore geometry, and a pore-scale closure
-problem is required to determine it
+inequality gives both rates the same component-potential driving force.  In the
+electrical theory this potential includes electric work; the neutral theory is
+recovered by setting \(z_\xi^\alpha=0\).  The resistance
+tensors are constitutive choices.  In particular, the dispersion mobility may
+depend on resolved flow and pore geometry, and a pore-scale closure problem is
+required to determine it
 ~\cite{plumb1988dispersion,gray2009tcat_transport}.  Cross-coupled resistance
 tensors can be added without changing the variational statement when the
 material requires them~\cite{doi2011onsager}.
+
+The polarization term in \eqref{eq:MC_residual_dissipation} gives the analogous
+restriction for dielectric relaxation or switching.  If \(\mbf P\) is not an
+independent dissipative internal variable, then
+\eqref{eq:polarization_stationarity} removes this term.  Otherwise an
+uncoupled sufficient closure is
+%
+\begin{align}
+	\dot{\mbf P}
+	={}&
+	\Lambda_{\mbf P}
+	\left[
+	-\left.
+	\frac{\partial\omega_{\rm elec}}{\partial\mbf P}
+	\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
+	+
+	\nabla_{\mbf x}\cdot
+	\left.
+	\frac{\partial\omega_{\rm elec}}
+	{\partial\nabla_{\mbf x}\mbf P}
+	\right\vert_{\mbf E,\mbf P,\mc X_\xi}
+	\right],
+	\qquad
+	\Lambda_{\mbf P}\ge0,
+	\label{eq:MC_polarization_dissipation_closure}
+\end{align}
+%
+which makes the polarization contribution to
+\eqref{eq:MC_residual_dissipation} nonnegative.  More general Onsager
+cross-couplings between polarization, charged fluxes, reactions, and heat flow
+are admissible when the combined dissipation potential is nonnegative.
 
 Following the same sufficient construction used by
 Drumheller~\cite{drumheller2000}, one may choose generic uncoupled plastic flow
@@ -1713,7 +1845,7 @@ yield strength, and mobility enter through flow laws for
 \(\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}\) whose arguments include
 \(\eta_s^\beta\).  Component-resolved plastic closures for the additive
 specialization are given in
-\eqref{eq:MC_component_resolved_plastic_flow_rules}. More general coupled
+\eqref{eq:MC_component_resolved_plastic_flow_rules}.  More general coupled
 plastic deformation--distension laws are allowed if their combined plastic
 power is nonnegative.  A stronger model with component-specific plastic deformation
 gradients would require a different solid kinematic split and new residual

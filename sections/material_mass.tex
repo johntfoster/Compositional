@@ -29,14 +29,16 @@
 	\label{fig:component_kinematics}
 \end{figure}
 %
-We consider a mixture whose phases occupy a common current configuration
-$\mc B$.  Phase labels such as $\xi$ identify material that moves with the same
-motion $\bs\chi_\xi$, while the component label $\alpha$ distinguishes chemical
-species or constituents within that phase.  This convention permits fluids,
-gases, and solids to be treated with one notation.  A phase is the collection of
-components that share the trajectory $\bs\chi_\xi$.  Given a differential mass
-${\rm d}m^\al_\xi$ of component $\al$ in phase $\xi$, define the component
-partial density per current mixture volume by
+The derivation begins with component mass because every later force, multiplier,
+and closure is tied to how mass is stored, converted, and transported.  The
+mixture phases occupy a common current configuration \(\mc B\).  A phase label
+\(\xi\) identifies material that moves with one motion \(\bs\chi_\xi\), while a
+component label \(\alpha\) distinguishes chemical species or constituents within
+that phase.  Fluids, gases, and solids are therefore described by the same
+phase/component notation: a phase is the collection of components sharing the
+trajectory \(\bs\chi_\xi\).  Given a differential mass \({\rm d}m^\al_\xi\) of
+component \(\alpha\) in phase \(\xi\), define the component partial density per
+current mixture volume by
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -90,13 +92,13 @@ field, with $\mbf{u}_\xi = \mbf{x} - \mbf{X}_\xi$, and
 $\nabla_{\mbf{X}_\xi}$ is the gradient operator in the phase reference
 coordinates.
 
-Let $\rho_{\xi0}^\al(\mbf X_\xi)$ denote the initial component partial density,
-evaluated at $\mbf x(\mbf{X}_\xi, t=0)=\mbf X_\xi$.  Let
-$\mathcal{C}^\al_\xi(\mbf X_\xi,t)$ denote the mass of component $\alpha$
-added to phase $\xi$ per unit phase reference volume by internal conversion.
+Let \(\rho_{\xi0}^\al(\mbf X_\xi)\) denote the initial component partial
+density, evaluated at \(\mbf x(\mbf{X}_\xi,t=0)=\mbf X_\xi\).  Let
+\(\mathcal{C}^\al_\xi(\mbf X_\xi,t)\) denote the mass of component \(\alpha\)
+added to phase \(\xi\) per unit phase reference volume by internal conversion.
 Internal conversion includes chemical reactions, sorption/desorption, and pure
-phase transformations.  The following material statement therefore describes
-the conversion-only subproblem; relative component transport is added in
+phase transformations.  The first material statement isolates this
+conversion-only subproblem; relative component transport is added in
 \sref{averaged_component_transport_extension}.  The component mass balance in
 integral form is
 %
@@ -136,7 +138,7 @@ velocity $\mbf v_\zeta$ of phase $\zeta$ is
 \end{equation}
 % AGENT-LOCK-END
 %
-Here, $\nabla_{\mbf x}$ is the spatial gradient operator. The shorthand
+Here, $\nabla_{\mbf x}$ is the spatial gradient operator.  The shorthand
 $\dot\square_\xi = D_\xi \square_\xi/Dt$ denotes the material time derivative
 following phase $\xi$.  Taking the material time derivative of
 \eqref{eq:material_mass_2} following phase $\xi$ and using the identity
@@ -302,7 +304,7 @@ the reference conversion rate and obeys
 \label{sec:averaged_component_transport_extension}
 
 The phase-level material theory assigns one resolved motion \(\mbf v_\xi\) to
-each phase. The component motion inside a representative current volume is
+each phase.  The component motion inside a representative current volume is
 averaged to expose transport not resolved by that phase motion, following the
 standard volume-averaging decomposition for porous-medium species
 transport~\cite{plumb1988dispersion,gray2009tcat_transport}.  A hat denotes a

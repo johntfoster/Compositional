@@ -1,0 +1,223 @@
+% !TeX root = ../main.tex
+\section{Conservation of charge}
+\label{sec:conservation_of_charge}
+
+Electric charge is carried by the same phase/component material measures that
+carry mass.  The charge balance is therefore a projection of the component mass
+bookkeeping, with each component weighted by the charge it carries per unit
+mass.  This section establishes that bookkeeping.  The field equation for the
+electric potential and the electrochemical form of the component multiplier are
+introduced later in \sref{virtual_power_derivation}.
+
+Let \(z_\xi^\alpha\) denote the charge carried per unit mass of component
+\(\alpha\) in phase \(\xi\).  The charge density per unit current mixture volume
+associated with that component is
+%
+\begin{equation}
+	\varrho_\xi^\alpha
+	=
+	z_\xi^\alpha\rho_\xi^\alpha
+	=
+	z_\xi^\alpha\phi_\xi\bar\rho_\xi\eta_\xi^\alpha .
+	\label{eq:component_charge_density_definition}
+\end{equation}
+%
+The coefficient \(z_\xi^\alpha\) may vanish for neutral components, may be a
+constant valence-to-mass ratio for a mobile ion, or may be an effective charge
+per mass for a solid component representing fixed surface or exchange-site
+charge.  In this form, immobile surface charge
+\cite{hunter1981zeta}, clay charge \cite{leroy2004triple}, cementitious
+charge \cite{viallis2001zeta}, and mobile aqueous charge
+\cite{newman2004electrochemical} are represented by the same phase/component
+variables.  The total free charge density is
+%
+\begin{equation}
+	\varrho
+	=
+	\sum_\xi\sum_\alpha\varrho_\xi^\alpha
+	=
+	\sum_\xi\sum_\alpha
+	z_\xi^\alpha\phi_\xi\bar\rho_\xi\eta_\xi^\alpha .
+	\label{eq:mixture_charge_density_definition}
+\end{equation}
+%
+If a model contains prescribed charge that is not represented by a tracked
+component, it may be added as a known contribution to \(\varrho\).  Treating
+fixed charge as a solid component is the more structural representation because
+charge storage, deformation, reaction, and ion exchange then remain tied to the
+same material measures used for mass.
+
+The material charge measure follows by multiplying the augmented component
+material measure \eqref{eq:augmented_component_material_measure} by
+\(z_\xi^\alpha\),
+%
+\begin{equation}
+	z_\xi^\alpha\rho_{\xi0}^\alpha
+	+
+	z_\xi^\alpha\mc C_\xi^\alpha
+	+
+	z_\xi^\alpha\mc D_\xi^\alpha
+	=
+	J_\xi\varrho_\xi^\alpha .
+	\label{eq:augmented_component_material_charge_measure}
+\end{equation}
+%
+For constant \(z_\xi^\alpha\), its material rate gives
+%
+\begin{align}
+	\frac{
+	z_\xi^\alpha\dot{\mc C}_\xi^\alpha
+	+
+	z_\xi^\alpha\dot{\mc D}_\xi^\alpha
+	}{J_\xi}
+	&=
+	\frac{D_\xi\varrho_\xi^\alpha}{Dt}
+	+
+	\varrho_\xi^\alpha\nabla_{\mbf x}\cdot\mbf v_\xi .
+	\label{eq:component_charge_material_rate}
+\end{align}
+%
+If an effective charge \(z_\xi^\alpha\) is taken to depend on state, then the
+left-hand side acquires the corresponding material derivative of
+\(z_\xi^\alpha\).  The fixed-\(z_\xi^\alpha\) case is the charge-weighted
+projection of the component mass bookkeeping used below.
+
+Substitution of the conversion and transport accumulation rates
+\eqref{eq:reference_conversion_accumulation_rate}--\eqref{eq:reference_transport_accumulation_rate}
+gives the charge-weighted current-volume rate identity
+%
+\begin{align}
+	\frac{
+	z_\xi^\alpha\dot{\mc C}_\xi^\alpha
+	+
+	z_\xi^\alpha\dot{\mc D}_\xi^\alpha
+	}{J_\xi}
+	-
+	z_\xi^\alpha
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
+	+
+	z_\xi^\alpha
+	\nabla_{\mbf x}\cdot
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)
+	=
+	0 .
+	\label{eq:component_charge_rate_identity}
+\end{align}
+%
+This identity is the component material-rate balance viewed through the charge
+weights \(z_\xi^\alpha\).  Its spatial form is the charge balance for each
+charged component,
+%
+\begin{align}
+	\frac{\partial\varrho_\xi^\alpha}{\partial t}
+	+
+	\nabla_{\mbf x}\cdot
+	\left[
+	z_\xi^\alpha
+	\left(
+	\rho_\xi^\alpha\mbf v_\xi
+	+
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)
+	\right]
+	&=
+	z_\xi^\alpha
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)} .
+	\label{eq:component_charge_balance}
+\end{align}
+%
+The current density carried by phase motion and relative component transport is
+%
+\begin{equation}
+	\mbf i
+	=
+	\sum_\xi\sum_\alpha
+	z_\xi^\alpha
+	\left(
+	\rho_\xi^\alpha\mbf v_\xi
+	+
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right).
+	\label{eq:charge_current_density_definition}
+\end{equation}
+%
+Summing \eqref{eq:component_charge_balance} over phases and components gives
+%
+\begin{align}
+	\frac{\partial\varrho}{\partial t}
+	+
+	\nabla_{\mbf x}\cdot\mbf i
+	=
+	\sum_m
+	\left(
+	\sum_\xi\sum_\alpha
+	z_\xi^\alpha\nu_{\xi (m)}^\alpha
+	\right)
+	\dot r_{(m)} .
+	\label{eq:mixture_charge_balance_with_sources}
+\end{align}
+%
+Local internal mechanisms must conserve electric charge,
+%
+\begin{equation}
+	\sum_\xi\sum_\alpha
+	z_\xi^\alpha\nu_{\xi (m)}^\alpha
+	=0,
+	\qquad
+	\text{for each mechanism }(m),
+	\label{eq:mechanism_charge_conservation}
+\end{equation}
+%
+so that the total charge balance reduces to
+%
+\begin{equation}
+	\frac{\partial\varrho}{\partial t}
+	+
+	\nabla_{\mbf x}\cdot\mbf i
+	=0 .
+	\label{eq:mixture_charge_balance}
+\end{equation}
+%
+Equation \eqref{eq:mechanism_charge_conservation} is the charge analogue of the
+mass-conservation restriction
+\(\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha=0\).  In an ion-exchange mechanism,
+the nonzero stoichiometric coefficients remove a charged aqueous component and
+a charged solid-site component while creating the exchanged aqueous component
+and exchanged solid-site component.  The mechanism changes fluid composition
+and solid-site occupancy, but its stoichiometric projection satisfies both mass
+conservation and \eqref{eq:mechanism_charge_conservation}.
+
+Several common theories are recovered by specialization.  Setting
+\(z_\xi^\alpha=0\) for every component returns the neutral mixture theory.
+Keeping charged aqueous species, diffusion fluxes, and Gauss' law
+\eqref{eq:gauss_law} while suppressing deformation and phase momentum gives a
+Poisson--Nernst--Planck reactive-transport limit.  In macroscopic reservoir brine
+models whose Debye length is small compared with the grid scale, Gauss' law may
+be replaced by the electroneutral constraint
+%
+\begin{equation}
+	\varrho
+	=
+	\sum_\xi\sum_\alpha
+	z_\xi^\alpha\phi_\xi\bar\rho_\xi\eta_\xi^\alpha
+	=0 .
+	\label{eq:electroneutral_charge_constraint}
+\end{equation}
+%
+The electroneutral limit is a singular electrostatic specialization, not a
+dielectric closure.  The bulk charge density is constrained to vanish, and the
+electric field appears only through the reduced electrochemical-potential
+relations appropriate to that limit.  Ion-exchange and surface-complexation
+models are obtained by
+retaining charged solid-site components, imposing
+\eqref{eq:mechanism_charge_conservation} on the exchange stoichiometry, and
+choosing admissible kinetic or equilibrium closures for the corresponding
+mechanism rates.

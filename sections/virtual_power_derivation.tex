@@ -30,22 +30,29 @@ The component storage multiplier is \(\pi_\xi^\alpha\), the phase
 composition-normalization multiplier is \(\Pi_\xi\), and the component-rate
 constraint multiplier is \(\mu_\xi^\alpha\).  The entropy inequality in
 \sref{MC_residual_dissipation} identifies this same multiplier as the
-thermodynamic chemical potential. All quantities are considered over an
-arbitrary interval \(t\in[t_1,t_2]\). The accumulated conversion and transport
+thermodynamic chemical potential.  All quantities are considered over an
+arbitrary interval \(t\in[t_1,t_2]\).  The accumulated conversion and transport
 masses, \(\mc C_\xi^\alpha\) and \(\mc D_\xi^\alpha\), are primitive state
-coordinates. Their rate variations are therefore compatible variations,
+coordinates.  Their rate variations are therefore compatible variations,
 \(\delta\dot{\mc C}_\xi^\alpha
 =D_\xi(\delta\mc C_\xi^\alpha)/Dt\) and
 \(\delta\dot{\mc D}_\xi^\alpha
 =D_\xi(\delta\mc D_\xi^\alpha)/Dt\), rather than independent virtual rates.
 The accumulated-mass variations are taken to vanish at \(t_1\) and \(t_2\),
 which later permits temporal integration by parts without endpoint terms.
+When electrical effects are retained, the electric potential \(\varphi\) is also
+varied.  In the electroquasistatic specialization the electric field is
+\(\mbf E=-\nabla_{\mbf x}\varphi\).  The corresponding virtual-power term is
+written with the virtual potential rate \(\delta\dot\varphi\).  A polarization
+field \(\mbf P\) may either be determined by reversible stationarity or treated
+as an internal variable with its own dissipative evolution.
 
 Let \(\delta\mbf v_\xi\) be an arbitrary virtual phase velocity.  The symbols
-\(\delta\dot\phi_\xi\), \(\delta\dot{\bar\rho}_\xi\), and
-\(\delta\dot\eta_\xi^\alpha\) denote independent virtual state rates.  In
+\(\delta\dot\phi_\xi\), \(\delta\dot{\bar\rho}_\xi\),
+\(\delta\dot\eta_\xi^\alpha\), and, when electrical effects are retained,
+\(\delta\dot\varphi\) denote independent virtual state rates.  In
 contrast, \(\delta\mc C_\xi^\alpha\) and \(\delta\mc D_\xi^\alpha\) vary the
-accumulated state coordinates described above. The independent dissipative
+accumulated state coordinates described above.  The independent dissipative
 process-rate variations are
 \(\delta\dot r_{(m)}\), \(\delta\mbf j_{\xi,{\rm disp}}^\alpha\), and
 \(\delta\mbf j_{\xi,{\rm diff}}^\alpha\).  Multiplier variations enforce the
@@ -56,24 +63,27 @@ virtual-power form is
 	\int_{t_1}^{t_2}\left(
 	\delta\mc P_{\rm in}
 	+
-	\delta\mc P_{\rm rev}
-	+
 	\delta\mc P_{\rm ext}
 	+
-	\sum_{k=1}^4\delta\mc P_{C_k}
+	\delta\mc P_{\rm rev}
 	+
 	\delta\mc P_{\rm diss}
+	+
+	\delta\mc P_{\rm elec}
+	+
+	\sum_{k=1}^4\delta\mc P_{C_k}
 	\right)\dt
 	=0,
 	\label{eq:vp_principle}
 \end{equation}
 %
 for every admissible collection of these virtual fields.  The subscripts
-\({\rm in}\), \({\rm rev}\), \({\rm ext}\), and \({\rm diss}\) denote inertial,
-reversible, external, and dissipative virtual power, respectively, while
+\({\rm in}\), \({\rm ext}\), \({\rm rev}\), \({\rm diss}\), and \({\rm elec}\) denote inertial,
+external, reversible, dissipative, and electrical virtual power, respectively, while
 \(C_k\) denotes the four constraint contributions.  The statement is
 time-integrated as in the Bedford--Drumheller constrained Hamilton formulation,
-whereas each term in its integrand is expressed as a virtual power.
+whereas each term in its integrand is expressed as a virtual power.  The
+electrical contribution is absent in the neutral specialization.
 
 \subsection{Reference mass measure and virtual rates}
 
@@ -93,15 +103,15 @@ reference volume is
 %
 Here \(\rho_{\xi0}^\alpha\) is fixed, \(\mc C_\xi^\alpha\) is accumulated mass
 added by conversion, and \(\mc D_\xi^\alpha\) is accumulated mass added by
-relative component transport. Consequently, the virtual rate of mass addition
+relative component transport.  Consequently, the virtual rate of mass addition
 to this referential measure is
 \(\delta\dot{\mc C}_\xi^\alpha
-+\delta\dot{\mc D}_\xi^\alpha\). Dividing this sum by \(J_\xi\) gives the
++\delta\dot{\mc D}_\xi^\alpha\).  Dividing this sum by \(J_\xi\) gives the
 corresponding virtual mass-addition rate per unit current mixture volume; no
 additional mass variable is introduced.
 
 Variations of the phase motion also change the volume ratio between the phase
-reference and current configurations. The compatible virtual Jacobian rate is
+reference and current configurations.  The compatible virtual Jacobian rate is
 %
 \begin{equation}
 	\delta\dot J_\xi
@@ -454,7 +464,7 @@ relative component fluxes.  The dissipative virtual power is
 \subsection{Virtual power of the volume-fraction constraint}
 
 The transport identity needed for the volume-fraction and mass-fraction
-constraints is derived once here. Pulling the current volume fraction back to
+constraints is derived once here.  Pulling the current volume fraction back to
 the phase reference configuration gives the reference factor
 %
 \begin{equation*}
@@ -500,7 +510,7 @@ Thus the fixed-spatial rate of the pointwise saturation constraint
 %
 At the virtual-rate level, vary the pulled-back factor
 \(\delta\left(\phi_\xi J_\xi\right)\) and use
-\(\delta\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\delta\mbf v_\xi\). Substituting
+\(\delta\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\delta\mbf v_\xi\).  Substituting
 this compatible virtual motion into the fixed-spatial rate identity gives
 %
 \begin{equation}
@@ -855,15 +865,290 @@ accumulation, motion, mechanism-rate, and flux variations gives
 	\label{eq:vp_C4_power}
 \end{align}
 
+\subsection{Electric enthalpy and the component-rate multiplier}
+
+The charge bookkeeping in \sref{conservation_of_charge} supplies the source
+term for the electric field.  In the electroquasistatic specialization the
+corresponding reversible field variable is the electric potential
+\(\varphi\).  Introduce the electric field \(\mbf E\), electric displacement
+\(\mbf d\), and, when needed, a polarization \(\mbf P\),
+%
+\begin{equation}
+	\mbf E=-\nabla_{\mbf x}\varphi,
+	\qquad
+	\mbf d
+	=
+	-\left.
+	\frac{\partial\omega_{\rm elec}}{\partial\mbf E}
+	\right\vert_{\mbf P,\mc X_\xi,\varphi}.
+	\label{eq:electric_field_definitions}
+\end{equation}
+%
+Here \(\omega_{\rm elec}\) is an electric enthalpy per unit current mixture
+volume.  The notation \(\mc X_\xi\) denotes the mechanical, compositional, and
+thermal state variables already used by the phase Helmholtz energies.  A linear
+dielectric without an independent polarization is recovered by choosing
+\(\omega_{\rm elec}=-\frac{1}{2}\mbf E\cdot\bs\epsilon\mbf E\), which gives
+\(\mbf d=\bs\epsilon\mbf E\).  In reference-form solid calculations this
+current-volume term is pulled back as \(J\omega_{\rm elec}\), with the same
+Jacobian used for the current-volume virtual power.
+
+The reversible electrical contribution is
+%
+\begin{equation}
+	\mc I_{\rm elec}[\varphi,\mbf P]
+	=
+	\int_{\mc B}
+	\left[
+	\omega_{\rm elec}
+	\left(
+	\mbf E,\mbf P,\nabla_{\mbf x}\mbf P,\mc X_\xi
+	\right)
+	+
+	\varrho\varphi
+	\right]\dv ,
+	\qquad
+	\mbf E=-\nabla_{\mbf x}\varphi .
+	\label{eq:electric_enthalpy_functional}
+\end{equation}
+%
+To obtain the potential equation in the same rate form as the rest of the
+virtual-power principle, differentiate \eqref{eq:electric_enthalpy_functional}
+in time and isolate the terms proportional to \(\dot\varphi\).  Terms involving
+the rates of \(\varrho\), \(\mbf P\), the other state variables, and the motion
+of the current domain belong to their own conjugate rate coefficients and do not
+change the coefficient of \(\dot\varphi\).  Since
+\(\dot{\mbf E}=-\nabla_{\mbf x}\dot\varphi\) and
+\(\mbf d=-\partial\omega_{\rm elec}/\partial\mbf E\), the potential-rate
+contribution is
+%
+\begin{align*}
+	{}&
+	\int_{\mc B}
+	\left[
+	\left.
+	\frac{\partial\omega_{\rm elec}}{\partial\mbf E}
+	\right\vert_{\mbf P,\mc X_\xi,\varphi}
+	\cdot\dot{\mbf E}
+	+
+	\varrho\dot\varphi
+	\right]\dv
+	\\
+	={}&
+	\int_{\mc B}
+	\left[
+	\mbf d\cdot\nabla_{\mbf x}\dot\varphi
+	+
+	\varrho\dot\varphi
+	\right]\dv
+	\\
+	={}&
+	\int_{\mc B}
+	\left(
+	\varrho-\nabla_{\mbf x}\cdot\mbf d
+	\right)\dot\varphi\,\dv
+	+
+	\int_{\partial\mc B}
+	\left(
+	\mbf d\cdot\mbf n
+	\right)\dot\varphi\,da .
+\end{align*}
+%
+The corresponding virtual-power term is obtained by pairing this same interior
+coefficient with the admissible virtual potential rate \(\delta\dot\varphi\):
+%
+\begin{align}
+	\delta\mc P_{\rm elec}^{\varphi}
+	={}&
+	\int_{\mc B}
+	\left(
+	\varrho-\nabla_{\mbf x}\cdot\mbf d
+	\right)\delta\dot\varphi\,\dv
+	+
+	\text{b.t.},
+	\label{eq:vp_electric_potential_variation}
+\end{align}
+%
+so the coefficient of the arbitrary interior virtual rate
+\(\delta\dot\varphi\) gives Gauss' law,
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot\mbf d=\varrho .
+	\label{eq:gauss_law}
+\end{equation}
+%
+Thus Gauss' law is the Euler--Lagrange equation associated with the reversible
+electric enthalpy.  It is distinct from the dielectric closure, which is the
+constitutive choice of \(\omega_{\rm elec}\), or equivalently of \(\mbf d\), as
+a function of electric, mechanical, compositional, and thermal state.  The
+natural electrical boundary condition is prescribed normal displacement
+\(\mbf d\cdot\mbf n\), while the essential boundary condition is prescribed
+\(\varphi\).
+
+The same rate collection gives the polarization contribution
+%
+\begin{align}
+	\delta\mc P_{\rm elec}^{\mbf P}
+	={}&
+	\int_{\mc B}
+	\left[
+	-\left.
+	\frac{\partial\omega_{\rm elec}}{\partial\mbf P}
+	\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
+	+
+	\nabla_{\mbf x}\cdot
+	\left.
+	\frac{\partial\omega_{\rm elec}}
+	{\partial\nabla_{\mbf x}\mbf P}
+	\right\vert_{\mbf E,\mbf P,\mc X_\xi}
+	\right]\cdot\delta\dot{\mbf P}\,\dv
+	+
+	\text{b.t.}
+	\label{eq:vp_polarization_variation}
+\end{align}
+%
+If polarization is an independent reversible field, stationarity with respect to
+\(\mbf P\) gives
+%
+\begin{equation}
+	\left.
+	\frac{\partial\omega_{\rm elec}}{\partial\mbf P}
+	\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
+	-
+	\nabla_{\mbf x}\cdot
+	\left.
+	\frac{\partial\omega_{\rm elec}}
+	{\partial\nabla_{\mbf x}\mbf P}
+	\right\vert_{\mbf E,\mbf P,\mc X_\xi}
+	=
+	\mbf0 .
+	\label{eq:polarization_stationarity}
+\end{equation}
+%
+If polarization switching, dielectric relaxation, or interfacial polarization is
+dissipative, this stationarity condition is not imposed; the same coefficient is
+retained as the force conjugate to \(\dot{\mbf P}\) in the residual entropy
+inequality.
+
+The electroquasistatic field equation \eqref{eq:gauss_law} and the local charge
+balance \eqref{eq:mixture_charge_balance} are compatible because
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot
+	\left(
+	\dot{\mbf d}
+	+
+	\mbf i
+	\right)
+	=0 .
+	\label{eq:charge_gauss_compatibility}
+\end{equation}
+%
+The solenoidal part of \(\dot{\mbf d}+\mbf i\) is not resolved in this
+electroquasistatic reduction.  A full electromagnetic specialization would add a
+vector potential, magnetic induction, Faraday's law, Ampere--Maxwell balance,
+and the corresponding electromagnetic momentum and energy fluxes.  The scalar
+potential theory used here is the first specialization for ion exchange,
+double-layer, electro-osmotic, and electrochemical porous-flow models in which
+magnetic induction is not a primary state variable.
+
+The same electrical functional contributes to the coefficient of each charged
+component material measure because the charge carried by a component is
+\(z_\xi^\alpha\) times that component's mass.  Written against the
+charge-weighted rate identity \eqref{eq:component_charge_rate_identity}, this
+contribution has the form
+%
+\begin{align}
+	0={}&
+	\sum_\xi\sum_\alpha
+	\varphi
+	\left[
+	\frac{
+	z_\xi^\alpha\dot{\mc C}_\xi^\alpha
+	+
+	z_\xi^\alpha\dot{\mc D}_\xi^\alpha
+	}{J_\xi}
+	-
+	z_\xi^\alpha
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
+	+
+	z_\xi^\alpha
+	\nabla_{\mbf x}\cdot
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)
+	\right].
+	\label{eq:vp_charge_weighted_component_rate_identity}
+\end{align}
+%
+This is the component-rate constraint viewed through the charge weights
+\(z_\xi^\alpha\).  Integrating the flux term by parts gives the local
+electrical process power
+%
+\begin{align}
+	{}&
+	-\sum_m
+	\left(
+	\sum_\xi\sum_\alpha
+	z_\xi^\alpha\varphi\nu_{\xi (m)}^\alpha
+	\right)\delta\dot r_{(m)}
+	\notag\\
+	&-
+	\sum_\xi\sum_\alpha
+	z_\xi^\alpha\nabla_{\mbf x}\varphi\cdot
+	\left(
+	\delta\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\delta\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)
+	+
+	\text{b.t.}
+	\label{eq:vp_electrical_process_power}
+\end{align}
+%
+Combining \eqref{eq:vp_electrical_process_power} with
+\eqref{eq:vp_C4_power} shows that electrical work enters the same
+component-rate multiplier \(\mu_\xi^\alpha\).  If a nonelectrical chemical part
+is separated, then
+\(\mu_\xi^\alpha=\mu_{\xi,{\rm chem}}^\alpha+z_\xi^\alpha\varphi\).  The
+process-rate coefficients retain their original form,
+%
+\begin{align}
+	\mc A_{(m)}
+	&=
+	-\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
+	\label{eq:vp_electrochemical_affinity_balance}
+	\\
+	\mbf M_{\xi,k}^\alpha
+	&=
+	-\nabla_{\mbf x}\mu_\xi^\alpha,
+	\qquad
+	k\in\left\{{\rm disp},{\rm diff}\right\}.
+	\label{eq:vp_electrochemical_relative_flux_force_balance}
+\end{align}
+%
+For a charge-conserving local mechanism satisfying
+\eqref{eq:mechanism_charge_conservation},
+the explicit \(\varphi\)-part cancels from the affinity if the decomposition
+above is used.  The electric field then affects ion-exchange kinetics indirectly
+through charged transport and through the state dependence of the chemical
+potentials.
+
 \subsection{Collected virtual-power principle}
 
 Substitution of
 \eqref{eq:vp_inertial_power},
 \eqref{eq:vp_phase_internal_power_before_parts},
-\eqref{eq:vp_stress_integration_by_parts},
-\eqref{eq:vp_interfacial_internal_power},
-\eqref{eq:vp_external_power},
-\eqref{eq:vp_dissipative_power}, and
+	\eqref{eq:vp_stress_integration_by_parts},
+	\eqref{eq:vp_interfacial_internal_power},
+	\eqref{eq:vp_electric_potential_variation},
+	\eqref{eq:vp_polarization_variation},
+	\eqref{eq:vp_electrical_process_power},
+	\eqref{eq:vp_external_power},
+	\eqref{eq:vp_dissipative_power}, and
 \eqref{eq:vp_C1_power}--\eqref{eq:vp_C4_power} into
 \eqref{eq:vp_principle} gives, after collecting independent virtual rates,
 %
@@ -976,6 +1261,26 @@ Substitution of
 	\delta\mbf j_{\xi,{\rm diff}}^\alpha\,\dv
 	\notag\\
 	&+
+	\int_{\mc B}
+	\left(
+	\varrho-\nabla_{\mbf x}\cdot\mbf d
+	\right)\delta\dot\varphi\,\dv
+	\notag\\
+	&+
+	\int_{\mc B}
+	\left[
+	-\left.
+	\frac{\partial\omega_{\rm elec}}{\partial\mbf P}
+	\right\vert_{\mbf E,\nabla_{\mbf x}\mbf P,\mc X_\xi}
+	+
+	\nabla_{\mbf x}\cdot
+	\left.
+	\frac{\partial\omega_{\rm elec}}
+	{\partial\nabla_{\mbf x}\mbf P}
+	\right\vert_{\mbf E,\mbf P,\mc X_\xi}
+	\right]\cdot\delta\dot{\mbf P}\,\dv
+	\notag\\
+	&+
 	\text{multiplier variations}
 	+
 	\text{boundary powers}.
@@ -1001,9 +1306,13 @@ This notation combines conversion and relative-transport accumulation only
 where they multiply the same mechanical or thermodynamic factor; the two rates
 remain separate in their balance and dissipation equations.
 
-The multiplier variations return the four constraints.  Because the remaining
-virtual rates and accumulated-state variations are arbitrary, their coefficients
-vanish independently.
+The multiplier variations return the four constraints, while the coefficient of
+the virtual potential rate returns Gauss' law.  If polarization is treated as a
+reversible field, the coefficient of \(\delta\dot{\mbf P}\) gives
+\eqref{eq:polarization_stationarity}; if it is treated as a dissipative internal
+variable, the same coefficient is retained for the residual entropy inequality.
+Because the remaining virtual rates and accumulated-state variations are
+arbitrary, their coefficients vanish independently.
 In particular, the phase-momentum coefficient contains
 %
 \begin{equation*}
@@ -1034,7 +1343,11 @@ coefficients give
 	\label{eq:vp_relative_flux_force_balance}
 \end{align}
 %
-These are generalized-force balances rather than constitutive laws.  Admissible
+With electrical effects included, the same equations are read with
+\(\mu_\xi^\alpha\) as the electrochemical potential; this is the content of
+\eqref{eq:vp_electrochemical_affinity_balance} and
+\eqref{eq:vp_electrochemical_relative_flux_force_balance}.  These are
+generalized-force balances rather than constitutive laws.  Admissible
 constitutive relations between the generalized forces and their process rates
 must make the corresponding reaction and relative-transport powers
 nonnegative.  A quadratic dissipation potential then gives the linear Onsager
