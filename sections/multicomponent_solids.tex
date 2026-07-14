@@ -319,7 +319,8 @@ In the collection below, the nonelectrical phase Helmholtz derivatives are
 written explicitly, while the electric-potential coefficient is displayed as a
 separate electrical term.  The mechanical Maxwell-type contribution in
 \eqref{eq:vp_electrical_mechanical_power} is assigned to each phase momentum
-coefficient by the volume-fraction-weighted pullback.  If
+coefficient by the volume-fraction-weighted pullback and is included in the
+combined reversible stress \(\bs\sigma_\xi^{\prime+}\).  If
 \(\omega^{+}_{\xi}\) is not eliminated by a dielectric closure and depends on a
 mechanical, compositional, or thermal state variable, its partial derivative is
 added to the matching reversible coefficient before imposing the corresponding
@@ -434,8 +435,20 @@ The fluid phases carry no elastic stress,
 	\label{eq:MC_fluid_stress_free}
 \end{equation}
 %
+When electrical effects are retained, their reversible mechanical stress is
+therefore purely Maxwellian:
+%
+\begin{equation}
+	\bs\sigma_f^{\prime+}
+	=
+	\bs{\sigma}^{+}_{f},
+	\qquad
+	f\in\mc F .
+	\label{eq:MC_fluid_total_reversible_stress}
+\end{equation}
+%
 The interfacial Helmholtz contribution retains the form introduced in
-\eqref{eq:vp_interfacial_energy_density}.  Allowing \(\gamma\) to depend on temperature is
+\eqref{eq:interfacial_energy_density}.  Allowing \(\gamma\) to depend on temperature is
 consistent with standard capillary-pressure scaling used in reservoir
 engineering \cite{leverett1941capillary},
 %
@@ -474,7 +487,7 @@ chemical-potential multiplier convention, the phase energy balance is
 	\dot m_\xi^\alpha
 	e_\xi
 	={} &
-	\bs\sigma_\xi':\mbf L_\xi
+	\bs\sigma_\xi^{\prime+}:\mbf L_\xi
 	+
 	\phi_\xi\bar p_\xi
 	\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
@@ -518,11 +531,11 @@ The solid stress power is decomposed by
 Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 %
 \begin{align}
-	\sum_{s\in\mc S}\bs\sigma_s':\mbf L_s
+	\sum_{s\in\mc S}\bs\sigma_s^{\prime+}:\mbf L_s
 	={} &
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\dot{\mbf A}_s^e
 		(\mbf A_s^e)^{-1}
 		\right]
@@ -531,7 +544,7 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\mbf A_s^e
 		\dot{\mbf A}_s^p
 		(\mbf A_s^p)^{-1}
@@ -542,7 +555,7 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	\operatorname{tr}\left[
 		(\mbf A_s^p)^{-1}
 		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
 		\p{\mbf A_s^0}{\theta}
@@ -556,7 +569,7 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	\operatorname{tr}\left[
 		(\mbf A_s^p)^{-1}
 		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
 		\p{\mbf A_s^0}{\eta_s^\beta}
@@ -568,7 +581,7 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\dot{\bar{\mbf F}}_s^e
 	(\bar{\mbf F}_s^e)^{-1}
@@ -579,7 +592,7 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	\operatorname{tr}\left[
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\bar{\mbf F}_s^e
 	\dot{\bar{\mbf F}}_s^p
@@ -592,7 +605,7 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	(\bar{\mbf F}_s^p)^{-1}
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
@@ -609,7 +622,7 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 	(\bar{\mbf F}_s^p)^{-1}
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
@@ -648,7 +661,8 @@ inequalities \cite{liu1972method}, the entropy inequality is
 Eliminating \(\rho_\xi r_\xi\) with \eqref{eq:MC_energy_balance}, adding the
 identically vanishing mass-fraction tangent terms
 \(\Pi_\xi\sum_\alpha\dot\eta_\xi^\alpha\), and adding
-\(\lambda\sum_\xi\dot\phi_\xi\), gives
+\(\lambda\sum_\xi\dot\phi_\xi\) together with the reversible electrical
+enthalpy terms, gives
 %
 \begin{align}
 	0\le{} &
@@ -656,7 +670,7 @@ identically vanishing mass-fraction tangent terms
 	\begin{aligned}[t]
 		 & \frac{1}{\theta}
 		\left(
-		\bs\sigma_\xi':\mbf L_\xi
+			\bs\sigma_\xi^{\prime+}:\mbf L_\xi
 		+
 		\phi_\xi\bar p_\xi
 		\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
@@ -693,32 +707,69 @@ identically vanishing mass-fraction tangent terms
 	\frac{1}{\theta}
 	\left(
 	\lambda\sum_\xi\dot\phi_\xi
+		-
+		\sum_{f\in\mc F}\gamma_f\dot\phi_f
+	\right)
+	\notag     \\
+	       & +
+	\frac{1}{\theta}
+	\left[
 	-
-	\sum_{f\in\mc F}\gamma_f\dot\phi_f
-	\right).
+	\sum_\xi
+	\left(
+	\phi_\xi\dot\omega^{+}_{\xi}
+	+
+	\omega^{+}_{\xi}\dot\phi_\xi
+	\right)
+	+
+	\left(
+	\varrho-\nabla_{\mbf x}\cdot\mbf d
+	\right)\dot\varphi
+	\right].
 	\label{eq:MC_reduced_entropy_inequality}
 \end{align}
 %
 
-Substituting \eqref{eq:MC_fluid_free_energy_rate},
+The electrical enthalpy rate is expanded only over the non-field state
+variables in \(\mc X_\xi\); the electric-field rate has already been converted
+by the potential variation into the Gauss-law coefficient above.  Thus the
+terms
+\(-\phi_\xi\dot\omega_\xi^{+}\) contribute the partial derivatives of
+\(\omega_\xi^{+}\) with respect to the same mechanical, density, composition,
+and thermal variables that appear in the Helmholtz rate.
+
+Multiplying \eqref{eq:MC_reduced_entropy_inequality} by the positive
+temperature and substituting \eqref{eq:MC_fluid_free_energy_rate},
+the corresponding electrical-enthalpy rates,
 \eqref{eq:MC_solid_free_energy_rate}, \eqref{eq:MC_solid_density_rate}, and
 \eqref{eq:MC_stress_power_split} gives the collected inequality,
 %
 \enlargethispage{\baselineskip}
 \begin{align}
 	0\le{} &
-	\frac{1}{\theta}
+	\sum_{f\in\mc F}
+	\bs{\sigma}^{+}_{f}:\mbf L_f
+	\notag          \\
+	       & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 		\left(
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		-
 		\rho_s
 		\mbf A_s^e
 		\left(
 		\left.
-		\p{\psi_s}{\mbf A_s^e}
-		\right\vert_{\mc X_s}
+			\p{\psi_s}{\mbf A_s^e}
+			\right\vert_{\mc X_s}
+			\right)^T
+		-
+		\phi_s
+		\mbf A_s^e
+		\left(
+		\left.
+		\p{\omega^{+}_{s}}{\mbf A_s^e}
+		\right\vert_{\mc X_s,\mbf E}
 		\right)^T
 		\right)
 		\dot{\mbf A}_s^e
@@ -730,18 +781,26 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\operatorname{tr}\left[
 	\left(
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	-
-	\rho_s
-	\bar{\mbf F}_s^e
-	\left(
+		\rho_s
+		\bar{\mbf F}_s^e
+		\left(
 	\left.
-	\p{\psi_s}{\bar{\mbf F}_s^e}
-	\right\vert_{\mc X_s}
-	\right)^T
-	\right.
-	\right.
+		\p{\psi_s}{\bar{\mbf F}_s^e}
+		\right\vert_{\mc X_s}
+		\right)^T
+		-
+		\phi_s
+		\bar{\mbf F}_s^e
+		\left(
+		\left.
+		\p{\omega^{+}_{s}}{\bar{\mbf F}_s^e}
+		\right\vert_{\mc X_s,\mbf E}
+		\right)^T
+		\right.
+		\right.
 	\notag          \\
 	       & \left.
 	\left.
@@ -749,12 +808,18 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\left(
 	\rho_s
 	\left.
-	\p{\psi_s}{\bar\rho_s}
-	\right\vert_{\mc X_s}
-	\bar\rho_s
-	-
-	\phi_s\bar p_s
-	\right)\mbf I
+		\p{\psi_s}{\bar\rho_s}
+		\right\vert_{\mc X_s}
+		\bar\rho_s
+		+
+		\phi_s
+		\left.
+		\p{\omega^{+}_{s}}{\bar\rho_s}
+		\right\vert_{\mc X_s,\mbf E}
+		\bar\rho_s
+		-
+		\phi_s\bar p_s
+		\right)\mbf I
 	\right)
 	\dot{\bar{\mbf F}}_s^e
 	(\bar{\mbf F}_s^e)^{-1}
@@ -764,7 +829,7 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\mbf A_s^e
 		\dot{\mbf A}_s^p
 		(\mbf A_s^p)^{-1}
@@ -775,7 +840,7 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\operatorname{tr}\left[
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\bar{\mbf F}_s^e
 	\dot{\bar{\mbf F}}_s^p
@@ -791,6 +856,11 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		\left.
 		\p{\psi_f}{\bar\rho_f}
 		\right\vert_{\mc X_f}
+		-
+		\phi_f
+		\left.
+		\p{\omega^{+}_{f}}{\bar\rho_f}
+		\right\vert_{\mc X_f,\mbf E}
 		\right]
 	\dot{\bar\rho}_f
 	\notag          \\
@@ -805,6 +875,11 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 		\left.
 		\p{\psi_f}{\eta_f^\beta}
 		\right\vert_{\mc X_f}
+		-
+		\phi_f
+		\left.
+		\p{\omega^{+}_{f}}{\eta_f^\beta}
+		\right\vert_{\mc X_f,\mbf E}
 		\right]\dot\eta_f^\beta
 	\notag          \\
 	       & +
@@ -813,19 +888,24 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\left[
 	\frac{\pi_s^\beta}{\eta_s^\beta}
 	+\Pi_s
-	-
-	\rho_s
-	\left.
-	\p{\psi_s}{\eta_s^\beta}
-	\right\vert_{\mc X_s}
-	\right.
+		-
+		\rho_s
+		\left.
+		\p{\psi_s}{\eta_s^\beta}
+		\right\vert_{\mc X_s}
+		-
+		\phi_s
+		\left.
+		\p{\omega^{+}_{s}}{\eta_s^\beta}
+		\right\vert_{\mc X_s,\mbf E}
+		\right.
 	\notag          \\
 	       & \left.
 	+
 	\operatorname{tr}\left[
 		(\mbf A_s^p)^{-1}
 		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
 		\p{\mbf A_s^0}{\eta_s^\beta}
@@ -841,7 +921,7 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	(\bar{\mbf F}_s^p)^{-1}
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
@@ -856,11 +936,17 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\left(
 	\rho_s
 	\left.
-	\p{\psi_s}{\bar\rho_s}
-	\right\vert_{\mc X_s}
-	\bar\rho_s
-	-
-	\phi_s\bar p_s
+		\p{\psi_s}{\bar\rho_s}
+		\right\vert_{\mc X_s}
+		\bar\rho_s
+		+
+		\phi_s
+		\left.
+		\p{\omega^{+}_{s}}{\bar\rho_s}
+		\right\vert_{\mc X_s,\mbf E}
+		\bar\rho_s
+		-
+		\phi_s\bar p_s
 	\right)\mbf I
 	\right)
 	\left.
@@ -878,20 +964,32 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\mathfrak{s}_f
 	+
 	\left.
-	\p{\psi_f}{\theta}
-	\right\vert_{\mc X_f}
-	\right)
-	-
-	\sum_{s\in\mc S}
-	\rho_s
+		\p{\psi_f}{\theta}
+		\right\vert_{\mc X_f}
+		\right)
+		-
+		\sum_{f\in\mc F}
+		\phi_f
+		\left.
+		\p{\omega^{+}_{f}}{\theta}
+		\right\vert_{\mc X_f,\mbf E}
+		-
+		\sum_{s\in\mc S}
+		\rho_s
 	\left(
 	\mathfrak{s}_s
 	+
 	\left.
-	\p{\psi_s}{\theta}
-	\right\vert_{\mc X_s}
-	\right)
-	\right.
+		\p{\psi_s}{\theta}
+		\right\vert_{\mc X_s}
+		\right)
+		-
+		\sum_{s\in\mc S}
+		\phi_s
+		\left.
+		\p{\omega^{+}_{s}}{\theta}
+		\right\vert_{\mc X_s,\mbf E}
+		\right.
 	\notag          \\
 	       & \left.
 	+
@@ -899,7 +997,7 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\operatorname{tr}\left[
 		(\mbf A_s^p)^{-1}
 		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
 		\p{\mbf A_s^0}{\theta}
@@ -916,7 +1014,7 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	(\bar{\mbf F}_s^p)^{-1}
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
@@ -931,11 +1029,17 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\left(
 	\rho_s
 	\left.
-	\p{\psi_s}{\bar\rho_s}
-	\right\vert_{\mc X_s}
-	\bar\rho_s
-	-
-	\phi_s\bar p_s
+		\p{\psi_s}{\bar\rho_s}
+		\right\vert_{\mc X_s}
+		\bar\rho_s
+		+
+		\phi_s
+		\left.
+		\p{\omega^{+}_{s}}{\bar\rho_s}
+		\right\vert_{\mc X_s,\mbf E}
+		\bar\rho_s
+		-
+		\phi_s\bar p_s
 	\right)\mbf I
 	\right)
 	\left.
@@ -951,6 +1055,8 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 	\lambda
 	+
 	\bar p_\xi
+	-
+	\omega^{+}_{\xi}
 	\right)\dot\phi_\xi
 	-
 	\sum_{f\in\mc F}
@@ -991,12 +1097,18 @@ Substituting \eqref{eq:MC_fluid_free_energy_rate},
 \subsection{Reversible restrictions}
 \label{sec:MC_reversible_restrictions}
 
+The mechanical power in the entropy inequality is written with
+\(\bs\sigma_\xi^{\prime+}\).  The restrictions below separate the
+Maxwell contribution defined in \eqref{eq:vp_electrical_stress_definition} from
+the nonelectrical Helmholtz part \(\bs\sigma_\xi'\); the two are recombined by
+\eqref{eq:vp_total_reversible_stress_definition}.
+
 The coefficient of
 \(\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}\) gives
 %
 \begin{align}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	={} &
 	\rho_s
@@ -1006,12 +1118,28 @@ The coefficient of
 	\p{\psi_s}{\bar{\mbf F}_s^e}
 	\right\vert_{\mc X_s}
 	\right)^T
-	-
+	\notag \\
+	&+
+	\phi_s
+	\bar{\mbf F}_s^e
+	\left(
+	\left.
+	\p{\omega^{+}_{s}}{\bar{\mbf F}_s^e}
+	\right\vert_{\mc X_s,\mbf E}
+	\right)^T
+	\notag \\
+	&-
 	\left(
 	\rho_s
 	\left.
 	\p{\psi_s}{\bar\rho_s}
 	\right\vert_{\mc X_s}
+	\bar\rho_s
+	+
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\bar\rho_s}
+	\right\vert_{\mc X_s,\mbf E}
 	\bar\rho_s
 	-
 	\phi_s\bar p_s
@@ -1029,7 +1157,12 @@ The density coefficients identify the phase pressures,
 		\bar\rho_f^2
 		\left.
 		\p{\psi_f}{\bar\rho_f}
-		\right\vert_{\mc X_f},
+		\right\vert_{\mc X_f}
+		+
+		\bar\rho_f
+		\left.
+		\p{\omega^{+}_{f}}{\bar\rho_f}
+		\right\vert_{\mc X_f,\mbf E},
 		\qquad
 		f\in\mc F,
 		\label{eq:MC_fluid_pressure_definition} \\
@@ -1038,7 +1171,12 @@ The density coefficients identify the phase pressures,
 		\bar\rho_s^2
 		\left.
 		\p{\psi_s}{\bar\rho_s}
-		\right\vert_{\mc X_s},
+		\right\vert_{\mc X_s}
+		+
+		\bar\rho_s
+		\left.
+		\p{\omega^{+}_{s}}{\bar\rho_s}
+		\right\vert_{\mc X_s,\mbf E},
 		\qquad
 		s\in\mc S .
 		\label{eq:MC_solid_pressure_definition}
@@ -1046,10 +1184,10 @@ The density coefficients identify the phase pressures,
 \end{subequations}
 %
 Substitution of \eqref{eq:MC_solid_pressure_definition} into
-\eqref{eq:MC_stress_before_pressure} gives the single-prime solid stress,
+\eqref{eq:MC_stress_before_pressure} gives the combined solid stress,
 %
 \begin{equation}
-	\bs\sigma_s'
+	\bs\sigma_s^{\prime+}
 	=
 	\mbf A_s^{-T}
 	\left(
@@ -1058,6 +1196,12 @@ Substitution of \eqref{eq:MC_solid_pressure_definition} into
 	\p{\psi_s}{\bar{\mbf F}_s^e}
 	\right\vert_{\mc X_s}
 	(\bar{\mbf F}_s^e)^T
+	+
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\bar{\mbf F}_s^e}
+	\right\vert_{\mc X_s,\mbf E}
+	(\bar{\mbf F}_s^e)^T
 	\right)
 	\mbf A_s^T .
 	\label{eq:MC_solid_stress_definition}
@@ -1065,9 +1209,7 @@ Substitution of \eqref{eq:MC_solid_pressure_definition} into
 %
 The reversible electrical contribution derived in
 \eqref{eq:vp_electrical_mechanical_power} assigns a phase-attributed Maxwell
-stress to the solid phase when the solid phase map is varied.  Thus the
-single-prime stress used in the solid mechanical balance contains the additional
-current-space Maxwell stress
+stress to the solid phase when the solid phase map is varied:
 %
 \begin{equation}
 	\bs{\sigma}^{+}_{s}
@@ -1078,6 +1220,17 @@ current-space Maxwell stress
 	\label{eq:MC_solid_electrical_stress_contribution}
 \end{equation}
 %
+The nonelectrical part is recovered by subtracting the Maxwell stress:
+%
+\begin{equation}
+	\bs\sigma_s'
+	=
+	\bs\sigma_s^{\prime+}
+	-
+	\bs{\sigma}^{+}_{s}.
+	\label{eq:MC_solid_total_reversible_stress}
+\end{equation}
+%
 For the linear dielectric enthalpy
 \(\omega^{+}_{\xi}=-\frac{1}{2}\mbf E\cdot\mbf d_\xi\), the sum of the
 phase-attributed stresses is the usual Maxwell stress
@@ -1086,13 +1239,19 @@ phase-attributed stresses is the usual Maxwell stress
 
 The reversible distension coefficient gives
 %
-\begin{equation}
-	\bs\sigma_s'
+	\begin{equation}
+	\bs\sigma_s^{\prime+}
 	=
 	\rho_s
 	\left.
 	\p{\psi_s}{\mbf A_s^e}
 	\right\vert_{\mc X_s}
+	(\mbf A_s^e)^T
+	+
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\mbf A_s^e}
+	\right\vert_{\mc X_s,\mbf E}
 	(\mbf A_s^e)^T .
 	\label{eq:MC_distension_force_definition}
 \end{equation}
@@ -1106,7 +1265,9 @@ The volume-fraction coefficients give
 		      & =
 		\lambda
 		+
-		\bar p_s,
+		\bar p_s
+		-
+		\omega^{+}_{s},
 		\quad &
 		s\in\mc S,
 		\label{eq:MC_solid_volume_fraction_restriction} \\
@@ -1115,6 +1276,8 @@ The volume-fraction coefficients give
 		\lambda
 		+
 		\bar p_f
+		-
+		\omega^{+}_{f}
 		-\gamma_f,
 		\quad &
 		f\in\mc F .
@@ -1124,19 +1287,30 @@ The volume-fraction coefficients give
 %
 The fluid composition projection is
 %
-\begin{empheq}[box=\fbox]{equation}
-	\rho_f
-	\left(
+	\begin{empheq}[box=\fbox]{equation}
+		\rho_f
+		\left(
 	\left.
 	\p{\psi_f}{\eta_f^\beta}
 	\right\vert_{\mc X_f}
 	-
 	\left.
-	\p{\psi_f}{\eta_f^N}
-	\right\vert_{\mc X_f}
-	\right)
-	=
-	\frac{\pi_f^\beta}{\eta_f^\beta}
+		\p{\psi_f}{\eta_f^N}
+		\right\vert_{\mc X_f}
+		\right)
+		+
+		\phi_f
+		\left(
+		\left.
+		\p{\omega^{+}_{f}}{\eta_f^\beta}
+		\right\vert_{\mc X_f,\mbf E}
+		-
+		\left.
+		\p{\omega^{+}_{f}}{\eta_f^N}
+		\right\vert_{\mc X_f,\mbf E}
+		\right)
+		=
+		\frac{\pi_f^\beta}{\eta_f^\beta}
 	-
 	\frac{\pi_f^N}{\eta_f^N},
 	\qquad
@@ -1157,13 +1331,24 @@ The multicomponent solid composition projection is
 	\p{\psi_s}{\eta_s^N}
 	\right\vert_{\mc X_s}
 	\right)
+	+
+	\phi_s
+	\left(
+	\left.
+	\p{\omega^{+}_{s}}{\eta_s^\beta}
+	\right\vert_{\mc X_s,\mbf E}
+	-
+	\left.
+	\p{\omega^{+}_{s}}{\eta_s^N}
+	\right\vert_{\mc X_s,\mbf E}
+	\right)
 	\notag    \\
 	& \quad
 	-
 	\operatorname{tr}\left[
 		(\mbf A_s^p)^{-1}
 		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\mbf A_s^e\mbf A_s^p
 		\left(
 		\left.
@@ -1184,7 +1369,7 @@ The multicomponent solid composition projection is
 	(\bar{\mbf F}_s^p)^{-1}
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
@@ -1223,7 +1408,12 @@ The entropy coefficient gives
 	-
 	\left.
 	\p{\psi_f}{\theta}
-	\right\vert_{\mc X_f},
+	\right\vert_{\mc X_f}
+	-
+	\frac{\phi_f}{\rho_f}
+	\left.
+	\p{\omega^{+}_{f}}{\theta}
+	\right\vert_{\mc X_f,\mbf E},
 	\qquad
 	f\in\mc F,
 	\notag  \\
@@ -1234,11 +1424,16 @@ The entropy coefficient gives
 	\left.
 	\p{\psi_s}{\theta}
 	\right\vert_{\mc X_s}
+	-
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\theta}
+	\right\vert_{\mc X_s,\mbf E}
 	+
 	\operatorname{tr}\left[
 		(\mbf A_s^p)^{-1}
 		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
+		(\bs\sigma_s^{\prime+})^T
 		\mbf A_s^e\mbf A_s^p
 		\left.
 		\p{\mbf A_s^0}{\theta}
@@ -1251,7 +1446,7 @@ The entropy coefficient gives
 	(\bar{\mbf F}_s^p)^{-1}
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	\bar{\mbf F}_s^e
 	\bar{\mbf F}_s^p
@@ -1394,12 +1589,12 @@ This is the standard species-flux contribution in continuum thermodynamics of
 reacting mixtures~\cite{bothe2015continuum,gray2009tcat_transport}.
 
 With electrical effects, the charge-projected constraint \(C_5\)
-\eqref{eq:vp_C5_charge_constraint} adds electric work to the coefficient of each
-charged component mass measure.  The variational derivation writes the
-chemomechanical component-rate multiplier as \(\hat{\mu}_\xi^\alpha\) and uses
-the electric potential \(\varphi\) directly as the multiplier conjugate to the
-charge projection.  The component-rate multiplier used below is therefore the
-electrochemical potential
+\eqref{eq:vp_C5_charge_constraint} contains the same component-rate bracket as
+the chemomechanical constraint \(C_4\).  The variational derivation therefore
+combines the two before varying them, writes the chemomechanical multiplier as
+\(\hat{\mu}_\xi^\alpha\), and uses the electric potential \(\varphi\) directly
+as the multiplier conjugate to the charge projection.  The component-rate
+multiplier used below is therefore the electrochemical potential
 %
 \begin{equation}
 	\mu_\xi^\alpha
@@ -1470,7 +1665,7 @@ Gauss' law, and the state dependence of the free energy.
 Converted and relatively transported mass of the same component enter the phase
 material measure only through their sum.  The variational derivation leaves the
 generalized work potential \(L_\xi^\alpha\) explicit in
-\eqref{eq:vp_component_potential_evolution}.  We make the admissible choice
+\eqref{eq:el_conversion_component}.  We make the admissible choice
 %
 \begin{equation}
 	L_\xi^\alpha
@@ -1493,7 +1688,7 @@ The mechanism affinity is
 \end{equation}
 %
 Substituting \eqref{eq:MC_L_mu_psi_closure} into the multiplier evolution
-equation \eqref{eq:vp_component_potential_evolution} gives the
+equation \eqref{eq:el_conversion_component} gives the
 chemical-potential-multiplier evolution law
 %
 \begin{empheq}[box=\fbox]{equation}
@@ -1509,9 +1704,10 @@ chemical-potential-multiplier evolution law
 \end{empheq}
 %
 Equation \eqref{eq:MC_admissible_conversion_component} follows from the
-primitive variations of the conversion and transport accumulations because both
-enter the component material measure through their sum.  Thus they share the
-single multiplier \(\mu_\xi^\alpha\), and the admissible choice
+accumulated-coordinate variations of the conversion and transport measures in
+the constrained Hamilton--d'Alembert statement because both enter the component
+material measure through their sum.  Thus they share the single multiplier
+\(\mu_\xi^\alpha\), and the admissible choice
 \eqref{eq:MC_L_mu_psi_closure} makes the corresponding transfer potential
 consistent with the thermodynamic chemical potential.  Equation
 \eqref{eq:MC_admissible_conversion_component}, together with an initial value,
@@ -1519,21 +1715,21 @@ determines \(\mu_\xi^\alpha\) along the motion of phase \(\xi\).
 %
 \subsubsection{Plastic flow rules and residual dissipation}
 The plastic-deformation power in the residual inequality is driven by the
-single-prime effective stress of each solid phase mapped through that phase's
+combined reversible stress of each solid phase mapped through that phase's
 distension and true-deformation gradients to its plastic-flow configuration.
 Because each true-plastic flow is isochoric, only the deviatoric part of that
-mapped stress contributes to the true-plastic power.  Define \(\mbf S_s'\) as the
-deviatoric true-plastic driving stress,
+mapped stress contributes to the true-plastic power.  Define \(\mbf S_s^{+}\) as
+the deviatoric true-plastic driving stress,
 %
 \begin{equation*}
-	\mbf S_s'
+	\mbf S_s^{+}
 	\equiv
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
 	\left(
-	(\bs\sigma_s')^T
+	(\bs\sigma_s^{\prime+})^T
 	-\frac{1}{3}
-	\operatorname{tr}\left(\bs\sigma_s'\right)\mbf I
+	\operatorname{tr}\left(\bs\sigma_s^{\prime+}\right)\mbf I
 	\right)
 	\mbf A_s
 	\bar{\mbf F}_s^e,
@@ -1545,7 +1741,7 @@ The trace-free property follows from the similarity transformation of the
 deviatoric stress,
 %
 \begin{equation*}
-	\operatorname{tr}\mbf S_s'
+	\operatorname{tr}\mbf S_s^{+}
 	=0,
 	\qquad
 	s\in\mc S .
@@ -1565,9 +1761,9 @@ below follows after substituting the reversible restrictions
 		\eqref{eq:MC_solid_composition_projection}, and
 		\eqref{eq:MC_entropy_definitions}, together with the Gauss-law restriction
 		\eqref{eq:gauss_law}.  When the electrical enthalpy is mechanically active,
-		the stress restriction also includes
-		\eqref{eq:MC_solid_electrical_stress_contribution}, so the Maxwell-type
-		term is removed with the other reversible mechanical terms.  The source and
+		the stress power uses the combined reversible stress
+		\(\bs\sigma_\xi^{\prime+}\), so the Maxwell-type term is removed with the
+		other reversible mechanical terms.  The source and
 		transport reductions are
 		\eqref{eq:MC_helmholtz_source_projection},
 		\eqref{eq:MC_affinity_projection}, and
@@ -1593,7 +1789,7 @@ below follows after substituting the reversible restrictions
 		\\
 		         &+
 		\sum_{s\in\mc S}
-		\bs\sigma_s':
+		\bs\sigma_s^{\prime+}:
 		\mbf A_s^e
 		\dot{\mbf A}_s^p
 		(\mbf A_s^p)^{-1}
@@ -1602,7 +1798,7 @@ below follows after substituting the reversible restrictions
 		         & +
 		\sum_{s\in\mc S}
 		\operatorname{tr}\left[
-			\mbf S_s'
+			\mbf S_s^{+}
 			\dot{\bar{\mbf F}}_s^p
 			(\bar{\mbf F}_s^p)^{-1}
 			\right]
@@ -1618,11 +1814,12 @@ below follows after substituting the reversible restrictions
 %
 \subsubsection{Constitutive restrictions for the process-rate forces}
 
-The extended Lagrange--d'Alembert principle varies the conversion and
-relative-transport rates, while the entropy inequality restricts the
+The Hamilton--d'Alembert statement varies the conservative coordinates, and the
+accompanying Onsager stationarity condition varies the conversion and
+relative-transport rates.  The entropy inequality then restricts the
 constitutive relation between those rates and their forces.  The variational
-force balances \eqref{eq:vp_affinity_balance} and
-\eqref{eq:vp_relative_flux_force_balance} are already written in terms of the
+force balances \eqref{eq:el_conversion_affinity} and
+\eqref{eq:hamilton_dispersion_force_balance} are already written in terms of the
 chemical-potential multiplier \(\mu_\xi^\alpha\) identified by the entropy
 inequality.  In the electrical theory this multiplier is electrochemical.  The
 relative component fluxes redistribute mass among the components of a phase;
@@ -1826,13 +2023,13 @@ rules
 		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
 		 & =
 		\Lambda_{\bar{\mbf F}_s}(\mc X_s)
-		(\mbf S_s')^T,
+		(\mbf S_s^{+})^T,
 		\label{eq:MC_generic_plastic_deformation_flow_rule}            \\
 		\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}
 		 & =
 		\Lambda_{\mbf A_s}(\mc X_s)
 		(\mbf A_s^e)^T
-		\bs\sigma_s'
+		\bs\sigma_s^{\prime+}
 		(\mbf A_s^e)^{-T},
 		\label{eq:MC_generic_plastic_distension_flow_rule}             \\
 		\Lambda_{\bar{\mbf F}_s}(\mc X_s)
@@ -1847,7 +2044,7 @@ rules
 \end{subequations}
 %
 Then the isochoric constraint is preserved by
-\(\operatorname{tr}\mbf S_s'=0\), and the two plastic powers in
+\(\operatorname{tr}\mbf S_s^{+}=0\), and the two plastic powers in
 \eqref{eq:MC_residual_dissipation} are nonnegative term by term.  Composition
 dependence of the plastic closure is admissible at this residual level.  It
 does not add a new Coleman--Noll coefficient unless the plastic variables are
@@ -2269,7 +2466,7 @@ gives
 \end{equation}
 %
 Substituting \eqref{eq:MC_phase_biot_split} into the solid phase momentum
-balance \eqref{eq:vp_momentum_uniform} gives the fixed-pressure form
+balance \eqref{eq:el_momentum_uniform} gives the fixed-pressure form
 %
 \begin{equation}
 	\begin{aligned}
@@ -2295,11 +2492,12 @@ balance \eqref{eq:vp_momentum_uniform} gives the fixed-pressure form
 	\label{eq:MC_solid_phase_momentum_biot}
 \end{equation}
 %
-The plasticity restrictions remain written in terms of the single-prime stress
-because \(\bs\sigma_s'\) is the stress appearing in the residual inequality.  If
-a plastic model is calibrated in terms of \(\bs\sigma_s^{\prime\prime}\), the
-phase split \eqref{eq:MC_phase_biot_split} must be applied before evaluating the
-plastic driving stress.
+The plasticity restrictions are written in terms of the combined reversible
+stress because \(\bs\sigma_s^{\prime+}\) is the stress appearing in the residual
+inequality when electrical effects are retained.  If a plastic model is
+calibrated in terms of \(\bs\sigma_s^{\prime\prime}\), the phase split
+\eqref{eq:MC_phase_biot_split} and the Maxwell contribution must be applied
+before evaluating the plastic driving stress.
 
 After the solid partial stresses are summed, the solid-phase Biot terms combine
 as
@@ -2527,7 +2725,7 @@ plastic motion.  One sufficient additive form is
 		\sum_\alpha
 		\Lambda_{\bar{\mbf F}_s}^\alpha(\mc X_s)
 		\right)
-		(\mbf S_s')^T,
+		(\mbf S_s^{+})^T,
 		\label{eq:MC_component_true_plastic_flow_rule}       \\
 		\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}
 		 & =
@@ -2536,7 +2734,7 @@ plastic motion.  One sufficient additive form is
 		\Lambda_{\mbf A_s}^\alpha(\mc X_s)
 		\right)
 		(\mbf A_s^e)^T
-		\bs\sigma_s'
+		\bs\sigma_s^{\prime+}
 		(\mbf A_s^e)^{-T},
 		\label{eq:MC_component_distension_plastic_flow_rule} \\
 		\sum_\alpha
@@ -2797,7 +2995,7 @@ For a generic multicomponent solid, the tensor distension restriction
 \eqref{eq:MC_distension_force_definition} reduces to the trace condition
 %
 \begin{equation}
-	\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s'\right)
+		\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s^{\prime+}\right)
 	=
 	\rho_s
 	\left.
@@ -2832,12 +3030,12 @@ also reduces the plastic-distension power in
 \eqref{eq:MC_residual_dissipation} to
 %
 \begin{equation}
-	\sum_{s\in\mc S}\bs\sigma_s':
+		\sum_{s\in\mc S}\bs\sigma_s^{\prime+}:
 	\mbf A_s^e\dot{\mbf A}_s^p
 	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}
 	=
 	\sum_{s\in\mc S}
-	\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s'\right)
+		\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s^{\prime+}\right)
 	\frac{\dot a_s^p}{a_s^p}.
 	\label{eq:MC_scalar_plastic_distension_power}
 \end{equation}
@@ -3022,7 +3220,7 @@ Table~\ref{tab:MC_equation_block_count}.
 	\begin{tabular}{>{\raggedright\arraybackslash}p{0.60\textwidth}>{\raggedleft\arraybackslash}p{0.30\textwidth}}
 		Equation block                                                                                                               & Count                                                \\
 		\hline
-		Phase momentum balances \eqref{eq:vp_momentum_uniform}                                                                       & \(dP\)                                               \\
+		Phase momentum balances \eqref{eq:el_momentum_uniform}                                                                       & \(dP\)                                               \\
 		Component mass balances \eqref{eq:averaged_component_spatial_mass}                                                           & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
 		Independent transport-accumulation constraints \eqref{eq:component_transport_accumulation_constraint}                        & \(P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)\)    \\
 		Total relative-transport closures \eqref{eq:MC_relative_transport_closures}                                                  & \(d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
