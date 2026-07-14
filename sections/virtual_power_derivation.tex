@@ -72,6 +72,10 @@ the absolute temperature.  In the electrical term,
 \(\mc X_\xi=\{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^\alpha,\theta\}\) denotes the
 non-field state variables held fixed in the dielectric derivative:
 %
+Let \(\dot m_\xi^\alpha\) denote the total current-volume component
+mass-addition rate that links accumulated insertion to reaction and
+relative-transport mechanisms.
+%
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begingroup
 \small
@@ -91,14 +95,15 @@ non-field state variables held fixed in the dielectric derivative:
 	\label{eq:C2_def}                                                                                                                                                                                               \\
 	C_3      & = \sum_\xi \int_{\mc{B}} \Pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) \dv,
 	\label{eq:C3_def}                                                                                                                                                                                               \\
-	C_4      & = \sum_\xi\sum_\alpha\int_{\mc B}\hat{\mu}_\xi^\alpha
-	\left[\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
-	-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
-	+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm disp}}^\alpha
-	+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm diff}}^\alpha\right]\dv .
+	C_4      & = \sum_\xi\sum_\alpha\int_{\mc B}\tau_\xi^\alpha
+	\left[
+	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+	-\dot m_\xi^\alpha
+	\right]\dv .
 	\label{eq:C4_def}                                                                                                                                                                                               \\
-	C_5      & = \sum_\xi\sum_\alpha\int_{\mc B} z_\xi^\alpha\varphi
-	\left[\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+	C_5      & = \sum_\xi\sum_\alpha\int_{\mc B}\mu_\xi^\alpha
+	\left[
+	\dot m_\xi^\alpha
 	-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 	+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm disp}}^\alpha
 	+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm diff}}^\alpha\right]\dv .
@@ -107,23 +112,20 @@ non-field state variables held fixed in the dielectric derivative:
 \endgroup
 % AGENT-LOCK-END
 %
-The bracketed term in \(C_5\) is identical to the bracketed term in \(C_4\).
-The two constraints may therefore be added before taking variations:
+The transfer multiplier \(\tau_\xi^\alpha\) is the Bedford--Drumheller
+kinematic potential conjugate to accumulated material insertion.  It is not the
+chemical potential.  The chemical part of the same component balance is retained
+as a thermodynamic force balance for the dissipative mechanism rates and
+relative fluxes.  In the neutral theory this force is
+\(\hat\mu_\xi^\alpha\); when charge is retained, the electrochemical potential is
 %
 \begin{equation}
-	C_4+C_5
-	=
-	\sum_\xi\sum_\alpha\int_{\mc B}\mu_\xi^\alpha
-	\left[\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
-	-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
-	+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm disp}}^\alpha
-	+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm diff}}^\alpha\right]\dv,
+	\mu_\xi^\alpha=\hat{\mu}_\xi^\alpha+z_\xi^\alpha\varphi .
 	\label{eq:C45_combined_def}
 \end{equation}
 %
-Here \(\mu_\xi^\alpha=\hat{\mu}_\xi^\alpha+z_\xi^\alpha\varphi\) is the unified
-component-rate multiplier obtained by adding the chemomechanical multiplier and
-the charge-weighted electric-potential multiplier.
+Thus \(\tau_\xi^\alpha\) supplies the transfer-momentum coefficient, while
+\(\mu_\xi^\alpha\) supplies chemical affinity and relative-transport forces.
 
 The coefficient $L_\xi^\alpha$ is the component generalized force conjugate to
 both conversion and transport accumulation, and it enters the
@@ -131,12 +133,10 @@ Hamilton--d'Alembert virtual work \(\delta W\).  The same virtual work contains
 gravity \(\mbf g\) and the interphase interaction force \(\mbf b_\xi\).
 Constraint $C_1$ enforces the volume-fraction constraint, $C_2$ enforces the
 augmented component material measure, and $C_3$ enforces mass-fraction
-normalization.  Constraint $C_4$ enforces the complete component-rate balance,
-including conversion stoichiometry and the divergence of the relative flux, and
-its charge projection is \(C_5\).  Since \(C_4\) and \(C_5\) contain the same
-component-rate bracket, their variations in \eqref{eq:onsager_stationarity} are
-performed once using the unified multiplier \(\mu_\xi^\alpha\).  In the neutral
-theory \(\mu_\xi^\alpha=\hat{\mu}_\xi^\alpha\).
+normalization.  Constraint $C_4$ carries the Bedford--Drumheller material
+insertion multiplier.  The conversion stoichiometry and relative-flux divergence
+are dissipative balance mechanisms; their thermodynamic force is
+\(\mu_\xi^\alpha\), not \(\tau_\xi^\alpha\).
 
 The conversion coordinate \(r_{(m)}\) is retained as a generalized coordinate in
 the Bedford--Drumheller sense, while the mechanism rate \(\dot r_{(m)}\) and the
@@ -146,6 +146,11 @@ the Onsager statement rather than from the Hamilton action.  Differentiating
 \(\mc A_{(m)}\) and the flux forces \(\mbf M_{\xi,{\rm disp}}^\alpha\) and
 \(\mbf M_{\xi,{\rm diff}}^\alpha\); the entropy inequality then restricts their
 constitutive dependence on the rates.
+
+The bookkeeping rate \(\dot m_\xi^\alpha\) denotes the total current-volume
+component addition rate.  The constraints below equate it first with the
+accumulated material insertion and then with the stoichiometric and
+relative-transport production mechanisms.
 
 The variations in this section are mechanical and compositional variations at
 fixed temperature.  Temperature is retained as a constitutive state variable and
@@ -700,21 +705,30 @@ The last term in the first line vanishes by recognizing $\sum_\alpha \nabla_{\mb
 \label{sec:stoich_conversion_variations}
 \label{sec:transport_accumulation_variations}
 
-The combined constraint \eqref{eq:C45_combined_def} contains conversion,
-transport accumulation, and relative transport in one component-rate balance.
-Because \(\mc C_\xi^\alpha\) and \(\mc D_\xi^\alpha\) are phase-attached
-accumulated material measures, their rate variations must be integrated by parts
-with the same phase material derivative before any stationarity condition is
-used.  Varying \(\mu_\xi^\alpha\), the two accumulated measures, the phase map,
-the mechanism rates, and the two relative fluxes gives
+The Bedford--Drumheller transfer constraint contains the phase-attached
+accumulated material measures \(\mc C_\xi^\alpha\) and \(\mc D_\xi^\alpha\).
+Their rate variations must be integrated by parts with the same phase material
+derivative before any stationarity condition is used.  The dissipative
+stoichiometric and relative-flux parts of the component balance are varied
+through the electrochemical potential \(\mu_\xi^\alpha\).  Varying the transfer
+potential, the two accumulated measures, the phase map, the mechanism rates, and
+the two relative fluxes gives
 %
 \begin{align}
 	\int_{t_1}^{t_2}\delta(C_4+C_5)\,\dt
 	={}&
 	\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
+		\delta\tau_\xi^\alpha
+		\left[
+		\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+		-\dot m_\xi^\alpha
+		\right]\dv\dt
+	\notag\\
+	&+
+	\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
 	\delta\mu_\xi^\alpha
 	\left[
-	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\dot m_\xi^\alpha
 	-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 	+\nabla_{\mbf x}\cdot
 	\left(
@@ -722,16 +736,16 @@ the mechanism rates, and the two relative fluxes gives
 	+
 	\mbf j_{\xi,{\rm diff}}^\alpha
 	\right)
-	\right]\dv\dt
+		\right]\dv\dt
 	\notag\\
 	&+
 	\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
 	\left[
-	-\frac{D_\xi\mu_\xi^\alpha}{Dt}
-	\frac{\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}
-	+
-	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
-	\nabla_{\mbf x}\mu_\xi^\alpha\cdot\delta\mbf x_\xi
+		-\frac{D_\xi\tau_\xi^\alpha}{Dt}
+		\frac{\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}
+		+
+		\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+		\nabla_{\mbf x}\tau_\xi^\alpha\cdot\delta\mbf x_\xi
 	\right]\dv\dt
 	\notag\\
 	&-
@@ -753,14 +767,15 @@ the mechanism rates, and the two relative fluxes gives
 	\label{eq:C4_variation}
 \end{align}
 %
-The multiplier variation in \eqref{eq:C4_variation} returns the complete
-component-rate balance.  The accumulated-measure variations supply the same
-material derivative \(D_\xi\mu_\xi^\alpha/Dt\) for both \(\mc C_\xi^\alpha\) and
-\(\mc D_\xi^\alpha\), the map variation receives the combined material-rate
-coefficient, and both relative-flux variations receive the same electrochemical
-component-potential gradient \(\nabla_{\mbf x}\mu_\xi^\alpha\).  These are the
-constraint-side coefficients that will be paired with the Onsager force
-coefficients.
+The transfer-multiplier variation in \eqref{eq:C4_variation} returns the
+accumulated material-addition rate.  The accumulated-measure variations supply
+the same material derivative \(D_\xi\tau_\xi^\alpha/Dt\) for both
+\(\mc C_\xi^\alpha\) and \(\mc D_\xi^\alpha\), and the map variation receives the
+combined material-rate coefficient
+\(\nabla_{\mbf x}\tau_\xi^\alpha\).  The mechanism-rate and relative-flux
+variations receive the electrochemical force \(\mu_\xi^\alpha\), so chemical
+affinity and relative transport are not driven by the kinematic transfer
+potential.
 
 The remaining contribution in the Onsager statement
 \eqref{eq:onsager_stationarity} is the variation of the reaction--transport
@@ -796,7 +811,7 @@ where the Onsager potential enters the collected variational coefficients; the
 later entropy argument restricts the constitutive dependence of
 \(\mc A_{(m)}\) and \(\mbf M_{\xi,k}^\alpha\) on the corresponding rates.
 
-Before collecting the stationarity conditions, define the total current-volume
+Before collecting the stationarity conditions, recall the total current-volume
 component material-addition rate
 %
 \begin{align*}
@@ -838,8 +853,8 @@ collection gives
 				&\qquad
 				-\lambda\nabla_{\mbf{x}}\phi_\xi
 				-\sum_\alpha\nabla_{\mbf{x}}\pi_\xi^\alpha
-				+\sum_\alpha\dot m_\xi^\alpha
-				\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right)
+					+\sum_\alpha\dot m_\xi^\alpha
+					\left(\nabla_{\mbf x}\tau_\xi^\alpha-\mbf v_\xi\right)
 			\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv                                                                                                                          \\
 		    & + \int_{\mc B}\Big[
 			\sum_{f\in\mc F}
@@ -870,7 +885,7 @@ collection gives
 		    & + \sum_\xi\sum_\alpha\int_{\mc B}\left[
 			\tfrac12\mbf v_\xi\cdot\mbf v_\xi-\psi_\xi
 			-L_\xi^\alpha
-			-\frac{D_\xi\mu_\xi^\alpha}{Dt}
+				-\frac{D_\xi\tau_\xi^\alpha}{Dt}
 			-\frac{\pi_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
 			\right]\frac{\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}\,\dv
 			\\
@@ -899,18 +914,27 @@ collection gives
 	\endgroup
 	% AGENT-LOCK-END
 	%
-	The explicit \(\delta\varphi\) term in \eqref{eq:collected_full} is the
-	Hamilton electric-field variation and gives Gauss' law.  The multiplier
-	variations in \eqref{eq:collected_full} include the variations that return
-	\eqref{eq:C1_def}--\eqref{eq:C3_def}.  For the component-rate and charge
-	constraints, the corresponding terms are
-	%
-	\begin{align*}
-		&\int_{t_1}^{t_2}\int_{\mc B}
-		\sum_\xi\sum_\alpha
-		\delta\hat{\mu}_\xi^\alpha
-		\left[
-		\dot m_\xi^\alpha
+The explicit \(\delta\varphi\) term in \eqref{eq:collected_full} is the
+Hamilton electric-field variation and gives Gauss' law.  The multiplier
+variations in \eqref{eq:collected_full} include the variations that return
+\eqref{eq:C1_def}--\eqref{eq:C3_def}.  For the transfer, component-rate, and
+charge constraints, the corresponding terms are
+%
+\begin{align*}
+	&\int_{t_1}^{t_2}\int_{\mc B}
+	\sum_\xi\sum_\alpha
+	\delta\tau_\xi^\alpha
+	\left[
+	\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
+	-\dot m_\xi^\alpha
+	\right]\dv\dt
+	\\
+	&\quad+
+	\int_{t_1}^{t_2}\int_{\mc B}
+	\sum_\xi\sum_\alpha
+	\delta\hat{\mu}_\xi^\alpha
+	\left[
+	\dot m_\xi^\alpha
 		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 		+\nabla_{\mbf x}\cdot
 		\left(
@@ -937,8 +961,10 @@ collection gives
 		\right]\dv\dt .
 	\end{align*}
 	%
-	The first line returns the component-rate balance, while the second line is the
-	charge-projected balance in variational form.  Thus the same scalar potential
+The first line identifies the accumulated material-addition rate with
+\(\dot m_\xi^\alpha\), the second line returns the component-rate balance, and
+the third line is the charge-projected balance in variational form.  Thus the
+same scalar potential
 	appears in two roles: its Hamilton variation gives Gauss' law, and its
 	multiplier variation in \(C_5\) gives the charge-projected rate balance.  Since
 	all displayed variations are arbitrary within their respective variation
@@ -989,7 +1015,7 @@ Substituting \eqref{eq:el_lambda} into the Euler--Lagrange equations associated 
 		\nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 		+ \phi_{\xi} \nabla_{\mbf{x}}\lambda
 		+\sum_\alpha\dot m_\xi^\alpha
-		\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right),
+		\left(\nabla_{\mbf x}\tau_\xi^\alpha-\mbf v_\xi\right),
 		\label{eq:el_momentum_uniform}
 \end{equation}
 % AGENT-LOCK-END
@@ -1205,7 +1231,7 @@ The equations associated with the conversion variables are
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
-	\frac{D_\xi\mu_\xi^\alpha}{Dt}
+		\frac{D_\xi\tau_\xi^\alpha}{Dt}
 	&= \frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\psi_\xi
 	-L_\xi^\alpha
@@ -1224,13 +1250,13 @@ conversion kinematics; it does not prescribe a kinetic law.  A kinetic law is
 introduced only after the entropy inequality restricts admissible dissipation
 ~\cite{bothe2015continuum,doi2011onsager}.
 
-Variation with respect to \(\mc D_\xi^\alpha\) returns the same component-potential
+Variation with respect to \(\mc D_\xi^\alpha\) returns the same transfer-potential
 equation \eqref{eq:el_conversion_component} as variation with respect to
 \(\mc C_\xi^\alpha\).  This equality follows because both accumulations enter
 the material measure through \(\mc C_\xi^\alpha+\mc D_\xi^\alpha\), have the same
-generalized work potential, and are governed by the same multiplier.  The
-relative-flux equations therefore contain the same component chemical-potential
-gradient \(\nabla_{\mbf x}\mu_\xi^\alpha\) that enters conversion.
+generalized work potential, and are governed by the same kinematic transfer
+multiplier.  The relative-flux equations are instead thermodynamic Onsager
+balances driven by \(\nabla_{\mbf x}\mu_\xi^\alpha\).
 
 At this stage $L_\xi^\alpha$ remains an explicit constitutive
 component-transfer potential.  An admissible choice of $L_\xi^\alpha$ is identified
@@ -1253,7 +1279,7 @@ gives the intermediate form
 		-\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha
 		+\gamma_f\nabla_{\mbf x}\phi_f
 		+\sum_\alpha\dot m_f^\alpha
-		\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right).
+		\left(\nabla_{\mbf x}\tau_f^\alpha-\mbf v_f\right).
 		\label{eq:el_mom_f_start}
 \end{align}
 % AGENT-LOCK-END
@@ -1285,7 +1311,7 @@ The phase pressure-gradient form is therefore
 		- \phi_f\nabla_{\mbf{x}}\bar p_f
 		- \omega_f^+\nabla_{\mbf x}\phi_f
 		+\sum_\alpha\dot m_f^\alpha
-		\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right),
+		\left(\nabla_{\mbf x}\tau_f^\alpha-\mbf v_f\right),
 		\qquad f\in\mc F .
 	\label{eq:el_mom_f_simplified}
 \end{empheq}

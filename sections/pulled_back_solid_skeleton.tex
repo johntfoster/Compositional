@@ -59,7 +59,7 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 	-\phi_f\nabla_{\mbf x}\bar p_f
 	\notag                          \\
 	  & +\sum_\alpha\dot m_f^\alpha
-	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_s\right),
+	\left(\nabla_{\mbf x}\tau_f^\alpha-\mbf v_s\right),
 	\label{eq:relative_flux_linear_system}
 \end{align}
 %
@@ -67,9 +67,8 @@ The isotropic rate correction contains both conversion and transport
 accumulation.  The transport contribution sums to zero by
 \eqref{eq:averaged_relative_flux_sum} and
 \eqref{eq:reference_transport_accumulation_rate}, but it is retained here to
-show its origin.  The conversion and transport-accumulation chemical-potential
-gradients remain on
-the right, while the fluxes are closed by
+show its origin.  The conversion and transport-accumulation transfer-potential
+gradients remain on the right, while the fluxes are closed by
 \eqref{eq:MC_relative_transport_closures}.
 
 Define the modified permeability tensor
@@ -93,7 +92,7 @@ Then the admissible relative mass flux is
 	\rho_f\left(\mbf g-\mbf a_f\right)
 		-\phi_f\nabla_{\mbf x}\bar p_f
 		+\sum_\alpha\dot m_f^\alpha
-		\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_s\right)
+		\left(\nabla_{\mbf x}\tau_f^\alpha-\mbf v_s\right)
 	\right).
 	\label{eq:generalized_fluid_darcy_mass_flux}
 \end{empheq}
@@ -251,7 +250,7 @@ stress.  This transformation gives
 	\right)
 	+J\rho\mbf g
 	+J\sum_\xi\sum_\alpha\dot m_\xi^\alpha
-	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
+	\left(\nabla_{\mbf x}\tau_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:solid_reference_overall_momentum}
 \end{align}
 %
@@ -282,7 +281,7 @@ general finite-deformation form, the mechanics equation is
 	\right)
 	+J\rho\mbf g
 	+J\sum_\xi\sum_\alpha\dot m_\xi^\alpha
-	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right).
+	\left(\nabla_{\mbf x}\tau_\xi^\alpha-\mbf v_\xi\right).
 	\label{eq:reservoir_simulation_overall_momentum_summary}
 \end{align}
 %
@@ -330,7 +329,7 @@ The corresponding admissible reference flux is
 			&\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
 			-\phi_f\nabla_{\mbf X}\bar p_f
 			+\sum_\alpha\dot m_f^\alpha
-			\left(\nabla_{\mbf X}\mu_f^\alpha-\mbf F^T\mbf v_s\right)
+			\left(\nabla_{\mbf X}\tau_f^\alpha-\mbf F^T\mbf v_s\right)
 		\end{aligned}
 		\right],
 	\qquad f\in\mc F .
