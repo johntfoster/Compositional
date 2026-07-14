@@ -87,9 +87,9 @@ non-field state variables held fixed in the dielectric derivative:
 		\label{eq:W_def}                                                                                                                                                                                                \\
 	C_1      & = \int_{\mc{B}} \lambda\left(\sum_\xi\phi_\xi - 1\right) \,\dv,
 	\label{eq:C1_def}                                                                                                                                                                                               \\
-	C_2      & = \sum_\xi \sum_\al \int_{\mc{B}_{\xi 0}} \tau^\al_\xi \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0} + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi} \right) \dV_\xi,
+	C_2      & = \sum_\xi \sum_\al \int_{\mc{B}_{\xi 0}} \pi_\xi^\al \left( J_\xi - \frac{\phi_{\xi 0} \eta^\al_{\xi 0} \bar\rho_{\xi 0} + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \eta^\al_\xi \bar\rho_\xi} \right) \dV_\xi,
 	\label{eq:C2_def}                                                                                                                                                                                               \\
-	C_3      & = \sum_\xi \int_{\mc{B}} \pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) \dv,
+	C_3      & = \sum_\xi \int_{\mc{B}} \Pi_\xi \left( \sum_\alpha \eta_\xi^\alpha - 1 \right) \dv,
 	\label{eq:C3_def}                                                                                                                                                                                               \\
 	C_4      & = \sum_\xi\sum_\alpha\int_{\mc B}\hat{\mu}_\xi^\alpha
 	\left[\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
@@ -612,59 +612,59 @@ The component material mass balance constraint is
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	C_2 = \sum_\xi\sum_\alpha\int_{\mc{B}_{\xi0}}\tau_\xi^\alpha \left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0} \eta^\al_{\xi 0} + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha} \right) \,dV_\xi.
+	C_2 = \sum_\xi\sum_\alpha\int_{\mc{B}_{\xi0}}\pi_\xi^\alpha \left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0} \eta^\al_{\xi 0} + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha} \right) \,dV_\xi.
 	\label{eq:C2_component_measure}
 \end{equation}
 % AGENT-LOCK-END
 %
-The multiplier \(\tau_\xi^\alpha\) enforces the component material-mass balance
+The multiplier \(\pi_\xi^\alpha\) enforces the component material-mass balance
 for component \(\alpha\) in phase \(\xi\).  Its variation gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta C_2
 	 & = \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\delta\tau_\xi^\alpha
+	\delta\pi_\xi^\alpha
 	\left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\right)
 	\,{\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\tau_\xi^\alpha \delta J_\xi \, {\rm d}V_\xi
+	\pi_\xi^\alpha \delta J_\xi \, {\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta_\xi^\alpha}\,\delta\phi_\xi \, {\rm d}V_\xi
+	\pi_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi^2\bar\rho_\xi \eta_\xi^\alpha}\,\delta\phi_\xi \, {\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi \, {\rm d}V_\xi
+	\pi_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \bar\rho_\xi^2 \eta^\al_\xi}\,\delta\bar\rho_\xi \, {\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	+ \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\tau_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta_\xi^\alpha \, {\rm d}V_\xi
+	\pi_\xi^\alpha\,\frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi \bar\rho_\xi (\eta^\al_\xi)^2}\,\delta\eta_\xi^\alpha \, {\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	- \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}
+	\frac{\pi_\xi^\alpha}{\phi_\xi\bar\rho_\xi \eta_\xi^\alpha}
 	\left(\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha\right) \, {\rm d}V_\xi.
 	\notag                                        \\
 	 & = \sum_\xi\sum_\alpha \int_{\mc{B}_{\xi0}}
-	\delta\tau_\xi^\alpha
+	\delta\pi_\xi^\alpha
 	\left(J_\xi - \frac{\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha + \mc{C}_\xi^\alpha+\mc D_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}\right)
 	\,{\rm d}V_\xi
 	\notag                                        \\
 	 & \quad
 	-\sum_\xi\sum_\alpha \int_{\mc{B}}
-	\nabla_{\mbf{x}}\tau_\xi^\alpha \cdot \delta\mbf{x}_\xi \, \dv
+	\nabla_{\mbf{x}}\pi_\xi^\alpha \cdot \delta\mbf{x}_\xi \, \dv
 	\notag                                        \\
 	 & \quad
 	+ \sum_\xi\sum_\alpha\int_{\mc{B}}
 	\left[
-		\frac{\tau_\xi^\alpha}{\phi_\xi}\delta\phi_\xi
-		+ \frac{\tau_\xi^\alpha}{\bar\rho_\xi}\delta\bar\rho_\xi
-		+ \frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\delta\eta_\xi^\alpha
-		- \frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+		\frac{\pi_\xi^\alpha}{\phi_\xi}\delta\phi_\xi
+		+ \frac{\pi_\xi^\alpha}{\bar\rho_\xi}\delta\bar\rho_\xi
+		+ \frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}\delta\eta_\xi^\alpha
+		- \frac{\pi_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
 		\frac{\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}
 		\right]\dv
 	+ \text{b.t.}
@@ -685,10 +685,10 @@ $\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha+\mc D_\xi^\alpha
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	\delta C_3
-	 & = \sum_\xi \int_{\mc{B}} \delta\pi_\xi \left(\sum_\al \eta_\xi^\al - 1\right) \dv
-	+ \sum_\xi \sum_\al \int_{\mc{B}} \pi_\xi \left(\delta\eta^\al_\xi - \nabla_{\mbf{x}}\eta_\xi^\al\cdot\delta\mbf{x}_\xi\right) \dv, \notag \\
-	 & = \sum_\xi \int_{\mc{B}} \delta\pi_\xi \left(\sum_\al \eta_\xi^\al - 1\right) \dv
-	+ \sum_\xi \sum_\al \int_{\mc{B}} \pi_\xi \delta\eta^\al_\xi \dv.
+	 & = \sum_\xi \int_{\mc{B}} \delta\Pi_\xi \left(\sum_\al \eta_\xi^\al - 1\right) \dv
+	+ \sum_\xi \sum_\al \int_{\mc{B}} \Pi_\xi \left(\delta\eta^\al_\xi - \nabla_{\mbf{x}}\eta_\xi^\al\cdot\delta\mbf{x}_\xi\right) \dv, \notag \\
+	 & = \sum_\xi \int_{\mc{B}} \delta\Pi_\xi \left(\sum_\al \eta_\xi^\al - 1\right) \dv
+	+ \sum_\xi \sum_\al \int_{\mc{B}} \Pi_\xi \delta\eta^\al_\xi \dv.
 	\label{eq:deltaC3_app}
 \end{align}
 % AGENT-LOCK-END
@@ -828,15 +828,16 @@ collection gives
 \begingroup
 	\begin{equation}
 	\begin{aligned}
-		0 ={} & \int_{t_1}^{t_2} \left\{
-		\begin{aligned}
-			& \sum_{\xi} \int_{\mc{B}} \Bigg[
-				-\rho_{\xi}\mbf{a}_{\xi}
-				+ \nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
-				\\
+		0 ={} & \int_{t_1}^{t_2}
+			\begin{aligned}[t]
+				& \left\{\vphantom{\sum_{\xi}}\right.
+				\sum_{\xi} \int_{\mc{B}} \Bigg[
+					-\rho_{\xi}\mbf{a}_{\xi}
+					+ \nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
+					\\
 				&\qquad
 				-\lambda\nabla_{\mbf{x}}\phi_\xi
-				-\sum_\alpha\nabla_{\mbf{x}}\tau_\xi^\alpha
+				-\sum_\alpha\nabla_{\mbf{x}}\pi_\xi^\alpha
 				+\sum_\alpha\dot m_\xi^\alpha
 				\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right)
 			\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv                                                                                                                          \\
@@ -845,18 +846,18 @@ collection gives
 			\gamma_f\nabla_{\mbf x}\phi_f\cdot\delta\mbf x_f
 		\Big]\dv                                                                                                                                                              \\
 		    & + \sum_\xi \int_{\mc{B}} \Bigg[
-			\lambda + \sum_\alpha \frac{\tau_{\xi}^\alpha}{\phi_{\xi}}
+			\lambda + \sum_\alpha \frac{\pi_{\xi}^\alpha}{\phi_{\xi}}
 			-
 			\omega_\xi^+
 		\Bigg] \delta\phi_{\xi} \,\dv                                                                                                                                         \\
 		    & - \int_{\mc B}\sum_{f\in\mc F}\gamma_f\delta\phi_f\dv                                                                                                           \\
 		    & + \sum_{\xi}\int_{\mc{B}} \Bigg[
 			-\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\eta_\xi^\beta}
-			+ \sum_\alpha\frac{\tau_{\xi}^\alpha}{\bar\rho_{\xi}}
+			+ \sum_\alpha\frac{\pi_{\xi}^\alpha}{\bar\rho_{\xi}}
 		\Bigg] \delta\bar\rho_{\xi} \,\dv                                                                                                                                     \\
 		    & + \sum_{\xi}\sum_\alpha \int_{\mc{B}}
 			\left[
-			\frac{\tau_{\xi}^\alpha}{\eta_\xi^\alpha}+\pi_{\xi}
+			\frac{\pi_{\xi}^\alpha}{\eta_\xi^\alpha}+\Pi_{\xi}
 			-\rho_{\xi}
 			\left.\p{\psi_{\xi}}{\eta^\alpha_\xi}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta^{\beta\neq\alpha}_\xi}
 			\right]
@@ -870,7 +871,7 @@ collection gives
 			\tfrac12\mbf v_\xi\cdot\mbf v_\xi-\psi_\xi
 			-L_\xi^\alpha
 			-\frac{D_\xi\mu_\xi^\alpha}{Dt}
-			-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+			-\frac{\pi_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
 			\right]\frac{\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}\,\dv
 			\\
 		    & - \sum_m\int_{\mc B}
@@ -883,15 +884,15 @@ collection gives
 			+\nabla_{\mbf x}\mu_\xi^\alpha\right)
 			\cdot\delta\mbf j_{\xi,{\rm disp}}^\alpha\,\dv
 			\\
-		    & - \sum_\xi\sum_\alpha\int_{\mc B}
-			\left(\mbf M_{\xi,{\rm diff}}^\alpha
-			+\nabla_{\mbf x}\mu_\xi^\alpha\right)
-			\cdot\delta\mbf j_{\xi,{\rm diff}}^\alpha\,\dv
-		\end{aligned}
-		\right\} \dt
-		    \\
-		    & + \text{boundary terms}
-		    + \text{multiplier variations}.
+			    & - \sum_\xi\sum_\alpha\int_{\mc B}
+				\left(\mbf M_{\xi,{\rm diff}}^\alpha
+				+\nabla_{\mbf x}\mu_\xi^\alpha\right)
+				\cdot\delta\mbf j_{\xi,{\rm diff}}^\alpha\,\dv
+				\left.\vphantom{\sum_{\xi}}\right\}\dt
+			\end{aligned}
+			    \\
+			    & + \text{multiplier variations}
+			    + \text{boundary terms}.
 			\label{eq:collected_full}
 	\end{aligned}
 	\end{equation}
@@ -973,7 +974,7 @@ for phases without an explicit capillary contribution,
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	\phi_\xi \lambda = - \sum_\alpha \tau^\al_\xi .
+	\phi_\xi \lambda = - \sum_\alpha \pi_\xi^\al .
 	\label{eq:el_lambda}
 \end{equation}
 % AGENT-LOCK-END
@@ -999,10 +1000,10 @@ The Euler--Lagrange equation associated with arbitrary $\delta\bar\rho_\xi$ give
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	\sum_\al \frac{\tau_{\xi}^\al}{\phi_{\xi}}
+	\sum_\al \frac{\pi_{\xi}^\al}{\phi_{\xi}}
 	= \bar\rho^2_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf F_\xi,\eta_\xi^\beta}
 	.
-	\label{eq:phase_pressure_tau}
+	\label{eq:phase_pressure_storage}
 \end{equation}
 % AGENT-LOCK-END
 %
@@ -1019,7 +1020,7 @@ primitive interfacial potential $\gamma_f$ and the electric enthalpy
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\lambda+\sum_\alpha\frac{\tau_f^\alpha}{\phi_f}-\gamma_f-\omega_f^+=0.
+	\lambda+\sum_\alpha\frac{\pi_f^\alpha}{\phi_f}-\gamma_f-\omega_f^+=0.
 	\label{eq:fluid_volume_fraction_el_relation}
 \end{equation}
 % AGENT-LOCK-END
@@ -1150,14 +1151,14 @@ associated with arbitrary $\delta\eta_{\xi}^\alpha$ give
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	0 = \frac{\tau_{\xi}^\alpha}{\eta_{\xi}^\alpha} + \pi_{\xi}
+	0 = \frac{\pi_{\xi}^\alpha}{\eta_{\xi}^\alpha} + \Pi_{\xi}
 	- \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}},
 	\qquad \alpha=1,\ldots,N,
 	\label{eq:el_eta_all}
 \end{equation}
 % AGENT-LOCK-END
 %
-while variation with respect to $\pi_{\xi}$ returns the phase mass fraction
+while variation with respect to $\Pi_{\xi}$ returns the phase mass fraction
 constraint
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
@@ -1167,16 +1168,16 @@ constraint
 \end{equation}
 % AGENT-LOCK-END
 %
-Thus $\pi_{\xi}$ is the phase-level multiplier that enforces the redundant
+Thus $\Pi_{\xi}$ is the phase-level multiplier that enforces the redundant
 composition coordinate.  Equation~\eqref{eq:el_eta_all} may be read
 componentwise as
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}}
-	- \frac{\tau_{\xi}^\alpha}{\eta_{\xi}^\alpha}
-	= \pi_{\xi},
-	\label{eq:pi_componentwise}
+	- \frac{\pi_{\xi}^\alpha}{\eta_{\xi}^\alpha}
+	= \Pi_{\xi},
+	\label{eq:Pi_componentwise}
 \end{equation}
 % AGENT-LOCK-END
 %
@@ -1190,8 +1191,8 @@ $\beta=1,\ldots,N-1$ gives a system of $N-1$ equations,
 	\left.\p{\psi_{\xi}}{\eta_{\xi}^\beta}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq \beta}}
 	- \left.\p{\psi_{\xi}}{\eta_{\xi}^N}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq N}}
 	\right)
-	 & = \frac{\tau_{\xi}^\beta}{\eta_{\xi}^\beta}
-	- \frac{\tau_{\xi}^N}{\eta_{\xi}^N},
+	 & = \frac{\pi_{\xi}^\beta}{\eta_{\xi}^\beta}
+	- \frac{\pi_{\xi}^N}{\eta_{\xi}^N},
 	\qquad \beta=1,\ldots,N-1.
 	\label{eq:pi_difference_system}
 \end{align}
@@ -1208,7 +1209,7 @@ The equations associated with the conversion variables are
 	&= \frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\psi_\xi
 	-L_\xi^\alpha
-	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha},
+	-\frac{\pi_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha},
 	\label{eq:el_conversion_component}
 	\\
 	\mc A_{(m)}
@@ -1249,7 +1250,7 @@ gives the intermediate form
 	\notag\\
 	&\quad
 		-\lambda\nabla_{\mbf x}\phi_f
-		-\sum_\alpha\nabla_{\mbf x}\tau_f^\alpha
+		-\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha
 		+\gamma_f\nabla_{\mbf x}\phi_f
 		+\sum_\alpha\dot m_f^\alpha
 		\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right).
@@ -1257,7 +1258,7 @@ gives the intermediate form
 \end{align}
 % AGENT-LOCK-END
 %
-Using $\sum_\alpha\tau_f^\alpha=\phi_f\bar p_f$ and
+Using $\sum_\alpha\pi_f^\alpha=\phi_f\bar p_f$ and
 $\lambda+\bar p_f-\gamma_f-\omega_f^+=0$, the multiplier,
 interfacial-gradient, and electric-enthalpy terms collapse as
 %

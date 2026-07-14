@@ -228,8 +228,8 @@ The phase energy balance is
 	+\sum_\alpha\dot c_\xi^\alpha e_\xi
 	= & \; \bs\sigma_\xi':\mbf L_\xi
 	+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
-	+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
-	+\sum_\alpha\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
+	+\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
+	+\sum_\alpha\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
 	\notag                                         \\
 	  & -\sum_\alpha L_\xi^\alpha\dot c_\xi^\alpha
 	-\nabla_{\mbf x}\cdot\mbf q_\xi
@@ -238,7 +238,7 @@ The phase energy balance is
 \end{align}
 % AGENT-LOCK-END
 For a one-component solid phase, the term
-\((\tau_s^s/\eta_s^s)\dot\eta_s^s\) vanishes because \(\dot\eta_s^s=0\).
+\((\pi_s^s/\eta_s^s)\dot\eta_s^s\) vanishes because \(\dot\eta_s^s=0\).
 
 For the common solid skeleton, the mechanical power in
 \eqref{eq:CN_energy_balance} must be decomposed with the same phase-specific
@@ -315,7 +315,7 @@ Using \eqref{eq:CN_energy_balance} to eliminate \(\rho_\xi r_\xi\), and then
 using the Legendre relations \eqref{eq:CN_fluid_legendre_relation} and
 \eqref{eq:CN_solid_component_legendre_relation}, gives the reduced entropy
 inequality.  We also add the identically vanishing fluid composition-normalization
-rate \(\pi_\xi\sum_\alpha\dot\eta_\xi^\alpha\) and the
+rate \(\Pi_\xi\sum_\alpha\dot\eta_\xi^\alpha\) and the
 volume-fraction-constraint rate \(\lambda\sum_\xi\dot\phi_\xi\).  For a
 one-component solid, the corresponding rate is identically zero because
 \(\dot\eta_s^s=0\):
@@ -327,11 +327,11 @@ one-component solid, the corresponding rate is identically zero because
 		 & \frac{1}{\theta}\left(
 		\bs\sigma_\xi':\mbf L_\xi
 		+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
-		+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
-		+\sum_\alpha\frac{\tau_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
+		+\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
+		+\sum_\alpha\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
 		\right.                                                   \\
 		 & \left.
-		+\pi_\xi\sum_\alpha\dot\eta_\xi^\alpha
+		+\Pi_\xi\sum_\alpha\dot\eta_\xi^\alpha
 		-\rho_\xi\left(\dot\psi_\xi+\mathfrak{s}_\xi\dot\theta\right)
 		-\sum_\alpha\dot c_\xi^\alpha
 		\left(\psi_\xi+L_\xi^\alpha\right)
@@ -443,10 +443,10 @@ solid--fluid contribution:
 	\left.\p{\psi_f}{\eta_f^\beta}\heldfixed{\mc X_f}
 	\dot\eta_f^\beta
 	\notag                                                                      \\
-	       & +\sum_{f\in\mc F}\sum_\beta\left(\frac{\tau_f^\beta}{\eta_f^\beta}
-	+\pi_f\right)\dot\eta_f^\beta
+	       & +\sum_{f\in\mc F}\sum_\beta\left(\frac{\pi_f^\beta}{\eta_f^\beta}
+	+\Pi_f\right)\dot\eta_f^\beta
 	+\sum_\xi\left(
-	\lambda+\sum_\alpha\frac{\tau_\xi^\alpha}{\phi_\xi}
+	\lambda+\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}
 	\right)\dot\phi_\xi
 	-\sum_{f\in\mc F}\gamma_f\dot\phi_f
 	\notag                                                                      \\
@@ -575,7 +575,7 @@ each solid phase volume fraction, the coefficient of \(\dot\phi_s\) gives
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	0=
-	\lambda+\frac{\tau_s^s}{\phi_s},
+	\lambda+\frac{\pi_s^s}{\phi_s},
 	\qquad
 	s\in\mc S .
 	\label{eq:CN_solid_volume_fraction_restriction}
@@ -591,8 +591,8 @@ stationarity condition obtained from Hamilton's principle in \eqref{eq:el_eta_al
 	-\left.\p{\psi_f}{\eta_f^N}\heldfixed{\mc X_f}
 	\right)
 	=
-	\frac{\tau_f^\beta}{\eta_f^\beta}
-	-\frac{\tau_f^N}{\eta_f^N},
+	\frac{\pi_f^\beta}{\eta_f^\beta}
+	-\frac{\pi_f^N}{\eta_f^N},
 	\qquad
 	\beta=1,\ldots,N-1 .
 	\label{eq:CN_composition_projected_restriction}
@@ -686,7 +686,7 @@ relation
 	=
 	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\mu_\xi^\alpha
-	-\frac{\tau_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
+	-\frac{\pi_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
 	\label{eq:CN_admissible_conversion_component}
 \end{empheq}
 % AGENT-LOCK-END

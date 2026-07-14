@@ -121,17 +121,17 @@ relation on the constrained tangent space:
 		\right|_{\mbf F_\xi,\bar\rho_\xi,\eta_\xi^{\kappa\neq N},\theta}
 		\right)
 		 & =
-		\frac{\tau_\xi^\beta}{\eta_\xi^\beta}
-		-\frac{\tau_\xi^N}{\eta_\xi^N},
+		\frac{\pi_\xi^\beta}{\eta_\xi^\beta}
+		-\frac{\pi_\xi^N}{\eta_\xi^N},
 		\quad \beta=1,\ldots,N-1.
 	\label{eq:implementation_pi_difference_system}
 \end{align}
 These algebraic equations are not optional postprocessing quantities.  They are
 part of the nonlinear system that defines \(\phi_\xi\),
-\(\eta_\xi^\alpha\), \(\tau_\xi^\alpha\), \(\lambda\), \(\bar p_f\), and
+\(\eta_\xi^\alpha\), \(\pi_\xi^\alpha\), \(\lambda\), \(\bar p_f\), and
 \(\bar p_E\) from the chosen primitive variables.  If all component mass
 fractions are solved directly, the unprojected equation with the multiplier
-\(\pi_\xi\) may be used instead, but the projected system is the minimal
+\(\Pi_\xi\) may be used instead, but the projected system is the minimal
 independent implementation form.
 
 \subsection{Conversion potential evolution on the solid frame}
@@ -146,7 +146,7 @@ admissible conversion-potential equation
 	=
 	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
 	-\mu_\xi^\alpha
-	-\frac{\tau_\xi^\alpha}
+	-\frac{\pi_\xi^\alpha}
 	{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
 	\label{eq:implementation_conversion_potential_evolution_phase}
 \end{equation}
@@ -158,7 +158,7 @@ conversion-potential equation is
 	=
 	\frac{1}{2}\mbf v_f\cdot\mbf v_f
 	-\mu_f^\alpha
-	-\frac{\tau_f^\alpha}
+	-\frac{\pi_f^\alpha}
 	{\phi_f\bar\rho_f\eta_f^\alpha}.
 	\label{eq:implementation_mu_fluid_solid_frame}
 \end{align}
@@ -168,7 +168,7 @@ For a solid phase attached to the skeleton, \(\mbf v_s-\mbf v_s=\mbf0\), so
 	=
 	\frac{1}{2}\mbf v_s\cdot\mbf v_s
 	-\mu_s^s
-	-\frac{\tau_s^s}
+	-\frac{\pi_s^s}
 	{\phi_s\bar\rho_s}.
 	\label{eq:implementation_mu_solid_solid_frame}
 \end{align}

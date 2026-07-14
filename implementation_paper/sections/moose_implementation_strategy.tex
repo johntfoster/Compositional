@@ -21,7 +21,7 @@ validated residual path on the solid reference configuration.
 		\midrule
 		Solid kinematics material & \(\mbf F\), \(J\), \(\mbf F^{-1}\), \(\mbf v_s\) & all solid-reference residuals \\
 		Phase advection material & \(\mbf v_f\) and \(D_f(\cdot)/Dt\) from \(\mbf W_f\) & Eq.~\eqref{eq:fluid_material_derivative_on_solid_frame} \\
-		Thermodynamics material & \(\bar p_f\), \(\mu_\xi^\alpha\), \(\bar p_E\), \(B\), \(\tau_\xi^\alpha\), \(\pi_\xi\), \(\lambda\) & flux, momentum, algebraic constraints \\
+		Thermodynamics material & \(\bar p_f\), \(\mu_\xi^\alpha\), \(\bar p_E\), \(B\), \(\pi_\xi^\alpha\), \(\Pi_\xi\), \(\lambda\) & flux, momentum, algebraic constraints \\
 		Reaction material & \(\dot r_{(m)}\), \(\dot c_\xi^\alpha\), affinities & source and conversion terms \\
 		Reference flux material & \(\mbf W_f\), \(\widetilde{\mbf K}_f\) & Eq.~\eqref{eq:fluid_component_residual} \\
 		Stress material & \(\mbf P^{\prime\prime}\), pressure stress split & Eq.~\eqref{eq:momentum_residual} \\
@@ -83,7 +83,7 @@ mapping to standard reservoir limits.  Candidate sets include:
 Whichever set is chosen, materials must provide the physical quantities used in
 the residuals: \(M_f^\alpha\), \(M_s\), \(\mbf W_f\),
 \(\mbf P^{\prime\prime}\), \(\bar p_E\), \(B\), \(\mu_\xi^\alpha\),
-\(\tau_\xi^\alpha\), \(\pi_\xi\), \(\lambda\), and \(\dot r_{(m)}\).
+\(\pi_\xi^\alpha\), \(\Pi_\xi\), \(\lambda\), and \(\dot r_{(m)}\).
 
 The first reviewable implementation plan is closed only for the restricted
 problem stated in Section~\ref{sec:closure_requirement}.  The broader
