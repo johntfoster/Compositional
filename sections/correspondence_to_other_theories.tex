@@ -1,7 +1,7 @@
 \section{Correspondence to other theories}
 \label{sec:correspondence_to_other_theories}
 
-\subsection{Classical compositional-flow limit and interpretation of the multipliers}
+\subsection{Classical compositional-flow limit and interpretation of the potentials}
 \label{sec:classical_compositional_limit}
 
 The averaged component balance reduces to the standard compositional-reservoir
@@ -33,9 +33,9 @@ retained explicitly.  Setting both relative fluxes to zero recovers the mass
 counterpart of Balhoff's advective compositional balance
 \cite[eq.~(7.15b)]{balhoff2022multiphase}.  To keep the relative fluxes,
 classical compositional simulation must supply the chemical potentials
-algebraically; the multiplier equation
+algebraically; the transfer-potential equation
 \eqref{eq:MC_admissible_conversion_component} evolves the separate transfer
-potential \(\tau_f^\alpha\).  Taking
+potential \(\tau\).  Taking
 \(\mbf v_s=\mbf 0\) in \eqref{eq:standard_darcy_mass_flux_limit} and using
 $\bs\kappa_f=\kappa_{rf}\bs\kappa$ gives the Darcy law in the manuscript
 notation,
@@ -194,7 +194,7 @@ variables, and temperature.  The present constrained formulation uses the same
 constitutive chemical potential in
 \eqref{eq:MC_L_mu_psi_closure}.  The first-order multiplier evolution equation
 \eqref{eq:MC_admissible_conversion_component} instead determines the separate
-Bedford--Drumheller transfer potential \(\tau_\xi^\alpha\) from prescribed
+Bedford--Drumheller transfer potential \(\tau\) from prescribed
 initial data once the thermodynamic chemical potential has been evaluated from
 the chosen free-energy or EOS closure.
 
@@ -230,21 +230,18 @@ with the sign convention used here.  Thus equilibrium chemistry, kinetic
 reactive transport, and phase transformation all use the same stoichiometric
 sum; only the closure for $\dot r_{(m)}$ changes.
 
-The momentum equations contain the total component mass-addition rate absent
-from purely kinematic Darcy-scale compositional balances,
+The momentum equations contain the conversion insertion rate absent from purely
+kinematic Darcy-scale compositional balances,
 %
-\begin{equation}
-	\sum_\alpha\sum_\xi\dot m_\xi^\alpha
-	\left(\nabla_{\mbf x}\tau_\xi^\alpha-\mbf v_\xi\right).
-	\label{eq:conversion_momentum_interpretation}
-\end{equation}
+	\begin{equation}
+		\sum_\alpha\sum_\xi\dot c_\xi^\alpha
+		\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right).
+		\label{eq:conversion_momentum_interpretation}
+	\end{equation}
 %
-Here \(\dot m_\xi^\alpha\) contains both conversion and transport accumulation.
-The zero-sum relative-flux condition removes the phase-velocity part of the
-transport contribution after summation over components, while the remaining
-transfer-potential gradient belongs to the phase-momentum supply.  Diffusion and
-dispersion are driven by the thermodynamic chemical-potential gradient and
-closed by the force equations
+Here \(\dot c_\xi^\alpha\) is the conversion part of the component material
+addition rate.  Diffusion and dispersion are driven by the thermodynamic
+chemical-potential gradient and closed by the force equations
 \eqref{eq:MC_onsager_dispersion_stationarity} and
 \eqref{eq:MC_onsager_diffusion_stationarity}.  Classical reservoir models hide
 these terms when phase momenta are not solved explicitly and phase velocities
@@ -254,11 +251,11 @@ Finally, the remaining multipliers have standard constraint interpretations.
 $\lambda$ enforces saturation of the pore volume by the phases,
 $\Pi_\xi$ enforces $\sum_\alpha\eta_\xi^\alpha=1$, and $\pi_\xi^\alpha$ enforces
 the augmented phase/component storage relation.  The transfer multiplier
-\(\tau_\xi^\alpha\) is the Bedford--Drumheller kinematic potential associated
+\(\tau\) is the Bedford--Drumheller kinematic potential associated
 with accumulated material insertion, while \(\mu_\xi^\alpha\) is the
 thermodynamic chemical potential that appears in affinity and relative-transport
-closures.  Converted and transported mass enter the same component material
-measure and therefore share the same transfer momentum bookkeeping, but their
+closures.  Converted mass enters the transfer-potential momentum bookkeeping.
+Transport accumulation enters the same component material measure, but its
 dissipative kinetics are closed by the chemical-potential forces.  The
 stoichiometric source itself has the familiar compositional-flow form; the new
 feature is that this source appears inside a

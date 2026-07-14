@@ -52,24 +52,21 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 	\frac{1}{\rho_f}
 	\left(
 		\phi_f^2\mu_f\bs\kappa_f^{-1}
-		+\sum_\alpha\dot m_f^\alpha\mbf I
+		+\sum_\alpha\dot c_f^\alpha\mbf I
 	\right)\mbf w_f
 	= & \;
 	\rho_f\left(\mbf g-\mbf a_f\right)
 	-\phi_f\nabla_{\mbf x}\bar p_f
 	\notag                          \\
-	  & +\sum_\alpha\dot m_f^\alpha
-	\left(\nabla_{\mbf x}\tau_f^\alpha-\mbf v_s\right),
+	  & +\sum_\alpha\dot c_f^\alpha
+	\left(\nabla_{\mbf x}\tau-\mbf v_s\right),
 	\label{eq:relative_flux_linear_system}
 \end{align}
 %
-The isotropic rate correction contains both conversion and transport
-accumulation.  The transport contribution sums to zero by
-\eqref{eq:averaged_relative_flux_sum} and
-\eqref{eq:reference_transport_accumulation_rate}, but it is retained here to
-show its origin.  The conversion and transport-accumulation transfer-potential
-gradients remain on the right, while the fluxes are closed by
-\eqref{eq:MC_relative_transport_closures}.
+The isotropic rate correction contains the conversion insertion rate.  Transport
+accumulation is dissipative and is closed through
+\eqref{eq:MC_relative_transport_closures}; it is not part of the
+transfer-potential momentum supply.
 
 Define the modified permeability tensor
 %
@@ -78,7 +75,7 @@ Define the modified permeability tensor
 	=
 	\left(
 		\phi_f^2\mu_f\bs\kappa_f^{-1}
-		+\sum_\alpha\dot m_f^\alpha\mbf I
+		+\sum_\alpha\dot c_f^\alpha\mbf I
 	\right)^{-1}.
 	\label{eq:modified_relative_flux_permeability}
 \end{equation}
@@ -91,22 +88,22 @@ Then the admissible relative mass flux is
 	\left(
 	\rho_f\left(\mbf g-\mbf a_f\right)
 		-\phi_f\nabla_{\mbf x}\bar p_f
-		+\sum_\alpha\dot m_f^\alpha
-		\left(\nabla_{\mbf x}\tau_f^\alpha-\mbf v_s\right)
+		+\sum_\alpha\dot c_f^\alpha
+		\left(\nabla_{\mbf x}\tau-\mbf v_s\right)
 	\right).
 	\label{eq:generalized_fluid_darcy_mass_flux}
 \end{empheq}
 %
 This expression is the multicomponent fluid-phase analogue of a generalized
 Darcy flux.  The first two terms are the body-force and pressure-gradient
-contributions, while the last term is the component-mass-addition momentum
-contribution.  Chemical-potential gradients drive component-relative transport
-through
+contributions, while the last term is the conversion-insertion momentum
+contribution carried by the transfer-potential gradients.  Chemical-potential
+gradients drive component-relative transport through
 \eqref{eq:MC_relative_transport_closures}; that dissipative role is distinct
-from their momentum-production role in the mass-addition variation.
+from the transfer-potential role in the conversion-insertion variation.
 
-When component mass-addition effects are negligible,
-\(\dot m_f^\alpha=0\), and when fluid-phase inertia is negligible,
+When conversion-insertion effects are negligible,
+\(\dot c_f^\alpha=0\), and when fluid-phase inertia is negligible,
 \eqref{eq:generalized_fluid_darcy_mass_flux} reduces to
 %
 \begin{equation}
@@ -155,8 +152,8 @@ The flux assembled in the reference component balances is then
 	\left[
 		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
 		-\phi_f\nabla_{\mbf X}\bar p_f
-		+\sum_\alpha\dot m_f^\alpha
-		\left(\nabla_{\mbf X}\mu_f^\alpha-\mbf F^T\mbf v_s\right)
+		+\sum_\alpha\dot c_f^\alpha
+		\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
 		\right].
 	\label{eq:solid_reference_relative_flux}
 \end{align}
@@ -176,8 +173,8 @@ divergence of a spatial flux obeys
 Equations~\eqref{eq:reference_relative_mass_flux}--\eqref{eq:solid_reference_relative_flux}
 and \eqref{eq:solid_reference_flux_divergence} give the multicomponent
 generalization of the reference flux,
-with phase labels, component conversion rates, and component chemical-potential
-gradients retained.
+with phase labels, component conversion rates, and transfer-potential gradients
+retained.
 
 \subsection{Component balances on the solid trajectory}
 \label{sec:solid_reference_component_balances}
@@ -249,8 +246,8 @@ stress.  This transformation gives
 	J \mbf F^{-T}
 	\right)
 	+J\rho\mbf g
-	+J\sum_\xi\sum_\alpha\dot m_\xi^\alpha
-	\left(\nabla_{\mbf x}\tau_\xi^\alpha-\mbf v_\xi\right).
+	+J\sum_\xi\sum_\alpha\dot c_\xi^\alpha
+	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right).
 	\label{eq:solid_reference_overall_momentum}
 \end{align}
 %
@@ -280,8 +277,8 @@ general finite-deformation form, the mechanics equation is
 	J \mbf F^{-T}
 	\right)
 	+J\rho\mbf g
-	+J\sum_\xi\sum_\alpha\dot m_\xi^\alpha
-	\left(\nabla_{\mbf x}\tau_\xi^\alpha-\mbf v_\xi\right).
+	+J\sum_\xi\sum_\alpha\dot c_\xi^\alpha
+	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right).
 	\label{eq:reservoir_simulation_overall_momentum_summary}
 \end{align}
 %
@@ -328,8 +325,8 @@ The corresponding admissible reference flux is
 		\begin{aligned}
 			&\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
 			-\phi_f\nabla_{\mbf X}\bar p_f
-			+\sum_\alpha\dot m_f^\alpha
-			\left(\nabla_{\mbf X}\tau_f^\alpha-\mbf F^T\mbf v_s\right)
+			+\sum_\alpha\dot c_f^\alpha
+			\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
 		\end{aligned}
 		\right],
 	\qquad f\in\mc F .

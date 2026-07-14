@@ -475,16 +475,19 @@ specific internal energy \(e_\xi\) of the phase receiving or losing that mass.
 Let \(\mbf L_\xi=\nabla_{\mbf x}\mbf v_\xi\) be the phase
 velocity gradient, \(\mbf q_\xi\) the heat flux, \(\rho_\xi r_\xi\) the external
 heat supply per unit current mixture volume, and \(\rho_\xi e_\xi^{\rm int}\)
-the internal energy supply from interphase exchange.  Using the total
-current-volume component mass-addition rate
-\(\dot m_\xi^\alpha=\dot c_\xi^\alpha+\dot{\mc D}_\xi^\alpha/J_\xi\) and the
-thermodynamic chemical-potential convention, the phase energy balance is
+the internal energy supply from interphase exchange.  Using the conversion and
+transport accumulation contributions with the thermodynamic chemical-potential
+convention, the phase energy balance is
 %
 \begin{align}
 	\rho_\xi\dot e_\xi
 	+
 	\sum_\alpha
-	\dot m_\xi^\alpha
+	\left(
+	\dot c_\xi^\alpha
+	+
+	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\right)
 	e_\xi
 	={} &
 	\bs\sigma_\xi^{\prime+}:\mbf L_\xi
@@ -502,7 +505,12 @@ thermodynamic chemical-potential convention, the phase energy balance is
 	\sum_\alpha
 	\left(
 	\mu_\xi^\alpha-\psi_\xi
-	\right)\dot m_\xi^\alpha
+	\right)
+	\left(
+	\dot c_\xi^\alpha
+	+
+	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\right)
 	-
 	\nabla_{\mbf x}\cdot\mbf q_\xi
 	+
@@ -642,11 +650,15 @@ inequalities \cite{liu1972method}, the entropy inequality is
 	0\le{} &
 	\sum_\xi
 	\left[
-		\rho_\xi\dot{\mathfrak{s}}_\xi
-		+
-		\sum_\alpha
-		\dot m_\xi^\alpha
-		\mathfrak{s}_\xi
+			\rho_\xi\dot{\mathfrak{s}}_\xi
+			+
+			\sum_\alpha
+			\left(
+			\dot c_\xi^\alpha
+			+
+			\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+			\right)
+			\mathfrak{s}_\xi
 		+
 		\nabla_{\mbf x}\cdot
 		\left(
@@ -679,10 +691,14 @@ enthalpy terms, gives
 		\left(
 		\dot\psi_\xi+\mathfrak{s}_\xi\dot\theta
 		\right)
-		-
-		\sum_\alpha
-		\dot m_\xi^\alpha
-		\mu_\xi^\alpha
+			-
+			\sum_\alpha
+			\left(
+			\dot c_\xi^\alpha
+			+
+			\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+			\right)
+			\mu_\xi^\alpha
 		+
 		\rho_\xi e_\xi^{\rm int}
 		\right)
@@ -1464,14 +1480,17 @@ The entropy coefficient gives
 \subsection{Sources, residual dissipation, and closures}
 \label{sec:MC_residual_dissipation}
 
-The total current-volume component mass-addition rate separates into conversion
-and relative-transport accumulation,
-\(\dot m_\xi^\alpha=\dot c_\xi^\alpha+\dot{\mc D}_\xi^\alpha/J_\xi\).  Therefore
-the source contribution in \eqref{eq:MC_reduced_entropy_inequality} splits as
+The source contribution in \eqref{eq:MC_reduced_entropy_inequality} separates
+into conversion and relative-transport accumulation as
 %
 \begin{align}
 	-\sum_\xi\sum_\alpha
-	\dot m_\xi^\alpha\mu_\xi^\alpha
+	\left(
+	\dot c_\xi^\alpha
+	+
+	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\right)
+	\mu_\xi^\alpha
 	={} &
 	-\sum_\xi\sum_\alpha
 	\dot c_\xi^\alpha\mu_\xi^\alpha
@@ -1589,9 +1608,13 @@ This is the standard species-flux contribution in continuum thermodynamics of
 reacting mixtures~\cite{bothe2015continuum,gray2009tcat_transport}.
 
 With electrical effects, the dissipative component-rate force in
-\eqref{eq:vp_C5_charge_constraint} is electrochemical.  The neutral chemical
-contribution is \(\hat{\mu}_\xi^\alpha\), while the electric potential
-\(\varphi\) supplies the charge-weighted contribution.  The thermodynamic
+\eqref{eq:vp_reaction_transport_power} is electrochemical.  The symbol
+\(\hat{\mu}_\xi^\alpha\) denotes the neutral chemical part of the component
+potential, i.e. the part that remains when electric work is absent.  The charge
+balance uses the same component-rate bracket after multiplying it by the
+component charge per unit mass \(z_\xi^\alpha\).  Since electric potential is
+energy per unit charge, the electric work conjugate to that projected rate
+contributes \(z_\xi^\alpha\varphi\) per unit component mass.  The component
 potential used below is therefore
 %
 \begin{equation}
@@ -1604,9 +1627,10 @@ potential used below is therefore
 \end{equation}
 %
 The factor multiplying \(\varphi\) is the component charge per unit mass
-\(z_\xi^\alpha\), not the mixture charge density \(\varrho\).  With this
-identification, the local conversion and transport powers retain their original
-form,
+\(z_\xi^\alpha\), not the mixture charge density \(\varrho\), because the
+component-rate balance is written per unit component mass.  With this
+identification, the same local conversion and transport powers apply with
+\(\mu_\xi^\alpha\) interpreted as the electrochemical component potential:
 %
 \begin{align}
 	-\sum_\xi\sum_\alpha
@@ -1692,7 +1716,7 @@ evolution equation \eqref{eq:el_conversion_component} gives the
 kinematic transfer-potential evolution law
 %
 \begin{empheq}[box=\fbox]{equation}
-	\frac{D_\xi\tau_\xi^\alpha}{Dt}
+	\frac{D_\xi\tau}{Dt}
 	=
 	\frac{1}{2}
 	\mbf v_\xi\cdot\mbf v_\xi
@@ -1704,15 +1728,13 @@ kinematic transfer-potential evolution law
 \end{empheq}
 %
 Equation \eqref{eq:MC_admissible_conversion_component} follows from the
-accumulated-coordinate variations of the conversion and transport measures in
-the constrained Hamilton--d'Alembert statement because both enter the component
-material measure through their sum.  Thus they share the kinematic
-Bedford--Drumheller transfer multiplier \(\tau_\xi^\alpha\).  The chemical
-potential \(\mu_\xi^\alpha\) in the right-hand side is evaluated from the
-constitutive free-energy or EOS closure; it is not an independently initialized
-Hamilton multiplier.  Equation \eqref{eq:MC_admissible_conversion_component},
-together with an initial value, determines \(\tau_\xi^\alpha\) along the motion
-of phase \(\xi\).
+accumulated-coordinate variation of the conversion measure in the constrained
+Hamilton--d'Alembert statement.  The kinematic Bedford--Drumheller transfer
+multiplier is the scalar \(\tau\), while the chemical potential
+\(\mu_\xi^\alpha\) on the right-hand side is evaluated from the constitutive
+free-energy or EOS closure; it is not an independently initialized Hamilton
+multiplier.  Equation \eqref{eq:MC_admissible_conversion_component}, together
+with an initial value, determines \(\tau\) along each phase motion.
 %
 \subsubsection{Plastic flow rules and residual dissipation}
 The plastic-deformation power in the residual inequality is driven by the
@@ -1859,15 +1881,16 @@ Thus \(\mc A_{(m)}\) is conjugate to \(\dot r_{(m)}\), while each
 mechanisms with potentially different resistance operators, even though both
 respond to the same component-potential gradient.
 
-The variational equations alone do not prescribe how the dissipative forces
-depend on their rates.  The residual inequality
-\eqref{eq:MC_residual_dissipation} requires
+The first variation \eqref{eq:reaction_transport_dissipation_variation}
+identifies the dissipative forces conjugate to the reaction and relative-flux
+rates, but it does not prescribe how those forces depend on the rates.  The
+residual inequality \eqref{eq:MC_residual_dissipation} requires
 \(\sum_m\mc A_{(m)}\dot r_{(m)}\ge0\) and
 \(\sum_{\xi,\alpha}\mbf M_{\xi,k}^\alpha\cdot
 \mbf j_{\xi,k}^\alpha\ge0\) for an uncoupled sufficient construction.  Near
 equilibrium, a quadratic dissipation potential is the standard linear Onsager
-constitutive choice~\cite{doi2011onsager,wang2021onsager}.  For these rates,
-choose
+constitutive specialization~\cite{doi2011onsager,wang2021onsager}.  For these
+rates, choose
 %
 \begin{align}
 	\Phi_{\rm rt}
@@ -2484,10 +2507,10 @@ balance \eqref{eq:el_momentum_uniform} gives the fixed-pressure form
 		+\rho_s\mbf g+\mbf b_s
 		\\
 		    & +
-		\sum_\alpha\dot m_s^\alpha
-		\left(
-		\nabla_{\mbf x}\tau_s^\alpha-\mbf v_s
-		\right),
+	\sum_\alpha\dot c_s^\alpha
+	\left(
+	\nabla_{\mbf x}\tau-\mbf v_s
+	\right),
 		\qquad
 		s\in\mc S .
 	\end{aligned}
@@ -2600,10 +2623,10 @@ antisymmetry \(\mbf b_{\zeta\xi}=-\mbf b_{\xi\zeta}\) in
 		B\bar p_E\mbf I
 		\right]
 	+\rho\mbf g
-	+\sum_\xi\sum_\alpha\dot m_\xi^\alpha
-	\left(
-	\nabla_{\mbf x}\tau_\xi^\alpha-\mbf v_\xi
-	\right).
+	+\sum_\xi\sum_\alpha\dot c_\xi^\alpha
+		\left(
+			\nabla_{\mbf x}\tau-\mbf v_\xi
+		\right).
 	\label{eq:MC_overall_momentum_nonlinear_biot}
 \end{empheq}
 
@@ -3202,7 +3225,7 @@ dimension.
 		Phase volume fractions \(\phi_\xi\)                                                            & \(P\)                                                \\
 		Volume-fraction multiplier \(\lambda\)                                                         & \(1\)                                                \\
 		Storage multipliers \(\pi_\xi^\alpha\)                                                         & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
-		Chemical-potential multipliers \(\mu_\xi^\alpha\)                                              & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
+			Transfer potential \(\tau\)                                                                 & \(1\)                                                \\
 		Independent reference transport accumulations \(\mc D_\xi^\alpha\)                             & \(P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)\)    \\
 		Total relative component flux vectors, when retained as mixed fields                           & \(d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
 		Solid distension tensors \(\mbf A_s\), or scalar factors \(a_s\), for \(s=1,\ldots,P_{\mc S}\) & \(d^2P_{\mc S}\) or \(P_{\mc S}\)                    \\
