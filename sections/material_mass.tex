@@ -153,8 +153,7 @@ $\dot J_\xi = J_\xi \nabla_{\mbf x}\cdot\mbf v_\xi$ gives
 \end{align}
 % AGENT-LOCK-END
 %
-The current component material-increment rate per unit current mixture volume is
-defined by
+The rate of component mass addition per current mixture volume is defined by
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -413,10 +412,10 @@ Equations \eqref{eq:averaged_mechanical_dispersion_flux_definition} and
 \eqref{eq:averaged_molecular_diffusion_flux_definition} define the physical
 meaning of the two averaged fluxes.  In the variational derivation of
 \sref{virtual_power_derivation}, however, the microscopic density and velocity
-factors inside the averages are not treated as independent virtual changes.
-Doing so would require additional unresolved density fields and closure equations
-that are not part of the macroscopic state description.  Instead, the averaged
-fluxes themselves are promoted to independent macroscopic process variables.
+factors inside the averages are left as unresolved subscale quantities.  Varying
+them separately would require additional density fields and closure equations
+beyond the macroscopic state description.  The averaged fluxes themselves are
+therefore promoted to independent macroscopic process variables.
 Their virtual changes \(\delta\mbf j_{\xi,{\rm disp}}^\alpha\) and
 \(\delta\mbf j_{\xi,{\rm diff}}^\alpha\) enter the coupled
 Hamilton--d'Alembert--Onsager construction as nonconservative process-rate
@@ -468,7 +467,7 @@ together with
 %
 Comparing \eqref{eq:averaged_component_reference_rate} with the material-balance
 structure in \eqref{eq:material_mass_2} and its rate form
-\eqref{eq:component_material_mass} identifies the material-increment rate as
+\eqref{eq:component_material_mass} identifies \(\dot{\mc C}_\xi^\alpha\) as
 %
 \begin{equation}
 	\dot{\mc C}_\xi^\alpha
@@ -525,13 +524,13 @@ summed relative fluxes.  Hence
 	\label{eq:averaged_relative_flux_sum}
 \end{equation}
 %
-Relative transport therefore redistributes component mass within a phase but
-does not alter its total mass.  The relative fluxes have only \(N-1\)
-independent component directions in each phase.  The material increment
-\(\mc C_\xi^\alpha\) is tied to the transfer potential introduced in
-\sref{virtual_power_derivation}, while the relative-flux part of
-\(\dot{\mc C}_\xi^\alpha\) is closed through the dissipative component-rate
-force.  Summing
+Relative transport therefore redistributes component mass within a phase while
+preserving the phase total mass.  The relative fluxes have only \(N-1\)
+	independent component directions in each phase.  The material increment
+	\(\mc C_\xi^\alpha\) is tied to the transfer potential introduced in
+	\sref{virtual_power_derivation}, while the relative-flux part of
+	\(\dot{\mc C}_\xi^\alpha\) is closed by the electrochemical-potential-gradient
+	forces in the Onsager statement.  Summing
 \eqref{eq:averaged_component_spatial_mass} over phases gives the global
 component balance,
 %
@@ -559,9 +558,9 @@ component balance,
 Summing \eqref{eq:averaged_global_component_balance} over components recovers
 the overall mass balance \eqref{eq:spatial_mass_4}: the relative fluxes cancel
 phase by phase by \eqref{eq:averaged_relative_flux_sum}, and each internal
-mechanism conserves total mass.  Applying the same summation to the
-material-increment rate \eqref{eq:reference_conversion_accumulation_rate} gives,
-again by stoichiometric mass balance and
+mechanism conserves total mass.  Applying the same summation to
+\eqref{eq:reference_conversion_accumulation_rate} gives, again by stoichiometric
+mass balance and
 \eqref{eq:averaged_relative_flux_sum},
 %
 \begin{equation}
@@ -574,9 +573,9 @@ again by stoichiometric mass balance and
 %
 This is the insertion constraint used in \eqref{eq:C4_def}.
 %
-Averaging determines the kinematic location of the two fluxes but does not close
-their constitutive dependence.  Volume-averaged dispersion exposes unresolved
-transport terms that require constitutive closure~\cite{plumb1988dispersion},
+Averaging determines the kinematic location of the two fluxes.  Their
+constitutive dependence remains a closure problem: volume-averaged dispersion
+exposes unresolved transport terms that require constitutive closure~\cite{plumb1988dispersion},
 while thermodynamically constrained averaging derives transport closures subject
 to entropy-inequality restrictions
 ~\cite{miller2005tcat_foundation,miller2008tcat_species_transport,gray2009tcat_transport}.

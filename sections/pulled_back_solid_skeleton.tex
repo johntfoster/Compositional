@@ -65,8 +65,8 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 %
 The isotropic rate correction contains the conversion insertion rate.  Transport
 accumulation is dissipative and is closed through
-\eqref{eq:MC_relative_transport_closures}; it is not part of the
-transfer-potential momentum supply.
+\eqref{eq:MC_relative_transport_closures}; only conversion insertion contributes
+to the momentum term involving \(\nabla_{\mbf x}\tau\).
 
 Define the modified permeability tensor
 %
@@ -96,11 +96,10 @@ Then the admissible relative mass flux is
 %
 This expression is the multicomponent fluid-phase analogue of a generalized
 Darcy flux.  The first two terms are the body-force and pressure-gradient
-contributions, while the last term is the conversion-insertion momentum
-contribution carried by the transfer-potential gradients.  Chemical-potential
-gradients drive component-relative transport through
-\eqref{eq:MC_relative_transport_closures}; that dissipative role is distinct
-from the transfer-potential role in the conversion-insertion variation.
+contributions, while the last term is the momentum contribution from conversion
+insertion.  Chemical-potential gradients drive component-relative transport
+through \eqref{eq:MC_relative_transport_closures}; that dissipative role is
+separate from the role of \(\tau\) in the conversion variation.
 
 When conversion-insertion effects are negligible,
 \(\dot c_f^\alpha=0\), and when fluid-phase inertia is negligible,
@@ -113,11 +112,10 @@ When conversion-insertion effects are negligible,
 	\label{eq:standard_darcy_mass_flux_limit}
 \end{equation}
 %
-This is Darcy's law for phase \(f\) relative to the deforming solid skeleton.  In
-the general case, \eqref{eq:generalized_fluid_darcy_mass_flux} should be used
-instead of \eqref{eq:standard_darcy_mass_flux_limit} whenever net component
-accumulation rates are large enough for momentum production to affect phase
-transport.
+This is Darcy's law for phase \(f\) relative to the deforming solid skeleton.
+The more general law \eqref{eq:generalized_fluid_darcy_mass_flux} applies when
+net component accumulation rates are large enough for momentum production to
+affect phase transport.
 
 \subsection{Solid-reference relative fluxes}
 \label{sec:solid_reference_relative_fluxes}
@@ -171,10 +169,9 @@ divergence of a spatial flux obeys
 \end{equation}
 %
 Equations~\eqref{eq:reference_relative_mass_flux}--\eqref{eq:solid_reference_relative_flux}
-and \eqref{eq:solid_reference_flux_divergence} give the multicomponent
-generalization of the reference flux,
-with phase labels, component conversion rates, and transfer-potential gradients
-retained.
+and \eqref{eq:solid_reference_flux_divergence} give the reference flux used in
+the multicomponent balances.  The expression retains phase labels, component
+conversion rates, and gradients of \(\tau\).
 
 \subsection{Component balances on the solid trajectory}
 \label{sec:solid_reference_component_balances}

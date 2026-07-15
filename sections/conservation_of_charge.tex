@@ -41,11 +41,10 @@ variables.  The total free charge density is
 	\label{eq:mixture_charge_density_definition}
 \end{equation}
 %
-If a model contains prescribed charge that is not represented by a tracked
-component, it may be added as a known contribution to \(\varrho\).  Treating
-fixed charge as a solid component is the more structural representation because
-charge storage, deformation, reaction, and ion exchange then remain tied to the
-same material measures used for mass.
+Prescribed charge outside the tracked component set may be added as a known
+contribution to \(\varrho\).  Treating fixed charge as a solid component is the
+more structural representation because charge storage, deformation, reaction,
+and ion exchange then remain tied to the same material measures used for mass.
 
 The material charge measure follows by multiplying the augmented component
 material measure \eqref{eq:augmented_component_material_measure} by
@@ -78,9 +77,9 @@ left-hand side acquires the corresponding material derivative of
 \(z_\xi^\alpha\).  The fixed-\(z_\xi^\alpha\) case is the charge-weighted
 projection of the component mass bookkeeping used below.
 
-Substitution of the component material-increment rate
+Substitution of the rate \(\dot{\mc C}_\xi^\alpha\) from
 \eqref{eq:reference_conversion_accumulation_rate}
-gives the charge-weighted current-volume rate identity
+gives the charge-weighted current-volume identity
 %
 \begin{align}
 	\frac{
