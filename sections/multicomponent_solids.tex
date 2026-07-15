@@ -162,22 +162,19 @@ volume fractions \(\phi_s^\alpha\) are useful, they satisfy
 \end{subequations}
 %
 
-The component material balances include both conversion and relative-transport
-accumulations,
+The component material balances use the component material increment,
 %
 \begin{equation}
 	J\phi_s\bar\rho_s\eta_s^\alpha
 	=
 	\phi_{s0}\bar\rho_{s0}\eta_{s0}^\alpha
-	+\mc C_s^\alpha
-	+\mc D_s^\alpha,
+	+\mc C_s^\alpha,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_solid_component_material_mass}
 \end{equation}
 %
-Since \(\sum_\alpha\mc D_s^\alpha=0\) by
-\eqref{eq:transport_accumulation_zero_sum}, summing over components gives
+Summing over components gives
 %
 \begin{equation}
 	J\phi_s\bar\rho_s
@@ -470,24 +467,20 @@ engineering \cite{leverett1941capillary},
 \end{equation}
 %
 
-Newly converted or relatively transported component mass is assigned the
-specific internal energy \(e_\xi\) of the phase receiving or losing that mass.
+Newly added component mass is assigned the specific internal energy \(e_\xi\)
+of the phase receiving or losing that mass.
 Let \(\mbf L_\xi=\nabla_{\mbf x}\mbf v_\xi\) be the phase
 velocity gradient, \(\mbf q_\xi\) the heat flux, \(\rho_\xi r_\xi\) the external
 heat supply per unit current mixture volume, and \(\rho_\xi e_\xi^{\rm int}\)
-the internal energy supply from interphase exchange.  Using the conversion and
-transport accumulation contributions with the thermodynamic chemical-potential
-convention, the phase energy balance is
+the internal energy supply from interphase exchange.  Using the material
+increment contribution with the thermodynamic chemical-potential convention, the
+phase energy balance is
 %
 \begin{align}
 	\rho_\xi\dot e_\xi
 	+
 	\sum_\alpha
-	\left(
 	\dot c_\xi^\alpha
-	+
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-	\right)
 	e_\xi
 	={} &
 	\bs\sigma_\xi^{\prime+}:\mbf L_\xi
@@ -506,11 +499,7 @@ convention, the phase energy balance is
 	\left(
 	\mu_\xi^\alpha-\psi_\xi
 	\right)
-	\left(
 	\dot c_\xi^\alpha
-	+
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-	\right)
 	-
 	\nabla_{\mbf x}\cdot\mbf q_\xi
 	+
@@ -653,11 +642,7 @@ inequalities \cite{liu1972method}, the entropy inequality is
 			\rho_\xi\dot{\mathfrak{s}}_\xi
 			+
 			\sum_\alpha
-			\left(
 			\dot c_\xi^\alpha
-			+
-			\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-			\right)
 			\mathfrak{s}_\xi
 		+
 		\nabla_{\mbf x}\cdot
@@ -693,11 +678,7 @@ enthalpy terms, gives
 		\right)
 			-
 			\sum_\alpha
-			\left(
 			\dot c_\xi^\alpha
-			+
-			\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-			\right)
 			\mu_\xi^\alpha
 		+
 		\rho_\xi e_\xi^{\rm int}
@@ -837,9 +818,9 @@ the corresponding electrical-enthalpy rates,
 		\phi_s\bar p_s
 		\right)\mbf I
 	\right)
-	\dot{\bar{\mbf F}}_s^e
-	(\bar{\mbf F}_s^e)^{-1}
-	\right]
+		\dot{\bar{\mbf F}}_s^e
+		(\bar{\mbf F}_s^e)^{-1}
+		\right]
 	\notag          \\
 	       & +
 	\sum_{s\in\mc S}
@@ -878,8 +859,8 @@ the corresponding electrical-enthalpy rates,
 		\p{\omega^{+}_{f}}{\bar\rho_f}
 		\right\vert_{\mc X_f,\mbf E}
 		\right]
-	\dot{\bar\rho}_f
-	\notag          \\
+		\dot{\bar\rho}_f
+	\notag \displaybreak[4] \\
 	       & +
 	\sum_{f\in\mc F}
 	\sum_\beta
@@ -1481,52 +1462,48 @@ The entropy coefficient gives
 \label{sec:MC_residual_dissipation}
 
 The source contribution in \eqref{eq:MC_reduced_entropy_inequality} separates
-into conversion and relative-transport accumulation as
+into reaction and relative-transport powers by substituting
+\eqref{eq:reference_conversion_accumulation_rate}:
 %
 \begin{align}
 	-\sum_\xi\sum_\alpha
-	\left(
 	\dot c_\xi^\alpha
-	+
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-	\right)
 	\mu_\xi^\alpha
 	={} &
 	-\sum_\xi\sum_\alpha
-	\dot c_\xi^\alpha\mu_\xi^\alpha
+	\left[
+	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 	-
-	\sum_\xi\sum_\alpha
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}\mu_\xi^\alpha
-	\notag \\
+	\nabla_{\mbf x}\cdot
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)
+	\right]\mu_\xi^\alpha
+	\notag  \\
 	={} &
 	-\sum_m
 	\left[
 		\sum_\xi\sum_\alpha
 		\mu_\xi^\alpha
 		\nu_{\xi (m)}^\alpha
-		\right]\dot r_{(m)}
-	-
+	\right]\dot r_{(m)}
+	+
 	\sum_\xi\sum_\alpha
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}\mu_\xi^\alpha .
+	\nabla_{\mbf x}\cdot
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)
+	\mu_\xi^\alpha .
 	\label{eq:MC_helmholtz_source_projection}
 \end{align}
 %
-The last term is the transport-accumulation contribution,
-%
-\begin{equation}
-	-\sum_\xi\sum_\alpha
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-	\mu_\xi^\alpha .
-	\label{eq:MC_helmholtz_transport_accumulation}
-\end{equation}
-%
-Using \eqref{eq:component_transport_accumulation_constraint} gives
+The last term is the relative-transport contribution.  The product rule gives
 %
 \begin{align*}
-	-\sum_\xi\sum_\alpha
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-	\mu_\xi^\alpha
-	={} &
 	\sum_\xi\sum_\alpha
 	\nabla_{\mbf x}\cdot
 	\left(
@@ -1608,57 +1585,47 @@ This is the standard species-flux contribution in continuum thermodynamics of
 reacting mixtures~\cite{bothe2015continuum,gray2009tcat_transport}.
 
 With electrical effects, the dissipative component-rate force in
-\eqref{eq:vp_reaction_transport_power} is electrochemical.  The symbol
-\(\hat{\mu}_\xi^\alpha\) denotes the neutral chemical part of the component
-potential, i.e. the part that remains when electric work is absent.  The charge
-balance uses the same component-rate bracket after multiplying it by the
-component charge per unit mass \(z_\xi^\alpha\).  Since electric potential is
-energy per unit charge, the electric work conjugate to that projected rate
-contributes \(z_\xi^\alpha\varphi\) per unit component mass.  The component
-potential used below is therefore
-%
-\begin{equation}
-	\mu_\xi^\alpha
-	=
-	\hat{\mu}_\xi^\alpha
-	+
-	z_\xi^\alpha\varphi .
-		\label{eq:MC_electrochemical_multiplier_split}
-\end{equation}
-%
-The factor multiplying \(\varphi\) is the component charge per unit mass
-\(z_\xi^\alpha\), not the mixture charge density \(\varrho\), because the
-component-rate balance is written per unit component mass.  With this
-identification, the same local conversion and transport powers apply with
-\(\mu_\xi^\alpha\) interpreted as the electrochemical component potential:
+\eqref{eq:component_rate_residual_def} is electrochemical.  The neutral
+chemical part \(\hat{\mu}_\xi^\alpha\) and the electric work contribution
+combine as in \eqref{eq:C45_combined_def}.  The factor multiplying
+\(\varphi\) is the component charge per unit mass \(z_\xi^\alpha\), not the
+mixture charge density \(\varrho\), because the component-rate balance is
+written per unit component mass.  Thus the same local reaction and transport
+powers apply with \(\mu_\xi^\alpha\) interpreted as the electrochemical
+component potential:
 %
 \begin{align}
 	-\sum_\xi\sum_\alpha
 	\dot c_\xi^\alpha\mu_\xi^\alpha
 	&=
 	\sum_m
-	\mc A_{(m)}\dot r_{(m)},
-	\qquad
-	\mc A_{(m)}
-	=
-	-\sum_\xi\sum_\alpha
-	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
-	\label{eq:MC_electrochemical_affinity_projection}
-	\\
-	-\sum_\xi\sum_\alpha
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
-	\mu_\xi^\alpha
-	&=
-	-\sum_\xi\sum_\alpha
+	\mc A_{(m)}\dot r_{(m)}
+	-
+	\sum_\xi\sum_\alpha
 	\left(
 	\mbf j_{\xi,{\rm disp}}^\alpha
 	+
 	\mbf j_{\xi,{\rm diff}}^\alpha
 	\right)\cdot\nabla_{\mbf x}\mu_\xi^\alpha
 	+
-	\text{b.t.}
-	\label{eq:MC_electrochemical_relative_transport_power}
+	\text{b.t.},
+	\notag \\
+	\mc A_{(m)}
+	&=
+	-\sum_\xi\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
+	\label{eq:MC_electrochemical_affinity_projection}
 \end{align}
+%
+\begin{equation}
+	-\sum_\xi\sum_\alpha
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)\cdot\nabla_{\mbf x}\mu_\xi^\alpha
+	\label{eq:MC_electrochemical_relative_transport_power}
+\end{equation}
 %
 For a local mechanism satisfying
 \eqref{eq:mechanism_charge_conservation}, the explicit electric-potential part
@@ -1711,9 +1678,9 @@ The mechanism affinity is
 	\label{eq:MC_affinity_projection}
 \end{equation}
 %
-Substituting \eqref{eq:MC_L_mu_psi_closure} into the transfer-multiplier
-evolution equation \eqref{eq:el_conversion_component} gives the
-kinematic transfer-potential evolution law
+Substituting \eqref{eq:MC_L_mu_psi_closure} into the conversion-measure
+coefficient \eqref{eq:el_conversion_component} gives the
+transfer-potential compatibility relation
 %
 \begin{empheq}[box=\fbox]{equation}
 	\frac{D_\xi\tau}{Dt}
@@ -1730,11 +1697,27 @@ kinematic transfer-potential evolution law
 Equation \eqref{eq:MC_admissible_conversion_component} follows from the
 accumulated-coordinate variation of the conversion measure in the constrained
 Hamilton--d'Alembert statement.  The kinematic Bedford--Drumheller transfer
-multiplier is the scalar \(\tau\), while the chemical potential
-\(\mu_\xi^\alpha\) on the right-hand side is evaluated from the constitutive
-free-energy or EOS closure; it is not an independently initialized Hamilton
-multiplier.  Equation \eqref{eq:MC_admissible_conversion_component}, together
-with an initial value, determines \(\tau\) along each phase motion.
+multiplier is the scalar \(\tau\), so the component-indexed right-hand side must
+have a common value within each phase.  Equivalently, for any two components
+\(\alpha\) and \(\beta\) in the same phase,
+%
+\begin{equation*}
+	\mu_\xi^\alpha
+	+
+	\frac{\pi_\xi^\alpha}{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+	=
+	\mu_\xi^\beta
+	+
+	\frac{\pi_\xi^\beta}{\phi_\xi\bar\rho_\xi\eta_\xi^\beta}.
+\end{equation*}
+%
+Thus \(\pi_\xi^\alpha\) acts as a component partial-pressure-like constraint
+multiplier: it absorbs componentwise differences in the constitutive
+thermodynamic potentials so that a single transfer potential remains
+well-defined.  One phase-level projection of
+\eqref{eq:MC_admissible_conversion_component}, together with an initial value,
+evolves \(\tau\) along the phase motion; the remaining component-indexed
+relations are compatibility conditions for the storage multipliers.
 %
 \subsubsection{Plastic flow rules and residual dissipation}
 The plastic-deformation power in the residual inequality is driven by the
@@ -1883,44 +1866,19 @@ respond to the same component-potential gradient.
 
 The first variation \eqref{eq:reaction_transport_dissipation_variation}
 identifies the dissipative forces conjugate to the reaction and relative-flux
-rates, but it does not prescribe how those forces depend on the rates.  The
-residual inequality \eqref{eq:MC_residual_dissipation} requires
+rates.  The residual inequality \eqref{eq:MC_residual_dissipation} requires
 \(\sum_m\mc A_{(m)}\dot r_{(m)}\ge0\) and
 \(\sum_{\xi,\alpha}\mbf M_{\xi,k}^\alpha\cdot
-\mbf j_{\xi,k}^\alpha\ge0\) for an uncoupled sufficient construction.  Near
-equilibrium, a quadratic dissipation potential is the standard linear Onsager
-constitutive specialization~\cite{doi2011onsager,wang2021onsager}.  For these
-rates, choose
-%
-\begin{align}
-	\Phi_{\rm rt}
-	={} &
-	\frac{1}{2}\int_{\mc B}
-	\sum_\xi\sum_\alpha\sum_\beta
-	\mbf j_{\xi,{\rm disp}}^\alpha
-	\cdot\mbf R_{\xi,{\rm disp}}^{\alpha\beta}
-	\mbf j_{\xi,{\rm disp}}^\beta\dv
-	\notag  \\
-	    & +
-	\frac{1}{2}\int_{\mc B}
-	\sum_\xi\sum_\alpha\sum_\beta
-	\mbf j_{\xi,{\rm diff}}^\alpha
-	\cdot\mbf R_{\xi,{\rm diff}}^{\alpha\beta}
-	\mbf j_{\xi,{\rm diff}}^\beta\dv
-	\notag  \\
-	    & +
-	\frac{1}{2}\int_{\mc B}
-	\sum_m\frac{\dot r_{(m)}^2}{K_{(m)}}\dv,
-	\label{eq:MC_reaction_transport_dissipation_potential}
-\end{align}
-%
-where \(K_{(m)}>0\), and the two resistance tensors are symmetric positive
-semidefinite for component fluxes satisfying
-\eqref{eq:averaged_relative_flux_sum}.  Their positivity, and the omission of
-cross-coupling between the two rates, are constitutive assumptions rather than
-consequences of averaging~\cite{doi2011onsager,gray2009tcat_transport}.
-Differentiating the potential with respect to the mechanism rate gives the
-constitutive relation
+\mbf j_{\xi,k}^\alpha\ge0\) for an uncoupled sufficient construction.  The
+quadratic potential \eqref{eq:onsager_quadratic_reaction_transport_potential}
+is the near-equilibrium Onsager specialization used here
+~\cite{doi2011onsager,wang2021onsager}.  The reaction mobility
+\(K_{(m)}>0\) and the resistance tensors are chosen positive semidefinite on
+component fluxes satisfying \eqref{eq:averaged_relative_flux_sum}; their
+positivity, and the omission of cross-coupling between rates, are constitutive
+assumptions rather than consequences of averaging
+~\cite{doi2011onsager,gray2009tcat_transport}.  Differentiating the potential
+with respect to the mechanism rate gives the constitutive relation
 %
 \begin{equation}
 	\mc A_{(m)}
@@ -3225,8 +3183,7 @@ dimension.
 		Phase volume fractions \(\phi_\xi\)                                                            & \(P\)                                                \\
 		Volume-fraction multiplier \(\lambda\)                                                         & \(1\)                                                \\
 		Storage multipliers \(\pi_\xi^\alpha\)                                                         & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
-			Transfer potential \(\tau\)                                                                 & \(1\)                                                \\
-		Independent reference transport accumulations \(\mc D_\xi^\alpha\)                             & \(P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)\)    \\
+		Transfer potential \(\tau\)                                                                 & \(1\)                                                \\
 		Total relative component flux vectors, when retained as mixed fields                           & \(d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
 		Solid distension tensors \(\mbf A_s\), or scalar factors \(a_s\), for \(s=1,\ldots,P_{\mc S}\) & \(d^2P_{\mc S}\) or \(P_{\mc S}\)                    \\
 		Mechanism process rates \(\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}\)                             & \(N_{(m)}\)                                          \\
@@ -3247,14 +3204,13 @@ Table~\ref{tab:MC_equation_block_count}.
 		\hline
 		Phase momentum balances \eqref{eq:el_momentum_uniform}                                                                       & \(dP\)                                               \\
 		Component mass balances \eqref{eq:averaged_component_spatial_mass}                                                           & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
-		Independent transport-accumulation constraints \eqref{eq:component_transport_accumulation_constraint}                        & \(P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)\)    \\
 		Total relative-transport closures \eqref{eq:MC_relative_transport_closures}                                                  & \(d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
 		Projected fluid composition stationarity \eqref{eq:MC_fluid_composition_projection}                                          & \(P_{\mc F}(N^{\mc F}-1)\)                           \\
 		Projected solid composition stationarity \eqref{eq:MC_solid_composition_projection}                                          & \(P_{\mc S}(N^{\mc S}-1)\)                           \\
 		Fluid and solid composition normalizations                                                                                   & \(P_{\mc F}+P_{\mc S}\)                              \\
 		Volume-fraction restrictions \eqref{eq:MC_volume_fraction_restrictions} and constraint \eqref{eq:volume_fraction_constraint} & \(P+1\)                                              \\
 		Pressure-density restrictions \eqref{eq:MC_phase_pressure_definitions}                                                       & \(P\)                                                \\
-		Transfer-potential evolution equations \eqref{eq:MC_admissible_conversion_component}                                         & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
+		Transfer-potential evolution and component compatibility relations \eqref{eq:MC_admissible_conversion_component}             & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
 		Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                     & \(P_{\mc S}\)                                        \\
 		Kinetic laws for \(\dot r_{(m)}\)                                                                                            & \(N_{(m)}\)                                          \\
 		Plastic flow laws for \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active                                                   & \(2d^2P_{\mc S}\)                                    \\
