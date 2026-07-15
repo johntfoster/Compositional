@@ -47,43 +47,48 @@ notation,
 	\left(
 	\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g
 	\right).
+	\label{eq:classical_fixed_frame_darcy_velocity}
 \end{equation}
 %
 A concrete classical closure set is
 %
-\begin{align*}
-	\mbf v_s &= \mbf 0, \\
-	\bar p_f &= \bar p_{\rm ref}+p_{c,f}(\{S_g\}_{g\in\mc F}), \\
-	\bar\rho_f &= \bar\rho_f(\bar p_{\rm ref},T,\{\eta_f^\beta\}_{\beta}), \qquad
-	\mu_f = \mu_f(\bar p_{\rm ref},T,\{\eta_f^\beta\}_{\beta}), \\
-	\mu_f^\alpha
-	&=
-	\frac{\partial g_f}{\partial\eta_f^\alpha}
-	(\bar p_f,T,\{\eta_f^\beta\}_{\beta}), \\
-	\mbf j_{f,{\rm disp}}^\alpha+\mbf j_{f,{\rm diff}}^\alpha
-	&=
-	-\sum_\beta
-	\left(
-	\mbf D_{f,{\rm disp}}^{\alpha\beta}
-	+
-	\mbf D_{f,{\rm diff}}^{\alpha\beta}
-	\right)
-	\nabla_{\mbf x}\mu_f^\beta, \\
-	\mu_f^\alpha &= \mu_g^\alpha
-	\quad \text{for equilibrated fluid phases } f,g .
-\end{align*}
+\begin{equation}
+	\begin{aligned}
+		\mbf v_s &= \mbf 0, \\
+		\bar p_f &= \bar p_{\rm ref}+p_{c,f}(\{S_g\}_{g\in\mc F}), \\
+		\bar\rho_f &= \bar\rho_f(\bar p_{\rm ref},T,\{\eta_f^\beta\}_{\beta}), \qquad
+		\mu_f = \mu_f(\bar p_{\rm ref},T,\{\eta_f^\beta\}_{\beta}), \\
+		\mu_f^\alpha
+		&=
+		\frac{\partial g_f}{\partial\eta_f^\alpha}
+		(\bar p_f,T,\{\eta_f^\beta\}_{\beta}), \\
+		\mbf j_{f,{\rm disp}}^\alpha+\mbf j_{f,{\rm diff}}^\alpha
+		&=
+		-\sum_\beta
+		\left(
+		\mbf D_{f,{\rm disp}}^{\alpha\beta}
+		+
+		\mbf D_{f,{\rm diff}}^{\alpha\beta}
+		\right)
+		\nabla_{\mbf x}\mu_f^\beta, \\
+		\mu_f^\alpha &= \mu_g^\alpha
+		\quad \text{for equilibrated fluid phases } f,g .
+	\end{aligned}
+	\label{eq:classical_compositional_closure_set}
+\end{equation}
 %
 Here \(g_f\) is the classical phase thermodynamic potential supplied by the EOS
 or flash model.  In an isothermal composition-diffusion specialization at fixed
 phase pressure,
 %
-\begin{equation*}
+\begin{equation}
 	\nabla_{\mbf x}\mu_f^\beta
 	=
 	\sum_\gamma
 	\frac{\partial^2 g_f}{\partial\eta_f^\beta\partial\eta_f^\gamma}
 	\nabla_{\mbf x}\eta_f^\gamma ,
-\end{equation*}
+	\label{eq:composition_gradient_chemical_potential_tangent}
+\end{equation}
 %
 so the admissible \(D\nabla\mu\) closures become standard composition-gradient
 diffusion and dispersion laws.  Define the effective Fickian
@@ -99,6 +104,7 @@ diffusion--dispersion tensor
 	\mbf D_{f,{\rm diff}}^{\alpha\beta}
 	\right)
 	\frac{\partial^2 g_f}{\partial\eta_f^\beta\partial\eta_f^\gamma}.
+	\label{eq:effective_fickian_diffusion_dispersion_tensor}
 \end{equation}
 %
 Substituting these closures into
@@ -126,6 +132,7 @@ Substituting these closures into
 	=
 	\sum_{f\in\mc F}\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
 \end{aligned}
+	\label{eq:classical_compositional_fickian_balance}
 \end{equation}
 %
 This is the standard reservoir compositional-flow form: storage is written in
@@ -149,15 +156,19 @@ energy, not as an independent balance law.  The general theory defines
 saturations through \eqref{eq:fluid_saturation_definitions}, assigns an
 interfacial Helmholtz energy \eqref{eq:interfacial_energy_density}, and recovers
 phase pressure differences in
-\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  Thus capillary laws
-are algebraic pressure-difference closures.  A compositional implementation
+\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  Thus capillary, or
+electrocapillary, laws are algebraic pressure-difference closures.  A neutral
+compositional implementation
 typically chooses one reference pressure and reconstructs the other phase
 pressures from capillary-pressure relations before evaluating the Darcy fluxes.
 In this variational model, this is the algebraic specialization of the
-more general statement \(\bar p_f=\bar p_E+\gamma_f\): capillary offsets
-redistribute the phase pressures while the saturation-weighted pressure gradient
-reduces to the equivalent-pressure gradient in
-\eqref{eq:MC_fluid_pressure_gradient_rollup}.
+more general statement \(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\).  When
+electrical enthalpy is retained, the pressure reconstruction includes the
+correction \(\omega_n^+-\omega_w^+\) in
+\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}; in the neutral limit
+this reduces to the usual capillary-pressure closure.  The offsets redistribute
+the phase pressures while the saturation-weighted pressure gradient reduces to
+the equivalent-pressure gradient in \eqref{eq:MC_fluid_pressure_gradient_rollup}.
 
 The usual within-phase composition constraint is also recovered:
 %
@@ -421,6 +432,7 @@ splitting the fluid velocity into solid motion plus relative flux,
 	\left(\phi_f\bar\rho_f\mbf v_s\right)
 	+\nabla_{\mbf x}\cdot\mbf w_f
 	=0 .
+	\label{eq:biot_limit_current_fluid_mass_balance}
 \end{equation}
 %
 Using the material derivative following the solid skeleton,
@@ -432,6 +444,7 @@ becomes
 	+\phi_f\bar\rho_f\nabla_{\mbf x}\cdot\mbf v_s
 	+\nabla_{\mbf x}\cdot\mbf w_f
 	=0 .
+	\label{eq:biot_limit_solid_derivative_fluid_mass_balance}
 \end{equation}
 %
 Since \({D_sJ}/{Dt}=J\nabla_{\mbf x}\cdot\mbf v_s\), the first two terms
@@ -442,6 +455,7 @@ combine into the derivative of \(J\phi_f\bar\rho_f\),
 	\left(J\phi_f\bar\rho_f\right)
 	+\nabla_{\mbf x}\cdot\mbf w_f
 	=0 .
+	\label{eq:biot_limit_jacobian_current_mass_balance}
 \end{equation}
 %
 Multiplying by \(J\), using the divergence transform
@@ -464,6 +478,7 @@ Thus the finite-deformation storage variable is the Lagrangian fluid mass
 	\frac{\partial}{\partial t}\left(\Phi_f\bar\rho_f\right)
 	+\nabla_{\mbf X}\cdot\mbf W_f
 	=0 .
+	\label{eq:biot_limit_lagrangian_pore_volume_mass_balance}
 \end{equation}
 %
 If the fluid is barotropic, \(\bar\rho_f=\bar\rho_f\left(\bar p_f\right)\), and
@@ -477,9 +492,10 @@ fluid bulk modulus, then
 		\frac{\partial \Phi_f}{\partial t}
 		+\frac{\Phi_f}{K_f}
 		\frac{\partial \bar p_f}{\partial t}
-		\right]
+	\right]
 	+\nabla_{\mbf X}\cdot\mbf W_f
 	=0 .
+	\label{eq:biot_limit_barotropic_storage_balance}
 \end{equation}
 %
 To reach the classical Biot storage equation, the finite-deformation porosity
@@ -499,6 +515,7 @@ modulus,
 	=
 	\frac{B-\Phi_f}{K_s}
 	+\frac{\Phi_f}{K_f}.
+	\label{eq:biot_limit_porosity_tangent_storage}
 \end{equation}
 %
 Substitution gives the finite-deformation pressure-storage balance
@@ -508,6 +525,7 @@ Substitution gives the finite-deformation pressure-storage balance
 	+\frac{1}{M}\frac{\partial\bar p_f}{\partial t}
 	+\frac{1}{\bar\rho_f}\nabla_{\mbf X}\cdot\mbf W_f
 	=0 .
+	\label{eq:biot_limit_pressure_storage_balance}
 \end{equation}
 %
 Finally, for small strain, \(J\simeq 1+\nabla_{\mbf x}\cdot\mbf u\), and the

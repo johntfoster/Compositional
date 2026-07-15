@@ -189,29 +189,9 @@ and exchanged solid-site component.  The mechanism changes fluid composition
 and solid-site occupancy, but its stoichiometric projection satisfies both mass
 conservation and \eqref{eq:mechanism_charge_conservation}.
 
-Several common theories are recovered by specialization.  Setting
-\(z_\xi^\alpha=0\) for every component returns the neutral mixture theory.
-Keeping charged aqueous species, diffusion fluxes, and Gauss' law
-\eqref{eq:gauss_law} while suppressing deformation and phase momentum gives a
-Poisson--Nernst--Planck reactive-transport limit.  In macroscopic reservoir brine
-models whose Debye length is small compared with the grid scale, Gauss' law may
-be replaced by the electroneutral constraint
-%
-\begin{equation}
-	\varrho
-	=
-	\sum_\xi\sum_\alpha
-	z_\xi^\alpha\phi_\xi\bar\rho_\xi\eta_\xi^\alpha
-	=0 .
-	\label{eq:electroneutral_charge_constraint}
-\end{equation}
-%
-The electroneutral limit is a singular electrostatic specialization, not a
-dielectric closure.  The bulk charge density is constrained to vanish, and the
-electric field appears only through the reduced electrochemical-potential
-relations appropriate to that limit.  Ion-exchange and surface-complexation
-models are obtained by
-retaining charged solid-site components, imposing
+Ion-exchange and surface-complexation models are represented by retaining
+charged solid-site components, imposing
 \eqref{eq:mechanism_charge_conservation} on the exchange stoichiometry, and
 choosing admissible kinetic or equilibrium closures for the corresponding
-mechanism rates.
+mechanism rates.  The electrostatic field equation is Gauss' law, derived in
+\sref{virtual_power_derivation}.

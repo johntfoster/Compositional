@@ -335,7 +335,7 @@ The corresponding admissible reference flux is
 %
 When component mass-addition effects and fluid inertia are negligible, this reduces
 to the familiar Darcy relative flux in
-\eqref{eq:standard_darcy_mass_flux_limit}.  Capillary
+\eqref{eq:standard_darcy_mass_flux_limit}.  Capillary, or electrocapillary,
 pressure closes the phase pressures algebraically through the saturation state,
 %
 \begin{equation}
@@ -343,13 +343,17 @@ pressure closes the phase pressures algebraically through the saturation state,
 	\qquad
 	S_f = \frac{\phi_f}{\phi},
 	\qquad
-	p_{c,nw}=\bar p_n-\bar p_w,
+	p_{c,nw}
+	=
+	\bar p_n-\bar p_w
+	-\left(\omega_n^+-\omega_w^+\right),
 	\qquad (w,n)\in\mc I .
 	\label{eq:reservoir_simulation_capillary_summary}
 \end{equation}
 %
 Equivalently, a simulator may choose one reference pressure and reconstruct the
 other fluid pressures from the selected capillary-pressure laws before
-evaluating the fluxes.  This algebraic reconstruction also makes the
-saturation-weighted pressure gradient collapse to the equivalent-pressure
-gradient in \eqref{eq:MC_fluid_pressure_gradient_rollup}.
+evaluating the fluxes.  In a neutral model, \(\omega_f^+=0\) and the summary
+reduces to the usual relation \(p_{c,nw}=\bar p_n-\bar p_w\).  This algebraic
+reconstruction also makes the saturation-weighted pressure gradient collapse to
+the equivalent-pressure gradient in \eqref{eq:MC_fluid_pressure_gradient_rollup}.

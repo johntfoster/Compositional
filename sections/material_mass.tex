@@ -280,27 +280,13 @@ barycentric mixture velocity
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	\mbf{v} = \frac{1}{\rho} \sum_\xi \rho_\xi \mbf{v}_\xi.
+	\label{eq:mixture_mass_averaged_velocity}
 \end{align}
 % AGENT-LOCK-END
 %
 The right-hand side of \eqref{eq:spatial_mass_3} vanishes because every internal
 mechanism conserves mass,
 $\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha=0$.
-
-In this preliminary no-relative-transport setting, the variational derivation
-treats $\mathcal C_\xi^\alpha$, $J_\xi$, and the mechanism rates
-$\dot r_{(m)}$ as primitive quantities.  The current component
-material-increment rate $\dot c_\xi^\alpha$ is the current-volume
-representation of the reference material-increment rate and obeys
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{align}
-	\frac{\dot{\mc{C}^\alpha_\xi}}{J_\xi}
-	-\sum_m \nu^\alpha_{\xi (m)}\dot r_{(m)}
-	=0,
-	\qquad \text{for each }(\xi,\alpha).
-	\label{eq:component_conversion_constraint}
-\end{align}
-% AGENT-LOCK-END
 
 \subsection{Averaged component transport and the extended material balance}
 \label{sec:averaged_component_transport_extension}
@@ -378,8 +364,11 @@ derivative following component \(\alpha\) is the extension
 	\label{eq:averaged_component_material_derivative}
 \end{equation}
 %
-Applying this derivative to local component mass conservation and writing the
-result in divergence form gives
+Applying this derivative to the hatted local form of
+\eqref{eq:material_mass_2}, using the local identity
+\(\widehat D_\xi^\alpha\widehat J_\xi^\alpha/Dt
+=\widehat J_\xi^\alpha\nabla_{\mbf x}\cdot\widehat{\mbf v}_\xi^\alpha\),
+and writing the result in divergence form gives
 %
 \begin{equation}
 	\frac{\partial\widehat\rho_\xi^\alpha}{\partial t}
@@ -397,8 +386,10 @@ result in divergence form gives
 The progress rates on the right are resolved current-volume rates.  Averaging
 is therefore needed only on the storage and transport terms.  Substitution of
 \eqref{eq:averaged_component_density_split} and
-\eqref{eq:averaged_component_velocity_split} produces two relative fluxes,
+\eqref{eq:averaged_component_velocity_split} into
+\eqref{eq:local_component_balance_before_averaging} produces two relative fluxes,
 %
+\begin{subequations}
 \begin{align}
 	\mbf j_{\xi,{\rm disp}}^\alpha
 	 & =
@@ -416,25 +407,26 @@ is therefore needed only on the storage and transport terms.  Substitution of
 	\right\rangle.
 	\label{eq:averaged_molecular_diffusion_flux_definition}
 \end{align}
+\end{subequations}
 %
 Equations \eqref{eq:averaged_mechanical_dispersion_flux_definition} and
 \eqref{eq:averaged_molecular_diffusion_flux_definition} define the physical
-meaning of the two averaged fluxes, but their microscopic density and velocity
-factors are not varied separately in the macroscopic principle.  Doing so would
-require additional unresolved density fields and closure equations that are not
-part of the macroscopic state description.  Instead, the averaged fluxes are
-promoted to independent macroscopic process variables.  Their virtual changes
-\(\delta\mbf j_{\xi,{\rm disp}}^\alpha\) and
-\(\delta\mbf j_{\xi,{\rm diff}}^\alpha\) are therefore independent admissible
-flux variations whose generalized forces enter the extended
-Hamilton--d'Alembert principle in \sref{virtual_power_derivation} as
-nonconservative process-rate variations.  Their dependence on the macroscopic
-state is restricted by the entropy inequality and specified constitutively
-~\cite{doi2011onsager,wang2021onsager}.
+meaning of the two averaged fluxes.  In the variational derivation of
+\sref{virtual_power_derivation}, however, the microscopic density and velocity
+factors inside the averages are not treated as independent virtual changes.
+Doing so would require additional unresolved density fields and closure equations
+that are not part of the macroscopic state description.  Instead, the averaged
+fluxes themselves are promoted to independent macroscopic process variables.
+Their virtual changes \(\delta\mbf j_{\xi,{\rm disp}}^\alpha\) and
+\(\delta\mbf j_{\xi,{\rm diff}}^\alpha\) enter the coupled
+Hamilton--d'Alembert--Onsager construction as nonconservative process-rate
+variations.  Their dependence on the macroscopic state is restricted by the
+entropy inequality and specified constitutively~\cite{doi2011onsager,wang2021onsager}.
 
-The first is the covariance between unresolved density and phase-velocity
-fluctuations.  The second is the averaged mass carried by component motion
-relative to the phase.  The averaged component balance is consequently
+The dispersion flux \(\mbf j_{\xi,{\rm disp}}^\alpha\) is the covariance between
+unresolved density and phase-velocity fluctuations, while the diffusion flux
+\(\mbf j_{\xi,{\rm diff}}^\alpha\) is the averaged mass carried by component
+motion relative to the phase.  The averaged component balance is consequently
 %
 \begin{align}
 	\frac{\partial\rho_\xi^\alpha}{\partial t}
@@ -474,7 +466,9 @@ together with
 	\label{eq:averaged_component_reference_rate}
 \end{align}
 %
-The material increment is therefore defined by
+Comparing \eqref{eq:averaged_component_reference_rate} with the material-balance
+structure in \eqref{eq:material_mass_2} and its rate form
+\eqref{eq:component_material_mass} identifies the material-increment rate as
 %
 \begin{equation}
 	\dot{\mc C}_\xi^\alpha
@@ -491,7 +485,7 @@ The material increment is therefore defined by
 \end{equation}
 %
 With zero initial accumulations, integration on the phase reference trajectory
-gives the augmented component material measure
+gives the same material-balance structure as \eqref{eq:material_mass_2},
 %
 \begin{equation}
 	\rho_{\xi0}^\alpha
@@ -504,14 +498,21 @@ gives the augmented component material measure
 	\label{eq:augmented_component_material_measure}
 \end{equation}
 %
-Thus \(\mc C_\xi^\alpha\) is the component material increment associated with
-the full component balance, while the reaction production and relative-flux
-parts remain visible in its rate.  This separation between species balance,
-reaction production, and diffusive flux is standard in continuum mixture
+Here \(\mc C_\xi^\alpha\) has the expanded meaning supplied by
+\eqref{eq:reference_conversion_accumulation_rate}: its rate contains both
+stoichiometric conversion and unresolved relative transport.  The reaction
+production and relative-flux parts therefore remain visible in the rate of the
+material increment.  This separation between species balance, reaction
+production, and diffusive flux is standard in continuum mixture
 thermodynamics~\cite{bothe2015continuum}.
 
-The mass-averaged definition \eqref{eq:averaged_phase_mass_velocity_definition}
-implies
+Substituting the component density and velocity decompositions
+\eqref{eq:averaged_component_density_split}--\eqref{eq:averaged_component_velocity_split}
+into the mass-averaged definition
+\eqref{eq:averaged_phase_mass_velocity_definition}, and using
+\(\rho_\xi=\sum_\alpha\rho_\xi^\alpha\) and
+\(\left\langle\widetilde{\mbf v}_\xi\right\rangle=\mbf 0\), leaves only the
+summed relative fluxes.  Hence
 %
 \begin{equation}
 	\sum_\alpha
@@ -555,11 +556,31 @@ component balance,
 	\label{eq:averaged_global_component_balance}
 \end{align}
 %
+Summing \eqref{eq:averaged_global_component_balance} over components recovers
+the overall mass balance \eqref{eq:spatial_mass_4}: the relative fluxes cancel
+phase by phase by \eqref{eq:averaged_relative_flux_sum}, and each internal
+mechanism conserves total mass.  Applying the same summation to the
+material-increment rate \eqref{eq:reference_conversion_accumulation_rate} gives,
+again by stoichiometric mass balance and
+\eqref{eq:averaged_relative_flux_sum},
+%
+\begin{equation}
+	\sum_\xi\sum_\alpha
+	\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+	=
+	0.
+	\label{eq:material_increment_insertion_constraint}
+\end{equation}
+%
+This is the insertion constraint used in \eqref{eq:C4_def}.
+%
 Averaging determines the kinematic location of the two fluxes but does not close
-their constitutive dependence.  Volume-averaged dispersion instead produces a
-closure problem~\cite{plumb1988dispersion}, while thermodynamically constrained
-averaging uses the entropy inequality to restrict admissible closures
-~\cite{gray2009tcat_transport}.  Both relative component fluxes are varied as
-nonconservative process rates in the extended Hamilton--d'Alembert principle of
+their constitutive dependence.  Volume-averaged dispersion exposes unresolved
+transport terms that require constitutive closure~\cite{plumb1988dispersion},
+while thermodynamically constrained averaging derives transport closures subject
+to entropy-inequality restrictions
+~\cite{miller2005tcat_foundation,miller2008tcat_species_transport,gray2009tcat_transport}.
+Both relative component fluxes are varied as nonconservative process rates in the
+extended Hamilton--d'Alembert--Onsager principle of
 \sref{virtual_power_derivation}; the entropy inequality restricts their
 constitutive forces, which are represented by a dissipation potential.

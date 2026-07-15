@@ -22,7 +22,7 @@
 \input{defs.tex}
 
 \title{A thermodynamically consistent theory of multicomponent porous media:
-finite-deformation geomechanics, compositional flow, reactions, and phase
+finite-deformation geomechanics, compositional flow, electrostatics, reactions, and phase
 transformations}
 
 \author[1,2,3]{John T. Foster\footnote{Electronic address: \href{mailto:john.foster@utexas.edu}{john.foster@utexas.edu}}}
@@ -39,38 +39,34 @@ transformations}
 %
 \begin{abstract}
 	A thermodynamically consistent theory is developed for multicomponent,
-	multiphase porous media undergoing finite deformation, chemical reaction, and
-	phase transformation.  Component mass conservation is first written for
-	phase-attached material regions and then volume averaged.  This construction
-	identifies molecular-diffusion and mechanical-dispersion fluxes and folds
-	their contribution into the component material increments.  Mobile fluids
-	and load-bearing multicomponent solids are described with the same
-	phase/component variables, so solid composition can influence stress-free
-	deformation, elasticity, plastic flow, and nonlinear Biot coupling within one
-	notation.  The central derivation couples a constrained
-	Hamilton--d'Alembert variation for reversible coordinates with an Onsager
-	stationarity condition for dissipative reaction and relative-transport rates.
-	Because the component material measures and phase Jacobians are varied
-	together, conversion insertion generates momentum terms that do not appear in
-	conventional compositional balances.  These terms lead to a generalized
-	Darcy-like relative-flux law in which conversion mass-addition rates modify the
-	effective resistance and introduce transfer-potential and momentum-production
-	contributions alongside the usual pressure, gravity, and inertia terms.  The
-	coupled stationarity conditions give composition stationarity, normalization
-	equations, transfer-potential compatibility relations, and interphase
-	equilibrium as equality of component chemical potentials.  It
-	therefore gives a coupled route for determining phase compositions from a
-	Helmholtz free energy, with flash calculations appearing as special closures
-	rather than external assumptions.  The entropy inequality identifies
+	multiphase porous media with finite deformation, electrostatics, chemical
+	reactions, and phase transformations.  Component mass conservation is written
+	for phase-attached material regions and then volume averaged, identifying
+	molecular-diffusion and mechanical-dispersion fluxes within the component
+	material increments.  Mobile fluids and load-bearing multicomponent solids are
+	described with common phase/component variables, so solid composition can
+	influence stress-free deformation, elasticity, plastic flow, and nonlinear
+	Biot coupling in one notation.  A fixed-pressure Legendre transform gives
+	reaction- and composition-modified Biot coefficients, including component and
+	phase mixture rules for multiphase solid skeletons.
+
+	The central derivation couples a constrained Hamilton--d'Alembert variation
+	for reversible coordinates with an Onsager stationarity condition for
+	dissipative reaction and relative-transport rates.  Varying the component
+	material measures and phase Jacobians together produces conversion-insertion
+	momentum terms absent from conventional compositional balances and leads to a
+	generalized Darcy-like relative-flux law with transfer-potential and
+	momentum-production contributions.  The same stationarity system gives
+	composition stationarity, normalization equations, transfer-potential
+	compatibility relations, and equilibrium phase-transfer conditions obtained by
+	setting the relevant affinities to zero.  Electrical effects enter by treating
+	charge as a component-weighted projection of the mass measures, so the
+	potentials driving affinity and relative transport become electrochemical
+	when electric field energy is retained.  The entropy inequality identifies
 	admissible stress, pressure, reaction-affinity, drag, diffusion, dispersion,
-	and plastic-flow relations.  Electrical effects are incorporated by treating
-	charge as a component-weighted projection of the same mass measures; when
-	electric field energy is retained, the component potential driving affinity
-	and relative transport is electrochemical.  Standard compositional flow,
-	black-oil flow, nonlinear poromechanics, and the single-solid,
-	single-fluid Biot theory follow as special limits, and the full system is
-	pulled back to the solid reference configuration for finite-deformation
-	reservoir simulation.
+	and plastic-flow relations, while standard compositional flow, black-oil flow,
+	nonlinear poromechanics, and single-solid, single-fluid Biot theory emerge as
+	special limits of the full solid-reference formulation.
 \end{abstract}
 %
 
