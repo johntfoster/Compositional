@@ -638,11 +638,11 @@ inequalities \cite{liu1972method}, the entropy inequality is
 	0\le{} &
 	\sum_\xi
 	\left[
-			\rho_\xi\dot{\mathfrak{s}}_\xi
-			+
-			\sum_\alpha
-			\dot c_\xi^\alpha
-			\mathfrak{s}_\xi
+		\rho_\xi\dot{\mathfrak{s}}_\xi
+		+
+		\sum_\alpha
+		\dot c_\xi^\alpha
+		\mathfrak{s}_\xi
 		+
 		\nabla_{\mbf x}\cdot
 		\left(
@@ -666,7 +666,7 @@ enthalpy terms, gives
 	\begin{aligned}[t]
 		 & \frac{1}{\theta}
 		\left(
-			\bs\sigma_\xi^{\prime+}:\mbf L_\xi
+		\bs\sigma_\xi^{\prime+}:\mbf L_\xi
 		+
 		\phi_\xi\bar p_\xi
 		\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
@@ -675,10 +675,10 @@ enthalpy terms, gives
 		\left(
 		\dot\psi_\xi+\mathfrak{s}_\xi\dot\theta
 		\right)
-			-
-			\sum_\alpha
-			\dot c_\xi^\alpha
-			\mu_\xi^\alpha
+		-
+		\sum_\alpha
+		\dot c_\xi^\alpha
+		\mu_\xi^\alpha
 		+
 		\rho_\xi e_\xi^{\rm int}
 		\right)
@@ -703,25 +703,25 @@ enthalpy terms, gives
 	\frac{1}{\theta}
 	\left(
 	\lambda\sum_\xi\dot\phi_\xi
-		-
-		\sum_{f\in\mc F}\gamma_f\dot\phi_f
+	-
+	\sum_{f\in\mc F}\gamma_f\dot\phi_f
 	\right)
 	\notag     \\
 	       & +
 	\frac{1}{\theta}
 	\left[
-	-
-	\sum_\xi
-	\left(
-	\phi_\xi\dot\omega^{+}_{\xi}
-	+
-	\omega^{+}_{\xi}\dot\phi_\xi
-	\right)
-	+
-	\left(
-	\varrho-\nabla_{\mbf x}\cdot\mbf d
-	\right)\dot\varphi
-	\right].
+		-
+		\sum_\xi
+		\left(
+		\phi_\xi\dot\omega^{+}_{\xi}
+		+
+		\omega^{+}_{\xi}\dot\phi_\xi
+		\right)
+		+
+		\left(
+		\varrho-\nabla_{\mbf x}\cdot\mbf d
+		\right)\dot\varphi
+		\right].
 	\label{eq:MC_reduced_entropy_inequality}
 \end{align}
 %
@@ -745,7 +745,7 @@ the corresponding electrical-enthalpy rates,
 	0\le{} &
 	\sum_{f\in\mc F}
 	\bs{\sigma}^{+}_{f}:\mbf L_f
-	\notag          \\
+	\notag                  \\
 	       & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
@@ -756,9 +756,9 @@ the corresponding electrical-enthalpy rates,
 		\mbf A_s^e
 		\left(
 		\left.
-			\p{\psi_s}{\mbf A_s^e}
-			\right\vert_{\mc X_s}
-			\right)^T
+		\p{\psi_s}{\mbf A_s^e}
+		\right\vert_{\mc X_s}
+		\right)^T
 		-
 		\phi_s
 		\mbf A_s^e
@@ -771,7 +771,7 @@ the corresponding electrical-enthalpy rates,
 		\dot{\mbf A}_s^e
 		(\mbf A_s^e)^{-1}
 		\right]
-	\notag          \\
+	\notag                  \\
 	       & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
@@ -780,47 +780,47 @@ the corresponding electrical-enthalpy rates,
 	(\bs\sigma_s^{\prime+})^T
 	\mbf A_s
 	-
-		\rho_s
-		\bar{\mbf F}_s^e
-		\left(
+	\rho_s
+	\bar{\mbf F}_s^e
+	\left(
 	\left.
-		\p{\psi_s}{\bar{\mbf F}_s^e}
-		\right\vert_{\mc X_s}
-		\right)^T
-		-
-		\phi_s
-		\bar{\mbf F}_s^e
-		\left(
-		\left.
-		\p{\omega^{+}_{s}}{\bar{\mbf F}_s^e}
-		\right\vert_{\mc X_s,\mbf E}
-		\right)^T
-		\right.
-		\right.
-	\notag          \\
+	\p{\psi_s}{\bar{\mbf F}_s^e}
+	\right\vert_{\mc X_s}
+	\right)^T
+	-
+	\phi_s
+	\bar{\mbf F}_s^e
+	\left(
+	\left.
+	\p{\omega^{+}_{s}}{\bar{\mbf F}_s^e}
+	\right\vert_{\mc X_s,\mbf E}
+	\right)^T
+	\right.
+	\right.
+	\notag                  \\
 	       & \left.
 	\left.
 	+
 	\left(
 	\rho_s
 	\left.
-		\p{\psi_s}{\bar\rho_s}
-		\right\vert_{\mc X_s}
-		\bar\rho_s
-		+
-		\phi_s
-		\left.
-		\p{\omega^{+}_{s}}{\bar\rho_s}
-		\right\vert_{\mc X_s,\mbf E}
-		\bar\rho_s
-		-
-		\phi_s\bar p_s
-		\right)\mbf I
+	\p{\psi_s}{\bar\rho_s}
+	\right\vert_{\mc X_s}
+	\bar\rho_s
+	+
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\bar\rho_s}
+	\right\vert_{\mc X_s,\mbf E}
+	\bar\rho_s
+	-
+	\phi_s\bar p_s
+	\right)\mbf I
 	\right)
-		\dot{\bar{\mbf F}}_s^e
-		(\bar{\mbf F}_s^e)^{-1}
-		\right]
-	\notag          \\
+	\dot{\bar{\mbf F}}_s^e
+	(\bar{\mbf F}_s^e)^{-1}
+	\right]
+	\notag                  \\
 	       & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
@@ -830,7 +830,7 @@ the corresponding electrical-enthalpy rates,
 		\dot{\mbf A}_s^p
 		(\mbf A_s^p)^{-1}
 		\right]
-	\notag          \\
+	\notag                  \\
 	       & +
 	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
@@ -842,7 +842,7 @@ the corresponding electrical-enthalpy rates,
 	\dot{\bar{\mbf F}}_s^p
 	(\bar{\mbf F}_s^p)^{-1}
 	\right]
-	\notag          \\
+	\notag                  \\
 	       & +
 	\sum_{f\in\mc F}
 	\left[
@@ -858,7 +858,7 @@ the corresponding electrical-enthalpy rates,
 		\p{\omega^{+}_{f}}{\bar\rho_f}
 		\right\vert_{\mc X_f,\mbf E}
 		\right]
-		\dot{\bar\rho}_f
+	\dot{\bar\rho}_f
 	\notag \displaybreak[4] \\
 	       & +
 	\sum_{f\in\mc F}
@@ -877,25 +877,25 @@ the corresponding electrical-enthalpy rates,
 		\p{\omega^{+}_{f}}{\eta_f^\beta}
 		\right\vert_{\mc X_f,\mbf E}
 		\right]\dot\eta_f^\beta
-	\notag          \\
+	\notag                  \\
 	       & +
 	\sum_{s\in\mc S}
 	\sum_\beta
 	\left[
 	\frac{\pi_s^\beta}{\eta_s^\beta}
 	+\Pi_s
-		-
-		\rho_s
-		\left.
-		\p{\psi_s}{\eta_s^\beta}
-		\right\vert_{\mc X_s}
-		-
-		\phi_s
-		\left.
-		\p{\omega^{+}_{s}}{\eta_s^\beta}
-		\right\vert_{\mc X_s,\mbf E}
-		\right.
-	\notag          \\
+	-
+	\rho_s
+	\left.
+	\p{\psi_s}{\eta_s^\beta}
+	\right\vert_{\mc X_s}
+	-
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\eta_s^\beta}
+	\right\vert_{\mc X_s,\mbf E}
+	\right.
+	\notag                  \\
 	       & \left.
 	+
 	\operatorname{tr}\left[
@@ -909,7 +909,7 @@ the corresponding electrical-enthalpy rates,
 		(\mbf A_s^0)^{-1}
 		\right]
 	\right.
-	\notag          \\
+	\notag                  \\
 	       & \left.
 	+
 	\operatorname{tr}\left[
@@ -924,7 +924,7 @@ the corresponding electrical-enthalpy rates,
 	\right.
 	\right.
 	\right.
-	\notag          \\
+	\notag                  \\
 	       & \left.
 	\left.
 	\left.
@@ -932,17 +932,17 @@ the corresponding electrical-enthalpy rates,
 	\left(
 	\rho_s
 	\left.
-		\p{\psi_s}{\bar\rho_s}
-		\right\vert_{\mc X_s}
-		\bar\rho_s
-		+
-		\phi_s
-		\left.
-		\p{\omega^{+}_{s}}{\bar\rho_s}
-		\right\vert_{\mc X_s,\mbf E}
-		\bar\rho_s
-		-
-		\phi_s\bar p_s
+	\p{\psi_s}{\bar\rho_s}
+	\right\vert_{\mc X_s}
+	\bar\rho_s
+	+
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\bar\rho_s}
+	\right\vert_{\mc X_s,\mbf E}
+	\bar\rho_s
+	-
+	\phi_s\bar p_s
 	\right)\mbf I
 	\right)
 	\left.
@@ -951,7 +951,7 @@ the corresponding electrical-enthalpy rates,
 	(\bar{\mbf F}_s^0)^{-1}
 	\right]
 	\right]\dot\eta_s^\beta
-	\notag          \\
+	\notag                  \\
 	       & +
 	\left[
 	-\sum_{f\in\mc F}
@@ -960,33 +960,33 @@ the corresponding electrical-enthalpy rates,
 	\mathfrak{s}_f
 	+
 	\left.
-		\p{\psi_f}{\theta}
-		\right\vert_{\mc X_f}
-		\right)
-		-
-		\sum_{f\in\mc F}
-		\phi_f
-		\left.
-		\p{\omega^{+}_{f}}{\theta}
-		\right\vert_{\mc X_f,\mbf E}
-		-
-		\sum_{s\in\mc S}
-		\rho_s
+	\p{\psi_f}{\theta}
+	\right\vert_{\mc X_f}
+	\right)
+	-
+	\sum_{f\in\mc F}
+	\phi_f
+	\left.
+	\p{\omega^{+}_{f}}{\theta}
+	\right\vert_{\mc X_f,\mbf E}
+	-
+	\sum_{s\in\mc S}
+	\rho_s
 	\left(
 	\mathfrak{s}_s
 	+
 	\left.
-		\p{\psi_s}{\theta}
-		\right\vert_{\mc X_s}
-		\right)
-		-
-		\sum_{s\in\mc S}
-		\phi_s
-		\left.
-		\p{\omega^{+}_{s}}{\theta}
-		\right\vert_{\mc X_s,\mbf E}
-		\right.
-	\notag          \\
+	\p{\psi_s}{\theta}
+	\right\vert_{\mc X_s}
+	\right)
+	-
+	\sum_{s\in\mc S}
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\theta}
+	\right\vert_{\mc X_s,\mbf E}
+	\right.
+	\notag                  \\
 	       & \left.
 	+
 	\sum_{s\in\mc S}
@@ -1001,7 +1001,7 @@ the corresponding electrical-enthalpy rates,
 		(\mbf A_s^0)^{-1}
 		\right]
 	\right.
-	\notag          \\
+	\notag                  \\
 	       & \left.
 	+
 	\sum_{s\in\mc S}
@@ -1017,7 +1017,7 @@ the corresponding electrical-enthalpy rates,
 	\right.
 	\right.
 	\right.
-	\notag          \\
+	\notag                  \\
 	       & \left.
 	\left.
 	\left.
@@ -1025,17 +1025,17 @@ the corresponding electrical-enthalpy rates,
 	\left(
 	\rho_s
 	\left.
-		\p{\psi_s}{\bar\rho_s}
-		\right\vert_{\mc X_s}
-		\bar\rho_s
-		+
-		\phi_s
-		\left.
-		\p{\omega^{+}_{s}}{\bar\rho_s}
-		\right\vert_{\mc X_s,\mbf E}
-		\bar\rho_s
-		-
-		\phi_s\bar p_s
+	\p{\psi_s}{\bar\rho_s}
+	\right\vert_{\mc X_s}
+	\bar\rho_s
+	+
+	\phi_s
+	\left.
+	\p{\omega^{+}_{s}}{\bar\rho_s}
+	\right\vert_{\mc X_s,\mbf E}
+	\bar\rho_s
+	-
+	\phi_s\bar p_s
 	\right)\mbf I
 	\right)
 	\left.
@@ -1044,7 +1044,7 @@ the corresponding electrical-enthalpy rates,
 	(\bar{\mbf F}_s^0)^{-1}
 	\right]
 	\right]\dot\theta
-	\notag          \\
+	\notag                  \\
 	       & +
 	\sum_\xi
 	\left(
@@ -1057,7 +1057,7 @@ the corresponding electrical-enthalpy rates,
 	-
 	\sum_{f\in\mc F}
 	\gamma_f\dot\phi_f
-	\notag          \\
+	\notag                  \\
 	       & -
 	\sum_m
 	\left(
@@ -1072,18 +1072,18 @@ the corresponding electrical-enthalpy rates,
 	\mbf j_{\xi,{\rm disp}}^\alpha
 	+
 	\mbf j_{\xi,{\rm diff}}^\alpha
-		\right)\cdot
-		\nabla_{\mbf x}\mu_\xi^\alpha
-		\notag          \\
-	       &+
-		\left(
-		\varrho-\nabla_{\mbf x}\cdot\mbf d
-		\right)\dot\varphi
-		\notag          \\
-	       &+
-		\sum_\xi\rho_\xi e_\xi^{\rm int}
-		-
-		\sum_\xi
+	\right)\cdot
+	\nabla_{\mbf x}\mu_\xi^\alpha
+	\notag                  \\
+	       & +
+	\left(
+	\varrho-\nabla_{\mbf x}\cdot\mbf d
+	\right)\dot\varphi
+	\notag                  \\
+	       & +
+	\sum_\xi\rho_\xi e_\xi^{\rm int}
+	-
+	\sum_\xi
 	\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
 	.
 	\label{eq:MC_collected_entropy}
@@ -1114,8 +1114,7 @@ The coefficient of
 	\p{\psi_s}{\bar{\mbf F}_s^e}
 	\right\vert_{\mc X_s}
 	\right)^T
-	\notag \\
-	&+
+	+
 	\phi_s
 	\bar{\mbf F}_s^e
 	\left(
@@ -1123,8 +1122,8 @@ The coefficient of
 	\p{\omega^{+}_{s}}{\bar{\mbf F}_s^e}
 	\right\vert_{\mc X_s,\mbf E}
 	\right)^T
-	\notag \\
-	&-
+	\notag  \\
+	    & -
 	\left(
 	\rho_s
 	\left.
@@ -1235,7 +1234,7 @@ phase-attributed stresses is the usual Maxwell stress
 
 The reversible distension coefficient gives
 %
-	\begin{equation}
+\begin{equation}
 	\bs\sigma_s^{\prime+}
 	=
 	\rho_s
@@ -1283,30 +1282,30 @@ The volume-fraction coefficients give
 %
 The fluid composition projection is
 %
-	\begin{empheq}[box=\fbox]{equation}
-		\rho_f
-		\left(
+\begin{empheq}[box=\fbox]{equation}
+	\rho_f
+	\left(
 	\left.
 	\p{\psi_f}{\eta_f^\beta}
 	\right\vert_{\mc X_f}
 	-
 	\left.
-		\p{\psi_f}{\eta_f^N}
-		\right\vert_{\mc X_f}
-		\right)
-		+
-		\phi_f
-		\left(
-		\left.
-		\p{\omega^{+}_{f}}{\eta_f^\beta}
-		\right\vert_{\mc X_f,\mbf E}
-		-
-		\left.
-		\p{\omega^{+}_{f}}{\eta_f^N}
-		\right\vert_{\mc X_f,\mbf E}
-		\right)
-		=
-		\frac{\pi_f^\beta}{\eta_f^\beta}
+	\p{\psi_f}{\eta_f^N}
+	\right\vert_{\mc X_f}
+	\right)
+	+
+	\phi_f
+	\left(
+	\left.
+	\p{\omega^{+}_{f}}{\eta_f^\beta}
+	\right\vert_{\mc X_f,\mbf E}
+	-
+	\left.
+	\p{\omega^{+}_{f}}{\eta_f^N}
+	\right\vert_{\mc X_f,\mbf E}
+	\right)
+	=
+	\frac{\pi_f^\beta}{\eta_f^\beta}
 	-
 	\frac{\pi_f^N}{\eta_f^N},
 	\qquad
@@ -1471,23 +1470,23 @@ into reaction and relative-transport powers by substituting
 	={} &
 	-\sum_\xi\sum_\alpha
 	\left[
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
-	-
-	\nabla_{\mbf x}\cdot
-	\left(
-	\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)
-	\right]\mu_\xi^\alpha
-	\notag  \\
+		\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
+		-
+		\nabla_{\mbf x}\cdot
+		\left(
+		\mbf j_{\xi,{\rm disp}}^\alpha
+		+
+		\mbf j_{\xi,{\rm diff}}^\alpha
+		\right)
+		\right]\mu_\xi^\alpha
+	\notag \\
 	={} &
 	-\sum_m
 	\left[
 		\sum_\xi\sum_\alpha
 		\mu_\xi^\alpha
 		\nu_{\xi (m)}^\alpha
-	\right]\dot r_{(m)}
+		\right]\dot r_{(m)}
 	+
 	\sum_\xi\sum_\alpha
 	\nabla_{\mbf x}\cdot
@@ -1504,7 +1503,7 @@ The last term is the relative-transport contribution.  The product rule gives
 %
 \begin{equation}
 	\begin{aligned}
-		&\sum_\xi\sum_\alpha
+		 & \sum_\xi\sum_\alpha
 		\nabla_{\mbf x}\cdot
 		\left(
 		\mbf j_{\xi,{\rm disp}}^\alpha
@@ -1513,7 +1512,7 @@ The last term is the relative-transport contribution.  The product rule gives
 		\right)
 		\mu_\xi^\alpha
 		\\
-		&\quad =
+		 & \quad =
 		\sum_\xi\sum_\alpha
 		\nabla_{\mbf x}\cdot
 		\left[
@@ -1525,7 +1524,7 @@ The last term is the relative-transport contribution.  The product rule gives
 			\right)
 			\right]
 		\\
-		&\qquad -
+		 & \qquad -
 		\sum_\xi\sum_\alpha
 		\left(
 		\mbf j_{\xi,{\rm disp}}^\alpha
@@ -1541,7 +1540,7 @@ boundary term plus the local transport power,
 %
 \begin{equation}
 	\begin{aligned}
-		&\int_{\mc B}
+		 & \int_{\mc B}
 		\sum_\xi\sum_\alpha
 		\nabla_{\mbf x}\cdot
 		\left(
@@ -1551,7 +1550,7 @@ boundary term plus the local transport power,
 		\right)
 		\mu_\xi^\alpha\dv
 		\\
-		&\quad =
+		 & \quad =
 		\int_{\partial\mc B}
 		\sum_\xi\sum_\alpha
 		\mu_\xi^\alpha
@@ -1561,7 +1560,7 @@ boundary term plus the local transport power,
 		\mbf j_{\xi,{\rm diff}}^\alpha
 		\right)\cdot\mbf n\,{\rm d}a
 		\\
-		&\qquad -
+		 & \qquad -
 		\int_{\mc B}
 		\sum_\xi\sum_\alpha
 		\left(
@@ -1602,7 +1601,7 @@ component potential:
 \begin{align}
 	-\sum_\xi\sum_\alpha
 	\dot c_\xi^\alpha\mu_\xi^\alpha
-	&=
+	 & =
 	\sum_m
 	\mc A_{(m)}\dot r_{(m)}
 	-
@@ -1616,7 +1615,7 @@ component potential:
 	\text{b.t.},
 	\notag \\
 	\mc A_{(m)}
-	&=
+	 & =
 	-\sum_\xi\sum_\alpha
 	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
 	\label{eq:MC_electrochemical_affinity_projection}
@@ -1768,25 +1767,25 @@ true-plastic driving stress: his deviatoric true stress is replaced here by the
 phase single-prime solid stress first mapped through that phase's distension
 tensor.  Starting from \eqref{eq:MC_collected_entropy}, the residual inequality
 below follows after substituting the reversible restrictions
-	\eqref{eq:MC_phase_pressure_definitions}, \eqref{eq:MC_solid_stress_definition},
-		\eqref{eq:MC_distension_force_definition},
-		\eqref{eq:MC_volume_fraction_restrictions},
-		\eqref{eq:MC_fluid_composition_projection},
-		\eqref{eq:MC_solid_composition_projection}, and
-		\eqref{eq:MC_entropy_definitions}, together with the Gauss-law restriction
-		\eqref{eq:gauss_law}.  When the electrical enthalpy is mechanically active,
-		the stress power uses the combined reversible stress
-		\(\bs\sigma_\xi^{\prime+}\), so the Maxwell-type term is removed with the
-		other reversible mechanical terms.  The source and
-		transport reductions are
-		\eqref{eq:MC_helmholtz_source_projection},
-		\eqref{eq:MC_affinity_projection}, and
-		\eqref{eq:MC_relative_transport_power}.  In the electrical theory, the
-	corresponding electrochemical reductions are
-	\eqref{eq:MC_electrochemical_affinity_projection} and
-	\eqref{eq:MC_electrochemical_relative_transport_power}.  With those
-	substitutions made, the Gauss-law restriction removes the
-	electric-potential-rate term and the remaining inequality can be written as
+\eqref{eq:MC_phase_pressure_definitions}, \eqref{eq:MC_solid_stress_definition},
+\eqref{eq:MC_distension_force_definition},
+\eqref{eq:MC_volume_fraction_restrictions},
+\eqref{eq:MC_fluid_composition_projection},
+\eqref{eq:MC_solid_composition_projection}, and
+\eqref{eq:MC_entropy_definitions}, together with the Gauss-law restriction
+\eqref{eq:gauss_law}.  When the electrical enthalpy is mechanically active,
+the stress power uses the combined reversible stress
+\(\bs\sigma_\xi^{\prime+}\), so the Maxwell-type term is removed with the
+other reversible mechanical terms.  The source and
+transport reductions are
+\eqref{eq:MC_helmholtz_source_projection},
+\eqref{eq:MC_affinity_projection}, and
+\eqref{eq:MC_relative_transport_power}.  In the electrical theory, the
+corresponding electrochemical reductions are
+\eqref{eq:MC_electrochemical_affinity_projection} and
+\eqref{eq:MC_electrochemical_relative_transport_power}.  With those
+substitutions made, the Gauss-law restriction removes the
+electric-potential-rate term and the remaining inequality can be written as
 %
 \begin{equation}
 	\begin{aligned}
@@ -1801,7 +1800,7 @@ below follows after substituting the reversible restrictions
 		\right)\cdot
 		\nabla_{\mbf x}\mu_\xi^\alpha
 		\\
-		         &+
+		         & +
 		\sum_{s\in\mc S}
 		\bs\sigma_s^{\prime+}:
 		\mbf A_s^e
@@ -1812,10 +1811,10 @@ below follows after substituting the reversible restrictions
 		         & +
 		\sum_{s\in\mc S}
 		\operatorname{tr}\left[
-			\mbf S_s^{+}
-			\dot{\bar{\mbf F}}_s^p
-			(\bar{\mbf F}_s^p)^{-1}
-			\right]
+		\mbf S_s^{+}
+		\dot{\bar{\mbf F}}_s^p
+		(\bar{\mbf F}_s^p)^{-1}
+		\right]
 		\\
 		         & +
 		\sum_\xi\rho_\xi e_\xi^{\rm int}
@@ -2469,10 +2468,10 @@ balance \eqref{eq:el_momentum_uniform} gives the fixed-pressure form
 		+\rho_s\mbf g+\mbf b_s
 		\\
 		    & +
-	\sum_\alpha\dot c_s^\alpha
-	\left(
-	\nabla_{\mbf x}\tau-\mbf v_s
-	\right),
+		\sum_\alpha\dot c_s^\alpha
+		\left(
+		\nabla_{\mbf x}\tau-\mbf v_s
+		\right),
 		\qquad
 		s\in\mc S .
 	\end{aligned}
@@ -2524,7 +2523,7 @@ After summing the solid phase balances, the Biot pressure part in
 %
 \begin{equation}
 	\begin{aligned}
-		&\nabla_{\mbf x}\cdot
+		 & \nabla_{\mbf x}\cdot
 		\left[
 			\sum_{s\in\mc S}
 			\left(1-B_s\right)\bar p_E\mbf I
@@ -2532,7 +2531,7 @@ After summing the solid phase balances, the Biot pressure part in
 		-
 		\sum_{s\in\mc S}\phi_s\nabla_{\mbf x}\bar p_E
 		\\
-		&\qquad =
+		 & \qquad =
 		\nabla_{\mbf x}\cdot
 		\left[
 			-B\bar p_E\mbf I
@@ -2589,9 +2588,9 @@ antisymmetry \(\mbf b_{\zeta\xi}=-\mbf b_{\xi\zeta}\) in
 		\right]
 	+\rho\mbf g
 	+\sum_\xi\sum_\alpha\dot c_\xi^\alpha
-		\left(
-			\nabla_{\mbf x}\tau-\mbf v_\xi
-		\right).
+	\left(
+	\nabla_{\mbf x}\tau-\mbf v_\xi
+	\right).
 	\label{eq:MC_overall_momentum_nonlinear_biot}
 \end{empheq}
 
@@ -2986,7 +2985,7 @@ For a generic multicomponent solid, the tensor distension restriction
 \eqref{eq:MC_distension_force_definition} reduces to the trace condition
 %
 \begin{equation}
-		\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s^{\prime+}\right)
+	\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s^{\prime+}\right)
 	=
 	\rho_s
 	\left.
@@ -3021,12 +3020,12 @@ also reduces the plastic-distension power in
 \eqref{eq:MC_residual_dissipation} to
 %
 \begin{equation}
-		\sum_{s\in\mc S}\bs\sigma_s^{\prime+}:
+	\sum_{s\in\mc S}\bs\sigma_s^{\prime+}:
 	\mbf A_s^e\dot{\mbf A}_s^p
 	(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}
 	=
 	\sum_{s\in\mc S}
-		\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s^{\prime+}\right)
+	\frac{1}{3}\operatorname{tr}\left(\bs\sigma_s^{\prime+}\right)
 	\frac{\dot a_s^p}{a_s^p}.
 	\label{eq:MC_scalar_plastic_distension_power}
 \end{equation}
@@ -3193,13 +3192,13 @@ dimension.
 		Phase volume fractions \(\phi_\xi\)                                                            & \(P\)                                                \\
 		Volume-fraction multiplier \(\lambda\)                                                         & \(1\)                                                \\
 		Storage multipliers \(\pi_\xi^\alpha\)                                                         & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
-		Transfer potential \(\tau\)                                                                 & \(1\)                                                \\
+		Transfer potential \(\tau\)                                                                    & \(1\)                                                \\
 		Total relative component flux vectors, when retained as mixed fields                           & \(d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
 		Solid distension tensors \(\mbf A_s\), or scalar factors \(a_s\), for \(s=1,\ldots,P_{\mc S}\) & \(d^2P_{\mc S}\) or \(P_{\mc S}\)                    \\
 		Mechanism process rates \(\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}\)                             & \(N_{(m)}\)                                          \\
 		Solid plastic internal variables \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active          & \(2d^2P_{\mc S}\)                                    \\
 		Temperature \(\theta\)                                                                         & \(1\)                                                \\
-		Electric potential \(\varphi\), when electrical effects are retained                          & \(1\)
+		Electric potential \(\varphi\), when electrical effects are retained                           & \(1\)
 	\end{tabular}
 \end{table}
 %
@@ -3221,12 +3220,12 @@ Table~\ref{tab:MC_equation_block_count}.
 		Fluid and solid composition normalizations                                                                                   & \(P_{\mc F}+P_{\mc S}\)                              \\
 		Volume-fraction restrictions \eqref{eq:MC_volume_fraction_restrictions} and constraint \eqref{eq:volume_fraction_constraint} & \(P+1\)                                              \\
 		Pressure-density restrictions \eqref{eq:MC_phase_pressure_definitions}                                                       & \(P\)                                                \\
-			Evolution of \(\tau\) and component compatibility relations \eqref{eq:MC_admissible_conversion_component}                    & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
+		Evolution of \(\tau\) and component compatibility relations \eqref{eq:MC_admissible_conversion_component}                    & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
 		Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                     & \(P_{\mc S}\)                                        \\
 		Kinetic laws for \(\dot r_{(m)}\)                                                                                            & \(N_{(m)}\)                                          \\
 		Plastic flow laws for \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active                                                   & \(2d^2P_{\mc S}\)                                    \\
 		Energy or temperature equation using \eqref{eq:MC_energy_balance}                                                            & \(1\)                                                \\
-			Gauss' law \eqref{eq:gauss_law}                                                                                              & \(1\)
+		Gauss' law \eqref{eq:gauss_law}                                                                                              & \(1\)
 	\end{tabular}
 \end{table}
 %
