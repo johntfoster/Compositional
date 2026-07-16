@@ -1724,7 +1724,12 @@ well-defined.  One component relation, together with an initial value, evolves
 \(\tau\) along the phase motion; the remaining component relations constrain the
 storage multipliers.
 %
-\subsubsection{Plastic flow rules and residual dissipation}
+\subsubsection{Residual dissipation and admissible closures}
+We now collect the constitutive substitutions that make the residual inequality
+nonnegative.  The reaction and relative-transport terms use the Onsager
+closures derived in \sref{onsager_reaction_transport}; the remaining terms are
+closed by standard sufficient dissipative choices.
+
 The plastic-deformation power in the residual inequality is driven by the
 combined reversible stress of each solid phase mapped through that phase's
 distension and true-deformation gradients to its plastic-flow configuration.
@@ -1824,72 +1829,13 @@ electric-potential-rate term and the remaining inequality can be written as
 	\end{aligned}
 	\label{eq:MC_residual_dissipation}
 \end{equation}
-%
-\subsubsection{Constitutive restrictions for dissipative rates}
-
-The Hamilton--d'Alembert statement varies the conservative coordinates, and the
-accompanying Onsager stationarity condition varies the conversion and
-relative-transport rates.  The entropy inequality then restricts the
-constitutive relation between those rates and their forces.  The variational
-force balances \eqref{eq:el_conversion_affinity} and
-\eqref{eq:hamilton_dispersion_force_balance} are already written in terms of the
-chemical or electrochemical potential \(\mu_\xi^\alpha\) identified by the
-entropy inequality.  In the electrical theory this potential is
-electrochemical.  The relative component fluxes redistribute mass among the
-components of a phase while preserving the phase-total mass flux.  Adding the
-same component potential to every component in a phase therefore leaves the
-transport power unchanged.  The driving quantities are component-potential
-differences, with the neutral theory recovered by setting \(z_\xi^\alpha=0\).
-
-Substitution of the entropy-identified chemical force into the transport term of
-\eqref{eq:MC_residual_dissipation} gives
-%
-\begin{align}
-	-   & \sum_\xi\sum_\alpha
-	\left(
-	\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)\cdot\nabla_{\mbf x}\mu_\xi^\alpha
-	\notag                    \\
-	={} &
-	\sum_\xi\sum_\alpha
-	\left(
-	\mbf M_{\xi,{\rm disp}}^\alpha\cdot
-	\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\mbf M_{\xi,{\rm diff}}^\alpha\cdot
-	\mbf j_{\xi,{\rm diff}}^\alpha
-	\right).
-	\label{eq:MC_relative_transport_force_rate_power}
-\end{align}
-%
-Thus \(\mc A_{(m)}\) is conjugate to \(\dot r_{(m)}\), while each
-\(\mbf M_{\xi,k}^\alpha\) is conjugate to its relative flux
-\(\mbf j_{\xi,k}^\alpha\).  Diffusion and dispersion are distinct dissipative
-mechanisms with potentially different resistance operators, even though both
-respond to the same component-potential gradient.
-
-The first variation \eqref{eq:reaction_transport_dissipation_variation}
-identifies the dissipative forces conjugate to the reaction and relative-flux
-rates.  The residual inequality \eqref{eq:MC_residual_dissipation} requires
-\(\sum_m\mc A_{(m)}\dot r_{(m)}\ge0\) and
-\(\sum_{\xi,\alpha}\mbf M_{\xi,k}^\alpha\cdot
-\mbf j_{\xi,k}^\alpha\ge0\) for an uncoupled sufficient construction.  The
-quadratic potential \eqref{eq:onsager_quadratic_reaction_transport_potential}
-is the near-equilibrium Onsager specialization used here
-~\cite{doi2011onsager,wang2021onsager}.  The reaction mobility
-\(K_{(m)}>0\) and the resistance tensors are chosen positive semidefinite on
-component fluxes satisfying \eqref{eq:averaged_relative_flux_sum}; their
-positivity, and the omission of cross-coupling between rates, are constitutive
-assumptions rather than consequences of averaging
-~\cite{doi2011onsager,gray2009tcat_transport}.  Differentiating the potential
-with respect to the mechanism rate gives the constitutive relation
+	%
+The residual inequality \eqref{eq:MC_residual_dissipation} is the admissibility
+check for the Onsager laws obtained in \sref{onsager_reaction_transport}.  The
+reaction substitution is
 %
 \begin{equation}
 	\mc A_{(m)}
-	=
-	\frac{\partial\Phi_{\rm rt}}{\partial\dot r_{(m)}}
 	=
 	\frac{\dot r_{(m)}}{K_{(m)}},
 	\qquad\text{hence}\qquad
@@ -1897,46 +1843,25 @@ with respect to the mechanism rate gives the constitutive relation
 	\label{eq:MC_onsager_reaction_rate}
 \end{equation}
 %
-Likewise, the constitutive dissipative forces are the flux derivatives of the
-same potential.  Combining them with the entropy-identified chemical forces,
-which agree with the variational multiplier forces after enforcing the
-component-flux sum constraint, gives
+The relative-transport substitutions are
 %
 \begin{align}
-	\mbf M_{\xi,{\rm disp}}^\alpha
-	 & =
-	\sum_\beta\mbf R_{\xi,{\rm disp}}^{\alpha\beta}
-	\mbf j_{\xi,{\rm disp}}^\beta,
-	\notag      \\
-	\mbf M_{\xi,{\rm disp}}^\alpha
+	\sum_\beta
+	\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
+	\mbf j_{\xi,{\rm disp}}^\beta
 	+\nabla_{\mbf x}\mu_\xi^\alpha
 	 & =\mbf 0,
 	\label{eq:MC_onsager_dispersion_stationarity}
 	\\
-	\mbf M_{\xi,{\rm diff}}^\alpha
-	 & =
-	\sum_\beta\mbf R_{\xi,{\rm diff}}^{\alpha\beta}
-	\mbf j_{\xi,{\rm diff}}^\beta,
-	\notag      \\
-	\mbf M_{\xi,{\rm diff}}^\alpha
+	\sum_\beta
+	\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
+	\mbf j_{\xi,{\rm diff}}^\beta
 	+\nabla_{\mbf x}\mu_\xi^\alpha
 	 & =\mbf 0.
 	\label{eq:MC_onsager_diffusion_stationarity}
 \end{align}
 %
-Equivalently, invert the resistance tensor for relative fluxes satisfying
-\eqref{eq:averaged_relative_flux_sum} and define
-%
-\begin{equation}
-	\mbf D_{\xi,k}^{\alpha\beta}
-	\equiv
-	\left(\mbf R_{\xi,k}^{-1}\right)^{\alpha\beta},
-	\qquad
-	k\in\{{\rm disp},{\rm diff}\}.
-	\label{eq:MC_relative_transport_mobility_tensor_definition}
-\end{equation}
-%
-The diffusion and dispersion closures are
+or, equivalently,
 %
 \begin{align}
 	\mbf j_{\xi,{\rm disp}}^\alpha
@@ -1957,7 +1882,12 @@ The diffusion and dispersion closures are
 	\label{eq:MC_relative_transport_closures}
 \end{align}
 %
-The resulting constitutively admissible rates satisfy
+Here \(k\in\{{\rm disp},{\rm diff}\}\).  The zero row and column sums enforce
+the relative-flux constraint, so adding a common component potential within a
+phase does not produce transport power.  Substitution of
+\eqref{eq:MC_onsager_reaction_rate} and
+\eqref{eq:MC_relative_transport_closures} into the reaction and transport part
+of \eqref{eq:MC_residual_dissipation} gives
 %
 \begin{align}
 	 & \sum_m\mc A_{(m)}\dot r_{(m)}
@@ -1974,27 +1904,30 @@ The resulting constitutively admissible rates satisfy
 	+
 	\sum_\xi\sum_\alpha\sum_\beta
 	\mbf j_{\xi,{\rm disp}}^\alpha
-	\cdot\mbf R_{\xi,{\rm disp}}^{\alpha\beta}
+	\cdot
+	\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
 	\mbf j_{\xi,{\rm disp}}^\beta
 	+
 	\sum_\xi\sum_\alpha\sum_\beta
 	\mbf j_{\xi,{\rm diff}}^\alpha
-	\cdot\mbf R_{\xi,{\rm diff}}^{\alpha\beta}
+	\cdot
+	\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
 	\mbf j_{\xi,{\rm diff}}^\beta
 	\ge0.
 	\label{eq:MC_onsager_reaction_transport_dissipation}
 \end{align}
 %
-Averaging gives separate diffusion and dispersion rates, but the entropy
-inequality gives both rates the same component-potential driving force.  In the
-electrical theory this potential includes electric work; the neutral theory is
-recovered by setting \(z_\xi^\alpha=0\).  The resistance
-tensors are constitutive choices.  In particular, the dispersion mobility may
-depend on resolved flow and pore geometry, and a pore-scale closure problem is
-required to determine it
-~\cite{plumb1988dispersion,gray2009tcat_transport}.  Cross-coupled resistance
-tensors can be added without changing the variational statement when the
-material requires them~\cite{doi2011onsager}.
+Thus the reaction and relative-transport terms are dissipative provided
+\(K_{(m)}>0\) and each \(\mbf D_{\xi,k}^{\alpha\beta}\) is symmetric positive
+definite on the relative-flux subspace satisfying
+\eqref{eq:averaged_relative_flux_sum}.  Diffusion and dispersion may use
+different mobility tensors, but both are driven by the same component-potential
+gradient.  In the electrical theory \(\mu_\xi^\alpha\) is electrochemical; the
+neutral theory is recovered by setting \(z_\xi^\alpha=0\).  The mobility tensors
+are constitutive choices, and dispersion may depend on resolved flow and pore
+geometry~\cite{plumb1988dispersion,gray2009tcat_transport}.  Cross-coupled
+mobilities can be added when the material requires them, provided the combined
+quadratic form remains nonnegative~\cite{doi2011onsager,wang2021onsager}.
 
 No residual polarization term appears in \eqref{eq:MC_residual_dissipation}
 because independent polarization is not included as a state variable.  Models
@@ -2003,6 +1936,8 @@ relaxation would enlarge the electrical state and add a corresponding
 stationarity or dissipative evolution law; those mechanisms are deliberately
 left outside the present reservoir-flow specialization.
 
+The remaining dissipative terms in \eqref{eq:MC_residual_dissipation} are the
+plastic powers, the interphase interaction power, and the heat-conduction power.
 Following the same sufficient construction used by
 Drumheller~\cite{drumheller2000}, one may choose generic uncoupled plastic flow
 rules
