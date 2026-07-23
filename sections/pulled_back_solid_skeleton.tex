@@ -80,6 +80,52 @@ Define the modified permeability tensor
 	\label{eq:modified_relative_flux_permeability}
 \end{equation}
 %
+This inverse is well-defined as a dissipative mobility only when the operator in
+parentheses is symmetric positive definite.  Thus the phase permeability
+\(\bs\kappa_f\) is taken symmetric positive definite, \(\mu_f>0\), and
+\(\phi_f>0\).  The scalar conversion-insertion correction
+\(\sum_\alpha\dot c_f^\alpha\) may increase or decrease the diagonal resistance;
+it must not make the quadratic form
+%
+\[
+	\phi_f^2\mu_f\mbf z\cdot\bs\kappa_f^{-1}\mbf z
+	+
+	\left(\sum_\alpha\dot c_f^\alpha\right)
+	\mbf z\cdot\mbf z
+\]
+%
+nonpositive for any nonzero vector \(\mbf z\).  Equivalently, component removal
+rates are admissible in this linear relative-flux law only while the resulting
+drag-plus-conversion operator remains positive definite.
+The first loss of positive definiteness occurs in the direction of largest phase
+permeability.  If \(\kappa_{f,\max}\) is the largest eigenvalue of
+\(\bs\kappa_f\), the sufficient scalar check is
+%
+\[
+	\sum_\alpha\dot c_f^\alpha
+	>
+	-\frac{\phi_f^2\mu_f}{\kappa_{f,\max}} .
+\]
+%
+For an aqueous reaction that removes fluid mass on a time scale \(t_{\rm rxn}\),
+\(\sum_\alpha\dot c_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The modified
+permeability would become singular only when
+%
+\[
+	t_{\rm rxn}
+	\lesssim
+	\frac{\rho_f\kappa_{f,\max}}{\phi_f^2\mu_f}.
+\]
+%
+With representative reservoir values
+\(\rho_f=10^3\,{\rm kg\,m^{-3}}\), \(\mu_f=10^{-3}\,{\rm Pa\,s}\),
+\(\phi_f=0.3\), and \(\kappa_{f,\max}=10^{-12}\,{\rm m^2}\), this time is about
+\(10^{-5}\,{\rm s}\), corresponding to a removal rate of order
+\(10^8\,{\rm kg\,m^{-3}\,s^{-1}}\).  Typical mineral dissolution or precipitation
+rates are far slower than this, so the correction is normally a small
+regular perturbation of the Darcy drag.  The estimate is useful mainly for
+excluding idealized source terms that remove phase mass almost instantaneously.
+
 Then the admissible relative mass flux is
 %
 \begin{empheq}[box=\fbox]{align}

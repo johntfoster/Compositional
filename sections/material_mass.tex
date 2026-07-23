@@ -162,7 +162,7 @@ The rate of component mass addition per current mixture volume is defined by
 \end{equation}
 % AGENT-LOCK-END
 %
-Expanding \eqref{eq:component_material_mass} gives the spatial component mass
+Substituting \eqref{eq:current_conversion_rate_definition} into \eqref{eq:component_material_mass} and expanding the material time derivative gives the spatial component mass
 balance for phase $\xi$,
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
@@ -253,7 +253,7 @@ is generated only by conversion, so that
 % AGENT-LOCK-END
 %
 The mechanism index $(m)$ includes chemical reactions, sorption/desorption, and
-pure phase transformations.  A pure phase transformation of component $\alpha$
+pure phase transformations.  Soption/desorptrion and  pure phase transformations of component $\alpha$
 from phase $\xi$ to phase $\zeta$ has the one-to-one stoichiometry
 $\nu_{\xi (m)}^\alpha=-1$, $\nu_{\zeta (m)}^\alpha=+1$, with all other entries
 zero.  A chemical reaction may change both component identity and phase label.
@@ -389,23 +389,23 @@ is therefore needed only on the storage and transport terms.  Substitution of
 \eqref{eq:local_component_balance_before_averaging} produces two relative fluxes,
 %
 \begin{subequations}
-\begin{align}
-	\mbf j_{\xi,{\rm disp}}^\alpha
-	 & =
-	\left\langle
-	\widetilde\rho_\xi^\alpha
-	\widetilde{\mbf v}_\xi
-	\right\rangle,
-	\label{eq:averaged_mechanical_dispersion_flux_definition}
-	\\
-	\mbf j_{\xi,{\rm diff}}^\alpha
-	 & =
-	\left\langle
-	\widehat\rho_\xi^\alpha
-	\widehat{\mbf u}_\xi^\alpha
-	\right\rangle.
-	\label{eq:averaged_molecular_diffusion_flux_definition}
-\end{align}
+	\begin{align}
+		\mbf j_{\xi,{\rm disp}}^\alpha
+		 & =
+		\left\langle
+		\widetilde\rho_\xi^\alpha
+		\widetilde{\mbf v}_\xi
+		\right\rangle,
+		\label{eq:averaged_mechanical_dispersion_flux_definition}
+		\\
+		\mbf j_{\xi,{\rm diff}}^\alpha
+		 & =
+		\left\langle
+		\widehat\rho_\xi^\alpha
+		\widehat{\mbf u}_\xi^\alpha
+		\right\rangle.
+		\label{eq:averaged_molecular_diffusion_flux_definition}
+	\end{align}
 \end{subequations}
 %
 Equations \eqref{eq:averaged_mechanical_dispersion_flux_definition} and
@@ -446,7 +446,7 @@ motion relative to the phase.  The averaged component balance is consequently
 Equation \eqref{eq:averaged_component_spatial_mass} governs composition when
 relative transport is present.  The corresponding phase-reference material
 increment \(\mc C_\xi^\alpha\) is the component mass added to a phase-attached
-region per unit phase reference volume by both reaction and relative transport.
+region per unit phase reference volume by both converstion mechanisms and relative transport.
 Multiplication of \eqref{eq:averaged_component_spatial_mass} by \(J_\xi\),
 together with
 \(\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\mbf v_\xi\), gives
@@ -471,7 +471,7 @@ structure in \eqref{eq:material_mass_2} and its rate form
 %
 \begin{equation}
 	\dot{\mc C}_\xi^\alpha
-	 =
+	=
 	J_\xi\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 	-
 	J_\xi\nabla_{\mbf x}\cdot
@@ -526,11 +526,11 @@ summed relative fluxes.  Hence
 %
 Relative transport therefore redistributes component mass within a phase while
 preserving the phase total mass.  The relative fluxes have only \(N-1\)
-	independent component directions in each phase.  The material increment
-	\(\mc C_\xi^\alpha\) is tied to the transfer potential introduced in
-	\sref{virtual_power_derivation}, while the relative-flux part of
-	\(\dot{\mc C}_\xi^\alpha\) is closed by the electrochemical-potential-gradient
-	forces in the Onsager statement.  Summing
+independent component directions in each phase.  The material increment
+\(\mc C_\xi^\alpha\) is tied to the transfer potential introduced in
+\sref{virtual_power_derivation}, while the relative-flux part of
+\(\dot{\mc C}_\xi^\alpha\) is closed by the electrochemical-potential-gradient
+forces in the Onsager statement.  Summing
 \eqref{eq:averaged_component_spatial_mass} over phases gives the global
 component balance,
 %

@@ -1,5 +1,5 @@
 % !TeX root = ../main.tex
-\section{Variational Derivation}
+\section{Variational Principle Derivation}
 \label{sec:variational}
 \label{sec:virtual_power_derivation}
 
@@ -75,7 +75,10 @@ balance is imposed in the Onsager subsection.
 	\label{eq:T_def}                                                                                                                                                                                               \\
 	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \{\eta^\al_{\xi}\},\theta)\dv
 	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F},\theta\right) \dv
-	+\sum_\xi\int_{\mc B}\phi_\xi\omega_\xi^+(\mbf E,\mc X_\xi)\,\dv,
+	+\sum_\xi\int_{\mc B}
+	\phi_\xi
+	\omega_\xi^+(\mbf E,\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta)
+	\,\dv,
 	\label{eq:U_def}                                                                                                                                                                                               \\
 	\delta W & = \sum_\xi \int_{\mc{B}} \left(\rho_\xi\mbf{g}+\mbf b_\xi\right)\cdot\delta\mbf{x}_\xi \,\dv-\sum_\xi\sum_\alpha\int_{\mc B}L_\xi^\alpha\frac{\delta\mc C_\xi^\alpha}{J_\xi}\,\dv,
 	\label{eq:W_def}                                                                                                                                                                                               \\
@@ -308,6 +311,14 @@ and the corresponding contribution to the internal energy is
 \end{equation}
 % AGENT-LOCK-END
 
+The temperature argument shown in the action is suppressed in
+\eqref{eq:interfacial_energy_density}--\eqref{eq:interfacial_internal_energy}
+because it is held fixed during the present mechanical variation.  No
+independent deformation-gradient argument is assigned to \(\gamma\).  Such an
+argument would represent deformation-dependent interfacial area or texture and
+would generate an additional capillary stress; that extension would require an
+interfacial kinematic measure beyond the saturation-only closure adopted here.
+
 The Bedford--Drumheller spatial identity
 (cf.\ \cite{drumheller1980thermomechanical} equation (1.25)) gives, for each
 fluid phase field $\phi_f$,
@@ -391,21 +402,28 @@ The electrical terms are conservative except for any constitutive dielectric
 relaxation introduced later.  Let \(\varphi\) denote the electrostatic potential
 and let \(\mbf E=-\nabla_{\mbf x}\varphi\) be the electric field.  The
 electrical contribution enters the Hamilton action through the phase-attributed
-energy \(U_\xi^+\), obtained by integrating the electric enthalpy density
-\(\omega_\xi^+=\omega_\xi^+(\mbf E,\mc X_\xi)\).  Here \(\mc X_\xi\) denotes the
-non-electrical-field state variables for phase \(\xi\); the concrete fluid and
-solid state sets used for held-fixed derivatives are specified in
-\sref{constitutive_models_entropy_inequality}.  The charge bookkeeping will be
-included below in the combined component-rate constraint
+energy \(U_\xi^+\).  The phase electric enthalpy
+\(\omega_\xi^+=\omega_\xi^+(\mbf E,\bar\rho_\xi,
+\{\eta_\xi^\alpha\},\theta)\) is converted to the corresponding density per
+current mixture volume by
+\(\psi_{\omega,\xi}\equiv\phi_\xi\omega_\xi^+\), in direct analogy with
+\(\psi_\gamma=\phi\gamma\).  Thus the electric enthalpy has no independent
+deformation-gradient argument.  The concrete phase state sets
+\(\mc X_\xi\) are used in held-fixed derivative annotations and are specified
+in \sref{constitutive_models_entropy_inequality}.  The charge bookkeeping will
+be included below in the combined component-rate constraint
 \eqref{eq:C45_combined_def}.  For each phase,
 %
 \begin{equation}
-	U^{+}_{\xi}
+	U \supset U^{+}_{\xi}
 	=
-	\int_{\mc B}\phi_\xi\omega_\xi^+(\mbf E,\mc X_\xi)\,\dv
+	\int_{\mc B}
+	\psi_{\omega,\xi}
+	\,\dv
 	=
 	\int_{\mc B_{\xi0}}
-	J_\xi\phi_\xi\omega_\xi^+(\mbf E,\mc X_\xi)\,\dV_\xi .
+	J_\xi\psi_{\omega,\xi}
+	\,\dV_\xi .
 	\label{eq:phase_electric_energy_pullback}
 \end{equation}
 %
@@ -425,17 +443,21 @@ displacement fields are
 	\label{eq:electric_field_definitions}
 \end{equation}
 %
-The full variation contains a direct volume-fraction term, the variations of the
-non-field state variables in \(\mc X_\xi\), the potential-gradient term, and
-the mechanical pullback.  With \(\otimes\) denoting the tensor outer product,
-these contributions give the following current-space form.  The
+This split keeps the Helmholtz energy \(\psi_\xi\) nonelectrical, takes
+\(\mbf E\) as the independent electrical variable, and derives
+\(\mbf d_\xi\) from \(\omega_\xi^+\), consistently with electroelastic
+potential formulations~\cite{dorfmann2017nonlinear_electroelasticity}.  The
+same restricted electric-enthalpy arguments are used with the concrete phase
+state sets in \sref{constitutive_models_entropy_inequality}, where the omission
+of bulk piezoelectricity is also stated.
+
+At fixed temperature, the full variation contains a direct volume-fraction
+term, the density and composition variations, the potential-gradient term, and
+the geometric mechanical pullback.  With \(\otimes\) denoting the tensor outer
+product, these contributions give the following current-space form.  The
 volume-fraction variation is the phase-attached variation from
 \eqref{eq:transported_volume_fraction_variation}, left here as
-\(\delta\phi_\xi\) so its direct coefficient remains visible.  In this generic
-Section~3 notation the active non-field state variables are
-\(\mbf F_\xi\), \(\bar\rho_\xi\), and \(\{\eta_\xi^\alpha\}\); the concrete
-fluid and solid state sets in \sref{constitutive_models_entropy_inequality}
-replace this generic list by the corresponding phase variables.  In derivatives
+\(\delta\phi_\xi\) so its direct coefficient remains visible.  In derivatives
 with respect to a member of \(\mc X_\xi\), the notation
 \(\left.\partial(\cdot)/\partial z\right\vert_{\mc X_\xi,\mbf E}\) means that
 all other members of \(\mc X_\xi\) and the electric field are held fixed.  The
@@ -447,13 +469,6 @@ resulting variation is
 	\int_{\mc B}
 	\left[
 		\omega_\xi^+\delta\phi_\xi
-		+
-		\phi_\xi
-		\left.
-		\p{\omega_\xi^+}{\mbf F_\xi}
-		\right\vert_{\mc X_\xi,\mbf E}
-		:
-		\delta\mbf F_\xi
 		+
 		\phi_\xi
 		\left.
@@ -471,22 +486,20 @@ resulting variation is
 		\p{\omega_\xi^+}{\eta_\xi^\alpha}
 		\right\vert_{\mc X_\xi,\mbf E}
 		\delta\eta_\xi^\alpha
-		-
+		+
 		\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\delta\varphi
-		+
-		\phi_\xi
-		\left(
-		\omega_\xi^+\mbf I
-		+
-		\mbf E\otimes\mbf d_\xi
-		\right):
-		\nabla_{\mbf x}\delta\mbf x_\xi
-		\right]\dv .
+		\right]\dv
+	\notag  \\
+	    & +
+	\int_{\mc B}
+	\bs\sigma_\xi^+:
+	\nabla_{\mbf x}\delta\mbf x_\xi\,\dv .
 	\label{eq:vp_electric_full_variation}
 \end{align}
 %
-After integrating the potential-gradient and deformation-gradient terms by
-parts and including the free charge potential term,
+After integrating the potential-gradient and phase-map-gradient terms by parts
+and including the free-charge potential term with the sign appropriate to
+prescribed free charge,
 \eqref{eq:vp_electric_full_variation} gives the electrical contribution to the
 action,
 %
@@ -495,7 +508,7 @@ action,
 	={} &
 	\int_{\mc B}
 	\left(
-	\varrho-\nabla_{\mbf x}\cdot\mbf d
+	\nabla_{\mbf x}\cdot\mbf d-\varrho
 	\right)\delta\varphi\,\dv
 	\notag  \\
 	    & -
@@ -526,29 +539,28 @@ action,
 \end{align}
 %
 The mechanical coefficient in \eqref{eq:vp_electric_full_variation} defines the
-reversible electrical stress assigned to the phase pullback.  It contains the
-Maxwell part and an electrostrictive part generated by explicit
-deformation-dependence of the electric enthalpy,
+reversible electrical stress assigned to the phase pullback.  Although
+\(\omega_\xi^+\) has no independent deformation-gradient argument, variation
+of the current volume element and convection of the spatial electric field
+produce the phase-attributed Maxwell stress, consistently with
+electric-enthalpy virtual-work derivations
+\cite{mcmeeking2007virtual_work_electrostatic}.  We denote this Maxwell stress
+by \(\bs\sigma_\xi^+\),
 %
 \begin{equation}
 	\bs{\sigma}^{+}_{\xi}
 	=
-	\underbrace{
-		\phi_\xi\omega^{+}_{\xi}\mbf I
-		+
-		\phi_\xi\mbf E\otimes\mbf d_\xi
-	}_{\text{Maxwell}}
+	\psi_{\omega,\xi}\mbf I
 	+
-	\underbrace{
-		\phi_\xi
-		\left.
-		\p{\omega_\xi^+}{\mbf F_\xi}
-		\right\vert_{\mc X_\xi,\mbf E}
-		\mbf F_\xi^T
-	}_{\text{electrostrictive}} .
+	\phi_\xi\mbf E\otimes\mbf d_\xi .
 	\label{eq:vp_electrical_stress_definition}
 \end{equation}
 %
+An electrostrictive extension would require adding deformation to the
+constitutive arguments of \(\omega_\xi^+\) and propagating its derivative
+through both the action and entropy inequality.  That extension is not part of
+the present theory.
+
 Thus the total reversible stress used in the phase momentum equation is
 %
 \begin{equation}
@@ -559,33 +571,6 @@ Thus the total reversible stress used in the phase momentum equation is
 	\bs\sigma_\xi^{+}.
 	\label{eq:vp_total_reversible_stress_definition}
 \end{equation}
-%
-Stationarity with respect to \(\varphi\) gives Gauss' law,
-%
-\begin{equation}
-	\nabla_{\mbf x}\cdot\mbf d=\varrho .
-	\label{eq:gauss_law}
-\end{equation}
-%
-Combined with the local charge balance from \sref{conservation_of_charge}, the
-electroquasistatic field equation implies
-%
-\begin{equation}
-	\nabla_{\mbf x}\cdot
-	\left(
-	\dot{\mbf d}
-	+
-	\mbf i
-	\right)
-	=0 .
-	\label{eq:charge_gauss_compatibility}
-\end{equation}
-
-The neutral specialization means that electrical field energy and component
-charge work are omitted.  It is recovered by suppressing \(\omega_\xi^+\) and,
-when the component-rate constraint is introduced below, by omitting the
-electrical work term \(z_\xi^\alpha\varphi\), where \(z_\xi^\alpha\) is the
-charge per unit component mass.
 
 % ============================================================
 \subsubsection{Variation of constraint \texorpdfstring{$C_1$}{C1}: volume-fraction}
@@ -813,8 +798,8 @@ the reversible coordinate and constraint coefficients, including those from
 		\Bigg]\frac{\delta\mc C_\xi^\alpha}{J_\xi}\,\dv \\
 		 & + \int_{\mc B}
 		\Bigg[
-			\varrho-\nabla_{\mbf x}\cdot\mbf d
-			\Bigg]\delta\varphi\,\dv
+			\nabla_{\mbf x}\cdot\mbf d-\varrho
+		\Bigg]\delta\varphi\,\dv
 		\left.\vphantom{\sum_{\xi}}\right\}\dt
 	\end{aligned}
 	\notag                                 \\
@@ -825,14 +810,42 @@ the reversible coordinate and constraint coefficients, including those from
 % AGENT-LOCK-END
 %
 The explicit \(\delta\varphi\) term in \eqref{eq:collected_full} is the
-Hamilton electric-field variation and gives Gauss' law.  The multiplier
-variations in \eqref{eq:collected_full} include the variations that return
+Hamilton electric-field coefficient.  The multiplier variations in
+\eqref{eq:collected_full} include the variations that return
 \eqref{eq:C1_def}--\eqref{eq:C3_def}; variation with respect to \(\tau\)
 returns the zero-sum insertion rate imposed by \eqref{eq:C4_def}.  Since the
 displayed Hamilton variations are arbitrary within their respective variation
 classes, each bracketed integrand must vanish pointwise.
 
 \subsubsection{Euler--Lagrange equations}
+
+The Euler--Lagrange equation generated by arbitrary \(\delta\varphi\) is
+Gauss' law,
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot\mbf d=\varrho .
+	\label{eq:gauss_law}
+\end{equation}
+%
+Combined with the local charge balance from \sref{conservation_of_charge}, the
+electroquasistatic field equation implies
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot
+	\left(
+	\dot{\mbf d}
+	+
+	\mbf i
+	\right)
+	=0 .
+	\label{eq:charge_gauss_compatibility}
+\end{equation}
+
+The neutral specialization means that electrical field energy and component
+charge work are omitted.  It is recovered by suppressing \(\omega_\xi^+\) and,
+when the component-rate constraint is introduced below, by omitting the
+electrical work term \(z_\xi^\alpha\varphi\), where \(z_\xi^\alpha\) is the
+charge per unit component mass.
 
 The Euler--Lagrange equations generated by arbitrary $\delta\phi_\xi$ give,
 for phases without an explicit capillary contribution,

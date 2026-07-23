@@ -34,7 +34,7 @@
 - When a notation change affects a derivation, propagate it through state sets, chain-rule terms, thermodynamic forces, restrictions, and downstream prose instead of patching only the visible equation.
 - Separate kinematic fields from constitutive arguments before renaming symbols. Do not replace every occurrence of a symbol merely because one role changed.
 - When the user narrows an edit to a section, subsection, equation, or paragraph, keep edits strictly inside that scope unless the user explicitly expands it.
-- If adding a helper identity only for clarity, prefer an unnumbered display unless the identity is intended to be referenced later.
+- Number and descriptively label every displayed equation or identity introduced by an agent, including helper identities. Do not introduce unnumbered displayed mathematics unless John explicitly requests it.
 - For citation or external-paper equation claims, verify the cited equation in the source PDF before changing manuscript text.
 
 ## Response modes

@@ -4,241 +4,744 @@
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 \usepackage{booktabs}
 \usepackage{enumitem}
-\newcommand{\uvec}{\bm u}
-\newcommand{\wvec}{\bm w}
-\newcommand{\F}{\bm F}
-\newcommand{\I}{\bm I}
-\newcommand{\grad}{\nabla}
-\newcommand{\diver}{\nabla\!\cdot}
-\newcommand{\Div}{\operatorname{Div}}
-\title{Second-Order Nonlinear Waves in a Fluid-Saturated Porous Medium\\[2mm]
-\large A mixture-theory route from the variational porous-medium framework to nonlinear acoustics}
-\author{Working note for John T. Foster\\\small Prepared in response to Anthony Bedford's question}
+\usepackage{array}
+
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\tr}{\operatorname{tr}}
+
+\title{Second-Order Nonlinear Waves in a Fluid-Saturated Porous Medium}
+\author{John T. Foster}
 \date{July 2026}
+
 \begin{document}
 \maketitle
 
 \begin{abstract}
-This note answers a precise version of the question: starting with a two-constituent, fluid-saturated porous medium, what are the equations retaining terms through second order in wave amplitude, and how do they relate to the classical equations of nonlinear acoustics?  The answer is that there is no single scalar ``porous Burgers equation'' before a physical regime is selected.  The natural second-order system is a \emph{coupled} fast/slow compressional--shear system.  Its quadratic sources are determined by the third derivatives of a mixture Helmholtz energy, finite-strain kinematics, state-dependence of inertia/tortuosity, and nonlinear drag/transport closures.  After modal projection and a one-way, weakly dissipative reduction, each selected mode does acquire a Burgers/Westervelt-type evolution law, but its coefficient is a mode-dependent contraction of mixture constitutive tensors rather than the single-fluid parameter $\beta=1+B/(2A)$.  The variational framework in the present repository supplies a clean thermodynamic parent theory for this reduction.  The topic is established in important special forms, but a general, thermodynamically constrained, multicomponent finite-deformation theory with identifiable nonlinear acoustic coefficients remains open.
+Second-order wave equations for saturated porous media generally form a
+coupled system rather than one scalar nonlinear-acoustic equation.  Even the
+linear isotropic problem has fast and slow compressional modes and a shear
+mode.  At second order, finite-deformation kinematics, the third derivatives of
+the stored energy, the state dependence of the Biot coefficient, fluid storage,
+inertia or tortuosity, and drag all generate quadratic forcing and mode
+conversion.  The analysis first states the coupled second-order system and then
+specializes it to one-dimensional compressional motion.  The specialization
+shows explicitly how a finite-deformation Biot coefficient \(B(J)\) enters both
+the linear wave speeds through \(B_0=B(1)\) and the quadratic wave coefficient
+through \(B_1=(\partial B/\partial\ln J)_0\).  Projection onto one isolated
+mode gives a Burgers-type amplitude equation and an explicit initial
+second-harmonic prediction.  The calculation is a meaningful bridge to the
+Hamilton--Blackstock program, while also showing why a porous medium generally
+has a family of modal nonlinear coefficients rather than one universal
+\(B/A\).
 \end{abstract}
 
-\section{Short answer to Bedford's question}
+\section{Introduction}
 
-Yes: nonlinear wave equations for fluid-saturated porous media have been derived, including second-harmonic generation and nonlinear Biot-wave calculations.  They are not as canonical as the single-fluid equations collected by Hamilton and Blackstock.  A saturated porous medium has, even in its simplest isotropic linear form, two compressional modes (fast and slow) and a shear mode; the relevant constitutive space includes frame elasticity, fluid compressibility, porosity/storage, tortuosity, permeability/drag, and their state dependence.  Consequently quadratic nonlinearity both steepens a mode and couples modes.  The appropriate analogue of the acoustic nonlinearity parameter is a family of \emph{projected modal coefficients}, not one material number.
+Second-order nonlinear wave equations and second-harmonic solutions have been
+developed for several special forms of Biot theory.  Donskoy, Khashanah, and
+McKee related an effective nonlinear parameter to porosity-dependent
+structural properties
+\cite{donskoy1997}.  Dazel and Tournat used successive approximations to derive
+second-harmonic Biot waves when the principal quadratic nonlinearity is in the
+solid frame \cite{dazel2010}.  Tong and coauthors retained coupled solid--fluid
+nonlinearities in a Lagrangian formulation and obtained double-frequency mode
+coupling \cite{tong2017}.  Berjamin studied fully nonlinear plane waves for a
+more restricted mixture with incompressible constituents, a nonlinear elastic
+skeleton, and tortuosity \cite{berjamin2021}.  Experiments on an air-saturated
+granular slab have measured both self-action and second-harmonic generation and
+found agreement with a nonlinear Biot model \cite{legland2012}.
 
-The repository's variational formulation contains the necessary parent structure.  In the single-solid/single-fluid, no-reaction limit it recovers finite-deformation Biot mechanics: total momentum with a nonlinear Biot pressure split, Lagrangian fluid mass balance, and an inertial generalized Darcy flux; see the manuscript source \texttt{sections/correspondence\_to\_other\_theories.tex}, subsection ``Single-solid, single-fluid Biot limit.''  The general component balance and phase momentum law occur in \texttt{sections/material\_mass.tex} and \texttt{sections/variational\_derivation.tex}, respectively.  The derivation below is deliberately a \emph{reduction} of that parent theory, not a replacement for it.
+What is not canonical is a single porous counterpart of the fluid
+Westervelt or Burgers equation.  A saturated porous medium has at least two
+compressional polarizations, and their relative solid--fluid motion depends on
+frequency and drag.  Quadratic forcing can therefore steepen one mode, generate
+its second harmonic, or transfer energy between fast and slow modes.  The most
+natural nonlinear parameters are consequently modal projection coefficients.
+They become material numbers only after the equilibrium state, constitutive
+functions, frequency regime, mode normalization, and amplitude variable have
+all been specified.
 
-\section{Scope, variables, and ordering}
+The following calculation gives a self-contained route from
+finite-deformation poromechanics to those coefficients.  It also carries a
+state-dependent, finite-deformation Biot coefficient into the weakly nonlinear
+wave reduction.
 
-Consider one isotropic solid skeleton and one saturating, barotropic fluid, at a homogeneous, stress-equilibrated reference state.  There are no reactions, phase changes, gravity, capillarity, diffusion, or thermal fluctuations.  Those effects can be restored from the full framework, but each adds additional quadratic source terms and/or relaxation scales.  Let
+\section{Finite-deformation parent quantities}
+
+Consider one solid skeleton and one saturating barotropic fluid.  Reactions,
+phase transformations, temperature changes, gravity, capillarity, and molecular
+diffusion are omitted.  The reference state is homogeneous and in mechanical
+equilibrium; it may be prestressed, but all coefficients below are evaluated at
+that same state.
+
+Let \(\mbf X\) label the solid reference configuration and write
 \begin{equation}
- \bm x=\bm X+\uvec(\bm X,t),\qquad \F=\I+\grad_X\uvec,
- \qquad \bm v_s=\dot{\uvec},
+    \mbf x=\mbf X+\mbf u(\mbf X,t),
+    \qquad
+    \mbf F=\mbf I+\nabla_{\mbf X}\mbf u,
+    \qquad
+    J=\det\mbf F,
+    \qquad
+    \mbf v_s=\dot{\mbf u}.
+    \label{eq:solid_kinematics}
 \end{equation}
-where $\bm X$ follows the skeleton.  Let $\wvec$ be a fluid displacement relative to the skeleton, so that $\dot{\wvec}$ is the relative velocity at the reference state.  This is a convenient dynamic Biot variable; it must \emph{not} be eliminated by a quasi-static Darcy law when wave propagation of the slow mode is sought.
-
-Use the bookkeeping parameter $\epsilon$ and write
+The current and reference relative fluid mass fluxes are
 \begin{equation}
- \uvec=\epsilon\uvec^{(1)}+\epsilon^2\uvec^{(2)}+O(\epsilon^3),\qquad
- \wvec=\epsilon\wvec^{(1)}+\epsilon^2\wvec^{(2)}+O(\epsilon^3).
- \label{eq:fields_expansion}
+    \mbf w_f
+    =\phi_f\bar\rho_f\left(\mbf v_f-\mbf v_s\right),
+    \qquad
+    \mbf W_f=J\mbf F^{-1}\mbf w_f.
+    \label{eq:relative_mass_fluxes}
 \end{equation}
-The finite-strain measure may be taken as the Green strain
+Here \(\phi_f\) is porosity, \(\bar\rho_f\) is intrinsic fluid density,
+and \(\bar p_f\) is pore pressure.  The symbol \(\theta\) below denotes
+temperature.  The exact Lagrangian fluid mass balance is
+\begin{equation}
+    \frac{\partial}{\partial t}
+    \left(J\phi_f\bar\rho_f\right)
+    +\nabla_{\mbf X}\cdot\mbf W_f=0.
+    \label{eq:exact_lagrangian_mass}
+\end{equation}
+Thus the storage variable is \(J\phi_f\bar\rho_f\), not an independently
+postulated small-strain fluid-content field.
+
+For a single skeleton, the total stress has the fixed-pressure split
+\begin{equation}
+    \bs\sigma
+    =\bs\sigma^{\prime\prime}-B\bar p_f\mbf I.
+    \label{eq:biot_stress_split}
+\end{equation}
+For the present single-skeleton specialization, the finite-deformation Biot
+coefficient is
+\begin{equation}
+    B=1-\frac{1}{v_0}
+    \left.
+    \frac{\partial\bar v}{\partial J}
+    \right|_{\bar p_f,\theta},
+    \qquad
+    v_0=\frac{1}{\rho_{s0}},
+    \qquad
+    \bar v=\frac{1}{\bar\rho_s}.
+    \label{eq:nonlinear_biot_coefficient}
+\end{equation}
+The coefficient is a current-state tangent evaluated at fixed pore pressure
+and temperature.  It reduces to the classical small-deformation Biot
+coefficient but may vary with \(J\), pressure, composition, or internal state
+\cite{fosterxu2025}.
+
+For a barotropic fluid, a standard tangent form of
+\eqref{eq:exact_lagrangian_mass} is
+\begin{equation}
+    \frac{B}{J}\dot J
+    +\frac{1}{M}\dot{\bar p}_f
+    +\frac{1}{\bar\rho_f}
+    \nabla_{\mbf X}\cdot\mbf W_f=0,
+    \label{eq:finite_storage}
+\end{equation}
+where \(M\) is the storage modulus.  Equation
+\eqref{eq:finite_storage} is exact only to the order represented by the
+constitutive tangents \(B\) and \(M\); a second-order calculation must expand
+those tangents and the density factor at the equilibrium state.  This point is
+important because using a constant \(B\) in a nominally nonlinear wave model
+would discard part of the quadratic solid--fluid coupling.
+
+\section{Second-order structure in three dimensions}
+
+Introduce a bookkeeping parameter \(\varepsilon\) proportional to wave
+amplitude and write
 \begin{align}
- \bm E&=\frac12(\F^T\F-\I)
- =\epsilon\bm E^{(1)}+\epsilon^2\bm E^{(2)}+O(\epsilon^3),\\
- \bm E^{(1)}&=\operatorname{sym}\grad_X\uvec^{(1)},\\
- \bm E^{(2)}&=\operatorname{sym}\grad_X\uvec^{(2)}+
- \frac12(\grad_X\uvec^{(1)})^T\grad_X\uvec^{(1)}.
- \label{eq:green_expansion}
+    \mbf u
+    & =\varepsilon\mbf u^{(1)}
+    +\varepsilon^2\mbf u^{(2)}+O\left(\varepsilon^3\right),
+    \notag\\
+    \bar p_f-\bar p_{f0}
+    & =\varepsilon p^{(1)}
+    +\varepsilon^2p^{(2)}+O\left(\varepsilon^3\right),
+    \notag\\
+    \mbf W_f
+    & =\varepsilon\mbf W_f^{(1)}
+    +\varepsilon^2\mbf W_f^{(2)}+O\left(\varepsilon^3\right).
+    \label{eq:field_expansions}
 \end{align}
-
-Let $\zeta$ denote an increment of Lagrangian fluid content.  Its exact definition depends on the selected porosity mapping in the parent mixture theory.  Its small-amplitude structure can always be arranged as
-\begin{equation}
- \zeta=\epsilon\zeta^{(1)}+\epsilon^2\zeta^{(2)}+O(\epsilon^3),\qquad
- \zeta^{(1)}=\alpha_0\,\diver_X\uvec^{(1)}-\diver_X\wvec^{(1)},
- \label{eq:zeta_one}
-\end{equation}
-where $\alpha_0$ is the tangent Biot coefficient at the reference state.  The second-order term has the form
-\begin{equation}
- \zeta^{(2)}=\alpha_0\diver_X\uvec^{(2)}-\diver_X\wvec^{(2)}
- +\mathcal G_\zeta\big[\grad_X\uvec^{(1)},\grad_X\wvec^{(1)}\big].
- \label{eq:zeta_two}
-\end{equation}
-Here $\mathcal G_\zeta$ is fixed, rather than guessed, by expanding the Lagrangian fluid mass $J\phi_f\bar\rho_f$ used by the repository theory.  This is where a finite-deformation mixture derivation is valuable: it separates geometric storage nonlinearity from an assumed nonlinear equation of state.
-
-\section{Energetic parent system}
-
-For the present reduction, write the isothermal stored energy per reference volume as $\Psi(\bm E,\zeta)$.  Around the reference state,
+The Jacobian has the expansion
 \begin{align}
- \Psi={}&\frac12\bm E:\mathbb C:\bm E+\bm E:\bm C_\zeta\,\zeta
- +\frac12M^{-1}\zeta^2 \\
- &+\frac16\mathbb C^{(3)}[\bm E,\bm E,\bm E]
- +\frac12\mathbb C^{(2,1)}[\bm E,\bm E]\zeta
- +\frac12\bm C^{(1,2)}:\bm E\,\zeta^2
- +\frac16 C^{(0,3)}\zeta^3+O(4).
- \label{eq:energy_expansion}
+    J
+    & =1+\varepsilon J^{(1)}+\varepsilon^2J^{(2)}
+    +O\left(\varepsilon^3\right),
+    \notag\\
+    J^{(1)}
+    & =\nabla_{\mbf X}\cdot\mbf u^{(1)},
+    \notag\\
+    J^{(2)}
+    & =\nabla_{\mbf X}\cdot\mbf u^{(2)}
+    +\frac{1}{2}
+    \left[
+    \left(\nabla_{\mbf X}\cdot\mbf u^{(1)}\right)^2
+    -\tr\left(\left(\nabla_{\mbf X}\mbf u^{(1)}\right)^2\right)
+    \right].
+    \label{eq:jacobian_expansion}
 \end{align}
-$\mathbb C$, $\bm C_\zeta$, and $M$ are the linear drained stiffness, stress--fluid-content coupling, and storage modulus.  The four cubic tensors/scalars in the second line are the material nonlinearities.  They include, in a constrained mixture theory, derivatives of skeleton energy, fluid EOS, and porosity/pressure coupling; they should not be fitted independently unless that loss of thermodynamic integrability is intentional.
-
-Define energetic conjugates
+Expanding \(B\) about the equilibrium state gives, for example,
 \begin{equation}
- \bm S=\frac{\partial\Psi}{\partial\bm E},\qquad
- p=\frac{\partial\Psi}{\partial\zeta}.
- \label{eq:conjugates}
+    B
+    =B_0+\varepsilon
+    \left(B_J\,J^{(1)}+B_p\,p^{(1)}\right)
+    +O\left(\varepsilon^2\right),
+    \label{eq:biot_expansion}
 \end{equation}
-The sign of $p$ can be reversed to match a chosen compression-positive pore-pressure convention; all coupled terms must then be changed consistently.  The kinetic energy of dynamic Biot theory is represented, at the reference state, by
+where \(B_J=(\partial B/\partial J)_0\) and
+\(B_p=(\partial B/\partial\bar p_f)_0\).  The definition
+\eqref{eq:nonlinear_biot_coefficient} shows that \(B_J\) contains a second
+derivative of the intrinsic solid specific volume:
 \begin{equation}
- T=\frac12\dot{\uvec}\cdot\bm\rho_{11}\dot{\uvec}
- +\dot{\uvec}\cdot\bm\rho_{12}\dot{\wvec}
- +\frac12\dot{\wvec}\cdot\bm\rho_{22}\dot{\wvec},
- \label{eq:kinetic_energy}
+    B_J
+    =-\frac{1}{v_0}
+    \left.
+    \frac{\partial^2\bar v}{\partial J^2}
+    \right|_0.
+    \label{eq:biot_slope_specific_volume}
 \end{equation}
-where the effective density tensors contain tortuosity.  Positivity of this quadratic form is required.  Viscous momentum transfer is represented at leading order by $\bm b_0\dot{\wvec}$, with $\bm b_0$ positive semidefinite.  In the low-frequency limit this is related to permeability and viscosity; at higher frequency it is generally frequency dependent.
 
-Hamilton's principle plus a d'Alembert drag term gives schematically
+Substitution of \eqref{eq:field_expansions} into the momentum balances,
+\eqref{eq:exact_lagrangian_mass}, and the constitutive relations gives a
+homogeneous linear system at order \(\varepsilon\).  At order
+\(\varepsilon^2\), the unknown second-order solid motion, relative fluid
+motion, and pressure occur through exactly the same linear combinations, while
+quadratic products of the first-order solution appear as known forcing.  Those
+quadratic terms fall into five physically distinct groups:
+\begin{enumerate}[leftmargin=2em]
+    \item finite-strain geometry, including \eqref{eq:jacobian_expansion} and
+    stress transformations;
+    \item third derivatives of the skeleton and fluid stored energies;
+    \item state dependence of \(B\), \(M\), porosity, and intrinsic density;
+    \item state dependence of inertia and tortuosity; and
+    \item nonlinear or frequency-dependent drag.
+\end{enumerate}
+This repeated-linear-operator structure is the general answer at second order.
+It is a coupled forced system, not yet a scalar Westervelt equation.  A scalar
+evolution law follows only after a propagation direction, mode, frequency
+regime, and one-way approximation are selected.
+
+\section{Explicit one-dimensional compressional system}
+
+The role of \(B(J)\) can be seen without carrying every three-dimensional
+tensor.  Let \(X\) be the propagation coordinate, \(u(X,t)\) the longitudinal
+solid displacement, and define a relative-fluid displacement \(z(X,t)\) by
+\begin{equation}
+    W_f=\bar\rho_{f0}\dot z.
+    \label{eq:relative_displacement_definition}
+\end{equation}
+This \(z\) is a wave-reduction coordinate; it is not the relative mass flux
+\(w_f\) in \eqref{eq:relative_mass_fluxes}.  Let
+\(e=u_{,X}\), so \(J=1+e\).  A minimal dynamic Biot closure is
+\begin{subequations}
+\label{eq:oned_parent}
 \begin{align}
- \bm\rho_{11}\ddot{\uvec}+\bm\rho_{12}\ddot{\wvec}
- &=\Div_X\bm P+\bm f_{\rm in}^{(2)}+O(3),
- \label{eq:parent_solid}\\
- \bm\rho_{12}^T\ddot{\uvec}+\bm\rho_{22}\ddot{\wvec}+\bm b_0\dot{\wvec}
- &=-\grad_Xp+\bm f_{\rm rel}^{(2)}+O(3).
- \label{eq:parent_fluid}
+    \rho_{11}u_{,tt}+\rho_{12}z_{,tt}
+    & =\partial_X\left[P^{\prime\prime}(e)-B(J,\bar p_f)\bar p_f\right],
+    \label{eq:oned_total_momentum}\\
+    \rho_{12}u_{,tt}+\rho_{22}z_{,tt}+b_0z_{,t}
+    & =-\partial_X\bar p_f,
+    \label{eq:oned_relative_momentum}\\
+    \frac{B(J,\bar p_f)}{J}J_{,t}
+    +\frac{1}{M(J,\bar p_f)}\bar p_{f,t}
+    +\frac{\bar\rho_{f0}}{\bar\rho_f(\bar p_f)}z_{,Xt}
+    & =0.
+    \label{eq:oned_storage}
 \end{align}
-$\bm P=\F\bm S$ is the first Piola stress after the pressure/storage contribution is incorporated through \eqref{eq:energy_expansion}.  The displayed quadratic force terms collect the state dependence of inertial coefficients, tortuosity, and drag.  This form is the dynamic counterpart of the repository's generalized relative-flux equation; retaining the $\ddot{\wvec}$ term is essential for two compressional Biot waves.
-
-\section{First-order waves}
-
-At order $\epsilon$, \eqref{eq:parent_solid}--\eqref{eq:parent_fluid} and \eqref{eq:conjugates} give a constant-coefficient linear Biot system.  For a plane wave with propagation direction $\bm n$, substitute
+\end{subequations}
+The symmetric inertia coefficients must satisfy
 \begin{equation}
- \left[\uvec^{(1)},\wvec^{(1)}\right]
- =\Re\left\{\left[\widehat{\bm u},\widehat{\bm w}\right]
- e^{i(k\bm n\cdot\bm X-\omega t)}\right\}.
+    \rho_{11}>0,
+    \qquad
+    \rho_{22}>0,
+    \qquad
+    \rho_{11}\rho_{22}-\rho_{12}^2>0.
+    \label{eq:inertia_positivity}
 \end{equation}
-The resulting generalized eigenproblem determines the fast P, slow P, and S polarizations and complex wavenumbers in the presence of drag.  In the lossless isotropic compressional case it can be written as
+They include the equilibrium phase masses and, when required by the frequency
+range, added-mass or tortuosity effects.
+The coefficient \(b_0\geq0\) is the linear drag.  Dynamic tortuosity and
+permeability generally make both inertia and drag frequency dependent; constant
+coefficients are used here only to expose the second-order constitutive terms.
+
+To keep the displayed coefficients transparent, take
+\(\bar p_{f0}=0\) for the explicit calculation and absorb the equilibrium
+stress into the reference state.  A small-on-large calculation about
+\(\bar p_{f0}\ne0\) has the same structure, but the linear stress tangent also
+contains \(-\bar p_{f0}B_J\) and \(-\bar p_{f0}B_p\) contributions.  Define
 \begin{equation}
- \det\left(\bm K_P-c^2\bm R\right)=0,
- \qquad
- \bm R=\begin{bmatrix}\rho_{11}&\rho_{12}\\\rho_{12}&\rho_{22}\end{bmatrix},
- \label{eq:linear_eigenproblem}
+    P^{\prime\prime}(e)
+    =H e+\frac{1}{2}H_2e^2+O\left(e^3\right),
+    \qquad
+    B=B_0+B_J e+B_p p+O\left(\varepsilon^2\right).
+    \label{eq:oned_constitutive_expansions}
 \end{equation}
-where $\bm K_P$ is obtained by inserting $\zeta^{(1)}=ik(\alpha_0\widehat u-\widehat w)$ into the quadratic part of \eqref{eq:energy_expansion}.  Its two roots are $c_{P+}$ and $c_{P-}$.  The standard linear Biot result is therefore already a two-mode acoustic medium, not a single compressible fluid.
-
-\section{Second-order equations}
-
-At order $\epsilon^2$, the unknown second-order fields solve the \emph{same linear Biot operator} forced by quantities quadratic in the first-order fields:
-\begin{equation}
- \mathcal L_B
- \begin{bmatrix}\uvec^{(2)}\\\wvec^{(2)}\end{bmatrix}
- =
- \begin{bmatrix}\bm s_s^{(2)}\\\bm s_f^{(2)}\end{bmatrix}.
- \label{eq:general_second_order_system}
-\end{equation}
-The source separates usefully as
-\begin{equation}
- \begin{bmatrix}\bm s_s^{(2)}\\\bm s_f^{(2)}\end{bmatrix}
- =\begin{bmatrix}\bm s_{\rm mat}\\\bm s_{\rm geo}\\\bm s_{\rm iner}\\\bm s_{\rm drag}\\\bm s_{\rm storage}\end{bmatrix}_{\!\rm summed}.
- \label{eq:source_split}
-\end{equation}
-The material part is generated by the cubic derivatives in \eqref{eq:energy_expansion}; the geometric part by \eqref{eq:green_expansion} and the conversion from second Piola to first Piola stress; the inertial part by state-dependent density/tortuosity and convective acceleration; the drag part by nonlinear permeability/drag; and the storage part by $\mathcal G_\zeta$ in \eqref{eq:zeta_two}.  Equation \eqref{eq:general_second_order_system} is the desired general second-order nonlinear wave equation in its most useful form: it is explicit about what must be specified and avoids hiding physically distinct nonlinearities in an empirical coefficient.
-
-\subsection{One-dimensional compressional display}
-
-The structure becomes concrete in one dimension.  Let $e=u_{,X}$ and, for this display, take $\zeta=\alpha_0e-w_{,X}$ at first order.  Write
+Here \(H\) is the tangent fixed-pressure longitudinal skeleton modulus and
+\(H_2\) is its effective third-order modulus in the selected strain and stress
+measures.  For clarity, first take \(M=M_0\), constant inertia, and constant
+drag.  The first-order equations are
+\begin{subequations}
+\label{eq:first_order_system}
 \begin{align}
- \Psi={}&\frac12 A e^2+C e\zeta+\frac12M^{-1}\zeta^2
- +\frac16 A_3e^3+\frac12C_3e^2\zeta
- +\frac12R_3e\zeta^2+\frac16N_3\zeta^3+O(4).
- \label{eq:oned_energy}
+    \rho_{11}u^{(1)}_{,tt}+\rho_{12}z^{(1)}_{,tt}
+    -\partial_X\left(H e^{(1)}-B_0p^{(1)}\right)
+    & =0,
+    \label{eq:first_order_total_momentum}\\
+    \rho_{12}u^{(1)}_{,tt}+\rho_{22}z^{(1)}_{,tt}
+    +b_0z^{(1)}_{,t}+p^{(1)}_{,X}
+    & =0,
+    \label{eq:first_order_relative_momentum}\\
+    B_0e^{(1)}_{,t}+\frac{1}{M_0}p^{(1)}_{,t}
+    +z^{(1)}_{,Xt}
+    & =0.
+    \label{eq:first_order_storage}
 \end{align}
-The quadratic constitutive contributions are
+\end{subequations}
+For zero initial perturbations, \eqref{eq:first_order_storage} gives
+\begin{equation}
+    p^{(1)}=-M_0\left(B_0u^{(1)}_{,X}+z^{(1)}_{,X}\right).
+    \label{eq:first_order_pressure_elimination}
+\end{equation}
+In the lossless case, a plane wave with speed \(c\) satisfies
+\begin{equation}
+    \det\left(
+    \begin{bmatrix}
+        H+B_0^2M_0&B_0M_0\\
+        B_0M_0&M_0
+    \end{bmatrix}
+    -c^2
+    \begin{bmatrix}
+        \rho_{11}&\rho_{12}\\
+        \rho_{12}&\rho_{22}
+    \end{bmatrix}
+    \right)=0.
+    \label{eq:compressional_eigenproblem}
+\end{equation}
+The two roots are the fast and slow compressional speeds.  With drag, the
+frequency-domain dispersion relation becomes
+\begin{equation}
+    \det\left[
+    k^2
+    \begin{bmatrix}
+        H+B_0^2M_0&B_0M_0\\
+        B_0M_0&M_0
+    \end{bmatrix}
+    -\omega^2
+    \begin{bmatrix}
+        \rho_{11}&\rho_{12}\\
+        \rho_{12}&\rho_{22}
+    \end{bmatrix}
+    -i\omega
+    \begin{bmatrix}
+        0&0\\
+        0&b_0
+    \end{bmatrix}
+    \right]=0.
+    \label{eq:damped_dispersion}
+\end{equation}
+Thus the equilibrium value \(B_0\) already affects both linear compressional
+waves.  This is the meaningful way to use the nonlinear finite-deformation
+coefficient in a linear wave calculation: evaluate it at the prestressed
+equilibrium state and use that tangent consistently in stress and storage.
+
+At second order, the same linear system is forced.  The terms arising
+explicitly from \(H_2\), \(B_J\), and \(B_p\) are
+\begin{subequations}
+\label{eq:second_order_system}
 \begin{align}
- P^{\rm nl}&=\frac12A_3(e^{(1)})^2+C_3e^{(1)}\zeta^{(1)}
- +\frac12R_3(\zeta^{(1)})^2+P_{\rm geo}^{(2)},\\
- p^{\rm nl}&=\frac12C_3(e^{(1)})^2+R_3e^{(1)}\zeta^{(1)}
- +\frac12N_3(\zeta^{(1)})^2+p_{\rm geo}^{(2)}.
- \label{eq:oned_nonlinear_constitutive}
+    \rho_{11}u^{(2)}_{,tt}+\rho_{12}z^{(2)}_{,tt}
+    -\partial_X\left(H e^{(2)}-B_0p^{(2)}\right)
+    & =\partial_X
+    \left[
+        \frac{1}{2}H_2\left(e^{(1)}\right)^2
+        -B_J e^{(1)}p^{(1)}
+        -B_p\left(p^{(1)}\right)^2
+    \right],
+    \label{eq:second_order_total_momentum}\\
+    \rho_{12}u^{(2)}_{,tt}+\rho_{22}z^{(2)}_{,tt}
+    +b_0z^{(2)}_{,t}+p^{(2)}_{,X}
+    & =0,
+    \label{eq:second_order_relative_momentum}\\
+    B_0e^{(2)}_{,t}+\frac{1}{M_0}p^{(2)}_{,t}
+    +z^{(2)}_{,Xt}
+    & =-\left(B_J-B_0\right)e^{(1)}e^{(1)}_{,t}
+    -B_p\,p^{(1)}e^{(1)}_{,t}
+    +\frac{p^{(1)}}{K_f}z^{(1)}_{,Xt}.
+    \label{eq:second_order_storage}
 \end{align}
-Here $P_{\rm geo}^{(2)}$ and $p_{\rm geo}^{(2)}$ include the finite-strain and finite-storage terms.  The second-order forced equations are
-\begin{align}
- \rho_{11}u^{(2)}_{,tt}+\rho_{12}w^{(2)}_{,tt}
- -\partial_X\left(P^{\rm lin,(2)}\right)
- &=\partial_XP^{\rm nl}+s_{s,\rm iner}^{(2)},\\
- \rho_{12}u^{(2)}_{,tt}+\rho_{22}w^{(2)}_{,tt}+b_0w^{(2)}_{,t}
- +\partial_X\left(p^{\rm lin,(2)}\right)
- &=-\partial_Xp^{\rm nl}+s_{f,\rm iner}^{(2)}+s_{\rm drag}^{(2)}.
- \label{eq:oned_second_order}
-\end{align}
-Thus a monochromatic first-order field at $(k,\omega)$ produces DC and $(2k,2\omega)$ forcing.  Because the linear operator has two P branches, the second harmonic can be emitted onto either branch and can be phase matched or strongly attenuated depending on frequency, permeability, and tortuosity.  This is the central difference from a homogeneous simple fluid.
+\end{subequations}
+The final term uses
+\(\bar\rho_{f0}/\bar\rho_f=1-p^{(1)}/K_f+O(\varepsilon^2)\), where
+\(K_f^{-1}=(\bar\rho_f^{-1}\partial\bar\rho_f/\partial\bar p_f)_0\).
+If \(M\), inertia, or drag depend on state, their first derivatives add further
+quadratic terms to the right-hand sides.  Equation
+\eqref{eq:second_order_system} is therefore an explicit but deliberately
+minimal second-order model.  It isolates the new \(B_J\) contribution without
+mistaking it for the complete nonlinearity of a porous material.
 
-\section{Comparison with Hamilton-style nonlinear acoustics}
+A monochromatic first-order solution produces a zero-frequency correction and
+forcing at \(2\omega\).  Since the operator on the left has two compressional
+branches, the forcing can radiate onto either branch.  The generated amplitude
+depends on phase mismatch, attenuation, and the projection of the source onto
+the receiving mode.
 
-For a simple inviscid fluid with $p=p(\rho,s)$, second-order perturbation theory combines mass and momentum into a scalar Westervelt-type equation, often written schematically as
+\section{A modal nonlinear coefficient and an explicit second harmonic}
+
+To connect \eqref{eq:second_order_system} to Hamilton-style nonlinear
+acoustics, first consider a lossless, nondispersive frequency interval in which
+one compressional mode is isolated.  Let
 \begin{equation}
- \nabla^2p-\frac{1}{c_0^2}p_{,tt}
- =-\frac{\beta}{\rho_0c_0^4}(p^2)_{,tt}+\text{loss/diffraction terms},
- \qquad \beta=1+\frac{B}{2A}.
- \label{eq:westervelt}
+    \eta=\ln J,
+    \qquad
+    B_1=
+    \left.
+    \frac{\partial B}{\partial\eta}
+    \right|_0
+    =\left.
+    J\frac{\partial B}{\partial J}
+    \right|_0.
+    \label{eq:biot_logarithmic_slope}
 \end{equation}
-A unidirectional, weakly dissipative limit gives Burgers' equation.  Hamilton and Blackstock's treatment organizes the associated perturbation methods, harmonic generation, shocks, and propagation models.
-
-The porous counterpart is not obtained by replacing $c_0$ and $\beta$ in \eqref{eq:westervelt}.  First solve \eqref{eq:linear_eigenproblem}, normalize a right modal vector $\bm r_j$ and left/adjoint vector $\bm l_j$, and project the quadratic source in \eqref{eq:general_second_order_system}.  The self-interaction coefficient of mode $j$ has the generic form
+The use of \(\eta\) is natural because the storage coupling in
+\eqref{eq:finite_storage} is \(B\dot\eta\).  One thermodynamically closed local
+specialization uses
+\(\int_0^\eta B(s)\,\mathrm ds
+=B_0\eta+B_1\eta^2/2+O(\eta^3)\) and takes the form
 \begin{equation}
- \Gamma_{jkl}=\bm l_j\cdot
- \mathcal Q(\bm r_k,\bm r_l),
- \label{eq:modal_coefficient}
+    \Psi_{\mathrm{red}}(\eta,\zeta)
+    =\frac{1}{2}H\eta^2+\frac{1}{6}H_2\eta^3
+    +\frac{1}{2}M_0
+    \left[
+        \zeta-\int_0^\eta B(s)\,\mathrm ds
+    \right]^2,
+    \qquad
+    \zeta=-z_{,X}.
+    \label{eq:reduced_energy}
 \end{equation}
-where $\mathcal Q$ is built from the five contributions in \eqref{eq:source_split}.  In a one-way, weak-loss scaling, the selected modal amplitude $a_j$ therefore obeys the Burgers-like equation
+It gives
 \begin{equation}
- \frac{\partial a_j}{\partial x}
- +\frac{1}{c_j}\frac{\partial a_j}{\partial t}
- -\delta_j\frac{\partial^2a_j}{\partial t^2}
- =\Gamma_{jjj}\,a_j\frac{\partial a_j}{\partial t}
- +\sum_{(k,l)\ne(j,j)}\Gamma_{jkl}\,a_k\frac{\partial a_l}{\partial t}.
- \label{eq:porous_burgers}
+    p=\frac{\partial\Psi_{\mathrm{red}}}{\partial\zeta},
+    \qquad
+    \frac{\partial\Psi_{\mathrm{red}}}{\partial\eta}
+    =H\eta+\frac{1}{2}H_2\eta^2-B(\eta)p.
+    \label{eq:reduced_conjugates}
 \end{equation}
-In a simple-fluid limit, there is one longitudinal eigenvector and $\Gamma_{111}$ reduces, after a choice of amplitude normalization, to the usual acoustic nonlinearity.  In a porous medium, the right side contains self-steepening, fast--slow conversion, and potentially shear--compressional coupling.  The coefficients are generally complex and frequency dependent when dynamic permeability or tortuosity is included.
+Using the integral of \(B\), rather than the product \(B(\eta)\eta\), is what
+makes the same state-dependent \(B\) appear in both storage and stress.
 
-\section{What is established and what remains open}
+Let \(\mbf r_j=(r_{sj},r_{fj})^T\) be a right eigenvector of
+\eqref{eq:compressional_eigenproblem}, normalized by
+\begin{equation}
+    \rho_{11}r_{sj}^2+2\rho_{12}r_{sj}r_{fj}
+    +\rho_{22}r_{fj}^2=1.
+    \label{eq:mode_normalization}
+\end{equation}
+In the reduced energy
+\eqref{eq:reduced_energy}, the cubic coefficient projected onto mode \(j\) is
+\begin{equation}
+    \gamma_j
+    =H_2r_{sj}^3
+    +3M_0B_1r_{sj}^2
+    \left(B_0r_{sj}+r_{fj}\right)
+    +\gamma_j^{\mathrm{other}}.
+    \label{eq:projected_cubic_coefficient}
+\end{equation}
+The second term is the explicit contribution from the nonlinear Biot
+coefficient.  The term \(\gamma_j^{\mathrm{other}}\) collects the third-order
+fluid equation of state, other skeleton invariants, finite-strain measure
+conversion, and state-dependent inertia or drag omitted from
+\eqref{eq:reduced_energy}.  Equation
+\eqref{eq:projected_cubic_coefficient} also shows that the numerical value and
+units of a modal coefficient depend on eigenvector and amplitude normalization.
 
-\begin{table}[h]
-\centering\small
-\begin{tabular}{p{0.29\linewidth}p{0.31\linewidth}p{0.31\linewidth}}
+If \(a_j(X,t)\) is the modal displacement, projection gives the leading
+quadratic wave equation
+\begin{equation}
+    a_{j,tt}-c_j^2a_{j,XX}
+    =\frac{\gamma_j}{2}
+    \partial_X\left(a_{j,X}^2\right).
+    \label{eq:projected_nonlinear_wave}
+\end{equation}
+For a right-going wave, let \(E_j=a_{j,X}\).  A one-way, weakly nonlinear
+reduction of \eqref{eq:projected_nonlinear_wave} is
+\begin{equation}
+    E_{j,X}+\frac{1}{c_j}E_{j,t}
+    =\kappa_j E_jE_{j,t},
+    \qquad
+    \kappa_j=\frac{\gamma_j}{2c_j^3}.
+    \label{eq:modal_burgers}
+\end{equation}
+A narrow-band attenuation or dispersion operator may be added to the left-hand
+side, but a constant thermoviscous coefficient is not generally adequate for
+the slow Biot wave.
+
+Equation \eqref{eq:modal_burgers} gives an immediate second-harmonic
+prediction.  For
+\begin{equation}
+    E_j(0,t)=E_a\cos\omega t,
+    \qquad
+    \tau=t-\frac{X}{c_j},
+    \label{eq:harmonic_boundary_data}
+\end{equation}
+successive approximation yields
+\begin{equation}
+    E_j(X,t)
+    =E_a\cos\omega\tau
+    -\frac{1}{2}\kappa_j\omega X E_a^2
+    \sin 2\omega\tau
+    +O\left(E_a^3\right).
+    \label{eq:second_harmonic_prediction}
+\end{equation}
+Thus the initial second-harmonic-to-fundamental ratio grows as
+\begin{equation}
+    \frac{|E_{2\omega}|}{|E_\omega|}
+    =\frac{1}{2}|\kappa_j|\omega X|E_a|,
+    \label{eq:second_harmonic_ratio}
+\end{equation}
+before attenuation, phase mismatch, reflections, and pump depletion become
+important.  The corresponding nominal shock distance is
+\begin{equation}
+    X_{\mathrm{shock}}
+    =\frac{1}{|\kappa_j|\omega|E_a|}.
+    \label{eq:shock_distance}
+\end{equation}
+This result provides an explicit second-harmonic prediction for a single,
+weakly attenuated, nearly nondispersive mode.  In the general porous case,
+\eqref{eq:second_harmonic_prediction} must be replaced by coupled modal
+amplitude equations containing self-interaction coefficients
+\(\kappa_j\), cross-mode coefficients, complex wavenumbers, and phase-mismatch
+factors.
+
+\section{Relation to classical nonlinear acoustics}
+
+For a simple fluid, the second-order mass and momentum equations can be
+combined into a scalar Westervelt equation, written schematically as
+\begin{equation}
+    \nabla^2p-\frac{1}{c_0^2}p_{,tt}
+    =-\frac{\beta}{\rho_0c_0^4}
+    \left(p^2\right)_{,tt}
+    +\text{loss and diffraction terms},
+    \qquad
+    \beta=1+\frac{B_{\mathrm{ac}}}{2A_{\mathrm{ac}}}.
+    \label{eq:westervelt_equation}
+\end{equation}
+The subscripts ``ac'' distinguish the acoustic equation-of-state constants
+\(A_{\mathrm{ac}}\) and \(B_{\mathrm{ac}}\) from the poromechanical Biot
+coefficient \(B\).  A one-way weak-loss reduction of
+\eqref{eq:westervelt_equation} gives Burgers' equation
+\cite{hamiltonblackstock}.
+
+The porous reduction follows the same perturbation logic but not the same
+single-field algebra.  One first solves the fast/slow eigenproblem, then
+projects every quadratic source onto the selected left and right modes.  In the
+simple-fluid limit only one longitudinal polarization survives, and a suitably
+normalized \(\kappa_j\) reduces to the usual fluid nonlinearity.  In a porous
+medium, different fast, slow, and shear interactions generally have different
+coefficients and different attenuation.  Replacing \(c_0\) and \(\beta\) in a
+fluid equation by measured porous values would miss that modal structure.
+
+\section{What is established and what remains to be done}
+
+\begin{table}[ht]
+\centering
+\small
+\renewcommand{\arraystretch}{1.18}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.25\linewidth}
+                >{\raggedright\arraybackslash}p{0.34\linewidth}
+                >{\raggedright\arraybackslash}p{0.32\linewidth}}
 \toprule
-Topic & Established & Gap/opportunity for the present framework \\
+Topic & Established result & Remaining step for a general second-order theory \\
 \midrule
-Linear saturated-medium waves & Biot's two compressional and shear waves, with viscous loss and high/low-frequency regimes, are classical. & Use the repository's finite-deformation nonlinear Biot coefficient and mixture storage consistently in a dynamic reference formulation.\\
-Quadratic/nonlinear Biot waves & Second harmonics, nonlinear frame constitutive laws, and fast--slow mode coupling have been calculated in special Biot models. & Derive all quadratic terms from one mixture free energy and mass constraint rather than append selected nonlinear parameters.\\
-Finite-amplitude plane waves & Fully nonlinear plane-wave analyses exist for restricted incompressible/biphasic constitutive models. & Extend to compressible fluid and grains, finite permeability, realistic tortuosity, and experimentally identifiable coefficients.\\
-Hamilton-style reductions & Multiple-scales, successive approximation, and Burgers/Westervelt reductions are mature for fluids. & Establish systematic modal projection, phase matching, and attenuation theory for the complete porous mixture system.\\
-Experiments & Granular packs, porous ceramics, foams, and rocks show strong nonlinear acoustics. & Define measurements that separately identify cubic skeleton, fluid EOS, storage, tortuosity, and nonlinear permeability contributions.\\
+Linear saturated-medium waves
+& Two compressional modes and one shear mode, with frequency-dependent loss,
+are classical \cite{biot1956a,biot1956b}.  Variational porous-medium theories
+also exhibit microinertial dispersion and recover Biot behavior at long
+wavelengths \cite{bedforddrumheller1979}.
+& Evaluate all tangents, including \(B_0\), \(M_0\), inertia, and drag, at one
+stated prestressed equilibrium and retain the frequency range for which those
+tangents apply. \\
+\addlinespace
+Weakly nonlinear Biot waves
+& Porosity-dependent structural nonlinearity, second-harmonic generation,
+quadratic frame laws, and fast--slow coupling have been treated in special
+models \cite{donskoy1997,dazel2010,tong2017}.
+& Derive the complete quadratic source from one constitutive state, including
+\(B_1\), storage, fluid EOS, geometry, inertia, tortuosity, and drag, rather than
+selecting only one nonlinear term. \\
+\addlinespace
+Finite-amplitude plane waves
+& Fully nonlinear plane-wave and acceleration-wave analyses exist for
+restricted biphasic media with incompressible constituents
+\cite{berjamin2021}.
+& Extend the analysis to compressible grains and fluid, general prestress,
+finite permeability, and constitutively linked nonlinear coefficients. \\
+\addlinespace
+Hamilton-style reductions
+& Successive approximation, multiple scales, Burgers and Westervelt equations,
+harmonic generation, and shock formation are mature for simple fluids
+\cite{hamiltonblackstock}.
+& Derive coupled fast/slow/shear amplitude equations with explicit
+normalization, phase mismatch, and frequency-dependent attenuation. \\
+\addlinespace
+Experiments
+& Self-action and second-harmonic generation have been measured in a
+fluid-saturated granular slab and compared with a nonlinear Biot model
+\cite{legland2012}.
+& Design measurements that separate skeleton, fluid, storage, \(B_1\), and
+drag contributions and test both self-interaction and mode conversion. \\
 \bottomrule
 \end{tabular}
-\caption{Status of the question.}
+\caption{Status of second-order wave theory for fluid-saturated porous media.}
+\label{tab:status}
 \end{table}
 
-The most promising research program is therefore not to seek a universal scalar porous-medium $B/A$.  It is to: (i) select the saturated, single-fluid dynamic reduction of the variational theory; (ii) obtain all tangent and third-order derivatives from an explicitly stated $\Psi(\bm E,\zeta)$ and inertia/drag model; (iii) derive $\mathcal Q$ symbolically; (iv) calculate the modal coefficients \eqref{eq:modal_coefficient}; and (v) validate second-harmonic amplitude, phase, and mode conversion in a controlled one-dimensional apparatus.  This is directly analogous in spirit to the Hamilton program, but with the additional physics made visible rather than compressed into a single $B/A$.
+The table supports a qualified conclusion.  Nonlinear Biot waves have been
+established for several important constitutive and experimental settings.
+The remaining problem is to construct a general, thermodynamically linked set
+of second-order coefficients, identify them experimentally, and determine when
+a single-mode reduction such as \eqref{eq:modal_burgers} is accurate.
 
-\section{Implementation and verification implications}
+\section{A practical research program}
 
-For the repository roadmap, this note belongs first to the \emph{theory/verification} track, with clear downstream MOOSE implications.  A minimal dynamic implementation should use $\uvec$ and $\wvec$ (or an equivalent relative momentum/flux) as primary fields; a pressure-only Darcy reduction cannot reproduce a propagating slow wave.  Automatic differentiation is especially well suited to forming the residual and tangent from $\Psi$, but second-order acoustic verification also requires access to the Hessian and third derivatives of the energy and to the derivative of dynamic drag/tortuosity closures.
-
-Three staged tests are recommended:
+A defensible next study can be staged as follows.
 \begin{enumerate}[leftmargin=2em]
- \item \textbf{Simple-fluid limit:} set porosity coupling and relative motion to zero.  Recover the chosen Westervelt/Burgers coefficient from the fluid EOS.
- \item \textbf{Lossless dynamic Biot limit:} recover $c_{P+}$, $c_{P-}$, and $c_S$. Then verify that a monochromatic P mode produces the predicted DC and second-harmonic forcing from \eqref{eq:oned_second_order}.
- \item \textbf{Controlled dissipation/mode conversion:} introduce constant drag first, then state-dependent permeability/tortuosity.  Compare modal second-harmonic amplitudes and phases against a spectral or method-of-multiple-scales calculation.
+    \item \textbf{Choose the equilibrium and frequency regime.}
+    Specify porosity, confining stress, pore pressure, saturation, temperature,
+    permeability, tortuosity model, and whether the slow mode is propagative or
+    diffusion dominated.
+
+    \item \textbf{Calibrate the linear problem.}
+    Determine \(H\), \(M_0\), \(B_0\), the inertia matrix, and linear drag from
+    independent measurements where possible.  Check both complex
+    compressional branches using \eqref{eq:damped_dispersion} before fitting
+    any nonlinear data.
+
+    \item \textbf{Determine the quadratic coefficients.}
+    Measure or model \(H_2\), \(B_1\), the fluid EOS derivatives, and the state
+    derivatives of storage, inertia, and drag.  The definition
+    \eqref{eq:nonlinear_biot_coefficient} provides a direct interpretation of
+    \(B_1\) in terms of the curvature of intrinsic solid specific volume with
+    skeleton deformation.
+
+    \item \textbf{Project before reducing.}
+    Compute the fast and slow eigenvectors, normalize them explicitly, and
+    contract the full quadratic source with the corresponding adjoint modes.
+    This produces self-interaction and cross-mode coefficients.  Only then
+    decide whether a scalar equation such as \eqref{eq:modal_burgers} is
+    justified.
+
+    \item \textbf{Test harmonic generation and conversion.}
+    Begin with a one-dimensional specimen and a single-frequency incident fast
+    wave.  Compare fundamental attenuation, second-harmonic amplitude and
+    phase, and any generated slow-mode response.  Repeat with confining stress
+    and pore pressure varied independently; that variation is particularly
+    useful for isolating \(B_1\) from contact nonlinearity in \(H_2\).
 \end{enumerate}
 
-\section{References and starting literature}
-\begin{thebibliography}{99}\small
-\bibitem{biot1956a} M. A. Biot, ``Theory of propagation of elastic waves in a fluid-saturated porous solid. I. Low-frequency range,'' \emph{Journal of the Acoustical Society of America} \textbf{28}, 168--178 (1956).
-\bibitem{biot1956b} M. A. Biot, ``Theory of propagation of elastic waves in a fluid-saturated porous solid. II. Higher frequency range,'' \emph{Journal of the Acoustical Society of America} \textbf{28}, 179--191 (1956).
-\bibitem{bedforddrumheller} A. Bedford and D. S. Drumheller, ``A variational theory of porous media,'' \emph{International Journal of Solids and Structures} \textbf{16}, 967--980 (1980).  The present repository also contains the related Bedford--Drumheller reacting-mixture variational source material.
-\bibitem{hamiltonblackstock} M. F. Hamilton and D. T. Blackstock, eds., \emph{Nonlinear Acoustics} (Academic Press, 1998).  In particular, the volume's model-equation treatment provides the direct methodological comparison for \eqref{eq:westervelt}--\eqref{eq:porous_burgers}.
-\bibitem{dazel} O. Dazel \emph{et al.}, ``Nonlinear Biot waves in porous media with application to unconsolidated granular media,'' \emph{Journal of the Acoustical Society of America} \textbf{127}, 692--702 (2010), doi:10.1121/1.3277190.  This work derives second-harmonic Biot waves using successive approximations and a quadratic frame nonlinearity.
-\bibitem{tong} L. H. Tong, Y. S. Liu, D. X. Geng, and S. K. Lai, ``Nonlinear wave propagation in porous materials based on the Biot theory,'' \emph{Journal of the Acoustical Society of America} \textbf{142}, 756 (2017), doi:10.1121/1.4996439.  It uses a Lagrangian formulation and reports nonlinear mode coupling.
-\bibitem{berjamin} H. Berjamin, ``Nonlinear plane waves in saturated porous media with incompressible constituents,'' \emph{Proceedings of the Royal Society A} \textbf{477}, 20210086 (2021), doi:10.1098/rspa.2021.0086.  This gives a fully nonlinear Biot--Coussy plane-wave analysis for incompressible constituents with a Yeoh skeleton and tortuosity.
-\bibitem{fosterrepo} J. T. Foster, current repository manuscript, \texttt{main.tex} and included sections, especially the single-solid/single-fluid Biot reduction in \texttt{sections/correspondence\_to\_other\_theories.tex}.  Accessed July 2026.
+The most useful first deliverable would be the lossless calculation through
+\eqref{eq:projected_cubic_coefficient}, followed by the attenuating
+second-harmonic boundary-value problem.  It is small enough to be checked
+analytically, yet it directly tests whether the finite-deformation Biot
+coefficient has a measurable effect on nonlinear wave propagation.
+
+\section{Conclusion}
+
+There is a sound extension of Hamilton-style second-order acoustics to a
+fluid-saturated porous medium, but its natural starting point is a coupled Biot
+system.  The first-order problem supplies fast and slow compressional
+eigenvectors.  The second-order problem uses the same linear operator with
+quadratic forcing from constitutive, geometric, inertial, storage, and drag
+nonlinearities.  Modal projection then gives Burgers- or Westervelt-type
+equations when a one-way single-mode approximation is valid.
+
+The finite-deformation Biot coefficient contributes at two distinct levels.
+Its equilibrium value \(B_0\) changes the linear wave speeds and
+polarizations, while its state derivative \(B_1\) contributes to harmonic
+generation and self-steepening.  Equations
+\eqref{eq:projected_cubic_coefficient}--\eqref{eq:second_harmonic_prediction}
+make that statement quantitative for a controlled one-dimensional
+specialization.  The coefficient is only one part of the total nonlinearity,
+but carrying it through the mode projection provides a direct route to
+testable nonlinear wave predictions.
+
+\begin{thebibliography}{99}
+\small
+
+\bibitem{biot1956a}
+M. A. Biot,
+``Theory of propagation of elastic waves in a fluid-saturated porous solid.
+I. Low-frequency range,''
+\emph{Journal of the Acoustical Society of America} \textbf{28}, 168--178
+(1956),
+\href{https://doi.org/10.1121/1.1908239}{doi:10.1121/1.1908239}.
+
+\bibitem{biot1956b}
+M. A. Biot,
+``Theory of propagation of elastic waves in a fluid-saturated porous solid.
+II. Higher frequency range,''
+\emph{Journal of the Acoustical Society of America} \textbf{28}, 179--191
+(1956),
+\href{https://doi.org/10.1121/1.1908241}{doi:10.1121/1.1908241}.
+
+\bibitem{bedforddrumheller1979}
+A. Bedford and D. S. Drumheller,
+``A variational theory of porous media,''
+\emph{International Journal of Solids and Structures} \textbf{15}, 967--980
+(1979),
+\href{https://doi.org/10.1016/0020-7683(79)90025-8}{doi:10.1016/0020-7683(79)90025-8}.
+
+\bibitem{hamiltonblackstock}
+M. F. Hamilton and D. T. Blackstock, eds.,
+\emph{Nonlinear Acoustics}
+(Academic Press, San Diego, 1998).
+
+\bibitem{donskoy1997}
+D. M. Donskoy, K. Khashanah, and T. G. McKee, Jr.,
+``Nonlinear acoustic waves in porous media in the context of Biot's theory,''
+\emph{Journal of the Acoustical Society of America} \textbf{102}, 2521--2528
+(1997),
+\href{https://doi.org/10.1121/1.421011}{doi:10.1121/1.421011}.
+
+\bibitem{dazel2010}
+O. Dazel and V. Tournat,
+``Nonlinear Biot waves in porous media with application to unconsolidated
+granular media,''
+\emph{Journal of the Acoustical Society of America} \textbf{127}, 692--702
+(2010),
+\href{https://doi.org/10.1121/1.3277190}{doi:10.1121/1.3277190}.
+
+\bibitem{legland2012}
+J.-B. Legland, V. Tournat, O. Dazel, A. Novak, and V. Gusev,
+``Linear and nonlinear Biot waves in a noncohesive granular medium slab:
+transfer function, self-action, second harmonic generation,''
+\emph{Journal of the Acoustical Society of America} \textbf{131}, 4292--4303
+(2012),
+\href{https://doi.org/10.1121/1.4712020}{doi:10.1121/1.4712020}.
+
+\bibitem{tong2017}
+L. H. Tong, Y. S. Liu, D. X. Geng, and S. K. Lai,
+``Nonlinear wave propagation in porous materials based on the Biot theory,''
+\emph{Journal of the Acoustical Society of America} \textbf{142}, 756--770
+(2017),
+\href{https://doi.org/10.1121/1.4996439}{doi:10.1121/1.4996439}.
+
+\bibitem{berjamin2021}
+H. Berjamin,
+``Nonlinear plane waves in saturated porous media with incompressible
+constituents,''
+\emph{Proceedings of the Royal Society A} \textbf{477}, 20210086 (2021),
+\href{https://doi.org/10.1098/rspa.2021.0086}{doi:10.1098/rspa.2021.0086}.
+
+\bibitem{fosterxu2025}
+J. T. Foster and X. Xu,
+``Revisiting finite deformation poromechanics: Deriving a nonlinear Biot
+coefficient from first principles,''
+\emph{Journal of the Mechanics and Physics of Solids} \textbf{204}, 106263
+(2025),
+\href{https://doi.org/10.1016/j.jmps.2025.106263}{doi:10.1016/j.jmps.2025.106263}.
+
 \end{thebibliography}
+
 \end{document}
