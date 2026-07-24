@@ -43,8 +43,11 @@ insertion constraint:
 \end{equation}
 % AGENT-LOCK-END
 %
-The interphase interaction force may be dissipative at the phase level, but it
-is internal to the mixture and globally conservative:
+In the virtual-work term below, \(\mbf g\) is the body force per unit phase mass
+and \(\mbf b_\xi\) is the force density exerted on phase \(\xi\) through
+interaction with the other phases.  The individual interaction forces may
+include dissipative drag, but they transfer momentum only within the mixture.
+They therefore satisfy the global balance
 %
 \begin{equation}
 	\sum_\xi\mbf b_\xi=\mbf 0.
@@ -84,12 +87,10 @@ The energies, virtual work, and four constraints are defined together by
 \endgroup
 % AGENT-LOCK-END
 %
-Here \(\mbf g\) is the body force per unit phase mass, \(\mbf b_\xi\) is the
-interphase interaction force, \(L_\xi^\alpha\) is the component generalized
-force conjugate to conversion insertion, and \(\theta\) is the absolute
-temperature.  Constraint \(C_1\) enforces the volume-fraction constraint,
-\(C_2\) enforces the augmented component material measure, and \(C_3\) enforces
-mass-fraction normalization.
+Here \(L_\xi^\alpha\) is the component generalized force conjugate to conversion
+insertion and \(\theta\) is the absolute temperature.  Constraint \(C_1\)
+enforces the volume-fraction constraint, \(C_2\) enforces the augmented component
+material measure, and \(C_3\) enforces mass-fraction normalization.
 
 Constraint \(C_4\) enforces zero net material insertion over all phases and
 components.  Writing the rate of component mass addition per current mixture
@@ -108,9 +109,10 @@ units of action per unit mass, so
 \(D_\xi\tau/Dt\) has units of energy per unit mass.  Thus \(\tau\) supplies the
 conversion transfer-momentum coefficient in the reversible variation.
 
-The variations in this section are mechanical and compositional variations at
-fixed temperature.  Temperature is retained as a constitutive state variable and
-is varied in the Coleman--Noll entropy argument below.
+The Hamilton--d'Alembert variations are taken at fixed temperature, so
+\(\delta\theta=0\), while the energies retain their constitutive dependence on
+\(\theta\).  The physical temperature rate \(\dot\theta\) is retained later in
+the Coleman--Noll exploitation of the entropy inequality.
 The fields $\mbf x_\xi$, $\eta_\xi^\alpha$, $\phi_\xi$, $\bar\rho_\xi$, and
 $\mc C_\xi^\alpha$ are varied independently.  The mechanism rates and the two
 relative fluxes are varied later as independent process rates through the
@@ -145,10 +147,10 @@ For any phase field $\Gamma_\xi$, the Bedford--Drumheller identity extends compo
 		+ J_\xi\rho^\alpha_\xi\delta\Gamma_\xi
 	\right]\dVxi \notag              \\
 	 & = \int_{\mc{B}}
-	\left(
-	\rho^\alpha_\xi\delta\Gamma_\xi
-	+ \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\Gamma_\xi
-	\right)\dv .
+	\left[
+		\rho^\alpha_\xi\delta\Gamma_\xi
+		+ \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}\Gamma_\xi
+		\right]\dv .
 	\label{eq:bd128_mod2}
 \end{align}
 % AGENT-LOCK-END
@@ -254,8 +256,8 @@ stress.  The fixed-pressure Biot stress is denoted later with a double prime.
 \end{align}
 % AGENT-LOCK-END
 %
-For fluid phases, \(\psi_\xi\) is independent of \(\mbf F_\xi\), giving
-\(\bs\sigma_\xi'=\mbf 0\).
+For fluid phases, \(\psi_f\) may be independent of \(\mbf F_f\), giving
+\(\bs\sigma_f'=\mbf 0\).
 
 
 
@@ -391,29 +393,16 @@ transport of the phase-attached volume fractions.  These terms combine with the
 volume-fraction and component-storage multiplier gradients in the phase momentum
 balances after the volume-fraction Euler--Lagrange equations are used.
 
-\subsubsection{Electric field}
+\subsubsection{Variation of the phase electric enthalpy}
 \label{sec:electric_field_variation}
 
-The electrical terms are conservative except for any constitutive dielectric
-relaxation introduced later.  Let \(\varphi\) denote the electrostatic potential
-and let \(\mbf E=-\nabla_{\mbf x}\varphi\) be the electric field.  The
-electrical contribution enters the Hamilton action through the phase-attributed
-potential \(U_\xi^+\).  The phase electric-enthalpy density
+The electrical contribution to the Hamilton action is assigned phase by phase
+through \(U_\xi^+\).  The phase electric-enthalpy density
 \(\omega_\xi^+=\omega_\xi^+(\mbf E,\bar\rho_\xi,
 \{\eta_\xi^\alpha\},\theta)\) is normalized per current phase volume;
 \(\phi_\xi\omega_\xi^+\) is therefore its contribution per current mixture
-	volume.  Likewise, \(\gamma\) is normalized per current fluid volume and
-	\(\phi\gamma\) is the interfacial Helmholtz contribution per current mixture
-	volume.  The notation \(\psi_\xi\) denotes the specific phase Helmholtz free
-	energy, \(\gamma\) the effective interfacial Helmholtz density, and
-	\(\omega_\xi^+\) the phase electric-enthalpy density.  The adopted electric
-	enthalpy depends on \(\mbf E\), intrinsic density, composition, and
-	temperature.  The
-concrete phase state sets
-\(\mc X_\xi\) are used in held-fixed derivative annotations and are specified
-in \sref{constitutive_models_entropy_inequality}.  Charge enters below through
-the combined component-rate constraint
-\eqref{eq:C45_combined_def}.  For each phase,
+volume.  Its arguments are the electric field, intrinsic phase density,
+composition, and temperature.  For each phase,
 %
 \begin{equation}
 	U \supset U^{+}_{\xi}
@@ -428,8 +417,9 @@ the combined component-rate constraint
 	\label{eq:phase_electric_enthalpy_pullback}
 \end{equation}
 %
-In the electroquasistatic specialization, the corresponding electric
-displacement fields are
+Let \(\varphi\) denote the electrostatic potential.  In the electroquasistatic
+specialization, the electric field and the phase and mixture electric
+displacements are
 %
 \begin{equation}
 	\mbf E=-\nabla_{\mbf x}\varphi,
@@ -438,18 +428,18 @@ displacement fields are
 	=
 	-\left.
 	\p{\omega^{+}_{\xi}}{\mbf E}
-	\right\vert_{\mc X_\xi},
+	\right\vert_{\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta},
 	\qquad
 	\mbf d=\sum_\xi\phi_\xi\mbf d_\xi .
 	\label{eq:electric_field_definitions}
 \end{equation}
 %
-This split keeps the Helmholtz energy \(\psi_\xi\) nonelectrical, takes
-\(\mbf E\) as the independent electrical variable, and derives
-\(\mbf d_\xi\) from \(\omega_\xi^+\), consistently with electroelastic
-potential formulations~\cite{dorfmann2017nonlinear_electroelasticity}.  The
-concrete phase state sets and even-in-\(\mbf E\) reservoir specialization are
-specified in \sref{constitutive_models_entropy_inequality}.
+Thus \(\mbf E\) is the independent electrical variable, while
+\(\mbf d_\xi\) is derived from \(\omega_\xi^+\), consistently with
+electroelastic potential formulations
+\cite{dorfmann2017nonlinear_electroelasticity}.  The even-in-\(\mbf E\)
+reservoir specialization is specified in
+\sref{constitutive_models_entropy_inequality}.
 
 At fixed temperature, the full variation contains a direct volume-fraction
 term, the density and composition variations, the potential-gradient term, and
@@ -457,11 +447,8 @@ the geometric mechanical pullback.  With \(\otimes\) denoting the tensor outer
 product, these contributions give the following current-space form.  The
 volume-fraction variation is the phase-attached variation from
 \eqref{eq:transported_volume_fraction_variation}, left here as
-\(\delta\phi_\xi\) so its direct coefficient remains visible.  In derivatives
-with respect to a member of \(\mc X_\xi\), the notation
-\(\left.\partial(\cdot)/\partial z\right\vert_{\mc X_\xi,\mbf E}\) means that
-all other members of \(\mc X_\xi\) and the electric field are held fixed.  The
-resulting variation is
+\(\delta\phi_\xi\) so its direct coefficient remains visible.  The resulting
+variation is
 %
 \begin{align}
 	\delta U^{+}_{\xi}
@@ -473,7 +460,7 @@ resulting variation is
 		\phi_\xi
 		\left.
 		\p{\omega_\xi^+}{\bar\rho_\xi}
-		\right\vert_{\mc X_\xi,\mbf E}
+		\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
 		\delta\bar\rho_\xi
 		\right]\dv
 	\notag  \\
@@ -484,7 +471,8 @@ resulting variation is
 		\sum_\alpha
 		\left.
 		\p{\omega_\xi^+}{\eta_\xi^\alpha}
-		\right\vert_{\mc X_\xi,\mbf E}
+		\right\vert_{\mbf E,\bar\rho_\xi,
+			\eta_\xi^{\beta\neq\alpha},\theta}
 		\delta\eta_\xi^\alpha
 		+
 		\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\delta\varphi
@@ -519,20 +507,23 @@ action,
 	\phi_\xi
 	\left.
 	\p{\omega_\xi^+}{\bar\rho_\xi}
-	\right\vert_{\mc X_\xi,\mbf E}
+	\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
 	\delta\bar\rho_\xi\,\dv
-	-
+	\notag  \\
+	    & -
 	\sum_\xi\sum_\alpha\int_{\mc B}
 	\phi_\xi
 	\left.
 	\p{\omega_\xi^+}{\eta_\xi^\alpha}
-	\right\vert_{\mc X_\xi,\mbf E}
+	\right\vert_{\mbf E,\bar\rho_\xi,
+		\eta_\xi^{\beta\neq\alpha},\theta}
 	\delta\eta_\xi^\alpha\,\dv
 	\notag  \\
-	    & -
+	    & +
 	\sum_\xi\int_{\mc B}
-	\bs{\sigma}^{+}_{\xi}:
-	\nabla_{\mbf x}\delta\mbf x_\xi\,\dv
+	\left(
+	\nabla_{\mbf x}\cdot\bs{\sigma}^{+}_{\xi}
+	\right)\cdot\delta\mbf x_\xi\,\dv
 	+
 	\text{boundary terms}.
 	\label{eq:vp_electrical_mechanical_power}
@@ -666,7 +657,7 @@ for component \(\alpha\) in phase \(\xi\).  Its variation gives
 %
 Here the second equality uses $\dv = J_\xi {\rm d}V_\xi$ and
 $\phi_{\xi0}\bar\rho_{\xi0}\eta_{\xi0}^\alpha+\mc{C}_\xi^\alpha
-	=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$. ``b.t.'' denotes boundary terms generated by integration by parts that are omitted here for brevity.
+	=J_\xi\phi_\xi\bar\rho_\xi\eta_\xi^\alpha$. ``b.t.'' denotes boundary terms generated by integration-by-parts that are omitted here for brevity.
 
 % ============================================================
 \subsubsection{Variation of constraint \texorpdfstring{$C_3$}{C3}: mass partition within phase}
@@ -694,7 +685,7 @@ The last term in the first line vanishes by recognizing $\sum_\alpha \nabla_{\mb
 
 The Bedford--Drumheller transfer constraint contains the component material
 increment \(\mc C_\xi^\alpha\) carried by phase \(\xi\).  Its rate variation must
-be integrated by parts with the same phase material derivative before any
+be integrated-by-parts with the same phase material derivative before any
 stationarity condition is used.  A single transfer potential \(\tau\) enforces
 the total insertion-rate constraint.  Varying
 \(\tau\), the material measure, and the phase map gives
@@ -775,7 +766,7 @@ the reversible coordinate and constraint coefficients, including those from
 		\Bigg]\delta\phi_f\,\dv                         \\
 		 & + \sum_{\xi}\int_{\mc{B}} \Bigg[
 			-\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\{\eta_\xi^\alpha\}}
-			-\phi_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mc X_\xi,\mbf E}
+			-\phi_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
 			+ \sum_\alpha\frac{\pi_{\xi}^\alpha}{\bar\rho_{\xi}}
 		\Bigg] \delta\bar\rho_{\xi} \,\dv               \\
 		 & + \sum_{\xi}\sum_\alpha \int_{\mc{B}}
@@ -784,7 +775,7 @@ the reversible coordinate and constraint coefficients, including those from
 			-\rho_{\xi}
 			\left.\p{\psi_{\xi}}{\eta^\alpha_\xi}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta^{\beta\neq\alpha}_\xi}
 			-\phi_{\xi}
-			\left.\p{\omega_\xi^+}{\eta^\alpha_\xi}\right\vert_{\mc X_\xi,\mbf E}
+			\left.\p{\omega_\xi^+}{\eta^\alpha_\xi}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta}
 			\Bigg]
 		\delta\eta^\alpha_\xi\,\dv                      \\
 		 & + \sum_\xi\sum_\alpha\int_{\mc B}\Bigg[
@@ -796,7 +787,7 @@ the reversible coordinate and constraint coefficients, including those from
 		 & + \int_{\mc B}
 		\Bigg[
 			\nabla_{\mbf x}\cdot\mbf d-\varrho
-		\Bigg]\delta\varphi\,\dv
+			\Bigg]\delta\varphi\,\dv
 		\left.\vphantom{\sum_{\xi}}\right\}\dt
 	\end{aligned}
 	\notag                                 \\
@@ -816,8 +807,9 @@ classes, each bracketed integrand must vanish pointwise.
 
 \subsubsection{Euler--Lagrange equations}
 
-The Euler--Lagrange equation generated by arbitrary \(\delta\varphi\) is
-Gauss' law,
+The coefficients in \eqref{eq:collected_full} are now set to zero in the order
+of their associated variations.  The electrostatic-potential variation
+\(\delta\varphi\) gives Gauss' law,
 %
 \begin{equation}
 	\nabla_{\mbf x}\cdot\mbf d=\varrho .
@@ -838,12 +830,15 @@ electroquasistatic field equation implies
 	\label{eq:charge_gauss_compatibility}
 \end{equation}
 
+This compatibility relation follows from Gauss' law and charge balance; it is
+not an additional Euler--Lagrange equation.
+
 The neutral specialization is defined by
 \(\omega_\xi^+=0\) and \(z_\xi^\alpha=0\), where \(z_\xi^\alpha\) is the
 charge per unit component mass.
 
-The Euler--Lagrange equations generated by arbitrary $\delta\phi_\xi$ give,
-for phases without an explicit capillary contribution,
+The phase-volume-fraction variation \(\delta\phi_\xi\) gives, for phases without
+an explicit capillary contribution,
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -856,9 +851,12 @@ for phases without an explicit capillary contribution,
 \end{equation}
 % AGENT-LOCK-END
 %
-For the fluid phases the corresponding equations contain the primitive capillary potentials discussed below.
+For fluid phases, the same variation also contains the primitive capillary
+potential.  Its resulting equation is stated below after the phase pressure has
+been identified from the intrinsic-density variation.
 
-Substituting \eqref{eq:el_lambda} into the Euler--Lagrange equations associated with arbitrary $\delta \mbf{x}_\xi$ and simplifying gives
+The phase-motion variation \(\delta\mbf x_\xi\), after substitution of
+\eqref{eq:el_lambda}, gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -872,16 +870,17 @@ Substituting \eqref{eq:el_lambda} into the Euler--Lagrange equations associated 
 \end{equation}
 % AGENT-LOCK-END
 %
-with the fluid-phase capillary-force additions displayed separately below.
+The corresponding fluid-phase momentum equation contains additional capillary
+forces and is developed in the following subsection.
 
-The Euler--Lagrange equation associated with arbitrary $\delta\bar\rho_\xi$ gives
+The intrinsic-density variation \(\delta\bar\rho_\xi\) gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\sum_\al \frac{\pi_{\xi}^\al}{\phi_{\xi}}
 	= \bar\rho^2_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf F_\xi,\{\eta_\xi^\alpha\}}
 	+
-	\bar\rho_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mc X_\xi,\mbf E}
+	\bar\rho_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
 	.
 	\label{eq:phase_pressure_storage}
 \end{equation}
@@ -896,7 +895,7 @@ enthalpy depends on intrinsic density.  We define the phase pressure as
 	\bar{p}_\xi \equiv
 	\bar\rho^2_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf F_\xi,\{\eta_\xi^\alpha\}}
 	+
-	\bar\rho_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mc X_\xi,\mbf E}
+	\bar\rho_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
 	}
 	\label{eq:phase_pressure_all}
 \end{equation}
@@ -906,9 +905,12 @@ pressure as the usual thermodynamic pressure plus the dielectric pressure
 correction induced by the intrinsic-density dependence of the phase electric
 enthalpy.
 
-The coefficient of $\delta\phi_f$ in \eqref{eq:collected_full} includes both the
-primitive interfacial potential $\gamma_f$ and the electric enthalpy
-\(\omega_f^+\), so the fluid-phase volume-fraction relation is
+The next relations are consequences of the fluid-phase volume-fraction
+Euler--Lagrange equation and this phase-pressure definition.
+Returning to the fluid-phase volume-fraction variation, its coefficient in
+\eqref{eq:collected_full} contains both the primitive interfacial potential
+\(\gamma_f\) and the electric enthalpy \(\omega_f^+\).  The corresponding
+Euler--Lagrange equation is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -1029,21 +1031,23 @@ electrical form of the equivalent pore pressure used in thermodynamically
 stable coupled multiphase poromechanics
 \cite{coussy2004poromechanics,kim2013rigorous}.
 
-For a phase with $N$ tracked components, the Euler--Lagrange equations
-associated with arbitrary $\delta\eta_{\xi}^\alpha$ give
+The remaining independent variations determine the composition and
+component-transfer relations.
+For a phase with \(N\) tracked components, the composition variations
+\(\delta\eta_\xi^\alpha\) give
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	0 = \frac{\pi_{\xi}^\alpha}{\eta_{\xi}^\alpha} + \Pi_{\xi}
 	- \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}}
-	- \phi_{\xi}\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mc X_\xi,\mbf E},
+	- \phi_{\xi}\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta},
 	\qquad \alpha=1,\ldots,N,
 	\label{eq:el_eta_all}
 \end{equation}
 % AGENT-LOCK-END
 %
-while variation with respect to $\Pi_{\xi}$ returns the phase mass fraction
-constraint
+while the multiplier variation \(\delta\Pi_\xi\) returns the phase
+mass-fraction constraint
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -1060,7 +1064,7 @@ componentwise as
 \begin{equation}
 	\rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}}
 	+
-	\phi_{\xi}\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mc X_\xi,\mbf E}
+	\phi_{\xi}\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta}
 	- \frac{\pi_{\xi}^\alpha}{\eta_{\xi}^\alpha}
 	= \Pi_{\xi},
 	\label{eq:Pi_componentwise}
@@ -1084,8 +1088,8 @@ $\beta=1,\ldots,N-1$ gives a system of $N-1$ equations,
 	\right)
 	+
 	\phi_{\xi}\left(
-	\left.\p{\omega_\xi^+}{\eta_{\xi}^\beta}\right\vert_{\mc X_\xi,\mbf E}
-	- \left.\p{\omega_\xi^+}{\eta_{\xi}^N}\right\vert_{\mc X_\xi,\mbf E}
+	\left.\p{\omega_\xi^+}{\eta_{\xi}^\beta}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\kappa\neq\beta},\theta}
+	- \left.\p{\omega_\xi^+}{\eta_{\xi}^N}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\kappa\neq N},\theta}
 	\right)
 	\notag                                               \\
 	 & \qquad = \frac{\pi_{\xi}^\beta}{\eta_{\xi}^\beta}
@@ -1098,7 +1102,8 @@ $\beta=1,\ldots,N-1$ gives a system of $N-1$ equations,
 Here $\kappa$ indexes the collection of composition components held fixed in
 the partial derivative.
 
-The equations associated with the conversion variables are
+Finally, the component-material-measure variations
+\(\delta\mc C_\xi^\alpha\) give
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -1111,11 +1116,10 @@ The equations associated with the conversion variables are
 \end{equation}
 % AGENT-LOCK-END
 %
-Equation \eqref{eq:el_conversion_component} is the coefficient of
-\(\delta\mc C_\xi^\alpha\) associated with the scalar transfer potential
-\(\tau\).  Because \(\tau\) is shared by all components in a phase, one
-component relation can evolve \(\tau\) along that phase motion; the remaining
-relations constrain the storage multipliers \(\pi_\xi^\alpha\).
+Because the scalar transfer potential \(\tau\) is shared by all components in a
+phase, one relation in \eqref{eq:el_conversion_component} can evolve \(\tau\)
+along that phase motion; the remaining relations constrain the storage
+multipliers \(\pi_\xi^\alpha\).
 
 At this stage $L_\xi^\alpha$ remains an explicit constitutive work potential for
 component transfer.  An admissible choice of $L_\xi^\alpha$ is identified by the
