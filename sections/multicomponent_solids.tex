@@ -17,9 +17,8 @@ skeleton trajectory
 	J=\det\mbf F .
 	\label{eq:common_solid_skeleton_motion}
 \end{equation}
-The common displacement means that adsorbed species, host minerals, hydrate
-cages, bound water, and hydrate guest molecules do not receive separate solid
-velocities.  Their mechanical effect enters through solid composition,
+Adsorbed species, host minerals, hydrate cages, bound water, and hydrate guest
+molecules share the skeleton velocity.  Their mechanical effect enters through solid composition,
 stress-free swelling, thermal expansion, elastic moduli, and plastic flow
 properties.
 
@@ -295,60 +294,47 @@ are constrained by their mass-fraction normalizations, so composition
 coefficients are projected onto the corresponding tangent spaces by subtracting
 the \(N\)th component coefficient from the \(\beta=1,\ldots,N-1\) coefficients.
 
-Electrical effects enter the free-energy structure through the phase electric
-enthalpies \(\omega^{+}_{\xi}\) introduced in
-\sref{virtual_power_derivation}.  Their corresponding densities per current
-mixture volume are
-\(\psi_{\omega,\xi}\equiv\phi_\xi\omega_\xi^+\), in analogy with
-\(\psi_\gamma=\phi\gamma\).  The electric field is a single spatial field, but
-each phase may have its own dielectric response to that field, in the same
-sense that each phase has its own Helmholtz free energy \(\psi_\xi\).  The
-derivative of \(\omega^{+}_{\xi}\) with respect to \(\mbf E\) defines the
-phase displacement \(\mbf d_\xi\), and the total displacement is
+Electrical effects enter the thermodynamic structure through the phase
+electric-enthalpy densities \(\omega^{+}_{\xi}\) introduced in
+\sref{virtual_power_derivation}.  Each \(\omega_\xi^+\) is normalized per
+current phase volume, so \(\phi_\xi\omega_\xi^+\) is its contribution per
+current mixture volume.  The effective interfacial Helmholtz free-energy
+density \(\gamma\) is normalized per current fluid volume, so
+\(\phi\gamma\) is its contribution per current mixture volume.  The notation
+\(\psi_\xi\) denotes the specific phase Helmholtz free energy,
+\(\gamma\) the effective interfacial Helmholtz density, and
+\(\omega_\xi^+\) the phase electric-enthalpy density.  The electric field is a single spatial field, but each phase
+may have its own dielectric response to that field.  The derivative of
+\(\omega^{+}_{\xi}\) with respect to \(\mbf E\) defines the phase displacement
+\(\mbf d_\xi\), and the total displacement is
 \(\mbf d=\sum_\xi\phi_\xi\mbf d_\xi\).  Stationarity with respect to
-\(\varphi\) gives Gauss' law.  Thus \(\psi_\xi\) remains nonelectrical,
-\(\mbf E\) is the independent electrical variable, and \(\mbf d_\xi\) is a
-derived response.  This is the electric-enthalpy version of standard
-electroelastic potential formulations, specialized here to exclude an
-independent deformation argument in the electrical potential
+\(\varphi\) gives Gauss' law.  Thus \(\mbf E\) is the independent electrical
+variable and \(\mbf d_\xi\) is the constitutive dielectric response.  This is
+the electric-enthalpy form of electroelastic potential theory
 \cite{dorfmann2017nonlinear_electroelasticity}.
 
-Consistently with the variational state space, the arguments of
-\(\omega_f^+\) are \(\mbf E\), \(\bar\rho_f\), the fluid mass fractions, and
-\(\theta\), with no independent dependence on the full deformation gradient.
-Density, composition, and temperature can therefore change the fluid
-permittivity and its dielectric pressure.  Such state dependence is relevant
+Consistently with the variational state space,
+\(\omega_f^+=\omega_f^+(\mbf E,\bar\rho_f,\{\eta_f^\alpha\},\theta)\).
+Density, composition, and temperature therefore change the fluid permittivity
+and its dielectric pressure.  Such state dependence is relevant
 to reservoir materials: the bulk dielectric response of saturated sandstone
 varies with porosity and pore-fluid
 salinity~\cite{kirichek2018dielectric_sandstone}.  The solid enthalpy
 \(\omega_s^+\) has the analogous field, intrinsic-density, solid-composition,
-and temperature arguments.  Thus neither phase enthalpy has an independent
-deformation-gradient argument, so no electrostrictive constitutive term is
-introduced.  Density, composition, and temperature derivatives remain and
-enter the matching Coleman--Noll restrictions.
+and temperature arguments.  These state arguments give the Maxwell stress and
+the density, composition, and temperature contributions in the corresponding
+Coleman--Noll restrictions.
 
-We further assume that \(\omega_\xi^+\) is even in \(\mbf E\).  This excludes
-a bulk piezoelectric coupling, which would require an electrical term odd in
-\(\mbf E\).  Together with the restricted solid argument structure, this is a
-reservoir-scale constitutive choice rather than a claim that every mineral grain
-is nonpiezoelectric or nonelectrostrictive:
-in saturated-rock hydraulic-fracturing measurements, Moore and Glaser found the
-self-potential response to be primarily electrokinetic rather than
-piezoelectric~\cite{moore2007self_potential}.  Streaming-current and
-electro-osmotic couplings belong to the dissipative cross-coupled transport
-sector, not to the equilibrium deformation derivative of \(\omega_\xi^+\).
-Coreflood experiments in tight sandstone likewise identify electro-osmosis and
-electrochemical alteration as principal mechanisms by which a direct-current
-field changes pressure demand, wettability, and oil
-recovery~\cite{jia2024electrically_enhanced_oil_recovery}.  The theory
-therefore retains electrical coupling in phase equilibrium and charged-species
-transport while omitting a direct electrical dependence of the solid plastic
-constitutive law.  Electric loading can still influence plastic response
-indirectly through the Maxwell stress in the coupled momentum equations.
-
-The present model also omits independent polarization, dielectric relaxation,
-and switching; adding those mechanisms would require additional electrical
-state variables and evolution laws.
+The reservoir-scale constitutive choice takes \(\omega_\xi^+\) to be even in
+\(\mbf E\).  Electrical coupling acts through Maxwell stress, phase equilibrium,
+electrochemical transport, and electro-osmotic cross-coupling.  This focus is
+consistent with saturated-rock self-potential measurements dominated by
+electrokinetic response~\cite{moore2007self_potential} and tight-sandstone
+corefloods in which electro-osmosis and electrochemical alteration govern the
+electrical change in pressure demand, wettability, and oil
+recovery~\cite{jia2024electrically_enhanced_oil_recovery}.  Plastic evolution
+depends on the phase material stress and composition, so electrical loading
+affects plastic response through the coupled Maxwell momentum solution.
 
 In the collection below, the nonelectrical phase Helmholtz derivatives are
 written explicitly, while the electric-potential coefficient is displayed as a
@@ -360,11 +346,11 @@ phase momentum coefficient and is included in the combined reversible stress
 derivatives of \(\omega^{+}_{\xi}\) are added to their matching reversible
 coefficients before imposing the corresponding Coleman--Noll restrictions.
 
-No component additivity has been imposed.  Consequently, the generic
-Coleman--Noll argument uses only the phase internal energy \(e_\xi\),
-Helmholtz free energy \(\psi_\xi\), and entropy \(\mathfrak{s}_\xi\).  A
-component resolution of the solid Helmholtz energy is introduced only in the
-additive specialization of \sref{MC_additive_component_specialization}.
+The generic Coleman--Noll argument uses the phase internal energy \(e_\xi\),
+Helmholtz free energy \(\psi_\xi\), and entropy \(\mathfrak{s}_\xi\), with a
+general composition-dependent phase energy.  The additive specialization in
+\sref{MC_additive_component_specialization} resolves the solid Helmholtz energy
+into component contributions.
 
 \subsection{Coleman--Noll procedure}
 \label{sec:MC_coleman_noll_procedure}
@@ -383,13 +369,11 @@ condition supplies a near-equilibrium class of reaction and relative-transport
 laws.  The Coleman--Noll procedure takes the balance laws and kinematics as given
 and uses the entropy inequality to identify admissible constitutive responses and
 force--rate relations.  Consequently, overlapping reversible relations provide
-consistency checks when the same free energies and constraints are used, but the
-Coleman--Noll calculation does not independently generate terms arising from
-kinematic constraint variations.  In particular, the conversion-insertion
-contribution involving \(\nabla_{\mbf x}\tau\) in the phase momentum balance
-\eqref{eq:el_momentum_uniform} follows from the phase-map variation of the
-material-insertion constraint \eqref{eq:C4_def} and is carried into the
-constitutive development through the previously derived balance law.
+consistency checks when the same free energies and constraints are used.  The
+phase-map variation of the material-insertion constraint \eqref{eq:C4_def}
+supplies the conversion-insertion term involving
+\(\nabla_{\mbf x}\tau\) in \eqref{eq:el_momentum_uniform}; the Coleman--Noll
+calculation uses that phase balance in the constitutive exploitation.
 
 Let \(e_\xi\) denote the specific internal energy of phase \(\xi\), and let
 \(\mathfrak{s}_\xi\) denote its specific entropy.  For fluid phases,
@@ -477,7 +461,7 @@ The free-energy rates are
 	\label{eq:MC_solid_free_energy_rate}
 \end{align}
 %
-We assume that the fluid phases carry no elastic stress,
+The fluid mechanical stress is
 %
 \begin{equation}
 	\bs\sigma_f'=\mbf 0,
@@ -486,9 +470,7 @@ We assume that the fluid phases carry no elastic stress,
 	\label{eq:MC_fluid_stress_free}
 \end{equation}
 %
-When electrical effects are retained, their reversible mechanical stress is
-therefore purely electrical.  Because the fluid state set has no independent
-deformation-gradient argument, this contribution is Maxwellian:
+The reversible fluid stress is therefore the Maxwell stress:
 %
 \begin{equation}
 	\bs\sigma_f^{\prime+}
@@ -499,17 +481,18 @@ deformation-gradient argument, this contribution is Maxwellian:
 	\label{eq:MC_fluid_total_reversible_stress}
 \end{equation}
 %
-The interfacial Helmholtz contribution retains the form introduced in
-\eqref{eq:interfacial_energy_density}.  Allowing \(\gamma\) to depend on temperature is
-consistent with standard capillary-pressure scaling used in reservoir
-engineering \cite{leverett1941capillary},
+The effective interfacial Helmholtz free-energy density \(\gamma\), normalized
+per current fluid volume, retains the form introduced in
+\eqref{eq:interfacial_energy_density}.  Allowing \(\gamma\) to depend on
+temperature is consistent with standard capillary-pressure scaling used in
+reservoir engineering \cite{leverett1941capillary}.  Its contribution per
+current mixture volume and corresponding collective local rate satisfy
 %
 \begin{equation}
-	\psi_\gamma
-	=
-	\phi\gamma(\{S_f\}_{f\in\mc F},\theta),
-	\qquad
-	\dot\psi_\gamma
+	\frac{{\rm d}}{{\rm d}t}
+	\left[
+	\phi\gamma(\{S_f\}_{f\in\mc F},\theta)
+	\right]
 	=
 	\sum_{f\in\mc F}\gamma_f\dot\phi_f
 	+
@@ -521,191 +504,102 @@ engineering \cite{leverett1941capillary},
 	\label{eq:MC_interfacial_helmholtz_rate}
 \end{equation}
 %
-As in the variational derivation, \(\gamma\) has no independent deformation
-argument.  Capillary coupling therefore enters through the volume fractions,
-saturations, and temperature rather than through a separate constitutive
-capillary stress.  The overdot on \(\psi_\gamma\) denotes the collective local
+The adopted \(\gamma=\gamma(\{S_f\}_{f\in\mc F},\theta)\) makes capillary
+coupling enter through the volume fractions, saturations, and temperature.  The derivative on the left of
+\eqref{eq:MC_interfacial_helmholtz_rate} is the collective local constitutive
 rate generated by the independent fluid volume-fraction rates and the common
-temperature rate in \eqref{eq:MC_interfacial_helmholtz_rate}; it is not a
-material derivative following any one phase.  Because the present state space
-contains no independent interface motion or interfacial-area density,
-\(\psi_\gamma\) has no separate phase-transport term.  Such a term would
-require an additional interfacial balance and flux law.
+temperature rate.
 
 Newly added component mass is assigned the specific internal energy \(e_\xi\)
 of the phase receiving or losing that mass.
 Let \(\mbf L_\xi=\nabla_{\mbf x}\mbf v_\xi\) be the phase
 velocity gradient, \(\mbf q_\xi\) the heat flux, \(\rho_\xi r_\xi\) the external
 heat supply per unit current mixture volume, and \(\rho_\xi e_\xi^{\rm int}\)
-the internal energy supply from interphase exchange.  The electric-enthalpy
-Legendre contribution \(\psi_{\omega,\xi}\) is also written per unit current
-mixture volume, but unlike \(\psi_\gamma\), it is attributed to phase \(\xi\).
-For a current volume element carried by \(\mbf v_\xi\), the spatial transport
-theorem gives
-\(D_\xi({\rm d}v)/Dt=(\nabla_{\mbf x}\cdot\mbf v_\xi){\rm d}v
-=(\mbf I:\mbf L_\xi){\rm d}v\).  Applying the product rule gives
-\eqref{eq:MC_electric_enthalpy_volume_transport}.  Similarly, differentiating
-\(\mbf E=-\nabla_{\mbf x}\varphi\) with the moving phase derivative and using
-\(D_\xi(\nabla_{\mbf x}\varphi)/Dt
-=\nabla_{\mbf x}\dot\varphi-\mbf L_\xi^T\nabla_{\mbf x}\varphi\)
-gives \eqref{eq:MC_electric_field_transport}.  Since
-\(\mbf d_\xi=-\partial\omega_\xi^+/\partial\mbf E\), the chain rule for
-\(\dot\psi_{\omega,\xi}\) contains
-\(-\phi_\xi\mbf d_\xi\cdot\dot{\mbf E}\).  Substitution of the field-rate
-identity produces a field-work term
-\(\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\dot\varphi\) and a convected-field
-term \(\phi_\xi\mbf E\otimes\mbf d_\xi:\mbf L_\xi\).  The field-work term is
-moved to the left, while the convected-field term combines with the
-current-volume transport term to give the Maxwell stress:
-%
-\begin{subequations}
-	\label{eq:MC_electric_enthalpy_rate}
-	\begin{align}
-	\frac{D_\xi}{Dt}
-	\left(
-	\psi_{\omega,\xi}\,{\rm d}v
-	\right)
-	={} &
-	\left(
-	\dot\psi_{\omega,\xi}
-	+
-	\psi_{\omega,\xi}
-	\mbf I:\mbf L_\xi
-	\right){\rm d}v,
-	\label{eq:MC_electric_enthalpy_volume_transport}
-	\\
-	\dot{\mbf E}
-	={} &
-	-\nabla_{\mbf x}\dot\varphi
-	-
-	\mbf L_\xi^T\mbf E,
-	\label{eq:MC_electric_field_transport}
-	\\
-	\dot\psi_{\omega,\xi}
-	+
-	\psi_{\omega,\xi}\mbf I:\mbf L_\xi
-	-
-	\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\dot\varphi
-	={} &
-	\omega_\xi^+\dot\phi_\xi
-	+
-	\phi_\xi
-	\left.
-	\p{\omega_\xi^+}{\bar\rho_\xi}
-	\right\vert_{\mc X_\xi,\mbf E}
-	\dot{\bar\rho}_\xi
-	\notag  \\
-	& \quad
-	+
-	\phi_\xi\sum_\beta
-	\left.
-	\p{\omega_\xi^+}{\eta_\xi^\beta}
-	\right\vert_{\mc X_\xi,\mbf E}
-	\dot\eta_\xi^\beta
-	\notag  \\
-	& \quad
-	+
-	\phi_\xi
-	\left.
-	\p{\omega_\xi^+}{\theta}
-	\right\vert_{\mc X_\xi,\mbf E}
-	\dot\theta
-	+
-	\underbrace{
-	\left(
-	\psi_{\omega,\xi}\mbf I
-	+
-	\phi_\xi\mbf E\otimes\mbf d_\xi
-	\right)
-	}_{\bs\sigma_\xi^+}
-	:\mbf L_\xi .
-	\label{eq:MC_electric_enthalpy_rate_collected}
-	\end{align}
-\end{subequations}
-%
-Thus neither mechanical term is appended to the constitutive chain rule: the
-isotropic term comes from transporting a current-volume density, and the
-dyadic term comes from convecting the spatial electric field.  This is the same
-bookkeeping used in
-electric-enthalpy thermo-electroelasticity and in energy-balance derivations of
-Maxwell stress \cite{montanaro2015thermo_electroelasticity,
-nika2025heterogeneous_dielectrics}.
-
-The interfacial energy cannot be assigned uniquely to an individual fluid
-phase.  Therefore the first law used in the entropy inequality is the sum of
-the phase contributions, with the collective interfacial rate added once.
+the internal energy supply from interphase exchange.
 
 \pagebreak
-Using the generalized conversion-work potential \(L_\xi^\alpha\), this
-electric-enthalpy form is
+Following the constituent energy-balance structure of Drumheller and Bedford,
+we take the energy equation as a balance-law postulate for the reacting
+immiscible mixture \cite{drumheller1980thermomechanical}; its conversion-work
+terms use the generalized form of Drumheller
+\cite[eq.~(50)]{drumheller2000}.  The electrical extension is written in the
+electric-enthalpy representation used in thermo-electroelasticity
+\cite{montanaro2015thermo_electroelasticity}, with Maxwell-stress accounting
+consistent with electromagnetic energy-flux balances
+\cite{nika2025heterogeneous_dielectrics}.  The electric enthalpy
+\(\phi_\xi\omega_\xi^+\) per current mixture volume is attributed to phase
+\(\xi\), whereas the interfacial Helmholtz contribution \(\phi\gamma\) is
+shared and therefore enters the summed balance only once.  With the Maxwell
+stress defined by \eqref{eq:vp_electrical_stress_definition}, the postulated
+energy equation is
 %
 \begin{equation}
 	\begin{aligned}
-	& \sum_\xi
+	&\sum_\xi
 	\left[
 	\rho_\xi\dot e_\xi
 	+
 	\sum_\alpha\dot c_\xi^\alpha e_\xi
 	+
-	\dot\psi_{\omega,\xi}
+	\frac{D_\xi}{Dt}
+	\left(
+	\phi_\xi\omega_\xi^+
+	\right)
 	+
-	\psi_{\omega,\xi}\mbf I:\mbf L_\xi
-		-
-		\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\dot\varphi
-		\right]
-		\\
-		& \qquad
-		+
+	\phi_\xi\omega_\xi^+\mbf I:\mbf L_\xi
+	-
+	\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\dot\varphi
+	\right]
+	\\
+	&\qquad
+	+
 		\sum_{f\in\mc F}\gamma_f\dot\phi_f
-		+
+	+
 		\phi
 		\left.
 		\p{\gamma}{\theta}
 		\right\vert_{\{S_f\}_{f\in\mc F}}
 		\dot\theta
-		\\
-		& \qquad =
-	\sum_\xi
-	\left[
-	\bs\sigma_\xi^{\prime+}:\mbf L_\xi
-	+
-	\phi_\xi\bar p_\xi
-	\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
-	+
-	\bar p_\xi\dot\phi_\xi
-	+
-	\sum_\alpha
-	\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}
-	\dot\eta_\xi^\alpha
-	\right.
 	\\
-	& \left.
+	&=
+		\sum_\xi
+		\left[
+		\bs\sigma_\xi^{\prime+}:\mbf L_\xi
+		+
+		\phi_\xi\bar p_\xi
+		\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
+		+
+		\bar p_\xi\dot\phi_\xi
+		+
+		\sum_\alpha
+		\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}
+		\dot\eta_\xi^\alpha
+		-
+		\sum_\alpha L_\xi^\alpha\dot c_\xi^\alpha
+		\right.
+		\\
+	&\left.
 	\qquad\qquad
-	-
-	\sum_\alpha L_\xi^\alpha\dot c_\xi^\alpha
-	-
-	\nabla_{\mbf x}\cdot\mbf q_\xi
-	+
-	\rho_\xi r_\xi
-	+
-	\rho_\xi e_\xi^{\rm int}
+		-
+		\nabla_{\mbf x}\cdot\mbf q_\xi
+		+
+		\rho_\xi r_\xi
+		+
+		\rho_\xi e_\xi^{\rm int}
 		\right].
 	\end{aligned}
 	\label{eq:MC_energy_balance}
 \end{equation}
 %
-Here \(e_\xi=\psi_\xi+\theta\mathfrak{s}_\xi\).
-Equation~\eqref{eq:MC_energy_balance} displays both contributions to the single
-collective rate \(\dot\psi_\gamma\) from
-\eqref{eq:MC_interfacial_helmholtz_rate}; they do not belong to the
-phase-attributed electrical identities in
-\eqref{eq:MC_electric_enthalpy_rate}.
-Equations~\eqref{eq:MC_electric_enthalpy_rate} and
-\eqref{eq:MC_energy_balance} show why the signs are not opposite power
-conventions: the total stress power is positive on the right of the first law,
-and the positive electrical stress power is part of the electric-enthalpy
-rate on the left.  It therefore enters the dissipation inequality with a minus
-sign only after the stored-energy rate is moved to that inequality.
+Here \(e_\xi=\psi_\xi+\theta\mathfrak{s}_\xi\), and the two explicit
+interfacial terms are precisely the collective rate of \(\phi\gamma\) in
+\eqref{eq:MC_interfacial_helmholtz_rate}.  The total stress
+\(\bs\sigma_\xi^{\prime+}\) appears with positive mechanical power.  When the
+phase electric-enthalpy contribution \(\phi_\xi\omega_\xi^+\) in
+\eqref{eq:MC_energy_balance} is expanded during the entropy-inequality
+exploitation, its reversible Maxwell-power contribution is collected with
+that total stress power, leaving the nonelectrical material stress power
+identified below.
 The solid stress power is decomposed by
 \(\mbf F=\mbf A_s\bar{\mbf F}_s\),
 %
@@ -956,16 +850,14 @@ identically vanishing mass-fraction tangent terms
 %
 
 The interfacial terms in \eqref{eq:MC_reduced_entropy_inequality} are the
-negative of the two contributions to \(\dot\psi_\gamma\) in
+negative of the two contributions to the collective rate of \(\phi\gamma\) in
 \eqref{eq:MC_interfacial_helmholtz_rate}.  The electrical terms come directly
-from the electric-enthalpy Legendre terms on the left-hand side of
+from the phase electric-enthalpy contributions on the left-hand side of
 \eqref{eq:MC_energy_balance}.  The electric-potential-gradient term has been
 integrated by parts and combined with the free-charge power, giving the
-displayed Gauss-law coefficient.  The total stress power has not changed sign:
-it is the first positive term in
-\eqref{eq:MC_reduced_entropy_inequality}.  The negative electrical stress power
-is part of the stored electric-enthalpy rate
-\eqref{eq:MC_electric_enthalpy_rate}.  Hence
+displayed Gauss-law coefficient.  Expanding the phase electric-enthalpy terms
+from \eqref{eq:MC_energy_balance} with
+\eqref{eq:vp_electrical_stress_definition} gives
 \begin{equation}
 	\bs\sigma_\xi^{\prime+}:\mbf L_\xi
 	-
@@ -974,12 +866,11 @@ is part of the stored electric-enthalpy rate
 	\bs\sigma_\xi':\mbf L_\xi .
 \label{eq:MC_material_stress_power_identity}
 \end{equation}
-This cancellation identifies the portion conjugate to the separately defined
-nonelectrical Helmholtz energy \(\psi_\xi\); it does not remove electrical
-stress from the momentum equation.  Derivations based on the Poynting flux
-obtain the same sign: the first law contains the total stress power, whereas
-the field-energy transport supplies the Maxwell-stress power that is
-subtracted when the Clausius--Duhem inequality is formed
+This identity identifies \(\bs\sigma_\xi'\) as the stress power conjugate to
+the phase Helmholtz-energy rate.  The momentum equation retains the total
+stress \(\bs\sigma_\xi^{\prime+}\).  Poynting-flux derivations give the same
+allocation: the first law contains total stress power and field-energy transport
+supplies the Maxwell-stress power in the Clausius--Duhem inequality
 \cite{nika2025heterogeneous_dielectrics}.  Equivalently, an
 electric-enthalpy Legendre transform gives the displacement with a minus
 potential derivative and retains the total stress as the deformation
@@ -987,14 +878,14 @@ derivative of the combined potential
 \cite{montanaro2015thermo_electroelasticity,
 dorfmann2017nonlinear_electroelasticity}.
 
+\pagebreak[4]
 Multiplying \eqref{eq:MC_reduced_entropy_inequality} by the positive
 temperature and substituting \eqref{eq:MC_fluid_free_energy_rate},
-the corresponding electrical-enthalpy rates,
+the electrical-enthalpy rates,
 \eqref{eq:MC_solid_free_energy_rate}, \eqref{eq:MC_solid_density_rate}, and
 \eqref{eq:MC_stress_power_split}, while using
 \eqref{eq:MC_material_stress_power_identity}, gives the collected inequality,
 %
-\enlargethispage{\baselineskip}
 \begin{align}
 	0\le{} &
 	\sum_{s\in\mc S}
@@ -1091,9 +982,9 @@ the corresponding electrical-enthalpy rates,
 		\left.
 		\p{\omega^{+}_{f}}{\bar\rho_f}
 		\right\vert_{\mc X_f,\mbf E}
-		\right]
+	\right]
 	\dot{\bar\rho}_f
-	\notag \displaybreak[4] \\
+	\notag                  \\
 	       & +
 	\sum_{f\in\mc F}
 	\sum_\beta
@@ -1203,6 +1094,9 @@ the corresponding electrical-enthalpy rates,
 	\left.
 	\p{\omega^{+}_{f}}{\theta}
 	\right\vert_{\mc X_f,\mbf E}
+	\right.
+	\notag                  \\
+	       & \left.
 	-
 	\sum_{s\in\mc S}
 	\rho_s
@@ -1283,7 +1177,7 @@ the corresponding electrical-enthalpy rates,
 	(\bar{\mbf F}_s^0)^{-1}
 	\right]
 	\right]\dot\theta
-	\notag                  \\
+	\notag \displaybreak[4] \\
 	       & +
 	\sum_\xi
 	\left(
@@ -1307,7 +1201,8 @@ the corresponding electrical-enthalpy rates,
 		\psi_\xi+L_\xi^\alpha
 		\right)
 	\right)\dot r_{(m)}
-	-
+	\notag                  \\
+	       & -
 	\sum_\xi\sum_\alpha
 	\left(
 	\mbf j_{\xi,{\rm disp}}^\alpha
@@ -1339,10 +1234,8 @@ the corresponding electrical-enthalpy rates,
 The Coleman--Noll collection uses the material stress
 \(\bs\sigma_\xi'\) identified by
 \eqref{eq:MC_material_stress_power_identity}.  The total stress
-\(\bs\sigma_\xi^{\prime+}\) remains the sum of this nonelectrical Helmholtz
-stress and the complete electrical stress \(\bs\sigma_\xi^+\), which is
-Maxwellian under the constitutive assumptions of this theory.  This bookkeeping
-does not imply that a fluid has no electrical stress.
+\(\bs\sigma_\xi^{\prime+}\) is the sum of the phase Helmholtz stress
+\(\bs\sigma_\xi'\) and the Maxwell stress \(\bs\sigma_\xi^+\).
 
 The coefficient of
 \(\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}\) gives
@@ -1380,11 +1273,10 @@ The coefficient of
 \end{align}
 %
 For a fluid, \(\bs\sigma_f'=\mbf0\) by
-\eqref{eq:MC_fluid_stress_free}; therefore the same restriction reads
-\(\bs\sigma_f^{\prime+}=\bs\sigma_f^+\), not
-\(\bs\sigma_f^{\prime+}=\mbf0\).  The electric stress remains in the fluid
-momentum balance \eqref{eq:el_mom_f_simplified}; only its reversible power is
-matched by the electric-enthalpy rate in the entropy inequality.
+\eqref{eq:MC_fluid_stress_free}, so
+\(\bs\sigma_f^{\prime+}=\bs\sigma_f^+\).  Its reversible power is paired with
+the electric-enthalpy rate in the entropy inequality, and the stress enters the
+fluid momentum balance \eqref{eq:el_mom_f_simplified}.
 
 The density coefficients identify the phase pressures,
 %
@@ -1454,9 +1346,8 @@ to the solid phase when the solid phase map is varied:
 \end{equation}
 %
 Equation~\eqref{eq:vp_electrical_stress_definition} identifies
-\(\bs\sigma_s^+\) as the phase-attributed Maxwell stress.  No separate
-electrostrictive stress is present because \(\omega_s^+\) has no independent
-deformation-gradient argument.
+\(\bs\sigma_s^+\) as the phase-attributed Maxwell stress for the adopted
+electric-enthalpy state variables.
 
 The total solid stress is recovered from
 \eqref{eq:MC_material_stress_power_identity} as the sum of the material stress
@@ -1626,9 +1517,9 @@ The multicomponent solid composition projection is
 \end{empheq}
 %
 The temperature coefficient gives the total entropy restriction.  Because
-\(\psi_\gamma\) is a collective mixture contribution, this restriction fixes
-the total entropy density but does not prescribe an arbitrary allocation of
-interfacial entropy among the fluid phases:
+\(\phi\gamma\) is a collective interfacial Helmholtz contribution per current
+mixture volume, this restriction defines the corresponding collective
+interfacial contribution to the total entropy density:
 %
 \begin{align}
 	\sum_{f\in\mc F}\rho_f\mathfrak{s}_f
@@ -1692,7 +1583,7 @@ interfacial entropy among the fluid phases:
 \label{sec:MC_residual_dissipation}
 
 Converted and relatively transported mass of the same component enter the phase
-material measure only through their sum.  The variational derivation leaves the
+material measure through their sum.  The variational derivation leaves the
 generalized work potential \(L_\xi^\alpha\) explicit in
 \eqref{eq:el_conversion_component}.  The entropy inequality identifies the
 thermodynamic component potential that must be conjugate to component supply.
@@ -1955,7 +1846,7 @@ thermodynamic potentials so that a single transfer potential remains
 well-defined.
 %
 \subsubsection{Residual dissipation and admissible closures}
-We now collect the constitutive substitutions that make the residual inequality
+The following constitutive substitutions make the residual inequality
 nonnegative.  The reaction and relative-transport terms use the Onsager
 closures derived in \sref{onsager_reaction_transport}; the remaining terms are
 closed by standard sufficient dissipative choices.
@@ -1965,8 +1856,8 @@ the material stress \(\bs\sigma_s'\) identified in
 \eqref{eq:MC_material_stress_power_identity}.  This stress is mapped through
 each solid phase's distension and true-deformation gradients to its plastic-flow
 configuration.
-Because each true-plastic flow is isochoric, only the deviatoric part of that
-mapped stress contributes to the true-plastic power.  Define \(\mbf S_s\) as
+Each true-plastic flow is isochoric, so the deviatoric part of that mapped
+stress is conjugate to the true-plastic rate.  Define \(\mbf S_s\) as
 the deviatoric true-plastic driving stress,
 %
 \begin{equation}
@@ -1999,12 +1890,12 @@ deviatoric stress,
 	\label{eq:true_plastic_driving_stress_trace_free}
 \end{equation}
 %
-Thus any spherical part of the mapped true-plastic driving stress does no power
-against \(\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}\).  This is the direct
-analogue of Drumheller's \cite[eqs.~(108)--(112)]{drumheller2000}
-true-plastic driving stress: his deviatoric true stress is replaced here by the
-phase single-prime solid stress first mapped through that phase's distension
-tensor.  Starting from \eqref{eq:MC_collected_entropy}, the residual inequality
+The spherical part is orthogonal to the isochoric rate
+\(\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}\).  Equation
+\eqref{eq:true_plastic_driving_stress_definition} is the phase-distension
+mapping of Drumheller's deviatoric true-plastic driving stress
+\cite[eqs.~(108)--(112)]{drumheller2000}.  Starting from
+\eqref{eq:MC_collected_entropy}, the residual inequality
 below follows after substituting the reversible restrictions
 \eqref{eq:MC_phase_pressure_definitions}, \eqref{eq:MC_solid_stress_definition},
 \eqref{eq:MC_distension_force_definition},
@@ -2116,8 +2007,8 @@ or, equivalently,
 \end{align}
 %
 Here \(k\in\{{\rm disp},{\rm diff}\}\).  The zero row and column sums enforce
-the relative-flux constraint, so adding a common component potential within a
-phase does not produce transport power.  Substitution of
+the relative-flux constraint and make transport power invariant under a common
+shift of the component potentials within a phase.  Substitution of
 \eqref{eq:MC_onsager_reaction_rate} and
 \eqref{eq:MC_relative_transport_closures} into the reaction and transport part
 of \eqref{eq:MC_residual_dissipation} gives
@@ -2161,13 +2052,6 @@ are constitutive choices, and dispersion may depend on resolved flow and pore
 geometry~\cite{plumb1988dispersion,gray2009tcat_transport}.  Cross-coupled
 mobilities can be added when the material requires them, provided the combined
 quadratic form remains nonnegative~\cite{doi2011onsager,wang2021onsager}.
-
-No residual polarization term appears in \eqref{eq:MC_residual_dissipation}
-because independent polarization is not included as a state variable.  Models
-for induced-polarization measurements, ferroelectric switching, or dielectric
-relaxation would enlarge the electrical state and add a corresponding
-stationarity or dissipative evolution law; those mechanisms are deliberately
-left outside the present reservoir-flow specialization.
 
 The remaining dissipative terms in \eqref{eq:MC_residual_dissipation} are the
 plastic powers, the interphase interaction power, and the heat-conduction power.
@@ -2213,42 +2097,13 @@ yield strength, and mobility enter through flow laws for
 specialization are given in
 \eqref{eq:MC_component_resolved_plastic_flow_rules}.  More general coupled
 plastic deformation--distension laws are allowed if their combined plastic
-power is nonnegative.  A stronger model with component-specific plastic deformation
-gradients would require a different solid kinematic split and new residual
-plastic powers.
-
-This admissibility statement is deliberately weaker than an associated
-plasticity postulate.  In classical soil and rock plasticity, associated flow
-uses the same function to define both the onset of plastic loading and the
-direction of irreversible deformation.  Many geomaterials are modeled
-non-associatively because shear strength and volumetric evolution are controlled
-by different mechanisms, including dilatancy, pore collapse, grain
-rearrangement, cementation, dissolution, and precipitation.  Imposing associated
-flow on a frictional material can therefore predict an unrealistic volumetric
-response.  The mixture formulation expresses this physical separation through
-the distension split, with the yield-surface and plastic-potential roles
-replaced by thermodynamic conjugate powers.  The elastic stress follows from the
-stress-generating part of the free energy, whereas
-\(\mbf A_s^p\) describes irreversible pore-volume or solid-packing change.
-Its evolution is thermodynamically admissible when its contribution to
-\eqref{eq:MC_residual_dissipation} is nonnegative.  Plastic distension may
-therefore be driven by hydrostatic stress, composition, reaction affinity,
-cementation state, or other internal variables, provided the resulting coupled
-deformation--distension power remains nonnegative.  The formulation thereby
-retains the physical content usually associated with non-associated flow in
-geomechanics while using the residual inequality as the admissibility test.
-
-This distinction is important because empirical usefulness alone is insufficient
-to establish thermodynamic consistency.  Separating the plastic flow direction from
-the yield or loading function affects the plastic stress power, the usual
-maximum-dissipation interpretation, and often the symmetry of the algorithmic
-tangent.  The present formulation makes this check explicit by displaying the
-true-plastic and plastic-distension powers in
-\eqref{eq:MC_residual_dissipation}.  A non-associated closure is admissible only
-after its chosen rates are tested against those conjugate power terms.  The
-uncoupled rules in \eqref{eq:MC_generic_plastic_flow_rules} give one sufficient
-construction, while more general coupled rules must satisfy the same
-nonnegative combined plastic-power requirement.
+power is nonnegative.  This structure admits non-associated geomaterial
+plasticity: the true-plastic rate and plastic-distension rate may use independent
+directions, while their combined conjugate power in
+\eqref{eq:MC_residual_dissipation} remains nonnegative.  Plastic distension can
+therefore represent dilatancy, pore collapse, grain rearrangement, cementation,
+dissolution, and precipitation through constitutive dependence on stress,
+composition, reaction affinity, and internal state.
 
 It remains to make the interaction and heat-conduction terms in
 \eqref{eq:MC_residual_dissipation} nonnegative.  For reacting porous mixtures a
@@ -2367,8 +2222,8 @@ and plastic flow laws, are sufficient to make
 \label{sec:MC_sorption_desorption_mechanisms}
 
 Sorption/desorption is a conversion mechanism that transfers a component
-between a mobile phase and a solid phase without introducing a separate solid
-motion.  For a component \(g\) moving between mobile phase \(f\) and solid phase
+between a mobile phase and a solid phase while the solid constituents share the
+skeleton motion.  For a component \(g\) moving between mobile phase \(f\) and solid phase
 \(s\), the stoichiometric coefficients may be written
 %
 \begin{equation}
@@ -2401,8 +2256,7 @@ sorption/desorption form.  For methane hydrate or another clathrate solid, host
 water and guest methane are solid components of the same load-bearing solid
 phase, while exchange with mobile components changes the solid composition.
 That composition may change the free energy, thermal expansion, stress-free
-cage volume, and plastic response without introducing a second solid
-displacement field.
+cage volume, and plastic response within the shared solid displacement field.
 
 \subsection{Phase reaction-modified Biot coefficients}
 \label{sec:MC_phase_biot_legendre_transform}
@@ -2410,11 +2264,10 @@ displacement field.
 The restrictions in \sref{MC_reversible_restrictions} define the single-prime
 solid stress directly from the phase Helmholtz energy.  That stress is paired
 with the elastic rates in the entropy inequality when the intrinsic solid
-density is fixed.  Poromechanics measurements and pressure-based momentum
-balances are usually cleaner at fixed solid pressure.  The corresponding
-double-prime stress is obtained by a phase-level Legendre transform in the
-standard thermodynamic sense \cite{callen1985thermodynamics}, before any
-additive component specialization is introduced.
+density is fixed.  The corresponding fixed-equivalent-pressure double-prime
+stress is obtained by a phase-level Legendre transform in the standard
+thermodynamic sense \cite{callen1985thermodynamics}, before any additive
+component specialization is introduced.
 
 Define the phase and intrinsic specific volumes
 %
@@ -2431,36 +2284,50 @@ Define the phase and intrinsic specific volumes
 	\label{eq:MC_phase_specific_volumes}
 \end{equation}
 %
-The phase pressure definition \eqref{eq:MC_solid_pressure_definition} is
-equivalently
+The solid volume-fraction restriction and the phase pressure definition give
+the equivalent pressure in specific-volume form,
 %
-\begin{equation}
-	\bar p_s
-	=
+\begin{align}
+	\bar p_E
+	&=
+	\bar p_s-\omega_s^+
+	\notag \\
+	&=
 	-
 	\left.
-	\p{\psi_s}{\bar v_s}
-	\right\vert_{\mc X_s},
+	\p{
+	\left(
+	\psi_s+\omega_s^+\bar v_s
+	\right)
+	}{\bar v_s}
+	\right\vert_{
+	\bar{\mbf F}_s^e,\mbf A_s^e,
+	\{\eta_s^\alpha\},\theta,\mbf E
+	},
 	\qquad
 	s\in\mc S ,
 	\label{eq:MC_phase_pressure_specific_volume}
-\end{equation}
+\end{align}
 %
 where \(\bar v_s\) is the specific-volume representation of the density
-argument \(\bar\rho_s\) in \(\mc X_s\).  The phase Legendre transform is
+argument \(\bar\rho_s\).  Thus the electric enthalpy per intrinsic solid mass
+is \(\omega_s^+\bar v_s\), and the phase Legendre transform is
 %
 \begin{subequations}
 	\label{eq:MC_phase_legendre_transform}
 	\begin{gather}
 		\widetilde\psi_s
 		=
-		\psi_s+\bar p_s\bar v_s,
+		\psi_s
+		+\omega_s^+\bar v_s
+		+\bar p_E\bar v_s,
 		\label{eq:MC_phase_legendre_transform_definition} \\
 		\bar v_s
 		=
 		\left.
-		\p{\widetilde\psi_s}{\bar p_s}
-		\right\vert_{\bar{\mbf F}_s^e,\mbf A_s^e,\{\eta_s^\alpha\},\theta}.
+		\p{\widetilde\psi_s}{\bar p_E}
+		\right\vert_{\bar{\mbf F}_s^e,\mbf A_s^e,
+		\{\eta_s^\alpha\},\theta,\mbf E}.
 		\label{eq:MC_phase_legendre_transform_pressure_derivative}
 	\end{gather}
 \end{subequations}
@@ -2469,76 +2336,79 @@ For the fixed-pressure elastic derivative, the density dependence induced by
 \(\bar{\mbf F}_s^e\) enters through the true Jacobian \(J=a_s\bar J_s\).  This
 follows from the material mass balance \eqref{eq:material_mass_2}, and from its
 true-solid specialization \eqref{eq:MC_solid_true_mass_conservation}: density
-and specific volume depend on the local volume change, hence on the Jacobian,
-rather than on the full deformation tensor.  The current values of the
+and specific volume depend on the local Jacobian.  The current values of the
 distension, plastic, stress-free, thermal, and composition variables are part of
 the state at which the tangent is evaluated, while the differentiation is taken
-at fixed phase pressure, temperature, and composition,
+at fixed equivalent pressure, electric field, temperature, and composition,
 %
 \begin{align}
 	\left.
 	\p{\bar v_s}{\bar{\mbf F}_s^e}
-	\right\vert_{\bar p_s,\theta,\{\eta_s^\alpha\}}
+	\right\vert_{\bar p_E,\theta,\{\eta_s^\alpha\},\mbf E}
 	 & =
 	\left.
 	\p{\bar v_s}{J}
-	\right\vert_{\bar p_s,\theta,\{\eta_s^\alpha\}}
+	\right\vert_{\bar p_E,\theta,\{\eta_s^\alpha\},\mbf E}
 	\frac{\partial J}{\partial\bar{\mbf F}_s^e}
 	\notag \\
-	 & =
+	    & =
 	\left.
 	\p{\bar v_s}{J}
-	\right\vert_{\bar p_s,\theta,\{\eta_s^\alpha\}}
+	\right\vert_{\bar p_E,\theta,\{\eta_s^\alpha\},\mbf E}
 	a_s\bar J_s
 	(\bar{\mbf F}_s^e)^{-T}.
 	\label{eq:MC_phase_specific_volume_deformation_chain_rule}
 \end{align}
 %
-The phase reference energy per unit skeleton reference volume is
-\(\rho_{s0}\psi_s\).  The single-prime and double-prime phase Piola stresses are
-defined by
+The phase electric enthalpy per intrinsic solid mass is
+\(\omega_s^+\bar v_s\).  The single-prime and double-prime phase Piola stresses
+are defined by
 %
 \begin{subequations}
 	\label{eq:MC_phase_pk_stresses}
 	\begin{align}
 		\mbf P_s'
 		 & =
-		\rho_{s0}
-		\left.
-		\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}
-		\right\vert_{\bar p_s,\theta,\{\eta_s^\alpha\}}
+			\rho_{s0}
+			\left.
+			\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}
+			\right\vert_{\bar p_E,\theta,\{\eta_s^\alpha\},\mbf E}
 		\label{eq:MC_phase_single_prime_pk_stress} \\
-		\rho_{s0}
-		\left.
-		\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}
-		\right\vert_{\bar p_s,\theta,\{\eta_s^\alpha\}}
-		 & =
-		\rho_{s0}
-		\left.
-		\p{\psi_s}{\bar{\mbf F}_s^e}
-		\right\vert_{\bar v_s,\{\eta_s^\alpha\},\theta},
+			\rho_{s0}
+			\left.
+			\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}
+			\right\vert_{\bar p_E,\theta,\{\eta_s^\alpha\},\mbf E}
+			 & =
+			\rho_{s0}
+			\left.
+			\p{\psi_s}{\bar{\mbf F}_s^e}
+			\right\vert_{\bar v_s,\{\eta_s^\alpha\},\theta,\mbf E},
 		\label{eq:MC_phase_legendre_pk_identity}   \\
 		\mbf P_s^{\prime\prime}
 		 & =
-		\rho_{s0}
-		\left.
-		\p{\psi_s}{\bar{\mbf F}_s^e}
-		\right\vert_{\bar p_s,\theta,\{\eta_s^\alpha\}}.
+			\rho_{s0}
+			\left.
+			\p{
+			\left(
+			\psi_s+\omega_s^+\bar v_s
+			\right)
+			}{\bar{\mbf F}_s^e}
+			\right\vert_{\bar p_E,\theta,\{\eta_s^\alpha\},\mbf E}.
 		\label{eq:MC_phase_double_prime_pk_stress}
 	\end{align}
 \end{subequations}
 %
-Using the Legendre transform at fixed \(\bar p_s\),
+Using the Legendre transform at fixed \(\bar p_E\),
 %
 \begin{equation}
 	\mbf P_s'
 	=
 	\mbf P_s^{\prime\prime}
 	+
-	\bar p_s\rho_{s0}
-	\left.
-	\p{\bar v_s}{\bar{\mbf F}_s^e}
-	\right\vert_{\bar p_s,\theta,\{\eta_s^\alpha\}}.
+		\bar p_E\rho_{s0}
+		\left.
+		\p{\bar v_s}{\bar{\mbf F}_s^e}
+		\right\vert_{\bar p_E,\theta,\{\eta_s^\alpha\},\mbf E}.
 	\label{eq:MC_phase_pk_legendre_split}
 \end{equation}
 %
@@ -2553,7 +2423,7 @@ identifies the phase nonlinear Biot coefficient
 	\frac{a_s}{v_{s0}}
 	\left.
 	\p{\bar v_s}{J}
-	\right\vert_{\bar p_s,\theta,\{\eta_s^\alpha\}},
+	\right\vert_{\bar p_E,\theta,\{\eta_s^\alpha\},\mbf E},
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_phase_biot_coefficient}
@@ -2573,8 +2443,8 @@ suppressed, this reduces to the nonlinear Biot coefficient form derived in
 	=
 	\mbf P_s^{\prime\prime}
 	+
-	\left(1-B_s\right)
-	\bar p_s
+		\left(1-B_s\right)
+		\bar p_E
 	\bar J_s
 	(\bar{\mbf F}_s^e)^{-T}.
 	\label{eq:MC_phase_pk_biot_split}
@@ -2590,16 +2460,16 @@ pressure correction isotropic.  Hence the phase Cauchy stress split is
 	=
 	\bs\sigma_s^{\prime\prime}
 	+
-	\left(1-B_s\right)\bar p_s\mbf I,
+	\left(1-B_s\right)\bar p_E\mbf I,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_phase_biot_split}
 \end{empheq}
 %
-This phase relation does not require the solid Helmholtz energy to be written as
-a sum of component energies.  The additive model in
-\sref{MC_additive_component_specialization} only adds a way to compute \(B_s\)
-and \(\bs\sigma_s^{\prime\prime}\) from component quantities.
+This phase relation applies to the general composition-dependent solid
+Helmholtz energy.  The additive model in
+\sref{MC_additive_component_specialization} supplies component formulas for
+\(B_s\) and \(\bs\sigma_s^{\prime\prime}\).
 
 \subsection{Phase and overall momentum after the Biot transform}
 \label{sec:MC_phase_overall_momentum_biot}
@@ -2608,16 +2478,17 @@ Using the equivalent pressure \(\bar p_E=-\lambda\), the solid
 volume-fraction restriction \eqref{eq:MC_solid_volume_fraction_restriction}
 gives
 %
-\begin{equation}
+\begin{align}
 	\bar p_E
-	=
+	&=
 	-\lambda
-	=
-	\bar p_s,
+	\notag \\
+	&=
+	\bar p_s-\omega_s^+,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_phase_equivalent_pressure}
-\end{equation}
+\end{align}
 %
 Substituting \eqref{eq:MC_phase_biot_split} into the solid phase momentum
 balance \eqref{eq:el_momentum_uniform} gives the fixed-pressure form
@@ -2627,13 +2498,16 @@ balance \eqref{eq:el_momentum_uniform} gives the fixed-pressure form
 		\rho_s\mbf a_s
 		={} &
 		\nabla_{\mbf x}\cdot
-		\left[
-			\bs\sigma_s^{\prime\prime}
-			+
-			\left(1-B_s\right)\bar p_E\mbf I
-			\right]
-		-\phi_s\nabla_{\mbf x}\bar p_E
-		+\rho_s\mbf g+\mbf b_s
+			\left[
+				\bs\sigma_s^{\prime\prime}
+				+
+				\left(1-B_s\right)\bar p_E\mbf I
+				+
+				\bs\sigma_s^+
+				\right]
+			-\phi_s\nabla_{\mbf x}\bar p_E
+			-\nabla_{\mbf x}\left(\phi_s\omega_s^+\right)
+			+\rho_s\mbf g+\mbf b_s
 		\\
 		    & +
 		\sum_\alpha\dot c_s^\alpha
@@ -2647,14 +2521,13 @@ balance \eqref{eq:el_momentum_uniform} gives the fixed-pressure form
 \end{equation}
 %
 The plasticity restrictions are written in terms of
-\(\bs\sigma_s'\), because the complete electrical
-power has already been accounted for by the electrical enthalpy in the residual
-inequality.  If a plastic model is calibrated in terms of
+\(\bs\sigma_s'\), whose conjugate power remains after the electric-enthalpy
+rate accounts for the Maxwell power.  If a plastic model is calibrated in terms of
 \(\bs\sigma_s^{\prime\prime}\), the phase split
 \eqref{eq:MC_phase_biot_split} must be applied before evaluating the plastic
-driving stress.  Thus the constitutive assumptions of the present theory
-contain no direct electroplastic coupling; the Maxwell stress can nevertheless
-change \(\bs\sigma_s'\) indirectly through the coupled momentum solution.
+driving stress.  The plastic flow law depends on \(\bs\sigma_s'\) and
+composition; Maxwell stress affects that material stress through the coupled
+momentum solution.
 
 After the solid partial stresses are summed, the solid-phase Biot terms combine
 as
@@ -2665,13 +2538,11 @@ as
 	\sum_{s\in\mc S}\bs\sigma_s^{\prime\prime}
 	+
 	\sum_{s\in\mc S}
-	\left(1-B_s\right)\bar p_s\mbf I,
+	\left(1-B_s\right)\bar p_E\mbf I,
 	\label{eq:MC_solid_biot_rollup_expanded}   \\
-	\sum_{s\in\mc S}\bs\sigma_s'
-	 & \equiv
 	\bs\sigma^{\prime\prime}
-	+
-	\left(1-B\right)\bar p_E\mbf I,
+	 & \equiv
+	\sum_{s\in\mc S}\bs\sigma_s^{\prime\prime},
 	\label{eq:MC_solid_biot_rollup_definition} \\
 	\Aboxed{
 		B
@@ -2683,32 +2554,38 @@ as
 \end{align}
 %
 Thus the overall Biot coefficient is found after the pressure terms from the
-solid phases have been added.  No extra volume-fraction weight appears in
-\eqref{eq:MC_solid_biot_rollup_coefficient}, because \(B_s\) was already defined
-from the phase partial Piola stress per unit skeleton reference volume.  In the
-single-solid, single-fluid limit, \(B=B_s\), recovering the standard Biot form.
+solid phases have been added.  Each \(B_s\) is defined from the phase partial
+Piola stress per unit skeleton reference volume, so the roll-up is the direct
+sum in \eqref{eq:MC_solid_biot_rollup_coefficient}.  In the single-solid,
+single-fluid limit, \(B=B_s\).
 
-After summing the solid phase balances, the Biot pressure part in
+After summing the solid phase balances, the Biot-pressure and electrical parts in
 \eqref{eq:MC_solid_phase_momentum_biot} can be rewritten using
 \eqref{eq:MC_solid_biot_rollup_definition},
 %
 \begin{equation}
 	\begin{aligned}
-		 & \nabla_{\mbf x}\cdot
-		\left[
-			\sum_{s\in\mc S}
+		 & \sum_{s\in\mc S}
+			\left[
+			\nabla_{\mbf x}\cdot
+			\left(
 			\left(1-B_s\right)\bar p_E\mbf I
+			+\bs\sigma_s^+
+			\right)
+			-\phi_s\nabla_{\mbf x}\bar p_E
+			-\nabla_{\mbf x}\left(\phi_s\omega_s^+\right)
 			\right]
-		-
-		\sum_{s\in\mc S}\phi_s\nabla_{\mbf x}\bar p_E
-		\\
+			\\
 		 & \qquad =
-		\nabla_{\mbf x}\cdot
-		\left[
+			\nabla_{\mbf x}\cdot
+			\left[
 			-B\bar p_E\mbf I
+			+
+			\sum_{s\in\mc S}
+			\phi_s\mbf E\otimes\mbf d_s
 			\right]
-		+
-		\left(
+			+
+			\left(
 		1-\sum_{s\in\mc S}\phi_s
 		\right)
 		\nabla_{\mbf x}\bar p_E .
@@ -2720,33 +2597,70 @@ The volume-fraction constraint identifies the coefficient of
 \(\nabla_{\mbf x}\bar p_E\) in this solid remainder with the total fluid volume
 fraction \(\phi=\sum_{f\in\mc F}\phi_f\).
 
-The fluid pressure-gradient terms combine with the same equivalent pressure.
-Writing \(\phi_f=\phi S_f\), using \(\sum_{f\in\mc F}S_f=1\), and using the
-capillary redistribution relation implied by the interfacial energy gives
+For the fluid phases, substitute
+\(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\) and
+\(\bs\sigma_f^+=\phi_f(\omega_f^+\mbf I+\mbf E\otimes\mbf d_f)\).
+Writing \(\phi_f=\phi S_f\) and using the capillary identity
+\(\sum_fS_f\nabla_{\mbf x}\gamma_f=\mbf0\) gives
 %
 \begin{equation}
-	-\sum_{f\in\mc F}\phi_f\nabla_{\mbf x}\bar p_f
+	\sum_{f\in\mc F}
+	\left[
+	\nabla_{\mbf x}\cdot\bs\sigma_f^+
+	-\phi_f\nabla_{\mbf x}\bar p_f
+	-\omega_f^+\nabla_{\mbf x}\phi_f
+	\right]
 	=
+	\nabla_{\mbf x}\cdot
+	\left(
+	\sum_{f\in\mc F}
+	\phi_f\mbf E\otimes\mbf d_f
+	\right)
 	-\phi\nabla_{\mbf x}\bar p_E .
 	\label{eq:MC_fluid_pressure_gradient_rollup}
 \end{equation}
 %
-Adding this solid remainder and the fluid contribution in
-\eqref{eq:MC_fluid_pressure_gradient_rollup} gives
+Adding \eqref{eq:solid_biot_pressure_remainder_rollup} and
+\eqref{eq:MC_fluid_pressure_gradient_rollup}, using
+\(\sum_\xi\phi_\xi=1\) and
+\(\mbf d=\sum_\xi\phi_\xi\mbf d_\xi\), gives
 %
 \begin{equation}
-	\phi\nabla_{\mbf x}\bar p_E
-	-\sum_{f\in\mc F}\phi_f\nabla_{\mbf x}\bar p_f
-	=
-	0 .
+	\begin{aligned}
+		&\sum_{s\in\mc S}
+		\left\{
+		\nabla_{\mbf x}\cdot
+		\left[
+		\left(1-B_s\right)\bar p_E\mbf I
+		+\bs\sigma_s^+
+		\right]
+		-\phi_s\nabla_{\mbf x}\bar p_E
+		-\nabla_{\mbf x}\left(\phi_s\omega_s^+\right)
+		\right\}
+		\\
+		&\quad
+		+\sum_{f\in\mc F}
+		\left[
+		\nabla_{\mbf x}\cdot\bs\sigma_f^+
+		-\phi_f\nabla_{\mbf x}\bar p_f
+		-\omega_f^+\nabla_{\mbf x}\phi_f
+		\right]
+		\\
+		&\qquad =
+		\nabla_{\mbf x}\cdot
+		\left[
+		-B\bar p_E\mbf I
+		+\mbf E\otimes\mbf d
+		\right].
+	\end{aligned}
 	\label{eq:MC_pressure_gradient_overall_rollup}
 \end{equation}
 %
 Summing the phase momentum balances, using the pairwise internal momentum
 antisymmetry \(\mbf b_{\zeta\xi}=-\mbf b_{\xi\zeta}\) in
 \eqref{eq:MC_pairwise_interaction_force}, so that
-\(\sum_\xi\sum_{\zeta\ne\xi}\mbf b_{\zeta\xi}=\mbf 0\), and substituting
-\eqref{eq:MC_solid_biot_rollup_definition} gives the compact overall balance
+	\(\sum_\xi\sum_{\zeta\ne\xi}\mbf b_{\zeta\xi}=\mbf 0\), and substituting
+	\eqref{eq:MC_pressure_gradient_overall_rollup} gives the compact overall balance
 %
 \begin{empheq}[box=\fbox]{equation}
 	\sum_\xi\rho_\xi\mbf a_\xi
@@ -2756,6 +2670,8 @@ antisymmetry \(\mbf b_{\zeta\xi}=-\mbf b_{\xi\zeta}\) in
 		\bs\sigma^{\prime\prime}
 		-
 		B\bar p_E\mbf I
+		+
+		\mbf E\otimes\mbf d
 		\right]
 	+\rho\mbf g
 	+\sum_\xi\sum_\alpha\dot c_\xi^\alpha
@@ -2781,6 +2697,10 @@ depend on the full composition \(\{\eta_s^\alpha\}\), so nonideal component
 interactions enter through the composition dependence of \(\psi_s^\alpha\).
 The generic nonadditive formulation \eqref{eq:MC_solid_general_free_energy}
 remains available when a component-energy split is too restrictive.
+The component-level fixed-pressure formulas below use the neutral-solid
+specialization \(\omega_s^+=0\), for which
+\(\bar p_E=\bar p_s\).  The phase-level electrical response remains governed by
+\eqref{eq:MC_phase_pressure_specific_volume}--\eqref{eq:MC_overall_momentum_nonlinear_biot}.
 
 The additive model is obtained by choosing component potentials
 \(\psi_s^\alpha\), component intrinsic densities \(\bar\rho_s^\alpha\), and
@@ -2846,10 +2766,10 @@ Then the pressure, stress, and distension restrictions become
 %
 The component pressures in
 \eqref{eq:MC_additive_component_pressure} can also be read from the storage
-multipliers.  The phase-level restriction
-\eqref{eq:MC_phase_equivalent_pressure} fixes only the sum
+multipliers.  The phase pressure-storage relation
+\eqref{eq:phase_pressure_storage} gives
 \(\sum_\alpha\pi_s^\alpha/\phi_s=\bar p_s\).  In the additive model, each term
-in that sum is matched to the component's share of the phase-pressure average,
+in that sum is the component's share of the phase-pressure average,
 %
 \begin{equation}
 	\frac{\pi_s^\alpha}{\phi_s}
@@ -2866,7 +2786,7 @@ in that sum is matched to the component's share of the phase-pressure average,
 %
 Summing this identity over components recovers
 \eqref{eq:MC_additive_pressure_average} and
-\eqref{eq:MC_phase_equivalent_pressure}.  Thus the component pressures are
+\eqref{eq:phase_pressure_storage}.  Thus the component pressures are
 determined once the storage multipliers and component solid-volume
 fractions are known.
 
@@ -2907,10 +2827,9 @@ of the common phase plastic rates.  One sufficient additive form is
 \end{subequations}
 %
 These rules assign separate component mobility contributions to the common solid
-plastic rates.  Only the summed mobilities enter the phase plastic powers, so
-the sums must be nonnegative;
-requiring each component mobility to be nonnegative is the stronger
-specialization in which each component contribution is separately dissipative.
+plastic rates.  The summed mobilities enter the phase plastic powers and are
+nonnegative.  Componentwise nonnegative mobilities make every component
+contribution separately dissipative.
 More general flow directions may depend on component identity, but the resulting
 combined plastic power in \eqref{eq:MC_residual_dissipation} must remain
 nonnegative.
@@ -3118,10 +3037,9 @@ coefficient
 \subsection{Scalar distension simplifications}
 \label{sec:MC_scalar_distension_simplifications}
 
-The tensor distension theory reduces to a scalar factor when the pore-structure
-change is isotropic.  Scalar distension changes local solid volume but not the
-shape of the pore structure.  Anisotropic pore collapse or fabric evolution
-requires the tensor \(\mbf A_s\), or another internal variable.  The scalar
+The tensor distension theory reduces to a scalar factor for isotropic
+pore-structure change.  Scalar distension represents local solid-volume change,
+while \(\mbf A_s\) represents anisotropic pore collapse and fabric evolution.  The scalar
 specialization is imposed on the elastic, plastic, and stress-free distension
 factors,
 %
@@ -3150,6 +3068,24 @@ and the true solid deformation relation becomes
 	\qquad
 	J=a_s\bar J_s .
 	\label{eq:MC_scalar_distension_deformation}
+\end{equation}
+%
+Substitution of \eqref{eq:MC_scalar_distension_factors} into the material-stress
+definition \eqref{eq:MC_solid_stress_definition} makes the isotropic
+distension factors cancel.  The material stress therefore takes the standard
+Cauchy-stress form
+%
+\begin{equation}
+	\bs\sigma_s'
+	=
+	\rho_s
+	\left.
+	\p{\psi_s}{\bar{\mbf F}_s^e}
+	\right\vert_{\mc X_s}
+	(\bar{\mbf F}_s^e)^T,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_scalar_distension_solid_stress}
 \end{equation}
 %
 For a generic multicomponent solid, the tensor distension restriction
@@ -3181,7 +3117,7 @@ restriction on the phase double-prime trace,
 	\p{\psi_s}{a_s^e}
 	\right\vert_{\mc X_s}
 	a_s^e
-	-\left(1-B_s\right)\bar p_s,
+	-\left(1-B_s\right)\bar p_E,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_scalar_double_prime_distension_trace}
@@ -3224,12 +3160,12 @@ scalar setting, the volumetric split is
 	\label{eq:MC_crystallization_volumetric_split}
 \end{equation}
 %
-Therefore a volumetric penalty written only in terms of \(\ln a_s\), or only in
-terms of \(\ln\bar J_s\), does not generally reproduce the scalar
-Coleman--Noll trace condition.  The transformed fixed-pressure volumetric
-potential should generate the double-prime stress; the Biot pressure correction
-has already been accounted for in \eqref{eq:MC_phase_biot_split}.  A
-simple scalar choice, with tangent bulk modulus \(K_s^\star\), is
+The scalar Coleman--Noll trace condition depends on the combined volumetric
+strain \(\ln J=\ln a_s+\ln\bar J_s\).  The transformed fixed-pressure
+volumetric potential therefore generates the double-prime stress from
+\(\ln J\), with the Biot pressure correction supplied by
+\eqref{eq:MC_phase_biot_split}.  A simple scalar choice, with tangent bulk
+modulus \(K_s^\star\), is
 %
 \begin{equation}
 	\widetilde W_{{\rm vol},s}
@@ -3239,13 +3175,13 @@ simple scalar choice, with tangent bulk modulus \(K_s^\star\), is
 	\label{eq:MC_component_transformed_volumetric_energy}
 \end{equation}
 %
-Holding \(\bar J_s\) and \(\bar p_s\) fixed,
+Holding \(\bar J_s\) and \(\bar p_E\) fixed,
 %
 \begin{equation}
 	a_s
 	\left.
 	\p{\widetilde W_{{\rm vol},s}}{a_s}
-	\right\vert_{\bar J_s,\bar p_s}
+	\right\vert_{\bar J_s,\bar p_E}
 	=
 	K_s^\star\ln J .
 	\label{eq:MC_component_transformed_volumetric_trace}
@@ -3270,16 +3206,16 @@ and the original Helmholtz trace required by the scalar distension restriction i
 	a_s^e
 	=
 	K_s^\star\ln J
-	+\left(1-B_s\right)\bar p_s .
+	+\left(1-B_s\right)\bar p_E .
 	\label{eq:MC_component_cn_trace_satisfied}
 \end{equation}
 %
-This is exactly \eqref{eq:MC_scalar_double_prime_distension_trace}.  Once the
-stress generated by the energy is inserted into the momentum equation, no
-separate crystallization-pressure load should be inserted.
+This is \eqref{eq:MC_scalar_double_prime_distension_trace}.  The stress generated
+by the energy supplies the crystallization-pressure contribution to momentum.
 
-Crystallization can instead be prescribed or diagnosed through the mechanism
-affinity.  For a mechanism \((m)\) precipitating solid phase \(s_{(m)}\),
+The mechanism affinity also supplies a prescribed or diagnostic
+crystallization-pressure relation.  For a mechanism \((m)\) precipitating solid
+phase \(s_{(m)}\),
 %
 \begin{equation}
 	\mc A_{(m)}
@@ -3334,18 +3270,20 @@ For example, the classical supersaturation formula
 \end{equation}
 %
 At reversible equilibrium, \(\mc A_{(m)}=0\), and the classical
-crystallization pressure equals the admissible current phase trace stress.  If
-the affinity and stress are solved instead, \(\Omega_{(m)}\) is a diagnostic
-output.
+crystallization pressure equals the admissible current phase trace stress.
+Solving the affinity and stress makes \(\Omega_{(m)}\) a diagnostic output.
 
 \section{Multicomponent model summary}
 \label{sec:MC_model_summary_closure_count}
 
 This section records the unknown and equation counts for the complete model.
-The count is only a bookkeeping device for a fully implicit pointwise
-discretization; the actual implementation may eliminate some variables locally.
-Electrical rows are included for the electroquasistatic model and are omitted in
-the neutral specialization.
+The tables describe a constrained mixed formulation in which all normalized
+mass fractions, their multipliers, and both relative-flux families are retained
+as fields.  Phase pressures and electrochemical potentials are evaluated from
+the constitutive restrictions.  The solid phases share one skeleton
+displacement, and the scalar distension factors are closed by
+\eqref{eq:MC_solid_distension_evolution}.  The electroquasistatic formulation
+includes the electric potential and Gauss' law.
 Let \(P_{\mc F}=|\mc F|\), \(P_{\mc S}=|\mc S|\), and
 \(P=P_{\mc F}+P_{\mc S}\).  Let \(N^{\mc F}\) be the number of tracked
 components in each fluid phase and \(N^{\mc S}\) the number of tracked
@@ -3354,61 +3292,66 @@ products in the tables are replaced by the corresponding phase sums.  Let \(N_{(
 be the number of independent conversion mechanisms and \(d\) the spatial
 dimension.
 
-\begin{table}[htbp]
-	\centering
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.66\textwidth}>{\raggedleft\arraybackslash}p{0.24\textwidth}}
 	\caption{Unknown families for a fully implicit pointwise discretization of the multicomponent model.}
-	\label{tab:MC_unknown_family_count}
-	\begin{tabular}{>{\raggedright\arraybackslash}p{0.66\textwidth}>{\raggedleft\arraybackslash}p{0.24\textwidth}}
-		Unknown family                                                                                 & Count                                                \\
-		\hline
-		Phase displacements \(u_{\xi 1},\ldots,u_{\xi d}\) for \(\xi=1,\ldots,P\)                      & \(dP\)                                               \\
-		Intrinsic phase densities \(\bar\rho_\xi\) for \(\xi=1,\ldots,P\)                              & \(P\)                                                \\
-		Fluid mass fractions \(\eta_f^\alpha\)                                                         & \(P_{\mc F}N^{\mc F}\)                               \\
-		Solid mass fractions \(\eta_s^\alpha\)                                                         & \(P_{\mc S}N^{\mc S}\)                               \\
-		Phase volume fractions \(\phi_\xi\)                                                            & \(P\)                                                \\
-		Volume-fraction multiplier \(\lambda\)                                                         & \(1\)                                                \\
-		Storage multipliers \(\pi_\xi^\alpha\)                                                         & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
-		Transfer potential \(\tau\)                                                                    & \(1\)                                                \\
-		Total relative component flux vectors, when retained as mixed fields                           & \(d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
-		Solid distension tensors \(\mbf A_s\), or scalar factors \(a_s\), for \(s=1,\ldots,P_{\mc S}\) & \(d^2P_{\mc S}\) or \(P_{\mc S}\)                    \\
-		Mechanism process rates \(\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}\)                             & \(N_{(m)}\)                                          \\
-		Solid plastic internal variables \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active          & \(2d^2P_{\mc S}\)                                    \\
-		Temperature \(\theta\)                                                                         & \(1\)                                                \\
-		Electric potential \(\varphi\), when electrical effects are retained                           & \(1\)
-	\end{tabular}
-\end{table}
+	\label{tab:MC_unknown_family_count} \\
+	Unknown family                                                                                 & Count                                                \\
+	\hline
+	\endfirsthead
+	\multicolumn{2}{l}{Table~\thetable\ continued} \\
+	Unknown family                                                                                 & Count                                                \\
+	\hline
+	\endhead
+	Fluid-phase displacements and the common solid-skeleton displacement                           & \(d(P_{\mc F}+1)\)                                   \\
+	Intrinsic phase densities \(\bar\rho_\xi\) for \(\xi=1,\ldots,P\)                              & \(P\)                                                \\
+	Fluid mass fractions \(\eta_f^\alpha\)                                                         & \(P_{\mc F}N^{\mc F}\)                               \\
+	Solid mass fractions \(\eta_s^\alpha\)                                                         & \(P_{\mc S}N^{\mc S}\)                               \\
+	Phase volume fractions \(\phi_\xi\)                                                            & \(P\)                                                \\
+	Volume-fraction multiplier \(\lambda\)                                                         & \(1\)                                                \\
+	Composition-normalization multipliers \(\Pi_\xi\)                                              & \(P\)                                                \\
+	Storage multipliers \(\pi_\xi^\alpha\)                                                         & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
+	Transfer potential \(\tau\)                                                                    & \(1\)                                                \\
+	Dispersion and diffusion component-flux vectors                                                & \(2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
+	Scalar solid distension factors \(a_s\), for \(s=1,\ldots,P_{\mc S}\)                           & \(P_{\mc S}\)                                        \\
+	Mechanism process rates \(\dot r_{(1)},\ldots,\dot r_{(N_{(m)})}\)                             & \(N_{(m)}\)                                          \\
+	Solid plastic internal variables \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\) for inelastic response & \(2d^2P_{\mc S}\)                                    \\
+	Temperature \(\theta\)                                                                         & \(1\)                                                \\
+	Electric potential \(\varphi\)                                                                 & \(1\)
+\end{longtable}
 %
 The corresponding equation blocks are listed in
 Table~\ref{tab:MC_equation_block_count}.
 %
-\begin{table}[htbp]
-	\centering
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.60\textwidth}>{\raggedleft\arraybackslash}p{0.30\textwidth}}
 	\caption{Equation blocks and closure counts for the multicomponent model.}
-	\label{tab:MC_equation_block_count}
-	\begin{tabular}{>{\raggedright\arraybackslash}p{0.60\textwidth}>{\raggedleft\arraybackslash}p{0.30\textwidth}}
-		Equation block                                                                                                               & Count                                                \\
-		\hline
-		Phase momentum balances \eqref{eq:el_momentum_uniform}                                                                       & \(dP\)                                               \\
-		Component mass balances \eqref{eq:averaged_component_spatial_mass}                                                           & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
-		Total relative-transport closures \eqref{eq:MC_relative_transport_closures}                                                  & \(d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
-		Projected fluid composition stationarity \eqref{eq:MC_fluid_composition_projection}                                          & \(P_{\mc F}(N^{\mc F}-1)\)                           \\
-		Projected solid composition stationarity \eqref{eq:MC_solid_composition_projection}                                          & \(P_{\mc S}(N^{\mc S}-1)\)                           \\
-		Fluid and solid composition normalizations                                                                                   & \(P_{\mc F}+P_{\mc S}\)                              \\
-		Volume-fraction restrictions \eqref{eq:MC_volume_fraction_restrictions} and constraint \eqref{eq:volume_fraction_constraint} & \(P+1\)                                              \\
-		Pressure-density restrictions \eqref{eq:MC_phase_pressure_definitions}                                                       & \(P\)                                                \\
-		Evolution of \(\tau\) and component compatibility relations \eqref{eq:MC_admissible_conversion_component}                    & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
-		Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                     & \(P_{\mc S}\)                                        \\
-		Kinetic laws for \(\dot r_{(m)}\)                                                                                            & \(N_{(m)}\)                                          \\
-		Plastic flow laws for \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\), when active                                                   & \(2d^2P_{\mc S}\)                                    \\
-		Energy or temperature equation using \eqref{eq:MC_energy_balance}                                                            & \(1\)                                                \\
-		Gauss' law \eqref{eq:gauss_law}                                                                                              & \(1\)
-	\end{tabular}
-\end{table}
+	\label{tab:MC_equation_block_count} \\
+	Equation block                                                                                                               & Count                                                \\
+	\hline
+	\endfirsthead
+	\multicolumn{2}{l}{Table~\thetable\ continued} \\
+	Equation block                                                                                                               & Count                                                \\
+	\hline
+	\endhead
+	Fluid-phase momentum balances \eqref{eq:el_mom_f_simplified} and overall momentum balance \eqref{eq:MC_overall_momentum_nonlinear_biot} & \(d(P_{\mc F}+1)\)                                   \\
+	Component mass balances \eqref{eq:averaged_component_spatial_mass}                                                           & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
+	Dispersion and diffusion closures \eqref{eq:MC_relative_transport_closures}                                                   & \(2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\) \\
+	Component composition stationarity \eqref{eq:el_eta_all}                                                                      & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
+	Fluid and solid composition normalizations \eqref{eq:el_eta_constraint}                                                       & \(P\)                                                \\
+	Volume-fraction restrictions \eqref{eq:MC_volume_fraction_restrictions} and constraint \eqref{eq:volume_fraction_constraint} & \(P+1\)                                              \\
+	Pressure-density restrictions \eqref{eq:MC_phase_pressure_definitions}                                                       & \(P\)                                                \\
+	Evolution of \(\tau\) and component compatibility relations \eqref{eq:MC_admissible_conversion_component}                    & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)            \\
+	Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                     & \(P_{\mc S}\)                                        \\
+	Kinetic laws for \(\dot r_{(m)}\)                                                                                            & \(N_{(m)}\)                                          \\
+	Plastic flow laws for \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\) for inelastic response                                        & \(2d^2P_{\mc S}\)                                    \\
+	Energy or temperature equation using \eqref{eq:MC_energy_balance}                                                            & \(1\)                                                \\
+	Gauss' law \eqref{eq:gauss_law}                                                                                              & \(1\)
+\end{longtable}
 %
-The single-component solid limit provides a check on these counts.  When a
-solid phase has one component, \(\eta_s^s=1\), so the solid composition unknown
-and the projected solid composition equation are absent.  The component relation
-\eqref{eq:MC_additive_component_biot} then gives \(B_s^s=B_s\).  If the model
-also has a single solid phase, \eqref{eq:MC_solid_biot_rollup_coefficient} gives
-\(B=B_s\), and the phase-summed momentum equation reduces to
+For a single-component solid phase, the normalization fixes
+\(\eta_s^s=1\), and the component stationarity equation determines
+\(\Pi_s\).  Equation \eqref{eq:MC_additive_component_biot} then gives
+\(B_s^s=B_s\).  For one solid phase,
+\eqref{eq:MC_solid_biot_rollup_coefficient} gives \(B=B_s\), and the
+common-skeleton momentum equation is
 \eqref{eq:MC_overall_momentum_nonlinear_biot}.
+\FloatBarrier

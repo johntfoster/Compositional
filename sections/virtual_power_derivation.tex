@@ -1,5 +1,5 @@
 % !TeX root = ../main.tex
-\section{Variational Principle Derivation}
+\section{Variational principle derivation}
 \label{sec:variational}
 \label{sec:virtual_power_derivation}
 
@@ -43,29 +43,15 @@ insertion constraint:
 \end{equation}
 % AGENT-LOCK-END
 %
-Reaction rates and relative component fluxes enter this statement only through
-the material insertion constraint; their constitutive stationarity is introduced
-later through the constrained Onsager power functional in
-Section~\ref{sec:onsager_reaction_transport}.  The body force per unit phase
-mass is \(\mbf g\), \(L_\xi^\alpha\) is the component conversion-work potential,
-\(\mbf b_\xi\) is the interphase interaction force, and \(\theta\) is the
-absolute temperature.  The interaction force may be dissipative at the phase
-level, but it is internal to the mixture and globally conservative:
+The interphase interaction force may be dissipative at the phase level, but it
+is internal to the mixture and globally conservative:
 %
 \begin{equation}
 	\sum_\xi\mbf b_\xi=\mbf 0.
 	\label{eq:interphase_force_global_balance}
 \end{equation}
 %
-Let \(\dot c_\xi^\alpha\) denote the rate of component mass addition per current
-mixture volume.
-It abbreviates \(\dot{\mc C}_\xi^\alpha/J_\xi\); the constrained rate is the
-material increment itself.  Internal conversion conserves total mass, while the
-relative-flux part of \(\dot{\mc C}_\xi^\alpha\) redistributes component labels
-within each phase and drops out of the phase-summed insertion constraint because
-\(\sum_\alpha(\mbf j_{\xi,{\rm disp}}^\alpha+
-\mbf j_{\xi,{\rm diff}}^\alpha)=\mbf 0\).  The corresponding component-rate
-balance is imposed in the Onsager subsection.
+The energies, virtual work, and four constraints are defined together by
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begingroup
@@ -98,6 +84,23 @@ balance is imposed in the Onsager subsection.
 \endgroup
 % AGENT-LOCK-END
 %
+Here \(\mbf g\) is the body force per unit phase mass, \(\mbf b_\xi\) is the
+interphase interaction force, \(L_\xi^\alpha\) is the component generalized
+force conjugate to conversion insertion, and \(\theta\) is the absolute
+temperature.  Constraint \(C_1\) enforces the volume-fraction constraint,
+\(C_2\) enforces the augmented component material measure, and \(C_3\) enforces
+mass-fraction normalization.
+
+Constraint \(C_4\) enforces zero net material insertion over all phases and
+components.  Writing the rate of component mass addition per current mixture
+volume as
+\(\dot c_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi\), this constraint imposes
+\(\sum_\xi\sum_\alpha\dot c_\xi^\alpha=0\).  Internal conversion satisfies the
+constraint through stoichiometric mass conservation, while relative component
+transport satisfies it phase by phase through
+\eqref{eq:averaged_relative_flux_sum}.  The component-resolved rate balance is
+imposed later in the Onsager subsection.
+
 The transfer multiplier \(\tau\) is the Bedford--Drumheller kinematic potential
 conjugate to the globally conservative accumulated material insertion.  It has
 units of action per unit mass, so
@@ -105,22 +108,14 @@ units of action per unit mass, so
 \(D_\xi\tau/Dt\) has units of energy per unit mass.  Thus \(\tau\) supplies the
 conversion transfer-momentum coefficient in the reversible variation.
 
-The coefficient $L_\xi^\alpha$ is the component generalized force conjugate to
-conversion insertion, and it enters the Hamilton--d'Alembert virtual work
-\(\delta W\).  The same virtual work contains gravity \(\mbf g\) and the
-interphase interaction force \(\mbf b_\xi\).
-Constraint $C_1$ enforces the volume-fraction constraint, $C_2$ enforces the
-augmented component material measure, and $C_3$ enforces mass-fraction
-normalization.  Constraint $C_4$ uses \(\tau\) to enforce zero net material
-insertion over all phases and components.
-
 The variations in this section are mechanical and compositional variations at
 fixed temperature.  Temperature is retained as a constitutive state variable and
 is varied in the Coleman--Noll entropy argument below.
 The fields $\mbf x_\xi$, $\eta_\xi^\alpha$, $\phi_\xi$, $\bar\rho_\xi$, and
 $\mc C_\xi^\alpha$ are varied independently.  The mechanism rates and the two
-relative fluxes are varied later as independent process rates in the Onsager
-statement.
+relative fluxes are varied later as independent process rates through the
+constrained Onsager power functional in
+Section~\ref{sec:onsager_reaction_transport}.
 
 \subsubsection{Extending Bedford and Drumheller transport identity}
 \label{sec:extended_bd_identity}
@@ -200,7 +195,8 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 
 For every phase, solid or fluid, let $\psi_\xi$ denote the nonelectrical
 specific Helmholtz free energy and let \(N\) be the number of tracked components
-in that phase.  The corresponding contribution to the total free energy is written
+in that phase.  Its contribution to the stored thermodynamic potential is
+written
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	U \supset U_\xi
@@ -211,9 +207,8 @@ in that phase.  The corresponding contribution to the total free energy is writt
 	\label{eq:U_xi_uniform}
 \end{equation}
 % AGENT-LOCK-END
-Here \(\{\eta_\xi^\alpha\}\) denotes the full set of component mass fractions
-for phase \(\xi\); the component index identifies the entries of the set and
-does not imply a summation in the argument list.
+Here \(\{\eta_\xi^\alpha\}\) denotes the indexed collection of all component
+mass fractions for phase \(\xi\).
 The constitutive dependence on $\mbf F_\xi$ may be trivial for fluid phases,
 but keeping it in the notation allows one calculation for all phases.  The local
 free-energy variation is
@@ -259,8 +254,8 @@ stress.  The fixed-pressure Biot stress is denoted later with a double prime.
 \end{align}
 % AGENT-LOCK-END
 %
-For fluid phases this term vanishes when $\psi_\xi$ has no dependence on
-$\mbf F_\xi$.
+For fluid phases, \(\psi_\xi\) is independent of \(\mbf F_\xi\), giving
+\(\bs\sigma_\xi'=\mbf 0\).
 
 
 
@@ -290,8 +285,9 @@ saturation state subject to the constraint in
 terms of any independent set of fluid saturations, with the remaining
 saturation determined by the constraint.  The derivation below keeps this
 simplex constraint explicit, so all fluid phases are treated symmetrically.  The
-effective fluid interfacial energy density is a single constitutive potential
-of this constrained saturation state
+effective interfacial Helmholtz free-energy density, normalized per current
+fluid volume, is a single constitutive potential of this constrained saturation
+state
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\gamma =
@@ -299,7 +295,8 @@ of this constrained saturation state
 	\label{eq:interfacial_energy_density}
 \end{equation}
 % AGENT-LOCK-END
-and the corresponding contribution to the internal energy is
+and its contribution to the stored thermodynamic potential per current mixture
+volume is \(\phi\gamma\), so
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -311,13 +308,12 @@ and the corresponding contribution to the internal energy is
 \end{equation}
 % AGENT-LOCK-END
 
-The temperature argument shown in the action is suppressed in
-\eqref{eq:interfacial_energy_density}--\eqref{eq:interfacial_internal_energy}
-because it is held fixed during the present mechanical variation.  No
-independent deformation-gradient argument is assigned to \(\gamma\).  Such an
-argument would represent deformation-dependent interfacial area or texture and
-would generate an additional capillary stress; that extension would require an
-interfacial kinematic measure beyond the saturation-only closure adopted here.
+The temperature argument shown in the action is held fixed during the present
+mechanical variation and is suppressed in
+\eqref{eq:interfacial_energy_density}--\eqref{eq:interfacial_internal_energy}.
+The adopted interfacial potential
+\(\gamma=\gamma(\{S_f\}_{f\in\mc F},\theta)\) makes capillary mechanics enter
+through the primitive fluid volume fractions and their saturation ratios.
 
 The Bedford--Drumheller spatial identity
 (cf.\ \cite{drumheller1980thermomechanical} equation (1.25)) gives, for each
@@ -402,29 +398,34 @@ The electrical terms are conservative except for any constitutive dielectric
 relaxation introduced later.  Let \(\varphi\) denote the electrostatic potential
 and let \(\mbf E=-\nabla_{\mbf x}\varphi\) be the electric field.  The
 electrical contribution enters the Hamilton action through the phase-attributed
-energy \(U_\xi^+\).  The phase electric enthalpy
+potential \(U_\xi^+\).  The phase electric-enthalpy density
 \(\omega_\xi^+=\omega_\xi^+(\mbf E,\bar\rho_\xi,
-\{\eta_\xi^\alpha\},\theta)\) is converted to the corresponding density per
-current mixture volume by
-\(\psi_{\omega,\xi}\equiv\phi_\xi\omega_\xi^+\), in direct analogy with
-\(\psi_\gamma=\phi\gamma\).  Thus the electric enthalpy has no independent
-deformation-gradient argument.  The concrete phase state sets
+\{\eta_\xi^\alpha\},\theta)\) is normalized per current phase volume;
+\(\phi_\xi\omega_\xi^+\) is therefore its contribution per current mixture
+	volume.  Likewise, \(\gamma\) is normalized per current fluid volume and
+	\(\phi\gamma\) is the interfacial Helmholtz contribution per current mixture
+	volume.  The notation \(\psi_\xi\) denotes the specific phase Helmholtz free
+	energy, \(\gamma\) the effective interfacial Helmholtz density, and
+	\(\omega_\xi^+\) the phase electric-enthalpy density.  The adopted electric
+	enthalpy depends on \(\mbf E\), intrinsic density, composition, and
+	temperature.  The
+concrete phase state sets
 \(\mc X_\xi\) are used in held-fixed derivative annotations and are specified
-in \sref{constitutive_models_entropy_inequality}.  The charge bookkeeping will
-be included below in the combined component-rate constraint
+in \sref{constitutive_models_entropy_inequality}.  Charge enters below through
+the combined component-rate constraint
 \eqref{eq:C45_combined_def}.  For each phase,
 %
 \begin{equation}
 	U \supset U^{+}_{\xi}
 	=
 	\int_{\mc B}
-	\psi_{\omega,\xi}
+	\phi_\xi\omega_\xi^+
 	\,\dv
 	=
 	\int_{\mc B_{\xi0}}
-	J_\xi\psi_{\omega,\xi}
+	J_\xi\phi_\xi\omega_\xi^+
 	\,\dV_\xi .
-	\label{eq:phase_electric_energy_pullback}
+	\label{eq:phase_electric_enthalpy_pullback}
 \end{equation}
 %
 In the electroquasistatic specialization, the corresponding electric
@@ -447,9 +448,8 @@ This split keeps the Helmholtz energy \(\psi_\xi\) nonelectrical, takes
 \(\mbf E\) as the independent electrical variable, and derives
 \(\mbf d_\xi\) from \(\omega_\xi^+\), consistently with electroelastic
 potential formulations~\cite{dorfmann2017nonlinear_electroelasticity}.  The
-same restricted electric-enthalpy arguments are used with the concrete phase
-state sets in \sref{constitutive_models_entropy_inequality}, where the omission
-of bulk piezoelectricity is also stated.
+concrete phase state sets and even-in-\(\mbf E\) reservoir specialization are
+specified in \sref{constitutive_models_entropy_inequality}.
 
 At fixed temperature, the full variation contains a direct volume-fraction
 term, the density and composition variations, the potential-gradient term, and
@@ -539,10 +539,9 @@ action,
 \end{align}
 %
 The mechanical coefficient in \eqref{eq:vp_electric_full_variation} defines the
-reversible electrical stress assigned to the phase pullback.  Although
-\(\omega_\xi^+\) has no independent deformation-gradient argument, variation
-of the current volume element and convection of the spatial electric field
-produce the phase-attributed Maxwell stress, consistently with
+reversible electrical stress assigned to the phase pullback.  Variation of the
+current volume element and convection of the spatial electric field produce the
+phase-attributed Maxwell stress, consistently with
 electric-enthalpy virtual-work derivations
 \cite{mcmeeking2007virtual_work_electrostatic}.  We denote this Maxwell stress
 by \(\bs\sigma_\xi^+\),
@@ -550,17 +549,15 @@ by \(\bs\sigma_\xi^+\),
 \begin{equation}
 	\bs{\sigma}^{+}_{\xi}
 	=
-	\psi_{\omega,\xi}\mbf I
+	\phi_\xi
+	\left(
+	\omega_\xi^+\mbf I
 	+
-	\phi_\xi\mbf E\otimes\mbf d_\xi .
+	\mbf E\otimes\mbf d_\xi
+	\right).
 	\label{eq:vp_electrical_stress_definition}
 \end{equation}
 %
-An electrostrictive extension would require adding deformation to the
-constitutive arguments of \(\omega_\xi^+\) and propagating its derivative
-through both the action and entropy inequality.  That extension is not part of
-the present theory.
-
 Thus the total reversible stress used in the phase momentum equation is
 %
 \begin{equation}
@@ -698,8 +695,8 @@ The last term in the first line vanishes by recognizing $\sum_\alpha \nabla_{\mb
 The Bedford--Drumheller transfer constraint contains the component material
 increment \(\mc C_\xi^\alpha\) carried by phase \(\xi\).  Its rate variation must
 be integrated by parts with the same phase material derivative before any
-stationarity condition is used.  A single transfer potential \(\tau\) is enough
-because the constraint sets only the total insertion rate to zero.  Varying
+stationarity condition is used.  A single transfer potential \(\tau\) enforces
+the total insertion-rate constraint.  Varying
 \(\tau\), the material measure, and the phase map gives
 %
 \begin{align}
@@ -841,10 +838,8 @@ electroquasistatic field equation implies
 	\label{eq:charge_gauss_compatibility}
 \end{equation}
 
-The neutral specialization means that electrical field energy and component
-charge work are omitted.  It is recovered by suppressing \(\omega_\xi^+\) and,
-when the component-rate constraint is introduced below, by omitting the
-electrical work term \(z_\xi^\alpha\varphi\), where \(z_\xi^\alpha\) is the
+The neutral specialization is defined by
+\(\omega_\xi^+=0\) and \(z_\xi^\alpha=0\), where \(z_\xi^\alpha\) is the
 charge per unit component mass.
 
 The Euler--Lagrange equations generated by arbitrary $\delta\phi_\xi$ give,
@@ -962,23 +957,18 @@ Using \eqref{eq:pc_def}, the wetting/non-wetting relation is therefore
 \end{empheq}
 % AGENT-LOCK-END
 %
-For two fluid phases with $\mc F=\{w,n\}$ and one oriented pair $(w,n)$, this
-reduces to the usual two-phase capillary pressure when electrical enthalpy is
-absent or has the same phase assignment in the two fluids.  The pressure
-difference in \eqref{eq:wetting_nonwetting_capillary_pressure_recovery} should
-therefore be read as an electrocapillary pressure jump: \(p_{c,nw}\) remains the
-intrinsic capillary contribution associated with the interfacial potential,
-while \(\omega_n^+-\omega_w^+\) is a pressure-like electrical correction.  This
-bookkeeping is consistent with electrowetting interface balances in which the
+For two fluid phases with $\mc F=\{w,n\}$ and one oriented pair $(w,n)$,
+\eqref{eq:wetting_nonwetting_capillary_pressure_recovery} defines the
+electrocapillary pressure jump: \(p_{c,nw}\) is the intrinsic capillary
+contribution associated with the interfacial potential, and
+\(\omega_n^+-\omega_w^+\) is the pressure-like electrical contribution.  This
+relation is consistent with electrowetting interface balances in which the
 free energy contains surface, electrostatic, and ionic contributions and
 stationarity of the interface position gives a pressure-difference balance
 against capillary and Maxwell or electro-osmotic terms
-\cite{papageorgiou2019film_flows_electric_fields,yamamoto2015contact_angle_saturation}.  The novelty of
-\eqref{eq:wetting_nonwetting_capillary_pressure_recovery} is therefore not that
-electrical free energy contributes to capillary and normal-stress balances, but
-that the phase pressure jump is obtained as a constrained multiphase mixture
-relation in which the same phase-attributed electrical enthalpy also enters the
-phase momentum balances, reversible stresses, and thermodynamic restrictions.
+\cite{papageorgiou2019film_flows_electric_fields,yamamoto2015contact_angle_saturation}.
+The same phase-attributed electrical enthalpy enters the phase momentum
+balances, reversible stresses, and thermodynamic restrictions.
 If the interfacial energy is parameterized by the wetting saturation $S_w$, then
 $p_{c,nw}=-\partial\gamma/\partial S_w$ in the neutral limit.
 
@@ -1035,14 +1025,9 @@ Therefore
 % AGENT-LOCK-END
 %
 Equation~\eqref{eq:equivalent_pore_pressure_capillary_relation} is the
-electrical extension of the equivalent pore pressure proposed by Coussy,
-\(\bar p_E=\sum_{f\in\mc F}S_f\bar p_f-\gamma\), recovered here when
-\(\omega_f^+=0\) \cite{coussy2004poromechanics,kim2013rigorous}.  Kim,
-Tchelepi, and Juanes showed that this neutral equivalent-pressure form gives a
-thermodynamically stable coupled multiphase poromechanics problem, whereas the
-more common saturation-weighted, Bishop-type average pore pressure does not
-provide the same stability under strong capillarity
-\cite{bishop1959principle,kim2013rigorous}.
+electrical form of the equivalent pore pressure used in thermodynamically
+stable coupled multiphase poromechanics
+\cite{coussy2004poromechanics,kim2013rigorous}.
 
 For a phase with $N$ tracked components, the Euler--Lagrange equations
 associated with arbitrary $\delta\eta_{\xi}^\alpha$ give
@@ -1110,8 +1095,8 @@ $\beta=1,\ldots,N-1$ gives a system of $N-1$ equations,
 \end{align}
 % AGENT-LOCK-END
 %
-Here $\kappa$ denotes the collection of composition components held fixed in the
-partial derivative; it is not summed.
+Here $\kappa$ indexes the collection of composition components held fixed in
+the partial derivative.
 
 The equations associated with the conversion variables are
 %
@@ -1183,25 +1168,25 @@ The phase pressure-gradient form is therefore
 % AGENT-LOCK-END
 %
 The cancellation in \eqref{eq:fluid_capillary_pressure_gradient_collapse} shows
-that the primitive capillary potential enters the fluid momentum equation only
-through the pressure relation.  The electrical assignment leaves the additional
+that the primitive capillary potential enters the fluid momentum equation
+through the pressure relation.  The electrical assignment contributes the
 term \(-\omega_f^+\nabla_{\mbf x}\phi_f\), which acts where the phase volume
 fraction varies.  In the mixture description, changing \(\phi_f\) changes the
-local amount of electrical energy, charge capacity, and displacement assigned to
-phase \(f\); the total charge density itself is weighted by the phase volume
+local electric-enthalpy contribution, charge capacity, and displacement assigned
+to phase \(f\); the total charge density itself is weighted by the phase volume
 fractions through \eqref{eq:mixture_charge_density_definition}.  The remaining
 term in \eqref{eq:el_mom_f_simplified} is therefore a phase-volume-fraction
 force associated with rearranging the electric enthalpy assignment.  It is
-distinct from the Maxwell-type stress already contained in
-\(\bs\sigma_f^{\prime+}\), although both terms arise from the same electrical
-energy in the variational statement.  Classical leaky-dielectric and
-electrowetting theories contain related electrical interfacial forces through
+paired with the Maxwell stress contained in
+\(\bs\sigma_f^{\prime+}\); both terms arise from the same electric-enthalpy
+potential in the variational statement.  Leaky-dielectric and electrowetting
+theories contain related electrical interfacial forces through
 Maxwell stresses or electric surface-energy derivatives
 \cite{melcher1969electrohydrodynamics,yamamoto2015contact_angle_saturation};
 the present term appears directly from the constrained phase-volume variation.
 
-In the absence of electrical effects, reactions, and phase transformations,
-\(\omega_f^+=0\) and \(\dot c_f^\alpha=0\), so
+The neutral, conversion-free specialization
+\(\omega_f^+=0\) and \(\dot c_f^\alpha=0\) gives
 \eqref{eq:el_mom_f_simplified} reduces to the standard pressure-gradient form,
 %
 \[
@@ -1227,12 +1212,12 @@ thermodynamic state.  The state variables that enter the potentials are held
 fixed during this minimization, while
 \(\dot r_{(m)}\), \(\mbf j_{\xi,{\rm disp}}^\alpha\),
 \(\mbf j_{\xi,{\rm diff}}^\alpha\), and \(\mu_\xi^\alpha\) are varied.  The
-current configuration and constitutive state are therefore fixed:
+fixed current configuration and constitutive state are
 \(\mbf F_\xi\), \(\bar\rho_\xi\), \(\eta_\xi^\alpha\), \(\phi_\xi\),
-\(\varphi\), and \(J_\xi\) do not vary in this step.  The rate
-\(\dot{\mc C}_\xi^\alpha/J_\xi\) is not an independent rate variation because,
-when \(J_\xi\) is fixed, it is determined by the reaction and relative-flux
-rates through \eqref{eq:reference_conversion_accumulation_rate}.
+\(\varphi\), and \(J_\xi\).  The rate
+\(\dot{\mc C}_\xi^\alpha/J_\xi\) is evaluated from the reaction and
+relative-flux rates through
+\eqref{eq:reference_conversion_accumulation_rate}.
 
 The component-rate balance enters the Onsager principle as a Lagrange
 constraint term.  Since the product of \(\mu_\xi^\alpha\) with the
@@ -1321,9 +1306,9 @@ dissipation potential used here is
 Here \(K_{(m)}\) is the reaction mobility, and
 \(\mbf D_{\xi,k}^{\alpha\beta}\) are the mobility tensors on the relative-flux
 subspace satisfying \eqref{eq:averaged_relative_flux_sum}; the inverse is
-understood on that subspace.  The omission of cross-coupling between reactions,
-diffusion, and dispersion is a constitutive assumption.  Varying \(\Phi_{\rm rt}\)
-gives
+understood on that subspace.  The adopted quadratic potential is block
+diagonal in reaction, diffusion, and dispersion rates.  Varying
+\(\Phi_{\rm rt}\) gives
 %
 \begin{align}
 	\delta\Phi_{\rm rt}
@@ -1474,10 +1459,9 @@ component-rate balance.  The mechanism-rate and flux variations give
 	\label{eq:hamilton_diffusion_force_balance}
 \end{align}
 %
-These equations are generalized force balances enforced only on relative
-component fluxes whose component sum is zero.  Adding a common component
-potential to all components in a phase therefore does not change the admissible
-transport power.  The reaction affinity is defined by the common thermodynamic
+These equations are generalized force balances on the zero-sum
+relative-component-flux subspace.  The transport power is invariant under a
+common shift of all component potentials in a phase.  The reaction affinity is defined by the common thermodynamic
 construction: the chemical potentials are projected against the stoichiometric
 coefficients for each mechanism.  Thus
 %

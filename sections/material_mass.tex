@@ -89,12 +89,12 @@ its determinant \(J_\xi\) is the phase Jacobian.
 % AGENT-LOCK-END
 Here $\mbf{u}_\xi = \mbf{u}_\xi(\mbf{X}_\xi, t)$ is the phase displacement
 field, with $\mbf{u}_\xi = \mbf{x} - \mbf{X}_\xi$, and
-$\nabla_{\mbf{X}_\xi}$ is the gradient operator in the phase reference
-coordinates.
+$\nabla_{\mbf{X}_\xi}$ is the gradient operator taken with respect to the phase reference
+coordinates $\mbf{X}_\xi$.
 
 Let \(\rho_{\xi0}^\al(\mbf X_\xi)\) denote the initial component partial
 density, evaluated at \(\mbf x(\mbf{X}_\xi,t=0)=\mbf X_\xi\).  Let
-\(\mathcal{C}^\al_\xi(\mbf X_\xi,t)\) denote the mass of component \(\alpha\)
+\(\mathcal{C}^\al_\xi(\mbf X_\xi,t)\) denote the increment of mass of component \(\alpha\)
 added to phase \(\xi\) per unit phase reference volume by internal conversion.
 Internal conversion includes chemical reactions, sorption/desorption, and pure
 phase transformations.  The first material statement isolates this
@@ -253,8 +253,8 @@ is generated only by conversion, so that
 % AGENT-LOCK-END
 %
 The mechanism index $(m)$ includes chemical reactions, sorption/desorption, and
-pure phase transformations.  Soption/desorptrion and  pure phase transformations of component $\alpha$
-from phase $\xi$ to phase $\zeta$ has the one-to-one stoichiometry
+pure phase transformations.  Sorption/desorption and pure phase transformations
+of component $\alpha$ from phase $\xi$ to phase $\zeta$ have the one-to-one stoichiometry
 $\nu_{\xi (m)}^\alpha=-1$, $\nu_{\zeta (m)}^\alpha=+1$, with all other entries
 zero.  A chemical reaction may change both component identity and phase label.
 Substituting \eqref{eq:unified_stoich_current} into \eqref{eq:spatial_mass_2}
@@ -283,9 +283,9 @@ barycentric mixture velocity
 \end{align}
 % AGENT-LOCK-END
 %
-The right-hand side of \eqref{eq:spatial_mass_3} vanishes because every internal
-mechanism conserves mass,
-$\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha=0$.
+Each internal mechanism satisfies
+\(\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha=0\), so the right-hand side of
+\eqref{eq:spatial_mass_3} vanishes. Equation~\eqref{eq:spatial_mass_4} is the overall mixture statement of mass conversation.
 
 \subsection{Averaged component transport and the extended material balance}
 \label{sec:averaged_component_transport_extension}
@@ -295,8 +295,8 @@ each phase.  The component motion inside a representative current volume is
 averaged to expose transport not resolved by that phase motion, following the
 standard volume-averaging decomposition for porous-medium species
 transport~\cite{plumb1988dispersion,gray2009tcat_transport}.  A hat denotes a
-local quantity inside the averaging volume and angle brackets denote its volume
-average.  Thus
+local, unaveraged quantity inside the averaging volume, whereas angle brackets
+denote its volume average.  Thus
 %
 \begin{equation}
 	\rho_\xi^\alpha
@@ -311,9 +311,9 @@ average.  Thus
 	\label{eq:averaged_component_density_split}
 \end{equation}
 %
-The local velocity of component \(\alpha\) is decomposed into the resolved
-phase velocity, an unresolved fluctuation of the phase motion, and motion of
-the component relative to the local phase,
+The local, unaveraged velocity of component \(\alpha\) is decomposed into the
+resolved phase velocity, an unresolved fluctuation of the phase motion, and
+motion of the component relative to the local, unaveraged phase motion,
 %
 \begin{equation}
 	\widehat{\mbf v}_\xi^\alpha
@@ -344,8 +344,8 @@ phase velocity is chosen to be the mass-averaged component velocity,
 \end{equation}
 %
 This choice fixes the phase trajectory used in
-\eqref{eq:phase_material_time_derivative_definition}.  The local material
-derivative following component \(\alpha\) is the extension
+\eqref{eq:phase_material_time_derivative_definition}.  The local, unaveraged
+material derivative following component \(\alpha\) is the extension
 %
 \begin{equation}
 	\frac{\widehat D_\xi^\alpha\widehat\square_\xi}{Dt}
@@ -363,8 +363,8 @@ derivative following component \(\alpha\) is the extension
 	\label{eq:averaged_component_material_derivative}
 \end{equation}
 %
-Applying this derivative to the hatted local form of
-\eqref{eq:material_mass_2}, using the local identity
+Applying this derivative to the unaveraged, hatted form of
+\eqref{eq:material_mass_2}, using the unaveraged component identity
 \(\widehat D_\xi^\alpha\widehat J_\xi^\alpha/Dt
 =\widehat J_\xi^\alpha\nabla_{\mbf x}\cdot\widehat{\mbf v}_\xi^\alpha\),
 and writing the result in divergence form gives
@@ -446,7 +446,7 @@ motion relative to the phase.  The averaged component balance is consequently
 Equation \eqref{eq:averaged_component_spatial_mass} governs composition when
 relative transport is present.  The corresponding phase-reference material
 increment \(\mc C_\xi^\alpha\) is the component mass added to a phase-attached
-region per unit phase reference volume by both converstion mechanisms and relative transport.
+region per unit phase reference volume by both conversion mechanisms and relative transport.
 Multiplication of \eqref{eq:averaged_component_spatial_mass} by \(J_\xi\),
 together with
 \(\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\mbf v_\xi\), gives
@@ -499,19 +499,71 @@ gives the same material-balance structure as \eqref{eq:material_mass_2},
 %
 Here \(\mc C_\xi^\alpha\) has the expanded meaning supplied by
 \eqref{eq:reference_conversion_accumulation_rate}: its rate contains both
-stoichiometric conversion and unresolved relative transport.  The reaction
+internal conversion and unresolved relative transport.  The reaction
 production and relative-flux parts therefore remain visible in the rate of the
-material increment.  This separation between species balance, reaction
-production, and diffusive flux is standard in continuum mixture
-thermodynamics~\cite{bothe2015continuum}.
+material increment.
 
 Substituting the component density and velocity decompositions
 \eqref{eq:averaged_component_density_split}--\eqref{eq:averaged_component_velocity_split}
-into the mass-averaged definition
-\eqref{eq:averaged_phase_mass_velocity_definition}, and using
+into the total component mass flux, using
 \(\rho_\xi=\sum_\alpha\rho_\xi^\alpha\) and
-\(\left\langle\widetilde{\mbf v}_\xi\right\rangle=\mbf 0\), leaves only the
-summed relative fluxes.  Hence
+\(\left\langle\widetilde{\mbf v}_\xi\right\rangle=\mbf 0\), gives
+%
+\begin{align}
+	\sum_\alpha
+	\left\langle
+	\widehat\rho_\xi^\alpha
+	\widehat{\mbf v}_\xi^\alpha
+	\right\rangle
+	&=
+	\rho_\xi\mbf v_\xi
+	+
+	\sum_\alpha
+	\left(
+	\left\langle
+	\widehat\rho_\xi^\alpha\widetilde{\mbf v}_\xi
+	\right\rangle
+	+
+	\left\langle
+	\widehat\rho_\xi^\alpha\widehat{\mbf u}_\xi^\alpha
+	\right\rangle
+	\right)
+	\notag
+	\\
+	&=
+	\rho_\xi\mbf v_\xi
+	+
+	\sum_\alpha
+	\left(
+	\left\langle
+	\widetilde\rho_\xi^\alpha\widetilde{\mbf v}_\xi
+	\right\rangle
+	+
+	\left\langle
+	\widehat\rho_\xi^\alpha\widehat{\mbf u}_\xi^\alpha
+	\right\rangle
+	\right)
+	\notag
+	\\
+	&=
+	\rho_\xi\mbf v_\xi
+	+
+	\sum_\alpha
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right).
+	\label{eq:averaged_phase_mass_flux_decomposition}
+\end{align}
+%
+The last equality uses the flux definitions
+\eqref{eq:averaged_mechanical_dispersion_flux_definition} and
+\eqref{eq:averaged_molecular_diffusion_flux_definition}.  By the mass-averaged
+definition \eqref{eq:averaged_phase_mass_velocity_definition}, the left-hand
+side of \eqref{eq:averaged_phase_mass_flux_decomposition} is
+\(\rho_\xi\mbf v_\xi\).  Subtracting this resolved phase flux from both sides
+therefore leaves
 %
 \begin{equation}
 	\sum_\alpha
@@ -573,13 +625,8 @@ mass balance and
 %
 This is the insertion constraint used in \eqref{eq:C4_def}.
 %
-Averaging determines the kinematic location of the two fluxes.  Their
-constitutive dependence remains a closure problem: volume-averaged dispersion
-exposes unresolved transport terms that require constitutive closure~\cite{plumb1988dispersion},
-while thermodynamically constrained averaging derives transport closures subject
-to entropy-inequality restrictions
-~\cite{miller2005tcat_foundation,miller2008tcat_species_transport,gray2009tcat_transport}.
-Both relative component fluxes are varied as nonconservative process rates in the
-extended Hamilton--d'Alembert--Onsager principle of
+Averaging determines the kinematic location of the two fluxes.  Both relative
+component fluxes are varied as nonconservative process rates in the extended
+Hamilton--d'Alembert--Onsager principle of
 \sref{virtual_power_derivation}; the entropy inequality restricts their
 constitutive forces, which are represented by a dissipation potential.

@@ -54,10 +54,12 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 		\phi_f^2\mu_f\bs\kappa_f^{-1}
 		+\sum_\alpha\dot c_f^\alpha\mbf I
 	\right)\mbf w_f
-	= & \;
-	\rho_f\left(\mbf g-\mbf a_f\right)
-	-\phi_f\nabla_{\mbf x}\bar p_f
-	\notag                          \\
+		= & \;
+		\rho_f\left(\mbf g-\mbf a_f\right)
+		-\phi_f\nabla_{\mbf x}\bar p_f
+		+\nabla_{\mbf x}\cdot\bs\sigma_f^+
+		-\omega_f^+\nabla_{\mbf x}\phi_f
+		\notag                          \\
 	  & +\sum_\alpha\dot c_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_s\right),
 	\label{eq:relative_flux_linear_system}
@@ -65,8 +67,8 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 %
 The isotropic rate correction contains the conversion insertion rate.  Transport
 accumulation is dissipative and is closed through
-\eqref{eq:MC_relative_transport_closures}; only conversion insertion contributes
-to the momentum term involving \(\nabla_{\mbf x}\tau\).
+\eqref{eq:MC_relative_transport_closures}; conversion insertion contributes to
+the momentum term involving \(\nabla_{\mbf x}\tau\).
 
 Define the modified permeability tensor
 %
@@ -80,12 +82,12 @@ Define the modified permeability tensor
 	\label{eq:modified_relative_flux_permeability}
 \end{equation}
 %
-This inverse is well-defined as a dissipative mobility only when the operator in
-parentheses is symmetric positive definite.  Thus the phase permeability
+This inverse defines a dissipative mobility when the operator in parentheses is
+symmetric positive definite.  Thus the phase permeability
 \(\bs\kappa_f\) is taken symmetric positive definite, \(\mu_f>0\), and
 \(\phi_f>0\).  The scalar conversion-insertion correction
 \(\sum_\alpha\dot c_f^\alpha\) may increase or decrease the diagonal resistance;
-it must not make the quadratic form
+admissibility requires the quadratic form
 %
 \[
 	\phi_f^2\mu_f\mbf z\cdot\bs\kappa_f^{-1}\mbf z
@@ -94,9 +96,9 @@ it must not make the quadratic form
 	\mbf z\cdot\mbf z
 \]
 %
-nonpositive for any nonzero vector \(\mbf z\).  Equivalently, component removal
-rates are admissible in this linear relative-flux law only while the resulting
-drag-plus-conversion operator remains positive definite.
+to be positive for every nonzero vector \(\mbf z\).  Equivalently, admissible
+component removal rates preserve positive definiteness of the resulting
+drag-plus-conversion operator.
 The first loss of positive definiteness occurs in the direction of largest phase
 permeability.  If \(\kappa_{f,\max}\) is the largest eigenvalue of
 \(\bs\kappa_f\), the sufficient scalar check is
@@ -108,8 +110,8 @@ permeability.  If \(\kappa_{f,\max}\) is the largest eigenvalue of
 \]
 %
 For an aqueous reaction that removes fluid mass on a time scale \(t_{\rm rxn}\),
-\(\sum_\alpha\dot c_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The modified
-permeability would become singular only when
+\(\sum_\alpha\dot c_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The singular threshold
+for the modified permeability is
 %
 \[
 	t_{\rm rxn}
@@ -123,8 +125,8 @@ With representative reservoir values
 \(10^{-5}\,{\rm s}\), corresponding to a removal rate of order
 \(10^8\,{\rm kg\,m^{-3}\,s^{-1}}\).  Typical mineral dissolution or precipitation
 rates are far slower than this, so the correction is normally a small
-regular perturbation of the Darcy drag.  The estimate is useful mainly for
-excluding idealized source terms that remove phase mass almost instantaneously.
+regular perturbation of the Darcy drag.  The estimate supplies a lower
+reaction-time bound for the linear relative-flux closure.
 
 Then the admissible relative mass flux is
 %
@@ -132,24 +134,27 @@ Then the admissible relative mass flux is
 	\mbf w_f
 	= \rho_f\widetilde{\bs\kappa}_f
 	\left(
-	\rho_f\left(\mbf g-\mbf a_f\right)
-		-\phi_f\nabla_{\mbf x}\bar p_f
-		+\sum_\alpha\dot c_f^\alpha
+		\rho_f\left(\mbf g-\mbf a_f\right)
+			-\phi_f\nabla_{\mbf x}\bar p_f
+			+\nabla_{\mbf x}\cdot\bs\sigma_f^+
+			-\omega_f^+\nabla_{\mbf x}\phi_f
+			+\sum_\alpha\dot c_f^\alpha
 		\left(\nabla_{\mbf x}\tau-\mbf v_s\right)
 	\right).
 	\label{eq:generalized_fluid_darcy_mass_flux}
 \end{empheq}
 %
 This expression is the multicomponent fluid-phase analogue of a generalized
-Darcy flux.  The first two terms are the body-force and pressure-gradient
-contributions, while the last term is the momentum contribution from conversion
-insertion.  Chemical-potential gradients drive component-relative transport
+Darcy flux.  Its driving force contains body force, pressure gradient, Maxwell
+stress, electric-enthalpy volume-fraction force, and conversion insertion.
+Chemical-potential gradients drive component-relative transport
 through \eqref{eq:MC_relative_transport_closures}; that dissipative role is
 separate from the role of \(\tau\) in the conversion variation.
 
-When conversion-insertion effects are negligible,
-\(\dot c_f^\alpha=0\), and when fluid-phase inertia is negligible,
-\eqref{eq:generalized_fluid_darcy_mass_flux} reduces to
+The neutral, conversion-free, negligible-inertia specialization
+\(\omega_f^+=0\), \(\bs\sigma_f^+=\mbf0\),
+\(\dot c_f^\alpha=0\), and \(\mbf a_f=\mbf0\) reduces
+\eqref{eq:generalized_fluid_darcy_mass_flux} to
 %
 \begin{equation}
 	\phi_f\left(\mbf v_f-\mbf v_s\right)
@@ -194,11 +199,22 @@ The flux assembled in the reference component balances is then
 	\mbf W_f
 	= & \; \rho_f\widetilde{\mbf K}_f
 	\left[
-		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
-		-\phi_f\nabla_{\mbf X}\bar p_f
-		+\sum_\alpha\dot c_f^\alpha
-		\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
-		\right].
+	\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
+	-\phi_f\nabla_{\mbf X}\bar p_f
+	\right.
+	\notag \\
+	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
+	\left.
+	+\mbf F^T
+	\left(\nabla_{\mbf x}\cdot\bs\sigma_f^+\right)
+	-\omega_f^+\nabla_{\mbf X}\phi_f
+	\right.
+	\notag \\
+	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
+	\left.
+	+\sum_\alpha\dot c_f^\alpha
+	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
+	\right].
 	\label{eq:solid_reference_relative_flux}
 \end{align}
 %
@@ -249,8 +265,8 @@ term on the solid trajectory gives
 	\label{eq:solid_reference_fluid_component_balance}
 \end{equation}
 %
-For each one-component solid phase \(s\), the phase velocity is the skeleton velocity,
-so the relative-flux term is absent,
+For each one-component solid phase \(s\), the phase velocity is the skeleton
+velocity and the relative flux is zero, giving
 %
 \begin{equation}
 	\left.
@@ -270,30 +286,41 @@ masses \(J\phi_f\bar\rho_f\eta_f^\alpha\) and the Lagrangian solid phase masses
 fluid motion relative to the skeleton and component diffusion or dispersion
 relative to the fluid phase.
 
+\newpage
 \subsection{Overall momentum on the solid trajectory}
 \label{sec:solid_reference_overall_momentum}
 
 The overall momentum balance \eqref{eq:MC_overall_momentum_nonlinear_biot} can be
 written on the solid trajectory by applying the Piola transform to the stress
-divergence and multiplying the remaining spatial source terms by $J$.  Let
-\(\mbf P^{\prime\prime}=J\bs\sigma^{\prime\prime}\mbf F^{-T}\) denote the
-first Piola--Kirchhoff stress associated with the fixed-pressure skeleton
-stress.  This transformation gives
+divergence and multiplying the remaining spatial source terms by $J$.  Using
+the Biot effective first Piola--Kirchhoff stress \(\mbf P^{\prime\prime}\)
+defined in \eqref{eq:biot_limit_effective_piola_stress}, this transformation
+gives
 %
 \begin{align}
 	J\sum_\xi\rho_\xi\mbf a_\xi
 	= & \;
 	\nabla_{\mbf X}\cdot
-	\left(
-	\mbf{P}^{\prime\prime}-B\bar p_E
-	J \mbf F^{-T}
-	\right)
+		\left(
+		\mbf{P}^{\prime\prime}
+		-B\bar p_E J \mbf F^{-T}
+		+J\left(\mbf E\otimes\mbf d\right)\mbf F^{-T}
+		\right)
 	+J\rho\mbf g
+	\notag \\
+	&\;
 	+J\sum_\xi\sum_\alpha\dot c_\xi^\alpha
-	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right).
+	\left(
+		\mbf F^{-T}\nabla_{\mbf X}\tau-\mbf v_\xi
+	\right).
 	\label{eq:solid_reference_overall_momentum}
 \end{align}
 %
+Here
+\(\nabla_{\mbf x}\tau=\mbf F^{-T}\nabla_{\mbf X}\tau\), so every gradient in
+the conversion-insertion force is evaluated from the solid reference
+configuration.
+
 If a quasi-static solid-skeleton solve is desired, the inertial term on the left
 is dropped.  If the fluid velocities are eliminated with
 \eqref{eq:relative_flux_velocity_reconstruction}, then the same equation is
@@ -315,13 +342,18 @@ general finite-deformation form, the mechanics equation is
 	\mbf{0}
 	= & \;
 	\nabla_{\mbf X}\cdot
-	\left(
-	\mbf{P}^{\prime\prime}-B\bar p_E
-	J \mbf F^{-T}
-	\right)
+		\left(
+		\mbf{P}^{\prime\prime}
+		-B\bar p_E J \mbf F^{-T}
+		+J\left(\mbf E\otimes\mbf d\right)\mbf F^{-T}
+		\right)
 	+J\rho\mbf g
+	\notag \\
+	&\;
 	+J\sum_\xi\sum_\alpha\dot c_\xi^\alpha
-	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right).
+	\left(
+		\mbf F^{-T}\nabla_{\mbf X}\tau-\mbf v_\xi
+	\right).
 	\label{eq:reservoir_simulation_overall_momentum_summary}
 \end{align}
 %
@@ -365,19 +397,28 @@ The corresponding admissible reference flux is
 	\mbf W_f
 	= & \; \rho_f\widetilde{\mbf K}_f
 	\left[
-		\begin{aligned}
-			&\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
-			-\phi_f\nabla_{\mbf X}\bar p_f
-			+\sum_\alpha\dot c_f^\alpha
-			\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
-		\end{aligned}
-		\right],
+	\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
+	-\phi_f\nabla_{\mbf X}\bar p_f
+	\right.
+	\notag \\
+	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
+	\left.
+	+\mbf F^T
+	\left(\nabla_{\mbf x}\cdot\bs\sigma_f^+\right)
+	-\omega_f^+\nabla_{\mbf X}\phi_f
+	\right.
+	\notag \\
+	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
+	\left.
+	+\sum_\alpha\dot c_f^\alpha
+	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
+	\right],
 	\qquad f\in\mc F .
 	\label{eq:reservoir_simulation_reference_flux_summary}
 \end{align}
 %
-When component mass-addition effects and fluid inertia are negligible, this reduces
-to the familiar Darcy relative flux in
+The neutral, conversion-free, negligible-inertia specialization gives the
+Darcy relative flux in
 \eqref{eq:standard_darcy_mass_flux_limit}.  Capillary, or electrocapillary,
 pressure closes the phase pressures algebraically through the saturation state,
 %
@@ -396,7 +437,7 @@ pressure closes the phase pressures algebraically through the saturation state,
 %
 Equivalently, a simulator may choose one reference pressure and reconstruct the
 other fluid pressures from the selected capillary-pressure laws before
-evaluating the fluxes.  In a neutral model, \(\omega_f^+=0\) and the summary
-reduces to the usual relation \(p_{c,nw}=\bar p_n-\bar p_w\).  This algebraic
-reconstruction also makes the saturation-weighted pressure gradient collapse to
-the equivalent-pressure gradient in \eqref{eq:MC_fluid_pressure_gradient_rollup}.
+evaluating the fluxes.  The neutral specialization \(\omega_f^+=0\) gives
+\(p_{c,nw}=\bar p_n-\bar p_w\).  Together with the Maxwell-stress and
+phase-volume electrical forces, the algebraic pressure reconstruction gives the
+equivalent-pressure identity \eqref{eq:MC_fluid_pressure_gradient_rollup}.

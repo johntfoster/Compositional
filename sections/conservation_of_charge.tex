@@ -4,8 +4,8 @@
 
 Electric charge is carried by the same phase/component material measures that
 carry mass.  The charge balance is therefore a projection of the component mass
-bookkeeping, with each component weighted by the charge it carries per unit
-mass.  This section establishes that bookkeeping.  The field equation for the
+balance, with each component weighted by the charge it carries per unit
+mass.  The field equation for the
 electric potential and the electrochemical component potential are introduced
 later in \sref{virtual_power_derivation}.
 
@@ -41,10 +41,9 @@ variables.  The total free charge density is
 	\label{eq:mixture_charge_density_definition}
 \end{equation}
 %
-Prescribed charge outside the tracked component set may be added as a known
-contribution to \(\varrho\).  Treating fixed charge as a solid component is the
-more structural representation because charge storage, deformation, reaction,
-and ion exchange then remain tied to the same material measures used for mass.
+Prescribed charge may be represented as a known contribution to \(\varrho\).
+Representing fixed charge as a solid component ties charge storage, deformation,
+reaction, and ion exchange to the same material measures used for mass.
 
 The material charge measure follows by multiplying the augmented component
 material measure \eqref{eq:augmented_component_material_measure} by
@@ -75,7 +74,7 @@ For constant \(z_\xi^\alpha\), its material rate gives
 If an effective charge \(z_\xi^\alpha\) is taken to depend on state, then the
 left-hand side acquires the corresponding material derivative of
 \(z_\xi^\alpha\).  The fixed-\(z_\xi^\alpha\) case is the charge-weighted
-projection of the component mass bookkeeping used below.
+projection of the component mass balance used below.
 
 Substitution of the rate \(\dot{\mc C}_\xi^\alpha\) from
 \eqref{eq:reference_conversion_accumulation_rate}
@@ -181,12 +180,14 @@ so that the total charge balance reduces to
 %
 Equation \eqref{eq:mechanism_charge_conservation} is the charge analogue of the
 mass-conservation restriction
-\(\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha=0\).  In an ion-exchange mechanism,
-the nonzero stoichiometric coefficients remove a charged aqueous component and
-a charged solid-site component while creating the exchanged aqueous component
-and exchanged solid-site component.  The mechanism changes fluid composition
-and solid-site occupancy, but its stoichiometric projection satisfies both mass
-conservation and \eqref{eq:mechanism_charge_conservation}.
+\(\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha=0\).  As one example, an ion-exchange
+mechanism between an aqueous phase and charged solid sites may remove an aqueous
+component and a solid-site component while creating the exchanged aqueous and
+solid-site components.  This mechanism changes fluid composition and solid-site
+occupancy while satisfying both mass conservation and
+\eqref{eq:mechanism_charge_conservation}.  More generally, the phase/component
+formulation admits exchange among any represented phases and components whose
+stoichiometry satisfies these two conservation restrictions.
 
 Ion-exchange and surface-complexation models are represented by retaining
 charged solid-site components, imposing

@@ -27,9 +27,9 @@ component balance \eqref{eq:averaged_global_component_balance}.  The result is
 	\label{eq:classical_total_mass_component_balance}
 \end{equation}
 %
-This is the usual phase/component compositional balance, written per unit mass
-rather than per mole and with mechanical dispersion and molecular diffusion
-retained explicitly.  Setting both relative fluxes to zero recovers the mass
+This is the usual phase/component compositional balance per unit mass, with
+mechanical dispersion and molecular diffusion retained explicitly.  Setting
+both relative fluxes to zero recovers the mass
 counterpart of Balhoff's advective compositional balance
 \cite[eq.~(7.15b)]{balhoff2022multiphase}.  To keep the relative fluxes,
 classical compositional simulation must supply the chemical potentials
@@ -142,9 +142,8 @@ pressure reconstructs phase pressures from the chosen reference pressure
 viscosities, equilibrium compositions, and the chemical-potential/composition
 tangent that converts the entropy-admissible \(D\nabla\mu\) flux into the usual
 Fickian composition-gradient form.
-The difference is that the
-present stoichiometric coefficients retain the phase label.  A pure phase
-transformation is the special case in which the component label is unchanged and
+The phase-labelled stoichiometric coefficients also represent a pure phase
+transformation as the special case in which the component label is unchanged and
 the two nonzero entries satisfy $\nu_{\xi (m)}^\alpha=-1$ and
 $\nu_{\zeta (m)}^\alpha=+1$; after summing over phases, its contribution to the
 total component source vanishes, but it still changes the phase saturations and
@@ -165,8 +164,9 @@ electrical enthalpy is retained, the pressure reconstruction includes the
 correction \(\omega_n^+-\omega_w^+\) in
 \eqref{eq:wetting_nonwetting_capillary_pressure_recovery}; in the neutral limit
 this reduces to the usual capillary-pressure closure.  The offsets redistribute
-the phase pressures while the saturation-weighted pressure gradient reduces to
-the equivalent-pressure gradient in \eqref{eq:MC_fluid_pressure_gradient_rollup}.
+the phase pressures and combine with the Maxwell-stress and phase-volume
+electrical forces according to
+\eqref{eq:MC_fluid_pressure_gradient_rollup}.
 
 The usual within-phase composition constraint is also recovered:
 %
@@ -175,11 +175,11 @@ The usual within-phase composition constraint is also recovered:
 	\label{eq:classical_composition_constraints}
 \end{equation}
 %
-The difference is how the phase/component potentials are obtained.  A
-traditional compositional simulator supplies an equation of state,
+The phase/component potentials are generated from one constrained
+thermodynamic structure.  A compositional implementation supplies an equation of state,
 phase-equilibrium rules, capillary-pressure relations, component partitioning,
 and stress laws as separate inputs.  In this formulation, the reversible
-thermodynamic quantities instead come from the Helmholtz free energy.  Thus
+thermodynamic quantities come from the Helmholtz free energy.  Thus
 pressure, entropy, stress, composition derivatives, and normalized component
 storage potentials are derivatives or multipliers of the same constrained
 energy.  Transport and reaction kinetics still require dissipative closures,
@@ -202,7 +202,7 @@ $\mu_\xi^\alpha$ directly from the chosen equation of state, composition
 variables, and temperature.  The present constrained formulation uses the same
 constitutive chemical potential in
 \eqref{eq:MC_L_mu_psi_closure}.  The first-order multiplier evolution equation
-\eqref{eq:MC_admissible_conversion_component} instead determines the separate
+\eqref{eq:MC_admissible_conversion_component} determines the separate
 Bedford--Drumheller transfer potential \(\tau\) from prescribed
 initial data once the thermodynamic chemical potential has been evaluated from
 the chosen free-energy or EOS closure.
@@ -235,12 +235,12 @@ linear form is
 	\label{eq:classical_kinetic_affinity_closure}
 \end{equation}
 %
-with the sign convention used here.  Thus equilibrium chemistry, kinetic
-reactive transport, and phase transformation all use the same stoichiometric
-sum; only the closure for $\dot r_{(m)}$ changes.
+This equation uses the sign convention adopted here.  Equilibrium chemistry,
+kinetic reactive transport, and phase transformation all use the same
+stoichiometric sum.  The rate closure selects equilibrium or kinetic behavior
+for \(\dot r_{(m)}\).
 
-The momentum equations contain the conversion insertion rate absent from purely
-kinematic Darcy-scale compositional balances,
+The momentum equations contain the conversion-insertion contribution
 %
 	\begin{equation}
 		\sum_\alpha\sum_\xi\dot c_\xi^\alpha
@@ -252,9 +252,8 @@ Here \(\dot c_\xi^\alpha\) is the conversion part of the component material
 addition rate.  Diffusion and dispersion are driven by the thermodynamic
 chemical-potential gradient and closed by the force equations
 \eqref{eq:MC_onsager_dispersion_stationarity} and
-\eqref{eq:MC_onsager_diffusion_stationarity}.  Classical reservoir models hide
-these terms when Darcy laws supply phase velocities in place of explicit phase
-momentum balances.
+\eqref{eq:MC_onsager_diffusion_stationarity}.  In a Darcy reduction, these
+contributions are incorporated into the phase-flux closure.
 
 Finally, the remaining multipliers have standard constraint interpretations.
 $\lambda$ enforces saturation of the pore volume by the phases,
@@ -266,12 +265,10 @@ chemical potential that appears in affinity and relative-transport closures.
 Converted mass contributes to the phase momentum equation through
 \(\nabla_{\mbf x}\tau\).  Transport accumulation enters the same component
 material measure, but its dissipative kinetics are closed by the
-chemical-potential forces.  The stoichiometric source itself has the familiar
-compositional-flow form; the new feature is that the variational statement is
-written on phase-attached material regions and includes variations of the
-Jacobian \(J_\xi\).  This exposes the conversion-induced momentum term and gives
-a direct bridge between mixture mechanics and classical compositional reactive
-transport.
+chemical-potential forces.  The variational statement is written on
+phase-attached material regions and includes variations of the Jacobian
+\(J_\xi\), which generates the conversion-induced momentum term and connects
+mixture mechanics to compositional reactive transport.
 
 \subsection{Black-oil limit}
 \label{sec:black_oil_limit}
@@ -300,18 +297,17 @@ Here \(W\), \(O\), and \(G\) label stock-tank water, oil, and gas components;
 \(B_w\), \(B_o\), and \(B_g\) are formation-volume factors; \(R_s\) is the
 dissolved gas-oil ratio, and the subscript \({\rm sc}\) denotes surface
 conditions.  Let \(\mbf q_f=\phi S_f\mbf v_f\) be the phase volumetric flux and
-let \(\mc Q_w\), \(\mc Q_o\), and \(\mc Q_g\) denote the corresponding
-surface-volume source terms.  Division of the water, oil-component, and
-gas-component balances by their corresponding surface densities gives
+divide the water, oil-component, and gas-component balances by their
+corresponding surface densities to obtain
 %
 \begin{align}
 	\frac{\partial}{\partial t}\left(\phi\frac{S_w}{B_w}\right)
 	+\nabla_{\mbf x}\cdot\left(\frac{\mbf q_w}{B_w}\right)
-	 & = \mc Q_w,
+	 & = 0,
 	\label{eq:black_oil_water_balance} \\
 	\frac{\partial}{\partial t}\left(\phi\frac{S_o}{B_o}\right)
 	+\nabla_{\mbf x}\cdot\left(\frac{\mbf q_o}{B_o}\right)
-	 & = \mc Q_o,
+	 & = 0,
 	\label{eq:black_oil_oil_balance}   \\
 	\frac{\partial}{\partial t}
 	\left[
@@ -320,18 +316,17 @@ gas-component balances by their corresponding surface densities gives
 	+\nabla_{\mbf x}\cdot
 	\left[
 		\frac{\mbf q_g}{B_g}
-		+R_s\frac{\mbf q_o}{B_o}
+			+R_s\frac{\mbf q_o}{B_o}
 		\right]
-	 & = \mc Q_g .
+	 & = 0 .
 	\label{eq:black_oil_gas_balance}
 \end{align}
 %
-These are the standard black-oil conservation laws: water is present only in the
-water phase, the stock-tank oil component is present in the oil phase, and the
+These are the standard black-oil conservation laws: water occupies the
+water phase, the stock-tank oil component occupies the oil phase, and the
 stock-tank gas component is present in the gas phase and dissolved in the oil
-phase through \(R_s\).  The specialization removes the need for full
-phase-composition unknowns; \(B_f\) and \(R_s\) are supplied as black-oil PVT
-closures in place of a full compositional flash.
+phase through \(R_s\).  Black-oil PVT closures \(B_f\) and \(R_s\) determine
+the phase/component storage factors.
 
 The phase fluxes follow from the same Darcy reduction used in
 \eqref{eq:standard_darcy_mass_flux_limit}.  With
@@ -368,11 +363,10 @@ before evaluating \eqref{eq:black_oil_darcy_flux}.
 \subsection{Single-solid, single-fluid Biot limit}
 \label{sec:single_solid_single_fluid_biot_limit}
 
-The classical Biot poromechanics equations are recovered by taking one solid
-skeleton phase and one fluid pore phase, \(\mc S=\{s\}\) and \(\mc F=\{f\}\),
-with no reactions or phase transformations.  There is then no fluid-fluid
-interface, no capillary-pressure difference, and the equivalent pressure
-coincides with the unique fluid pressure,
+The classical Biot poromechanics specialization has one solid skeleton phase
+and one fluid pore phase, \(\mc S=\{s\}\) and \(\mc F=\{f\}\), with
+\(\dot r_{(m)}=0\), \(\omega_\xi^+=0\), and \(\mbf d=\mbf0\).  The equivalent
+pressure is the unique fluid pressure,
 \(\bar p_E=\bar p_f\).  The solid pressure relation
 \eqref{eq:MC_phase_equivalent_pressure} also gives
 \(\bar p_s=\bar p_E\).  In this limit
@@ -380,7 +374,7 @@ coincides with the unique fluid pressure,
 nonlinear coefficient in \eqref{eq:MC_phase_biot_coefficient} is the
 Biot coefficient of the single skeleton.
 
-With conversion terms removed, the overall momentum balance
+Under \(\dot r_{(m)}=0\), the overall momentum balance
 \eqref{eq:MC_overall_momentum_nonlinear_biot} becomes
 %
 \begin{equation}
@@ -407,6 +401,29 @@ is dropped, giving the usual equilibrium equation
 	\right)
 	+\rho\mbf g=\mbf 0 .
 	\label{eq:biot_limit_quasistatic_momentum}
+\end{equation}
+%
+The corresponding Biot effective first Piola--Kirchhoff stress is
+%
+\begin{equation}
+	\mbf P^{\prime\prime}
+	=
+	J\bs\sigma^{\prime\prime}\mbf F^{-T}.
+	\label{eq:biot_limit_effective_piola_stress}
+\end{equation}
+%
+Multiplying \eqref{eq:biot_limit_quasistatic_momentum} by \(J\) and applying
+the Piola identity gives the solid-reference equilibrium equation
+%
+\begin{equation}
+	\nabla_{\mbf X}\cdot
+	\left(
+	\mbf P^{\prime\prime}
+	-B\bar p_f J\mbf F^{-T}
+	\right)
+	+J\rho\mbf g
+	=\mbf 0 .
+	\label{eq:biot_limit_reference_momentum}
 \end{equation}
 %
 The fluid transport equation is the single-fluid specialization of the
@@ -539,15 +556,16 @@ flux \(\mbf q_f=\mbf w_f/\bar\rho_f\).  The Darcy specialization
 	\label{eq:biot_limit_darcy_law}
 \end{equation}
 %
-Equations \eqref{eq:biot_limit_quasistatic_momentum},
-\eqref{eq:biot_limit_reference_fluid_mass}, and
-\eqref{eq:biot_limit_darcy_law} are the finite-deformation single-fluid
-poromechanics form of the model.
+Equations \eqref{eq:biot_limit_reference_momentum} and
+\eqref{eq:biot_limit_pressure_storage_balance} are the finite-deformation
+momentum and fluid-storage equations of the single-fluid Biot specialization.
+The Darcy law \eqref{eq:biot_limit_darcy_law} closes the relative fluid
+transport.
 
-The familiar small-strain Biot equations follow by linearizing the skeleton
-motion, using a linear elastic law for \(\bs\sigma^{\prime\prime}\), and
-substituting the Darcy flux directly into the fluid balance.  The source-free
-reduced system is
+The familiar small-strain Biot equations follow by linearizing these
+solid-reference equations about \(\mbf F=\mbf I\) and \(J=1\), using a linear
+elastic law for \(\bs\sigma^{\prime\prime}\), and substituting the Darcy flux
+directly into the fluid balance.  The source-free reduced system is
 %
 \begin{subequations}
 	\label{eq:linear_biot_limit}

@@ -36,6 +36,7 @@
 - When the user narrows an edit to a section, subsection, equation, or paragraph, keep edits strictly inside that scope unless the user explicitly expands it.
 - Number and descriptively label every displayed equation or identity introduced by an agent, including helper identities. Do not introduce unnumbered displayed mathematics unless John explicitly requests it.
 - For citation or external-paper equation claims, verify the cited equation in the source PDF before changing manuscript text.
+- After any edit to manuscript source, including `main.tex`, `defs.tex`, `sections/*.tex`, or `all.bib`, rebuild the manuscript from `main.tex` with the `latex-workshop-recompile` skill before reporting the edit complete.
 
 ## Response modes
 
@@ -87,6 +88,7 @@
 - Do not introduce new derived variables, helper tensors, residuals, rate symbols, force maps, or shorthand symbols such as `L`, `R`, `Q`, `C`, or similar unless you first ask the user and receive explicit approval. When revising entropy inequalities or Coleman--Noll collections, write the terms directly in the primitive manuscript variables instead of introducing helper notation.
 - For mechanism-indexed quantities, use parenthesized subscripts on the variables, such as `\dot r_{(m)}`, `\nu_{\xi (m)}^\alpha`, and `\mc A_{(m)}`. Do not parenthesize the dummy summation index under the summation sign: write `\sum_m`, not `\sum_{(m)}`.
 - Do not write numbered display equations as chained multiple-equals expressions on one line. When a result needs multiple equality steps, use an `align` environment and align the equals signs vertically so each step is visually and mathematically clear.
+- Do not place a multi-line `aligned`, `split`, `gathered`, or similar subenvironment inside a single pair of brackets or parentheses. When one equation must span several lines within a delimiter, break the outer equation across the `align` rows and continue the delimiter with matched invisible delimiters such as `\left[ ... \right.` on the first row, `\left. ... \right.` on continuation rows, and `\left. ... \right]` on the final row.
 - Treat displayed equations as grammatical parts of their surrounding sentences. Punctuate each display accordingly, and do not place a colon at the end of the prose immediately preceding a display that completes the same sentence.
 - Write manuscript prose for a new audience versed in continuum mechanics and reservoir simulation. The text must be self-contained and must not read as a development note to the author, assume knowledge of prior conversations, or refer implicitly to discarded formulations and earlier drafting decisions.
 - Do not use manual delimiter sizing commands such as `\Big`, `\bigg`, `\Bigg`, or related variants for parentheses, brackets, or braces. Use nested automatic delimiters such as `\left(` and `\right)`, `\left[` and `\right]`, or `\left\{` and `\right\}` instead.
@@ -100,6 +102,7 @@
 
 - The TeX language server `texlab` is available. Use direct LSP diagnostics, definitions, references, document symbols, hovers, renames, and code actions when precise LaTeX navigation or validation is needed.
 - Use the `latex-workshop-recompile` skill every time a manuscript build, rebuild, recompile, PDF refresh, aux refresh, or equation-number validation is needed.
+- After every manuscript compilation, inspect the rendered pages around displays that span or approach a page boundary. Choose semantically appropriate page-break locations, use local `amsmath` controls such as `\displaybreak` rather than leaving accidental breaks, split overlong rows when needed, and correct layouts that leave excessive whitespace. Recompile and visually verify the affected pages before reporting the build complete.
 - For compile or editor-style issues, prefer texlab diagnostics, LaTeX Workshop output, and narrow source edits before making broader changes. Make narrow source edits that address the reported line, label, macro, or environment.
 - When a LaTeX build is needed and VS Code LaTeX Workshop tooling is available, trigger the build through LaTeX Workshop rather than invoking a raw LaTeX command directly.
 - Use LaTeX Workshop build commands as the default build path for this workspace so the PDF viewer open in VS Code refreshes. Prefer the extension's build/build-and-view workflow over shell commands such as `lualatex`, `pdflatex`, or `latexmk`. Use raw shell compilation only when LaTeX Workshop is unavailable, when a non-view diagnostic compile is explicitly needed, or when the user explicitly asks for it; in that case, say that the open PDF may not refresh.
