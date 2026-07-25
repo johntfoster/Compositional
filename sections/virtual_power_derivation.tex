@@ -797,81 +797,20 @@ the reversible coordinate and constraint coefficients, including those from
 \endgroup
 % AGENT-LOCK-END
 %
-The explicit \(\delta\varphi\) term in \eqref{eq:collected_full} is the
-Hamilton electric-field coefficient.  The multiplier variations in
-\eqref{eq:collected_full} include the variations that return
-\eqref{eq:C1_def}--\eqref{eq:C3_def}; variation with respect to \(\tau\)
-returns the zero-sum insertion rate imposed by \eqref{eq:C4_def}.  Since the
-displayed Hamilton variations are arbitrary within their respective variation
-classes, each bracketed integrand must vanish pointwise.
+The stationarity conditions obtained from the individual coefficients and
+multiplier variations in \eqref{eq:collected_full} are developed in
+\sref{euler_lagrange_equations}.
 
-\subsubsection{Euler--Lagrange equations}
+\subsection{Euler--Lagrange equations}
+\label{sec:euler_lagrange_equations}
 
-The coefficients in \eqref{eq:collected_full} are now set to zero in the order
-of their associated variations.  The electrostatic-potential variation
-\(\delta\varphi\) gives Gauss' law,
-%
-\begin{equation}
-	\nabla_{\mbf x}\cdot\mbf d=\varrho .
-	\label{eq:gauss_law}
-\end{equation}
-%
-Combined with the local charge balance from \sref{conservation_of_charge}, the
-electroquasistatic field equation implies
-%
-\begin{equation}
-	\nabla_{\mbf x}\cdot
-	\left(
-	\dot{\mbf d}
-	+
-	\mbf i
-	\right)
-	=0 .
-	\label{eq:charge_gauss_compatibility}
-\end{equation}
+Setting the coefficients in \eqref{eq:collected_full} to zero first gives
+algebraic relations for the storage and constraint multipliers.  Substitution
+of these relations into the remaining stationarity equations exposes the phase
+momentum balances and the electrostatic field equation.
 
-This compatibility relation follows from Gauss' law and charge balance; it is
-not an additional Euler--Lagrange equation.
-
-The neutral specialization is defined by
-\(\omega_\xi^+=0\) and \(z_\xi^\alpha=0\), where \(z_\xi^\alpha\) is the
-charge per unit component mass.
-
-The phase-volume-fraction variation \(\delta\phi_\xi\) gives, for phases without
-an explicit capillary contribution,
-%
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{equation}
-	\phi_\xi \lambda
-	=
-	-\sum_\alpha \pi_\xi^\al
-	+
-	\phi_\xi\omega_\xi^+ .
-	\label{eq:el_lambda}
-\end{equation}
-% AGENT-LOCK-END
-%
-For fluid phases, the same variation also contains the primitive capillary
-potential.  Its resulting equation is stated below after the phase pressure has
-been identified from the intrinsic-density variation.
-
-The phase-motion variation \(\delta\mbf x_\xi\), after substitution of
-\eqref{eq:el_lambda}, gives
-%
-% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
-\begin{equation}
-	\rho_{\xi}\mbf{a}_{\xi} =
-	\nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
-	+ \phi_{\xi} \nabla_{\mbf{x}}\lambda
-	-\nabla_{\mbf x}\left(\phi_\xi\omega_\xi^+\right)
-	+\sum_\alpha\dot c_\xi^\alpha
-	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right),
-	\label{eq:el_momentum_uniform}
-\end{equation}
-% AGENT-LOCK-END
-%
-The corresponding fluid-phase momentum equation contains additional capillary
-forces and is developed in the following subsection.
+\subsubsection{Storage and multiplier relations}
+\label{sec:el_storage_multiplier_relations}
 
 The intrinsic-density variation \(\delta\bar\rho_\xi\) gives
 %
@@ -905,6 +844,25 @@ pressure as the usual thermodynamic pressure plus the dielectric pressure
 correction induced by the intrinsic-density dependence of the phase electric
 enthalpy.
 
+For phases without an explicit capillary contribution, the
+phase-volume-fraction variation \(\delta\phi_\xi\) gives
+%
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
+\begin{equation}
+	\phi_\xi \lambda
+	=
+	-\sum_\alpha \pi_\xi^\al
+	+
+	\phi_\xi\omega_\xi^+ .
+	\label{eq:el_lambda}
+\end{equation}
+% AGENT-LOCK-END
+%
+This relation is used to simplify the phase momentum equations below and, for
+fluid phases, to eliminate the volume-constraint multiplier in favor of phase
+pressure and interfacial terms.  The fluid-phase variation also contains the
+primitive capillary potential.
+
 The next relations are consequences of the fluid-phase volume-fraction
 Euler--Lagrange equation and this phase-pressure definition.
 Returning to the fluid-phase volume-fraction variation, its coefficient in
@@ -919,7 +877,8 @@ Euler--Lagrange equation is
 \end{equation}
 % AGENT-LOCK-END
 %
-Using \eqref{eq:phase_pressure_all} gives
+Using \eqref{eq:phase_pressure_storage} and
+\eqref{eq:phase_pressure_all} gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -1072,35 +1031,35 @@ componentwise as
 % AGENT-LOCK-END
 %
 The first term in \eqref{eq:Pi_componentwise} is the usual chemical or mixing
-contribution to composition stationarity.  The second term is the electrical
-composition contribution; when \(\omega_\xi^+\) is specialized to an
-electrolyte, double-layer, or ionic-solution model, this term contains the
-corresponding electro-osmotic or osmotic contribution.
+contribution to composition stationarity.  The second term is the composition
+derivative of the phase electric enthalpy and therefore contributes to the
+electrochemical component potential.  If \(\omega_\xi^+\) includes
+composition-dependent dielectric or electrical-double-layer free energy, this
+derivative contains the corresponding electrostatic or double-layer
+contribution
+\cite{newman2004electrochemical,leroy2004triple}.
 %
 Choosing component $N$ as the reference and comparing against
-$\beta=1,\ldots,N-1$ gives a system of $N-1$ equations,
+$\alpha=1,\ldots,N-1$ gives a system of $N-1$ equations,
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
 	 & \rho_{\xi}\left(
-	\left.\p{\psi_{\xi}}{\eta_{\xi}^\beta}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq \beta}}
-	- \left.\p{\psi_{\xi}}{\eta_{\xi}^N}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\kappa\neq N}}
+	\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq \alpha}}
+	- \left.\p{\psi_{\xi}}{\eta_{\xi}^N}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq N}}
 	\right)
 	+
 	\phi_{\xi}\left(
-	\left.\p{\omega_\xi^+}{\eta_{\xi}^\beta}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\kappa\neq\beta},\theta}
-	- \left.\p{\omega_\xi^+}{\eta_{\xi}^N}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\kappa\neq N},\theta}
+	\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta}
+	- \left.\p{\omega_\xi^+}{\eta_{\xi}^N}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq N},\theta}
 	\right)
-	\notag                                               \\
-	 & \qquad = \frac{\pi_{\xi}^\beta}{\eta_{\xi}^\beta}
+	\notag                                                 \\
+	 & \qquad = \frac{\pi_{\xi}^\alpha}{\eta_{\xi}^\alpha}
 	- \frac{\pi_{\xi}^N}{\eta_{\xi}^N},
-	\qquad \beta=1,\ldots,N-1.
+	\qquad \alpha=1,\ldots,N-1.
 	\label{eq:pi_difference_system}
 \end{align}
 % AGENT-LOCK-END
-%
-Here $\kappa$ indexes the collection of composition components held fixed in
-the partial derivative.
 
 Finally, the component-material-measure variations
 \(\delta\mc C_\xi^\alpha\) give
@@ -1116,17 +1075,39 @@ Finally, the component-material-measure variations
 \end{equation}
 % AGENT-LOCK-END
 %
-Because the scalar transfer potential \(\tau\) is shared by all components in a
-phase, one relation in \eqref{eq:el_conversion_component} can evolve \(\tau\)
-along that phase motion; the remaining relations constrain the storage
-multipliers \(\pi_\xi^\alpha\).
+Because \(\tau\) is a single scalar field shared by all phases and components,
+it is determined only once.  Equation~\eqref{eq:el_conversion_component}
+evaluates its material derivative along each phase trajectory; the remaining
+componentwise relations constrain the storage multipliers \(\pi_\xi^\alpha\)
+and require the phasewise projections to be compatible with the same \(\tau\).
 
 At this stage $L_\xi^\alpha$ remains an explicit constitutive work potential for
 component transfer.  An admissible choice of $L_\xi^\alpha$ is identified by the
 Coleman--Noll argument in
 Section~\ref{sec:constitutive_models_entropy_inequality}.
 
-\subsubsection{Fluid-phase momentum equations}
+\subsubsection{Phase momentum balance}
+\label{sec:phase_momentum_balance}
+
+The phase-motion variation \(\delta\mbf x_\xi\), after substitution of
+\eqref{eq:el_lambda}, gives
+%
+% AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
+\begin{equation}
+	\rho_{\xi}\mbf{a}_{\xi} =
+	\nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
+	+ \phi_{\xi} \nabla_{\mbf{x}}\lambda
+	-\nabla_{\mbf x}\left(\phi_\xi\omega_\xi^+\right)
+	+\sum_\alpha\dot c_\xi^\alpha
+	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right),
+	\label{eq:el_momentum_uniform}
+\end{equation}
+% AGENT-LOCK-END
+%
+The fluid-phase balance contains additional capillary forces and is reduced
+separately below.
+
+\subsubsection{Fluid-phase momentum balance}
 \label{sec:fluid_phase_momentum}
 
 For any fluid phase $f\in\mc F$, the scalar-transport capillary contribution
@@ -1160,10 +1141,10 @@ The phase pressure-gradient form is therefore
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{empheq}[box=\fbox]{align}
 	\rho_f\mbf{a}_f
-	& = \rho_f\mbf{g} + \mbf{b}_f
-	+ \nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+}
+	& = \nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+}
 	- \phi_f\nabla_{\mbf{x}}\bar p_f
 	- \omega_f^+\nabla_{\mbf x}\phi_f
+	+ \rho_f\mbf{g} + \mbf{b}_f
 	+\sum_\alpha\dot c_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_f\right),
 	\qquad f\in\mc F .
@@ -1189,18 +1170,48 @@ Maxwell stresses or electric surface-energy derivatives
 \cite{melcher1969electrohydrodynamics,yamamoto2015contact_angle_saturation};
 the present term appears directly from the constrained phase-volume variation.
 
-The neutral, conversion-free specialization
-\(\omega_f^+=0\) and \(\dot c_f^\alpha=0\) gives
+Under the neutral, conversion-free specialization
+\(\omega_f^+=0\) and \(\dot c_f^\alpha=0\),
 \eqref{eq:el_mom_f_simplified} reduces to the standard pressure-gradient form,
 %
-\[
+\begin{equation}
 	\rho_f\mbf{a}_f
-	= \rho_f\mbf{g} + \mbf{b}_f
-	+ \nabla_{\mbf x}\cdot\bs\sigma_f'
-	- \phi_f\nabla_{\mbf{x}}\bar p_f,
+	= \nabla_{\mbf x}\cdot\bs\sigma_f'
+	- \phi_f\nabla_{\mbf{x}}\bar p_f
+	+ \rho_f\mbf{g} + \mbf{b}_f,
 	\qquad f\in\mc F .
-\]
+	\label{eq:neutral_conversion_free_fluid_momentum_balance}
+\end{equation}
 %
+
+\subsubsection{Electrostatic field equation}
+\label{sec:electrostatic_field_equation}
+
+The electrostatic-potential variation \(\delta\varphi\) gives Gauss' law,
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot\mbf d=\varrho .
+	\label{eq:gauss_law}
+\end{equation}
+%
+Combined with the local charge balance from \sref{conservation_of_charge}, the
+electroquasistatic field equation implies
+%
+\begin{equation}
+	\nabla_{\mbf x}\cdot
+	\left(
+	\dot{\mbf d}
+	+
+	\mbf i
+	\right)
+	=0 .
+	\label{eq:charge_gauss_compatibility}
+\end{equation}
+
+This compatibility relation follows from Gauss' law and charge balance; it is
+not an additional Euler--Lagrange equation.  The neutral specialization is
+defined by \(\omega_\xi^+=0\) and \(z_\xi^\alpha=0\), where
+\(z_\xi^\alpha\) is the charge per unit component mass.
 
 \subsection{Onsager principle for dissipative reaction and transport}
 \label{sec:onsager_reaction_transport}
@@ -1215,7 +1226,7 @@ statement is local in time and selects near-equilibrium rates at the current
 thermodynamic state.  The state variables that enter the potentials are held
 fixed during this minimization, while
 \(\dot r_{(m)}\), \(\mbf j_{\xi,{\rm disp}}^\alpha\),
-\(\mbf j_{\xi,{\rm diff}}^\alpha\), and \(\mu_\xi^\alpha\) are varied.  The
+\(\mbf j_{\xi,{\rm diff}}^\alpha\) are varied.  The
 fixed current configuration and constitutive state are
 \(\mbf F_\xi\), \(\bar\rho_\xi\), \(\eta_\xi^\alpha\), \(\phi_\xi\),
 \(\varphi\), and \(J_\xi\).  The rate
@@ -1223,8 +1234,9 @@ fixed current configuration and constitutive state are
 relative-flux rates through
 \eqref{eq:reference_conversion_accumulation_rate}.
 
-The component-rate balance enters the Onsager principle as a Lagrange
-constraint term.  Since the product of \(\mu_\xi^\alpha\) with the
+The component-rate balance enters the Onsager principle as a constraint
+enforced by the Lagrange multiplier \(\mu_\xi^\alpha\), which is also varied.
+Since the product of \(\mu_\xi^\alpha\) with the
 component-rate constraint must have units of power in the Onsager statement,
 dimensional analysis identifies \(\mu_\xi^\alpha\) as an energy per unit mass,
 that is, a chemical potential.  Its variational role here is to enforce the
@@ -1245,11 +1257,11 @@ rate constraint:
 \end{equation}
 %
 The neutral chemical contribution is
-\(\hat\mu_\xi^\alpha\) times the bracket in
+\(\hat\mu_\xi^\alpha\) times the bracketed term in
 \eqref{eq:component_rate_residual_def}.  The charge-rate identity in
 \eqref{eq:component_charge_rate_identity} is obtained by multiplying the same
 rate bracket by the component charge per unit mass \(z_\xi^\alpha\); its
-electric power contribution is \(\varphi z_\xi^\alpha\) times that bracket.  The
+electric power contribution is \(\varphi z_\xi^\alpha\) times that bracketed term.  The
 two contributions therefore combine into the electrochemical component
 potential
 %
@@ -1368,16 +1380,17 @@ The corresponding first variation of the constraint term is
 	    & -
 	\int_{\mc B}\sum_\xi\sum_\alpha
 	\nabla_{\mbf x}\mu_\xi^\alpha\cdot
-	\left(
-	\delta\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\delta\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)\dv ,
+		\left(
+		\delta\mbf j_{\xi,{\rm disp}}^\alpha
+		+
+		\delta\mbf j_{\xi,{\rm diff}}^\alpha
+		\right)\dv
+		\notag  \\
+	    & + \text{boundary terms}.
 	\label{eq:Prt_variation}
 \end{align}
 %
-where the flux terms have been integrated by parts in space and boundary power
-terms are suppressed.
+Boundary power terms are omitted for brevity.
 
 \subsubsection{Collected Onsager variation}
 \label{sec:collected_onsager_variation}
