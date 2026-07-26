@@ -1144,14 +1144,25 @@ interfacial-gradient, and electric-enthalpy terms collapse as
 \end{equation}
 % AGENT-LOCK-END
 %
-The phase pressure-gradient form is therefore
+Substituting the total reversible stress definition
+\eqref{eq:vp_total_reversible_stress_definition}, the Maxwell stress
+\eqref{eq:vp_electrical_stress_definition}, and the pressure relation
+\eqref{eq:fluid_pressure_primitive_potential_relation} cancels the isotropic
+Maxwell contribution against the explicit electric-enthalpy
+volume-fraction force.  The fluid momentum balance is therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{empheq}[box=\fbox]{align}
 	\rho_f\mbf{a}_f
-	& = \nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+}
-	- \phi_f\nabla_{\mbf{x}}\bar p_f
-	- \omega_f^+\nabla_{\mbf x}\phi_f
+	& = \nabla_{\mbf x}\cdot
+	\left(
+		\bs\sigma_f'
+		+\phi_f\mbf E\otimes\mbf d_f
+	\right)
+	- \phi_f\nabla_{\mbf{x}}
+	\left(
+		\bar p_E+\gamma_f
+	\right)
 	+ \rho_f\mbf{g} + \mbf{b}_f
 	+\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_f\right),
@@ -1160,23 +1171,15 @@ The phase pressure-gradient form is therefore
 \end{empheq}
 % AGENT-LOCK-END
 %
-The cancellation in \eqref{eq:fluid_capillary_pressure_gradient_collapse} shows
-that the primitive capillary potential enters the fluid momentum equation
-through the pressure relation.  The electrical assignment contributes the
-term \(-\omega_f^+\nabla_{\mbf x}\phi_f\), which acts where the phase volume
-fraction varies.  In the mixture description, changing \(\phi_f\) changes the
-local electric-enthalpy contribution, charge capacity, and displacement assigned
-to phase \(f\); the total charge density itself is weighted by the phase volume
-fractions through \eqref{eq:mixture_charge_density_definition}.  The remaining
-term in \eqref{eq:el_mom_f_simplified} is therefore a phase-volume-fraction
-force associated with rearranging the electric enthalpy assignment.  It is
-paired with the Maxwell stress contained in
-\(\bs\sigma_f^{\prime+}\); both terms arise from the same electric-enthalpy
-potential in the variational statement.  Leaky-dielectric and electrowetting
-theories contain related electrical interfacial forces through
-Maxwell stresses or electric surface-energy derivatives
-\cite{melcher1969electrohydrodynamics,yamamoto2015contact_angle_saturation};
-the present term appears directly from the constrained phase-volume variation.
+The electrical force in \eqref{eq:el_mom_f_simplified} is consequently carried
+by the anisotropic Maxwell term
+\(\nabla_{\mbf x}\cdot(\phi_f\mbf E\otimes\mbf d_f)\), while the isotropic
+electric-enthalpy contribution is absorbed into the equivalent-pressure
+relation.  The primitive capillary potential remains through
+\(-\phi_f\nabla_{\mbf x}\gamma_f\).  This separated form is used in the
+solid--fluid momentum roll-up.  Related Maxwell forces appear in
+leaky-dielectric and electrowetting theories
+\cite{melcher1969electrohydrodynamics,yamamoto2015contact_angle_saturation}.
 
 Under the neutral, conversion-free specialization
 \(\omega_f^+=0\) and \(\phasedot{c}_f^\alpha=0\),
@@ -1186,8 +1189,7 @@ Under the neutral, conversion-free specialization
 	\rho_f\mbf{a}_f
 	= \nabla_{\mbf x}\cdot\bs\sigma_f'
 	- \phi_f\nabla_{\mbf{x}}\bar p_f
-	+ \rho_f\mbf{g} + \mbf{b}_f,
-	\qquad f\in\mc F .
+	+ \rho_f\mbf{g} + \mbf{b}_f .
 	\label{eq:neutral_conversion_free_fluid_momentum_balance}
 \end{equation}
 %

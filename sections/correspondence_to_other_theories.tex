@@ -273,6 +273,109 @@ phase-attached material regions and includes variations of the Jacobian
 \(J_\xi\), which generates the conversion-induced momentum term and connects
 mixture mechanics to compositional reactive transport.
 
+\subsection{Nernst--Planck--Darcy limit}
+\label{sec:nernst_planck_darcy_limit}
+
+The electrostatic single-fluid specialization recovers the
+Nernst--Planck--Darcy system.  Take one isothermal fluid phase in a fixed solid
+frame, set the reaction and phase-transformation rates and mechanical-dispersion
+fluxes to zero, and neglect inertia, gravity, and capillarity.  Let \(\phi_f\)
+be constant, take a linear isotropic dielectric response
+\(\mbf d_f=\epsilon_f\mbf E\) with constant \(\epsilon_f\), and assign all free
+charge to the fluid components.  Gauss' law then gives
+\(\nabla_{\mbf x}\cdot(\phi_f\mbf d_f)
+=\sum_\alpha z_f^\alpha\rho_f^\alpha\).  Because
+\(\nabla_{\mbf x}\times\mbf E=\mbf0\), the electrical and pressure forces in
+\eqref{eq:generalized_fluid_darcy_mass_flux} reduce according to
+%
+\begin{align}
+	&-\phi_f\nabla_{\mbf x}
+	\left(
+		\bar p_E+\gamma_f
+	\right)
+	+\nabla_{\mbf x}\cdot
+	\left(
+		\phi_f\mbf E\otimes\mbf d_f
+	\right)
+	\notag \\
+	&\qquad =
+	-\phi_f\nabla_{\mbf x}\bar p_f
+	+
+	\left(
+		\sum_\alpha z_f^\alpha\rho_f^\alpha
+	\right)\mbf E .
+	\label{eq:nernst_planck_darcy_maxwell_force_reduction}
+\end{align}
+%
+Here the pressure relation
+\(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\), with
+\(\omega_f^+=-\frac{1}{2}\mbf E\cdot\mbf d_f\), absorbs the isotropic part of
+the Maxwell stress.  Thus the tensor-divergence term in the general flux law
+becomes the familiar electric body force exerted on the mobile charge.
+
+With \(\mbf v_s=\mbf0\), the reaction-free form of
+\eqref{eq:modified_relative_flux_permeability}, the component balances,
+\eqref{eq:MC_relative_transport_closures}, and Gauss' law give
+%
+\begin{subequations}
+	\label{eq:nernst_planck_darcy_limit}
+	\begin{align}
+		\phi_f\mbf v_f
+		&=
+		-\frac{\bs\kappa_f}{\mu_f}
+		\left[
+			\nabla_{\mbf x}\bar p_f
+			-
+			\frac{1}{\phi_f}
+			\left(
+				\sum_\alpha z_f^\alpha\rho_f^\alpha
+			\right)\mbf E
+		\right],
+		\label{eq:nernst_planck_darcy_velocity}
+		\\
+		\frac{\partial\rho_f^\alpha}{\partial t}
+		&+
+		\nabla_{\mbf x}\cdot
+		\left[
+			\rho_f^\alpha\mbf v_f
+			-
+			\sum_\beta
+			\mbf D_{f,{\rm diff}}^{\alpha\beta}
+			\nabla_{\mbf x}
+			\left(
+				\hat\mu_f^\beta+z_f^\beta\varphi
+			\right)
+		\right]
+		=0,
+		\label{eq:nernst_planck_darcy_component_balance}
+		\\
+		\nabla_{\mbf x}\cdot
+		\left(
+			\phi_f\mbf d_f
+		\right)
+		&=
+		\sum_\alpha z_f^\alpha\rho_f^\alpha,
+		\qquad
+		\mbf E=-\nabla_{\mbf x}\varphi .
+		\label{eq:nernst_planck_darcy_gauss_law}
+	\end{align}
+\end{subequations}
+%
+The second equation is the thermodynamic Nernst--Planck law: an ideal-dilute
+choice of \(\hat\mu_f^\alpha\) separates its force into concentration-diffusion
+and electromigration terms.  If the coefficients are nondimensionalized,
+\(\phi_f=1\), and the two ionic components have opposite valences and equal
+diagonal diffusivities, \eqref{eq:nernst_planck_darcy_limit} has the standard
+form studied by Ignatova and Shu
+\cite[eqs.~(1.1)--(1.5)]{ignatova2021charged_fluids}.
+Ion exchange extends this fluid-only limit by retaining the charged solid-site
+components described in \sref{conservation_of_charge}.  Their fixed charge then
+contributes to the mixture Gauss law, while the mobile fluid charge in
+\eqref{eq:nernst_planck_darcy_velocity} supplies the electrical fluid-driving
+force; exchange kinetics or equilibrium relations close the solid--fluid
+component transfer.
+
+\pagebreak
 \subsection{Black-oil limit}
 \label{sec:black_oil_limit}
 
