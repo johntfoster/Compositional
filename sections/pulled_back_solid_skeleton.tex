@@ -94,12 +94,13 @@ symmetric positive definite.  Thus the phase permeability
 \(\sum_\alpha\phasedot{c}_f^\alpha\) may increase or decrease the diagonal resistance;
 admissibility requires the quadratic form
 %
-\[
+\begin{equation}
 	\phi_f^2\mu_f\mbf z\cdot\bs\kappa_f^{-1}\mbf z
 	+
 	\left(\sum_\alpha\phasedot{c}_f^\alpha\right)
 	\mbf z\cdot\mbf z
-\]
+	\label{eq:modified_relative_flux_positive_definiteness}
+\end{equation}
 %
 to be positive for every nonzero vector \(\mbf z\).  Equivalently, admissible
 component removal rates preserve positive definiteness of the resulting
@@ -108,21 +109,23 @@ The first loss of positive definiteness occurs in the direction of largest phase
 permeability.  If \(\kappa_{f,\max}\) is the largest eigenvalue of
 \(\bs\kappa_f\), the sufficient scalar check is
 %
-\[
+\begin{equation}
 	\sum_\alpha\phasedot{c}_f^\alpha
 	>
 	-\frac{\phi_f^2\mu_f}{\kappa_{f,\max}} .
-\]
+	\label{eq:modified_relative_flux_scalar_admissibility}
+\end{equation}
 %
 For an aqueous reaction that removes fluid mass on a time scale \(t_{\rm rxn}\),
 \(\sum_\alpha\phasedot{c}_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The singular threshold
 for the modified permeability is
 %
-\[
+\begin{equation}
 	t_{\rm rxn}
 	\lesssim
 	\frac{\rho_f\kappa_{f,\max}}{\phi_f^2\mu_f}.
-\]
+	\label{eq:modified_relative_flux_reaction_timescale_threshold}
+\end{equation}
 %
 With representative reservoir values
 \(\rho_f=10^3\,{\rm kg\,m^{-3}}\), \(\mu_f=10^{-3}\,{\rm Pa\,s}\),

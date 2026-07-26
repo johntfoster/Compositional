@@ -1,0 +1,154 @@
+% !TeX root = ../main.tex
+\section{Technical setting, conventions, and model scope}
+\label{sec:technical_setting}
+
+This section fixes the notation and assumptions used throughout the derivation.
+It supplements, but does not replace, the local definitions attached to the
+governing equations and constitutive specializations.
+
+\subsection{Indices, configurations, and measures}
+
+The phase index is \(\xi\).  Fluid phases are indexed by \(f\in\mc F\), solid
+phases by \(s\in\mc S\), and \(\mc G\in\{\mc F,\mc S\}\) denotes one of the two
+thermal subsystems.  Greek superscripts \(\alpha\) and \(\beta\) index
+components within a phase; when a reference component is required, it is
+labelled \(N\).  The parenthesized index \((m)\) labels a conversion mechanism,
+including a chemical reaction, phase transformation, sorption process, or ion
+exchange.  Phase and component sums are written explicitly.
+
+All phases occupy the common current region \(\mc B\), with spatial coordinate
+\(\mbf x\) and volume element \(\dv\).  Phase \(\xi\) is tracked from its own
+reference region \(\mc B_{\xi0}\), with coordinate \(\mbf X_\xi\) and volume
+element \(\dVxi\).  Its motion \(\bs\chi_\xi\) is assumed one-to-one and
+continuously differentiable wherever that phase is active, with
+\(J_\xi=\det\mbf F_\xi>0\).  All load-bearing solid phases later share the
+skeleton motion \(\bs\chi(\mbf X,t)\), deformation gradient \(\mbf F\), and
+Jacobian \(J>0\).  Unless a reference coordinate is shown explicitly,
+\(\nabla_{\mbf x}\) and \(\nabla_{\mbf x}\cdot\) are current-configuration
+operators.
+
+Densities without an overbar are measured per current mixture volume:
+\(\rho_\xi^\alpha\) is a component partial density and
+\(\rho_\xi=\sum_\alpha\rho_\xi^\alpha\) is a phase partial density.  The
+intrinsic density \(\bar\rho_\xi\) is measured per current phase volume, so
+\(\rho_\xi=\phi_\xi\bar\rho_\xi\).  The active-state domain satisfies
+\(\bar\rho_\xi>0\), \(0<\phi_\xi<1\),
+\(\eta_\xi^\alpha\ge0\),
+\(\sum_\alpha\eta_\xi^\alpha=1\), and
+\(\sum_\xi\phi_\xi=1\).  Constitutive relations containing
+\(1/\phi_\xi\), \(1/\eta_\xi^\alpha\), or inverse mobility operators are
+understood on the corresponding active subspace.  Phase appearance,
+disappearance, and changes of active component set require a separate
+complementarity or active-set treatment and are not supplied by the local
+constitutive equations.
+
+\subsection{Observers and rates}
+
+The operator \(D_\zeta/Dt\) follows phase \(\zeta\), and the heavy dot
+\(\phasedot{\square}_\xi\) follows phase \(\xi\).  In the constitutive and
+entropy analysis, an ordinary dot denotes the derivative following the common
+solid skeleton, as defined in
+\eqref{eq:MC_skeleton_rate_convention}.  The two rates are related by
+\eqref{eq:MC_phase_skeleton_transport_identity}; their difference contains the
+bulk phase velocity relative to the skeleton.  The notation
+\(\dot r_{(m)}\) denotes a local mechanism progress rate, not a material
+derivative of a state variable.  Likewise,
+\(\phasedot{\mc C}_\xi^\alpha\) and
+\(\phasedot c_\xi^\alpha\) are component-insertion rates attached to phase
+\(\xi\).
+
+\subsection{Mechanical and thermodynamic conventions}
+
+Cauchy stresses are tension-positive.  In the momentum balances they appear
+through \(+\nabla_{\mbf x}\cdot\bs\sigma\); tractions therefore have the sign
+of \(\bs\sigma\mbf n\) on a surface with outward unit normal \(\mbf n\).
+Thermodynamic phase pressures, capillary pressures, and the equivalent pore
+pressure are positive in compression and enter a total stress through a
+negative spherical contribution.  A single prime denotes the material stress
+obtained with intrinsic density held fixed, a double prime denotes the
+fixed-pressure Biot stress, and a superscript \(+\) denotes the electrical
+stress contribution.  The stress appearing in momentum balance is the sum of
+the material and electrical contributions.
+
+Temperatures are absolute and strictly positive.  All mobile phases share
+\(\theta_{\mc F}\), all load-bearing solid phases share
+\(\theta_{\mc S}\), and heat exchange between these groups is retained.  The
+local-thermal-equilibrium specialization sets
+\(\theta_{\mc F}=\theta_{\mc S}\).  The phase Helmholtz energies
+\(\psi_\xi\), specific internal energies \(e_\xi\), and component potentials
+are energies per unit phase mass.  The electric enthalpy
+\(\omega_\xi^+\) is energy per current phase volume, while \(\gamma\) is
+interfacial Helmholtz energy per current fluid volume.  Multiplication by the
+appropriate phase or fluid volume fraction converts these quantities to energy
+per current mixture volume.
+
+The constitutive functions are assumed sufficiently differentiable for every
+derivative used below.  They are objective under superposed proper-orthogonal
+changes of spatial frame: scalar potentials are invariant, spatial vectors and
+Cauchy stresses transform covariantly, and the solid energies depend on their
+elastic arguments through frame-indifferent combinations.  Constitutive
+functions also respect the material-symmetry group assigned to each phase; no
+isotropy is implied unless it is imposed in a stated specialization.  The
+present nonpolar continuum has no independent couple stress.  Consequently,
+admissible constitutive choices must satisfy angular-momentum balance and yield
+a symmetric total Cauchy stress, including any anisotropic mechanical or
+electrical contributions.
+
+\subsection{Electrical ensemble and gauge}
+
+The electrical specialization is electroquasistatic:
+\(\mbf E=-\nabla_{\mbf x}\varphi\), with no electromagnetic-wave dynamics.
+The phase electric enthalpies take \(\mbf E\) as their electrical argument, and
+\(\mbf d_\xi=-\partial\omega_\xi^+/\partial\mbf E\).  Free bulk charge
+\(\varrho\) and prescribed outward surface charge \(\bar q\) are source-work
+coefficients rather than additional stored energies.  Charge carried by the
+material is obtained by weighting each component mass by
+\(z_\xi^\alpha\); independently prescribed bulk charge is an external loading
+contribution.
+
+The boundary is partitioned into \(\Gamma_\varphi\), where \(\varphi\) is
+prescribed, and \(\Gamma_q\), where
+\(\mbf d\cdot\mbf n=\bar q\).  If no potential value is prescribed, the
+additive gauge of \(\varphi\) must be fixed, for example by prescribing its
+mean.  Observable reaction and transport laws use charge-conserving
+stoichiometric projections, electrochemical-potential gradients, or coupled
+gauge-invariant Onsager blocks.  The reservoir specialization takes
+\(\omega_\xi^+\) to be even in \(\mbf E\), thereby excluding permanent
+polarization at zero field and independent dielectric relaxation.
+
+\subsection{Source units and stoichiometric basis}
+
+The component source
+\(\nu_{\xi (m)}^\alpha\dot r_{(m)}\) always has units of component mass per
+current mixture volume per time.  The progress basis may be selected separately
+for each mechanism, provided the coefficient and rate are paired consistently.
+For a mass-based transfer, \(\dot r_{(m)}\) has units of mass per current
+mixture volume per time and the signed \(\nu_{\xi (m)}^\alpha\) are
+dimensionless mass yields; a one-to-one phase transfer then uses \(-1\) and
+\(+1\).  For a molar reaction, \(\dot r_{(m)}\) has units of amount of reaction
+per current mixture volume per time and
+\(\nu_{\xi (m)}^\alpha\) is the signed molar stoichiometric coefficient
+multiplied by the component molar mass.  In either basis, each internal
+mechanism satisfies the mass- and charge-conservation restrictions stated in
+\eqref{eq:spatial_mass_3} and
+\eqref{eq:mechanism_charge_conservation}.  Relative component fluxes have units
+of component mass per current area per time.
+
+\subsection{Initial and boundary data}
+
+The local theory does not prescribe a single boundary-value problem.  A
+well-posed application supplies initial phase/component masses, active phase
+fractions, temperatures, solid internal variables, and kinematic fields that
+satisfy the mass-fraction, volume-fraction, mass, and charge compatibility
+conditions.  The electrostatic potential has no independent evolution datum;
+it is obtained at each time from Gauss' law, the current charge state, and its
+boundary data.
+
+Boundary data are imposed in complementary classes appropriate to the selected
+reduction: motion or total traction for mechanics; component potential,
+composition, or normal total component flux for transport; temperature or
+normal heat flux for each thermal subsystem; and potential or normal electric
+displacement for electrostatics.  Boundary and initial data must also respect
+the zero-sum relative-flux constraints, any prescribed impermeability or
+insulation conditions, and global compatibility conditions associated with
+pure-Neumann mechanical, thermal, or electrical problems.

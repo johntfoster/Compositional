@@ -3,7 +3,8 @@
 Date: 2026-07-26  
 Repository baseline: `master` at `4dba770`  
 Immediate owner: theory manuscript  
-Status: review plus tracked repairs; P0.1 is fully repaired and validated
+Status: review plus tracked repairs; P0.1 and all Priority 2 items are fully
+repaired and validated
 
 ## Purpose and scope
 
@@ -14,6 +15,7 @@ The review covered the complete `main.tex` compilation graph:
 
 - `main.tex`
 - `defs.tex`
+- `sections/technical_setting.tex`
 - `sections/material_mass.tex`
 - `sections/conservation_of_charge.tex`
 - `sections/virtual_power_derivation.tex`
@@ -60,7 +62,7 @@ and summary tables.
       chain-rule, force--flux, and closure consistency.
 - [x] Scanned labels, references, citations, and display environments.
 - [x] Rebuilt with `pdflatex -> bibtex -> pdflatex -> pdflatex`.
-- [x] Confirmed a 63-page PDF after the P0.1 repair.
+- [x] Confirmed a 66-page PDF after the P0.1 and Priority 2 repairs.
 - [x] Found no undefined references or citations.
 - [x] Found no reported LaTeX warnings, errors, overfull boxes, or underfull
       boxes in the final build log.
@@ -107,7 +109,7 @@ Evidence after repair:
   explicitly in `eq:MC_charge_rate_entropy_projection`, which shifts the
   neutral potential to the electrochemical potential without adding the
   electrical contribution twice:
-  `sections/multicomponent_solids.tex:1959-1998`.
+  `sections/multicomponent_solids.tex:2031-2060`.
 
 Original technical concern and reopened propagation gap:
 
@@ -309,12 +311,12 @@ Evidence:
 
 - The general phase transform exchanges intrinsic specific volume for the
   common equivalent/phase pressure:
-  `sections/multicomponent_solids.tex:2882-3063`.
+  `sections/multicomponent_solids.tex:2952-3134`.
 - The component specialization holds each
   \(\bar p_s^\alpha\) fixed independently:
-  `sections/multicomponent_solids.tex:3461-3534`.
+  `sections/multicomponent_solids.tex:3532-3605`.
 - The component corrections are summed to define the phase coefficient:
-  `sections/multicomponent_solids.tex:3561-3588`.
+  `sections/multicomponent_solids.tex:3620-3659`.
 
 Technical concern:
 
@@ -351,7 +353,7 @@ Evidence:
 
 - The overall stress uses the conventional pressure contribution
   \(-B\bar p_E\mathbf I\):
-  `sections/multicomponent_solids.tex:3294-3315`.
+  `sections/multicomponent_solids.tex:3368-3387`.
 - The crystallization affinity uses
   \[
   \mathcal A_{(m)}
@@ -363,7 +365,7 @@ Evidence:
   \frac13\operatorname{tr}\boldsymbol\sigma_s'
   \right]:
   \]
-  `sections/multicomponent_solids.tex:3812-3870`.
+  `sections/multicomponent_solids.tex:3819-3918`.
 
 Technical concern:
 
@@ -420,7 +422,7 @@ Evidence:
 - The stationarity equations are displayed as unrestricted componentwise
   equalities: `sections/virtual_power_derivation.tex:1517-1549`.
 - The later constitutive section acknowledges singular full-space mobilities:
-  `sections/multicomponent_solids.tex:2409-2455`.
+  `sections/multicomponent_solids.tex:2450-2526`.
 
 Technical concern:
 
@@ -544,8 +546,8 @@ Evidence:
   `sections/material_mass.tex:240-260`.
 - The chemical-reaction and ion-exchange examples are written with ordinary
   molar stoichiometric integers:
-  `sections/multicomponent_solids.tex:2811-2817` and
-  `sections/multicomponent_solids.tex:2870-2879`.
+  `sections/multicomponent_solids.tex:2882-2888` and
+  `sections/multicomponent_solids.tex:2940-2950`.
 
 Recommended resolution:
 
@@ -702,8 +704,8 @@ Evidence:
 - The manuscript correctly notes that a reaction transferring net charge
   between the thermal subsystems requires a coupled reaction--energy Onsager
   block:
-  `sections/multicomponent_solids.tex:2123-2146` and
-  `sections/multicomponent_solids.tex:2373-2377`.
+  `sections/multicomponent_solids.tex:2195-2218` and
+  `sections/multicomponent_solids.tex:2444-2448`.
 - The block is not actually specified.
 
 Recommended resolution:
@@ -720,7 +722,7 @@ Evidence:
 
 - The model summary describes a reduced, fully implicit formulation of the
   complete model:
-  `sections/multicomponent_solids.tex:3878-3904`.
+  `sections/multicomponent_solids.tex:3949-3982`.
 - The unknown and equation totals match algebraically, but boundary data,
   initial data, phase appearance, constitutive-domain conditions, and the
   charged reaction--energy block are outside the count.
@@ -756,115 +758,111 @@ Recommended resolution:
 
 ### P2.1 Split the collected entropy inequality
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- `eq:MC_collected_entropy` occupies
-  `sections/multicomponent_solids.tex:1188-1570` and spans approximately two
-  rendered pages.
-
-Technical and presentation concern:
-
-The display is too large to audit reliably and obscures the correspondence
-between rate coefficients and the reversible restrictions derived from them.
-
-Recommended resolution:
-
-- [ ] Split it into labelled elastic/distension, density/composition,
-      temperature, reaction/transport, and residual-dissipation blocks.
-- [ ] Preserve a short master statement explaining that the blocks sum to the
-      complete entropy inequality.
-- [ ] Consider a compact coefficient-to-restriction table after the split.
+- [x] Preserved `eq:MC_collected_entropy` as the master inequality and split its
+      unchanged right-hand side into five labelled continuations:
+      elastic/distension, density/composition, temperature,
+      reaction/transport, and residual dissipation:
+      `sections/multicomponent_solids.tex:1188-1596`.
+- [x] Added prose stating explicitly that the five blocks form one inequality:
+      `sections/multicomponent_solids.tex:1599-1606`.
+- [x] Added a compact block-to-rate/restriction audit table:
+      `sections/multicomponent_solids.tex:1608-1652`.
+- [x] Verified the rendered master collection as equation (158), with
+      subequations (158a)--(158e) on pages 33--34 and the audit table on page 35.
 
 ### P2.2 Repair the local-thermal-equilibrium reaction display
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- `sections/multicomponent_solids.tex:2148-2163`.
-
-Recommended resolution:
-
-- [ ] Convert the reaction-power derivation to an `align` environment.
-- [ ] Put the equality steps on separate rows.
-- [ ] State
+- [x] Converted the reaction-power result to a single aligned equality in an
+      `align` environment and punctuated its final row:
+      `sections/multicomponent_solids.tex:2224-2234`.
+- [x] Stated
       \(\theta_{\mathcal F}=\theta_{\mathcal S}=\theta\) in prose or as a
-      separately punctuated condition rather than a chained equality in the
-      same numbered display.
+      separately punctuated condition rather than a chained equality:
+      `sections/multicomponent_solids.tex:2220-2222`.
 
 ### P2.3 Number or inline the unnumbered positivity displays
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- `sections/pulled_back_solid_skeleton.tex:97-125`.
-
-Recommended resolution:
-
-- [ ] Number and descriptively label the positivity, eigenvalue, and reaction
-      time-scale identities if they remain displayed.
-- [ ] Alternatively, make the shortest checks inline.
+- [x] Numbered and descriptively labelled the quadratic-form positivity,
+      scalar eigenvalue, and reaction time-scale displays:
+      `sections/pulled_back_solid_skeleton.tex:97-128`.
+- [x] Verified the displays as equations (253)--(255) on page 54.
 
 ### P2.4 Correct display punctuation in the deformation-gradient definition
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- A period appears after the first, nonfinal equality:
-  `sections/material_mass.tex:77-80`.
-
-Recommended resolution:
-
-- [ ] Remove punctuation from the first row.
-- [ ] Punctuate the final row as part of its surrounding sentence.
+- [x] Removed punctuation from the first, nonfinal equality and punctuated the
+      final row as part of its surrounding sentence:
+      `sections/material_mass.tex:77-81`.
 
 ### P2.5 Correct local wording errors
 
-Status: [ ]
+Status: [x]
 
-- [ ] Change “mass conversation” to “mass conservation”:
-      `sections/material_mass.tex:287-289`.
-- [ ] Replace “compositional balance per unit mass” with “mass-based component
-      balance per unit current mixture volume” or equivalent:
+- [x] Changed “mass conversation” to “mass conservation”:
+      `sections/material_mass.tex:285-288`.
+- [x] Replaced “compositional balance per unit mass” with “mass-based component
+      balance per unit current mixture volume”:
       `sections/correspondence_to_other_theories.tex:30-34`.
 
 ### P2.6 Remove global `\sloppy` after the technical revision
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- `main.tex:38`.
-
-Recommended resolution:
-
-- [ ] Remove the document-wide `\sloppy`.
-- [ ] Rebuild and repair any local line-breaking problems explicitly.
-- [ ] Reinspect the dense entropy display and summary tables after that change.
+- [x] Removed the document-wide `\sloppy`; `\begin{document}` now occurs
+      directly at `main.tex:38`.
+- [x] Rebuilt the manuscript and repaired the two local overfull lines by
+      revising their prose without changing mathematical content.
+- [x] Reinspected the entropy collection on pages 33--35, the reaction display
+      on page 39, the positivity displays on page 54, and the model-summary
+      tables on pages 52--53.
+- [x] Confirmed that the final log contains no LaTeX warnings, errors, overfull
+      boxes, underfull boxes, or undefined references.
 
 ### P2.7 Add a technical assumptions and notation section
 
-Status: [ ]
+Status: [x]
 
-This is separate from the unwritten introduction and can be added before the
-main derivation.
+Completed repair:
 
-Recommended contents:
-
-- [ ] phase, component, subsystem, and mechanism index sets;
-- [ ] current and reference domains;
-- [ ] observer and rate conventions;
-- [ ] stress and pressure signs;
-- [ ] thermal grouping assumptions;
-- [ ] electrical ensemble and gauges;
-- [ ] state-space positivity and active-phase assumptions;
-- [ ] units and basis of stoichiometric coefficients and progress rates;
-- [ ] boundary and initial data classes;
-- [ ] constitutive regularity, objectivity, and material-symmetry assumptions.
+- [x] Added `sections/technical_setting.tex` before the main derivation and
+      included it from `main.tex:74`.
+- [x] Defined phase, component, subsystem, and mechanism index sets; current and
+      reference domains; measure conventions; active-state positivity; and
+      phase/component active-set scope:
+      `sections/technical_setting.tex:9-43`.
+- [x] Defined observer and rate conventions:
+      `sections/technical_setting.tex:45-58`.
+- [x] Stated stress and pressure signs, thermal grouping, energy
+      normalizations, constitutive regularity, objectivity, material symmetry,
+      and angular-momentum implications:
+      `sections/technical_setting.tex:60-95`.
+- [x] Stated the electroquasistatic ensemble, source-work interpretation,
+      electrical boundary partition, gauge fixing, and constitutive electrical
+      scope:
+      `sections/technical_setting.tex:97-117`.
+- [x] Defined the admissible mass-based and molar progress-rate/stoichiometric
+      pairings and their units:
+      `sections/technical_setting.tex:119-135`.
+- [x] Listed the required initial and complementary boundary-data classes and
+      compatibility conditions:
+      `sections/technical_setting.tex:137-154`.
 
 ## Citation and bibliography review
 

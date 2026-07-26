@@ -1193,8 +1193,17 @@ solid density rate \eqref{eq:MC_solid_density_rate}, and the stress-power split
 \eqref{eq:reference_conversion_accumulation_rate} to separate component
 insertion into conversion and relative-flux contributions, and apply the product
 rule to isolate the local flux--force terms.  Collecting the volume-fraction,
-composition, temperature, reaction, and transport rates gives
+composition, temperature, reaction, and transport rates gives one inequality
+organized into five labelled blocks.  The first block contains the elastic,
+distension, and volume-fraction rates.  Each subsequent display continues the
+right-hand side of the first, so its leading sign belongs to the same sum.  All
+five blocks therefore form the single inequality
+\eqref{eq:MC_collected_entropy}.
 %
+\begin{subequations}
+\label{eq:MC_collected_entropy}
+\noindent\emph{Elastic, distension, and volume-fraction rates.}
+\par\nopagebreak[4]
 \begin{align}
 	0\le{} &
 	\frac{1}{\theta_{\mc S}}
@@ -1253,35 +1262,38 @@ composition, temperature, reaction, and transport rates gives
 	\phi_s\bar p_s
 	\right)\mbf I
 	\right)
-	\dot{\bar{\mbf F}}_s^e
-	(\bar{\mbf F}_s^e)^{-1}
-	\right]
-	\notag                  \\
-	       & +
-	\frac{1}{\theta_{\mc S}}
-	\sum_{s\in\mc S}
-	\operatorname{tr}\left[
-		(\mbf A_s^e)^{-1}
-		(\bs\sigma_s')^T
-		\mbf A_s^e
-		\dot{\mbf A}_s^p
-		(\mbf A_s^p)^{-1}
+		\dot{\bar{\mbf F}}_s^e
+		(\bar{\mbf F}_s^e)^{-1}
 		\right]
-	\notag                  \\
+		\notag                  \\
 	       & +
 	\frac{1}{\theta_{\mc S}}
 	\sum_{s\in\mc S}
-	\operatorname{tr}\left[
-	(\bar{\mbf F}_s^e)^{-1}
-	\mbf A_s^{-1}
-	(\bs\sigma_s')^T
-	\mbf A_s
-	\bar{\mbf F}_s^e
-	\dot{\bar{\mbf F}}_s^p
-	(\bar{\mbf F}_s^p)^{-1}
-	\right]
-	\notag                  \\
-	       & +
+	\left(
+	\lambda
+	+
+	\bar p_s
+	-
+	\omega^{+}_{s}
+	\right)\dot\phi_s
+	+
+	\frac{1}{\theta_{\mc F}}
+	\sum_{f\in\mc F}
+	\left(
+	\lambda
+	+
+	\bar p_f
+	-
+	\omega^{+}_{f}
+	-
+	\gamma_f
+	\right)\dot\phi_f
+	\label{eq:MC_collected_entropy_elastic_distension}
+\end{align}
+\noindent\emph{Density and composition rates.}
+\par\nopagebreak[4]
+\begin{align}
+	{} & +
 	\frac{1}{\theta_{\mc F}}
 	\sum_{f\in\mc F}
 	\left[
@@ -1317,7 +1329,7 @@ composition, temperature, reaction, and transport rates gives
 		\p{\omega^{+}_{f}}{\eta_f^\beta}
 		\right\vert_{\mc X_f,\mbf E}
 		\right]\dot\eta_f^\beta
-	\notag \displaybreak[4] \\
+		\notag                  \\
 	       & +
 	\frac{1}{\theta_{\mc S}}
 	\sum_{s\in\mc S}
@@ -1389,11 +1401,15 @@ composition, temperature, reaction, and transport rates gives
 	\left.
 	\p{\bar{\mbf F}_s^0}{\eta_s^\beta}
 	\right\vert_{\mc X_s}
-	(\bar{\mbf F}_s^0)^{-1}
-	\right]
-	\right]\dot\eta_s^\beta
-	\notag                  \\
-	       & +
+		(\bar{\mbf F}_s^0)^{-1}
+		\right]
+		\right]\dot\eta_s^\beta
+		\label{eq:MC_collected_entropy_density_composition}
+\end{align}
+\noindent\emph{Temperature rates.}
+\par\nopagebreak[4]
+\begin{align}
+	{} & +
 	\frac{1}{\theta_{\mc F}}
 	\left[
 	-\sum_{f\in\mc F}
@@ -1493,34 +1509,15 @@ composition, temperature, reaction, and transport rates gives
 	\left.
 	\p{\bar{\mbf F}_s^0}{\theta_{\mc S}}
 	\right\vert_{\mc X_s}
-	(\bar{\mbf F}_s^0)^{-1}
-	\right]
-	\right]\dot\theta_{\mc S}
-	\notag                  \\
-	       & +
-	\frac{1}{\theta_{\mc S}}
-	\sum_{s\in\mc S}
-	\left(
-	\lambda
-	+
-	\bar p_s
-	-
-	\omega^{+}_{s}
-	\right)\dot\phi_s
-	+
-	\frac{1}{\theta_{\mc F}}
-	\sum_{f\in\mc F}
-	\left(
-	\lambda
-	+
-	\bar p_f
-	-
-	\omega^{+}_{f}
-	-
-	\gamma_f
-	\right)\dot\phi_f
-	\notag                  \\
-	       & -
+		(\bar{\mbf F}_s^0)^{-1}
+		\right]
+		\right]\dot\theta_{\mc S}
+		\label{eq:MC_collected_entropy_temperature}
+\end{align}
+\noindent\emph{Reaction and relative-transport rates.}
+\par\nopagebreak[4]
+\begin{align}
+	{} & -
 	\sum_m
 	\left[
 		\frac{1}{\theta_{\mc F}}
@@ -1548,10 +1545,38 @@ composition, temperature, reaction, and transport rates gives
 	+
 	\mbf j_{\xi,{\rm diff}}^\alpha
 	\right)\cdot
-	\nabla_{\mbf x}\left(
-	\frac{\psi_\xi+L_\xi^\alpha}{\theta_{\mc G}}
-	\right)
-	\notag                  \\
+		\nabla_{\mbf x}\left(
+		\frac{\psi_\xi+L_\xi^\alpha}{\theta_{\mc G}}
+		\right)
+		\label{eq:MC_collected_entropy_reaction_transport}
+\end{align}
+\noindent\emph{Residual dissipative rates.}
+\par\nopagebreak[4]
+\begin{align}
+	{} & +
+	\frac{1}{\theta_{\mc S}}
+	\sum_{s\in\mc S}
+	\operatorname{tr}\left[
+		(\mbf A_s^e)^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s^e
+		\dot{\mbf A}_s^p
+		(\mbf A_s^p)^{-1}
+		\right]
+		\notag                  \\
+	       & +
+	\frac{1}{\theta_{\mc S}}
+	\sum_{s\in\mc S}
+	\operatorname{tr}\left[
+		(\bar{\mbf F}_s^e)^{-1}
+		\mbf A_s^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s
+		\bar{\mbf F}_s^e
+		\dot{\bar{\mbf F}}_s^p
+		(\bar{\mbf F}_s^p)^{-1}
+		\right]
+		\notag                  \\
 	       & +
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
@@ -1564,10 +1589,11 @@ composition, temperature, reaction, and transport rates gives
 		\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
 	}{
 		\theta_{\mc G}^2
-	}
-	.
-	\label{eq:MC_collected_entropy}
+		}
+		.
+		\label{eq:MC_collected_entropy_residual}
 \end{align}
+\end{subequations}
 %
 
 Equation~\eqref{eq:MC_collected_entropy} separates the entropy production into
@@ -1578,6 +1604,52 @@ interphase interaction, and heat flux remain as dissipative force--rate
 products.  The next subsection sets the reversible coefficients to zero; the
 residual terms are treated in
 \sref{MC_residual_dissipation}.
+
+\begin{table}[ht]
+	\centering
+	\caption{Audit map from the collected entropy blocks to their downstream
+		constitutive roles.}
+	\label{tab:MC_collected_entropy_blocks}
+	\begin{tabular}{
+		>{\raggedright\arraybackslash}p{0.25\textwidth}
+		>{\raggedright\arraybackslash}p{0.31\textwidth}
+		>{\raggedright\arraybackslash}p{0.32\textwidth}}
+		\hline
+		Block & Independent rates or processes & Downstream result \\
+		\hline
+		Elastic, distension, and volume fraction
+		\eqref{eq:MC_collected_entropy_elastic_distension}
+		      & Elastic true deformation, elastic distension, and constrained phase
+		volume fractions
+		      & Material stress, distension force, and volume-fraction restrictions
+		\eqref{eq:MC_stress_before_pressure}--\eqref{eq:MC_volume_fraction_restrictions}
+		\\
+		Density and composition
+		\eqref{eq:MC_collected_entropy_density_composition}
+		      & Intrinsic density and the \(N-1\) independent composition directions
+		      & Phase pressures and projected composition relations
+		\eqref{eq:MC_phase_pressure_definitions}--\eqref{eq:MC_solid_composition_projection}
+		\\
+		Temperature
+		\eqref{eq:MC_collected_entropy_temperature}
+		      & Independent fluid- and solid-subsystem temperature rates
+		      & Subsystem entropy definitions \eqref{eq:MC_entropy_definitions}
+		\\
+		Reaction and relative transport
+		\eqref{eq:MC_collected_entropy_reaction_transport}
+		      & Mechanism rates and phase-relative component fluxes
+		      & Temperature-weighted affinities and electrochemical transport forces
+		\\
+		Residual dissipation
+		\eqref{eq:MC_collected_entropy_residual}
+		      & Plastic rates, interphase energy exchange, and heat flux
+		      & Residual inequality \eqref{eq:MC_residual_dissipation} and admissible
+		closures
+		\\
+		\hline
+	\end{tabular}
+\end{table}
+\FloatBarrier
 
 \subsection{Reversible restrictions}
 \label{sec:MC_reversible_restrictions}
@@ -2145,22 +2217,21 @@ closed jointly; only their combined entropy production is gauge invariant.
 This coupling is local to the bulk representative volume and does not introduce
 a sharp interface.
 
-In the local-thermal-equilibrium limit, this expression reduces to the usual
+In the local-thermal-equilibrium limit,
+\(\theta_{\mc F}=\theta_{\mc S}=\theta\), this expression reduces to the usual
 affinity power,
 %
-\begin{equation}
+\begin{align}
 	-
 	\dot r_{(m)}
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
 	\sum_{\xi\in\mc G}\sum_\alpha
 	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
-	=
-	\frac{\mc A_{(m)}\dot r_{(m)}}{\theta},
-	\qquad
-	\theta_{\mc F}=\theta_{\mc S}=\theta .
+	&=
+	\frac{\mc A_{(m)}\dot r_{(m)}}{\theta}.
 	\label{eq:MC_reaction_power_local_thermal_equilibrium}
-\end{equation}
+\end{align}
 %
 Thus chemical conversion and interphase energy exchange remain distinct
 contributions to the two-temperature entropy inequality, as in Drumheller's
