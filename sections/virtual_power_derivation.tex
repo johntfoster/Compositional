@@ -119,7 +119,7 @@ Coleman--Noll exploitation of the entropy inequality.
 The fields $\mbf x_\xi$, $\eta_\xi^\alpha$, $\phi_\xi$, $\bar\rho_\xi$, and
 $\mc C_\xi^\alpha$ are varied independently.  The mechanism rates and the two
 relative fluxes are varied later as independent process rates through the
-constrained Onsager power functional in
+constrained Onsager entropy-rate functional in
 Section~\ref{sec:onsager_reaction_transport}.
 
 \subsubsection{Extending Bedford and Drumheller transport identity}
@@ -1228,16 +1228,13 @@ The Hamilton--d'Alembert variation determines the reversible coordinate
 equations at fixed endpoint variations.  Reactions and relative component
 transport are determined separately by an Onsager principle: at a fixed current
 thermodynamic state, the process rates for the immediate response are chosen by
-stationarity of a power functional containing a dissipation potential and a
-signed constraint power~\cite{doi2011onsager,wang2021onsager}.  The Onsager
+stationarity of an entropy-rate functional containing a dissipation potential
+and a signed constraint contribution~\cite{doi2011onsager,wang2021onsager}.  The Onsager
 statement is local in time and selects near-equilibrium rates at the current
-thermodynamic state.  The energy-potential form displayed in this subsection is
-the local-thermal-equilibrium specialization.  When
-\(\theta_{\mc F}\ne\theta_{\mc S}\), the reversible
-Hamilton--d'Alembert equations are unchanged, but the entropy-consistent
-reaction and transport forces use the temperature assignments and
-temperature-weighted potential gradients given in
-\eqref{eq:MC_reaction_temperature_assignment} and
+thermodynamic state.  The entropy-rate form displayed in this subsection
+remains valid when \(\theta_{\mc F}\ne\theta_{\mc S}\): reaction and transport
+are driven by the temperature-weighted potentials given in
+\eqref{eq:MC_temperature_weighted_reaction_power} and
 \eqref{eq:MC_relative_transport_closures}.  The state variables that enter the
 potentials are held fixed during this minimization, while
 \(\dot r_{(m)}\), \(\mbf j_{\xi,{\rm disp}}^\alpha\),
@@ -1250,18 +1247,18 @@ relative-flux rates through
 \eqref{eq:reference_conversion_accumulation_rate}.
 
 The component-rate balance enters the Onsager principle as a constraint
-enforced by the Lagrange multiplier \(\mu_\xi^\alpha\), which is also varied.
-Since the product of \(\mu_\xi^\alpha\) with the
-component-rate constraint must have units of power in the Onsager statement,
-dimensional analysis identifies \(\mu_\xi^\alpha\) as an energy per unit mass,
-that is, a chemical potential.  Its variational role here is to enforce the
-rate constraint:
+enforced by the temperature-weighted Lagrange multiplier
+\(\mu_\xi^\alpha/\theta_{\mc G}\), where \(\xi\in\mc G\).  This multiplier has
+units of entropy per unit component mass, so \(\mu_\xi^\alpha\) is an energy per
+unit mass, that is, a chemical potential.  Its variational role here is to
+enforce the rate constraint:
 %
 \begin{equation}
 	C_{\rm rt}
 	\equiv
-	\sum_\xi\sum_\alpha\int_{\mc B}
-	\mu_\xi^\alpha
+	\sum_{\mc G\in\{\mc F,\mc S\}}
+	\sum_{\xi\in\mc G}\sum_\alpha\int_{\mc B}
+	\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
 	\left[
 		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
@@ -1272,11 +1269,12 @@ rate constraint:
 \end{equation}
 %
 The neutral chemical contribution is
-\(\hat\mu_\xi^\alpha\) times the bracketed term in
+\(\hat\mu_\xi^\alpha/\theta_{\mc G}\) times the bracketed term in
 \eqref{eq:component_rate_residual_def}.  The charge-rate identity in
 \eqref{eq:component_charge_rate_identity} is obtained by multiplying the same
 rate bracket by the component charge per unit mass \(z_\xi^\alpha\); its
-electric power contribution is \(\varphi z_\xi^\alpha\) times that bracketed term.  The
+entropy-rate contribution is
+\(\varphi z_\xi^\alpha/\theta_{\mc G}\) times that bracketed term.  The
 two contributions therefore combine into the electrochemical component
 potential
 %
@@ -1293,9 +1291,9 @@ units as \(\hat\mu_\xi^\alpha\).  In the Onsager minimization \(\varphi\) is a
 state field inherited from the Hamilton electric-field problem; it shifts the
 chemical force to the electrochemical force.
 
-The constrained Onsager power functional, often called a Rayleighian \(\mc R\),
-for reaction and relative transport is stationary when the variation of the
-dissipation potential balances the signed constraint variation:
+The constrained Onsager entropy-rate functional, denoted by \(\mc R\), is
+stationary when the variation of the dissipation potential balances the signed
+constraint variation:
 %
 \begin{equation}
 	\mc R
@@ -1318,7 +1316,9 @@ dissipation potential used here is
 	\notag  \\
 	    & +
 	\frac{1}{2}\int_{\mc B}
-	\sum_\xi\sum_\alpha\sum_\beta
+	\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}\sum_\alpha\sum_\beta
 	\mbf j_{\xi,{\rm disp}}^\alpha
 	\cdot
 	\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
@@ -1326,7 +1326,9 @@ dissipation potential used here is
 	\notag  \\
 	    & +
 	\frac{1}{2}\int_{\mc B}
-	\sum_\xi\sum_\alpha\sum_\beta
+	\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}\sum_\alpha\sum_\beta
 	\mbf j_{\xi,{\rm diff}}^\alpha
 	\cdot
 	\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
@@ -1334,11 +1336,16 @@ dissipation potential used here is
 	\label{eq:onsager_quadratic_reaction_transport_potential}
 \end{align}
 %
-Here \(K_{(m)}\) is the reaction mobility, and
+Here \(K_{(m)}\) is the mobility conjugate to the temperature-weighted reaction
+force, and
 \(\mbf D_{\xi,k}^{\alpha\beta}\) are the mobility tensors on the relative-flux
 subspace satisfying \eqref{eq:averaged_relative_flux_sum}; the inverse is
 understood on that subspace.  The adopted quadratic potential is block
-diagonal in reaction, diffusion, and dispersion rates.  Varying
+diagonal in reaction, diffusion, and dispersion rates.  For a charged mechanism
+that transfers net charge between the thermal subsystems, the reaction and
+interphase-energy rates must instead be included in one coupled
+gauge-invariant Onsager block, as described with the entropy inequality below.
+Varying
 \(\Phi_{\rm rt}\) gives
 %
 \begin{align}
@@ -1349,8 +1356,11 @@ diagonal in reaction, diffusion, and dispersion rates.  Varying
 	\delta\dot r_{(m)}\dv
 	\notag  \\
 	    & +
-	\int_{\mc B}\sum_\xi\sum_\alpha
-	\left[
+		\int_{\mc B}
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\frac{1}{\theta_{\mc G}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\left[
 		\sum_\beta
 		\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
 		\mbf j_{\xi,{\rm disp}}^\beta
@@ -1358,8 +1368,11 @@ diagonal in reaction, diffusion, and dispersion rates.  Varying
 	\delta\mbf j_{\xi,{\rm disp}}^\alpha\dv
 	\notag  \\
 	    & +
-	\int_{\mc B}\sum_\xi\sum_\alpha
-	\left[
+		\int_{\mc B}
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\frac{1}{\theta_{\mc G}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\left[
 		\sum_\beta
 		\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
 		\mbf j_{\xi,{\rm diff}}^\beta
@@ -1373,9 +1386,11 @@ The corresponding first variation of the constraint term is
 \begin{align}
 	\delta C_{\rm rt}
 	={} &
-	\int_{\mc B}\sum_\xi\sum_\alpha
-	\delta\mu_\xi^\alpha
-	\left[
+		\int_{\mc B}
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\frac{\delta\mu_\xi^\alpha}{\theta_{\mc G}}
+		\left[
 		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 		+\nabla_{\mbf x}\cdot
@@ -1387,14 +1402,23 @@ The corresponding first variation of the constraint term is
 		\right]\dv
 	\notag  \\
 	    & -
-	\int_{\mc B}\sum_m
-	\left(\sum_\xi\sum_\alpha
-	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)
-	\delta\dot r_{(m)}\dv
+		\int_{\mc B}\sum_m
+		\left[
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\frac{1}{\theta_{\mc G}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+		\right]
+		\delta\dot r_{(m)}\dv
 	\notag  \\
 	    & -
-	\int_{\mc B}\sum_\xi\sum_\alpha
-	\nabla_{\mbf x}\mu_\xi^\alpha\cdot
+		\int_{\mc B}
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\nabla_{\mbf x}
+		\left(
+		\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
+		\right)\cdot
 		\left(
 		\delta\mbf j_{\xi,{\rm disp}}^\alpha
 		+
@@ -1405,7 +1429,7 @@ The corresponding first variation of the constraint term is
 	\label{eq:Prt_variation}
 \end{align}
 %
-Boundary power terms are omitted for brevity.
+Boundary entropy-flux terms are omitted for brevity.
 
 \subsubsection{Collected Onsager variation}
 \label{sec:collected_onsager_variation}
@@ -1418,9 +1442,11 @@ stationarity condition is
 \begin{align}
 	0 = \delta\mc R
 	={} &
-	-\int_{\mc B}\sum_\xi\sum_\alpha
-	\delta\mu_\xi^\alpha
-	\left[
+		-\int_{\mc B}
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\frac{\delta\mu_\xi^\alpha}{\theta_{\mc G}}
+		\left[
 		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 		+\nabla_{\mbf x}\cdot
@@ -1434,35 +1460,52 @@ stationarity condition is
 	    & +
 	\int_{\mc B}\sum_m
 	\left[
-		\frac{\dot r_{(m)}}{K_{(m)}}
-		+
-		\sum_\xi\sum_\alpha
-		\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+			\frac{\dot r_{(m)}}{K_{(m)}}
+			+
+			\sum_{\mc G\in\{\mc F,\mc S\}}
+			\frac{1}{\theta_{\mc G}}
+			\sum_{\xi\in\mc G}\sum_\alpha
+			\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
 		\right]\delta\dot r_{(m)}\dv
 	\notag  \\
 	    & +
-	\int_{\mc B}\sum_\xi\sum_\alpha
-	\left[
+		\int_{\mc B}
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\frac{1}{\theta_{\mc G}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\left[
 		\sum_\beta
-		\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
-		\mbf j_{\xi,{\rm disp}}^\beta
-		+
-		\nabla_{\mbf x}\mu_\xi^\alpha
+			\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
+			\mbf j_{\xi,{\rm disp}}^\beta
+			+
+			\theta_{\mc G}
+			\nabla_{\mbf x}
+			\left(
+			\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
+			\right)
 		\right]\cdot
 	\delta\mbf j_{\xi,{\rm disp}}^\alpha\dv
 	\notag  \\
 	    & +
-	\int_{\mc B}\sum_\xi\sum_\alpha
-	\left[
+		\int_{\mc B}
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\frac{1}{\theta_{\mc G}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\left[
 		\sum_\beta
-		\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
-		\mbf j_{\xi,{\rm diff}}^\beta
-		+
-		\nabla_{\mbf x}\mu_\xi^\alpha
-		\right]\cdot
-	\delta\mbf j_{\xi,{\rm diff}}^\alpha\dv
-	+
-	\text{boundary terms}.
+			\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
+			\mbf j_{\xi,{\rm diff}}^\beta
+			+
+			\theta_{\mc G}
+			\nabla_{\mbf x}
+			\left(
+				\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
+			\right)
+			\right]\cdot
+		\delta\mbf j_{\xi,{\rm diff}}^\alpha\dv
+		\notag \\
+		    & +
+		\text{boundary terms}.
 	\label{eq:collected_onsager_variation}
 \end{align}
 %
@@ -1472,22 +1515,34 @@ component-rate balance.  The mechanism-rate and flux variations give
 \begin{align}
 	\frac{\dot r_{(m)}}{K_{(m)}}
 	 & =
-	-\sum_\xi\sum_\alpha
+	-\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}\sum_\alpha
 	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
 	\label{eq:el_conversion_affinity}
 	\\
 	\sum_\beta
 	\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
 	\mbf j_{\xi,{\rm disp}}^\beta
-	+\nabla_{\mbf x}\mu_\xi^\alpha
+	+\theta_{\mc G}
+	\nabla_{\mbf x}
+	\left(
+	\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
+	\right)
 	 & =\mbf 0,
+	\qquad \xi\in\mc G,
 	\label{eq:hamilton_dispersion_force_balance}
 	\\
 	\sum_\beta
 	\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
 	\mbf j_{\xi,{\rm diff}}^\beta
-	+\nabla_{\mbf x}\mu_\xi^\alpha
-	 & =\mbf 0.
+	+\theta_{\mc G}
+	\nabla_{\mbf x}
+	\left(
+	\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
+	\right)
+	 & =\mbf 0,
+	\qquad \xi\in\mc G.
 	\label{eq:hamilton_diffusion_force_balance}
 \end{align}
 %
@@ -1495,15 +1550,17 @@ These equations are generalized force balances on the zero-sum
 relative-component-flux subspace.  The transport power is invariant under a
 common shift of all component potentials in a phase.  The reaction affinity is defined by the common thermodynamic
 construction: the chemical potentials are projected against the stoichiometric
-coefficients for each mechanism.  Thus
+coefficients for each mechanism.  Away from local thermal equilibrium, its
+temperature-weighted projection, rather than the affinity divided by an
+assigned reaction temperature, drives the rate:
 %
 \begin{equation}
-	\mc A_{(m)}
-	\equiv
-	-\sum_\xi\sum_\alpha
-	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+	\frac{\dot r_{(m)}}{K_{(m)}}
 	=
-	\frac{\dot r_{(m)}}{K_{(m)}}.
+	-\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
 	\label{eq:onsager_affinity_constitutive_relation}
 \end{equation}
 %
@@ -1512,21 +1569,37 @@ The resulting near-equilibrium rate laws are
 \begin{align}
 	\dot r_{(m)}
 	 & =
-	K_{(m)}\mc A_{(m)},
+	K_{(m)}
+	\left[
+	-\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}\sum_\beta
+	\mu_\xi^\beta\nu_{\xi (m)}^\beta
+	\right],
 	\label{eq:onsager_reaction_rate_variational}
 	\\
 	\mbf j_{\xi,{\rm disp}}^\alpha
 	 & =
 	-\sum_\beta
 	\mbf D_{\xi,{\rm disp}}^{\alpha\beta}
-	\nabla_{\mbf x}\mu_\xi^\beta,
+	\theta_{\mc G}
+	\nabla_{\mbf x}
+	\left(
+	\frac{\mu_\xi^\beta}{\theta_{\mc G}}
+	\right),
+	\qquad \xi\in\mc G,
 	\label{eq:onsager_dispersion_mobility_balance}
 	\\
 	\mbf j_{\xi,{\rm diff}}^\alpha
 	 & =
 	-\sum_\beta
 	\mbf D_{\xi,{\rm diff}}^{\alpha\beta}
-	\nabla_{\mbf x}\mu_\xi^\beta.
+	\theta_{\mc G}
+	\nabla_{\mbf x}
+	\left(
+	\frac{\mu_\xi^\beta}{\theta_{\mc G}}
+	\right),
+	\qquad \xi\in\mc G.
 	\label{eq:onsager_diffusion_mobility_balance}
 \end{align}
 %

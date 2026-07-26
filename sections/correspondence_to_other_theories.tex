@@ -215,7 +215,8 @@ The affinity is the stoichiometric sum of these phase/component potentials,
 	\label{eq:classical_affinity_projection}
 \end{equation}
 %
-For an equilibrated mechanism, imposing $\mc A_{(m)}=0$ gives
+At full thermodynamic equilibrium, the temperatures are equal and imposing
+\(\mc A_{(m)}=0\) gives
 %
 \begin{equation}
 	\sum_\xi\sum_\alpha \mu_\xi^\alpha\nu_{\xi (m)}^\alpha=0,
@@ -223,22 +224,24 @@ For an equilibrated mechanism, imposing $\mc A_{(m)}=0$ gives
 \end{equation}
 %
 which is the classical statement that the stoichiometric sum of chemical
-potentials vanishes.  For a kinetically limited mechanism, such as a slow
-fluid--solid reaction, \eqref{eq:classical_affinity_projection} supplies the
-driving force in the entropy-admissible rate law
-\eqref{eq:MC_onsager_reaction_rate}, whose
-linear form is
+potentials vanishes.  Away from local thermal equilibrium, an uncoupled neutral
+fluid--solid mechanism is instead driven by the temperature-weighted
+stoichiometric sum in \eqref{eq:MC_onsager_reaction_rate}; charged transfer
+requires the coupled reaction--energy closure stated there.  When
+\(\theta_{\mc F}=\theta_{\mc S}=\theta\), the uncoupled law reduces to
 %
 \begin{equation}
-	\dot r_{(m)}=K_{(m)}\mc A_{(m)},
+	\dot r_{(m)}
+	=
+	\frac{K_{(m)}}{\theta}\mc A_{(m)},
 	\qquad \mc A_{(m)}\dot r_{(m)}\ge 0 .
 	\label{eq:classical_kinetic_affinity_closure}
 \end{equation}
 %
-This equation uses the sign convention adopted here.  Equilibrium chemistry,
-kinetic reactive transport, and phase transformation all use the same
-stoichiometric sum.  The rate closure selects equilibrium or kinetic behavior
-for \(\dot r_{(m)}\).
+Here \(K_{(m)}/\theta\) is the conventional linear affinity mobility.  The
+temperature-weighted law therefore recovers the classical isothermal sign
+convention without assigning a separate temperature to a cross-subsystem
+mechanism.
 
 The momentum equations contain the conversion-insertion contribution
 %

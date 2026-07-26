@@ -36,7 +36,7 @@ subsystem from the solid skeleton,
 	\theta_\xi
 	=
 	\begin{cases}
-		\theta_{\mc F}, & \xi=f\in\mc F,\\
+		\theta_{\mc F}, & \xi=f\in\mc F,  \\
 		\theta_{\mc S}, & \xi=s\in\mc S .
 	\end{cases}
 	\label{eq:MC_two_temperature_specialization}
@@ -527,7 +527,7 @@ The free-energy rates are
 	\dot\eta_f^\beta
 	+
 	\left.
-		\p{\psi_f}{\theta_{\mc F}}
+	\p{\psi_f}{\theta_{\mc F}}
 	\right\vert_{\mc X_f}
 	\dot\theta_{\mc F}
 	\right),
@@ -607,7 +607,7 @@ skeleton trajectory and using the interfacial potentials \(\gamma_f\) from
 	\frac{D_{\mc S}}{Dt}
 	\left[
 		\phi\gamma
-	\right]
+		\right]
 	=
 	\sum_{f\in\mc F}
 	\gamma_f\dot\phi_f
@@ -696,14 +696,14 @@ mechanical-power contributions.  The resulting energy balance is
 		+
 		\delta_{\mc G\mc F}
 		\left[
-			\sum_{f\in\mc F}
-			\gamma_f\dot\phi_f
-			+
-			\phi
-			\left.
-			\p{\gamma}{\theta_{\mc F}}
-			\right\vert_{\{S_f\}_{f\in\mc F}}
-			\dot\theta_{\mc F}
+		\sum_{f\in\mc F}
+		\gamma_f\dot\phi_f
+		+
+		\phi
+		\left.
+		\p{\gamma}{\theta_{\mc F}}
+		\right\vert_{\{S_f\}_{f\in\mc F}}
+		\dot\theta_{\mc F}
 		\right]
 		\\
 		 & =
@@ -771,7 +771,7 @@ phase \(\xi\).  Phase mass conservation then gives
 	\rho_\xi
 	\frac{D_\xi}{Dt}
 	\left(
-		e_\xi+\frac{\omega_\xi^+}{\rho_\xi}
+	e_\xi+\frac{\omega_\xi^+}{\rho_\xi}
 	\right)
 	={} &
 	\rho_\xi\dot e_\xi
@@ -1026,21 +1026,21 @@ total mechanical power at the same step, leaving the material stress
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}
 	\frac{
-	\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
+		\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
 	}{
-	\theta_{\mc G}^2
+		\theta_{\mc G}^2
 	}
 	\notag          \\
 	       & +
 	\sum_{\mc G\in\{\mc F,\mc S\}}
-		\frac{1}{\theta_{\mc G}}
-		\sum_{\xi\in\mc G}
-		\left(
-		\left(
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}
+	\left(
+	\left(
 		\lambda+\bar p_\xi
 		\right)\dot\phi_\xi
-		+
-		\sum_\alpha
+	+
+	\sum_\alpha
 	\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}
 	\dot\eta_\xi^\alpha
 	+
@@ -1050,14 +1050,14 @@ total mechanical power at the same step, leaving the material stress
 	       & -
 	\frac{1}{\theta_{\mc F}}
 	\left[
-		\sum_{f\in\mc F}
-		\gamma_f\dot\phi_f
-		+
-		\phi
-		\left.
-		\p{\gamma}{\theta_{\mc F}}
-		\right\vert_{\{S_f\}_{f\in\mc F}}
-		\dot\theta_{\mc F}
+	\sum_{f\in\mc F}
+	\gamma_f\dot\phi_f
+	+
+	\phi
+	\left.
+	\p{\gamma}{\theta_{\mc F}}
+	\right\vert_{\{S_f\}_{f\in\mc F}}
+	\dot\theta_{\mc F}
 	\right]
 	\notag          \\
 	       & +
@@ -1132,10 +1132,10 @@ insertion into conversion and relative-flux contributions, and apply the product
 rule to isolate the local flux--force terms.  Collecting the volume-fraction,
 composition, temperature, reaction, and transport rates gives
 %
-	\begin{align}
-		0\le{} &
-		\frac{1}{\theta_{\mc S}}
-		\sum_{s\in\mc S}
+\begin{align}
+	0\le{} &
+	\frac{1}{\theta_{\mc S}}
+	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 		\left(
 		(\bs\sigma_s')^T
@@ -1152,9 +1152,9 @@ composition, temperature, reaction, and transport rates gives
 		(\mbf A_s^e)^{-1}
 		\right]
 	\notag                  \\
-		       & +
-		\frac{1}{\theta_{\mc S}}
-		\sum_{s\in\mc S}
+	       & +
+	\frac{1}{\theta_{\mc S}}
+	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 	\left(
 	\mbf A_s^{-1}
@@ -1194,9 +1194,9 @@ composition, temperature, reaction, and transport rates gives
 	(\bar{\mbf F}_s^e)^{-1}
 	\right]
 	\notag                  \\
-		       & +
-		\frac{1}{\theta_{\mc S}}
-		\sum_{s\in\mc S}
+	       & +
+	\frac{1}{\theta_{\mc S}}
+	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 		(\mbf A_s^e)^{-1}
 		(\bs\sigma_s')^T
@@ -1205,9 +1205,9 @@ composition, temperature, reaction, and transport rates gives
 		(\mbf A_s^p)^{-1}
 		\right]
 	\notag                  \\
-		       & +
-		\frac{1}{\theta_{\mc S}}
-		\sum_{s\in\mc S}
+	       & +
+	\frac{1}{\theta_{\mc S}}
+	\sum_{s\in\mc S}
 	\operatorname{tr}\left[
 	(\bar{\mbf F}_s^e)^{-1}
 	\mbf A_s^{-1}
@@ -1218,9 +1218,9 @@ composition, temperature, reaction, and transport rates gives
 	(\bar{\mbf F}_s^p)^{-1}
 	\right]
 	\notag                  \\
-		       & +
-		\frac{1}{\theta_{\mc F}}
-		\sum_{f\in\mc F}
+	       & +
+	\frac{1}{\theta_{\mc F}}
+	\sum_{f\in\mc F}
 	\left[
 		\frac{\phi_f\bar p_f}{\bar\rho_f}
 		-
@@ -1236,9 +1236,9 @@ composition, temperature, reaction, and transport rates gives
 		\right]
 	\dot{\bar\rho}_f
 	\notag                  \\
-		       & +
-		\frac{1}{\theta_{\mc F}}
-		\sum_{f\in\mc F}
+	       & +
+	\frac{1}{\theta_{\mc F}}
+	\sum_{f\in\mc F}
 	\sum_\beta
 	\left[
 		\frac{\pi_f^\beta}{\eta_f^\beta}
@@ -1255,9 +1255,9 @@ composition, temperature, reaction, and transport rates gives
 		\right\vert_{\mc X_f,\mbf E}
 		\right]\dot\eta_f^\beta
 	\notag \displaybreak[4] \\
-		       & +
-		\frac{1}{\theta_{\mc S}}
-		\sum_{s\in\mc S}
+	       & +
+	\frac{1}{\theta_{\mc S}}
+	\sum_{s\in\mc S}
 	\sum_\beta
 	\left[
 	\frac{\pi_s^\beta}{\eta_s^\beta}
@@ -1330,51 +1330,51 @@ composition, temperature, reaction, and transport rates gives
 	\right]
 	\right]\dot\eta_s^\beta
 	\notag                  \\
-		       & +
-		\frac{1}{\theta_{\mc F}}
-		\left[
-		-\sum_{f\in\mc F}
+	       & +
+	\frac{1}{\theta_{\mc F}}
+	\left[
+	-\sum_{f\in\mc F}
 	\rho_f
 	\left(
 	\mathfrak{s}_f
 	+
 	\left.
-		\p{\psi_f}{\theta_{\mc F}}
+	\p{\psi_f}{\theta_{\mc F}}
 	\right\vert_{\mc X_f}
 	\right)
 	-
 	\sum_{f\in\mc F}
 	\phi_f
 	\left.
-		\p{\omega^{+}_{f}}{\theta_{\mc F}}
-		\right\vert_{\mc X_f,\mbf E}
-		-
-		\phi
-		\left.
-		\p{\gamma}{\theta_{\mc F}}
-		\right\vert_{\{S_f\}_{f\in\mc F}}
-		\right]\dot\theta_{\mc F}
-		\notag                  \\
-		       & +
-		\frac{1}{\theta_{\mc S}}
-		\left[
-		-
-		\sum_{s\in\mc S}
+	\p{\omega^{+}_{f}}{\theta_{\mc F}}
+	\right\vert_{\mc X_f,\mbf E}
+	-
+	\phi
+	\left.
+	\p{\gamma}{\theta_{\mc F}}
+	\right\vert_{\{S_f\}_{f\in\mc F}}
+	\right]\dot\theta_{\mc F}
+	\notag                  \\
+	       & +
+	\frac{1}{\theta_{\mc S}}
+	\left[
+	-
+	\sum_{s\in\mc S}
 	\rho_s
 	\left(
 	\mathfrak{s}_s
 	+
 	\left.
-		\p{\psi_s}{\theta_{\mc S}}
+	\p{\psi_s}{\theta_{\mc S}}
 	\right\vert_{\mc X_s}
 	\right)
 	-
 	\sum_{s\in\mc S}
 	\phi_s
 	\left.
-		\p{\omega^{+}_{s}}{\theta_{\mc S}}
-		\right\vert_{\mc X_s,\mbf E}
-		\right.
+	\p{\omega^{+}_{s}}{\theta_{\mc S}}
+	\right\vert_{\mc X_s,\mbf E}
+	\right.
 	\notag                  \\
 	       & \left.
 	+
@@ -1428,29 +1428,29 @@ composition, temperature, reaction, and transport rates gives
 	\right)\mbf I
 	\right)
 	\left.
-		\p{\bar{\mbf F}_s^0}{\theta_{\mc S}}
+	\p{\bar{\mbf F}_s^0}{\theta_{\mc S}}
 	\right\vert_{\mc X_s}
 	(\bar{\mbf F}_s^0)^{-1}
 	\right]
-		\right]\dot\theta_{\mc S}
+	\right]\dot\theta_{\mc S}
 	\notag                  \\
 	       & +
 	\frac{1}{\theta_{\mc S}}
-		\sum_{s\in\mc S}
-		\left(
-		\lambda
-		+
-		\bar p_s
-		-
-		\omega^{+}_{s}
-		\right)\dot\phi_s
+	\sum_{s\in\mc S}
+	\left(
+	\lambda
+	+
+	\bar p_s
+	-
+	\omega^{+}_{s}
+	\right)\dot\phi_s
 	+
 	\frac{1}{\theta_{\mc F}}
-		\sum_{f\in\mc F}
-		\left(
-		\lambda
-		+
-		\bar p_f
+	\sum_{f\in\mc F}
+	\left(
+	\lambda
+	+
+	\bar p_f
 	-
 	\omega^{+}_{f}
 	-
@@ -1460,22 +1460,22 @@ composition, temperature, reaction, and transport rates gives
 	       & -
 	\sum_m
 	\left[
-	\frac{1}{\theta_{\mc F}}
-	\sum_{f\in\mc F}
-	\sum_\alpha
-	\nu_{f (m)}^\alpha
-	\left(
+		\frac{1}{\theta_{\mc F}}
+		\sum_{f\in\mc F}
+		\sum_\alpha
+		\nu_{f (m)}^\alpha
+		\left(
 		\psi_f+L_f^\alpha
-	\right)
-	+
-	\frac{1}{\theta_{\mc S}}
-	\sum_{s\in\mc S}
-	\sum_\alpha
-	\nu_{s (m)}^\alpha
-	\left(
+		\right)
+		+
+		\frac{1}{\theta_{\mc S}}
+		\sum_{s\in\mc S}
+		\sum_\alpha
+		\nu_{s (m)}^\alpha
+		\left(
 		\psi_s+L_s^\alpha
 		\right)
-	\right]\dot r_{(m)}
+		\right]\dot r_{(m)}
 	\notag                  \\
 	       & -
 	\sum_{\mc G\in\{\mc F,\mc S\}}
@@ -1498,9 +1498,9 @@ composition, temperature, reaction, and transport rates gives
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}
 	\frac{
-	\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
+		\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
 	}{
-	\theta_{\mc G}^2
+		\theta_{\mc G}^2
 	}
 	.
 	\label{eq:MC_collected_entropy}
@@ -1947,14 +1947,14 @@ temperature-weighted supply power separates conversion from transport relative
 to the phase,
 %
 \begin{align}
-	& -
+	 & -
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
 	\sum_{\xi\in\mc G}\sum_\alpha
 	\phasedot{c}_\xi^\alpha
 	\mu_\xi^\alpha
-	\notag \\
-	& \quad =
+	\notag     \\
+	 & \quad =
 	-\sum_m
 	\left[
 		\sum_{\mc G\in\{\mc F,\mc S\}}
@@ -1962,17 +1962,17 @@ to the phase,
 		\sum_{\xi\in\mc G}\sum_\alpha
 		\mu_\xi^\alpha
 		\nu_{\xi (m)}^\alpha
-	\right]\dot r_{(m)}
+		\right]\dot r_{(m)}
 	+
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}\sum_\alpha
 	\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
 	\nabla_{\mbf x}\cdot
-		\left(
-			\mbf j_{\xi,{\rm disp}}^\alpha
-		+
-			\mbf j_{\xi,{\rm diff}}^\alpha
-		\right).
+	\left(
+	\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\mbf j_{\xi,{\rm diff}}^\alpha
+	\right).
 	\label{eq:MC_helmholtz_source_projection}
 \end{align}
 %
@@ -2019,71 +2019,53 @@ term from its affinity.  Electrical effects nevertheless remain in
 \(\hat\mu_\xi^\alpha\) through constitutive state dependence and in component
 transport through electrochemical-potential gradients.
 
-Each mechanism uses one of the two existing subsystem temperatures,
+For a mechanism confined to one thermal subsystem, the conversion contribution
+in \eqref{eq:MC_helmholtz_source_projection} is
+\(\mc A_{(m)}\dot r_{(m)}/\theta_{\mc G}\).  A fluid--solid mechanism instead
+contains chemical-potential contributions evaluated at two different
+temperatures.  No single reaction temperature is assigned; its contribution is
+retained in the temperature-weighted form
 %
 \begin{equation}
-	\theta_{(m)}
-	=
-	\begin{cases}
-		\theta_{\mc F},
-		& \text{for a fluid or fluid--solid interfacial mechanism},\\
-		\theta_{\mc S},
-		& \text{for a mechanism confined to the solid subsystem}.
-	\end{cases}
-	\label{eq:MC_reaction_temperature_assignment}
+	-
+	\dot r_{(m)}
+	\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
+	\label{eq:MC_temperature_weighted_reaction_power}
 \end{equation}
 %
-For a mechanism confined to one thermal subsystem, the conversion power is
-already \(\mc A_{(m)}\dot r_{(m)}/\theta_{(m)}\).  A fluid--solid mechanism
-contains contributions divided by two different temperatures.  To express its
-net conversion power with the chosen interfacial temperature
-\(\theta_{(m)}=\theta_{\mc F}\), the accompanying interphase energy exchange
-must supply the difference.
+This reaction contribution is gauge invariant by itself for a neutral
+mechanism or when the stoichiometry conserves charge separately within each
+thermal subsystem.  If a mechanism transfers net charge between the fluid and
+solid subsystems, its reaction and interphase-energy contributions must be
+closed jointly; only their combined entropy production is gauge invariant.
+This coupling is local to the bulk representative volume and does not introduce
+a sharp interface.
 
-\pagebreak[3]
-The required interphase energy allocation is
+In the local-thermal-equilibrium limit, this expression reduces to the usual
+affinity power,
 %
-\begin{align}
-	& -
-	\frac{\dot r_{(m)}}{\theta_{(m)}}
-	\sum_{\mc G\in\{\mc F,\mc S\}}
-	\sum_{\xi\in\mc G}\sum_\alpha
-	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
-	+
-	\dot r_{(m)}
-	\sum_{\mc G\in\{\mc F,\mc S\}}
-	\frac{1}{\theta_{\mc G}}
-	\sum_{\xi\in\mc G}\sum_\alpha
-	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
-	\notag \\
-	& \quad =
-	\sum_{\mc G\in\{\mc F,\mc S\}}
-	\left(
-	\frac{1}{\theta_{\mc G}}
+\begin{equation}
 	-
-	\frac{1}{\theta_{(m)}}
-	\right)
-	\left(
-	\sum_{\xi\in\mc G}\sum_\alpha
-	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
-	\right)
 	\dot r_{(m)}
-	\notag \\
-	& \quad =
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
-	\left.
-	\sum_{\xi\in\mc G}
-	\rho_\xi e_\xi^{\rm int}
-	\right\vert_{{\rm conv},(m)} .
-	\label{eq:MC_reaction_energy_allocation}
-\end{align}
+	\sum_{\xi\in\mc G}\sum_\alpha
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+	=
+	\frac{\mc A_{(m)}\dot r_{(m)}}{\theta},
+	\qquad
+	\theta_{\mc F}=\theta_{\mc S}=\theta .
+	\label{eq:MC_reaction_power_local_thermal_equilibrium}
+\end{equation}
 %
-With \eqref{eq:MC_reaction_energy_allocation}, the conversion and interphase
-energy terms combine to
-\(\mc A_{(m)}\dot r_{(m)}/\theta_{(m)}\).  This is the two-temperature analogue
-of the coupled conversion and heat-exchange terms in Drumheller's constituent
-entropy inequality \cite[eq.~(88)]{drumheller2000}.
+Thus chemical conversion and interphase energy exchange remain distinct
+contributions to the two-temperature entropy inequality, as in Drumheller's
+constituent formulation \cite[eq.~(88)]{drumheller2000}.  Their closures may be
+uncoupled or Onsager-coupled, subject to the combined dissipation inequality
+and the interaction-energy conservation condition below.
 
 The remaining part of
 \eqref{eq:MC_helmholtz_source_projection} is the power of component transport
@@ -2113,7 +2095,7 @@ relative to a phase.  Applying the product rule gives
 			+
 			\mbf j_{\xi,{\rm diff}}^\alpha
 			\right)
-		\right]
+			\right]
 		\\
 		 & \qquad -
 		\sum_{\mc G\in\{\mc F,\mc S\}}
@@ -2125,7 +2107,7 @@ relative to a phase.  Applying the product rule gives
 		\right)\cdot
 		\nabla_{\mbf x}
 		\left(
-			\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
+		\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
 		\right).
 	\end{aligned}
 	\label{eq:relative_transport_product_rule}
@@ -2194,10 +2176,9 @@ map
 Applying the reversible pressure, stress, distension, composition, and entropy
 relations from \sref{MC_reversible_restrictions} removes their rate
 coefficients from \eqref{eq:MC_collected_entropy}.  The component-supply terms
-are then replaced by the affinity and relative-transport powers derived in
-\eqref{eq:MC_affinity_projection} and
-\eqref{eq:MC_relative_transport_power}; fluid--solid conversion also uses the
-energy allocation \eqref{eq:MC_reaction_energy_allocation}.  Gauss' law was
+are then replaced by the temperature-weighted reaction and relative-transport
+powers derived in \eqref{eq:MC_temperature_weighted_reaction_power} and
+\eqref{eq:MC_relative_transport_power}.  Gauss' law was
 already used in passing from \eqref{eq:MC_energy_balance} to
 \eqref{eq:MC_reduced_entropy_inequality}.  What remains is the residual
 dissipation inequality
@@ -2206,7 +2187,13 @@ dissipation inequality
 	\begin{aligned}
 		0\le{}\; &
 		\sum_m
-		\frac{\mc A_{(m)}\dot r_{(m)}}{\theta_{(m)}}
+		\left[
+			-
+			\sum_{\mc G\in\{\mc F,\mc S\}}
+			\frac{1}{\theta_{\mc G}}
+			\sum_{\xi\in\mc G}\sum_\alpha
+			\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+			\right]\dot r_{(m)}
 		-
 		\sum_{\mc G\in\{\mc F,\mc S\}}
 		\sum_{\xi\in\mc G}\sum_\alpha
@@ -2216,12 +2203,12 @@ dissipation inequality
 		\mbf j_{\xi,{\rm diff}}^\alpha
 		\right)\cdot
 		\nabla_{\mbf x}
-			\left(
-			\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
-			\right)
-			\\
-			         & +
-			\frac{1}{\theta_{\mc S}}
+		\left(
+		\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
+		\right)
+		\\
+		         & +
+		\frac{1}{\theta_{\mc S}}
 		\sum_{s\in\mc S}
 		\bs\sigma_s':
 		\mbf A_s^e
@@ -2247,9 +2234,9 @@ dissipation inequality
 		\sum_{\mc G\in\{\mc F,\mc S\}}
 		\sum_{\xi\in\mc G}
 		\frac{
-		\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
+			\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
 		}{
-		\theta_{\mc G}^2
+			\theta_{\mc G}^2
 		}.
 	\end{aligned}
 	\label{eq:MC_residual_dissipation}
@@ -2260,18 +2247,32 @@ dissipation inequality
 
 Inequality \eqref{eq:MC_residual_dissipation} is the admissibility condition;
 it does not prescribe a unique kinetic law.  The quadratic Onsager potential in
-\sref{onsager_reaction_transport} supplies one near-equilibrium choice.  For
-uncoupled mechanisms, it gives
+\sref{onsager_reaction_transport} supplies one near-equilibrium choice.  For an
+uncoupled neutral mechanism, or a charged mechanism that conserves charge
+separately within each thermal subsystem, it gives
 %
 \begin{equation}
 	\dot r_{(m)}
 	=
-	K_{(m)}\mc A_{(m)},
+	K_{(m)}
+	\left[
+		-
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\frac{1}{\theta_{\mc G}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+		\right],
 	\qquad
 	K_{(m)}>0 .
 	\label{eq:MC_onsager_reaction_rate}
 \end{equation}
 %
+For a charged mechanism that transfers charge between the thermal subsystems,
+\eqref{eq:MC_onsager_reaction_rate} is replaced by a coupled reaction--energy
+closure constructed from the reaction term and the interaction-energy term in
+\eqref{eq:MC_residual_dissipation}.  Positive semidefiniteness of that coupled
+closure ensures nonnegative combined dissipation.
+
 Stationarity with respect to the dispersion and diffusion fluxes gives
 %
 \begin{align}
@@ -2333,7 +2334,7 @@ Solving these relations on the zero-sum relative-flux subspace gives
 	\text{for every }\beta,
 	\qquad
 	k\in\{{\rm disp},{\rm diff}\},
-	\notag \\
+	\notag          \\
 	\sum_\beta\mbf D_{\xi,k}^{\alpha\beta}
 	 & =\mbf 0,
 	\qquad
@@ -2356,7 +2357,13 @@ of \eqref{eq:MC_residual_dissipation} gives
 %
 \begin{align}
 	 & \sum_m
-	\frac{\mc A_{(m)}\dot r_{(m)}}{\theta_{(m)}}
+	\left[
+		-
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\frac{1}{\theta_{\mc G}}
+		\sum_{\xi\in\mc G}\sum_\alpha
+		\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+		\right]\dot r_{(m)}
 	-
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}\sum_\alpha
@@ -2369,11 +2376,11 @@ of \eqref{eq:MC_residual_dissipation} gives
 	\left(
 	\frac{\mu_\xi^\alpha}{\theta_{\mc G}}
 	\right)
-	\notag                           \\
+	\notag           \\
 	 & \qquad=
 	\sum_m
-	\frac{\dot r_{(m)}^2}{K_{(m)}\theta_{(m)}}
-	\notag \\
+	\frac{\dot r_{(m)}^2}{K_{(m)}}
+	\notag           \\
 	 & \qquad\quad +
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
@@ -2382,7 +2389,7 @@ of \eqref{eq:MC_residual_dissipation} gives
 	\cdot
 	\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
 	\mbf j_{\xi,{\rm disp}}^\beta
-	\notag \\
+	\notag           \\
 	 & \qquad\quad +
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
@@ -2451,14 +2458,14 @@ plastic deformation--distension laws may replace
 \eqref{eq:MC_generic_plastic_flow_rules}, but their combined conjugate power in
 \eqref{eq:MC_residual_dissipation} must remain nonnegative.
 
-\subsubsection{Interphase interaction and heat transport}
-\label{sec:MC_interaction_heat_transport}
+\subsubsection{Interphase mechanical interaction}
+\label{sec:MC_interphase_mechanical_interaction}
 
-The remaining dissipation contains three processes: relative motion between
-phases, heat exchange between the fluid and solid thermal subsystems, and heat
-conduction within each phase.  Before closing these processes, conservation of
-total mixture energy requires the internal-energy and momentum supplies to
-satisfy \cite{drumheller1980thermomechanical}
+The component-relative diffusion and dispersion fluxes were closed in
+\sref{MC_reaction_transport_closures}.  The interaction considered here is
+different: it is the momentum exchange caused by relative motion of the bulk
+phases.  Conservation of total mixture energy requires the phase interaction
+supplies to satisfy \cite{drumheller1980thermomechanical}
 %
 \begin{equation}
 	\sum_\xi
@@ -2470,13 +2477,12 @@ satisfy \cite{drumheller1980thermomechanical}
 	\label{eq:MC_interaction_energy_conservation}
 \end{equation}
 %
-The reversible volume-constraint powers are not part of
-\eqref{eq:MC_interaction_energy_conservation}; their coefficients have already
-vanished through \eqref{eq:MC_volume_fraction_restrictions}.  The interaction
-identity instead states that momentum exchanged between phases and the
-associated change in internal energy conserve the total mixture energy.
+Here \(\mbf b_\xi\) is the momentum supplied to phase \(\xi\), while
+\(\rho_\xi e_\xi^{\rm int}\) is the associated internal-energy supply.  The
+reversible volume-constraint powers are absent because their coefficients have
+already vanished through \eqref{eq:MC_volume_fraction_restrictions}.
 
-Decompose the net interphase force into pairwise forces,
+Write the momentum supply as the sum of antisymmetric pairwise forces,
 %
 \begin{equation}
 	\mbf b_\xi
@@ -2491,11 +2497,10 @@ Decompose the net interphase force into pairwise forces,
 \end{equation}
 %
 where \(\mbf b_{\zeta\xi}\) is the force exerted on phase \(\xi\) by phase
-\(\zeta\).  The rate transferred from relative mechanical motion to internal
-energy is
+\(\zeta\).  The pairwise mechanical power is therefore
 %
 \begin{equation}
-	-\sum_{\xi<\zeta}
+	\sum_{\xi<\zeta}
 	\mbf b_{\zeta\xi}\cdot
 	\left(
 	\mbf v_\xi-\mbf v_\zeta
@@ -2503,60 +2508,60 @@ energy is
 	\label{eq:MC_interaction_power_pairing}
 \end{equation}
 %
-A sufficient uncoupled closure uses symmetric positive-definite drag tensors
-\(\mbf k_{\xi\zeta}\), a nonnegative fluid--solid heat-transfer coefficient
-\(h_{\mc F\mc S}\), and symmetric positive-semidefinite conductivity tensors
-\(\mbf K_\xi\) \cite{foster2026reactingporous}:
+A sufficient drag closure opposes the phase-velocity difference,
 %
-\begin{subequations}
-	\label{eq:MC_interaction_heat_closures}
-	\begin{align}
-		\mbf b_{\zeta\xi}
-		 & =
-		-\mbf k_{\xi\zeta}^{-1}
-		(\mbf v_\xi-\mbf v_\zeta),
-		\qquad
-		\mbf k_{\xi\zeta}
-		=
-		\mbf k_{\zeta\xi}
-		=
-		\mbf k_{\xi\zeta}^T>0,
-		\label{eq:MC_interphase_exchange_law} \\
-		\left.
-		\sum_{f\in\mc F}\rho_f e_f^{\rm int}
-		\right\vert_{\rm heat}
-		 & =
-		h_{\mc F\mc S}
-		\left(
-		\theta_{\mc S}-\theta_{\mc F}
-		\right)
-		=
-		-
-		\left.
-		\sum_{s\in\mc S}\rho_s e_s^{\rm int}
-		\right\vert_{\rm heat},
-		\qquad
-		h_{\mc F\mc S}\ge0,
-		\label{eq:MC_fluid_solid_heat_exchange_law} \\
-		\mbf q_\xi
-		 & =
-		-\mbf K_\xi\nabla_{\mbf x}\theta_{\mc G},
-		\qquad
-		\xi\in\mc G,
-		\qquad
-		\mbf K_\xi=\mbf K_\xi^T\ge0 .
-		\label{eq:MC_heat_flux_law}
-	\end{align}
-\end{subequations}
+\begin{equation}
+	\mbf b_{\zeta\xi}
+	=
+	-\mbf k_{\xi\zeta}^{-1}
+	\left(
+	\mbf v_\xi-\mbf v_\zeta
+	\right),
+	\qquad
+	\mbf k_{\xi\zeta}
+	=
+	\mbf k_{\zeta\xi},
+	\qquad
+	\mbf k_{\xi\zeta}
+	=
+	\mbf k_{\xi\zeta}^T>0 .
+	\label{eq:MC_interphase_exchange_law}
+\end{equation}
 %
-where \(\mbf y\cdot\mbf k_{\xi\zeta}\mbf y>0\) for every
-\(\mbf y\ne\mbf 0\), \(\mbf y\cdot\mbf K_\xi\mbf y\ge0\), and
-\(\theta_{\mc F},\theta_{\mc S}>0\).  For a phase pair, the force law converts
-the lost relative mechanical power into heat.  Splitting that heat equally
-between the two phases gives
+Here \(\mbf y\cdot\mbf k_{\xi\zeta}\mbf y>0\) for every
+\(\mbf y\ne\mbf 0\).
+Thus the mechanical power in
+\eqref{eq:MC_interaction_power_pairing} is nonpositive.  By
+\eqref{eq:MC_interaction_energy_conservation}, the lost mechanical power must
+appear as internal energy.  One sufficient allocation assigns half of the
+pairwise drag heating to each participating phase,
 %
-\begin{align}
-	& \frac{1}{2}
+\begin{equation}
+	\left.
+	\rho_\chi e_\chi^{\rm int}
+	\right\vert_{{\rm drag},\xi\zeta}
+	=
+	\frac{1}{2}
+	\left(
+	\mbf v_\xi-\mbf v_\zeta
+	\right)
+	\cdot
+	\mbf k_{\xi\zeta}^{-1}
+	\left(
+	\mbf v_\xi-\mbf v_\zeta
+	\right),
+	\qquad
+	\chi\in\{\xi,\zeta\}.
+	\label{eq:MC_drag_heating_equal_partition}
+\end{equation}
+%
+Other partitions are admissible if their pairwise sum restores the lost
+mechanical power and their combined entropy contribution remains nonnegative.
+For the equal allocation in
+\eqref{eq:MC_drag_heating_equal_partition}, that contribution is
+%
+\begin{equation}
+	\frac{1}{2}
 	\sum_{\xi<\zeta}
 	\left(
 	\frac{1}{\theta_\xi}
@@ -2571,12 +2576,49 @@ between the two phases gives
 	\left(
 	\mbf v_\xi-\mbf v_\zeta
 	\right)
-	\ge0 ,
+	\ge0 .
 	\label{eq:MC_interphase_exchange_positive}
-\end{align}
+\end{equation}
+
+\subsubsection{Thermal exchange and heat conduction}
+\label{sec:MC_thermal_exchange_conduction}
+
+Ordinary heat exchange transfers internal energy between the fluid and solid
+thermal subsystems even when there is no phase-relative motion.  It is distinct
+from the drag-generated heating above and from the reaction-associated energy
+exchange required by a charged cross-subsystem mechanism.  The latter remains
+paired with \(\dot r_{(m)}\) in the coupled closure described after
+\eqref{eq:MC_onsager_reaction_rate}; it is not included in the heat-transfer
+coefficient below.
+
+A sufficient bulk fluid--solid heat-exchange law is
 %
-which is the drag contribution to entropy production.  The fluid--solid heat
-exchange contributes
+\begin{equation}
+	\begin{aligned}
+		\left.
+		\sum_{f\in\mc F}\rho_f e_f^{\rm int}
+		\right\vert_{\rm heat}
+		 & =
+		h_{\mc F\mc S}
+		\left(
+		\theta_{\mc S}-\theta_{\mc F}
+		\right),
+		\\
+		\left.
+		\sum_{s\in\mc S}\rho_s e_s^{\rm int}
+		\right\vert_{\rm heat}
+		 & =
+		-h_{\mc F\mc S}
+		\left(
+		\theta_{\mc S}-\theta_{\mc F}
+		\right),
+		\qquad
+		h_{\mc F\mc S}\ge0 .
+	\end{aligned}
+	\label{eq:MC_fluid_solid_heat_exchange_law}
+\end{equation}
+%
+This exchange conserves mixture internal energy and contributes
 %
 \begin{equation}
 	h_{\mc F\mc S}
@@ -2591,25 +2633,43 @@ exchange contributes
 	=
 	h_{\mc F\mc S}
 	\frac{
-	\left(
-	\theta_{\mc S}-\theta_{\mc F}
-	\right)^2
+		\left(
+		\theta_{\mc S}-\theta_{\mc F}
+		\right)^2
 	}{
-	\theta_{\mc F}\theta_{\mc S}
+		\theta_{\mc F}\theta_{\mc S}
 	}
-	\ge0 .
+	\ge0
 	\label{eq:MC_fluid_solid_heat_exchange_positive}
 \end{equation}
 %
-The heat-conduction part becomes
+to the entropy production.
+
+Heat conduction within phase \(\xi\in\mc G\) is closed separately by Fourier's
+law,
+%
+\begin{equation}
+	\mbf q_\xi
+	=
+	-\mbf K_\xi\nabla_{\mbf x}\theta_{\mc G},
+	\qquad
+	\xi\in\mc G,
+	\qquad
+	\mbf K_\xi=\mbf K_\xi^T\ge0 ,
+	\label{eq:MC_heat_flux_law}
+\end{equation}
+%
+where
+\(\mbf y\cdot\mbf K_\xi\mbf y\ge0\) for every \(\mbf y\), and
+\(\theta_{\mc F},\theta_{\mc S}>0\).  Its entropy contribution is
 %
 \begin{equation}
 	-\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}
 	\frac{
-	\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
+		\mbf q_\xi\cdot\nabla_{\mbf x}\theta_{\mc G}
 	}{
-	\theta_{\mc G}^2
+		\theta_{\mc G}^2
 	}
 	=
 	\sum_{\mc G\in\{\mc F,\mc S\}}
@@ -2620,58 +2680,100 @@ The heat-conduction part becomes
 		\mbf K_\xi
 		\nabla_{\mbf x}\theta_{\mc G}
 	}{
-	\theta_{\mc G}^2
+		\theta_{\mc G}^2
 	}
 	\ge0 .
 	\label{eq:MC_heat_flux_positive}
 \end{equation}
 %
-Equations \eqref{eq:MC_onsager_reaction_transport_dissipation},
-\eqref{eq:MC_interphase_exchange_positive}, and
-\eqref{eq:MC_fluid_solid_heat_exchange_positive}--\eqref{eq:MC_heat_flux_positive},
-together with admissible plastic laws, provide nonnegative reaction,
-relative-transport, drag, heat-exchange, and conduction contributions for
-distinct positive temperatures \(\theta_{\mc F}\) and \(\theta_{\mc S}\).
+The reaction and component-relative transport terms are controlled by
+\eqref{eq:MC_onsager_reaction_transport_dissipation}; phase drag is controlled
+by \eqref{eq:MC_interphase_exchange_positive}; and ordinary heat exchange and
+conduction are controlled by
+\eqref{eq:MC_fluid_solid_heat_exchange_positive} and
+\eqref{eq:MC_heat_flux_positive}.  These are separate closures even though
+their entropy contributions appear in the same residual inequality.
 
-\subsection{Sorption/desorption mechanisms}
-\label{sec:MC_sorption_desorption_mechanisms}
+\subsection[Example mechanisms: reactions, phase transformations,
+	sorption/desorption, and ion exchange]
+{\raggedright Example mechanisms: reactions, phase transformations,
+	sorption/desorption, and ion exchange}
+\label{sec:MC_example_mechanisms}
 
-Sorption/desorption is a conversion mechanism that transfers a component
-between a mobile phase and a solid phase while the solid constituents share the
-skeleton motion.  For a component \(g\) moving between mobile phase \(f\) and solid phase
-\(s\), the stoichiometric coefficients may be written
+The mechanism index \((m)\) covers any local conversion described by the
+phase/component stoichiometry \(\nu_{\xi (m)}^\alpha\).  The principal mechanism
+types differ only in whether conversion changes the component identity, the
+phase label, or both.
+
+A true chemical reaction changes component identity.  It may occur entirely
+within one phase or involve components from several phases.  For example,
+aqueous carbonic-acid dissociation,
+\(\mathrm{H_2CO_3}\rightleftharpoons
+\mathrm{H^+}+\mathrm{HCO_3^-}\), changes the aqueous component populations
+without transferring a component to another phase.  Its stoichiometric
+coefficients enter the same affinity and kinetic relations derived above.
+
+A pure phase transformation preserves component identity and changes only its
+phase label.  Vaporization and condensation are examples.  For a component
+\(g\) transferred from phase \(\xi\) to phase \(\zeta\), the one-to-one
+stoichiometry is
 %
 \begin{equation}
-	\nu_{s (m)}^g=1,
+	\nu_{\zeta (m)}^g=1,
 	\qquad
-	\nu_{f (m)}^g=-1,
-	\qquad
-	\nu_{\xi (m)}^\alpha=0
-	\quad\hbox{otherwise}.
-	\label{eq:MC_sorption_stoichiometry}
+	\nu_{\xi (m)}^g=-1 .
+	\label{eq:MC_one_to_one_transfer_stoichiometry}
 \end{equation}
 %
-The affinity is
+All other stoichiometric coefficients vanish.  The corresponding affinity is
 %
 \begin{equation}
 	\mc A_{(m)}
 	=
-	\mu_f^g-\mu_s^g .
-	\label{eq:MC_sorption_affinity}
+	\mu_\xi^g-\mu_\zeta^g .
+	\label{eq:MC_one_to_one_transfer_affinity}
 \end{equation}
 %
-An admissible kinetic law must satisfy
-\(\mc A_{(m)}\dot r_{(m)}\ge0\).  The sorbed amount \(\eta_s^g\) can also
-enter \(\psi_s\), \(\mbf A_s^0\), \(\bar{\mbf F}_s^0\), and the
-plastic flow law, so sorption can change stiffness, yield strength, swelling,
-and compaction behavior in one thermodynamic state.
+The transformation can therefore change phase fractions and phase
+compositions even though the total mass of component \(g\) is unchanged.
 
-Hydrate formation and dissociation can be represented in the same
-sorption/desorption form.  For methane hydrate or another clathrate solid, host
-water and guest methane are solid components of the same load-bearing solid
-phase, while exchange with mobile components changes the solid composition.
-That composition may change the free energy, thermal expansion, stress-free
-cage volume, and plastic response within the shared solid displacement field.
+Sorption/desorption is treated by the same one-to-one transfer structure, with
+\(\xi=f\) a mobile phase and \(\zeta=s\) a solid phase whose constituents share
+the skeleton motion.  It includes surface adsorption and bulk absorption
+without requiring those pore-scale processes to be represented separately.
+For a neutral component \(g\), away from local thermal equilibrium an
+admissible kinetic law must satisfy
+%
+\begin{equation}
+	\left(
+	\frac{\mu_f^g}{\theta_{\mc F}}
+	-
+	\frac{\mu_s^g}{\theta_{\mc S}}
+	\right)\dot r_{(m)}
+	\ge0 .
+	\label{eq:MC_sorption_temperature_weighted_dissipation}
+\end{equation}
+%
+Charged sorption that transfers net charge between the thermal subsystems
+instead uses the coupled reaction--energy closure described after
+\eqref{eq:MC_onsager_reaction_rate}.
+The sorbed amount \(\eta_s^g\) may also enter \(\psi_s\), \(\mbf A_s^0\),
+\(\bar{\mbf F}_s^0\), and the plastic flow law.  Thus adsorption, desorption,
+hydrate formation, and hydrate dissociation can change stiffness, swelling,
+compaction, and other solid properties through the evolving composition of the
+load-bearing phase.
+
+\pagebreak[3]
+Ion exchange is a coupled set of transfers between mobile ions and charged
+solid-site components.  For example, calcium uptake accompanied by sodium
+release can be represented by
+\(2\,\mathrm{NaX}_s+\mathrm{Ca}^{2+}_f
+\rightleftharpoons\mathrm{CaX_2}_s+2\,\mathrm{Na}^{+}_f\), where
+\(\mathrm{X}\) denotes a solid exchange site.  The mechanism changes fluid
+composition and solid-site occupancy, and its stoichiometry must conserve both
+mass and charge according to \eqref{eq:mechanism_charge_conservation}.  Its
+driving force is the corresponding electrochemical affinity; equilibrium or
+kinetic ion-exchange models provide the remaining closure.
 
 \subsection{Phase reaction-modified Biot coefficients}
 \label{sec:MC_phase_biot_legendre_transform}
@@ -2726,7 +2828,14 @@ pressure and electric enthalpy.  In terms of intrinsic specific volume,
 %
 Here \(\bar v_s=1/\bar\rho_s\), so
 \(\omega_s^+\bar v_s\) is the electric enthalpy per unit intrinsic solid mass.
-The transformed phase potential is
+Equation~\eqref{eq:MC_phase_pressure_specific_volume} shows that the coefficient
+of \(d\bar v_s\) in
+\(d\left(\psi_s+\omega_s^+\bar v_s\right)\), with the other state variables
+fixed, is \(-\bar p_E\).  Thus \(\bar p_E\), rather than \(\bar p_s\) separately,
+is conjugate to \(\bar v_s\); indeed,
+\(\bar p_s=\bar p_E+\omega_s^+\).  Adding \(\bar p_E\bar v_s\) cancels this
+specific-volume differential and exchanges \(\bar v_s\) for \(\bar p_E\) as a
+natural variable.  The transformed phase potential is
 %
 \begin{subequations}
 	\label{eq:MC_phase_legendre_transform}
@@ -2863,7 +2972,7 @@ suppressed, \(B_s\) reduces to the nonlinear Biot coefficient of
 %
 Pushing these stresses to the current configuration and applying the
 distension map from \eqref{eq:MC_solid_stress_definition} converts the pressure
-correction into an isotropic Cauchy stress.  Therefore
+correction into an Cauchy stress.  Therefore
 %
 \begin{empheq}[box=\fbox]{equation}
 	\bs\sigma_s'
@@ -3587,12 +3696,15 @@ a mechanism \((m)\) that forms solid phase \(s_{(m)}\),
 	=
 	-
 	\sum_\xi\sum_\alpha
-	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha,
-	\qquad
-	\mc A_{(m)}\dot r_{(m)}\ge0 .
+	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
 	\label{eq:MC_crystallization_affinity_kinetics}
 \end{equation}
 %
+The kinetic law is driven by the temperature-weighted stoichiometric sum in
+\eqref{eq:MC_onsager_reaction_rate}; only in the local-thermal-equilibrium limit
+does its dissipation condition reduce to
+\(\mc A_{(m)}\dot r_{(m)}\ge0\).
+
 If a classical crystallization pressure
 \(\bar p_{\text{xtal},s_{(m)}}\) is prescribed, it closes the affinity through
 %
@@ -3636,7 +3748,8 @@ fluid--solid precipitation mechanism are evaluated in the mobile subsystem,
 	\label{eq:MC_crystallization_supersaturation_affinity}
 \end{equation}
 %
-At reversible equilibrium, \(\mc A_{(m)}=0\), so the chemical
+At full reversible equilibrium,
+\(\theta_{\mc F}=\theta_{\mc S}\) and \(\mc A_{(m)}=0\), so the chemical
 crystallization pressure equals the current phase mean stress permitted by the
 constitutive law.  If stress and affinity are solved simultaneously,
 \(\Omega_{(m)}\) is an output rather than an independently prescribed load.
