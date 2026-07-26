@@ -651,8 +651,51 @@ Electrical storage is written in the electric-enthalpy representation
 \cite{montanaro2015thermo_electroelasticity}.  Phase \(\xi\) contributes
 \(\phi_\xi\omega_\xi^+\), while the shared interfacial energy \(\phi\gamma\)
 appears only in the fluid-subsystem balance.  Expanding the electric-enthalpy
-rate exposes its density, composition, temperature, field-rate, and Maxwell
-mechanical-power contributions.  The resulting energy balance is
+rate exposes material-state, Maxwell mechanical-power, and common
+electric-potential-rate contributions.  In particular,
+\(\mbf d_\xi=-\partial\omega_\xi^+/\partial\mbf E\) makes
+\(-\phi_\xi\mbf d_\xi\cdot\dot{\mbf E}\) the constitutive electric-field-rate
+power; current-volume transport separates its geometric part into
+\(\bs\sigma_\xi^+:\mbf L_\xi\) and leaves
+\(\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\dot\varphi\) as the shared
+field-coordinate part.
+
+\pagebreak[4]
+The last contribution cannot be
+assigned independently to the fluid and solid thermal subsystems because
+\(\varphi\) is one shared field.  Summing it over all phases and using Gauss'
+law gives the global electrostatic power identity
+%
+\begin{align}
+	\sum_{\mc G\in\{\mc F,\mc S\}}
+	\sum_{\xi\in\mc G}
+	\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\dot\varphi
+	&=
+	\mbf d\cdot\nabla_{\mbf x}\dot\varphi
+	\notag \\
+	&=
+	\nabla_{\mbf x}\cdot
+	\left(
+	\dot\varphi\,\mbf d
+	\right)
+	-
+	\varrho\dot\varphi .
+	\label{eq:MC_electrostatic_power_identity}
+\end{align}
+%
+The bulk term \(-\varrho\dot\varphi\) is the rate form of the free-charge
+source work in \eqref{eq:W_def}, and the divergence gives the electrical
+boundary power.  In particular, its flux is
+\(\dot\varphi\bar q\) on \(\Gamma_q\).  Equation
+\eqref{eq:MC_electrostatic_power_identity} is an entropy-free field-power
+identity, not a third thermal balance.  It is applied globally before either
+thermal-subsystem balance is divided by its temperature.
+
+The two thermal-subsystem balances therefore retain the material-state rate of
+each phase electric enthalpy at fixed \(\mbf E\) and its Maxwell mechanical
+power, while the shared electric-potential-rate term is carried by
+\eqref{eq:MC_electrostatic_power_identity}.  The resulting balance for
+\(\mc G\in\{\mc F,\mc S\}\) is
 %
 \begin{equation}
 	\begin{aligned}
@@ -688,8 +731,6 @@ mechanical-power contributions.  The resulting energy balance is
 			\dot\theta_{\mc G}
 			+
 			\bs\sigma_\xi^+:\mbf L_\xi
-			+
-			\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\dot\varphi
 			\right]
 		\\
 		 & \qquad
@@ -739,9 +780,17 @@ mechanical-power contributions.  The resulting energy balance is
 \end{equation}
 %
 Here \(\delta_{\mc G\mc F}\) includes the interfacial storage term only in the
-fluid balance, and \(e_\xi=\psi_\xi+\theta_\xi\mathfrak{s}_\xi\).  The multiplier
-power \(\lambda\sum_{\xi\in\mc G}\dot\phi_\xi\) transfers reversible work between
-the two thermal subsystems.  It vanishes only after the subsystem balances are
+fluid balance, and \(e_\xi=\psi_\xi+\theta_\xi\mathfrak{s}_\xi\).  The complete
+first law consists of the two instances of \eqref{eq:MC_energy_balance}
+supplemented by the global field-power identity
+\eqref{eq:MC_electrostatic_power_identity}.  This construction avoids an
+arbitrary allocation of the common power
+\(\mbf d\cdot\nabla_{\mbf x}\dot\varphi\) and its source
+\(-\varrho\dot\varphi\) between subsystems at different temperatures.
+
+The multiplier power
+\(\lambda\sum_{\xi\in\mc G}\dot\phi_\xi\) transfers reversible work between the
+two thermal subsystems.  It vanishes only after the subsystem balances are
 summed, because \(\sum_\xi\dot\phi_\xi=0\).  Retaining this power in each
 subsystem balance is necessary when
 \(\theta_{\mc F}\ne\theta_{\mc S}\), since the two balances are divided by
@@ -751,9 +800,10 @@ The mechanical power uses the total reversible stress
 \(\bs\sigma_\xi^{\prime+}\).  The electric-enthalpy rate contains the
 corresponding Maxwell power explicitly; subtracting it from the total
 mechanical power leaves the material stress power used in the constitutive
-restrictions.  The electric-potential-gradient term is converted to a field
-equation and boundary power by integration by parts.  The boundary electrical
-power is not included in the local entropy analysis.
+restrictions.  The electric-potential-gradient, bulk-source, and boundary-power
+terms have already been separated through
+\eqref{eq:MC_electrostatic_power_identity}; they are not included in either
+local thermal entropy supply.
 
 The connection with a conventional thermo-electroelastic energy balance is most
 transparent in the nonporous, single-phase limit.  Let
@@ -764,8 +814,9 @@ phase \(\xi\).  Phase mass conservation then gives
 \(\mbf E=-\nabla_{\mbf x}\varphi\),
 \(\dot{\mbf E}=-\nabla_{\mbf x}\dot\varphi-\mbf L_\xi^T\mbf E\), and
 \eqref{eq:vp_electrical_stress_definition}, the electrical terms in
-\eqref{eq:MC_energy_balance} combine into the material-volume rate of
-\(\omega_\xi^+\), and the balance reduces to
+\eqref{eq:MC_energy_balance} and
+\eqref{eq:MC_electrostatic_power_identity} combine into the material-volume
+rate of \(\omega_\xi^+\), and the balance reduces to
 %
 \begin{align}
 	\rho_\xi
@@ -785,11 +836,18 @@ phase \(\xi\).  Phase mass conservation then gives
 	\bs\sigma_\xi^{\prime+}
 	-
 	\bar p_\xi\mbf I
-	\right):\mbf L_\xi
-	-
-	\nabla_{\mbf x}\cdot\mbf q_\xi
-	+
-	\rho_\xi r_\xi .
+		\right):\mbf L_\xi
+		-
+		\nabla_{\mbf x}\cdot\mbf q_\xi
+		+
+		\nabla_{\mbf x}\cdot
+		\left(
+		\dot\varphi\,\mbf d
+		\right)
+		-
+		\varrho\dot\varphi
+		+
+		\rho_\xi r_\xi .
 	\label{eq:MC_single_phase_energy_limit}
 \end{align}
 %
@@ -820,10 +878,11 @@ Equations \eqref{eq:MC_single_phase_energy_limit} and
 \eqref{eq:MC_montanaro_electric_enthalpy_limit} differ only in where electrical
 energy and power are placed.  Reference~\cite{montanaro2015thermo_electroelasticity}
 keeps polarization work in the material balance.  The present formulation
-combines material and field storage and includes Maxwell stress in the
-mechanical power; adding the electrostatic field-energy balance converts between
-the two descriptions.  Polarization is therefore not an additional state
-variable here.  If an SI vacuum-field split is desired,
+combines material and field storage, includes Maxwell stress in the mechanical
+power, and displays the free-charge source and electrical boundary flux
+explicitly.  Using \eqref{eq:MC_electrostatic_power_identity} converts between
+the material and field-power descriptions.  Polarization is therefore not an
+additional state variable here.  If an SI vacuum-field split is desired,
 \(\mbf P=\mbf d-\varepsilon_0\mbf E\).  The displacement \(\mbf d\) is retained
 because Gauss' law relates it directly to free charge, while the dependence of
 \(\omega_\xi^+\) on density, saturation, composition, and temperature already
@@ -978,22 +1037,26 @@ subsystem energy balances,
 \end{align}
 %
 The admissible rates in this inequality already satisfy the four constraints
-introduced in \sref{virtual_power_derivation}.  The \(C_1\) multiplier power is
-present in \eqref{eq:MC_energy_balance}; \(C_2\) is enforced by the augmented
-component material measure and its density and composition kinematics; and
-\(C_4\) imposes zero net insertion.  Stoichiometrically conservative conversion
-and zero-sum relative transport satisfy the latter constraint.  Constraint
-\(C_3\) is handled explicitly by adding
+introduced in \sref{virtual_power_derivation}, the component charge-rate
+identity \eqref{eq:component_charge_rate_identity}, and the global
+electrostatic power identity \eqref{eq:MC_electrostatic_power_identity}.  The
+\(C_1\) multiplier power is present in \eqref{eq:MC_energy_balance}; \(C_2\) is
+enforced by the augmented component material measure and its density and
+composition kinematics; and \(C_4\) imposes zero net insertion.
+Stoichiometrically conservative conversion and zero-sum relative transport
+satisfy the latter constraint.  Constraint \(C_3\) is handled explicitly by adding
 \(\Pi_\xi\sum_\alpha\dot\eta_\xi^\alpha=0\), which permits all \(N\)
 mass-fraction rates to be retained until the composition coefficients are
 projected onto their \(N-1\) dimensional tangent space.
 
 Substituting \eqref{eq:MC_energy_balance} eliminates the external heat supply
-from each thermal group.  The electrostatic field identity and Gauss' law remove
-the common electric-potential rate before the remaining terms are divided by
-\(\theta_{\mc F}\) or \(\theta_{\mc S}\).  Maxwell power is removed from the
-total mechanical power at the same step, leaving the material stress
-\(\bs\sigma_\xi'\).  The result is
+from each thermal group.  The common electric-potential rate and its bulk and
+boundary powers were separated globally in
+\eqref{eq:MC_electrostatic_power_identity}, before the remaining terms are
+divided by \(\theta_{\mc F}\) or \(\theta_{\mc S}\).  Thus Gauss' law is not
+applied separately to temperature-weighted fluid and solid field powers.
+Maxwell power is removed from the total mechanical power at the same step,
+leaving the material stress \(\bs\sigma_\xi'\).  The result is
 %
 \begin{align}
 	0\le{} &
@@ -1886,6 +1949,7 @@ interfacial entropy belongs to the fluid subsystem because
 \end{subequations}
 %
 
+\newpage
 \subsection{Sources, residual dissipation, and closures}
 \label{sec:MC_residual_dissipation}
 
@@ -1896,8 +1960,44 @@ The material increment \(\mc C_\xi^\alpha\) records both conversion and
 component transport relative to phase \(\xi\).  Its variational coefficient
 \eqref{eq:el_conversion_component} contains the work potential
 \(L_\xi^\alpha\), while the entropy inequality contains the combination
-\(\psi_\xi+L_\xi^\alpha\) multiplying the component-supply rate.  Identifying
-that combination with the electrochemical potential gives
+\(\psi_\xi+L_\xi^\alpha\) multiplying the component-supply rate.
+
+The electrical contribution to this coefficient is fixed by the charge rate,
+not by the field-rate identity.  Multiplying the component-rate balance by
+\(\varphi z_\xi^\alpha/\theta_{\mc G}\) and summing gives the explicit
+temperature-weighted charge-rate projection
+%
+\begin{equation}
+	0
+	=
+	\sum_{\mc G\in\{\mc F,\mc S\}}
+	\sum_{\xi\in\mc G}\sum_\alpha
+	\frac{\varphi z_\xi^\alpha}{\theta_{\mc G}}
+	\left[
+		\phasedot{c}_\xi^\alpha
+		-
+		\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
+		+
+		\nabla_{\mbf x}\cdot
+		\left(
+		\mbf j_{\xi,{\rm disp}}^\alpha
+		+
+		\mbf j_{\xi,{\rm diff}}^\alpha
+		\right)
+	\right].
+	\label{eq:MC_charge_rate_entropy_projection}
+\end{equation}
+%
+Adding \eqref{eq:MC_charge_rate_entropy_projection} to the neutral
+component-rate constraint replaces
+\(\hat\mu_\xi^\alpha/\theta_{\mc G}\) by
+\((\hat\mu_\xi^\alpha+z_\xi^\alpha\varphi)/\theta_{\mc G}
+=\mu_\xi^\alpha/\theta_{\mc G}\).  Thus charge accumulation, conversion, and
+relative transport are already represented in the electrochemical coefficient
+of the collected entropy inequality; the charge projection must not be added a
+second time there.
+
+Identifying \(\psi_\xi+L_\xi^\alpha\) with that electrochemical potential gives
 %
 \begin{equation}
 	L_\xi^\alpha
@@ -2179,10 +2279,12 @@ relations from \sref{MC_reversible_restrictions} removes their rate
 coefficients from \eqref{eq:MC_collected_entropy}.  The component-supply terms
 are then replaced by the temperature-weighted reaction and relative-transport
 powers derived in \eqref{eq:MC_temperature_weighted_reaction_power} and
-\eqref{eq:MC_relative_transport_power}.  Gauss' law was
-already used in passing from \eqref{eq:MC_energy_balance} to
-\eqref{eq:MC_reduced_entropy_inequality}.  What remains is the residual
-dissipation inequality
+\eqref{eq:MC_relative_transport_power}.  Gauss' law was already used in the
+global field-power identity \eqref{eq:MC_electrostatic_power_identity}, and the
+charge-rate identity was already used in the electrochemical projection
+\eqref{eq:MC_charge_rate_entropy_projection}.  Neither rate therefore remains
+as an independent dissipative term.  What remains is the residual dissipation
+inequality
 %
 \begin{equation}
 	\begin{aligned}
@@ -3872,7 +3974,7 @@ Table~\ref{tab:MC_equation_block_count}.
 		Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                                & \(P_{\mc S}\)                                                          \\
 		Kinetic laws for \(\dot r_{(m)}\), for example \eqref{eq:MC_onsager_reaction_rate}                                                      & \(N_{(m)}\)                                                            \\
 		Plastic flow laws \eqref{eq:MC_generic_plastic_flow_rules} for \(\bar{\mbf F}_s^p\) and \(\mbf A_s^p\)                                 & \(2d^2P_{\mc S}\)                                                      \\
-		Fluid and solid energy equations using \eqref{eq:MC_energy_balance}                                                                     & \(2\)                                                                  \\
+		Fluid and solid energy equations using \eqref{eq:MC_energy_balance}, supplemented by the field-power identity \eqref{eq:MC_electrostatic_power_identity} & \(2\)                                                                  \\
 		Gauss' law \eqref{eq:gauss_law}                                                                                                         & \(1\)                                                                  \\
 		\hline
 		\multicolumn{2}{>{\centering\arraybackslash}p{0.90\textwidth}}{Total:
