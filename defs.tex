@@ -1,5 +1,6 @@
 \usepackage{xparse}
 \usepackage{amsmath}
+\usepackage{accents}
 
 \newcommand{\bxi}{\boldsymbol{\xi}}
 \newcommand{\dt}{\, {\rm d}t}
@@ -56,6 +57,10 @@
 
 \NewDocumentCommand \D{ m m }{%
 	\frac{{\rm d}#1}{{\rm d}#2}%
+}
+
+\NewDocumentCommand \phasedot{ m }{%
+	\accentset{\scalebox{0.82}{$\scriptscriptstyle\bullet$}}{#1}%
 }
 
 \NewDocumentCommand \kr{ m }{%

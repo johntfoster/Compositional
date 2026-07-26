@@ -52,7 +52,7 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 	\frac{1}{\rho_f}
 	\left(
 		\phi_f^2\mu_f\bs\kappa_f^{-1}
-		+\sum_\alpha\dot c_f^\alpha\mbf I
+		+\sum_\alpha\phasedot{c}_f^\alpha\mbf I
 	\right)\mbf w_f
 		= & \;
 		\rho_f\left(\mbf g-\mbf a_f\right)
@@ -60,7 +60,7 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 		+\nabla_{\mbf x}\cdot\bs\sigma_f^+
 		-\omega_f^+\nabla_{\mbf x}\phi_f
 		\notag                          \\
-	  & +\sum_\alpha\dot c_f^\alpha
+	  & +\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_s\right),
 	\label{eq:relative_flux_linear_system}
 \end{align}
@@ -77,7 +77,7 @@ Define the modified permeability tensor
 	=
 	\left(
 		\phi_f^2\mu_f\bs\kappa_f^{-1}
-		+\sum_\alpha\dot c_f^\alpha\mbf I
+		+\sum_\alpha\phasedot{c}_f^\alpha\mbf I
 	\right)^{-1}.
 	\label{eq:modified_relative_flux_permeability}
 \end{equation}
@@ -86,13 +86,13 @@ This inverse defines a dissipative mobility when the operator in parentheses is
 symmetric positive definite.  Thus the phase permeability
 \(\bs\kappa_f\) is taken symmetric positive definite, \(\mu_f>0\), and
 \(\phi_f>0\).  The scalar conversion-insertion correction
-\(\sum_\alpha\dot c_f^\alpha\) may increase or decrease the diagonal resistance;
+\(\sum_\alpha\phasedot{c}_f^\alpha\) may increase or decrease the diagonal resistance;
 admissibility requires the quadratic form
 %
 \[
 	\phi_f^2\mu_f\mbf z\cdot\bs\kappa_f^{-1}\mbf z
 	+
-	\left(\sum_\alpha\dot c_f^\alpha\right)
+	\left(\sum_\alpha\phasedot{c}_f^\alpha\right)
 	\mbf z\cdot\mbf z
 \]
 %
@@ -104,13 +104,13 @@ permeability.  If \(\kappa_{f,\max}\) is the largest eigenvalue of
 \(\bs\kappa_f\), the sufficient scalar check is
 %
 \[
-	\sum_\alpha\dot c_f^\alpha
+	\sum_\alpha\phasedot{c}_f^\alpha
 	>
 	-\frac{\phi_f^2\mu_f}{\kappa_{f,\max}} .
 \]
 %
 For an aqueous reaction that removes fluid mass on a time scale \(t_{\rm rxn}\),
-\(\sum_\alpha\dot c_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The singular threshold
+\(\sum_\alpha\phasedot{c}_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The singular threshold
 for the modified permeability is
 %
 \[
@@ -138,7 +138,7 @@ Then the admissible relative mass flux is
 			-\phi_f\nabla_{\mbf x}\bar p_f
 			+\nabla_{\mbf x}\cdot\bs\sigma_f^+
 			-\omega_f^+\nabla_{\mbf x}\phi_f
-			+\sum_\alpha\dot c_f^\alpha
+			+\sum_\alpha\phasedot{c}_f^\alpha
 		\left(\nabla_{\mbf x}\tau-\mbf v_s\right)
 	\right).
 	\label{eq:generalized_fluid_darcy_mass_flux}
@@ -153,7 +153,7 @@ separate from the role of \(\tau\) in the conversion variation.
 
 The neutral, conversion-free, negligible-inertia specialization
 \(\omega_f^+=0\), \(\bs\sigma_f^+=\mbf0\),
-\(\dot c_f^\alpha=0\), and \(\mbf a_f=\mbf0\) reduces
+\(\phasedot{c}_f^\alpha=0\), and \(\mbf a_f=\mbf0\) reduces
 \eqref{eq:generalized_fluid_darcy_mass_flux} to
 %
 \begin{equation}
@@ -212,7 +212,7 @@ The flux assembled in the reference component balances is then
 	\notag \\
 	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
 	\left.
-	+\sum_\alpha\dot c_f^\alpha
+	+\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
 	\right].
 	\label{eq:solid_reference_relative_flux}
@@ -309,7 +309,7 @@ gives
 	+J\rho\mbf g
 	\notag \\
 	&\;
-	+J\sum_\xi\sum_\alpha\dot c_\xi^\alpha
+	+J\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
 	\left(
 		\mbf F^{-T}\nabla_{\mbf X}\tau-\mbf v_\xi
 	\right).
@@ -350,7 +350,7 @@ general finite-deformation form, the mechanics equation is
 	+J\rho\mbf g
 	\notag \\
 	&\;
-	+J\sum_\xi\sum_\alpha\dot c_\xi^\alpha
+	+J\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
 	\left(
 		\mbf F^{-T}\nabla_{\mbf X}\tau-\mbf v_\xi
 	\right).
@@ -410,7 +410,7 @@ The corresponding admissible reference flux is
 	\notag \\
 	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
 	\left.
-	+\sum_\alpha\dot c_f^\alpha
+	+\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
 	\right],
 	\qquad f\in\mc F .

@@ -138,17 +138,18 @@ velocity $\mbf v_\zeta$ of phase $\zeta$ is
 \end{equation}
 % AGENT-LOCK-END
 %
-Here, $\nabla_{\mbf x}$ is the spatial gradient operator.  The shorthand
-$\dot\square_\xi = D_\xi \square_\xi/Dt$ denotes the material time derivative
-following phase $\xi$.  Taking the material time derivative of
+Here, $\nabla_{\mbf x}$ is the spatial gradient operator.  The heavy-dot
+shorthand
+$\phasedot{\square}_\xi = D_\xi \square_\xi/Dt$ denotes the material time
+derivative following phase $\xi$.  Taking the material time derivative of
 \eqref{eq:material_mass_2} following phase $\xi$ and using the identity
-$\dot J_\xi = J_\xi \nabla_{\mbf x}\cdot\mbf v_\xi$ gives
+$\phasedot{J}_\xi = J_\xi \nabla_{\mbf x}\cdot\mbf v_\xi$ gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	\frac{D_\xi \rho_\xi^\alpha}{Dt}
 	+ \rho_\xi^\alpha \nabla_\mbf{x}\cdot\mbf{v}_\xi
-	 & = \frac{\dot{\mc {C}}^\alpha_\xi}{J_\xi} .
+	 & = \frac{\phasedot{\mc C}^\alpha_\xi}{J_\xi} .
 	\label{eq:component_material_mass}
 \end{align}
 % AGENT-LOCK-END
@@ -157,7 +158,7 @@ The rate of component mass addition per current mixture volume is defined by
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\dot{c}^\al_\xi(\mbf{x},t) \equiv \frac{\dot{\mc{C}}^\al_\xi}{J_\xi}.
+	\phasedot{c}^\al_\xi(\mbf{x},t) \equiv \frac{\phasedot{\mc C}^\al_\xi}{J_\xi}.
 	\label{eq:current_conversion_rate_definition}
 \end{equation}
 % AGENT-LOCK-END
@@ -169,7 +170,7 @@ balance for phase $\xi$,
 \begin{align}
 	\frac{\partial \rho_\xi^\alpha}{\partial t}
 	+ \nabla_\mbf{x}\cdot\left(\rho_\xi^\alpha\mbf{v}_\xi\right)
-	= \dot{c}^\alpha_\xi .
+	= \phasedot{c}^\alpha_\xi .
 	\label{eq:component_spatial_mass}
 \end{align}
 % AGENT-LOCK-END
@@ -231,7 +232,7 @@ component mass balance,
 \begin{align}
 	\frac{\partial}{\partial t}\left(\sum_\xi \phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
 	+ \nabla_\mbf{x}\cdot\left( \sum_\xi \phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
-	= \sum_\xi \dot{c}^\alpha_\xi .
+	= \sum_\xi \phasedot{c}^\alpha_\xi .
 	\label{eq:spatial_mass_2}
 \end{align}
 % AGENT-LOCK-END
@@ -247,7 +248,7 @@ is generated only by conversion, so that
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\dot{c}_\xi^\alpha = \sum_m \nu_{\xi (m)}^\alpha \dot{r}_{(m)} .
+	\phasedot{c}_\xi^\alpha = \sum_m \nu_{\xi (m)}^\alpha \dot{r}_{(m)} .
 	\label{eq:unified_stoich_current}
 \end{equation}
 % AGENT-LOCK-END
@@ -449,7 +450,7 @@ increment \(\mc C_\xi^\alpha\) is the component mass added to a phase-attached
 region per unit phase reference volume by both conversion mechanisms and relative transport.
 Multiplication of \eqref{eq:averaged_component_spatial_mass} by \(J_\xi\),
 together with
-\(\dot J_\xi=J_\xi\nabla_{\mbf x}\cdot\mbf v_\xi\), gives
+\(\phasedot{J}_\xi=J_\xi\nabla_{\mbf x}\cdot\mbf v_\xi\), gives
 %
 \begin{align}
 	\frac{D_\xi}{Dt}\left(J_\xi\rho_\xi^\alpha\right)
@@ -467,10 +468,10 @@ together with
 %
 Comparing \eqref{eq:averaged_component_reference_rate} with the material-balance
 structure in \eqref{eq:material_mass_2} and its rate form
-\eqref{eq:component_material_mass} identifies \(\dot{\mc C}_\xi^\alpha\) as
+\eqref{eq:component_material_mass} identifies \(\phasedot{\mc C}_\xi^\alpha\) as
 %
 \begin{equation}
-	\dot{\mc C}_\xi^\alpha
+	\phasedot{\mc C}_\xi^\alpha
 	=
 	J_\xi\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 	-
@@ -581,7 +582,7 @@ preserving the phase total mass.  The relative fluxes have only \(N-1\)
 independent component directions in each phase.  The material increment
 \(\mc C_\xi^\alpha\) is tied to the transfer potential introduced in
 \sref{virtual_power_derivation}, while the relative-flux part of
-\(\dot{\mc C}_\xi^\alpha\) is closed by the electrochemical-potential-gradient
+\(\phasedot{\mc C}_\xi^\alpha\) is closed by the electrochemical-potential-gradient
 forces in the Onsager statement.  Summing
 \eqref{eq:averaged_component_spatial_mass} over phases gives the global
 component balance,
@@ -617,7 +618,7 @@ mass balance and
 %
 \begin{equation}
 	\sum_\xi\sum_\alpha
-	\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+	\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 	=
 	0.
 	\label{eq:material_increment_insertion_constraint}

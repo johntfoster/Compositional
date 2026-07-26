@@ -62,11 +62,11 @@ The energies, virtual work, and four constraints are defined together by
 \begin{align}
 	T        & = \sum_\xi \int_{\mc{B}}\frac{1}{2} \rho_\xi \mbf{v}_\xi \cdot \mbf{v}_\xi \dv,
 	\label{eq:T_def}                                                                                                                                                                                               \\
-	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \{\eta^\al_{\xi}\},\theta)\dv
-	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F},\theta\right) \dv
+	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \{\eta^\al_{\xi}\},\theta_\xi)\dv
+	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F},\theta_{\mc F}\right) \dv
 	+\sum_\xi\int_{\mc B}
 	\phi_\xi
-	\omega_\xi^+(\mbf E,\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta)
+	\omega_\xi^+(\mbf E,\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta_\xi)
 	\,\dv,
 	\label{eq:U_def}                                                                                                                                                                                               \\
 	\delta W & = \sum_\xi \int_{\mc{B}} \left(\rho_\xi\mbf{g}+\mbf b_\xi\right)\cdot\delta\mbf{x}_\xi \,\dv-\sum_\xi\sum_\alpha\int_{\mc B}L_\xi^\alpha\frac{\delta\mc C_\xi^\alpha}{J_\xi}\,\dv,
@@ -80,7 +80,7 @@ The energies, virtual work, and four constraints are defined together by
 	C_4      & = \int_{\mc B}\tau
 	\left(
 	\sum_\xi\sum_\alpha
-	\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+	\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 	\right)\dv .
 	\label{eq:C4_def}
 \end{align}
@@ -88,15 +88,17 @@ The energies, virtual work, and four constraints are defined together by
 % AGENT-LOCK-END
 %
 Here \(L_\xi^\alpha\) is the component generalized force conjugate to conversion
-insertion and \(\theta\) is the absolute temperature.  Constraint \(C_1\)
+insertion.  The phase-assigned temperature is
+\(\theta_\xi=\theta_{\mc F}\) for \(f\in\mc F\) and
+\(\theta_\xi=\theta_{\mc S}\) for \(s\in\mc S\).  Constraint \(C_1\)
 enforces the volume-fraction constraint, \(C_2\) enforces the augmented component
 material measure, and \(C_3\) enforces mass-fraction normalization.
 
 Constraint \(C_4\) enforces zero net material insertion over all phases and
 components.  Writing the rate of component mass addition per current mixture
 volume as
-\(\dot c_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi\), this constraint imposes
-\(\sum_\xi\sum_\alpha\dot c_\xi^\alpha=0\).  Internal conversion satisfies the
+\(\phasedot{c}_\xi^\alpha=\phasedot{\mc C}_\xi^\alpha/J_\xi\), this constraint imposes
+\(\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha=0\).  Internal conversion satisfies the
 constraint through stoichiometric mass conservation, while relative component
 transport satisfies it phase by phase through
 \eqref{eq:averaged_relative_flux_sum}.  The component-resolved rate balance is
@@ -109,10 +111,11 @@ units of action per unit mass, so
 \(D_\xi\tau/Dt\) has units of energy per unit mass.  Thus \(\tau\) supplies the
 conversion transfer-momentum coefficient in the reversible variation.
 
-The Hamilton--d'Alembert variations are taken at fixed temperature, so
-\(\delta\theta=0\), while the energies retain their constitutive dependence on
-\(\theta\).  The physical temperature rate \(\dot\theta\) is retained later in
-the Coleman--Noll exploitation of the entropy inequality.
+The Hamilton--d'Alembert variations are taken at fixed thermal state,
+\(\delta\theta_{\mc F}=\delta\theta_{\mc S}=0\), while the energies retain
+their constitutive dependence on the corresponding temperature.  The physical
+rates \(\dot\theta_{\mc F}\) and \(\dot\theta_{\mc S}\) enter later in the
+Coleman--Noll exploitation of the entropy inequality.
 The fields $\mbf x_\xi$, $\eta_\xi^\alpha$, $\phi_\xi$, $\bar\rho_\xi$, and
 $\mc C_\xi^\alpha$ are varied independently.  The mechanism rates and the two
 relative fluxes are varied later as independent process rates through the
@@ -186,7 +189,7 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\int_{t_1}^{t_2} \delta T \dt
-	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left[-\rho_\xi\,\mbf{a}_\xi - \sum_\al \dot c_\xi^\alpha \mbf{v}_\xi \right] \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}  \dv \dt
+	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left[-\rho_\xi\,\mbf{a}_\xi - \sum_\al \phasedot{c}_\xi^\alpha \mbf{v}_\xi \right] \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}  \dv \dt
 	\label{eq:deltaT_app}
 \end{equation}
 % AGENT-LOCK-END
@@ -310,11 +313,11 @@ volume is \(\phi\gamma\), so
 \end{equation}
 % AGENT-LOCK-END
 
-The temperature argument shown in the action is held fixed during the present
+The fluid-temperature argument shown in the action is held fixed during the present
 mechanical variation and is suppressed in
 \eqref{eq:interfacial_energy_density}--\eqref{eq:interfacial_internal_energy}.
 The adopted interfacial potential
-\(\gamma=\gamma(\{S_f\}_{f\in\mc F},\theta)\) makes capillary mechanics enter
+\(\gamma=\gamma(\{S_f\}_{f\in\mc F},\theta_{\mc F})\) makes capillary mechanics enter
 through the primitive fluid volume fractions and their saturation ratios.
 
 The Bedford--Drumheller spatial identity
@@ -392,6 +395,11 @@ The form \eqref{eq:deltaU_fg} keeps the gradient terms generated by the scalar
 transport of the phase-attached volume fractions.  These terms combine with the
 volume-fraction and component-storage multiplier gradients in the phase momentum
 balances after the volume-fraction Euler--Lagrange equations are used.
+The thermodynamic balance in \sref{MC_coleman_noll_procedure} evaluates the
+volume-fraction rates in a control volume following the common solid skeleton,
+whereas the present coordinate variations remain phase-specific.  Both
+operations differentiate the same primitive volume-fraction fields, so the
+conjugate interfacial coefficient remains \(\gamma_f\).
 
 \subsubsection{Variation of the phase electric enthalpy}
 \label{sec:electric_field_variation}
@@ -399,7 +407,7 @@ balances after the volume-fraction Euler--Lagrange equations are used.
 The electrical contribution to the Hamilton action is assigned phase by phase
 through \(U_\xi^+\).  The phase electric-enthalpy density
 \(\omega_\xi^+=\omega_\xi^+(\mbf E,\bar\rho_\xi,
-\{\eta_\xi^\alpha\},\theta)\) is normalized per current phase volume;
+\{\eta_\xi^\alpha\},\theta_\xi)\) is normalized per current phase volume;
 \(\phi_\xi\omega_\xi^+\) is therefore its contribution per current mixture
 volume.  Its arguments are the electric field, intrinsic phase density,
 composition, and temperature.  For each phase,
@@ -428,7 +436,7 @@ displacements are
 	=
 	-\left.
 	\p{\omega^{+}_{\xi}}{\mbf E}
-	\right\vert_{\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta},
+	\right\vert_{\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta_\xi},
 	\qquad
 	\mbf d=\sum_\xi\phi_\xi\mbf d_\xi .
 	\label{eq:electric_field_definitions}
@@ -441,7 +449,7 @@ electroelastic potential formulations
 reservoir specialization is specified in
 \sref{constitutive_models_entropy_inequality}.
 
-At fixed temperature, the full variation contains a direct volume-fraction
+At fixed \(\theta_{\mc F}\) and \(\theta_{\mc S}\), the full variation contains a direct volume-fraction
 term, the density and composition variations, the potential-gradient term, and
 the geometric mechanical pullback.  With \(\otimes\) denoting the tensor outer
 product, these contributions give the following current-space form.  The
@@ -460,7 +468,7 @@ variation is
 		\phi_\xi
 		\left.
 		\p{\omega_\xi^+}{\bar\rho_\xi}
-		\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
+		\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta_\xi}
 		\delta\bar\rho_\xi
 		\right]\dv
 	\notag  \\
@@ -472,7 +480,7 @@ variation is
 		\left.
 		\p{\omega_\xi^+}{\eta_\xi^\alpha}
 		\right\vert_{\mbf E,\bar\rho_\xi,
-			\eta_\xi^{\beta\neq\alpha},\theta}
+			\eta_\xi^{\beta\neq\alpha},\theta_\xi}
 		\delta\eta_\xi^\alpha
 		+
 		\phi_\xi\mbf d_\xi\cdot\nabla_{\mbf x}\delta\varphi
@@ -507,7 +515,7 @@ action,
 	\phi_\xi
 	\left.
 	\p{\omega_\xi^+}{\bar\rho_\xi}
-	\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
+	\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta_\xi}
 	\delta\bar\rho_\xi\,\dv
 	\notag  \\
 	    & -
@@ -516,7 +524,7 @@ action,
 	\left.
 	\p{\omega_\xi^+}{\eta_\xi^\alpha}
 	\right\vert_{\mbf E,\bar\rho_\xi,
-		\eta_\xi^{\beta\neq\alpha},\theta}
+		\eta_\xi^{\beta\neq\alpha},\theta_\xi}
 	\delta\eta_\xi^\alpha\,\dv
 	\notag  \\
 	    & +
@@ -697,7 +705,7 @@ the total insertion-rate constraint.  Varying
 	\delta\tau
 	\left[
 		\sum_\xi\sum_\alpha
-		\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 		\right]\dv\dt
 	\notag  \\
 	    & +
@@ -706,7 +714,7 @@ the total insertion-rate constraint.  Varying
 		-\frac{D_\xi\tau}{Dt}
 		\frac{\delta\mc C_\xi^\alpha}{J_\xi}
 		+
-		\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 		\nabla_{\mbf x}\tau\cdot\delta\mbf x_\xi
 		\right]\dv\dt
 	+
@@ -721,10 +729,10 @@ varying the phase map contributes the momentum coefficient
 
 Before collecting the stationarity conditions, recall that the rate of
 component mass addition per current mixture volume is
-\(\dot c_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi\), which will be used in the
+\(\phasedot{c}_\xi^\alpha=\phasedot{\mc C}_\xi^\alpha/J_\xi\), which will be used in the
 collected equations below.  Because \(\tau\) enforces the summed insertion rate,
 the phase-map variation produces a momentum term proportional to
-\(\dot c_\xi^\alpha\nabla_{\mbf x}\tau\).
+\(\phasedot{c}_\xi^\alpha\nabla_{\mbf x}\tau\).
 
 % ============================================================
 \subsubsection{Collected Hamilton--d'Alembert variation}
@@ -748,7 +756,7 @@ the reversible coordinate and constraint coefficients, including those from
 			+ \nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 			-\lambda\nabla_{\mbf{x}}\phi_\xi
 			-\sum_\alpha\nabla_{\mbf{x}}\pi_\xi^\alpha
-			+\sum_\alpha\dot c_\xi^\alpha
+			+\sum_\alpha\phasedot{c}_\xi^\alpha
 			\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right)
 		\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv            \\
 		 & + \sum_{f\in\mc F}\int_{\mc B}
@@ -766,7 +774,7 @@ the reversible coordinate and constraint coefficients, including those from
 		\Bigg]\delta\phi_f\,\dv                         \\
 		 & + \sum_{\xi}\int_{\mc{B}} \Bigg[
 			-\rho_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf{F}_{\xi},\{\eta_\xi^\alpha\}}
-			-\phi_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
+			-\phi_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta_\xi}
 			+ \sum_\alpha\frac{\pi_{\xi}^\alpha}{\bar\rho_{\xi}}
 		\Bigg] \delta\bar\rho_{\xi} \,\dv               \\
 		 & + \sum_{\xi}\sum_\alpha \int_{\mc{B}}
@@ -775,7 +783,7 @@ the reversible coordinate and constraint coefficients, including those from
 			-\rho_{\xi}
 			\left.\p{\psi_{\xi}}{\eta^\alpha_\xi}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta^{\beta\neq\alpha}_\xi}
 			-\phi_{\xi}
-			\left.\p{\omega_\xi^+}{\eta^\alpha_\xi}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta}
+			\left.\p{\omega_\xi^+}{\eta^\alpha_\xi}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta_\xi}
 			\Bigg]
 		\delta\eta^\alpha_\xi\,\dv                      \\
 		 & + \sum_\xi\sum_\alpha\int_{\mc B}\Bigg[
@@ -819,7 +827,7 @@ The intrinsic-density variation \(\delta\bar\rho_\xi\) gives
 	\sum_\al \frac{\pi_{\xi}^\al}{\phi_{\xi}}
 	= \bar\rho^2_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf F_\xi,\{\eta_\xi^\alpha\}}
 	+
-	\bar\rho_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
+	\bar\rho_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta_\xi}
 	.
 	\label{eq:phase_pressure_storage}
 \end{equation}
@@ -834,7 +842,7 @@ enthalpy depends on intrinsic density.  We define the phase pressure as
 	\bar{p}_\xi \equiv
 	\bar\rho^2_{\xi}\left.\p{\psi_{\xi}}{\bar\rho_{\xi}}\right\vert_{\mbf F_\xi,\{\eta_\xi^\alpha\}}
 	+
-	\bar\rho_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta}
+	\bar\rho_{\xi}\left.\p{\omega_\xi^+}{\bar\rho_{\xi}}\right\vert_{\mbf E,\{\eta_\xi^\alpha\},\theta_\xi}
 	}
 	\label{eq:phase_pressure_all}
 \end{equation}
@@ -999,7 +1007,7 @@ For a phase with \(N\) tracked components, the composition variations
 \begin{equation}
 	0 = \frac{\pi_{\xi}^\alpha}{\eta_{\xi}^\alpha} + \Pi_{\xi}
 	- \rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}}
-	- \phi_{\xi}\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta},
+	- \phi_{\xi}\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta_\xi},
 	\qquad \alpha=1,\ldots,N,
 	\label{eq:el_eta_all}
 \end{equation}
@@ -1023,7 +1031,7 @@ componentwise as
 \begin{equation}
 	\rho_{\xi}\left.\p{\psi_{\xi}}{\eta_{\xi}^\alpha}\right\vert_{\mbf F_\xi,\bar\rho_{\xi},\eta_{\xi}^{\beta\neq\alpha}}
 	+
-	\phi_{\xi}\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta}
+	\phi_{\xi}\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta_\xi}
 	- \frac{\pi_{\xi}^\alpha}{\eta_{\xi}^\alpha}
 	= \Pi_{\xi},
 	\label{eq:Pi_componentwise}
@@ -1050,8 +1058,8 @@ $\alpha=1,\ldots,N-1$ gives a system of $N-1$ equations,
 	\right)
 	+
 	\phi_{\xi}\left(
-	\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta}
-	- \left.\p{\omega_\xi^+}{\eta_{\xi}^N}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq N},\theta}
+	\left.\p{\omega_\xi^+}{\eta_{\xi}^\alpha}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq\alpha},\theta_\xi}
+	- \left.\p{\omega_\xi^+}{\eta_{\xi}^N}\right\vert_{\mbf E,\bar\rho_\xi,\eta_\xi^{\beta\neq N},\theta_\xi}
 	\right)
 	\notag                                                 \\
 	 & \qquad = \frac{\pi_{\xi}^\alpha}{\eta_{\xi}^\alpha}
@@ -1098,7 +1106,7 @@ The phase-motion variation \(\delta\mbf x_\xi\), after substitution of
 	\nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 	+ \phi_{\xi} \nabla_{\mbf{x}}\lambda
 	-\nabla_{\mbf x}\left(\phi_\xi\omega_\xi^+\right)
-	+\sum_\alpha\dot c_\xi^\alpha
+	+\sum_\alpha\phasedot{c}_\xi^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right),
 	\label{eq:el_momentum_uniform}
 \end{equation}
@@ -1115,7 +1123,7 @@ gives the intermediate form
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\rho_f\mbf a_f = \nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+} + \rho_f\mbf g + \mbf b_f -\lambda\nabla_{\mbf x}\phi_f -\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha +\gamma_f\nabla_{\mbf x}\phi_f+\sum_\alpha\dot c_f^\alpha\left(\nabla_{\mbf x}\tau-\mbf v_f\right).
+	\rho_f\mbf a_f = \nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+} + \rho_f\mbf g + \mbf b_f -\lambda\nabla_{\mbf x}\phi_f -\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha +\gamma_f\nabla_{\mbf x}\phi_f+\sum_\alpha\phasedot{c}_f^\alpha\left(\nabla_{\mbf x}\tau-\mbf v_f\right).
 	\label{eq:el_mom_f_start}
 \end{equation}
 % AGENT-LOCK-END
@@ -1145,7 +1153,7 @@ The phase pressure-gradient form is therefore
 	- \phi_f\nabla_{\mbf{x}}\bar p_f
 	- \omega_f^+\nabla_{\mbf x}\phi_f
 	+ \rho_f\mbf{g} + \mbf{b}_f
-	+\sum_\alpha\dot c_f^\alpha
+	+\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_f\right),
 	\qquad f\in\mc F .
 	\label{eq:el_mom_f_simplified}
@@ -1171,7 +1179,7 @@ Maxwell stresses or electric surface-energy derivatives
 the present term appears directly from the constrained phase-volume variation.
 
 Under the neutral, conversion-free specialization
-\(\omega_f^+=0\) and \(\dot c_f^\alpha=0\),
+\(\omega_f^+=0\) and \(\phasedot{c}_f^\alpha=0\),
 \eqref{eq:el_mom_f_simplified} reduces to the standard pressure-gradient form,
 %
 \begin{equation}
@@ -1223,14 +1231,21 @@ thermodynamic state, the process rates for the immediate response are chosen by
 stationarity of a power functional containing a dissipation potential and a
 signed constraint power~\cite{doi2011onsager,wang2021onsager}.  The Onsager
 statement is local in time and selects near-equilibrium rates at the current
-thermodynamic state.  The state variables that enter the potentials are held
-fixed during this minimization, while
+thermodynamic state.  The energy-potential form displayed in this subsection is
+the local-thermal-equilibrium specialization.  When
+\(\theta_{\mc F}\ne\theta_{\mc S}\), the reversible
+Hamilton--d'Alembert equations are unchanged, but the entropy-consistent
+reaction and transport forces use the temperature assignments and
+temperature-weighted potential gradients given in
+\eqref{eq:MC_reaction_temperature_assignment} and
+\eqref{eq:MC_relative_transport_closures}.  The state variables that enter the
+potentials are held fixed during this minimization, while
 \(\dot r_{(m)}\), \(\mbf j_{\xi,{\rm disp}}^\alpha\),
 \(\mbf j_{\xi,{\rm diff}}^\alpha\) are varied.  The
 fixed current configuration and constitutive state are
 \(\mbf F_\xi\), \(\bar\rho_\xi\), \(\eta_\xi^\alpha\), \(\phi_\xi\),
 \(\varphi\), and \(J_\xi\).  The rate
-\(\dot{\mc C}_\xi^\alpha/J_\xi\) is evaluated from the reaction and
+\(\phasedot{\mc C}_\xi^\alpha/J_\xi\) is evaluated from the reaction and
 relative-flux rates through
 \eqref{eq:reference_conversion_accumulation_rate}.
 
@@ -1248,7 +1263,7 @@ rate constraint:
 	\sum_\xi\sum_\alpha\int_{\mc B}
 	\mu_\xi^\alpha
 	\left[
-		\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 		+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm disp}}^\alpha
 		+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm diff}}^\alpha
@@ -1361,7 +1376,7 @@ The corresponding first variation of the constraint term is
 	\int_{\mc B}\sum_\xi\sum_\alpha
 	\delta\mu_\xi^\alpha
 	\left[
-		\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 		+\nabla_{\mbf x}\cdot
 		\left(
@@ -1406,7 +1421,7 @@ stationarity condition is
 	-\int_{\mc B}\sum_\xi\sum_\alpha
 	\delta\mu_\xi^\alpha
 	\left[
-		\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
+		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
 		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
 		+\nabla_{\mbf x}\cdot
 		\left(
