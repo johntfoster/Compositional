@@ -42,7 +42,16 @@ interaction force produced by motion through the skeleton as
 %
 where $\mu_f$ is the dynamic viscosity and $\bs\kappa_f$ is the permeability
 tensor for phase $f$.  Phase relative permeability may be absorbed into
-$\bs\kappa_f$.
+$\bs\kappa_f$.  Equation~\eqref{eq:fluid_phase_drag_law} is a drag-only
+specialization of the interaction force.  Positive definiteness of
+\(\bs\kappa_f\) controls the drag-generated dissipation, but complete
+thermodynamic admissibility also requires the interaction-energy allocation to
+satisfy \eqref{eq:MC_interaction_energy_conservation} and
+\eqref{eq:MC_bulk_transport_interaction_admissibility}.  When additional
+reversible interaction forces are required, \eqref{eq:fluid_phase_drag_law}
+represents only the drag contribution; the full \(\mbf b_f\) remains in
+\eqref{eq:el_mom_f_simplified}, and its non-drag contribution must be added to
+the right-hand side of the reduction below.
 
 Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 \eqref{eq:fluid_phase_drag_law} into the fluid momentum balance
@@ -136,7 +145,7 @@ rates are far slower than this, so the correction is normally a small
 regular perturbation of the Darcy drag.  The estimate supplies a lower
 reaction-time bound for the linear relative-flux closure.
 
-Then the admissible relative mass flux is
+For the drag-only specialization, the resulting relative mass flux is
 %
 \begin{empheq}[box=\fbox]{align}
 	\mbf w_f
@@ -164,7 +173,11 @@ Darcy flux.  Its driving force contains body force, equivalent and capillary
 pressure gradients, Maxwell stress, and conversion insertion.
 Chemical-potential gradients drive component-relative transport
 through \eqref{eq:MC_relative_transport_closures}; that dissipative role is
-separate from the role of \(\tau\) in the conversion variation.
+separate from the role of \(\tau\) in the conversion variation.  The
+positive-definiteness conditions above make the drag-plus-conversion operator
+invertible and dissipative; they do not replace the joint
+transport--interaction condition
+\eqref{eq:MC_bulk_transport_interaction_admissibility}.
 
 The neutral, conversion-free, negligible-inertia specialization
 \(\omega_f^+=0\), \(\mbf E\otimes\mbf d_f=\mbf0\),

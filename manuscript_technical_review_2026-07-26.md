@@ -211,51 +211,66 @@ Resolution implemented:
 
 ### P0.2 Restore relative energy and entropy transport in the skeleton frame
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The ordinary dot is defined as the derivative following the solid skeleton:
-  `sections/multicomponent_solids.tex:53-95`.
-- The subsystem energy equation uses \(\rho_\xi\dot e_\xi\):
-  `sections/multicomponent_solids.tex:700-780`.
-- The entropy inequality uses
-  \(\rho_\xi\dot{\mathfrak s}_\xi\):
-  `sections/multicomponent_solids.tex:1015-1037`.
-- The cited solid-observer balances of Seguin and Walkington retain relative
-  energy and entropy fluxes; see their equations (10)--(12) in
-  `references/pdfs/seguin-walkington-2019-multicomponent-multiphase-flow-poroelastic.pdf`.
+- [x] Derived the phase mass balance in the skeleton observer and the exact
+      Eulerian--skeleton--phase transport identity:
+      `sections/multicomponent_solids.tex:106-177`.
+- [x] Rewrote the two thermal-subsystem energy balances in conservative
+      skeleton form with explicit
+      \(\rho_\xi e_\xi(\mathbf v_\xi-\mathbf v_{\mathcal S})\) transport:
+      `sections/multicomponent_solids.tex:795-888`.
+- [x] Retained the corresponding
+      \(\rho_\xi\mathfrak s_\xi(\mathbf v_\xi-\mathbf v_{\mathcal S})\)
+      entropy convection:
+      `sections/multicomponent_solids.tex:1141-1170`.
+- [x] Fixed the material-source convention: bulk mass transports internal
+      energy, while generalized conversion work remains
+      \(-L_\xi^\alpha\dot c_\xi^\alpha\):
+      `sections/multicomponent_solids.tex:709-723`.
+- [x] Propagated the resulting bulk free-energy convection through the reduced,
+      collected, and residual entropy inequalities:
+      `sections/multicomponent_solids.tex:1195-1308`,
+      `sections/multicomponent_solids.tex:1733-1760`, and
+      `sections/multicomponent_solids.tex:2567-2596`.
+- [x] Identified the distinct bulk phase force--flux pair and imposed its joint
+      admissibility condition with interphase mechanical-energy exchange:
+      `sections/multicomponent_solids.tex:2599-2610` and
+      `sections/multicomponent_solids.tex:2828-2892`.
+- [x] Qualified the pairwise drag-heating construction so that it is not
+      claimed to dispose of the bulk transport term:
+      `sections/multicomponent_solids.tex:2920-3001`.
+- [x] Propagated that qualification into the solid-reference Darcy reduction:
+      positive-definite drag controls its own dissipative part, while the
+      complete model remains subject to the joint bulk transport--interaction
+      condition:
+      `sections/pulled_back_solid_skeleton.tex:33-54` and
+      `sections/pulled_back_solid_skeleton.tex:148-180`.
+- [x] Confirmed that the single-phase limit is unchanged because
+      \(\mathbf v_\xi=\mathbf v_{\mathcal S}\), and that the summed balance
+      retains the relative material-energy flux until the phase kinetic-energy
+      balances and interaction-energy identity are added:
+      `sections/multicomponent_solids.tex:891-916` and
+      `sections/multicomponent_solids.tex:934-977`.
+- [x] Verified citation support: Hassanizadeh and Gray equation (35) supports
+      the solid-observed saturation rate; Seguin and Walkington equations
+      (10)--(12) support skeleton-following storage together with relative
+      energy and entropy fluxes; Drumheller equation (50) supports the
+      constituent internal-energy/source-work convention.
+- [x] Rebuilt the manuscript with the workspace
+      `pdflatex -> bibtex -> pdflatex x2` recipe. The new transport identities,
+      energy balance, entropy inequality, residual inequality, and coupled
+      admissibility condition render as equations (125), (126), (152), (157),
+      (182), and (192), respectively, with no LaTeX warnings or overfull boxes.
 
-Technical concern:
+Full-text evidence checked:
 
-For a mobile phase,
-
-\[
-\frac{D_\xi e_\xi}{Dt}
-=
-\frac{D_{\mathcal S}e_\xi}{Dt}
-+
-(\mathbf v_\xi-\mathbf v_{\mathcal S})\cdot\nabla_{\mathbf x}e_\xi.
-\]
-
-Writing a constituent or subsystem balance in the skeleton observer therefore
-requires the corresponding relative energy transport. The analogous relative
-entropy transport is also required. These contributions are not generally heat
-fluxes and cannot be absorbed into \(\mathbf q_\xi\) while that quantity is
-defined as heat flux.
-
-Recommended resolution:
-
-- [ ] Begin with Eulerian conservative constituent or subsystem energy
-      balances.
-- [ ] Transform those balances explicitly to the skeleton observer.
-- [ ] Retain relative internal-energy or enthalpy transport for mobile phases.
-- [ ] Retain the corresponding entropy convection.
-- [ ] Define whether source-carried mass transports internal energy, enthalpy,
-      or a separate transfer energy.
-- [ ] Regenerate the Coleman--Noll collection and all affected force--flux
-      identifications.
-- [ ] Recheck the single-phase limit and the summed total-energy balance.
+- Hassanizadeh and Gray (1993), DOI `10.1029/93WR01495`, equation (35).
+- `references/pdfs/seguin-walkington-2019-multicomponent-multiphase-flow-poroelastic.pdf`,
+  equations (2) and (10)--(12).
+- `references/pdfs/drumheller-mix.pdf`, equation (50).
 
 ### P0.3 Correct the compositional-limit chemical potentials
 
@@ -876,11 +891,12 @@ Completed repair:
 
 #### C1. Seguin and Walkington
 
-Status: [ ]
+Status: [x]
 
-The cited solid-observer framework is relevant, but equations (10)--(12) retain
-relative energy and entropy fluxes. The manuscript should not cite these
-equations as support for a skeleton-frame balance that omits those terms.
+The cited solid-observer framework is now used consistently: the manuscript
+retains skeleton-following storage together with the relative internal-energy
+and entropy fluxes present in equations (10)--(12). The former claim that bulk
+relative motion appeared only in momentum and interaction powers was removed.
 
 Local source:
 
@@ -984,9 +1000,9 @@ later sections.
 
 ### Stage 1: fundamental balance and variational repair
 
-- [ ] Resolve P0.1: electrical action and ensemble.
-- [ ] Resolve P0.2: skeleton-frame energy and entropy balances.
-- [ ] Rebuild the electrical and thermal parts of the Coleman--Noll
+- [x] Resolve P0.1: electrical action and ensemble.
+- [x] Resolve P0.2: skeleton-frame energy and entropy balances.
+- [x] Rebuild the electrical and thermal parts of the Coleman--Noll
       exploitation.
 - [ ] Confirm summed mass, charge, momentum, total energy, and entropy balances.
 
