@@ -92,22 +92,36 @@ The reference relative mass flux entering
 \eqref{eq:fluid_component_residual} has the form
 \begin{align}
 	\mbf W_f
-	=
+	= & \;
 	\rho_f\widetilde{\mbf K}_f
 	\left[
 		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
+		-\rho_f
+		\left(
+			\Grad\psi_f
+			+
+			\mathfrak{s}_f\Grad\theta_{\mc F}
+		\right)
 		-\phi_f\Grad
 		\left(
 			\bar p_E+\gamma_f
 		\right)
+		\right.
+		\notag \\
+	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
+		\left.
 		+
 		\mbf F^T
 		\left[
 			\grad\cdot
 			\left(
 				\phi_f\mbf E\otimes\mbf d_f
-			\right)
+				\right)
 		\right]
+		\right.
+		\notag \\
+	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
+		\left.
 		+
 		\sum_\alpha\dot c_f^\alpha
 		\left(
@@ -142,7 +156,11 @@ Positive definiteness is the stronger positive-resistance condition
 algebraic elimination.  These source terms and the \(\Grad\tau\) insertion
 force are part of the conversion-momentum structure and must not be dropped
 when reactions or phase transformations produce appreciable mass in a mobile
-phase.
+phase.  The additional
+\(-\rho_f(\Grad\psi_f+\mathfrak{s}_f\Grad\theta_{\mc F})\) term is the
+reversible bulk-transport contribution required by the theory paper's complete
+fluid--skeleton interaction closure; it is not part of the dissipative drag
+tensor.
 
 \subsection{Transfer-potential and transfer-work residuals}
 \label{sec:conversion_potential_weak_form}

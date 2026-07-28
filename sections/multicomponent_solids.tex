@@ -991,8 +991,8 @@ The electrical transport term in \eqref{eq:MC_energy_balance} is the work of
 the electric field on component charge transported relative to phase
 \(\xi\).  It is not a potential-energy flux.  Both
 \(\mbf E=-\nabla_{\mbf x}\varphi\) and \(\mbf q_\xi\) are unchanged under
-\(\varphi\mapsto\varphi+c_\varphi(t)\), so each printed subsystem balance is
-gauge invariant term by term.  Phase-advective electrical work belongs to the
+\(\varphi\mapsto\varphi+c_\varphi(t)\), so each subsystem balance is gauge
+invariant term by term.  Phase-advective electrical work belongs to the
 Maxwell mechanical and global field-power block; the term displayed here is
 only the additional work on charge moving relative to that phase and therefore
 does not duplicate the phase mechanical power.
@@ -1030,7 +1030,7 @@ The additive gauge function does not appear because
 \(\mbf E^\star=-\nabla_{\mbf x^\star}\varphi^\star=\mbf Q\mbf E\).
 The other occurrences of \(\varphi\) in the material-plus-field first law are
 only through \(\mbf E\), \(\dot{\mbf E}\), and the globally closed identity
-\eqref{eq:MC_electrostatic_power_identity}.  Thus the complete printed energy
+\eqref{eq:MC_electrostatic_power_identity}.  Thus the complete energy
 equation, not only its final constitutive reduction, passes the gauge test.
 When the two subsystem equations are summed, the relative material-energy
 transport remains
@@ -1493,15 +1493,58 @@ leaving the material stress \(\bs\sigma_\xi'\).  The result is
 \end{align}
 %
 
+The skeleton-rate free-energy term in
+\eqref{eq:MC_reduced_entropy_inequality} and the separate term containing the
+Helmholtz-energy and temperature gradients are generated together when a
+phase-following thermodynamic rate is expressed in the skeleton frame.  Indeed,
+\eqref{eq:MC_phase_skeleton_transport_identity} gives the exact identity
+%
+\begin{align}
+	&-\frac{\rho_\xi}{\theta_{\mc G}}
+	\left(
+		\dot\psi_\xi+\mathfrak{s}_\xi\dot\theta_{\mc G}
+	\right)
+	\notag \\
+	&\quad
+	-\frac{\rho_\xi}{\theta_{\mc G}}
+	\left(
+		\mbf v_\xi-\mbf v_{\mc S}
+	\right)\cdot
+	\left(
+		\nabla_{\mbf x}\psi_\xi
+		+
+		\mathfrak{s}_\xi\nabla_{\mbf x}\theta_{\mc G}
+	\right)
+	=
+	-\frac{\rho_\xi}{\theta_{\mc G}}
+	\left(
+		\phasedot{\psi}_\xi
+		+
+		\mathfrak{s}_\xi\phasedot{\theta}_{\mc G}
+	\right).
+	\label{eq:MC_phase_rate_free_energy_transport_identity}
+\end{align}
+%
+Consequently, the second term on the left is not an additional constitutive
+force conjugate to bulk phase velocity.  Separating it from the first term is
+only an observer-dependent expansion of the single phase-following rate on the
+right.  Treating that term as an independent dissipative force would count
+the same thermodynamic rate twice: once through the Coleman--Noll coefficients
+of the phase state variables and again through a bulk interaction law.
+
 In \eqref{eq:MC_reduced_entropy_inequality}, the interfacial contribution is the
 negative of the storage rate
 \eqref{eq:MC_interfacial_helmholtz_rate}.  The remaining derivatives of
 \(\omega_\xi^+\) measure how electrical storage changes with density,
-composition, and temperature.  The term containing
-\(\mbf v_\xi-\mbf v_{\mc S}\) is the local free-energy consequence of retaining
-both internal-energy convection and entropy convection.  It vanishes for every
-solid phase because the solid phases follow the skeleton, but it is generally
-present for a mobile phase and cannot be reassigned to the heat flux.
+composition, and temperature.  The explicit relative-velocity term is retained
+in the intermediate skeleton-rate form so that the change of observer remains
+visible.  Equation~\eqref{eq:MC_phase_rate_free_energy_transport_identity} does
+not state that this term vanishes.  It states that the term must be recombined
+with the skeleton-rate free-energy contribution before the collected inequality
+is separated into reversible and residual parts.  The explicit reassembly is
+given after \eqref{eq:MC_collected_entropy}; applying the reversible
+restrictions to \eqref{eq:MC_collected_entropy_residual} alone would use the
+identity incorrectly.
 The Maxwell part of the stress power is removed
 from the total mechanical power by
 \begin{equation}
@@ -1903,7 +1946,8 @@ five blocks therefore form the single inequality
 	\right]
 		\label{eq:MC_collected_entropy_reaction_transport}
 \end{align}
-\noindent\emph{Residual dissipative rates.}
+\noindent\emph{Plastic, interaction-energy, heat, and intermediate
+observer-conversion terms.}
 \par\nopagebreak[4]
 \begin{align}
 	{} & +
@@ -1962,13 +2006,105 @@ five blocks therefore form the single inequality
 \end{subequations}
 %
 
-Equation~\eqref{eq:MC_collected_entropy} separates the entropy production into
-two classes.  Coefficients of elastic deformation, intrinsic density,
-composition, temperature, and volume-fraction rates give reversible
-constitutive restrictions.  Reaction rates, relative fluxes, plastic rates,
-bulk phase convection coupled to interphase energy exchange, and heat flux
-remain as dissipative force--rate products.  The next subsection sets the
-reversible coefficients to zero; the residual terms are treated in
+Equation~\eqref{eq:MC_collected_entropy} is an audit expansion in
+skeleton-rate coordinates, not yet a termwise division into reversible and
+residual mechanisms.  In particular, the first term on the left of
+\eqref{eq:MC_phase_rate_free_energy_transport_identity} has been distributed
+among the density, composition, temperature, and solid-kinematic coefficients
+in \eqref{eq:MC_collected_entropy_elastic_distension}--%
+\eqref{eq:MC_collected_entropy_temperature}, while its observer correction
+appears intact in \eqref{eq:MC_collected_entropy_residual}.  To show the
+required operation explicitly, solve
+\eqref{eq:MC_phase_rate_free_energy_transport_identity} for that correction
+and sum over the phases:
+%
+\begin{align}
+	&-\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}
+	\rho_\xi
+	\left(
+	\mbf v_\xi-\mbf v_{\mc S}
+	\right)\cdot
+	\left(
+	\nabla_{\mbf x}\psi_\xi
+	+
+	\mathfrak{s}_\xi\nabla_{\mbf x}\theta_{\mc G}
+	\right)
+	\notag \\
+	&\quad =
+	-\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}
+	\rho_\xi
+	\left(
+	\phasedot{\psi}_\xi
+	+
+	\mathfrak{s}_\xi\phasedot{\theta}_{\mc G}
+	\right)
+	\notag \\
+	&\qquad\quad
+	+\sum_{\mc G\in\{\mc F,\mc S\}}
+	\frac{1}{\theta_{\mc G}}
+	\sum_{\xi\in\mc G}
+	\rho_\xi
+	\left(
+	\dot\psi_\xi
+	+
+	\mathfrak{s}_\xi\dot\theta_{\mc G}
+	\right).
+	\label{eq:MC_collected_observer_correction_reassembly}
+\end{align}
+%
+The final positive sum in
+\eqref{eq:MC_collected_observer_correction_reassembly} cancels the negative
+skeleton-rate free-energy contribution that was expanded into the preceding
+blocks of \eqref{eq:MC_collected_entropy}.  This is an algebraic
+reassembly of the complete collected inequality; it is not a condition that
+sets either contribution to zero.  What remains from the pair is the
+phase-following rate in the second line.  For a mobile fluid phase its
+constitutive chain rule is
+%
+\begin{align}
+	\phasedot{\psi}_f
+	={}&
+	\left.
+	\p{\psi_f}{\bar\rho_f}
+	\right\vert_{\mc X_f}
+	\phasedot{\bar\rho}_f
+	+
+	\sum_\beta
+	\left.
+	\p{\psi_f}{\eta_f^\beta}
+	\right\vert_{\mc X_f}
+	\phasedot{\eta}_f^\beta
+	\notag \\
+	&+
+	\left.
+	\p{\psi_f}{\theta_{\mc F}}
+	\right\vert_{\mc X_f}
+	\phasedot{\theta}_{\mc F},
+	\qquad
+	f\in\mc F.
+	\label{eq:MC_fluid_phase_following_free_energy_chain_rule}
+\end{align}
+%
+For every solid phase,
+\(\mbf v_s=\mbf v_{\mc S}\), so the phase-following and skeleton-following
+rates coincide and \eqref{eq:MC_solid_free_energy_rate} already supplies this
+chain rule.  Only after
+\eqref{eq:MC_collected_observer_correction_reassembly} is substituted into the
+whole of \eqref{eq:MC_collected_entropy} are the reversible restrictions
+applied.  If the coefficients in the first four blocks were set to zero before
+this reassembly, the observer correction in
+\eqref{eq:MC_collected_entropy_residual} would incorrectly survive as an
+independent force--flux product.
+
+After this ordering is enforced, coefficients of elastic deformation,
+intrinsic density, composition, temperature, and volume-fraction rates give
+the reversible constitutive restrictions.  Reaction rates, component-relative
+fluxes, plastic rates, interphase energy exchange, and heat flux remain as
+dissipative force--rate products.  The resulting residual is treated in
 \sref{MC_residual_dissipation}.
 
 \begin{table}[ht]
@@ -2009,10 +2145,11 @@ reversible coefficients to zero; the residual terms are treated in
 		\\
 		Residual dissipation
 		\eqref{eq:MC_collected_entropy_residual}
-		      & Plastic rates, bulk phase convection, interphase energy exchange,
-		and heat flux
+		      & Plastic rates, interphase energy exchange, heat flux, and the
+		intermediate skeleton-to-phase observer correction
 		      & Residual inequality \eqref{eq:MC_residual_dissipation} and admissible
-		closures
+		closures after the explicit reassembly
+		\eqref{eq:MC_collected_observer_correction_reassembly}
 		\\
 		\hline
 	\end{tabular}
@@ -2022,8 +2159,10 @@ reversible coefficients to zero; the residual terms are treated in
 \subsection{Reversible restrictions}
 \label{sec:MC_reversible_restrictions}
 
-The reversible restrictions are obtained by setting to zero the coefficients
-of rates that can vary independently at a fixed constitutive state.  The stress
+After the observer correction has been reassembled according to
+\eqref{eq:MC_collected_observer_correction_reassembly}, the reversible
+restrictions are obtained by setting to zero the coefficients of rates that
+can vary independently at a fixed constitutive state.  The stress
 appearing in these coefficients is the material stress
 \(\bs\sigma_\xi'\).  The total stress in the momentum equation is
 \(\bs\sigma_\xi^{\prime+}=\bs\sigma_\xi'+\bs\sigma_\xi^+\).
@@ -2455,7 +2594,7 @@ whole.  Under \(\varphi\mapsto\varphi+c_\varphi(t)\), its change is
 balance and therefore vanishes.  Its divergence and electric-field terms must
 not be separated and inserted individually into the first law.  The adopted
 energy representation instead uses the direct, gauge-invariant
-relative-current work already printed in \eqref{eq:MC_energy_balance}.
+relative-current work already present in \eqref{eq:MC_energy_balance}.
 Consequently the charge-rate
 identity is an alternative accounting check, not an additional dissipative
 term.  The reaction coefficient retained below is the neutral coefficient
@@ -3171,8 +3310,32 @@ global field-power identity \eqref{eq:MC_electrostatic_power_identity}.  The
 component charge balance constrains the admissible rates and is recorded by
 \eqref{eq:MC_charge_rate_entropy_projection}, but its potential-dependent
 terms are not inserted separately.  Charge accumulation and the field rate
-therefore do not remain as independent dissipative terms.  What remains is the
-residual dissipation inequality
+therefore do not remain as independent dissipative terms.
+
+The bulk-translation term is removed from the residual only through the
+ordering displayed in
+\eqref{eq:MC_collected_observer_correction_reassembly}.  Substituting that
+identity into the complete inequality first cancels the skeleton-rate
+free-energy contribution recovered from
+\eqref{eq:MC_collected_entropy_elastic_distension}--%
+\eqref{eq:MC_collected_entropy_temperature}.  The remaining member of the pair
+is the phase-following rate, whose fluid chain rule is
+\eqref{eq:MC_fluid_phase_following_free_energy_chain_rule}.  The reversible
+relations from \sref{MC_reversible_restrictions} are then substituted into this
+reassembled form.  No term in
+\eqref{eq:MC_collected_entropy_residual} is set to zero by itself, and no
+phase-momentum multiplier is invoked to delete it.
+
+This change of rate coordinates does not remove a physical phase force.
+Pressure, capillary, Maxwell, body-force, inertia, and conversion-insertion
+powers remain in the phase momentum equations, while the observer correction
+does not enter a second time as an independent constitutive force.  In
+particular, the reassembly does not impose
+\(\nabla_{\mbf x}\psi_\xi+
+\mathfrak{s}_\xi\nabla_{\mbf x}\theta_{\mc G}=\mbf0\).
+The remaining bulk-translation constitutive mechanism is interphase mechanical
+interaction, whose dissipated power is converted to the internal-energy
+supplies below.  What remains is the residual dissipation inequality
 %
 \begin{align}
 		0\le{}\; &
@@ -3227,25 +3390,12 @@ residual dissipation inequality
 			\dot{\bar{\mbf F}}_s^p
 			(\bar{\mbf F}_s^p)^{-1}
 			\right]
-		\notag\\
+			\notag\\
 		         & +
-			\sum_{\mc G\in\{\mc F,\mc S\}}
-			\frac{1}{\theta_{\mc G}}
-			\sum_{\xi\in\mc G}
-			\left[
-				\rho_\xi e_\xi^{\rm int}
-				-
-				\rho_\xi
-				\left(
-				\mbf v_\xi-\mbf v_{\mc S}
-				\right)\cdot
-				\left(
-				\nabla_{\mbf x}\psi_\xi
-				+
-				\mathfrak{s}_\xi
-				\nabla_{\mbf x}\theta_{\mc G}
-				\right)
-			\right]
+		\sum_{\mc G\in\{\mc F,\mc S\}}
+		\frac{1}{\theta_{\mc G}}
+		\sum_{\xi\in\mc G}
+		\rho_\xi e_\xi^{\rm int}
 			-
 			\sum_{\mc G\in\{\mc F,\mc S\}}
 		\sum_{\xi\in\mc G}
@@ -3257,18 +3407,17 @@ residual dissipation inequality
 	\label{eq:MC_residual_dissipation}
 \end{align}
 %
-The bulk phase flux in
-\eqref{eq:MC_residual_dissipation} is
-\(\rho_\xi(\mbf v_\xi-\mbf v_{\mc S})\).  Its conjugate
-temperature-weighted force is
-\(-(\nabla_{\mbf x}\psi_\xi+
-\mathfrak{s}_\xi\nabla_{\mbf x}\theta_{\mc G})/\theta_{\mc G}\).
-This force--flux pair describes convection of an entire phase relative to the
-skeleton and is distinct from the component-relative chemical and electric
-forces in \eqref{eq:MC_relative_transport_power}.  Because the same bulk velocity also
-performs interphase mechanical work, its admissibility condition must be closed
-together with the corresponding internal-energy exchange, as done in
-\sref{MC_interphase_mechanical_interaction}.
+Equation~\eqref{eq:MC_residual_dissipation} therefore contains no standalone
+Helmholtz-energy-gradient force on the bulk phase velocity.  The bulk velocity
+is determined by phase momentum balance together with the interphase drag law,
+so pressure, capillarity, electrostatics, gravity, inertia, and conversion may
+all drive a moving phase.  Chemical-potential differences continue to drive
+component-relative diffusion and dispersion through
+\eqref{eq:MC_relative_transport_power}; they are not removed or absorbed into
+the bulk drag.  Thermo-osmotic or other cross effects may be added through an
+explicit positive-semidefinite coupled closure, but they are additional
+constitutive physics rather than the observer-conversion term in
+\eqref{eq:MC_phase_rate_free_energy_transport_identity}.
 
 \subsubsection{Reaction and relative-transport closures}
 \label{sec:MC_reaction_transport_closures}
@@ -3648,57 +3797,60 @@ balance is the sum of this mechanical contribution, ordinary heat exchange, and
 any reaction-associated interphase energy transfer.  The reversible
 volume-constraint powers are absent because their coefficients have
 already vanished through \eqref{eq:MC_volume_fraction_restrictions}.
-Restoring transport through the skeleton control surface means that
-interphase energy exchange cannot be assessed independently of bulk phase
-convection.  When this mechanism is closed separately from reaction, plasticity,
-component-relative transport, and heat conduction, its sufficient
-thermodynamic admissibility condition is
+Because the free-energy convection term has been recombined with the
+phase-following reversible rate, the entropy contribution of this mechanism is
+the temperature-weighted mechanical internal-energy supply.  When it is closed
+separately from reaction, plasticity, component-relative transport, and heat
+conduction, its sufficient thermodynamic admissibility condition is
 %
 \begin{equation}
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
 	\sum_{\xi\in\mc G}
-	\left[
-		\left.
-		\rho_\xi e_\xi^{\rm int}
-		\right\vert_{\rm mech}
-		-
-		\rho_\xi
-		\left(
-		\mbf v_\xi-\mbf v_{\mc S}
-		\right)\cdot
-		\left(
-		\nabla_{\mbf x}\psi_\xi
-		+
-		\mathfrak{s}_\xi
-		\nabla_{\mbf x}\theta_{\mc G}
-		\right)
-	\right]
+	\left.
+	\rho_\xi e_\xi^{\rm int}
+	\right\vert_{\rm mech}
 	\ge0 .
-	\label{eq:MC_bulk_transport_interaction_admissibility}
+	\label{eq:MC_mechanical_interaction_admissibility}
 \end{equation}
 %
-Closely related structures occur in the interaction-energy and relative-power
-inequality of Drumheller and Bedford
-\cite[eq.~(4.8)]{drumheller1980thermomechanical}, the solid-relative
-porous-medium entropy inequalities of Gray
-\cite[eqs.~(33) and (37)]{gray1999thermodynamics}, and the
-common-temperature relative-velocity force products of Seguin and Walkington
-\cite[eqs.~(15) and (32)]{seguin2019multicomponent} and Bothe and Dreyer
-\cite[eqs.~(61), (90), and (92)]{bothe2015continuum}.  The present condition
-keeps the bulk free-energy transport and mechanical interaction-energy supply
-in one two-temperature, skeleton-observed block rather than identifying those
-precedents with the exact form of
-\eqref{eq:MC_bulk_transport_interaction_admissibility}.
+The cited mixture theories support different parts of this construction and
+should not be read as printing
+\eqref{eq:MC_mechanical_interaction_admissibility} verbatim.  Drumheller and
+Bedford's two-temperature inequality couples interaction-energy transfer to
+relative mechanical power
+\cite[eq.~(4.8)]{drumheller1980thermomechanical}; together with their total
+energy balance, this is the antecedent for requiring
+\eqref{eq:MC_interaction_energy_conservation} and temperature-weighted
+interaction heating simultaneously.  Gray's general porous-medium inequalities
+contain solid-relative velocities paired with combined interaction and
+thermodynamic forces
+\cite[eqs.~(33), (37), (44), and (47)]{gray1999thermodynamics}; after the
+constitutive reductions, Gray's slow-flow example uses the pressure-gradient
+phase momentum equation rather than a separate Helmholtz-gradient restriction
+\cite[eq.~(77)]{gray1999thermodynamics}.
 
-Equation~\eqref{eq:MC_bulk_transport_interaction_admissibility} and the
-energy-conservation identity
-\eqref{eq:MC_interaction_energy_conservation} must hold simultaneously.  A
-more general Onsager model may couple this entire block to heat transfer or
-reaction; then nonnegativity is required only of the coupled block rather than
-of each mechanism separately.
+Seguin and Walkington provide the closest common-temperature analogue.  Their
+unreduced inequality contains a relative-velocity bracket
+\cite[eq.~(15)]{seguin2019multicomponent}; the elastic-force and thermodynamic
+identities in their equations (33) and (35) remove its reversible part, leaving
+only the viscous relative-force product in their equation (32).  Their equations
+(37), (40), and (41) then give a pressure-driven force balance, a positive drag
+law, and Darcy flow, respectively
+\cite[eqs.~(32), (33), (35), (37), (40), and (41)]{seguin2019multicomponent}.
+Bothe and Dreyer's equations (88)--(93) make a related combined-force
+rearrangement for constituent diffusion in a common-temperature miscible fluid
+\cite[eqs.~(88)--(93)]{bothe2015continuum}.  That last comparison concerns
+constituent diffusion and Gibbs--Duhem reduction, not porous-phase Darcy flow.
 
-Write the momentum supply as the sum of antisymmetric pairwise forces,
+Equation~\eqref{eq:MC_mechanical_interaction_admissibility} and the
+energy-conservation identity \eqref{eq:MC_interaction_energy_conservation} must
+hold simultaneously.  A more general Onsager model may couple mechanical
+interaction heating to heat transfer or reaction; then nonnegativity is required
+only of the coupled block rather than of each mechanism separately.
+
+In a general multiphase closure, the momentum supply may be written as the sum
+of antisymmetric pairwise forces,
 %
 \begin{equation}
 	\mbf b_\xi
@@ -3724,88 +3876,153 @@ where \(\mbf b_{\zeta\xi}\) is the force exerted on phase \(\xi\) by phase
 	\label{eq:MC_interaction_power_pairing}
 \end{equation}
 %
-A dissipative closure for the pairwise mechanical part opposes the
-phase-velocity difference,
+For a concrete reservoir-oriented closure, retain fluid--skeleton exchange,
+use the common solid velocity, and neglect direct fluid--fluid drag.  The
+fluid and aggregate solid momentum supplies are prescribed by
 %
-\begin{equation}
-	\mbf b_{\zeta\xi}
-	=
-	-\mbf k_{\xi\zeta}^{-1}
-	\left(
-	\mbf v_\xi-\mbf v_\zeta
-	\right),
-	\qquad
-	\mbf k_{\xi\zeta}
-	=
-	\mbf k_{\zeta\xi},
-	\qquad
-	\mbf k_{\xi\zeta}
-	=
-	\mbf k_{\xi\zeta}^T>0 .
+\begin{subequations}
 	\label{eq:MC_interphase_exchange_law}
-\end{equation}
+	\begin{align}
+		\mbf b_f
+		={}&
+		-\mbf k_{f\mc S}^{-1}
+		\left(
+			\mbf v_f-\mbf v_{\mc S}
+		\right),
+		\qquad
+		f\in\mc F,
+		\label{eq:MC_fluid_skeleton_interaction_force}
+		\\
+		\sum_{s\in\mc S}\mbf b_s
+		={}&
+		-\sum_{f\in\mc F}\mbf b_f,
+		\label{eq:MC_aggregate_solid_interaction_force}
+		\\
+		\mbf k_{f\mc S}
+		={}&
+		\mbf k_{f\mc S}^T>0 .
+		\label{eq:MC_fluid_skeleton_drag_tensor}
+	\end{align}
+\end{subequations}
 %
-Here \(\mbf y\cdot\mbf k_{\xi\zeta}\mbf y>0\) for every
-\(\mbf y\ne\mbf 0\).
-Thus the mechanical power in
-\eqref{eq:MC_interaction_power_pairing} is nonpositive.  By
-\eqref{eq:MC_interaction_energy_conservation}, the lost mechanical power must
-appear as internal energy.  One sufficient allocation assigns half of the
-pairwise drag heating to each participating phase,
+Equation~\eqref{eq:MC_fluid_skeleton_interaction_force} is a purely dissipative
+drag law.  Reversible pressure, capillary, Maxwell, body-force, inertia, and
+conversion-insertion terms remain in the phase momentum balance and are not
+duplicated inside \(\mbf b_f\).  Here
+\(\mbf y\cdot\mbf k_{f\mc S}^{-1}\mbf y>0\) for every
+\(\mbf y\ne\mbf 0\).  Because all solid phases have velocity
+\(\mbf v_{\mc S}\), \eqref{eq:MC_aggregate_solid_interaction_force} is
+sufficient to determine the total solid interaction power.  A constituent
+model may partition the aggregate solid supply among the solid phases without
+changing the following result.
+
+The associated internal-energy supplies are closed by
 %
-\begin{equation}
-	\left.
-	\rho_\chi e_\chi^{\rm int}
-	\right\vert_{{\rm drag},\xi\zeta}
-	=
-	\frac{1}{2}
-	\left(
-	\mbf v_\xi-\mbf v_\zeta
-	\right)
-	\cdot
-	\mbf k_{\xi\zeta}^{-1}
-	\left(
-	\mbf v_\xi-\mbf v_\zeta
-	\right),
-	\qquad
-	\chi\in\{\xi,\zeta\}.
+\begin{subequations}
 	\label{eq:MC_drag_heating_equal_partition}
-\end{equation}
+	\begin{align}
+		\left.
+		\rho_f e_f^{\rm int}
+		\right\vert_{\rm mech}
+		={}&
+		\frac{1}{2}
+		\left(
+			\mbf v_f-\mbf v_{\mc S}
+		\right)\cdot
+		\mbf k_{f\mc S}^{-1}
+		\left(
+			\mbf v_f-\mbf v_{\mc S}
+		\right),
+		\qquad
+		f\in\mc F,
+		\label{eq:MC_fluid_interaction_energy_supply}
+		\\
+		\left.
+		\sum_{s\in\mc S}
+		\rho_s e_s^{\rm int}
+		\right\vert_{\rm mech}
+		={}&
+		\frac{1}{2}
+		\sum_{f\in\mc F}
+		\left(
+			\mbf v_f-\mbf v_{\mc S}
+		\right)\cdot
+		\mbf k_{f\mc S}^{-1}
+		\left(
+			\mbf v_f-\mbf v_{\mc S}
+		\right).
+		\label{eq:MC_solid_interaction_energy_supply}
+	\end{align}
+\end{subequations}
 %
-Other partitions are admissible if their pairwise sum restores the lost
-mechanical power and their combined entropy contribution remains nonnegative.
-For the equal allocation in
-\eqref{eq:MC_drag_heating_equal_partition}, the drag-generated contribution is
+Thus the nonnegative drag heating is divided equally between the fluid and solid
+thermal subsystems.  This equal partition is a sufficient closure, not a
+required microscopic statement about where viscous heating occurs.  Any other
+partition is admissible if it satisfies both
+\eqref{eq:MC_interaction_energy_conservation} and
+\eqref{eq:MC_mechanical_interaction_admissibility}.  Summing
+\eqref{eq:MC_fluid_interaction_energy_supply} and
+\eqref{eq:MC_solid_interaction_energy_supply}, and using
+\eqref{eq:MC_fluid_skeleton_interaction_force} and
+\eqref{eq:MC_aggregate_solid_interaction_force}, gives
+%
+\begin{align}
+	\sum_\xi
+	\left(
+		\left.
+		\rho_\xi e_\xi^{\rm int}
+		\right\vert_{\rm mech}
+		+
+		\mbf b_\xi\cdot\mbf v_\xi
+	\right)
+	={}&
+	\sum_{f\in\mc F}
+	\left[
+		\left(
+			\mbf v_f-\mbf v_{\mc S}
+		\right)\cdot
+		\mbf k_{f\mc S}^{-1}
+		\left(
+			\mbf v_f-\mbf v_{\mc S}
+		\right)
+		+
+		\mbf b_f\cdot
+		\left(
+			\mbf v_f-\mbf v_{\mc S}
+			\right)
+	\right]
+	=0 .
+	\label{eq:MC_fluid_skeleton_interaction_energy_verification}
+\end{align}
+%
+Hence \eqref{eq:MC_interaction_energy_conservation} is satisfied exactly.
+Substitution of the same energy supplies into
+\eqref{eq:MC_mechanical_interaction_admissibility} leaves
 %
 \begin{equation}
 	\frac{1}{2}
-	\sum_{\xi<\zeta}
+	\sum_{f\in\mc F}
 	\left(
-	\frac{1}{\theta_\xi}
-	+
-	\frac{1}{\theta_\zeta}
+		\frac{1}{\theta_{\mc F}}
+		+
+		\frac{1}{\theta_{\mc S}}
 	\right)
 	\left(
-	\mbf v_\xi-\mbf v_\zeta
-	\right)
-	\cdot
-	\mbf k_{\xi\zeta}^{-1}
+		\mbf v_f-\mbf v_{\mc S}
+	\right)\cdot
+	\mbf k_{f\mc S}^{-1}
 	\left(
-	\mbf v_\xi-\mbf v_\zeta
+		\mbf v_f-\mbf v_{\mc S}
 	\right)
 	\ge0 .
 	\label{eq:MC_interphase_exchange_positive}
 \end{equation}
 %
-This calculation proves nonnegativity of the drag-generated part; it does not
-discard the bulk transport term in
-\eqref{eq:MC_bulk_transport_interaction_admissibility}.  When the phase
-free-energy and temperature gradients vanish, or when every phase follows the
-skeleton, the transport term is zero and
-\eqref{eq:MC_interphase_exchange_law}--\eqref{eq:MC_interphase_exchange_positive}
-are sufficient by themselves.  Otherwise the interaction-energy allocation
-and the bulk transport contribution must be evaluated jointly through
-\eqref{eq:MC_bulk_transport_interaction_admissibility}.
+This proves the joint admissibility condition for arbitrary skeleton velocity:
+only the relative velocities enter.  More general positive-semidefinite block
+closures may retain direct fluid--fluid drag or couple this mechanism to heat
+transfer, but \eqref{eq:MC_interphase_exchange_law}--
+\eqref{eq:MC_interphase_exchange_positive} provide one complete local closure.
 
 \subsubsection{Thermal exchange and heat conduction}
 \label{sec:MC_thermal_exchange_conduction}
@@ -3965,11 +4182,11 @@ uncoupled closure gives the entropy contribution
 \end{equation}
 %
 The reaction and component-relative transport terms are controlled by
-\eqref{eq:MC_onsager_reaction_transport_dissipation}; phase drag is controlled
-by \eqref{eq:MC_interphase_exchange_positive}, subject to the joint bulk
-transport condition
-\eqref{eq:MC_bulk_transport_interaction_admissibility}; and ordinary heat
-exchange and conduction are controlled by
+\eqref{eq:MC_onsager_reaction_transport_dissipation}; the fluid--skeleton
+interaction closure reduces the mechanical-interaction condition
+\eqref{eq:MC_mechanical_interaction_admissibility} to the nonnegative form
+\eqref{eq:MC_interphase_exchange_positive}; and ordinary heat exchange and
+conduction are controlled by
 \eqref{eq:MC_fluid_solid_heat_exchange_positive} and
 \eqref{eq:MC_heat_flux_positive}.  These are separate closures even though
 their entropy contributions appear in the same residual inequality.
@@ -4622,7 +4839,7 @@ momentum balance
 The term proportional to
 \(\left.\partial\gamma/\partial\theta_{\mc F}\right\vert_{\{S_f\}}\)
 is the interfacial Gibbs--Duhem thermal contribution generated by the bulk
-free-energy rollup.  Indeed,
+free-energy aggregation.  Indeed,
 \(-\left.\partial\gamma/\partial\theta_{\mc F}\right\vert_{\{S_f\}}\)
 is the interfacial entropy per current fluid volume, so the sign agrees with
 the bulk Gibbs--Duhem identity
@@ -4635,7 +4852,7 @@ surface momentum balance
 geometric fields belongs to the present averaged state set.  The bulk term
 vanishes in the isothermal limit or when the interfacial potential has no
 explicit temperature dependence, recovering the corresponding isothermal
-rollup.
+balance.
 
 \subsection{Additive solid component specialization}
 \label{sec:MC_additive_component_specialization}
@@ -5414,11 +5631,13 @@ reaction-energy transfer may be Onsager-coupled subject to
 unchanged unless a chosen closure introduces additional internal variables.
 
 Both relative-flux families, the phase heat fluxes, the nonzero pairwise
-interaction forces, and the independent fluid--solid heat-exchange supply are
-retained as auxiliary fields so that their admissible closures appear
-explicitly in the count.  Because all solid phases share one skeleton velocity,
-the nonzero interaction pairs comprise fluid--fluid and fluid--solid pairs;
-solid--solid drag vanishes identically.  The total solid scalar distension
+interaction forces in the general extension, and the independent fluid--solid
+heat-exchange supply are retained as auxiliary fields so that their admissible
+closures appear explicitly in the count.  Because all solid phases share one
+skeleton velocity, the nonzero interaction pairs comprise fluid--fluid and
+fluid--solid pairs; solid--solid drag vanishes identically.  The concrete
+closure \eqref{eq:MC_interphase_exchange_law} instead retains one aggregate
+fluid--skeleton interaction per fluid phase.  The total solid scalar distension
 factors are closed kinematically by
 \eqref{eq:MC_solid_distension_evolution}, while the scalar plastic factors
 \(a_s^p\) follow \eqref{eq:MC_scalar_plastic_distension_flow_rule}.  The
@@ -5426,7 +5645,7 @@ electroquasistatic formulation includes the electric potential and Gauss' law.
 Mechanical interaction-energy supplies are constitutive outputs associated
 with the pairwise interaction forces and must satisfy
 \eqref{eq:MC_interaction_energy_conservation} and
-\eqref{eq:MC_bulk_transport_interaction_admissibility}; they are therefore not
+\eqref{eq:MC_mechanical_interaction_admissibility}; they are therefore not
 counted as an independent field family.
 Let \(P_{\mc F}=|\mc F|\), \(P_{\mc S}=|\mc S|\), and
 \(P=P_{\mc F}+P_{\mc S}\).  Let \(N^{\mc F}\) be the number of tracked
@@ -5493,7 +5712,7 @@ Table~\ref{tab:MC_equation_block_count}.
 		Fluid-phase momentum balances \eqref{eq:el_mom_f_simplified} and overall momentum balance \eqref{eq:MC_overall_momentum_nonlinear_biot} & \(d(P_{\mc F}+1)\)                                                     \\
 		Component mass balances \eqref{eq:averaged_component_spatial_mass}                                                                      & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)                              \\
 		Dispersion and diffusion closures \eqref{eq:MC_relative_transport_closures}                                                             & \(2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\)                 \\
-		Nonzero pairwise mechanical-interaction closures satisfying \eqref{eq:MC_interaction_energy_conservation}--\eqref{eq:MC_bulk_transport_interaction_admissibility}; drag specialization \eqref{eq:MC_interphase_exchange_law} with heating from \eqref{eq:MC_drag_heating_equal_partition} & \(\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)\)                       \\
+		Nonzero pairwise mechanical-interaction closures satisfying \eqref{eq:MC_interaction_energy_conservation}--\eqref{eq:MC_mechanical_interaction_admissibility}; sufficient aggregate fluid--skeleton specialization \eqref{eq:MC_interphase_exchange_law} with energy allocation \eqref{eq:MC_drag_heating_equal_partition} & \(\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)\)                       \\
 		Fourier nonadvective energy-flux closures \eqref{eq:MC_heat_flux_law}                                                                    & \(dP\)                                                                 \\
 		Fluid--solid heat-exchange closure \eqref{eq:MC_fluid_solid_heat_exchange_law}                                                          & \(1\)                                                                  \\
 		Volume-fraction restrictions \eqref{eq:MC_volume_fraction_restrictions}                                                                 & \(P\)                                                                  \\

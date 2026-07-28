@@ -445,8 +445,8 @@ stock-tank gas component is present in the gas phase and dissolved in the oil
 phase through \(R_s\).  Black-oil PVT closures \(B_f\) and \(R_s\) determine
 the phase/component storage factors.
 
-The phase fluxes follow from the same Darcy reduction used in
-\eqref{eq:standard_darcy_mass_flux_limit}.  With
+The phase fluxes follow from the neutral, conversion-free,
+negligible-inertia reduction \eqref{eq:standard_darcy_mass_flux_limit}.  With
 \(\bs\kappa_f=k_{rf}\bs\kappa\), where $k_{rf}$ is the relative permeability,
 the fixed-frame flux closure is
 %
@@ -805,22 +805,24 @@ small-strain, small-compressibility transport approximation give
 	\label{eq:biot_limit_mass_to_volume_flux_approximation}
 \end{equation}
 %
-The Darcy specialization
-\eqref{eq:standard_darcy_mass_flux_limit} gives, in the current configuration,
+The fluid--skeleton interaction closure gives, in the current configuration,
 %
 \begin{equation}
 	\phi_f\left(\mbf v_f-\mbf v_s\right)
 	=
 	-\frac{\bs\kappa_f}{\mu_f^{\mathrm{visc}}}
-	\left(\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g\right).
+	\left(
+		\nabla_{\mbf x}\bar p_f
+		-\bar\rho_f\mbf g
+	\right).
 	\label{eq:biot_limit_darcy_law}
 \end{equation}
 %
 Equations \eqref{eq:biot_limit_reference_momentum} and
 \eqref{eq:biot_limit_pressure_storage_balance} are the finite-deformation
 momentum and fluid-storage equations of the single-fluid Biot specialization.
-The Darcy law \eqref{eq:biot_limit_darcy_law} closes the relative fluid
-transport.
+The pressure-driven Darcy law \eqref{eq:biot_limit_darcy_law} closes the
+relative fluid transport without an additional Helmholtz-gradient restriction.
 
 The familiar small-strain Biot equations follow by linearizing these
 solid-reference equations about \(\mbf F=\mbf I\) and \(J=1\), using a linear

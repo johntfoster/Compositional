@@ -30,31 +30,32 @@ Thus
 	\label{eq:relative_flux_velocity_reconstruction}
 \end{equation}
 %
-A linear interphase-drag closure represents the part of the fluid-phase
-interaction force produced by motion through the skeleton as
+A sufficient fluid--skeleton interaction closure consistent with
+\eqref{eq:MC_interphase_exchange_law} is
 %
 \begin{equation}
 	\mbf b_f
-	=-\frac{\mu_f^{\mathrm{visc}}\phi_f}{\bar\rho_f}\,
-	\bs\kappa_f^{-1}\mbf w_f ,
-	\label{eq:fluid_phase_drag_law}
+	=
+	-\frac{\mu_f^{\mathrm{visc}}\phi_f}{\bar\rho_f}\,
+	\bs\kappa_f^{-1}\mbf w_f .
+	\label{eq:fluid_phase_interaction_law}
 \end{equation}
 %
-where $\mu_f^{\mathrm{visc}}$ is the dynamic viscosity and $\bs\kappa_f$ is the permeability
-tensor for phase $f$.  Phase relative permeability may be absorbed into
-$\bs\kappa_f$.  Equation~\eqref{eq:fluid_phase_drag_law} is a drag-only
-specialization of the interaction force.  Positive definiteness of
-\(\bs\kappa_f\) controls the drag-generated dissipation, but complete
-thermodynamic admissibility also requires the interaction-energy allocation to
-satisfy \eqref{eq:MC_interaction_energy_conservation} and
-\eqref{eq:MC_bulk_transport_interaction_admissibility}.  When additional
-reversible interaction forces are required, \eqref{eq:fluid_phase_drag_law}
-represents only the drag contribution; the full \(\mbf b_f\) remains in
-\eqref{eq:el_mom_f_simplified}, and its non-drag contribution must be added to
-the right-hand side of the reduction below.
+Here $\mu_f^{\mathrm{visc}}$ is the dynamic viscosity and $\bs\kappa_f$ is the
+permeability tensor for phase $f$.  Phase relative permeability may be absorbed
+into $\bs\kappa_f$.  Equation~\eqref{eq:fluid_phase_interaction_law} contains
+only dissipative drag; all reversible driving forces remain in the phase
+momentum balance.  From \eqref{eq:relative_mass_flux_definition}, the two drag
+tensors are related by
+\(\mbf k_{f\mc S}^{-1}
+=\phi_f^2\mu_f^{\mathrm{visc}}\bs\kappa_f^{-1}\).
+Thus positive definiteness of \(\bs\kappa_f\), together with the
+interaction-energy allocation
+\eqref{eq:MC_drag_heating_equal_partition}, makes
+\eqref{eq:MC_mechanical_interaction_admissibility} nonnegative.
 
 Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
-\eqref{eq:fluid_phase_drag_law} into the fluid momentum balance
+\eqref{eq:fluid_phase_interaction_law} into the fluid momentum balance
 \eqref{eq:el_mom_f_simplified} gives, for each fluid phase,
 %
 \begin{align}
@@ -65,16 +66,19 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 	\right)\mbf w_f
 		= & \;
 		\rho_f\left(\mbf g-\mbf a_f\right)
+		\notag \\
+	  &
 		-\phi_f\nabla_{\mbf x}
 	\left(
 		\bar p_E+\gamma_f
 	\right)
+		\notag \\
+	  &
 		+\nabla_{\mbf x}\cdot
 	\left(
 		\phi_f\mbf E\otimes\mbf d_f
 	\right)
-		\notag                          \\
-	  & +\sum_\alpha\phasedot{c}_f^\alpha
+		+\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_s\right),
 	\label{eq:relative_flux_linear_system}
 \end{align}
@@ -199,13 +203,18 @@ time is much longer than this value, the source correction is a small
 perturbation of the Darcy drag.  The estimate supplies a lower reaction-time
 bound for the positive-resistance form of the algebraic relative-flux closure.
 
-For the drag-only specialization, the resulting relative mass flux is
+The resulting relative mass flux is
 %
 \begin{empheq}[box=\fbox]{align}
 	\mbf w_f
-	= \rho_f\widetilde{\bs\kappa}_f
-	\left(
+	= & \;
+	\rho_f\widetilde{\bs\kappa}_f
+	\left[
 		\rho_f\left(\mbf g-\mbf a_f\right)
+		\right.
+		\notag \\
+	& \phantom{\;\rho_f\widetilde{\bs\kappa}_f}
+		\left.
 		-\phi_f\nabla_{\mbf x}
 		\left(
 			\bar p_E+\gamma_f
@@ -218,22 +227,27 @@ For the drag-only specialization, the resulting relative mass flux is
 		\left(
 			\nabla_{\mbf x}\tau-\mbf v_s
 		\right)
-	\right).
+		\right].
 	\label{eq:generalized_fluid_darcy_mass_flux}
 \end{empheq}
 %
 This expression is the multicomponent fluid-phase analogue of a generalized
-Darcy flux.  Its driving force contains body force, equivalent and capillary
-pressure gradients, Maxwell stress, and conversion insertion.
+Darcy flux.  Its driving force contains body force and inertia, equivalent and
+capillary pressure gradients, Maxwell stress, and conversion insertion.
+The observer-conversion term is absent from this bulk force because
+\eqref{eq:MC_collected_observer_correction_reassembly} explicitly recombines it
+with the skeleton-rate free-energy contribution before the residual inequality
+is formed; it is part of the reversible phase-following thermodynamic rate, not
+a second bulk force.
 Chemical-potential gradients drive component-relative transport
 through \eqref{eq:MC_relative_transport_closures}; that dissipative role is
-separate from the role of \(\tau\) in the conversion variation.  The
+separate from both the bulk phase force above and the role of \(\tau\) in the
+conversion variation.  The
 exact nonsingularity condition above permits algebraic flux elimination, while
 the stronger positive-definiteness condition selects a positive-resistance
 operator.  Neither condition makes the conversion source dissipative or
-replaces the joint
-transport--interaction condition
-\eqref{eq:MC_bulk_transport_interaction_admissibility}.
+replaces the interaction-energy allocation in
+\eqref{eq:MC_drag_heating_equal_partition}.
 
 The neutral, conversion-free, negligible-inertia specialization
 \(\omega_f^+=0\), \(\mbf E\otimes\mbf d_f=\mbf0\),
@@ -242,15 +256,20 @@ The neutral, conversion-free, negligible-inertia specialization
 %
 \begin{equation}
 	\phi_f\left(\mbf v_f-\mbf v_s\right)
-	=-\frac{\bs\kappa_f}{\mu_f^{\mathrm{visc}}}
-	\left(\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g\right).
+	=
+	-\frac{\bs\kappa_f}{\mu_f^{\mathrm{visc}}}
+	\left(
+		\nabla_{\mbf x}\bar p_f
+		-\bar\rho_f\mbf g
+	\right).
 	\label{eq:standard_darcy_mass_flux_limit}
 \end{equation}
 %
 This is Darcy's law for phase \(f\) relative to the deforming solid skeleton.
-The more general law \eqref{eq:generalized_fluid_darcy_mass_flux} applies when
-net conversion phase-mass sources are large enough for momentum production to
-affect phase transport.
+It follows directly from the neutral, conversion-free, negligible-inertia
+specialization; neither isothermality nor a spatially uniform Helmholtz energy is
+required.  Nonisothermal cross effects may modify this law only when they are
+introduced explicitly through a coupled constitutive closure.
 
 \subsection{Solid-reference relative fluxes}
 \label{sec:solid_reference_relative_fluxes}
@@ -551,10 +570,10 @@ The corresponding admissible reference flux is
 	\label{eq:reservoir_simulation_reference_flux_summary}
 \end{align}
 %
-The neutral, conversion-free, negligible-inertia specialization gives the
-Darcy relative flux in
-\eqref{eq:standard_darcy_mass_flux_limit}.  Capillary, or electrocapillary,
-pressure closes the phase pressures algebraically through the saturation state,
+The neutral, conversion-free, negligible-inertia specialization gives
+\eqref{eq:standard_darcy_mass_flux_limit} directly.  Capillary, or
+electrocapillary, pressure closes the phase pressures algebraically through the
+saturation state,
 %
 \begin{equation}
 	\phi = \sum_{f\in\mc F}\phi_f,
