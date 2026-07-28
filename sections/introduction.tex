@@ -14,27 +14,42 @@ coupling can obscure whether a pressure, source, flux, or interaction force is
 derived from a balance law, a constraint, or a dissipative closure.
 
 Several established theories supply the ingredients needed for a more unified
-description.  Constrained mixture mechanics and reacting-mixture variational
-principles provide phase-attached motions, material conversion, and
-interconstituent interactions
+description.  Reacting-mixture variational theories already provide
+phase-attached motions, material conversion, constituent momentum production,
+and Darcy-type porous-flow reductions
 \cite{bedford1979variational,drumheller1980thermomechanical,bedford1983theories,drumheller2000}.
-Macroscopic porous-medium thermodynamics derives multiphase balances and
-constitutive restrictions from averaged energy and entropy statements
+Macroscopic porous-medium thermodynamics derives multiphase balances,
+capillary restrictions, and generalized transport laws from averaged energy
+and entropy statements
 \cite{hassanizadeh1993thermodynamic,gray1999thermodynamics}, while
 poromechanics identifies effective-stress and equivalent-pressure structures
 \cite{coussy2004poromechanics,kim2013rigorous}.  Seguin and Walkington give a
-multicomponent, multiphase poroelastic theory in a solid observer
-\cite{seguin2019multicomponent}.  For reacting and diffusing mixtures,
-force--flux restrictions follow from continuum thermodynamics and Onsager
-stationarity
-\cite{bothe2015continuum,doi2011onsager,wang2021onsager}.  Electroelastic
-potential theory, in turn, relates electric enthalpy, displacement, and Maxwell
-stress
+nonreactive multicomponent, multiphase poroelastic theory in a solid observer
+\cite{seguin2019multicomponent}, and Foster and Xu derive a fixed-pressure
+nonlinear Biot coefficient for a finite-deformation binary mixture
+\cite{foster2025}.  Constrained reactive-solid theories permit composition and
+constituent reference configurations to evolve during growth, plasticity, and
+damage \cite{zimmerman2021constrainedreactive,ateshian2022constrainedreactive}.
+For reacting and diffusing mixtures, force--flux restrictions follow from
+continuum thermodynamics and Onsager stationarity
+\cite{bothe2015continuum,doi2011onsager,wang2021onsager}; nonisothermal
+chemical-potential gradients also require explicit attention to potential
+gauges \cite{goldobin2016thermal}.  Finally, electroelastic potential theory
+relates electric enthalpy, displacement, and Maxwell stress
 \cite{mcmeeking2007virtual_work_electrostatic,dorfmann2017nonlinear_electroelasticity}.
-The present work combines these lines at the level of the governing
-phase/component balances.  It does not replace their more detailed treatments
-of sharp interfaces, pore-scale geometry, phase behavior, or material
-calibration.
+Bennethum and Cushman derive the macroscale electroquasistatic field equations
+for multicomponent, multiphase porous media in Part~I and the corresponding
+constitutive restrictions for phase stresses, diffusion, and Darcy flow in
+Part~II \cite{bennethum2002electroI,bennethum2002electroII}.
+
+These precedents contain important parts of the present model, but the
+inspected formulations do not present the six coupled extensions developed
+below.  The novelty claimed here is therefore not the isolated use of
+nonequilibrium thermodynamics, a Darcy law, electric stress, or reactive-solid
+kinematics.  It is the integration of those structures in one open-system
+phase/component derivation and the specific extensions that follow.  The
+theory does not replace more detailed treatments of sharp interfaces,
+pore-scale geometry, phase behavior, or material calibration.
 
 The derivation has three steps with distinct roles.  A
 constrained Hamilton--d'Alembert variation determines the reversible phase
@@ -47,73 +62,62 @@ reaction and component-relative transport.  Keeping these operations separate
 prevents a balance constraint from being used as a constitutive law and makes
 each retained dissipative mechanism visible.
 
-Within that construction, this paper develops the following coupled features.
+Within that construction, the paper makes six specific contributions.
 %
 \begin{enumerate}
-	\item Component mass is written first on phase-attached material regions and
-	      then volume averaged.  Chemical reaction, phase transformation,
-	      sorption, ion exchange, molecular diffusion, and mechanical dispersion
-	      enter one phase/component balance structure.  A
-	      pore-filling reaction is represented as phase-labelled conversion into
-	      a skeleton-attached solid component: the accumulated solid mass changes
-	      distension and phase volume, while the resulting composition can modify
-	      stress-free deformation, elastic response, and plastic flow.
+	\item The open-system momentum balance retains the momentum carried by mass
+	      converted into each phase.  Its fluid reduction gives a generalized
+	      Darcy law containing equivalent- and capillary-pressure gradients, body
+	      force, Maxwell stress, inertia, and conversion-insertion momentum.  Net
+	      phase conversion changes the algebraic resistance and mobility used to
+	      eliminate the phase velocity; the exact nonsingularity and stronger
+	      positive-resistance conditions are distinguished from dissipation of the
+	      underlying drag.
 
-	\item Multiple load-bearing solid phases share a finite-deformation skeleton
-	      motion while retaining phase-specific true deformation, distension,
-	      stress-free maps, composition, and internal variables.  A
-	      fixed-equivalent-pressure Legendre transform gives a nonlinear phase
-	      Biot coefficient evaluated at the current reacted state.  Reaction and
-	      composition modify this coefficient through solid mass, distension,
-	      intrinsic specific volume, and the constitutive state.  An additive
-	      component decomposition is obtained only under the stated neutral,
-	      common-pressure component-EOS path; the phase coefficient remains the
-	      general result.
+	\item A fixed-equivalent-pressure Legendre transform extends the nonlinear
+	      Biot construction from a binary mixture to multiple reacting solid
+	      phases at finite deformation.  The phase coefficient is evaluated at the
+	      current reacted state and changes through solid mass, composition,
+	      distension, intrinsic specific volume, stress-free deformation, and
+	      internal variables.  An additive component decomposition is obtained
+	      only on the stated neutral, common-pressure component-EOS path; the
+	      reacted phase coefficient is the general result.
 
-	\item Capillarity and electrostatics are generated from stored potentials.
-	      Differentiation of the saturation-dependent interfacial Helmholtz energy
-	      gives capillary-pressure differences while enforcing that the fluid
-	      saturations sum to one.
-	      Phase electric enthalpies give electric displacement, Maxwell stress,
-	      dielectric pressure, and the electrical correction to the phase
-	      pressure jump.  The same calculation yields an equivalent pore pressure
-	      that combines saturation-weighted phase pressures, interfacial energy,
-	      and phase electrical enthalpy.  These generalized electrocapillary and
-	      equivalent-pressure relations therefore use the same energy and volume
-	      constraint as the momentum equations.
+	\item The thermal and electrical construction gives gauge-invariant
+	      electrochemical transport and reaction forces when the mobile-fluid and
+	      solid subsystems have different temperatures.  The
+	      temperature-weighted neutral-potential gradient remains separate from
+	      the electric field, while the usual electrochemical-potential gradient
+	      is recovered in the isothermal limit.  The same charge-rate and field
+	      power accounting prevents electrical body force or source power from
+	      being counted twice.
 
-	\item Electric charge is a component-weighted sum of the material mass
-	      measures, while independently prescribed bulk charge is retained as
-	      conservative external loading.  The phase electric enthalpy stores field
-	      energy, free charge enters the source-work ensemble, and the electric
-	      field does work directly on charge transported relative to a phase.
-	      Traditional affinities remain stoichiometric sums of electrochemical
-	      potentials, while the complete charge-rate identity checks the
-	      corresponding energy and charge accounting.  For nonuniform temperature,
-	      relative transport keeps the temperature-weighted neutral-potential
-	      gradient separate from the electric field, making the force independent
-	      of the arbitrary zero of electric potential; the two parts combine into
-	      the usual electrochemical-potential gradient in the isothermal limit.
-	      This separation avoids duplicating electrical body force or source
-	      power.
+	\item Capillarity and electrostatics are generated from the same constrained
+	      stored-energy construction.  The saturation constraint produces
+	      capillary-pressure differences, and the phase electrical enthalpies
+	      contribute a definite difference term to those pressure jumps while
+	      also generating electric displacement, Maxwell stress, and dielectric
+	      pressure.  The resulting electrocapillary law and electrically corrected
+	      equivalent pore pressure are therefore consistent with the phase
+	      momentum equations, rather than appended as independent closures.
 
-	\item The thermal model retains one temperature for the mobile-fluid
-	      subsystem and one for the solid subsystem.  Energy and entropy storage
-	      are written in the skeleton observer with the bulk phase energy and
-	      entropy transported by the phase velocity relative to the skeleton.
-	      Mechanical interaction energy, ordinary fluid--solid heat exchange,
-	      reaction-associated energy allocation, heat conduction, and the shared
-	      electrostatic field power are accounted for separately.  The resulting
-	      entropy inequality exposes a joint admissibility condition for bulk
-	      phase transport and interphase mechanical-energy exchange.
+	\item Variation of the component material measures gives a generalized
+	      composition-stationarity system.  At equilibrium it recovers equality of
+	      the appropriate electrochemical potentials; away from equilibrium it
+	      determines phase-reference transfer-work levels.  Consequently, the
+	      conversion force for phase change, dissolution, precipitation, and pore
+	      filling differs from the traditional stoichiometric affinity by an
+	      explicit phase-transfer-work term.
 
-	\item The fluid momentum balance produces a generalized Darcy-like relative
-	      flux containing equivalent and capillary pressure gradients, body force,
-	      Maxwell stress, inertia, and conversion-insertion momentum.  Net
-	      conversion of phase mass modifies the algebraic resistance and mobility
-	      used to eliminate the phase velocity; the exact nonsingularity and
-	      stronger positive-resistance conditions are distinguished from the
-	      dissipation condition on the underlying drag.
+	\item A single phase/component balance structure couples mobile phases to
+	      multiple load-bearing solid phases that share the skeleton motion but
+	      retain phase-specific true deformation, distension, stress-free maps,
+	      composition, and internal variables.  It thereby represents
+	      pore-filling conversion as accumulated skeleton-attached solid mass that
+	      changes phase volume and can alter stress-free deformation, elasticity,
+	      and plastic flow.  This extends reactive-solid kinematics to an open
+	      multiphase porous medium with simultaneous transport and pressure
+	      coupling.
 \end{enumerate}
 %
 These features are intended to preserve a direct route to familiar engineering
