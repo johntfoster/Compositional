@@ -1,0 +1,95 @@
+% !TeX root = ../main.tex
+\section{Conclusions and outlook}
+\label{sec:conclusions}
+
+This paper developed a finite-deformation theory for multicomponent,
+multiphase porous media with reactions, phase transformations, two thermal
+subsystems, and electrostatics.  Its principal result is not a single enlarged
+balance law, but a traceable division of the model into conservation laws,
+reversible constraints, thermodynamic restrictions, and dissipative closures.
+The constrained Hamilton--d'Alembert variation produces the phase momentum,
+storage, composition, transfer-potential, capillary, and electrostatic
+relations.  The Coleman--Noll procedure identifies the material stresses,
+phase pressures, entropies, generalized component-transfer forces,
+traditional electrochemical affinities, gauge-invariant nonisothermal
+chemical and electric transport forces, and residual dissipation.  Onsager
+stationarity provides one admissible near-equilibrium choice for reaction,
+diffusion, and dispersion.  Agreement of the independently derived reversible
+relations supplies an internal check on the construction.
+
+The common phase/component balance structure permits chemical reaction, phase
+transformation, sorption, ion exchange, and pore-filling precipitation to be
+represented without changing the balance-law structure.  Converted mass enters
+the component material measures and the phase momentum production, while solid
+composition can alter stress-free deformation, elasticity, distension, and
+plastic flow.  At fixed equivalent pore pressure, the phase Legendre transform
+gives a nonlinear Biot coefficient at the current reacted state and an
+effective-stress split for each solid phase and for the aggregate skeleton.
+The optional additive component decomposition is compatible with this phase
+result only on the stated neutral common-pressure path.
+
+The electrical extension is likewise integrated with, rather than appended to,
+the mixture balances.  Traditional electrochemical affinities are the
+stoichiometric sums of the component electrochemical potentials.  Mechanismwise
+charge conservation cancels their arbitrary common electric-potential level.
+The electric field does
+work directly on charge transported relative to a phase.  Charged
+nonisothermal transport therefore keeps the
+temperature-weighted neutral-potential gradient separate from the electric
+field, so its flux is invariant under an additive electric-potential gauge;
+the familiar electrochemical-potential gradient is recovered at uniform
+temperature.  Prescribed external charge is a separate conservative loading,
+and one phase electric-enthalpy family
+generates electric displacement, dielectric pressure, and Maxwell stress.  In
+combination with the interfacial Helmholtz energy and the volume constraint,
+these terms give generalized electrocapillary pressure jumps and an
+electrically corrected equivalent pore pressure.  The global electrostatic
+power identity prevents the shared field rate from being assigned
+inconsistently between the fluid and solid temperatures.
+
+Writing the energy and entropy balances in a skeleton observer retains the
+transport of phase internal energy and entropy by bulk motion relative to the
+solid.  The resulting dissipation statement distinguishes this bulk
+force--flux pair from component diffusion and dispersion and requires it to be
+closed jointly with mechanical interaction-energy exchange.  The same
+fluid-phase momentum equation gives a generalized Darcy-like law with
+capillary, Maxwell, inertial, gravitational, and conversion-insertion forces.
+The net conversion source changes the algebraic resistance used in the flux
+elimination, but it is not itself reclassified as a dissipative permeability.
+
+The reductions provide checks on the general equations.  Under their stated
+assumptions, the theory recovers the standard mass-based compositional
+balance, Fick--Onsager transport in \(N-1\) independent composition directions,
+black-oil conservation equations and Darcy fluxes, a
+Nernst--Planck--Darcy system, and the finite-deformation and linearized
+single-solid/single-fluid Biot equations.  The neutral one-fluid limit removes
+the electrocapillary and interfacial terms, while the local-thermal-equilibrium
+limit recovers the usual affinity power for phasewise mass-conserving chemistry
+or vanishing transfer-work offsets.  These recoveries identify which
+thermodynamic structure is retained when the full model is specialized.
+
+Several limitations delimit the present result.  The theory applies while the
+participating phases and components remain present; phase appearance and
+disappearance require separate switching conditions.  Capillarity is algebraic
+and excludes dynamic pressure, hysteresis, and
+independent interfacial-area evolution.  The electrical state is
+electroquasistatic and isotropic and excludes permanent polarization,
+directional dielectric structure, relaxation, and wave dynamics.  Inserted
+mass carries recipient-phase energy and entropy under a local-equilibrium
+source convention.  Reactions spanning the two thermal subsystems use the
+gauge-invariant neutral temperature-weighted reaction force; their physical
+reaction-energy transfer may be Onsager-coupled under the printed
+mechanismwise dissipation condition.  The quadratic closures shown here are
+limited to near-equilibrium response.  The finite-deformation Biot storage
+tangent used in the classical comparison is an
+additional integrable storage assumption, not a consequence of the general
+phase energy.  Constitutive calibration, well-posedness, discretization, and
+benchmark validation remain outside the present derivation.
+
+Implementation should proceed with equation-level traceability.  A
+solid-reference discretization can first verify neutral-isothermal component
+balances, relative-flux reconstruction, and coupled momentum before adding
+reaction-induced solid-volume change, two-temperature exchange, and
+electrochemical transport.  Manufactured solutions and the derived limits then
+provide regression targets for pore-filling, crystallization, and
+electrocapillary benchmarks.

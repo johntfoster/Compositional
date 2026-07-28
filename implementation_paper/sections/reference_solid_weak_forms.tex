@@ -96,11 +96,22 @@ The reference relative mass flux entering
 	\rho_f\widetilde{\mbf K}_f
 	\left[
 		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
-		-\phi_f\Grad \bar p_f
+		-\phi_f\Grad
+		\left(
+			\bar p_E+\gamma_f
+		\right)
+		+
+		\mbf F^T
+		\left[
+			\grad\cdot
+			\left(
+				\phi_f\mbf E\otimes\mbf d_f
+			\right)
+		\right]
 		+
 		\sum_\alpha\dot c_f^\alpha
 		\left(
-			\Grad \mu_f^\alpha
+			\Grad \tau
 			-\mbf F^T\mbf v_s
 		\right)
 	\right],
@@ -112,57 +123,87 @@ where \(\rho_f=\phi_f\bar\rho_f\) and
 	=
 	J\mbf F^{-1}
 	\left(
-		\phi_f^2\mu_f\bs\kappa_f^{-1}
+			\phi_f^2\mu_f^{\mathrm{visc}}\bs\kappa_f^{-1}
 		+\sum_\alpha\dot c_f^\alpha\mbf I
 	\right)^{-1}
 	\mbf F^{-T}.
 	\label{eq:reference_modified_permeability}
 \end{equation}
 This is the Piola transform of the current generalized Darcy mass flux.  The
-terms involving \(\dot c_f^\alpha\) are part of the conversion-momentum
-structure of the theory and must not be dropped when reactions or phase
-transformations produce appreciable mass in a mobile phase.
+tensor \(\widetilde{\mbf K}_f\) is a pulled-back
+conversion-corrected mobility, not a permeability: its current-configuration
+inverse contains the net conversion phase-mass source
+\(\sum_\alpha\dot c_f^\alpha\).  The inverse exists only when none of the
+eigenvalues
+	\(\phi_f^2\mu_f^{\mathrm{visc}}/\kappa_{f,i}+\sum_\alpha\dot c_f^\alpha\) vanishes.
+Positive definiteness is the stronger positive-resistance condition
+\(\sum_\alpha\dot c_f^\alpha>
+	-\phi_f^2\mu_f^{\mathrm{visc}}/\kappa_{f,\max}\); it is sufficient, but not necessary, for
+algebraic elimination.  These source terms and the \(\Grad\tau\) insertion
+force are part of the conversion-momentum structure and must not be dropped
+when reactions or phase transformations produce appreciable mass in a mobile
+phase.
 
-\subsection{Conversion-potential residuals}
+\subsection{Transfer-potential and transfer-work residuals}
 \label{sec:conversion_potential_weak_form}
 
-Let \(\test m_\xi^\alpha\) be the scalar test function for
-\(\mu_\xi^\alpha\).  For a mobile fluid phase, the Galerkin residual associated
-with \eqref{eq:implementation_mu_fluid_solid_frame} is
+Let \(\test t\) be the scalar test function for the single transfer potential
+\(\tau\).  The Galerkin residual associated with
+\eqref{eq:implementation_tau_solid_frame} is
 \begin{align}
-	R_{\mu_f^\alpha}
+	R_\tau
 	=&
 	\int_{\refdomain}
-	\test m_f^\alpha
+	\test t
 	\left[
-		\left.\frac{\partial\mu_f^\alpha}{\partial t}\right|_{\mbf X}
-		+\frac{\mbf W_f}{J\rho_f}\cdot\Grad\mu_f^\alpha
-		-\frac{1}{2}\mbf v_f\cdot\mbf v_f
-		+\mu_f^\alpha
-		+\frac{\pi_f^\alpha}
-		{\phi_f\bar\rho_f\eta_f^\alpha}
-	\right]\dd V .
-	\label{eq:fluid_mu_residual}
-\end{align}
-For a one-component solid phase attached to the skeleton,
-\eqref{eq:implementation_mu_solid_solid_frame} gives
-\begin{align}
-	R_{\mu_s^s}
-	=&
-	\int_{\refdomain}
-	\test m_s^s
-	\left[
-		\left.\frac{\partial\mu_s^s}{\partial t}\right|_{\mbf X}
+		\left.\frac{\partial\tau}{\partial t}\right|_{\mbf X}
 		-\frac{1}{2}\mbf v_s\cdot\mbf v_s
-		+\mu_s^s
-		+\frac{\pi_s^s}
-		{\phi_s\bar\rho_s}
+		-\hat\mu_{s_\star}^N
+		+\psi_{s_\star}
+		+\frac{\pi_{s_\star}^N}
+		{\phi_{s_\star}\bar\rho_{s_\star}\eta_{s_\star}^N}
 	\right]\dd V .
-	\label{eq:solid_mu_residual}
+	\label{eq:tau_evolution_residual}
 \end{align}
-The mechanism affinity \eqref{eq:implementation_affinity_projection} is then an
-algebraic material property or constraint residual coupled to the reaction-rate
-law.  If a local equilibrium mechanism is enforced, the residual is
+For every non-reference phase \(\xi\ne s_\star\), let
+\(\test\ell_\xi\) test its algebraic reference-component transfer-work level.
+Using \eqref{eq:fluid_material_derivative_on_solid_frame} for a mobile phase,
+the recovery residual is
+\begin{align}
+	R_{L_f^N}
+	=&
+	\int_{\refdomain}
+	\test\ell_f
+	\left[
+		L_f^N
+		-\left.\frac{\partial\tau}{\partial t}\right|_{\mbf X}
+		-\frac{\mbf W_f}{J\rho_f}\cdot\Grad\tau
+		+\frac{1}{2}\mbf v_f\cdot\mbf v_f
+		-\frac{\pi_f^N}
+		{\phi_f\bar\rho_f\eta_f^N}
+	\right]\dd V .
+	\label{eq:fluid_transfer_work_recovery_residual}
+\end{align}
+For a non-reference solid phase attached to the skeleton, the corresponding
+algebraic residual is
+\begin{align}
+	R_{L_s^N}
+	=&
+	\int_{\refdomain}
+	\test\ell_s
+	\left[
+		L_s^N
+		-\left.\frac{\partial\tau}{\partial t}\right|_{\mbf X}
+		+\frac{1}{2}\mbf v_s\cdot\mbf v_s
+		-\frac{\pi_s^N}
+		{\phi_s\bar\rho_s\eta_s^N}
+	\right]\dd V .
+	\label{eq:solid_transfer_work_recovery_residual}
+\end{align}
+The traditional mechanism affinity
+\eqref{eq:implementation_affinity_projection} is then an algebraic material
+property or constraint residual.  If chemical or electrochemical equilibrium
+is enforced directly, the residual is
 \begin{equation}
 	R_{\mc A_{(m)}}=
 	\int_{\refdomain}
@@ -170,12 +211,17 @@ law.  If a local equilibrium mechanism is enforced, the residual is
 	\left[
 		\mc A_{(m)}
 		+\sum_\xi\sum_\alpha
-		\mu_\xi^\alpha\nu_{\xi (m)}^\alpha
+		\mu_\xi^\alpha
+		\nu_{\xi (m)}^\alpha
 	\right]\dd V ,
 	\label{eq:affinity_projection_residual}
 \end{equation}
 with \(\test a_{(m)}\) the test function for an affinity multiplier or local
-constraint variable.
+constraint variable.  A kinetic phase-change or pore-filling mechanism is
+instead driven by the full conversion coefficient in
+\eqref{eq:implementation_generalized_conversion_affinity_relation}; replacing
+that coefficient by \(\mc A_{(m)}\) is valid only when the phasewise
+stoichiometric mass sums vanish or the transfer-work offsets have equilibrated.
 
 \subsection{Overall momentum balance}
 \label{sec:momentum_weak_form}
@@ -201,17 +247,17 @@ pressure contribution.  The quasi-static implementation target is
 	\int_{\refdomain}
 	\test{\mbf u}\cdot J
 	\left[
-		\sum_f\sum_\alpha
-		\dot c_f^\alpha
-		\left(
-			\grad\mu_f^\alpha-\mbf v_f
-		\right)
-		+
-		\sum_s
-		\dot c_s^s
-		\left(
-			\grad\mu_s^s-\mbf v_s
-		\right)
+			\sum_f\sum_\alpha
+			\dot c_f^\alpha
+			\left(
+				\grad\tau-\mbf v_f
+			\right)
+			+
+			\sum_s
+			\dot c_s^s
+			\left(
+				\grad\tau-\mbf v_s
+			\right)
 	\right]\dd V
 	\nonumber \\
 	&-
@@ -223,10 +269,10 @@ For low-speed reservoir applications the inertial term from the full momentum
 balance is omitted.  If retained, the term
 \(\int_{\refdomain}\test{\mbf u}\cdot J\sum_\xi\rho_\xi\mbf a_\xi\dd V\)
 is added to \eqref{eq:momentum_residual} with the same sign convention as the
-chosen time integrator.  In a fully reference-form implementation, the spatial
-gradients in the conversion-momentum terms should be evaluated through
-\(\grad(\cdot)=\mbf F^{-T}\Grad(\cdot)\) for fields stored on the solid mesh,
-while \(\mbf v_f\) is reconstructed from
+chosen time integrator.  In a fully reference-form implementation, the
+transfer-potential gradient in the conversion-momentum terms is evaluated as
+\(\grad\tau=\mbf F^{-T}\Grad\tau\) for \(\tau\) stored on the solid mesh, while
+\(\mbf v_f\) is reconstructed from
 \eqref{eq:implementation_fluid_velocity_reconstruction}.
 
 \subsection{Constraint residuals}

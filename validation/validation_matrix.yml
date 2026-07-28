@@ -33,12 +33,18 @@ entries:
     status: planned
     target_phenomenon: "Reaction/source term with affinity-controlled production"
     manuscript_reduction:
-      - "Coleman-Noll conversion-potential relation"
+      - "eq:MC_admissible_conversion_component"
+      - "eq:MC_phase_reference_transfer_work_recovery"
+      - "eq:MC_transfer_work_full_recovery"
+      - "eq:MC_affinity_projection"
+      - "eq:MC_generalized_conversion_affinity_relation"
       - "material mass source definitions"
     configuration: "single-cell or one-dimensional reduced source problem"
     variables:
       - "component densities"
       - "reaction progress or mechanism rate"
+      - "transfer potential tau"
+      - "P-1 phase-reference transfer-work levels"
     moose_objects_required:
       kernels: []
       materials: []
@@ -50,8 +56,10 @@ entries:
     expected_outputs:
       - "component mass histories"
       - "affinity and source-rate diagnostics"
+      - "generalized conversion coefficient and transfer-work correction"
+      - "tau evolution and algebraic transfer-work recovery residuals"
     pass_fail: "not defined"
-    notes: "Use this to validate thermodynamic source bookkeeping before broad transport."
+    notes: "Include both a phasewise mass-conserving mechanism, where the traditional affinity equals the variational conversion coefficient, and a phase-changing mechanism, where the transfer-work correction is nonzero."
 
   - id: poromechanics_limit_smoke
     status: planned

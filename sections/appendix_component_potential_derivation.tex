@@ -1,0 +1,221 @@
+% !TeX root = ../main.tex
+\section{Derivation of the neutral component Euler identity}
+\label{app:component_potential_euler_derivation}
+
+This appendix derives
+\eqref{eq:MC_neutral_component_euler_identity} from the constituent-mass
+definition \eqref{eq:MC_absolute_neutral_component_potential}.  At fixed
+\(\phi_\xi\), variation of one partial density gives
+%
+\begin{subequations}
+	\label{eq:appendix_component_density_chain_rule}
+	\begin{align}
+		\p{\rho_\xi}{\rho_\xi^\alpha}
+		&=1,
+		&
+		\p{\bar\rho_\xi}{\rho_\xi^\alpha}
+		&=\frac{1}{\phi_\xi},
+		\label{eq:appendix_total_intrinsic_density_derivatives}
+		\\
+		\p{\eta_\xi^\beta}{\rho_\xi^\alpha}
+		&=
+		\frac{
+			\delta_{\alpha\beta}-\eta_\xi^\beta
+		}{
+			\rho_\xi
+		}.
+		\label{eq:appendix_mass_fraction_partial_density_derivative}
+	\end{align}
+\end{subequations}
+%
+For a fluid phase, substitution into
+\eqref{eq:MC_absolute_neutral_component_potential} gives
+%
+\begin{align}
+	\hat\mu_f^\alpha
+	={} &
+	\psi_f
+	+
+	\bar\rho_f
+	\left.
+	\p{\psi_f}{\bar\rho_f}
+	\right\vert_{\mc X_f}
+	+
+	\left.
+	\p{\omega_f^+}{\bar\rho_f}
+	\right\vert_{\mc X_f,\mbf E}
+	\notag \\
+	&+
+	\frac{1}{\rho_f}
+	\left[
+		\rho_f
+		\left.
+		\p{\psi_f}{\eta_f^\alpha}
+		\right\vert_{\mc X_f}
+		+
+		\phi_f
+		\left.
+		\p{\omega_f^+}{\eta_f^\alpha}
+		\right\vert_{\mc X_f,\mbf E}
+	\right.
+	\notag \\
+	&\left.
+	\qquad
+		-\sum_\beta\eta_f^\beta
+		\left(
+			\rho_f
+			\left.
+			\p{\psi_f}{\eta_f^\beta}
+			\right\vert_{\mc X_f}
+			+
+			\phi_f
+			\left.
+			\p{\omega_f^+}{\eta_f^\beta}
+			\right\vert_{\mc X_f,\mbf E}
+		\right)
+	\right].
+	\label{eq:appendix_component_potential_chain_rule}
+\end{align}
+%
+The differentiated variable is omitted from the held-fixed state set.
+Dividing \eqref{eq:phase_pressure_storage} by \(\bar\rho_f\), and using
+\eqref{eq:Pi_componentwise}, gives
+%
+\begin{subequations}
+	\label{eq:appendix_component_stationarity_substitutions}
+	\begin{align}
+		\bar\rho_f
+		\left.
+		\p{\psi_f}{\bar\rho_f}
+		\right\vert_{\mc X_f}
+		+
+		\left.
+		\p{\omega_f^+}{\bar\rho_f}
+		\right\vert_{\mc X_f,\mbf E}
+		&=
+		\frac{1}{\rho_f}
+		\sum_\beta\pi_f^\beta,
+		\label{eq:appendix_density_stationarity_substitution}
+		\\
+		\rho_f
+		\left.
+		\p{\psi_f}{\eta_f^\beta}
+		\right\vert_{\mc X_f}
+		+
+		\phi_f
+		\left.
+		\p{\omega_f^+}{\eta_f^\beta}
+		\right\vert_{\mc X_f,\mbf E}
+		&=
+		\Pi_f
+		+
+		\frac{\pi_f^\beta}{\eta_f^\beta}.
+		\label{eq:appendix_composition_stationarity_substitution}
+	\end{align}
+\end{subequations}
+%
+Because \(\sum_\beta\eta_f^\beta=1\), the weighted sum of
+\eqref{eq:appendix_composition_stationarity_substitution} is
+%
+\begin{equation}
+	\sum_\beta\eta_f^\beta
+	\left(
+		\rho_f
+		\left.
+		\p{\psi_f}{\eta_f^\beta}
+		\right\vert_{\mc X_f}
+		+
+		\phi_f
+		\left.
+		\p{\omega_f^+}{\eta_f^\beta}
+		\right\vert_{\mc X_f,\mbf E}
+	\right)
+	=
+	\Pi_f+\sum_\beta\pi_f^\beta.
+	\label{eq:appendix_weighted_composition_stationarity}
+\end{equation}
+%
+Substitution of
+\eqref{eq:appendix_component_stationarity_substitutions} and
+\eqref{eq:appendix_weighted_composition_stationarity} into
+\eqref{eq:appendix_component_potential_chain_rule} cancels both
+\(\Pi_f\) and \(\sum_\beta\pi_f^\beta\), leaving
+%
+\begin{align}
+	\hat\mu_f^\alpha
+	&=
+	\psi_f
+	+
+	\frac{\pi_f^\alpha}{\rho_f\eta_f^\alpha}
+	\notag \\
+	&=
+	\psi_f
+	+
+	\frac{\pi_f^\alpha}
+	{\phi_f\bar\rho_f\eta_f^\alpha},
+	\label{eq:appendix_neutral_component_euler_result}
+\end{align}
+%
+which is the fluid form of
+\eqref{eq:MC_neutral_component_euler_identity}.
+
+For a solid phase, the constituent-mass derivative is instead taken at fixed
+\(\mbf A_s\), \(\bar{\mbf F}_s\), \(\mbf A_s^p\), and
+\(\bar{\mbf F}_s^p\).  Applying
+\eqref{eq:MC_solid_composition_elastic_chain_rule} and the material-stress
+relations gives the total composition derivative
+%
+\begin{align}
+	&\rho_s
+	\left.
+	\p{\psi_s}{\eta_s^\beta}
+	\right\vert_{
+		\bar\rho_s,\theta_{\mc S},
+		\mbf A_s,\bar{\mbf F}_s,
+		\mbf A_s^p,\bar{\mbf F}_s^p
+	}
+	=
+	\rho_s
+	\left.
+	\p{\psi_s}{\eta_s^\beta}
+	\right\vert_{\mc X_s}
+	\notag \\
+	&\quad
+	-
+	\operatorname{tr}\left[
+		(\mbf A_s^p)^{-1}
+		(\mbf A_s^e)^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s^e\mbf A_s^p
+		\left.
+		\p{\mbf A_s^0}{\eta_s^\beta}
+		\right\vert_{\mc X_s}
+		(\mbf A_s^0)^{-1}
+	\right]
+	\notag \\
+	&\quad
+	-
+	\operatorname{tr}\left[
+		(\bar{\mbf F}_s^p)^{-1}
+		(\bar{\mbf F}_s^e)^{-1}
+		\mbf A_s^{-1}
+		(\bs\sigma_s')^T
+		\mbf A_s
+		\bar{\mbf F}_s^e
+		\bar{\mbf F}_s^p
+		\left.
+		\p{\bar{\mbf F}_s^0}{\eta_s^\beta}
+		\right\vert_{\mc X_s}
+		(\bar{\mbf F}_s^0)^{-1}
+	\right].
+	\label{eq:appendix_solid_total_composition_derivative}
+\end{align}
+%
+Adding the explicit electric-enthalpy composition derivative and subtracting
+the component-\(N\) equation from the component-\(\beta\) equation reproduces
+\eqref{eq:MC_solid_composition_projection}.  Therefore the full solid
+composition coefficient differs from
+\(\pi_s^\beta/\eta_s^\beta\) only by a component-independent multiplier.
+The weighted cancellation in
+\eqref{eq:appendix_weighted_composition_stationarity} is consequently
+unchanged, proving \eqref{eq:MC_neutral_component_euler_identity} for solids.

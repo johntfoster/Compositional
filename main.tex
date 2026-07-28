@@ -12,6 +12,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[affil-it]{authblk}
 \usepackage[]{lmodern}
+\usepackage{microtype}
 \usepackage[]{nicefrac}
 \usepackage{tikz}
 \usetikzlibrary{arrows, shapes.geometric, positioning, patterns, shapes.arrows}
@@ -40,37 +41,40 @@ transformations}
 
 %
 \begin{abstract}
-	A thermodynamically consistent theory is developed for multicomponent,
-	multiphase porous media with finite deformation, electrostatics, chemical
-	reactions, and phase transformations.  Component mass conservation is written
-	for phase-attached material regions and then volume averaged, identifying
-	molecular-diffusion and mechanical-dispersion fluxes within the component
-	material increments.  Mobile fluids and load-bearing multicomponent solids are
-	described with common phase/component variables, so solid composition can
-	influence stress-free deformation, elasticity, plastic flow, and nonlinear
-	Biot coupling in one notation.  A fixed-pressure Legendre transform gives
-	reaction- and composition-modified Biot coefficients, including component and
-	phase mixture rules for multiphase solid skeletons.
+	Reactive reservoir models must combine compositional flow, deformation,
+	electrostatics, chemical reactions, and phase transformations without losing
+	the thermodynamic origin of each term.  This paper develops such a theory for
+	multicomponent, multiphase porous media at finite deformation.  Component mass
+	conservation is first written on phase-attached material regions and then
+	volume averaged, which separates molecular diffusion and mechanical dispersion
+	from bulk phase motion.  Mobile fluids and load-bearing multicomponent solids
+	use the same phase/component variables.  Solid composition can therefore
+	change stress-free deformation, elasticity, plastic flow, and nonlinear Biot
+	coupling.  A fixed-pressure Legendre transform gives phase Biot coefficients
+	at the current reacted state; an optional common-pressure specialization
+	resolves those coefficients into component contributions.
 
-	The central derivation couples a constrained Hamilton--d'Alembert variation
-	for reversible processes with an Onsager stationarity condition for
-	dissipative reaction and relative-transport rates.  Varying the component
-	material measures and phase Jacobians together produces momentum terms
-	associated with conversion insertion and leads to a generalized Darcy-like
-	relative-flux law.  The same stationarity system gives
-	composition stationarity, normalization equations, compatibility conditions for
-	the transfer potential, and equilibrium phase-transfer conditions obtained by
-	setting the relevant affinities to zero.  Electrical effects enter by treating
-	charge as a component-weighted projection of the mass measures, so the
-	potentials driving affinity and relative transport become electrochemical
-	when electric field energy is retained.  The entropy inequality identifies
-	admissible stress, pressure, reaction-affinity, drag, diffusion, dispersion,
-	and plastic-flow relations, while standard compositional flow, black-oil flow,
-	nonlinear poromechanics, and single-solid, single-fluid Biot theory emerge as
-	special limits of the full solid-reference formulation.
+	The derivation combines a constrained Hamilton--d'Alembert variation for
+	reversible processes with Onsager stationarity for dissipative reaction and
+	component-relative transport.  Varying component material measures and phase
+	Jacobians together produces the momentum carried by inserted mass and a
+	generalized Darcy-like relative-flux law.  The same calculation gives the
+	composition restrictions, transfer-potential equations, and phase-transfer
+	equilibrium conditions.  Material-carried charge is tied directly to component
+	mass, while prescribed external charge remains a separate conservative load.
+	Traditional reaction affinities are sums of electrochemical potentials.  Away
+	from uniform temperature, charged transport instead keeps the
+	temperature-weighted neutral-potential gradient separate from the electric
+	field so that the force is independent of the arbitrary electric-potential
+	level.  The entropy inequality identifies admissible stress, pressure,
+	reaction, drag, diffusion, dispersion, heat-transfer, and plastic-flow laws.
+	Standard compositional flow, black-oil flow, nonlinear poromechanics, and
+	single-solid, single-fluid Biot theory follow as stated limits of the full
+	solid-reference formulation.
 \end{abstract}
 %
 
+\input{sections/introduction.tex}
 \input{sections/technical_setting.tex}
 \input{sections/material_mass.tex}
 \input{sections/conservation_of_charge.tex}
@@ -78,6 +82,11 @@ transformations}
 \input{sections/multicomponent_solids.tex}
 \input{sections/pulled_back_solid_skeleton.tex}
 \input{sections/correspondence_to_other_theories.tex}
+\input{sections/conclusions.tex}
+
+\appendix
+\numberwithin{equation}{section}
+\input{sections/appendix_component_potential_derivation.tex}
 
 \section*{Acknowledgements}
 

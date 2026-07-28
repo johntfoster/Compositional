@@ -2,9 +2,11 @@
 \section{Technical setting, conventions, and model scope}
 \label{sec:technical_setting}
 
-This section fixes the notation and assumptions used throughout the derivation.
-It supplements, but does not replace, the local definitions attached to the
-governing equations and constitutive specializations.
+The model combines phase-specific motions, constrained phase and component
+fractions, two thermal subsystems, and an electrostatic field.  This section
+states the conventions needed to read their balance laws: indices and measures,
+observer and rate conventions, electrical gauge, source units, and admissible
+data.  Definitions tied to individual equations remain at their first use.
 
 \subsection{Indices, configurations, and measures}
 
@@ -31,16 +33,17 @@ Densities without an overbar are measured per current mixture volume:
 \(\rho_\xi^\alpha\) is a component partial density and
 \(\rho_\xi=\sum_\alpha\rho_\xi^\alpha\) is a phase partial density.  The
 intrinsic density \(\bar\rho_\xi\) is measured per current phase volume, so
-\(\rho_\xi=\phi_\xi\bar\rho_\xi\).  The active-state domain satisfies
+\(\rho_\xi=\phi_\xi\bar\rho_\xi\).  For the phases and components represented in
+the local model,
 \(\bar\rho_\xi>0\), \(0<\phi_\xi<1\),
 \(\eta_\xi^\alpha\ge0\),
 \(\sum_\alpha\eta_\xi^\alpha=1\), and
-\(\sum_\xi\phi_\xi=1\).  Constitutive relations containing
-\(1/\phi_\xi\), \(1/\eta_\xi^\alpha\), or inverse mobility operators are
-understood on the corresponding active subspace.  Phase appearance,
-disappearance, and changes of active component set require a separate
-complementarity or active-set treatment and are not supplied by the local
-constitutive equations.
+\(\sum_\xi\phi_\xi=1\).  A relation containing \(1/\phi_\xi\) or
+\(1/\eta_\xi^\alpha\) is used only when that phase or component has a positive
+fraction.  An inverse mobility is used only for its independent, invertible
+rates.  Phase appearance or disappearance, and a component entering or leaving
+the represented set, require additional switching and inequality rules outside
+the local constitutive model.
 
 \subsection{Observers and rates}
 
@@ -82,17 +85,218 @@ interfacial Helmholtz energy per current fluid volume.  Multiplication by the
 appropriate phase or fluid volume fraction converts these quantities to energy
 per current mixture volume.
 
-The constitutive functions are assumed sufficiently differentiable for every
-derivative used below.  They are objective under superposed proper-orthogonal
-changes of spatial frame: scalar potentials are invariant, spatial vectors and
-Cauchy stresses transform covariantly, and the solid energies depend on their
-elastic arguments through frame-indifferent combinations.  Constitutive
-functions also respect the material-symmetry group assigned to each phase; no
-isotropy is implied unless it is imposed in a stated specialization.  The
-present nonpolar continuum has no independent couple stress.  Consequently,
-admissible constitutive choices must satisfy angular-momentum balance and yield
-a symmetric total Cauchy stress, including any anisotropic mechanical or
-electrical contributions.
+\subsection{Frame indifference, material symmetry, and angular momentum}
+
+Let a superposed rigid change of spatial observer be described by a translation
+\(\mbf c(t)\) and a proper-orthogonal tensor \(\mbf Q(t)\).  Scalars are
+observer invariant, apart from the gauges of the electrostatic and
+Bedford--Drumheller transfer potentials specified below.  The kinematic,
+electrical, flux, and stress variables used below transform as
+%
+\begin{subequations}
+	\label{eq:observer_change_rules}
+	\begin{align}
+		\mbf x^\star
+		 & =
+		\mbf c(t)+\mbf Q(t)\mbf x,
+		\qquad
+		\mbf Q^T\mbf Q=\mbf I,
+		\qquad
+		\det\mbf Q=1,
+		\label{eq:observer_position_rule} \\
+		\mbf v_\xi^\star
+		 & =
+		\dot{\mbf c}+\dot{\mbf Q}\mbf x+\mbf Q\mbf v_\xi,
+		\qquad
+		\left(
+		\mbf v_\xi-\mbf v_\zeta
+		\right)^\star
+		=
+		\mbf Q
+		\left(
+		\mbf v_\xi-\mbf v_\zeta
+		\right),
+		\label{eq:observer_velocity_rule} \\
+		\mbf F_\xi^\star
+		 & =
+		\mbf Q\mbf F_\xi,
+		\qquad
+		\mbf F^\star=\mbf Q\mbf F,
+		\qquad
+		\bar{\mbf F}_s^\star=\mbf Q\bar{\mbf F}_s,
+		\qquad
+		\mbf A_s^\star=\mbf Q\mbf A_s\mbf Q^T,
+		\label{eq:observer_deformation_rules} \\
+		\varphi^\star(\mbf x^\star,t)
+		 & =
+		\varphi(\mbf x,t)+c_\varphi(t),
+		\qquad
+		\mbf E^\star=\mbf Q\mbf E,
+		\qquad
+		\mbf d_\xi^\star=\mbf Q\mbf d_\xi,
+		\label{eq:observer_electrical_rules} \\
+		\left(
+		\mbf j_{\xi,k}^\alpha
+		\right)^\star
+		 & =
+		\mbf Q\mbf j_{\xi,k}^\alpha,
+		\qquad
+		\mbf q_\xi^\star=\mbf Q\mbf q_\xi,
+		\qquad
+		\left(
+		\bs\sigma_\xi^{\prime+}
+		\right)^\star
+		=
+		\mbf Q\bs\sigma_\xi^{\prime+}\mbf Q^T .
+		\label{eq:observer_flux_stress_rules}
+	\end{align}
+\end{subequations}
+%
+Here \(k\in\{{\rm disp},{\rm diff}\}\).
+The transfer potential is a kinematic potential rather than an objective
+thermodynamic scalar.  Between inertial observers, take
+\(\mbf Q(t)=\mbf Q_0\) and
+\(\mbf c(t)=\mbf c_0+t\mbf u_{\rm obs}\), where
+\(\mbf u_{\rm obs}\) is constant in the starred frame.  Its Galilean
+transformation is
+%
+\begin{equation}
+	\tau^\star(\mbf x^\star,t)
+	=
+	\tau(\mbf x,t)
+	+
+	\mbf u_{\rm obs}\cdot\mbf x^\star
+	-
+	\frac{1}{2}
+	\mbf u_{\rm obs}\cdot\mbf u_{\rm obs}\,t
+	+
+	c_\tau,
+	\label{eq:transfer_potential_galilean_rule}
+\end{equation}
+%
+where \(c_\tau\) is a time-independent gauge constant.  Consequently,
+%
+\begin{equation}
+	\nabla_{\mbf x^\star}\tau^\star-\mbf v_\xi^\star
+	=
+	\mbf Q_0
+	\left(
+	\nabla_{\mbf x}\tau-\mbf v_\xi
+	\right),
+	\qquad
+	\frac{D_\xi^\star\tau^\star}{Dt}
+	-
+	\frac{1}{2}
+	\mbf v_\xi^\star\cdot\mbf v_\xi^\star
+	=
+	\frac{D_\xi\tau}{Dt}
+	-
+	\frac{1}{2}
+	\mbf v_\xi\cdot\mbf v_\xi .
+	\label{eq:transfer_potential_galilean_invariants}
+\end{equation}
+%
+These are the two combinations that enter the insertion-momentum and
+component-transfer equations.  A time-dependent rotation produces an observer
+velocity that cannot be written as the gradient of a scalar, so this
+transfer-potential form is restricted to inertial observers.  Noninertial
+balance laws must include the corresponding fictitious forces.
+Spatial gradients of objective scalars transform by left multiplication with
+\(\mbf Q\).  The velocity gradient transforms as
+\(\mbf L_\xi^\star=\dot{\mbf Q}\mbf Q^T+
+\mbf Q\mbf L_\xi\mbf Q^T\), while its symmetric part transforms
+covariantly.  Constitutive objectivity concerns arbitrary time-dependent
+\(\mbf Q\); the balance laws themselves are written for inertial observers,
+with fictitious accelerations included in the body force if a noninertial frame
+is used.
+
+The elastic factors are assigned consistently with
+\eqref{eq:observer_deformation_rules}, so that
+\(\bar{\mbf F}_s^{e\star}=\mbf Q\bar{\mbf F}_s^e\) and
+\(\mbf A_s^{e\star}=\mbf Q\mbf A_s^e\mbf Q^T\).  Frame indifference of the
+stored potentials therefore requires
+%
+\begin{subequations}
+	\label{eq:stored_potential_objectivity}
+	\begin{align}
+		\psi_s\left(
+		\mbf Q\bar{\mbf F}_s^e,
+		\mbf Q\mbf A_s^e\mbf Q^T,
+		\bar\rho_s,\{\eta_s^\alpha\},\theta_{\mc S}
+		\right)
+		 & =
+		\psi_s\left(
+		\bar{\mbf F}_s^e,\mbf A_s^e,
+		\bar\rho_s,\{\eta_s^\alpha\},\theta_{\mc S}
+		\right),
+		\label{eq:solid_energy_objectivity} \\
+		\omega_\xi^+\left(
+		\mbf Q\mbf E,
+		\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta_\xi
+		\right)
+		 & =
+		\omega_\xi^+\left(
+		\mbf E,
+		\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta_\xi
+		\right).
+		\label{eq:electric_enthalpy_objectivity}
+	\end{align}
+\end{subequations}
+%
+The plastic and stress-free factors are intermediate-configuration variables;
+their constitutive laws are understood to be invariant under a change of
+intermediate basis.  Likewise, every tensor mobility, permeability, and thermal
+conductivity used below must transform by
+\(\mbf Q(\cdot)\mbf Q^T\), every vector-valued closure must be equivariant, and
+the scalar reaction and plastic mobilities must be invariant.  If such a
+transport tensor depends only on the scalar state variables displayed in this
+manuscript, material isotropy reduces it to a scalar multiple of \(\mbf I\);
+anisotropic transport requires an objective structural or resolved-flow
+argument.
+
+Because \(\omega_\xi^+\) in
+\eqref{eq:electric_enthalpy_objectivity} has only one spatial-vector argument,
+its derived electric displacement is parallel to the electric field.  Hence
+%
+\begin{equation}
+	\mbf d_\xi(\mbf Q\mbf E,\ldots)
+	=
+	\mbf Q\mbf d_\xi(\mbf E,\ldots),
+	\qquad
+	\mbf E\times\mbf d_\xi=\mbf0,
+	\qquad
+	\bs\sigma_\xi^+
+	=
+	(\bs\sigma_\xi^+)^T .
+	\label{eq:objective_electrical_response_symmetry}
+\end{equation}
+%
+Thus the present electrical state set describes an isotropic, possibly
+density-, composition-, and temperature-dependent dielectric response.  A
+permanent polarization or bedding-directed dielectric response would require an
+additional objective structural argument and the associated stress and torque
+terms; those extensions are outside the present model.
+
+The continuum is nonpolar and has no body couples, constituent couple stresses,
+or interphase interaction couples.  Local angular-momentum balance therefore
+imposes
+%
+\begin{equation}
+	\bs\sigma_\xi^{\prime+}
+	=
+	(\bs\sigma_\xi^{\prime+})^T,
+	\qquad
+	\xi\in\mc F\cup\mc S .
+	\label{eq:phase_angular_momentum_restriction}
+\end{equation}
+%
+Equation~\eqref{eq:phase_angular_momentum_restriction} is a constitutive
+restriction on the solid energy derivatives as well as on the electrical
+stress.  Mechanical anisotropy remains admissible through the solid elastic
+arguments and the assigned material-symmetry group.  An isotropic mechanical
+specialization requires invariance under every proper material rotation and
+therefore representation by objective scalar invariants and isotropic tensor
+functions; no such specialization is assumed unless stated locally.
 
 \subsection{Electrical ensemble and gauge}
 
@@ -101,20 +305,55 @@ The electrical specialization is electroquasistatic:
 The phase electric enthalpies take \(\mbf E\) as their electrical argument, and
 \(\mbf d_\xi=-\partial\omega_\xi^+/\partial\mbf E\).  Free bulk charge
 \(\varrho\) and prescribed outward surface charge \(\bar q\) are source-work
-coefficients rather than additional stored energies.  Charge carried by the
-material is obtained by weighting each component mass by
-\(z_\xi^\alpha\); independently prescribed bulk charge is an external loading
-contribution.
+coefficients rather than additional stored energies.  Material-carried charge
+is obtained by weighting each component mass by \(z_\xi^\alpha\).
+Independently prescribed bulk charge is an external loading contribution
+completed by the current and supply in
+\eqref{eq:external_charge_loading_balance}; it is not a duplicate
+representation of charge attached to a solid component.
 
 The boundary is partitioned into \(\Gamma_\varphi\), where \(\varphi\) is
 prescribed, and \(\Gamma_q\), where
-\(\mbf d\cdot\mbf n=\bar q\).  If no potential value is prescribed, the
-additive gauge of \(\varphi\) must be fixed, for example by prescribing its
-mean.  Observable reaction and transport laws use charge-conserving
-stoichiometric projections, electrochemical-potential gradients, or coupled
-gauge-invariant Onsager blocks.  The reservoir specialization takes
-\(\omega_\xi^+\) to be even in \(\mbf E\), thereby excluding permanent
-polarization at zero field and independent dielectric relaxation.
+\(\mbf d\cdot\mbf n=\bar q\).  This electric-displacement datum is distinct from
+normal material or external current data.  For a pure electric-displacement
+boundary problem,
+\(\Gamma_q=\partial\mc B\), solvability and its fixed-domain rate require
+%
+\begin{subequations}
+	\label{eq:electrical_pure_neumann_compatibility}
+	\begin{align}
+		\int_{\mc B}\varrho\,\dv
+		 & =
+		\int_{\partial\mc B}\bar q\,{\rm d}a,
+		\label{eq:electrical_pure_neumann_gauss_compatibility} \\
+		\int_{\partial\mc B}
+		\left[
+			\frac{\partial\bar q}{\partial t}
+			+
+			\left(
+			\mbf i+\mbf i_{\rm ext}
+			\right)\cdot\mbf n
+		\right]{\rm d}a
+		 & =
+		\int_{\mc B}s_{\rm ext}\,\dv .
+		\label{eq:electrical_pure_neumann_rate_compatibility}
+	\end{align}
+\end{subequations}
+%
+If a nonempty potential boundary is present, its normal displacement adjusts
+instead of being prescribed by these global equalities.  If no potential value
+is prescribed, the additive gauge of \(\varphi\) must also be fixed, for example
+by prescribing its mean.  Reaction sums conserve charge, and transport keeps
+the neutral chemical driving force separate from the electric field; neither
+result changes when a constant is added to \(\varphi\).  At nonuniform
+temperature, differentiating an electrochemical potential divided by
+temperature would introduce that arbitrary constant.  The neutral thermal and
+electric forces are therefore kept separate below.  The reservoir
+specialization takes
+\(\omega_\xi^+\) to have the objective single-vector dependence in
+\eqref{eq:electric_enthalpy_objectivity}, thereby excluding permanent
+polarization at zero field, directional dielectric structure, and independent
+dielectric relaxation.
 
 \subsection{Source units and stoichiometric basis}
 
@@ -136,19 +375,148 @@ of component mass per current area per time.
 
 \subsection{Initial and boundary data}
 
-The local theory does not prescribe a single boundary-value problem.  A
-well-posed application supplies initial phase/component masses, active phase
-fractions, temperatures, solid internal variables, and kinematic fields that
-satisfy the mass-fraction, volume-fraction, mass, and charge compatibility
-conditions.  The electrostatic potential has no independent evolution datum;
-it is obtained at each time from Gauss' law, the current charge state, and its
-boundary data.
+The local theory does not prescribe a single boundary-value problem.  An
+application must supply a compatible independent set of initial
+phase/component masses, active phase fractions, fluid and solid temperatures,
+solid kinematic and internal variables, and, when inertia is retained, phase
+velocities.  These data must satisfy the mass-fraction, volume-fraction, mass,
+and charge restrictions.  Here and below, \(s_\star\in\mc S\) denotes the
+selected solid-phase transfer reference.  The transfer potential requires one
+initial datum
+for the skeleton-trajectory evolution
+\eqref{eq:MC_admissible_conversion_component}.  The non-reference
+phase-transfer levels \(L_\xi^N\), \(\xi\ne s_\star\), are then recovered from
+\eqref{eq:MC_phase_reference_transfer_work_recovery}, rather than prescribing
+additional initial data for \(\tau\) along every phase trajectory.  Its
+time-independent additive constant may be fixed, for example, by
+%
+\begin{equation}
+	\tau(\mbf x,0)=\tau_0(\mbf x),
+	\qquad
+	\int_{\mc B}\tau_0\,\dv=0 .
+	\label{eq:transfer_potential_initial_gauge}
+\end{equation}
+%
+The electrostatic potential has no independent evolution datum; it is obtained
+at each time from Gauss' law, the current charge state, and its boundary data.
 
-Boundary data are imposed in complementary classes appropriate to the selected
-reduction: motion or total traction for mechanics; component potential,
-composition, or normal total component flux for transport; temperature or
-normal heat flux for each thermal subsystem; and potential or normal electric
-displacement for electrostatics.  Boundary and initial data must also respect
-the zero-sum relative-flux constraints, any prescribed impermeability or
-insulation conditions, and global compatibility conditions associated with
-pure-Neumann mechanical, thermal, or electrical problems.
+Mechanical data use the complementary motion/traction partition defined with
+\eqref{eq:mechanical_boundary_virtual_work}.  The natural phase traction is
+\eqref{eq:phase_natural_traction}; after common-skeleton roll-up it is
+\eqref{eq:overall_natural_traction}.  For every independent component
+\(\alpha\ne N\) in phase \(\xi\in\mc G\), transport data use complementary
+normal-flux and neutral-potential portions.  The electric-potential or
+electric-displacement datum is supplied independently on
+\(\Gamma_\varphi\) or \(\Gamma_q\):
+%
+\begin{subequations}
+	\label{eq:component_boundary_data}
+	\begin{align}
+		\partial\mc B
+		 & =
+		\overline{\Gamma_{m,\xi}^{\alpha}}
+		\cup
+		\overline{\Gamma_{\mu,\xi}^{\alpha}},
+		\qquad
+		\Gamma_{m,\xi}^{\alpha}
+		\cap
+		\Gamma_{\mu,\xi}^{\alpha}
+		=\varnothing,
+		\label{eq:component_boundary_partition} \\
+		\left(
+			\rho_\xi^\alpha\mbf v_\xi
+			+
+			\mbf j_{\xi,{\rm disp}}^\alpha
+			+
+			\mbf j_{\xi,{\rm diff}}^\alpha
+		\right)\cdot\mbf n
+		 & =
+		\bar m_{\xi}^{\alpha,{\rm out}}
+		\qquad
+		\text{on }\Gamma_{m,\xi}^{\alpha},
+		\label{eq:component_normal_flux_boundary_data} \\
+		\frac{\hat\mu_\xi^\alpha-\hat\mu_\xi^N}{\theta_{\mc G}}
+		 & =
+		\overline{
+			\left(
+			\hat\mu_\xi^\alpha-\hat\mu_\xi^N
+			\right)/\theta_{\mc G}
+		}
+		\qquad
+		\text{on }\Gamma_{\mu,\xi}^{\alpha}.
+		\label{eq:component_potential_boundary_data}
+	\end{align}
+\end{subequations}
+%
+Impermeability sets
+\(\bar m_{\xi}^{\alpha,{\rm out}}=0\).  The reference-component flux is
+reconstructed rather than prescribed independently, and the relative parts of
+the boundary fluxes must satisfy the zero-sum conditions in
+\eqref{eq:averaged_relative_flux_sum}.
+
+Each thermal subsystem uses a complementary temperature/heat-flux partition,
+with the sign convention that positive prescribed flux leaves \(\mc B\).
+Here \(\mbf q_\xi\) is the gauge-invariant nonadvective material-energy flux in
+\eqref{eq:MC_energy_balance}; its Fourier closure is
+\eqref{eq:MC_heat_flux_law}.  Electrical work on component transport relative
+to a phase is a gauge-invariant volume power in
+\eqref{eq:MC_energy_balance}, not an additional potential-dependent boundary
+flux:
+%
+\begin{subequations}
+	\label{eq:thermal_boundary_data}
+	\begin{align}
+		\partial\mc B
+		 & =
+		\overline{\Gamma_{\theta,\mc G}}
+		\cup
+		\overline{\Gamma_{q,\mc G}},
+		\qquad
+		\Gamma_{\theta,\mc G}
+		\cap
+		\Gamma_{q,\mc G}
+		=\varnothing,
+		\label{eq:thermal_boundary_partition} \\
+		\theta_{\mc G}
+		 & =
+		\bar\theta_{\mc G}
+		\qquad
+		\text{on }\Gamma_{\theta,\mc G},
+		\label{eq:temperature_boundary_data} \\
+		\sum_{\xi\in\mc G}
+		\mbf q_\xi\cdot\mbf n
+		 & =
+		\bar q_{\mc G}^{\rm out}
+		\qquad
+		\text{on }\Gamma_{q,\mc G},
+		\qquad
+		\mc G\in\{\mc F,\mc S\}.
+		\label{eq:heat_flux_boundary_data}
+	\end{align}
+\end{subequations}
+%
+The corresponding entropy flux also contains the
+neutral-potential-weighted component-relative contribution stated in
+\eqref{eq:MC_entropy_inequality}.  Its normal value is fixed by the component
+flux and potential data in \eqref{eq:component_boundary_data}, and it vanishes
+on an impermeable boundary.  It is therefore not an additional independent
+thermal boundary datum.
+
+Insulation sets \(\bar q_{\mc G}^{\rm out}=0\).  For a steady pure-heat-flux
+problem, integrating \eqref{eq:MC_energy_balance} shows that the prescribed
+outward heat flux must equal the net nonconductive volume production minus the
+nonconductive steady storage and transport terms.  This is the thermal
+pure-Neumann compatibility condition, with its sign fixed by the
+\(-\nabla_{\mbf x}\cdot\mbf q_\xi\) term in that balance.  Similarly, a
+quasi-static pure-traction problem must satisfy the integrated overall momentum
+balance \eqref{eq:MC_overall_momentum_nonlinear_biot}; with inertia retained,
+the same integral determines the rate of total momentum.
+
+Electrostatic data use the potential/displacement partition and compatibility
+conditions \eqref{eq:electrical_pure_neumann_compatibility}.  Normal component
+mass fluxes determine the material-carried current
+\(\mbf i\cdot\mbf n\); independently prescribed
+\(\mbf i_{\rm ext}\cdot\mbf n\) and \(s_{\rm ext}\) belong to the external
+loading protocol.  Pure-flux component data must also satisfy the component
+mass balances integrated over \(\mc B\), so that initial mass plus integrated
+mechanism supply minus outward boundary flux equals current component mass.

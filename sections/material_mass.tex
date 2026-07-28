@@ -273,7 +273,7 @@ or equivalently,
 	\label{eq:spatial_mass_4}
 \end{align}
 % AGENT-LOCK-END
-where $\rho = \sum_\xi \rho_\xi$ is the mixture density and $\mbf v$ is the
+Here $\rho = \sum_\xi \rho_\xi$ is the mixture density and $\mbf v$ is the
 barycentric mixture velocity
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
@@ -409,18 +409,16 @@ is therefore needed only on the storage and transport terms.  Substitution of
 \end{subequations}
 %
 Equations \eqref{eq:averaged_mechanical_dispersion_flux_definition} and
-\eqref{eq:averaged_molecular_diffusion_flux_definition} define the physical
-meaning of the two averaged fluxes.  In the variational derivation of
-\sref{virtual_power_derivation}, however, the microscopic density and velocity
-factors inside the averages are left as unresolved subscale quantities.  Varying
-them separately would require additional density fields and closure equations
-beyond the macroscopic state description.  The averaged fluxes themselves are
-therefore promoted to independent macroscopic process variables.
-Their virtual changes \(\delta\mbf j_{\xi,{\rm disp}}^\alpha\) and
-\(\delta\mbf j_{\xi,{\rm diff}}^\alpha\) enter the coupled
-Hamilton--d'Alembert--Onsager construction as nonconservative process-rate
-variations.  Their dependence on the macroscopic state is restricted by the
-entropy inequality and specified constitutively~\cite{doi2011onsager,wang2021onsager}.
+\eqref{eq:averaged_molecular_diffusion_flux_definition} define what the
+averaged fluxes measure, but the macroscopic theory does not resolve the
+density and velocity fluctuations inside the averages.  Varying those subscale
+fields would add unknowns and closure equations.  The variational problem in
+\sref{virtual_power_derivation} therefore treats
+\(\mbf j_{\xi,{\rm disp}}^\alpha\) and
+\(\mbf j_{\xi,{\rm diff}}^\alpha\) as macroscopic process rates.  Their virtual
+changes enter the Onsager part of the formulation, and the entropy inequality
+restricts their constitutive force--flux laws
+\cite{doi2011onsager,wang2021onsager}.
 
 The dispersion flux \(\mbf j_{\xi,{\rm disp}}^\alpha\) is the covariance between
 unresolved density and phase-velocity fluctuations, while the diffusion flux
@@ -577,12 +575,26 @@ therefore leaves
 \end{equation}
 %
 Relative transport therefore redistributes component mass within a phase while
-preserving the phase total mass.  The relative fluxes have only \(N-1\)
-independent component directions in each phase.  The material increment
-\(\mc C_\xi^\alpha\) is tied to the transfer potential introduced in
+preserving the phase total mass.  The combined relative flux has only \(N-1\)
+independent component directions in each phase.  Equation
+\eqref{eq:averaged_relative_flux_sum} fixes only the sum of dispersion and
+diffusion.  The block-diagonal constitutive split used below adopts the stronger
+specialization that the two flux families are separately zero-sum,
+%
+\begin{equation}
+	\sum_\alpha\mbf j_{\xi,k}^\alpha
+	=
+	\mbf 0,
+	\qquad
+	k\in\{{\rm disp},{\rm diff}\}.
+	\label{eq:separate_relative_flux_sum_closure}
+\end{equation}
+%
+The material increment \(\mc C_\xi^\alpha\) is tied to the transfer potential introduced in
 \sref{virtual_power_derivation}, while the relative-flux part of
-\(\phasedot{\mc C}_\xi^\alpha\) is closed by the electrochemical-potential-gradient
-forces in the Onsager statement.  Summing
+\(\phasedot{\mc C}_\xi^\alpha\) is closed by the gauge-invariant neutral
+chemical and electric forces in the Onsager statement; these combine into the
+usual electrochemical-potential gradient at uniform temperature.  Summing
 \eqref{eq:averaged_component_spatial_mass} over phases gives the global
 component balance,
 %
@@ -625,8 +637,6 @@ mass balance and
 %
 This is the insertion constraint used in \eqref{eq:C4_def}.
 %
-Averaging determines the kinematic location of the two fluxes.  Both relative
-component fluxes are varied as nonconservative process rates in the extended
-Hamilton--d'Alembert--Onsager principle of
-\sref{virtual_power_derivation}; the entropy inequality restricts their
-constitutive forces, which are represented by a dissipation potential.
+The averaged balances determine where the two fluxes enter component
+transport; the entropy-admissible dissipation potential in
+\sref{virtual_power_derivation} supplies their constitutive laws.

@@ -3,7 +3,7 @@
 
 The weak forms in Section~\ref{sec:reference_solid_weak_forms} are not a
 closed finite-element system unless the partition constraints, thermodynamic
-multiplier relations, conversion-potential evolution laws, and phase kinematics
+multiplier relations, transfer-potential evolution laws, and phase kinematics
 are solved or supplied as material equations.  This section records those
 relations in the variables needed by a solid-reference implementation.
 
@@ -77,7 +77,7 @@ Therefore any phase-attached scalar field \(q_f\) stored on the solid mesh has
 	+\frac{1}{J\rho_f}\mbf W_f\cdot\Grad q_f .
 	\label{eq:fluid_material_derivative_on_solid_frame}
 \end{equation}
-This identity is the form needed by the conversion-potential residuals.  Mobile
+This identity is the form needed by the transfer-work recovery residuals.  Mobile
 phase deformation-gradient and Jacobian evolution may be introduced later as
 auxiliary history variables if a constitutive model requires them, but they are
 not separate finite-element residuals in the first solid-reference formulation.
@@ -134,56 +134,130 @@ fractions are solved directly, the unprojected equation with the multiplier
 \(\Pi_\xi\) may be used instead, but the projected system is the minimal
 independent implementation form.
 
-\subsection{Conversion potential evolution on the solid frame}
+\subsection{Transfer-potential evolution on the solid frame}
 \label{sec:conversion_potential_solid_frame}
 
 Variation of the phase-attached conversion variables first gives a relation
-containing the conversion-work potential \(L_\xi^\alpha\).  The
-Coleman--Noll restriction \(L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi\) makes the
-admissible conversion-potential equation
+containing the conversion-work potential \(L_\xi^\alpha\).  Subtracting its
+reference-component form gives
 \begin{equation}
-	\Dt{\xi}{\mu_\xi^\alpha}
+	L_\xi^\alpha-L_\xi^N
 	=
-	\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
-	-\mu_\xi^\alpha
-	-\frac{\pi_\xi^\alpha}
-	{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}.
-	\label{eq:implementation_conversion_potential_evolution_phase}
+	\frac{\pi_\xi^\alpha}
+	{\phi_\xi\bar\rho_\xi\eta_\xi^\alpha}
+	-
+	\frac{\pi_\xi^N}
+	{\phi_\xi\bar\rho_\xi\eta_\xi^N}
+	=
+	\hat\mu_\xi^\alpha-\hat\mu_\xi^N,
+	\qquad
+	\alpha\ne N .
+	\label{eq:implementation_transfer_work_component_difference}
 \end{equation}
-Using \eqref{eq:fluid_material_derivative_on_solid_frame}, the fluid
-conversion-potential equation is
+The neutral potentials are AD material outputs implementing the theory
+manuscript's constituent-partial-density derivative
+\(\hat\mu_\xi^\alpha
+=\partial(\rho_\xi\psi_\xi+\phi_\xi\omega_\xi^+)/
+\partial\rho_\xi^\alpha\) with the specified held-fixed fields.  They satisfy
+the theory Euler identity
+\(\hat\mu_\xi^\alpha
+=\psi_\xi+\pi_\xi^\alpha/
+(\phi_\xi\bar\rho_\xi\eta_\xi^\alpha)\); neither relation is an additional
+finite-element residual.
+Choose one skeleton-attached solid phase \(s_\star\) as the transfer reference
+and impose
+\(\psi_{s_\star}+L_{s_\star}^N=\hat\mu_{s_\star}^N\).
+The only evolution equation for the retained transfer potential is then
 \begin{align}
-	\left.\frac{\partial\mu_f^\alpha}{\partial t}\right|_{\mbf X}
-	+\frac{\mbf W_f}{J\rho_f}\cdot\Grad\mu_f^\alpha
-	=
-	\frac{1}{2}\mbf v_f\cdot\mbf v_f
-	-\mu_f^\alpha
-	-\frac{\pi_f^\alpha}
-	{\phi_f\bar\rho_f\eta_f^\alpha}.
-	\label{eq:implementation_mu_fluid_solid_frame}
-\end{align}
-For a solid phase attached to the skeleton, \(\mbf v_s-\mbf v_s=\mbf0\), so
-\begin{align}
-	\left.\frac{\partial\mu_s^s}{\partial t}\right|_{\mbf X}
+	\left.\frac{\partial\tau}{\partial t}\right|_{\mbf X}
 	=
 	\frac{1}{2}\mbf v_s\cdot\mbf v_s
-	-\mu_s^s
-	-\frac{\pi_s^s}
-	{\phi_s\bar\rho_s}.
-	\label{eq:implementation_mu_solid_solid_frame}
+	+\hat\mu_{s_\star}^N
+	-\psi_{s_\star}
+	-\frac{\pi_{s_\star}^N}
+	{\phi_{s_\star}\bar\rho_{s_\star}\eta_{s_\star}^N}.
+	\label{eq:implementation_tau_solid_frame}
 \end{align}
-The affinity driving mechanism \(m\) is the stoichiometric projection
+Once \(\tau\) is known, the \(P-1\) non-reference phase levels are algebraic.
+Using \eqref{eq:fluid_material_derivative_on_solid_frame}, a mobile fluid phase
+\(f\ne s_\star\) has
+\begin{align}
+	L_f^N
+	 & =
+	\left.\frac{\partial\tau}{\partial t}\right|_{\mbf X}
+	+\frac{\mbf W_f}{J\rho_f}\cdot\Grad\tau
+	-\frac{1}{2}\mbf v_f\cdot\mbf v_f
+	+\frac{\pi_f^N}
+	{\phi_f\bar\rho_f\eta_f^N},
+	\notag \\
+	 & =
+	\hat\mu_f^N-\psi_f
+	+\left.\frac{\partial\tau}{\partial t}\right|_{\mbf X}
+	+\frac{\mbf W_f}{J\rho_f}\cdot\Grad\tau
+	-\frac{1}{2}\mbf v_f\cdot\mbf v_f,
+	\label{eq:implementation_fluid_transfer_work_recovery}
+\end{align}
+while another skeleton-attached solid phase \(s\ne s_\star\) has
+\begin{align}
+	L_s^N
+	 & =
+	\left.\frac{\partial\tau}{\partial t}\right|_{\mbf X}
+	-\frac{1}{2}\mbf v_s\cdot\mbf v_s
+	+\frac{\pi_s^N}
+	{\phi_s\bar\rho_s\eta_s^N},
+	\notag \\
+	 & =
+	\hat\mu_s^N-\psi_s
+	+\left.\frac{\partial\tau}{\partial t}\right|_{\mbf X}
+	-\frac{1}{2}\mbf v_s\cdot\mbf v_s.
+	\label{eq:implementation_solid_transfer_work_recovery}
+\end{align}
+These equalities are the direct algebraic closure
+\(L_\xi^\alpha=\hat\mu_\xi^\alpha-\psi_\xi
++D_\xi\tau/Dt-\mbf v_\xi\cdot\mbf v_\xi/2\), written on the solid
+reference frame.  Thus \(L_\xi^\alpha\) is recovered from the constitutive
+potential \(\hat\mu_\xi^\alpha\), the retained field \(\tau\), and the phase
+kinematics; it is not an independent constitutive function.
+
+The traditional electrochemical affinity of mechanism \(m\) is the
+stoichiometric projection
 \begin{equation}
 	\mc A_{(m)}
 	=
 	-\sum_\xi\sum_\alpha
-	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha .
+	\mu_\xi^\alpha
+	\nu_{\xi (m)}^\alpha .
 	\label{eq:implementation_affinity_projection}
 \end{equation}
-Equations~\eqref{eq:implementation_conversion_potential_evolution_phase}--
-\eqref{eq:implementation_affinity_projection} are required whenever the
-implementation solves conversion potentials or uses affinity-based kinetics.
-For the first closed problem, \(\mu_\xi^\alpha\) is a solved field on the solid
-mesh.  Its residual is given in Section~\ref{sec:conversion_potential_weak_form}
-so that the affinity and reaction-rate law are differentiated consistently by
+The coefficient supplied by the variational conversion power is related to
+this affinity by
+\begin{equation}
+	-\sum_\xi\sum_\alpha
+	\left(
+	\psi_\xi+L_\xi^\alpha+z_\xi^\alpha\varphi
+	\right)
+	\nu_{\xi (m)}^\alpha
+	=
+	\mc A_{(m)}
+	-
+	\sum_\xi
+	\left(
+	\frac{D_\xi\tau}{Dt}
+	-\frac{1}{2}\mbf v_\xi\cdot\mbf v_\xi
+	\right)
+	\sum_\alpha\nu_{\xi (m)}^\alpha .
+	\label{eq:implementation_generalized_conversion_affinity_relation}
+\end{equation}
+The correction vanishes for chemistry that conserves mass separately within
+each phase and at full reversible equilibrium.  It must be retained for phase
+change, dissolution, precipitation, and pore-filling mechanisms.
+Equations~\eqref{eq:implementation_tau_solid_frame}--
+\eqref{eq:implementation_generalized_conversion_affinity_relation} are required whenever the
+implementation retains \(\tau\) or uses affinity-based kinetics.  For the first
+closed problem, \(\tau\) is the single solved transfer field on the solid mesh;
+the \(P-1\) levels \(L_\xi^N\) are algebraic variables or AD material
+properties, and \eqref{eq:implementation_transfer_work_component_difference}
+reconstructs the other component levels.  Their residuals are given in
+Section~\ref{sec:conversion_potential_weak_form} so that the affinity and
+the generalized conversion coefficient are differentiated consistently by
 MOOSE AD.

@@ -21,13 +21,13 @@ validated residual path on the solid reference configuration.
 		\midrule
 		Solid kinematics material & \(\mbf F\), \(J\), \(\mbf F^{-1}\), \(\mbf v_s\) & all solid-reference residuals \\
 		Phase advection material & \(\mbf v_f\) and \(D_f(\cdot)/Dt\) from \(\mbf W_f\) & Eq.~\eqref{eq:fluid_material_derivative_on_solid_frame} \\
-		Thermodynamics material & \(\bar p_f\), \(\mu_\xi^\alpha\), \(\bar p_E\), \(B\), \(\pi_\xi^\alpha\), \(\Pi_\xi\), \(\lambda\) & flux, momentum, algebraic constraints \\
-		Reaction material & \(\dot r_{(m)}\), \(\dot c_\xi^\alpha\), affinities & source and conversion terms \\
+		Thermodynamics material & \(\bar p_f\), \(\hat\mu_\xi^\alpha\), \(\mu_\xi^\alpha\), \(\psi_\xi\), \(\bar p_E\), \(B\), \(\pi_\xi^\alpha\), \(\Pi_\xi\), \(\lambda\) & flux, momentum, algebraic constraints \\
+		Reaction material & \(\dot r_{(m)}\), \(\dot c_\xi^\alpha\), traditional affinities, generalized conversion coefficients & source and conversion terms \\
 		Reference flux material & \(\mbf W_f\), \(\widetilde{\mbf K}_f\) & Eq.~\eqref{eq:fluid_component_residual} \\
 		Stress material & \(\mbf P^{\prime\prime}\), pressure stress split & Eq.~\eqref{eq:momentum_residual} \\
 		Component kernels & storage, flux, source residuals & Eq.~\eqref{eq:fluid_component_residual} \\
 		Solid kernels & solid storage and conversion residuals & Eq.~\eqref{eq:solid_component_residual} \\
-		Conversion-potential kernels & solid-frame evolution of \(\mu_\xi^\alpha\) & Eqs.~\eqref{eq:fluid_mu_residual}--\eqref{eq:solid_mu_residual} \\
+		Transfer-potential kernel and algebraic recovery & one solid-frame evolution of \(\tau\), \(P-1\) phase-reference \(L_\xi^N\) levels, and all component levels & Eqs.~\eqref{eq:tau_evolution_residual}--\eqref{eq:solid_transfer_work_recovery_residual} \\
 		Constraint kernels/material solves & partition, pressure, and composition relations & Eqs.~\eqref{eq:implementation_partition_relations}--\eqref{eq:implementation_pi_difference_system} \\
 		Momentum kernels & skeleton force balance & Eq.~\eqref{eq:momentum_residual} \\
 		\bottomrule
@@ -48,9 +48,9 @@ closures and expose derivatives such as pressures, chemical potentials, and
 selected second derivatives when the independent scalar arguments are chosen
 explicitly.  That capability is useful for local thermodynamic derivatives, but
 it does not remove the need for explicit AD C++ code for solid and fluid
-deformation-gradient kinematics, Piola transformations, pulled-back modified
-permeability, source closures, constraint residuals, conversion-potential
-evolution, and the weak forms in
+deformation-gradient kinematics, Piola transformations, pulled-back
+conversion-corrected mobility, source closures, constraint residuals,
+transfer-potential evolution, transfer-work recovery, and the weak forms in
 Section~\ref{sec:reference_solid_weak_forms}.
 
 Consequently, parsed derivative materials should be treated as thermodynamic
@@ -82,8 +82,13 @@ mapping to standard reservoir limits.  Candidate sets include:
 
 Whichever set is chosen, materials must provide the physical quantities used in
 the residuals: \(M_f^\alpha\), \(M_s\), \(\mbf W_f\),
-\(\mbf P^{\prime\prime}\), \(\bar p_E\), \(B\), \(\mu_\xi^\alpha\),
+\(\mbf P^{\prime\prime}\), \(\bar p_E\), \(B\),
+\(\hat\mu_\xi^\alpha\), \(\mu_\xi^\alpha\), \(\tau\),
 \(\pi_\xi^\alpha\), \(\Pi_\xi\), \(\lambda\), and \(\dot r_{(m)}\).
+The transfer-work levels \(L_\xi^\alpha\) are algebraically recovered from
+those outputs and the phase kinematics.  The reaction interface must expose
+both the traditional affinity and, when phasewise mass is not conserved, the
+transfer-work-corrected conversion coefficient.
 
 The first reviewable implementation plan is closed only for the restricted
 problem stated in Section~\ref{sec:closure_requirement}.  The broader

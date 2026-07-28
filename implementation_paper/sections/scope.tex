@@ -51,15 +51,21 @@ must satisfy:
 	\item storage variables: \(M_f^\alpha\) and \(M_s\), including the volume
 	and mass-fraction constraints that define \(\phi_\xi\) and
 	\(\eta_\xi^\alpha\);
-	\item thermodynamic forces: \(\bar p_f\), \(\mu_\xi^\alpha\),
-	\(\bar p_E\), and \(B\), with explicitly recorded held-fixed variables for
-	each derivative;
+	\item thermodynamic and field forces: \(\bar p_f\),
+	\(\hat\mu_\xi^\alpha\), \(\mu_\xi^\alpha\), \(\bar p_E\), \(\gamma_f\),
+	\(\tau\), \(B\),
+	\(\mbf E\), and \(\mbf d_f\), with explicitly recorded held-fixed
+	variables for each derivative, together with algebraic recovery of
+	\(L_\xi^\alpha\) from \(\hat\mu_\xi^\alpha\), \(\tau\), and the phase
+	kinematics;
 	\item flux and stress closures: \(\mbf w_f\), \(\mbf W_f\),
-	\(\widetilde{\bs\kappa}_f\), \(\widetilde{\mbf K}_f\),
+	the conversion-corrected mobilities
+	\(\widetilde{\bs\kappa}_f\) and \(\widetilde{\mbf K}_f\),
 	\(\mbf P^{\prime\prime}\), and the pressure stress contribution
 	\(B\bar p_EJ\mbf F^{-T}\);
 	\item conversion closures: \(\dot r_{(m)}\), \(\dot c_\xi^\alpha\), and
-	any affinity or activity model used by the reaction network.
+	the traditional electrochemical affinity and transfer-work correction used
+	by the reaction network;
 	\item phase kinematics for mobile phases: solid-frame advection of
 	phase-attached scalar fields through \(\mbf W_f\).
 \end{itemize}
@@ -71,16 +77,35 @@ The first closed review problem is deliberately narrower than the full theory
 but retains the full conversion structure needed for verification.  It is
 isothermal, uses one mobile fluid phase and one solid skeleton phase, prescribes
 a single reaction-rate law, and solves on \(\refdomain\) for displacement,
-solid-reference component storage variables, phase partition variables, and the
-conversion potentials required by the affinity law.  A thermodynamic material
+solid-reference component storage variables, phase partition variables, the
+single transfer potential \(\tau\), and the phase-reference transfer-work
+levels required by the affinity law.  A thermodynamic material
 maps those variables and \(\mbf F\) to
-\(\phi_\xi\), \(\eta_\xi^\alpha\), \(\bar p_f\), \(\mu_\xi^\alpha\),
-\(\bar p_E\), \(B\), and \(\dot c_\xi^\alpha\).  The first kernels therefore
-include the component storage residuals, the solid storage residual, the
-conversion-potential evolution equations, the reference-flux closure, and the
-quasi-static skeleton momentum residual.  Additional
-multifluid phase equilibrium, thermal effects, and plasticity are planned
-extensions.
+\(\phi_\xi\), \(\eta_\xi^\alpha\), \(\bar p_f\),
+\(\hat\mu_\xi^\alpha\), \(\mu_\xi^\alpha\), \(\bar p_E\), \(B\), and
+\(\dot c_\xi^\alpha\), while the \(L_\xi^\alpha\) are recovered
+algebraically.  This first problem adopts the
+neutral, nonelectrical single-fluid specialization
+\(\gamma_f=0\), \(\mbf E=\mbf d_f=\mbf0\), while retaining the transfer
+potential \(\tau\) in the conversion-insertion force.  The first kernels
+therefore include the component storage residuals, the solid storage residual,
+the single \(\tau\) evolution residual, the algebraic transfer-work recovery,
+the reference-flux closure, and the quasi-static skeleton momentum residual.
+Additional multifluid phase
+equilibrium, electrical coupling, thermal effects, and plasticity are planned
+extensions.  A later charged nonisothermal extension must use the
+gauge-invariant relative-transport force
+\(\theta_{\mc G}\nabla[(\hat\mu_\xi^\alpha-\hat\mu_\xi^N)/\theta_{\mc G}]
++(z_\xi^\alpha-z_\xi^N)\nabla\varphi\) and include the electric
+field work on the relative charge flux directly in the energy residual.  It
+must not add an isolated \(\varphi\)-weighted charge flux without the associated
+charge-storage and source terms.  Its general two-temperature reaction residual
+must use
+\(-\sum_{\mc G}\theta_{\mc G}^{-1}
+\sum_{\xi\in\mc G,\alpha}(\psi_\xi+L_\xi^\alpha)\nu_{\xi(m)}^\alpha\);
+electrochemical coefficients are interchangeable only when charge is conserved
+separately in each thermal subsystem.  Any coupling to reaction-energy transfer
+must preserve the mechanismwise dissipation condition in the theory.
 
 \subsection{Out of scope for this scaffold}
 \label{sec:out_of_scope}

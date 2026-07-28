@@ -31,15 +31,16 @@ maps:
     status: planned
     source:
       theory_manuscript:
-        labels: []
+        labels:
+          - "eq:MC_absolute_neutral_component_potential"
+          - "eq:MC_neutral_component_euler_identity"
         sections:
-          - "sections/coleman_noll.tex"
-          - "sections/variational_derivation.tex"
+          - "sections/multicomponent_solids.tex"
       implementation_paper:
         labels: []
         sections:
           - "sections/algebraic_kinematic_closure.tex"
-    role: "free energy, chemical potential, pressure, and derivative material properties"
+    role: "free energy, absolute neutral and electrochemical potentials, pressure, and derivative material properties"
     moose_plan:
       variables: []
       kernels: []
@@ -52,6 +53,35 @@ maps:
       - "state variables held fixed by each derivative"
       - "phase split or equilibrium algorithm"
       - "regularization near vanishing phases"
+
+  - id: charged_nonisothermal_relative_transport
+    status: planned
+    source:
+      theory_manuscript:
+        labels:
+          - "eq:MC_energy_balance"
+          - "eq:MC_transport_force_gauge_objectivity"
+          - "eq:MC_relative_transport_closures"
+        sections:
+          - "sections/multicomponent_solids.tex"
+      implementation_paper:
+        labels: []
+        sections:
+          - "sections/scope.tex"
+    role: "gauge-invariant neutral-potential and electric-field force, direct relative-current electric work, and material-energy flux"
+    moose_plan:
+      variables: []
+      kernels: []
+      materials:
+        - "neutral-potential and mobility material"
+      userobjects: []
+      boundary_conditions: []
+    assumptions_to_record:
+      - "temperature field and thermal subsystem assignment"
+      - "reference-component zero-sum flux reconstruction"
+      - "electric potential gauge"
+      - "direct electric-field work on the relative charge flux"
+      - "no isolated electric-potential-weighted charge flux"
 
   - id: reference_solid_mechanics
     status: planned
@@ -84,22 +114,42 @@ maps:
     source:
       theory_manuscript:
         labels:
-          - "eq:CN_admissible_conversion_component"
+          - "eq:MC_transfer_work_component_difference"
+          - "eq:MC_admissible_conversion_component"
+          - "eq:MC_phase_reference_transfer_work_recovery"
+          - "eq:MC_transfer_work_full_recovery"
+          - "eq:MC_affinity_projection"
+          - "eq:MC_generalized_conversion_affinity_relation"
+          - "eq:MC_temperature_weighted_reaction_power"
+          - "eq:MC_reaction_energy_coupled_admissibility"
         sections:
           - "sections/material_mass.tex"
-          - "sections/coleman_noll.tex"
+          - "sections/multicomponent_solids.tex"
       implementation_paper:
-        labels: []
-        sections: []
-    role: "reaction rates, source terms, affinities, and source-carried energy"
+        labels:
+          - "eq:implementation_tau_solid_frame"
+          - "eq:implementation_fluid_transfer_work_recovery"
+          - "eq:implementation_solid_transfer_work_recovery"
+          - "eq:implementation_affinity_projection"
+          - "eq:implementation_generalized_conversion_affinity_relation"
+        sections:
+          - "sections/algebraic_kinematic_closure.tex"
+          - "sections/reference_solid_weak_forms.tex"
+    role: "single transfer-potential evolution, algebraic transfer-work recovery, reaction rates, sources, traditional affinities, and transfer-work-corrected conversion coefficients"
     moose_plan:
       variables: []
       kernels: []
       materials: []
       userobjects:
-        - "reaction-rate laws and affinity evaluators"
+        - "reaction-rate laws, traditional-affinity evaluators, and generalized conversion-coefficient evaluators"
       boundary_conditions: []
     assumptions_to_record:
       - "mechanism indexing"
       - "equilibrium versus kinetic closure"
       - "mass and energy consistency checks"
+      - "one skeleton-attached transfer reference and P-1 algebraic phase levels"
+      - "traditional electrochemical affinity versus transfer-work-corrected conversion coefficient"
+      - "phasewise stoichiometric mass sums controlling when those two coefficients coincide"
+      - "gauge-invariant neutral reaction coefficient for the general two-temperature rate"
+      - "electrochemical and neutral subsystem projections coincide only under separate subsystem charge conservation"
+      - "mechanismwise reaction-energy dissipation condition for cross-subsystem transfer"

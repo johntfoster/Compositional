@@ -29,8 +29,9 @@ object_families:
       - "include/userobjects"
       - "src/userobjects"
     manuscript_basis:
-      - "Coleman-Noll restrictions"
-      - "variational thermodynamic forces"
+      - "eq:MC_absolute_neutral_component_potential"
+      - "eq:MC_neutral_component_euler_identity"
+      - "reversible thermodynamic restrictions"
     required_notes:
       - "state set"
       - "held-fixed variables"
@@ -45,10 +46,17 @@ object_families:
       - "src/fvkernels"
     manuscript_basis:
       - "component and phase mass balances"
+      - "eq:MC_energy_balance"
+      - "eq:MC_transport_force_gauge_objectivity"
+      - "eq:MC_relative_transport_closures"
     required_notes:
       - "FE or FV variable choice"
       - "flux law"
       - "stabilization/upwinding"
+      - "neutral-potential thermal gradient plus direct electric-field force"
+      - "direct electric-field work on the relative charge flux"
+      - "exclude isolated electric-potential-weighted charge fluxes"
+      - "electric potential gauge test"
 
   mechanics:
     status: planned
@@ -72,11 +80,24 @@ object_families:
       - "include/userobjects"
       - "src/userobjects"
     manuscript_basis:
-      - "conversion mechanisms and affinity relations"
+      - "eq:MC_admissible_conversion_component"
+      - "eq:MC_phase_reference_transfer_work_recovery"
+      - "eq:MC_transfer_work_full_recovery"
+      - "eq:MC_affinity_projection"
+      - "eq:MC_generalized_conversion_affinity_relation"
+      - "eq:MC_temperature_weighted_reaction_power"
+      - "eq:MC_reaction_energy_coupled_admissibility"
     required_notes:
       - "mechanism index convention"
       - "mass conservation check"
       - "equilibrium or kinetic law"
+      - "one tau evolution and P-1 algebraic transfer-work levels"
+      - "algebraic recovery of every L from hat mu, psi, tau, and phase kinematics"
+      - "traditional affinity -sum(mu nu)"
+      - "transfer-work correction for phase change, precipitation, dissolution, and pore filling"
+      - "neutral temperature-weighted reaction force for general charged two-temperature mechanisms"
+      - "separate subsystem charge conservation as the condition for electrochemical-neutral equivalence"
+      - "gauge-invariant reaction-energy coupling and mechanismwise dissipation test"
 
 validation_links:
   - validation_id: "black_oil_style_smoke"
