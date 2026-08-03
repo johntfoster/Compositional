@@ -77,13 +77,39 @@ sources.
 \subsection{Fluid phase kinematic residuals}
 \label{sec:phase_kinematic_weak_forms}
 
-No mobile-phase deformation-gradient or Jacobian residual is part of the first
-solid-reference finite-element system.  Phase-attached scalar derivatives are
-evaluated with \eqref{eq:fluid_material_derivative_on_solid_frame}, using the
-same \(\mbf W_f\) that enters the component balance.  If a later closure
-requires \(J_f\) or the full tensor \(\mbf F_f\), their evolution should be
-introduced as auxiliary/history kinematics and tied back to the phase map at
-that point.
+For each registered mobile phase \(a\in\mc P\setminus\{s\}\), the
+phase-history variables \(\mbf F_a\) and \(J_a\) are stored on the solid mesh.
+Using \eqref{eq:implementation_phase_deformation_gradient_history} and
+\eqref{eq:implementation_phase_jacobian_history}, their Galerkin residuals are
+\begin{subequations}
+	\label{eq:implementation_phase_history_residuals}
+	\begin{align}
+		R_{F_a}^{ij}
+		 & =
+		\int_{\Omega_0^s}
+		\test F_{ij}
+		\left[
+			\left.\frac{\partial F_a^{ij}}{\partial t}\right|_{\mbf X}
+			+\mbf c_a\cdot\Grad F_a^{ij}
+			-\left(\mbf l_a\mbf F_a\right)^{ij}
+		\right]\dd V,
+		\label{eq:implementation_phase_deformation_gradient_residual} \\
+		R_{J_a}
+		 & =
+		\int_{\Omega_0^s}
+		\test J
+		\left[
+			\left.\frac{\partial J_a}{\partial t}\right|_{\mbf X}
+			+\mbf c_a\cdot\Grad J_a
+			-J_a\tr\mbf l_a
+		\right]\dd V .
+		\label{eq:implementation_phase_jacobian_residual}
+	\end{align}
+\end{subequations}
+These residuals use only the solid-reference integration measure.  Current
+spatial gradients enter through the explicit solid-map transformation
+\(\grad\mbf v_a=\Grad\mbf v_a\,\mbf F_s^{-1}\), and current fluxes enter only
+after the Piola transformation defining \(\mbf W_a\).
 
 \subsection{Reference flux closure}
 \label{sec:reference_flux_closure}
@@ -244,6 +270,46 @@ stoichiometric mass sums vanish or the transfer-work offsets have equilibrated.
 \subsection{Overall momentum balance}
 \label{sec:momentum_weak_form}
 
+Each registered mobile phase selects either a full momentum solve or an
+algebraic relative-flux reduction.  For the full solve, define
+\(\mbf c_a=\mbf F_s^{-1}(\mbf v_a-\mbf v_s)\) and
+\(\mbf P_a^+=J_s\mbf T_a^+\mbf F_s^{-T}\), where \(\mbf T_a^+\) contains
+the phase extra and anisotropic Maxwell Cauchy stresses.  The solid-reference
+weak residual is
+\begin{align}
+ R_{v_a}={}&\int_{\Omega_0^s}\test{\mbf v_a}\cdot J_s\left\{
+ \rho_a\left[\left.\frac{\partial\mbf v_a}{\partial t}\right|_{\mbf X}
+ +\mbf c_a\cdot\Grad\mbf v_a\right]
+ +\phi_a\mbf F_s^{-T}\Grad(\bar p_E+\gamma_a)-\rho_a\mbf g\right.\notag\\
+ &\left.\qquad
+ +\frac{\mu_a^{\rm visc}\phi_a^2}{\kappa_a}(\mbf v_a-\mbf v_s)
+ -\mbf b_a^{\rm add}
+ -\sum_\alpha\dot c_a^\alpha
+ \left(\mbf F_s^{-T}\Grad\tau-\mbf v_a\right)
+ \right\}\,\dd V\notag\\
+ &+\int_{\Omega_0^s}\Grad\test{\mbf v_a}:\mbf P_a^+\,\dd V
+ -\int_{\Gamma_{0t,a}}\test{\mbf v_a}\cdot\bar{\mbf t}_{0,a}\,\dd A=0.
+ \label{eq:implementation_full_phase_momentum_residual}
+\end{align}
+Here \(\mbf b_a^{\rm add}\) permits registered fluid--fluid or other
+interaction forces beyond the built-in fluid--skeleton drag.  The alternative
+\texttt{relative\_flux} model algebraically eliminates \(\mbf v_a-\mbf v_s\)
+from this phase balance and supplies \(\mbf W_a\) directly to the component
+balances.  Thus the two formulations are selectable reductions of the same
+phase momentum equation rather than unrelated transport laws.  Within the
+relative-flux model, acceleration is independently selectable:
+\texttt{include\_acceleration=false} replaces
+\(\mbf g-\mbf a_a\) by \(\mbf g\), whereas the enabled branch requires a
+supplied \(\mbf a_a\) and retains the complete body driver.  The negligible-
+inertia branch therefore contains no hidden or lagged acceleration dependence.
+Capillarity is independently selectable in both momentum paths.  With
+\texttt{include\_capillary\_pressure=false}, the force contains
+\(\Grad\bar p_E\) only.  The enabled branch requires the phase contribution
+\(\gamma_a\) and uses \(\Grad(\bar p_E+\gamma_a)\); the disabled branch has no
+coupling to \(\gamma_a\) in its residual or automatic-differentiation graph.
+Here \(\gamma_a\) is the phase potential appearing in the mixture theory, not
+an implicitly signed pairwise capillary-pressure difference.
+
 Let \(\mbf P^{\prime\prime}\) be the skeleton effective first
 Piola--Kirchhoff stress and \(B\bar p_E J\mbf F^{-T}\) the equivalent pore
 pressure contribution.  The quasi-static implementation target is
@@ -291,7 +357,7 @@ chosen time integrator.  In a fully reference-form implementation, the
 transfer-potential gradient in the conversion-momentum terms is evaluated as
 \(\grad\tau=\mbf F^{-T}\Grad\tau\) for \(\tau\) stored on the solid mesh, while
 \(\mbf v_f\) is reconstructed from
-\eqref{eq:implementation_fluid_velocity_reconstruction}.
+\eqref{eq:implementation_phase_velocity_reconstruction}.
 
 \subsection{Constraint residuals}
 \label{sec:constraint_residuals}

@@ -50,42 +50,103 @@ is still needed because the current source rate is
 	\label{eq:implementation_conversion_rate_constraint}
 \end{equation}
 Thus \(J_\xi\) is part of the phase-attached definition of
-\(\dot{\mc C}_\xi^\alpha\).  The first solid-reference implementation uses the
-current production rate \(\dot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\)
-directly in the pulled-back source \(J\dot c_\xi^\alpha\), so it does not need a
-separate \(J_f\) residual unless a later constitutive closure evolves
-\(\mc C_f^\alpha\) as a phase-reference history variable.
+\(\dot{\mc C}_\xi^\alpha\).  The solid-reference implementation keeps this
+distinction explicit.  The input deck registers a finite phase set \(\mc P\)
+and selects its reference solid phase \(s\in\mc P\).  The weak forms are pulled
+back with that solid skeleton map, while every registered mobile phase
+\(a\in\mc P\setminus\{s\}\) may carry phase-history deformation gradients and
+Jacobians when a closure needs phase-attached material rates.
 
 \subsection{Fluid material derivatives on the solid frame}
 \label{sec:fluid_material_derivatives_solid_frame}
 
-The mobile phase velocity is not introduced through an independent displacement
-or deformation-gradient solve in the first implementation path.  It is
-reconstructed from the reference relative mass flux already used in the
-component balance:
+For each registered mobile phase \(a\in\mc P\setminus\{s\}\), the
+solid-frame convective velocity is reconstructed from the same reference
+relative mass flux that enters the component balance:
 \begin{equation}
-	\mbf v_f
+	\mbf v_a
 	=
-	\mbf v_s+\frac{1}{J\rho_f}\mbf F\mbf W_f .
-	\label{eq:implementation_fluid_velocity_reconstruction}
+	\mbf v_s+\frac{1}{J_s\rho_a}\mbf F_s\mbf W_a,
+	\qquad
+	\mbf c_a
+	=
+	\mbf F_s^{-1}\left(\mbf v_a-\mbf v_s\right)
+	=
+	\frac{1}{J_s\rho_a}\mbf W_a .
+	\label{eq:implementation_phase_velocity_reconstruction}
 \end{equation}
-Therefore any phase-attached scalar field \(q_f\) stored on the solid mesh has
+Here \(\rho_a=\phi_a\bar\rho_a\) is the current bulk phase density per unit
+current mixture volume; using the intrinsic density \(\bar\rho_a\) alone would
+omit the phase volume fraction and give an incorrect material derivative.
+Therefore any phase-attached scalar or tensor field \(q_a\) stored on the solid
+mesh has
 \begin{equation}
-	\frac{D_f q_f}{Dt}
+	\frac{D_a q_a}{Dt}
 	=
-	\left.\frac{\partial q_f}{\partial t}\right|_{\mbf X}
-	+\frac{1}{J\rho_f}\mbf W_f\cdot\Grad q_f .
+	\left.\frac{\partial q_a}{\partial t}\right|_{\mbf X}
+	+\mbf c_a\cdot\Grad q_a .
 	\label{eq:fluid_material_derivative_on_solid_frame}
 \end{equation}
-This identity is the form needed by the transfer-work recovery residuals.  Mobile
-phase deformation-gradient and Jacobian evolution may be introduced later as
-auxiliary history variables if a constitutive model requires them, but they are
-not separate finite-element residuals in the first solid-reference formulation.
+The phase-history kinematics use each mobile phase velocity gradient in the
+current configuration,
+\begin{equation}
+	\mbf l_a
+	=
+	\grad \mbf v_a
+	=
+	\Grad\mbf v_a\,\mbf F_s^{-1},
+	\label{eq:implementation_phase_velocity_gradient}
+\end{equation}
+and evolve on the solid mesh according to
+\begin{subequations}
+	\label{eq:implementation_phase_history_kinematics}
+	\begin{align}
+		\left.\frac{\partial \mbf F_a}{\partial t}\right|_{\mbf X}
+		+\mbf c_a\cdot\Grad\mbf F_a
+		 & =
+		\mbf l_a\mbf F_a,
+		\label{eq:implementation_phase_deformation_gradient_history} \\
+		\left.\frac{\partial J_a}{\partial t}\right|_{\mbf X}
+		+\mbf c_a\cdot\Grad J_a
+		 & =
+		J_a\tr\mbf l_a .
+		\label{eq:implementation_phase_jacobian_history}
+	\end{align}
+\end{subequations}
+Here \(\mbf F_a\) and \(J_a\) are phase-history kinematics associated with the
+phase labels, stored on the solid mesh.  They are distinct from
+\(\mbf F_s\) and \(J_s\), which define the reference configuration, all
+Grad/Div operators, boundary measures, and Piola transformations in the weak
+forms.  Input decks must initialize a history-free phase with
+\(\mbf F_a=\mbf I\) and \(J_a=1\), or provide another mutually consistent
+history.  If a phase is inactive, the implementation sets both
+\(\mbf c_a=\mbf 0\) and \(\mbf l_a=\mbf 0\), thereby preserving the stored
+history until a documented closure reactivates that phase with consistent data.
 
 \subsection{Thermodynamic multiplier and partition relations}
 \label{sec:thermodynamic_partition_relations}
 
-The pressure relation needed by the implementation is
+The general EOS input is a user-supplied Helmholtz free-energy density per unit
+current phase volume,
+\(\mc A_a=\mc A_a(\rho_a^1,\ldots,\rho_a^N,\theta,\ldots)\), where the
+\(\rho_a^\alpha\) are constituent mass densities per unit current phase
+volume.  The parsed material differentiates this single potential rather than
+accepting pressure or chemical potentials as independent constitutive inputs:
+\begin{subequations}
+\begin{align}
+ \mu_a^\alpha &=
+ \left.\frac{\partial\mc A_a}{\partial\rho_a^\alpha}\right|_{\rho_a^{\beta\ne\alpha},\theta,\ldots},
+ \label{eq:implementation_eos_chemical_potential}\\
+ \bar p_a &= \sum_\alpha\rho_a^\alpha\mu_a^\alpha-\mc A_a,
+ \label{eq:implementation_eos_pressure}\\
+ s_a &= -\left.\frac{\partial\mc A_a}{\partial\theta}\right|_{\rho_a^1,\ldots,\rho_a^N,\ldots}.
+ \label{eq:implementation_eos_entropy}
+\end{align}
+\end{subequations}
+Second derivatives of \(\mc A_a\) provide the composition and thermal
+thermodynamic Jacobian.  Thus pressure, chemical potentials, entropy, and their
+Newton couplings remain mutually consistent for every admissible user
+expression.  For a single density argument, this Euler relation reduces to
 \begin{equation}
 	\bar p_\xi
 	=

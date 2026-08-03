@@ -24,9 +24,11 @@ associated with that component is
 The coefficient \(z_\xi^\alpha\) may vanish for neutral components, may be a
 constant valence-to-mass ratio for a mobile ion, or may be an effective charge
 per mass for a solid component representing fixed surface or exchange-site
-charge.  Fixed clay-surface or exchange-site charge and mobile aqueous charge
-are represented by the same phase/component variables
-\cite{leroy2004triple,newman2004electrochemical}.  The total free charge density is
+charge.  Fixed surface or exchange-site charge and mobile ionic charge are
+represented by the same phase/component variables
+\cite{leroy2004triple,newman2004electrochemical}.  A charged component may
+belong to any phase; components treated as electrically neutral have
+\(z_\xi^\alpha=0\).  The total free charge density is
 %
 \begin{equation}
 	\varrho
@@ -59,48 +61,25 @@ material measure \eqref{eq:augmented_component_material_measure} by
 For constant \(z_\xi^\alpha\), its material rate gives
 %
 \begin{align}
+	\frac{\partial\varrho_\xi^\alpha}{\partial t}
+	+
+	\nabla_{\mbf x}\cdot
+	\left(
+	\varrho_\xi^\alpha\mbf v_\xi
+	\right)
+	&=
 	\frac{
 	z_\xi^\alpha\phasedot{\mc C}_\xi^\alpha
-	}{J_\xi}
-	&=
-	\frac{D_\xi\varrho_\xi^\alpha}{Dt}
-	+
-	\varrho_\xi^\alpha\nabla_{\mbf x}\cdot\mbf v_\xi .
+	}{J_\xi}.
 	\label{eq:component_charge_material_rate}
 \end{align}
 %
-If an effective charge \(z_\xi^\alpha\) is taken to depend on state, then the
-left-hand side acquires the corresponding material derivative of
-\(z_\xi^\alpha\).  The fixed-\(z_\xi^\alpha\) case is the charge-weighted
-component mass balance used below.
+Here and below, \(z_\xi^\alpha\) is constant.  A state-dependent effective
+charge requires additional material-rate and transport terms.
 
-Substitution of the rate \(\phasedot{\mc C}_\xi^\alpha\) from
-\eqref{eq:reference_conversion_accumulation_rate}
-gives the charge-weighted current-volume identity
-%
-\begin{align}
-	\frac{
-	z_\xi^\alpha\phasedot{\mc C}_\xi^\alpha
-	}{J_\xi}
-	-
-	z_\xi^\alpha
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
-	+
-	z_\xi^\alpha
-	\nabla_{\mbf x}\cdot
-	\left(
-	\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)
-	=
-	0 .
-	\label{eq:component_charge_rate_identity}
-\end{align}
-%
-This identity is the component material-rate balance viewed through the charge
-weights \(z_\xi^\alpha\).  Its spatial form is the charge balance for each
-charged component,
+Combining \eqref{eq:component_charge_material_rate} with
+\eqref{eq:reference_conversion_accumulation_rate} gives the charge balance for
+each charged component,
 %
 \begin{align}
 	\frac{\partial\varrho_\xi^\alpha}{\partial t}
@@ -192,8 +171,8 @@ stoichiometry satisfies these two conservation restrictions.  Thus charge
 attached to deforming solid sites is transported by the component current
 	\(\mbf i\).
 
-Ion-exchange and surface-complexation models are represented by retaining
-charged solid-site components, imposing
+Ion-exchange and surface-complexation models can be represented by retaining
+charged site components in the surface-bearing phase, imposing
 \eqref{eq:mechanism_charge_conservation} on the exchange stoichiometry, and
 choosing admissible kinetic or equilibrium closures for the corresponding
 mechanism rates.  The electrostatic field equation is Gauss' law, derived in

@@ -19,6 +19,10 @@ main.pdf
 *.bak*
 indent.log
 
+# MOOSE/libtool compilation objects and dependency files
+moose_app/**/*.lo
+moose_app/**/*.lo.d
+
 # Research PDFs are intentional source/context files.
 !references/pdfs/*.pdf
 

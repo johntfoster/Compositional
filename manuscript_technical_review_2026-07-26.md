@@ -3,8 +3,8 @@
 Date: 2026-07-26  
 Repository baseline: `master` at `4dba770`  
 Immediate owner: theory manuscript  
-Status: review plus tracked repairs; P0.1 and all Priority 2 items are fully
-repaired and validated
+Status: closed; every Priority 0, Priority 1, Priority 2, and citation finding
+has been repaired and independently validated
 
 ## Purpose and scope
 
@@ -15,6 +15,7 @@ The review covered the complete `main.tex` compilation graph:
 
 - `main.tex`
 - `defs.tex`
+- `sections/introduction.tex`
 - `sections/technical_setting.tex`
 - `sections/material_mass.tex`
 - `sections/conservation_of_charge.tex`
@@ -22,11 +23,13 @@ The review covered the complete `main.tex` compilation graph:
 - `sections/multicomponent_solids.tex`
 - `sections/pulled_back_solid_skeleton.tex`
 - `sections/correspondence_to_other_theories.tex`
+- `sections/conclusions.tex`
 - `all.bib`
 
 The inactive file `sections/variational_derivation.tex` was excluded because it
-is not included by `main.tex`. The introduction and conclusions were excluded
-because they have not yet been written.
+is not included by `main.tex`. The first review preceded the introduction and
+conclusions; both sections were added after its technical findings were closed
+and are included in the post-expansion review cycle.
 
 The review covered:
 
@@ -42,17 +45,13 @@ The review covered:
 
 ## Overall assessment
 
-The manuscript has a strong and unusually coherent architecture. Its mass and
-charge bookkeeping, phase-attached variational structure, solid kinematics,
-entropy exploitation, Biot reduction, and reservoir specializations are
-organized around a largely consistent notation.
-
-It is not yet technically ready for submission. The electrical variational
-ensemble, moving-fluid energy and entropy balances, compositional chemical
-potentials, additive Biot specialization, and several rate-space and
-completeness issues must be resolved first. These are structural matters that
-can propagate into the entropy restrictions, closures, special limits, abstract,
-and summary tables.
+The repaired manuscript has a strong and unusually coherent architecture. Its
+mass and charge bookkeeping, phase-attached variational structure, solid
+kinematics, entropy exploitation, Biot reduction, and reservoir
+specializations now use consistent notation and explicit scope assumptions.
+All structural findings in this review are closed. The manuscript may proceed
+to introduction/conclusion drafting and the independent post-expansion review
+cycle required before submission.
 
 ## Validation performed
 
@@ -62,12 +61,67 @@ and summary tables.
       chain-rule, force--flux, and closure consistency.
 - [x] Scanned labels, references, citations, and display environments.
 - [x] Rebuilt with `pdflatex -> bibtex -> pdflatex -> pdflatex`.
-- [x] Confirmed a 66-page PDF after the P0.1 and Priority 2 repairs.
+- [x] Confirmed a clean 78-page PDF after every Priority 0, Priority 1,
+      Priority 2, and citation repair.
+- [x] Confirmed a clean 81-page post-expansion PDF after adding the introduction,
+      conclusions, and the literature comparison following
+      `eq:MC_bulk_transport_interaction_admissibility`.
+- [x] Removed the forced page break before
+      `eq:MC_electrostatic_power_identity`; the identity and the following
+      subsystem energy balance now paginate without the former large blank area.
 - [x] Found no undefined references or citations.
 - [x] Found no reported LaTeX warnings, errors, overfull boxes, or underfull
       boxes in the final build log.
 - [x] Visually inspected all rendered pages and inspected dense displays at
       larger scale.
+
+## Final end-to-end balance audit
+
+An independent final audit accepted all five global balances under the
+conservation and constitutive-admissibility assumptions stated in the
+manuscript:
+
+- [x] **Mass.** Summing
+      `eq:averaged_global_component_balance` over components recovers
+      `eq:spatial_mass_4` because every mechanism is mass conservative and the
+      component-relative fluxes are phasewise zero-sum:
+      `sections/material_mass.tex:259-288` and
+      `sections/material_mass.tex:560-639`. The skeleton transformation retains
+      the conservative relative phase flux:
+      `sections/multicomponent_solids.tex:106-183`.
+- [x] **Free charge and current.** Constant component charge per mass,
+      mechanismwise charge conservation, and the compatible prescribed
+      external-charge triplet close `eq:mixture_charge_balance`; differentiating
+      Gauss' law gives the Eulerian, reference, and skeleton compatibility
+      equations:
+      `sections/conservation_of_charge.tex:49-249` and
+      `sections/virtual_power_derivation.tex:1349-1446`.
+- [x] **Momentum.** Antisymmetric pairwise forces cancel from the sum. Phase
+      mass balance converts the acceleration form to conservative momentum, and
+      the remaining transfer-potential term vanishes by the zero-sum insertion
+      constraint. The pressure, Maxwell, and capillary rollups give
+      `eq:MC_overall_momentum_nonlinear_biot`:
+      `sections/virtual_power_derivation.tex:46-55`,
+      `sections/virtual_power_derivation.tex:1249-1265`, and
+      `sections/multicomponent_solids.tex:3767-3926`.
+- [x] **Material-plus-field total energy.** The two thermal-subsystem balances,
+      phase kinetic-energy balances, and the single global field-power identity
+      close after generalized transfer power, volume-constraint power,
+      pairwise mechanical work, ordinary heat exchange, and
+      reaction-associated allocations cancel under their stated identities:
+      `sections/multicomponent_solids.tex:808-1001`,
+      `sections/multicomponent_solids.tex:2692-2722`, and
+      `sections/multicomponent_solids.tex:2955-3215`. Mechanical, thermal, and
+      electrical boundary-power signs are explicit.
+- [x] **Entropy.** Skeleton-relative internal-energy and entropy transport,
+      global electrical power, charge projection, reaction and relative-flux
+      rate spaces, plasticity, bulk phase interaction, drag, heat exchange, and
+      Fourier conduction are all retained in
+      `eq:MC_entropy_inequality` through `eq:MC_residual_dissipation`.
+      Nonnegativity follows only under the stated positive-mobility closures and
+      the joint bulk-transport/interaction condition:
+      `sections/multicomponent_solids.tex:1211-1842` and
+      `sections/multicomponent_solids.tex:2268-3292`.
 
 ## Priority 0: governing-theory issues
 
@@ -274,26 +328,12 @@ Full-text evidence checked:
 
 ### P0.3 Correct the compositional-limit chemical potentials
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Evidence after repair:
 
-- The classical closure set states
-  \(\mu_f^\alpha=\partial g_f/\partial\eta_f^\alpha\):
-  `sections/correspondence_to_other_theories.tex:52-76`.
-- The subsequent chemical-potential tangent and effective Fick tensor use the
-  unconstrained Hessian of \(g_f\):
-  `sections/correspondence_to_other_theories.tex:79-106`.
-- The manuscript elsewhere recognizes that only \(N-1\) composition
-  coordinates are independent: `sections/multicomponent_solids.tex:398-401`.
-
-Technical concern:
-
-For a specific mixture Gibbs energy defined on
-\(\sum_\alpha\eta_f^\alpha=1\), absolute chemical potentials are not generally
-the unconstrained mass-fraction derivatives of \(g_f\). In \(N-1\) independent
-coordinates, the derivatives give chemical-potential differences. With an
-appropriate off-simplex extension, one standard representation is
+- The classical closure now defines the absolute chemical potential from the
+  specific Gibbs energy by
 
 \[
 \mu_f^\alpha
@@ -307,467 +347,657 @@ g_f
 \frac{\partial g_f}{\partial\eta_f^\beta}.
 \]
 
-Recommended resolution:
+  The source also states its equivalent component-mass derivative
+  interpretation and its invariance to the chosen differentiable off-simplex
+  extension: `sections/correspondence_to_other_theories.tex:52-110`.
+- Transport now uses component \(N\) as reference, \(N-1\) independent mass
+  fractions, chemical-potential differences, and a zero-total-relative-flux
+  reconstruction: `sections/correspondence_to_other_theories.tex:70-110`.
+- The chemical-potential tangent and effective diffusion--dispersion tensor are
+  both restricted to the same \(N-1\) composition tangent space:
+  `sections/correspondence_to_other_theories.tex:112-161`.
+- The Fickian balance is written only for the \(N-1\) independent components,
+  and the source explains how the reference-component balance follows:
+  `sections/correspondence_to_other_theories.tex:163-201`.
+- Absolute chemical-potential equality remains the phase-equilibrium
+  condition, while the Fickian specialization uses only intrinsic potential
+  differences.
+- The current clean 69-page build resolves the repaired displays as equations
+  (277)--(280) on page 60. They and the adjacent pages were visually
+  rechecked after the common \(N-1\) rate-space repair.
 
-- [ ] Define chemical potentials through derivatives with respect to component
-      masses at fixed pressure, temperature, and the other component masses; or
-- [ ] use \(N-1\) independent mass fractions and
-      \(\mu_f^\alpha-\mu_f^N\).
-- [ ] Rewrite the composition-gradient tangent in the same coordinate system.
-- [ ] Project the diffusion/dispersion mobility and thermodynamic Hessian onto
+Completed resolution:
+
+- [x] Define absolute chemical potentials through the component-mass
+      derivative interpretation.
+- [x] Use \(N-1\) independent mass fractions and
+      \(\mu_f^\alpha-\mu_f^N\) for transport.
+- [x] Rewrite the composition-gradient tangent in the same coordinate system.
+- [x] Restrict diffusion/dispersion mobility and the thermodynamic tangent to
       the composition tangent space.
-- [ ] Recheck the phase-equilibrium and Fickian specializations.
+- [x] Recheck the phase-equilibrium and Fickian specializations.
 
 ### P0.4 Establish the assumptions behind the additive component Biot rule
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Evidence after repair:
 
-- The general phase transform exchanges intrinsic specific volume for the
-  common equivalent/phase pressure:
-  `sections/multicomponent_solids.tex:2952-3134`.
-- The component specialization holds each
-  \(\bar p_s^\alpha\) fixed independently:
-  `sections/multicomponent_solids.tex:3532-3605`.
-- The component corrections are summed to define the phase coefficient:
-  `sections/multicomponent_solids.tex:3620-3659`.
+- The phase Legendre transform and nonlinear coefficient remain the general,
+  authoritative construction:
+  `sections/multicomponent_solids.tex:3290-3450`.
+- The component construction is now explicitly an optional common-pressure
+  specialization rather than a consequence of additivity:
+  `sections/multicomponent_solids.tex:3854-3898`.
+- The pressure-average differential demonstrates why fixed phase pressure does
+  not generally fix each component pressure, after which the admissible
+  common-pressure EOS path is stated explicitly:
+  `sections/multicomponent_solids.tex:3863-3898`.
+- Composition, temperature, internal variables, and accumulated conversion are
+  held fixed on that path; unequal component pressures require direct use of the
+  phase coefficient.
+- The additive specific-volume derivative uses the current mass fractions
+  \(\eta_s^\alpha\), and the component Piola stresses consequently use
+  \(\rho_{s0}\eta_s^\alpha\):
+  `sections/multicomponent_solids.tex:3900-3981`.
+- The displayed summation proves
+  \(\sum_\alpha(1-B_s^\alpha)=1-B_s\) under the stated path:
+  `sections/multicomponent_solids.tex:3983-4024`.
+- The boxed component mixture rule is identified as a path-dependent
+  compatibility result, not a general replacement for \(B_s\):
+  `sections/multicomponent_solids.tex:4051-4084`.
+- The abstract now makes the same qualification:
+  `main.tex:51-54`.
+- An independent reread returned `ACCEPT` for the pressure-path assumptions,
+  component weights, phase stress roll-up, and one-component limit. The current
+  build resolves the repaired displays as equations (239)--(248c) on pages
+  54--55; pages 52--56 were visually rechecked.
 
-Technical concern:
+Completed resolution:
 
-Holding the phase pressure
-
-\[
-\bar p_s
-=
-\sum_\alpha
-\phi_s^\alpha\bar p_s^\alpha
-\]
-
-fixed does not generally imply that every component pressure is fixed. The
-component fixed-pressure derivatives therefore do not automatically decompose
-the phase derivative at fixed \(\bar p_s\).
-
-Recommended resolution:
-
-- [ ] Specify the component EOS and the allowed component-pressure path during
+- [x] Specify the component EOS and the allowed component-pressure path during
       deformation.
-- [ ] State whether component pressures are independent, equilibrated, or tied
-      to one common pressure.
-- [ ] Prove that the summed component transform equals the phase transform under
+- [x] State that the optional decomposition uses a common equilibrated
+      component pressure.
+- [x] Prove that the summed component transform equals the phase transform under
       those assumptions.
-- [ ] If that proof does not hold generally, present the component rule as an
-      optional additive approximation rather than a decomposition of the
-      general phase coefficient.
+- [x] Preserve the phase transform as the general result and qualify the
+      component rule as an optional specialization.
 
 ### P0.5 Resolve the crystallization-pressure sign convention
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Evidence after repair:
 
-- The overall stress uses the conventional pressure contribution
-  \(-B\bar p_E\mathbf I\):
-  `sections/multicomponent_solids.tex:3368-3387`.
-- The crystallization affinity uses
-  \[
-  \mathcal A_{(m)}
-  =
-  \bar v_s
-  \left[
-  \bar p_{\mathrm{xtal},s}
-  -
-  \frac13\operatorname{tr}\boldsymbol\sigma_s'
-  \right]:
-  \]
-  `sections/multicomponent_solids.tex:3819-3918`.
+- The crystallization subsection now states the tension-positive Cauchy-stress
+  convention and identifies
+  \(-\operatorname{tr}\boldsymbol\sigma_s'/3\) as positive compression:
+  `sections/multicomponent_solids.tex:4319-4326`.
+- The progress-variable normalization and its mass- and molar-basis alternatives
+  are explicit:
+  `sections/multicomponent_solids.tex:4326-4331`.
+- The pressure-work derivation gives
+  \(\mathcal A_{(m)}=\bar v_s[
+  \bar p_{\mathrm{xtal},s}+\operatorname{tr}\boldsymbol\sigma_s'/3]\), so
+  positive crystallization pressure balances positive compression:
+  `sections/multicomponent_solids.tex:4333-4348`.
+- The supersaturation form and reversible-equilibrium threshold retain that
+  sign:
+  `sections/multicomponent_solids.tex:4350-4394`.
+- The stress-free, compressive, precipitation, and dissolution limiting cases
+  are stated and checked:
+  `sections/multicomponent_solids.tex:4396-4403`.
+- An independent reread returned `ACCEPT` for the sign, normalization, and
+  limiting cases. The current build resolves these displays as equations
+  (264)--(267) on pages 57--58; both pages were visually rechecked.
 
-Technical concern:
+Completed resolution:
 
-Under a tension-positive Cauchy-stress convention, the positive compressive
-mechanical pressure is
-\(-\operatorname{tr}\boldsymbol\sigma_s'/3\). As written, positive
-crystallization pressure equilibrates with positive tensile mean stress unless
-\(\bar p_{\mathrm{xtal}}\) is intentionally defined with a tensile sign.
-
-Recommended resolution:
-
-- [ ] Declare the stress and pressure sign conventions immediately before the
+- [x] Declare the stress and pressure sign conventions immediately before the
       crystallization relation.
-- [ ] Derive the mechanical contribution to the solid chemical potential using
-      that convention.
-- [ ] Check the supersaturation formula and the equilibrium statement.
+- [x] Derive the mechanical contribution to the affinity using that convention
+      and state its normalization.
+- [x] Check the supersaturation formula and the equilibrium, stress-free,
+      compressive, precipitation, and dissolution limits.
 
 ### P0.6 Remove the circularity in the Onsager rate constraint
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Evidence after repair:
 
-- The text says that
-  \(\dot{\mathcal C}_\xi^\alpha/J_\xi\) is evaluated from reaction and relative
-  flux rates:
-  `sections/virtual_power_derivation.tex:1244-1249`.
-- The same equation is then imposed as a multiplier constraint:
-  `sections/virtual_power_derivation.tex:1251-1271`.
+- The independent reaction and \(N-1\) dispersion and diffusion rates, together
+  with the state held fixed during stationarity, are stated explicitly:
+  `sections/virtual_power_derivation.tex:1289-1309`.
+- The electrochemical potentials are fixed thermodynamic state coefficients,
+  not rate-constraint multipliers:
+  `sections/virtual_power_derivation.tex:1311-1326`.
+- The dependent accumulation rate is eliminated through the component
+  conservation law before the Rayleighian is formed:
+  `sections/virtual_power_derivation.tex:1328-1403`.
+- The linear thermodynamic-rate variation contains only reaction and
+  independent-flux variations; no redundant
+  \(\delta\mu_\xi^\alpha\) multiplier row remains:
+  `sections/virtual_power_derivation.tex:1484-1578`.
+- The text identifies the component balance as the independent conservation
+  law and does not claim to regenerate it by Onsager stationarity:
+  `sections/virtual_power_derivation.tex:1579-1584`.
+- An independent derivation audit confirmed the reaction and transport signs,
+  dimensions, and force--rate pairing against the residual entropy inequality.
 
-Technical concern:
+Completed resolution:
 
-If \(\dot{\mathcal C}_\xi^\alpha/J_\xi\) is already a dependent expression, the
-constraint residual is identically zero before variation. If it is an
-independent accumulation rate, that must be stated and included among the
-varied rates.
-
-Recommended resolution:
-
-- [ ] List the independent rates in the Onsager principle precisely.
-- [ ] Decide whether component accumulation is independent or eliminated.
-- [ ] If it is independent, retain the multiplier constraint.
-- [ ] If it is eliminated, substitute the balance before forming the reduced
-      dissipation potential and remove the redundant multiplier variation.
+- [x] List the independent process rates and held-fixed state precisely.
+- [x] Eliminate component accumulation through the balance before forming the
+      reduced Rayleighian.
+- [x] Retain the linear thermodynamic rate rather than substituting into an
+      identically zero constraint residual.
+- [x] Remove the redundant multiplier variation while preserving the component
+      conservation law.
 
 ### P0.7 Write transport stationarity intrinsically on the zero-sum subspace
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Evidence after repair:
 
-- The mobility inverse is said to act only on the zero-sum relative-flux
-  subspace: `sections/virtual_power_derivation.tex:1341-1345`.
-- The stationarity equations are displayed as unrestricted componentwise
-  equalities: `sections/virtual_power_derivation.tex:1517-1549`.
-- The later constitutive section acknowledges singular full-space mobilities:
-  `sections/multicomponent_solids.tex:2450-2526`.
+- The kinematic combined zero sum is distinguished from the block-diagonal
+  constitutive specialization that makes dispersion and diffusion separately
+  zero-sum: `sections/material_mass.tex:579-593`.
+- Each flux family is parameterized by \(N-1\) independent components, and its
+  reference-component flux is reconstructed explicitly:
+  `sections/virtual_power_derivation.tex:1291-1305`.
+- The reduced mobilities and their inverses act in the same \(N-1\)
+  coordinates; the stationarity equations use only
+  \((\mu_\xi^\alpha-\mu_\xi^N)/\theta_{\mathcal G}\):
+  `sections/virtual_power_derivation.tex:1407-1447,1525-1686`.
+- The entropy product rule, residual inequality, constitutive stationarity,
+  closures, and positive-definite dissipation proof use the same reduced
+  coordinates:
+  `sections/multicomponent_solids.tex:2409-2480,2530-2552,2646-2789`.
+- The classical compositional and Nernst--Planck--Darcy reductions use the same
+  reference component and reconstruct its flux and balance:
+  `sections/correspondence_to_other_theories.tex:52-108,391-429`.
+- The existing model table count of \(2d(N-1)\) relative-flux unknowns per
+  phase is therefore now derived rather than implicit.
+- The 69-page build is warning-free. The affected displays and page boundaries
+  were visually checked on pages 8, 23--25, 41--44, 59--60, and 62--64; two
+  avoidable whitespace defects found during that check were corrected.
 
-Technical concern:
+Completed resolution:
 
-Variation subject to
-\(\sum_\alpha\delta\mathbf j_\xi^\alpha=\mathbf0\) produces a projected force
-balance. It does not require the full component-force vector to vanish. The
-current equation is correct only if “equals zero” is read as an equality in the
-quotient/tangent space, which should not be left implicit.
-
-Recommended resolution:
-
-- [ ] Introduce an explicit tangent-space projector; or
-- [ ] write the force balance modulo a common phase potential; or
-- [ ] use \(N-1\) independent fluxes and forces.
-- [ ] Use the same formulation in both the variational and constitutive
-      sections.
+- [x] Use \(N-1\) independent fluxes and potential-difference forces.
+- [x] Reconstruct each reference-component flux explicitly.
+- [x] Use reduced positive-definite mobilities and reduced inverses
+      consistently in the variational and constitutive sections.
+- [x] Propagate the same formulation through the dissipation proof and special
+      limits.
 
 ## Priority 1: completeness and modeling assumptions
 
 ### P1.1 Add objectivity, material symmetry, and angular-momentum restrictions
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The solid free energy depends on
-  \(\bar{\mathbf F}_s^e\) and \(\mathbf A_s^e\):
-  `sections/multicomponent_solids.tex:358-395`.
-- No explicit frame-indifference, angular-momentum, or stress-symmetry
-  restriction is stated in the active manuscript.
-
-Recommended resolution:
-
-- [ ] State the transformation of every kinematic and electrical variable under
-      a superposed rigid motion.
-- [ ] Impose frame indifference on the solid free energy and dissipative
-      closures.
-- [ ] State the angular-momentum balance and the resulting stress-symmetry
-      conditions, including any electromagnetic qualifications.
-- [ ] State material symmetry assumptions for isotropic specializations.
+- [x] Added the superposed rigid-observer transformation rules for position,
+      phase velocity and velocity differences, deformation factors,
+      electrostatic potential and field, electric displacement, relative and
+      heat fluxes, and Cauchy stress as equations (1a)--(1e):
+      `sections/technical_setting.tex:85-160`.
+- [x] Imposed frame indifference on the solid Helmholtz energy and phase
+      electric enthalpy as equations (2a)--(2b), and required equivariance of
+      tensor mobilities, permeabilities, conductivities, and vector closures:
+      `sections/technical_setting.tex:162-204`.
+- [x] Distinguished spatial observer changes from intermediate-configuration
+      basis changes and required the plastic and stress-free laws to be
+      invariant under both:
+      `sections/technical_setting.tex:195-200`.
+- [x] Identified the consequence of the present single-vector electrical state
+      set: \(\mathbf d_\xi\parallel\mathbf E\), so the dielectric response is
+      electrically isotropic and the Maxwell stress is symmetric.  Permanent
+      polarization and bedding-directed dielectric anisotropy are now stated
+      to require an added structural argument and torque bookkeeping:
+      `sections/technical_setting.tex:206-227` and
+      `sections/multicomponent_solids.tex:510-539`.
+- [x] Stated the nonpolar angular-momentum assumptions and the resulting
+      constituent total-stress symmetry as equation (4):
+      `sections/technical_setting.tex:229-248`.
+- [x] Preserved general mechanical anisotropy, stated the material-symmetry
+      requirement, and identified when isotropic tensor representations are
+      required.
+- [x] Rebuilt the complete manuscript and visually inspected equations
+      (1a)--(4) and the surrounding section on pages 3--4.
 
 ### P1.2 Add boundary conditions, initial conditions, and gauges
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- Mechanical boundary terms are omitted:
-  `sections/virtual_power_derivation.tex:233-247`.
-- Constraint and electrical boundary terms are omitted:
-  `sections/virtual_power_derivation.tex:650-668` and
-  `sections/virtual_power_derivation.tex:785-803`.
-- Onsager entropy-flux boundary terms are omitted:
-  `sections/virtual_power_derivation.tex:1386-1434`.
-
-Recommended resolution:
-
-- [ ] Derive the natural mechanical tractions.
-- [ ] State essential and natural phase-motion conditions.
-- [ ] State component no-flux, prescribed-flux, and chemical-potential
-      conditions.
-- [ ] State thermal Dirichlet and heat-flux conditions for both subsystems.
-- [ ] State electrostatic potential and electric-displacement boundary
-      conditions.
-- [ ] State electrical and transfer-potential gauges.
-- [ ] State initial conditions for storage variables, temperature, internal
-      variables, phase fractions, and the transfer potential.
+- [x] Derived the mechanical surface work and the complementary essential and
+      natural constituent-traction conditions, including the overall
+      Maxwell--Biot traction rollup:
+      `sections/virtual_power_derivation.tex:113-132` and
+      `sections/virtual_power_derivation.tex:670-711`.
+- [x] Added compatible initial data for storage, temperatures, phase fractions,
+      internal variables, electrostatic potential, and transfer potential, with
+      the mean-zero initial gauge for \(\tau\):
+      `sections/technical_setting.tex:322-342`.
+- [x] Added complementary prescribed-total-flux and prescribed
+      temperature-weighted electrochemical-potential boundary partitions.  The
+      external-reservoir work has the sign needed to recover the nonzero
+      prescribed potential difference, acts only on the dispersion-plus-
+      diffusion relative flux, and holds phase advection fixed:
+      `sections/virtual_power_derivation.tex:1541-1596` and
+      `sections/virtual_power_derivation.tex:1710-1773`.
+- [x] Added thermal temperature/heat-flux partitions, outward-flux sign
+      convention, and pure-Neumann energy compatibility for both thermal
+      subsystems:
+      `sections/technical_setting.tex:396-439`.
+- [x] Added electrostatic potential/displacement partitions, total-charge and
+      charge-rate compatibility, and the electrostatic gauge:
+      `sections/technical_setting.tex:250-302`.
+- [x] Added the current, external-charge, and integrated component-balance
+      compatibility conditions:
+      `sections/technical_setting.tex:441-448`.
+- [x] Independently re-audited the repaired source and visually inspected the
+      relevant pages.  The 77-page build is clean, with no warnings, undefined
+      references, or box diagnostics.
 
 ### P1.3 Define the admissible phase/component domain
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The material constraint divides by
-  \(\phi_\xi\bar\rho_\xi\eta_\xi^\alpha\):
-  `sections/virtual_power_derivation.tex:74-79`.
-- Other constitutive and stationary relations repeatedly divide by phase
-  fractions and component mass fractions or invert mobilities.
-
-Recommended resolution:
-
-- [ ] State whether the present theory assumes
-      \(\phi_\xi>0\), \(\bar\rho_\xi>0\), and
-      \(\eta_\xi^\alpha>0\).
-- [ ] Explain how phase appearance, phase disappearance, and absent components
-      are handled.
-- [ ] For reservoir simulation, identify whether complementarity, variable
-      switching, regularization, or an active-set formulation is required.
+- [x] Stated the active-domain requirements
+      \(J_\xi>0\), \(\bar\rho_\xi>0\), \(0<\phi_\xi<1\),
+      \(\eta_\xi^\alpha\ge0\), and both normalization constraints:
+      `sections/technical_setting.tex:19-38`.
+- [x] Restricted divisions by phase fractions or active component fractions and
+      inverse mobility operators to their corresponding active subspaces:
+      `sections/technical_setting.tex:38-40`.
+- [x] Stated that phase appearance, phase disappearance, and changes of active
+      component set require a complementarity or active-set treatment outside
+      the local constitutive equations:
+      `sections/technical_setting.tex:40-43`.
+- [x] Independent source re-audit accepted the domain statement without
+      mathematical correction.
 
 ### P1.4 Clarify source-carried energy and entropy
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- Inserted or removed component mass is assumed to carry the recipient phase
-  specific internal energy:
-  `sections/multicomponent_solids.tex:630-635`.
-
-Technical concern:
-
-Mass transferred between phases or created by a reaction generally carries a
-source-specific energy and entropy. Setting it equal to the recipient phase
-value is a closure assumption, not a general balance identity.
-
-Recommended resolution:
-
-- [ ] Define source-carried energy and entropy or state the equilibrium
-      assumption that makes them equal to recipient values.
-- [ ] Show explicitly how latent heat, reaction energy, and interphase energy
-      supply preserve the summed total-energy balance.
+- [x] Identified recipient-phase energy and entropy transport as an adopted
+      local-equilibrium source closure, not a general balance identity:
+      `sections/multicomponent_solids.tex:714-718`.
+- [x] Displayed the source-carried energy and entropy identities using the
+      phase-following material rates, equation (170):
+      `sections/multicomponent_solids.tex:720-769`.
+- [x] Kept generalized insertion work distinct and stated what additional data
+      a non-equilibrium source state would require:
+      `sections/multicomponent_solids.tex:771-785`.
+- [x] Required mechanism-by-mechanism conservation of reaction-associated
+      internal-energy allocation and made the cross-subsystem allocation
+      explicit, equations (203a)--(203b):
+      `sections/multicomponent_solids.tex:2691-2721`.
+- [x] Coupled charged cross-subsystem reaction rates to their energy-transfer
+      allocation in the admissible Onsager block:
+      `sections/multicomponent_solids.tex:2745-2751`.
+- [x] Displayed the complete cancellation of mechanical, ordinary-heat, and
+      reaction-associated internal exchange in the summed first law, equation
+      (220), and connected it to the global field-power identity:
+      `sections/multicomponent_solids.tex:3140-3214`.
+- [x] Independent source re-audit accepted the source convention, exchange
+      allocation, and total cancellation after the phase-following-rate
+      correction.
+- [x] Rebuilt cleanly and visually inspected equations (170), (203), and
+      (219)--(223) on pages 34, 47, and 50.
 
 ### P1.5 Reconcile mass-based and molar stoichiometry
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- \(\nu_{\xi(m)}^\alpha\) is defined as a mass-based coefficient:
-  `sections/material_mass.tex:240-260`.
-- The chemical-reaction and ion-exchange examples are written with ordinary
-  molar stoichiometric integers:
-  `sections/multicomponent_solids.tex:2882-2888` and
-  `sections/multicomponent_solids.tex:2940-2950`.
-
-Recommended resolution:
-
-- [ ] State the units of \(\dot r_{(m)}\).
-- [ ] Give the conversion from molar stoichiometric coefficients to the
-      manuscript's mass-based coefficients.
-- [ ] Check both mass and charge conservation for the example mechanisms.
+- [x] Stated the units of the component source, mass-based and molar progress
+      rates, dimensionless mass yields, and mass coefficients:
+      `sections/technical_setting.tex:304-320`.
+- [x] Defined the molar-to-mass conversion as signed molar stoichiometry times
+      component molar mass:
+      `sections/technical_setting.tex:313-316`.
+- [x] Recast carbonic-acid dissociation on a molar progress basis and displayed
+      both its exact mass and charge checks, equation (224):
+      `sections/multicomponent_solids.tex:3304-3349`.
+- [x] Identified the one-to-one phase-transfer example as a mass-progress
+      closure with dimensionless yields:
+      `sections/multicomponent_solids.tex:3351-3363`.
+- [x] Defined the ion-exchange site charge and neutral solid-site compounds,
+      converted the molar coefficients to mass coefficients, and displayed the
+      exact mass and charge checks, equation (228):
+      `sections/multicomponent_solids.tex:3404-3456`.
+- [x] Independent source re-audit accepted the units, conversions, and
+      conservation checks after the explicit sum-sign correction.
+- [x] Rebuilt cleanly and visually inspected equations (224)--(228) on
+      pages 51--52.
 
 ### P1.6 Define saturation derivatives intrinsically
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The interfacial potential is defined on the constrained saturation simplex:
-  `sections/virtual_power_derivation.tex:285-301`.
-- Later derivatives are written while holding all other saturations fixed.
-
-Technical concern:
-
-All saturations cannot be varied independently while
-\(\sum_fS_f=1\). Although pressure differences may be invariant to a common
-off-simplex extension, the derivative convention must be stated.
-
-Recommended resolution:
-
-- [ ] Use \(P_{\mathcal F}-1\) independent saturations; or
-- [ ] specify an off-simplex extension of \(\gamma\) and show which results are
-      extension invariant.
+- [x] Defined every displayed held-fixed saturation derivative using an
+      arbitrary \(C^2\) ambient extension of the intrinsic simplex potential
+      and stated that admissible saturation variations remain tangent to
+      \(\sum_fS_f=1\):
+      `sections/virtual_power_derivation.tex:344-359` and
+      `sections/virtual_power_derivation.tex:404-407`.
+- [x] Proved in prose that two extensions differ on the simplex by a common
+      normal component, which cancels from \(\gamma_f\), from every
+      \(\gamma_f-\gamma_g\), and from
+      \(\sum_fS_f\gamma_f\):
+      `sections/virtual_power_derivation.tex:350-359` and
+      `sections/virtual_power_derivation.tex:422-424`.
+- [x] Added the intrinsic tangent-direction definition of capillary pressure
+      as equation (77), so the sign convention is explicit without requiring
+      an off-simplex coordinate variation:
+      `sections/virtual_power_derivation.tex:436-453`.
+- [x] Corrected the nonisothermal weighted-gradient identity to
+      \[
+      \sum_fS_f\nabla_{\mathbf x}\gamma_f
+      =
+      \left.
+      \frac{\partial\gamma}{\partial\theta_{\mathcal F}}
+      \right|_{\{S_f\}}
+      \nabla_{\mathbf x}\theta_{\mathcal F},
+      \]
+      and propagated the resulting
+      \(-\phi\gamma_{,\theta_{\mathcal F}}\nabla_{\mathbf x}\theta_{\mathcal F}\)
+      thermocapillary force through the fluid rollup and overall spatial
+      momentum balance, equations (227)--(230):
+      `sections/multicomponent_solids.tex:3553-3681`.
+- [x] Pulled the same force back to the solid reference configuration in both
+      the general overall momentum equation (275) and its reservoir-solve copy
+      (276):
+      `sections/pulled_back_solid_skeleton.tex:340-378` and
+      `sections/pulled_back_solid_skeleton.tex:391-421`.
+- [x] Made the one-fluid Biot reduction set \(\gamma=0\), because no
+      fluid--fluid interface remains, before identifying
+      \(\bar p_E=\bar p_f\):
+      `sections/correspondence_to_other_theories.tex:533-560`.
+- [x] Verified extension-shift invariance, the wetting/non-wetting directional
+      derivative sign, pressure-gradient dimensions, the isothermal recovery,
+      and the one-fluid limit.
+- [x] Rebuilt the complete manuscript and visually inspected equations (77),
+      (227)--(230), (275)--(276), and (301) on pages 16, 51, 60--61, and 66.
 
 ### P1.7 Correct the time derivative in charge--Gauss compatibility
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Evidence after repair:
 
-- The compatibility equation is
-  \(\nabla_{\mathbf x}\cdot(\dot{\mathbf d}+\mathbf i)=0\):
-  `sections/virtual_power_derivation.tex:1207-1219`.
-- The ordinary dot is later defined as skeleton-following:
-  `sections/multicomponent_solids.tex:53-71`.
+- The total charge balance is now written first in Eulerian form and then in its
+  exact skeleton-observed conservative form:
+  `sections/conservation_of_charge.tex:218-250`.
+- Differentiating Gauss' law at fixed spatial position gives the Eulerian
+  compatibility equation with
+  \(\partial\mathbf d/\partial t\), total material-plus-external current, and
+  the external charge supply:
+  `sections/virtual_power_derivation.tex:1290-1308`.
+- The exact solid-reference Piola form differentiates
+  \(J\mathbf F^{-1}\mathbf d\) at fixed \(\mathbf X\) and transports current
+  relative to the skeleton:
+  `sections/virtual_power_derivation.tex:1310-1329`.
+- Its push-forward contains the skeleton convective and deformation terms
+  required by the ordinary-dot convention:
+  `sections/virtual_power_derivation.tex:1331-1353`.
+- The curl-equivalent compact form, sign derivation, dimensions, and
+  zero-external and neutral limits are stated at
+  `sections/virtual_power_derivation.tex:1356-1375`.
+- An independent derivation reread accepted the Eulerian, Piola, and pushed
+  forms without algebraic correction.
+- The clean 73-page build resolves the compatibility forms as equations
+  (116a)--(116c) on page 24; the complete page was visually rechecked.
 
-Recommended resolution:
+Completed resolution:
 
-- [ ] Use the Eulerian partial derivative implied by differentiating Gauss' law
-      and combining it with the Eulerian charge balance; or
-- [ ] derive the fully skeleton-observed form, including its convective terms.
+- [x] Use the Eulerian partial derivative obtained by differentiating Gauss'
+      law at fixed \(\mathbf x\).
+- [x] Derive the equivalent skeleton-observed, solid-reference Piola, and
+      pushed-forward forms with all convective terms.
+- [x] Check signs, dimensions, curl equivalence, and stationary-skeleton,
+      material-only, and neutral limits.
 
 ### P1.8 Complete the prescribed-charge model
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Evidence after repair:
 
-- Prescribed charge may be included as a known contribution to \(\varrho\):
-  `sections/conservation_of_charge.tex:44-48`.
-- The subsequent current and balance include only component-carried charge:
-  `sections/conservation_of_charge.tex:129-181`.
+- Total charge is split into component-carried charge and prescribed
+  \(\varrho_{\rm ext}\), whose external current and supply satisfy their own
+  conservative balance:
+  `sections/conservation_of_charge.tex:32-59`.
+- Static spatial, transported, and externally supplied loadings are
+  distinguished, and only two members of the loading triplet may be prescribed
+  independently:
+  `sections/conservation_of_charge.tex:61-77`.
+- The component current, material-carried balance, and combined total balance
+  are kept distinct:
+  `sections/conservation_of_charge.tex:158-250`.
+- Charge attached to deforming solid sites remains component-carried charge and
+  is explicitly excluded from the external contribution:
+  `sections/conservation_of_charge.tex:252-264`.
+- Electrical-displacement data are distinguished from current data; the
+  pure-Neumann Gauss and fixed-domain rate compatibility conditions, additive
+  potential gauge, and normal-current data are stated at
+  `sections/technical_setting.tex:250-300,321-342`.
+- The source-work ensemble and field-power identity retain total
+  \(\varrho\) without adding stored \(\varrho\varphi\), a second electrical body
+  force, or a duplicate \(\mathbf i\cdot\mathbf E\) term:
+  `sections/virtual_power_derivation.tex:98-118` and
+  `sections/multicomponent_solids.tex:788-799`.
+- The Nernst--Planck--Darcy limit sets all external-charge data to zero:
+  `sections/correspondence_to_other_theories.tex:335-345`.
+- The abstract distinguishes material-carried from prescribed charge, and the
+  model summary records the external triplet as loading data that adds no
+  primary unknown or independent field equation:
+  `main.tex:64-68` and `sections/multicomponent_solids.tex:4429-4435`.
+- An independent source reread accepted the complete model, boundary/gauge
+  consequences, source-work bookkeeping, and limiting cases without
+  mathematical correction.
+- The clean 73-page build resolves the external loading, total charge, and
+  skeleton-observed balance as equations (44)--(55) on pages 10--12, the
+  pure-Neumann compatibility as equations (5a)--(5b) on page 4, and the
+  model-count qualification on page 58; all affected pages were visually
+  rechecked.
 
-Recommended resolution:
+Completed resolution:
 
-- [ ] Define whether prescribed charge is static, transported, or externally
-      supplied.
-- [ ] Include its current and source in charge conservation when applicable.
-- [ ] Keep it distinct from charge attached to a solid component.
+- [x] Define static, transported, and externally supplied prescribed-charge
+      loadings.
+- [x] Include their current and supply in total charge conservation.
+- [x] Keep external loading distinct from charge attached to a solid component.
+- [x] Propagate the split through Gauss compatibility, boundary/gauge
+      compatibility, field power, the Nernst--Planck--Darcy limit, abstract, and
+      model count.
 
 ### P1.9 Qualify the finite-deformation Biot storage tangent
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The porosity tangent is adopted in the single-solid/single-fluid reduction:
-  `sections/correspondence_to_other_theories.tex:622-650`.
-- The source cited is classical poromechanics.
-
-Recommended resolution:
-
-- [ ] Label the tangent as an adopted finite-deformation extension unless it is
-      derived from the manuscript's constitutive theory.
-- [ ] Verify that the cited source supports the exact stated form.
-- [ ] State the density-gradient and small-compressibility assumptions used when
-      converting the reference mass flux to the small-strain volumetric flux:
-      `sections/correspondence_to_other_theories.tex:652-695`.
+- [x] Derived the current-to-reference fluid-storage balance with the material
+      derivative following the solid skeleton and the exact Piola transform:
+      `sections/correspondence_to_other_theories.tex:604-662`.
+- [x] Identified the porosity tangent as an adopted finite-deformation storage
+      closure, not a consequence of the phase energy, and stated the additional
+      reciprocity, integrability, and internal-storage assumptions:
+      `sections/correspondence_to_other_theories.tex:691-708`.
+- [x] Mapped the manuscript coefficient \(B\) to the classical
+      Detournay--Cheng coefficient \(\alpha\) and stated the source's
+      homogeneous-solid, coincident-unjacketed-moduli, and
+      porosity-invariant-under-uniform-unjacketed-\(\Pi\)-loading
+      specialization:
+      `sections/correspondence_to_other_theories.tex:697-702`.
+- [x] Verified the exact coefficient
+      \(1/M=\phi/K_f+(\alpha-\phi)/K_s\) against Detournay and Cheng,
+      Section 3.2.2 and Table 2, and added the verified chapter DOI:
+      `all.bib:221-230`.
+- [x] Required \(1/M>0\), stated the exact density-gradient term in the
+      mass-to-volume flux conversion, and identified the small-strain and
+      small-compressibility approximation:
+      `sections/correspondence_to_other_theories.tex:711-755`.
+- [x] Froze \(B\), \(M\), permeability, viscosity, and density at the reference
+      state for the linearization and stated the incompressible, rigid-skeleton,
+      and undrained limits:
+      `sections/correspondence_to_other_theories.tex:774-821`.
+- [x] Independently re-audited the derivative, source restriction, stability
+      condition, limiting cases, and rendered equations.  The current 78-page
+      theory build is clean.
 
 ### P1.10 Reclassify the modified-permeability positivity condition
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The source-corrected operator is described as a dissipative mobility and its
-  positive definiteness as thermodynamic admissibility:
-  `sections/pulled_back_solid_skeleton.tex:78-134`.
-
-Technical concern:
-
-The drag tensor is dissipative. The added scalar conversion-insertion term comes
-from momentum/source algebra and is not itself an entropy-producing drag
-coefficient. Positive definiteness of the combined operator is a sufficient
-solvability and conditioning requirement for the algebraic flux elimination,
-not automatically a second-law restriction.
-
-Recommended resolution:
-
-- [ ] Describe the condition as a solvability/validity criterion.
-- [ ] Keep the thermodynamic admissibility statement attached to the underlying
-      drag and transport mobilities.
+- [x] Identified \(\sum_\alpha\dot c_f^\alpha\) as the net conversion
+      phase-mass source, rather than a transport mobility or an independent
+      dissipative coefficient:
+      `sections/pulled_back_solid_skeleton.tex:82-88`.
+- [x] Reclassified the inverse as a conversion-corrected mobility, recorded its
+      resistance and mobility units, and distinguished it from permeability:
+      `sections/pulled_back_solid_skeleton.tex:90-110`.
+- [x] Stated exact eigenvalue-by-eigenvalue nonsingularity, the stronger
+      positive-resistance condition, and the spectral condition number as
+      separate requirements:
+      `sections/pulled_back_solid_skeleton.tex:111-174`.
+- [x] Replaced the approximate reaction-time statement by the exact first
+      singular threshold and distinguished loss of positive definiteness from
+      later eigenvalue crossings:
+      `sections/pulled_back_solid_skeleton.tex:175-198`.
+- [x] Kept thermodynamic dissipation attached to the underlying drag and
+      component-transport closures:
+      `sections/pulled_back_solid_skeleton.tex:223-234`.
+- [x] Propagated the force, terminology, and invertibility distinction through
+      the companion implementation weak form and closure contract:
+      `implementation_paper/sections/reference_solid_weak_forms.tex:88-145`,
+      `implementation_paper/sections/scope.tex:54-64`, and
+      `implementation_paper/sections/open_questions.tex:38-45`.
+- [x] Independently re-audited the algebra, dimensions, consumers, and rendered
+      equations; the theory and companion displays are clean.
 
 ### P1.11 Correct the scope of the reservoir-simulation summary
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The summary calls its displayed mechanics equation the general
-  finite-deformation form while setting inertia to zero:
-  `sections/pulled_back_solid_skeleton.tex:363-389`.
-- It includes fluid component balances and relative fluxes but omits the solid
-  component balances, subsystem energy equations, Gauss' law, and full reaction
-  and constitutive closure graph:
-  `sections/pulled_back_solid_skeleton.tex:390-481`.
-
-Recommended resolution:
-
-- [ ] Rename it the quasi-static mechanics--fluid subblock; or
-- [ ] include the complete coupled solve graph.
-- [ ] State explicitly which equations are primary residuals and which
-      quantities are reconstructed algebraically.
+- [x] Renamed and scoped the material as a quasi-static mechanics--fluid
+      subblock and stated that it is not the complete coupled model:
+      `sections/pulled_back_solid_skeleton.tex:449-458`.
+- [x] Classified momentum and component balances as primary residuals, the
+      velocity and flux laws as constitutive reconstructions, and the capillary
+      relation as an algebraic closure:
+      `sections/pulled_back_solid_skeleton.tex:578-585`.
+- [x] Listed the solid balances, two subsystem energy balances, Gauss' law,
+      kinetics, solid internal-variable evolution, and remaining constitutive
+      restrictions required by the full model:
+      `sections/pulled_back_solid_skeleton.tex:586-590`.
+- [x] Independently audited the scope and the rendered summary pages.
 
 ### P1.12 Move the general effective Piola definition before its first use
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- `sections/pulled_back_solid_skeleton.tex:324-348` uses
-  \(\mathbf P^{\prime\prime}\) through a cross-reference to a definition located
-  later in the single-solid/single-fluid special-case section:
-  `sections/correspondence_to_other_theories.tex:512-519`.
-
-Recommended resolution:
-
-- [ ] Define the general solid-reference effective Piola stress before the
-      solid-reference overall momentum equation.
-- [ ] Let the later Biot special case reference that general definition.
+- [x] Defined
+      \(\mathbf P^{\prime\prime}=J\boldsymbol{\sigma}^{\prime\prime}
+      \mathbf F^{-T}\) before the solid-reference overall momentum equation:
+      `sections/pulled_back_solid_skeleton.tex:394-406`.
+- [x] Made the later single-fluid Biot specialization reference that general
+      definition:
+      `sections/correspondence_to_other_theories.tex:586-600`.
+- [x] Verified the active include order and all consumers.
 
 ### P1.13 Qualify the charged two-temperature reaction closure
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The manuscript correctly notes that a reaction transferring net charge
-  between the thermal subsystems requires a coupled reaction--energy Onsager
-  block:
-  `sections/multicomponent_solids.tex:2195-2218` and
-  `sections/multicomponent_solids.tex:2444-2448`.
-- The block is not actually specified.
-
-Recommended resolution:
-
-- [ ] Either construct the gauge-invariant coupled block; or
-- [ ] state that the current explicit kinetics apply only to neutral mechanisms
-      or mechanisms conserving charge separately within each thermal subsystem.
+- [x] Restricted the explicit scalar temperature-weighted reaction law to
+      neutral mechanisms or mechanisms conserving charge separately within
+      each thermal subsystem:
+      `sections/multicomponent_solids.tex:2431-2454` and
+      `sections/multicomponent_solids.tex:2723-2758`.
+- [x] Stated that a charged cross-subsystem mechanism replaces the scalar law
+      by a gauge-invariant coupled reaction--energy Onsager block whose energy
+      rate satisfies the mechanismwise energy allocation.
+- [x] Propagated the qualification through the variational Onsager potential,
+      ordinary heat exchange, charged sorption, the correspondence section, and
+      the model-count discussion:
+      `sections/virtual_power_derivation.tex:1630-1640`,
+      `sections/multicomponent_solids.tex:3139-3145`,
+      `sections/multicomponent_solids.tex:3394-3396`, and
+      `sections/correspondence_to_other_theories.tex:281-299`.
+- [x] Independently verified that no unqualified scalar charged-transfer
+      closure remains.
 
 ### P1.14 Qualify the model-summary closure claim
 
-Status: [ ]
+Status: [x]
 
-Evidence:
+Completed repair:
 
-- The model summary describes a reduced, fully implicit formulation of the
-  complete model:
-  `sections/multicomponent_solids.tex:3949-3982`.
-- The unknown and equation totals match algebraically, but boundary data,
-  initial data, phase appearance, constitutive-domain conditions, and the
-  charged reaction--energy block are outside the count.
-
-Recommended resolution:
-
-- [ ] Rename the tables as bulk pointwise unknown and equation counts under the
-      stated active-phase and closure assumptions.
-- [ ] Add a note identifying uncounted gauges, boundary conditions, initial
-      conditions, and optional coupled closure blocks.
-- [ ] Clarify whether the transfer-potential compatibility equations are
-      constitutive checks, algebraic constraints, or equations used to eliminate
-      storage multipliers.
+- [x] Scoped the count to a reduced, fully implicit, bulk-pointwise active-phase
+      formulation and stated that it is not a complete boundary-value-problem
+      specification:
+      `sections/multicomponent_solids.tex:4635-4642`.
+- [x] Classified the normalization multipliers as eliminated, the storage
+      multipliers as reconstructed algebraically, one reference-component
+      equation as the evolution equation for \(\tau\), and the remaining
+      componentwise forms as compatibility checks:
+      `sections/multicomponent_solids.tex:4643-4653`.
+- [x] Identified the uncounted initial/boundary data, gauges, pure-Neumann
+      compatibility, active-set logic, and optional charged reaction--energy
+      closure:
+      `sections/multicomponent_solids.tex:4663-4669`.
+- [x] Renamed both table captions to state their bulk active-phase scope and
+      independently recomputed every row; the printed unknown and equation
+      totals agree:
+      `sections/multicomponent_solids.tex:4692-4770`.
 
 ### P1.15 Make the special-case assumptions fully explicit
 
-Status: [ ]
+Status: [x]
 
-Recommended resolution:
+Completed repair:
 
-- [ ] In the black-oil limit, explicitly set electrical enthalpy, charge, and
-      electric field to zero before using classical capillary laws:
-      `sections/correspondence_to_other_theories.tex:378-467`.
-- [ ] In the Nernst--Planck--Darcy limit, state that solid dielectric
-      displacement and fixed solid charge vanish or have already been folded
-      into the effective fluid response:
-      `sections/correspondence_to_other_theories.tex:276-300`.
-- [ ] State that the present capillary closure excludes dynamic capillary
-      pressure, hysteresis, and independent interfacial-area evolution unless
-      those effects are added constitutively.
+- [x] In the Nernst--Planck--Darcy limit, set external charge loading, fixed
+      solid charge, and solid electrical displacement to zero, while stating
+      the alternative effective-dielectric interpretation:
+      `sections/correspondence_to_other_theories.tex:332-346`.
+- [x] In the black-oil limit, imposed the neutral nonelectrical specialization
+      on electric enthalpy, component charge, external charge/current/supply,
+      electric field, and displacement before using the classical capillary
+      laws:
+      `sections/correspondence_to_other_theories.tex:448-460`.
+- [x] Stated that the present algebraic capillary closure excludes dynamic
+      capillary pressure, drainage--imbibition hysteresis, and independent
+      interfacial-area evolution:
+      `sections/virtual_power_derivation.tex:486-491`.
+- [x] Independently audited the specializations and their rendered equations.
 
 ## Priority 2: prose, notation, and displayed mathematics
 
@@ -904,7 +1134,7 @@ Local source:
 
 #### C2. Kim, Tchelepi, and Juanes
 
-Status: [ ]
+Status: [x]
 
 The paper supports the nonelectrical equivalent-pressure relation
 \(p_E=p-U\), where \(U\) is interfacial energy. It does not directly establish
@@ -915,11 +1145,12 @@ Local source:
 
 `references/pdfs/kim-tchelepi-juanes-2013-spej.pdf`
 
-Recommended resolution:
+Resolution:
 
-- [ ] Cite Kim et al. for the capillary/interfacial part.
-- [ ] Present the electrical term as this manuscript's extension or support it
-      with a source that derives the same homogenized pressure relation.
+- [x] The text now cites Kim et al. only for the neutral
+      capillary/interfacial relation.
+- [x] The electrical subtraction is explicitly identified as the present
+      extension derived from the manuscript's phase-pressure relation.
 
 #### C3. Foster and Xu
 
@@ -945,7 +1176,7 @@ Source:
 
 #### C5. Yamamoto, Doi, and Andelman
 
-Status: [ ]
+Status: [x]
 
 The source supports Maxwell and osmotic effects in electrowetting, but it does
 not by itself verify the exact phase-averaged electrocapillary pressure-jump
@@ -955,15 +1186,15 @@ Source:
 
 <https://arxiv.org/abs/1510.00613>
 
-Recommended resolution:
+Resolution:
 
-- [ ] Narrow the prose to “consistent with related electrowetting balances”; or
-- [ ] add a source deriving the same pressure-jump relation under matching
-      homogenization assumptions.
+- [x] The prose is limited to consistency with related electrowetting
+      interface balances and related Maxwell forces; it does not attribute the
+      manuscript's phase-averaged jump formula to Yamamoto et al.
 
 #### C6. Montanaro metadata
 
-Status: [ ]
+Status: [x]
 
 The official arXiv record was submitted in 2009 and revised in 2015, while the
 current BibTeX entry presents it simply as a 2015 preprint:
@@ -973,25 +1204,40 @@ Source:
 
 <https://arxiv.org/abs/0910.1344>
 
-Recommended resolution:
+Resolution:
 
-- [ ] Record the original year and, if useful, note the 2015 revision/version.
-- [ ] Recheck the manuscript's exact equation (12) and equation (16) comparison
-      against the cited version.
+- [x] The bibliography now records the original 2009 submission year and the
+      2015 version-3 revision.
+- [x] The equation-(12)/(16) comparison was checked against arXiv:0910.1344v3.
+      Equation (12) supplies
+      \(\rho\dot\varepsilon=\boldsymbol{\tau}:\nabla\boldsymbol v
+      -\operatorname{div}\boldsymbol q
+      +\boldsymbol E^M\cdot\rho\dot{\boldsymbol\pi}+\rho r\), while equation
+      (16) contains the electric-work term
+      \(-\boldsymbol E^M\cdot\boldsymbol\pi\). Their combination gives the
+      displayed \(-\boldsymbol P\cdot\dot{\boldsymbol E}^M\) term.
 
 #### C7. Book-specific equation claims
 
-Status: [ ]
+Status: [x]
 
 The exact Balhoff and Coussy equation claims were not verifiable from locally
 available full text. They are not rejected; they remain `not-verifiable`.
 
-Recommended resolution:
+Resolution:
 
-- [ ] Check Balhoff equation (7.15b) in the full book.
-- [ ] Check the precise Coussy support for the finite-deformation porosity
-      tangent and equivalent-pressure claims.
-- [ ] Record page/equation evidence before final submission.
+- [x] The unverified Balhoff equation-number locator was removed. Balhoff is
+      retained as the general reservoir-simulation source for the standard
+      advective component-balance structure.
+- [x] The Balhoff bibliography entry now records the official
+      *Developments in Petroleum Science* series volume 75.
+- [x] The manuscript no longer attributes its finite-deformation porosity
+      tangent to Coussy. It identifies that tangent as an adopted extension,
+      uses Coussy for the classical poromechanics context, and gives the
+      quantitative small-strain storage formula under the explicit
+      Detournay--Cheng assumptions.
+- [x] Exact full-text equation evidence is recorded above for the claims that
+      retain equation-level attribution.
 
 ## Revision sequence
 
@@ -1004,70 +1250,70 @@ later sections.
 - [x] Resolve P0.2: skeleton-frame energy and entropy balances.
 - [x] Rebuild the electrical and thermal parts of the Coleman--Noll
       exploitation.
-- [ ] Confirm summed mass, charge, momentum, total energy, and entropy balances.
+- [x] Confirm summed mass, charge, momentum, total energy, and entropy balances.
 
 ### Stage 2: component thermodynamics and rate spaces
 
-- [ ] Resolve P0.3: chemical potentials on the composition simplex.
-- [ ] Resolve P0.6 and P0.7: independent Onsager rates and projected transport
+- [x] Resolve P0.3: chemical potentials on the composition simplex.
+- [x] Resolve P0.6 and P0.7: independent Onsager rates and projected transport
       stationarity.
-- [ ] Recheck reaction affinities, diffusion, dispersion, phase equilibrium,
+- [x] Recheck reaction affinities, diffusion, dispersion, phase equilibrium,
       and the compositional-flow reduction.
 
 ### Stage 3: solid pressure transforms and reaction mechanics
 
-- [ ] Resolve P0.4: additive component Biot assumptions.
-- [ ] Resolve P0.5: crystallization-pressure sign.
-- [ ] Recheck phase and overall stress roll-ups.
-- [ ] Recheck the single-solid/single-fluid Biot limit.
+- [x] Resolve P0.4: additive component Biot assumptions.
+- [x] Resolve P0.5: crystallization-pressure sign.
+- [x] Recheck phase and overall stress roll-ups.
+- [x] Recheck the single-solid/single-fluid Biot limit.
 
 ### Stage 4: mathematical completeness
 
-- [ ] Add objectivity and angular-momentum restrictions.
-- [ ] Add admissible phase/component domains.
-- [ ] Add boundary, initial, and gauge conditions.
-- [ ] Complete or qualify the charged reaction--energy closure.
-- [ ] Clarify source-carried energy and stoichiometric units.
+- [x] Add objectivity and angular-momentum restrictions.
+- [x] Add admissible phase/component domains.
+- [x] Add boundary, initial, and gauge conditions.
+- [x] Complete or qualify the charged reaction--energy closure.
+- [x] Clarify source-carried energy and stoichiometric units.
 
 ### Stage 5: summary and special-case audit
 
-- [ ] Reaudit the reservoir solve block.
-- [ ] Reaudit the unknown/equation tables.
-- [ ] Recheck the black-oil, compositional, Nernst--Planck--Darcy, and Biot
+- [x] Reaudit the reservoir solve block.
+- [x] Reaudit the unknown/equation tables.
+- [x] Recheck the black-oil, compositional, Nernst--Planck--Darcy, and Biot
       reductions.
-- [ ] Qualify any remaining “complete,” “general,” or “thermodynamically
+- [x] Qualify any remaining “complete,” “general,” or “thermodynamically
       consistent” claims to match the final scope.
 
 ### Stage 6: presentation and publication polish
 
-- [ ] Split the collected entropy display.
-- [ ] Correct display style and punctuation.
-- [ ] Add the assumptions/notation section.
-- [ ] Remove global `\sloppy` and visually recheck the PDF.
-- [ ] Complete the full-text citation audit.
-- [ ] Write the introduction and conclusions only after the governing theory and
+- [x] Split the collected entropy display.
+- [x] Correct display style and punctuation.
+- [x] Add the assumptions/notation section.
+- [x] Remove global `\sloppy` and visually recheck the PDF.
+- [x] Complete the full-text citation audit.
+- [x] Write the introduction and conclusions only after the governing theory and
       its scope are stable.
 
 ## Final acceptance checklist
 
 The technical review can be considered closed when:
 
-- [ ] the written electrical functional generates every stated electrical
+- [x] the written electrical functional generates every stated electrical
       Euler--Lagrange and constitutive contribution;
-- [ ] every observer transformation in the energy and entropy balances is
+- [x] every observer transformation in the energy and entropy balances is
       explicit;
-- [ ] chemical potentials and transport forces live on a well-defined
+- [x] chemical potentials and transport forces live on a well-defined
       composition/flux space;
-- [ ] the phase and component Biot transforms use demonstrably compatible
+- [x] the phase and component Biot transforms use demonstrably compatible
       held-fixed paths;
-- [ ] stress, pressure, and crystallization signs are unambiguous;
-- [ ] balance laws, constitutive restrictions, and dissipative closures are
+- [x] stress, pressure, and crystallization signs are unambiguous;
+- [x] balance laws, constitutive restrictions, and dissipative closures are
       separated cleanly;
-- [ ] objectivity, angular momentum, state domains, gauges, boundary conditions,
+- [x] objectivity, angular momentum, state domains, gauges, boundary conditions,
       and initial conditions are stated;
-- [ ] all advertised special limits follow under explicit assumptions;
-- [ ] the model-summary counts match the actual retained equations and closure
+- [x] all advertised special limits follow under explicit assumptions;
+- [x] the model-summary counts match the actual retained equations and closure
       blocks;
-- [ ] every equation-specific citation has full-text support;
-- [ ] the final PDF builds cleanly and every multi-page display has been
+- [x] every equation-specific citation has full-text support;
+- [x] the final PDF builds cleanly and every multi-page display has been
       visually inspected.
