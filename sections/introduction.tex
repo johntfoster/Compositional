@@ -27,9 +27,7 @@ poromechanics identifies effective-stress and equivalent-pressure structures
 nonreactive multicomponent, multiphase poroelastic theory in a solid observer
 \cite{seguin2019multicomponent}, and Foster and Xu derive a fixed-pressure
 nonlinear Biot coefficient for a finite-deformation binary mixture
-\cite{foster2025}.  Constrained reactive-solid theories permit composition and
-constituent reference configurations to evolve during growth, plasticity, and
-damage \cite{zimmerman2021constrainedreactive,ateshian2022constrainedreactive}.
+\cite{foster2025}.
 For reacting and diffusing mixtures, force--flux restrictions follow from
 continuum thermodynamics and Onsager stationarity
 \cite{bothe2015continuum,doi2011onsager,wang2021onsager}; nonisothermal
@@ -38,18 +36,12 @@ gauges \cite{goldobin2016thermal}.  Finally, electroelastic potential theory
 relates electric enthalpy, displacement, and Maxwell stress
 \cite{mcmeeking2007virtual_work_electrostatic,dorfmann2017nonlinear_electroelasticity}.
 Bennethum and Cushman derive the macroscale electroquasistatic field equations
-for multicomponent, multiphase porous media in Part~I and the corresponding
-constitutive restrictions for phase stresses, diffusion, and Darcy flow in
-Part~II \cite{bennethum2002electroI,bennethum2002electroII}.
+for multicomponent, multiphase porous media \cite{bennethum2002electroI} and the corresponding constitutive restrictions for phase stresses, diffusion, and Darcy flow \cite{bennethum2002electroII}.
 
-These precedents contain important parts of the present model, but the
-inspected formulations do not present the six coupled extensions developed
-below.  The novelty claimed here is therefore not the isolated use of
-nonequilibrium thermodynamics, a Darcy law, electric stress, or reactive-solid
-kinematics.  It is the integration of those structures in one open-system
-phase/component derivation and the specific extensions that follow.  The
-theory does not replace more detailed treatments of sharp interfaces,
-pore-scale geometry, phase behavior, or material calibration.
+This paper integrates these structures in one open-system phase/component
+derivation.  The resulting theory couples six extensions of the established
+balance, variational, thermodynamic, electrostatic, and reactive-solid
+constructions.
 
 The derivation has three steps with distinct roles.  A
 constrained Hamilton--d'Alembert variation determines the reversible phase
@@ -58,9 +50,10 @@ equation.  A Coleman--Noll exploitation of two subsystem energy balances and
 the entropy inequality determines the admissible stresses, pressures,
 entropies, component potentials, and residual force--rate products.  An
 Onsager stationarity principle then supplies one near-equilibrium closure for
-reaction and component-relative transport.  Keeping these operations separate
-prevents a balance constraint from being used as a constitutive law and makes
-each retained dissipative mechanism visible.
+reaction and component-relative transport.  Separating these steps
+distinguishes the balance and constraint equations that every admissible
+process must satisfy from the material-specific closures that determine
+reaction and transport rates.
 
 Within that construction, the paper makes six specific contributions.
 %
@@ -97,9 +90,9 @@ Within that construction, the paper makes six specific contributions.
 	      capillary-pressure differences, and the phase electrical enthalpies
 	      contribute a definite difference term to those pressure jumps while
 	      also generating electric displacement, Maxwell stress, and dielectric
-	      pressure.  The resulting electrocapillary law and electrically corrected
-	      equivalent pore pressure are therefore consistent with the phase
-	      momentum equations, rather than appended as independent closures.
+	      pressure.  The same stored potential therefore generates the
+	      electrocapillary law, the electrically corrected equivalent pore
+	      pressure, and their contributions to the phase momentum equations.
 
 	\item Variation of the component material measures gives a generalized
 	      composition-stationarity system.  At equilibrium it recovers equality of
@@ -126,10 +119,9 @@ then reduced explicitly to classical compositional flow, a black-oil model, a
 Nernst--Planck--Darcy system, and finite- and small-deformation
 single-solid/single-fluid Biot equations.  Each reduction states which
 electrical, thermal, conversion, kinematic, or constitutive terms are removed.
-The resulting correspondence is a consistency check on the general
-formulation, not a claim that the general model supplies the equations of
-state, relative permeabilities, kinetic data, or numerical algorithms required
-by a particular application.
+The resulting correspondence checks the general formulation.  Application to a
+particular material or reservoir additionally requires equations of state,
+relative permeabilities, kinetic data, and numerical algorithms.
 
 The scope is deliberately local and continuum-scale.  Constitutive functions
 are assumed sufficiently smooth for the phases and components that are present,
@@ -139,22 +131,24 @@ disappears.  The interfacial energy gives an algebraic local-equilibrium
 capillary closure; dynamic capillary pressure, hysteresis, and independent
 interfacial area are not included.  The electroquasistatic state describes an isotropic
 dielectric response without permanent polarization, dielectric relaxation, or
-electromagnetic-wave dynamics.  Source-carried energy and entropy use a
-local-equilibrium insertion convention.  The general two-temperature reaction
-force uses the neutral transfer coefficient so that charged transfer between
-the thermal subsystems remains independent of the electric-potential gauge;
-its physical reaction-energy exchange may be Onsager-coupled subject to the
-stated mechanismwise dissipation condition.  The displayed quadratic Onsager
-laws are near-equilibrium examples rather than unique kinetic models.  Boundary
-data, gauges, and compatibility conditions are stated, but analysis of
+electromagnetic-wave dynamics.  Mass added to or removed from a phase carries
+that phase's specific internal energy and entropy.  The general two-temperature
+reaction force uses neutral transfer coefficients, which keep charged transfer
+between the thermal subsystems independent of the electric-potential gauge.
+The reaction rate and associated reaction-energy transfer may be related by a
+joint linear near-equilibrium law with cross-coupling, provided their combined
+entropy production is nonnegative for each mechanism.  These are
+near-equilibrium laws.  Boundary~data, gauges, and compatibility conditions
+are stated, but analysis of
 well-posedness and numerical validation is deferred.
 
-Section~\ref{sec:technical_setting} fixes the notation, observers, constitutive
-scope, and data requirements.  The phase/component mass and charge balances
-follow.  The Hamilton--d'Alembert--Onsager construction is then developed.
+The phase/component mass and charge balances introduce their notation as it is
+needed.  The Hamilton--d'Alembert construction is then developed, followed by
+the constitutive restrictions and the Onsager closures they identify.
 Section~\ref{sec:constitutive_models_entropy_inequality} introduces the solid
 kinematics, performs the Coleman--Noll restriction, and derives the
 dissipative closures, Biot transformations, and crystallization specialization.
 The solid-reference equations are then collected for reservoir implementation,
 and the final reductions establish correspondence with the classical models
-listed above.
+listed above.  Appendix~\ref{sec:technical_setting} collects the detailed
+observer, gauge, and admissible-data conditions.

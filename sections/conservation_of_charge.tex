@@ -4,9 +4,9 @@
 
 Electric charge is carried by the same phase/component material measures as
 mass.  Weighting each component balance by the charge carried per unit mass and
-summing gives the charge balance.  The field equation for the
-electric potential and the electrochemical component potential are introduced
-later in \sref{virtual_power_derivation}.
+summing gives the charge balance.  The field equation for the electric
+potential is introduced with the electrical variation; the electrochemical
+component potentials are identified later by the Coleman--Noll procedure.
 
 Let \(z_\xi^\alpha\) denote the charge carried per unit mass of component
 \(\alpha\) in phase \(\xi\).  The charge density per unit current mixture volume
@@ -26,53 +26,22 @@ constant valence-to-mass ratio for a mobile ion, or may be an effective charge
 per mass for a solid component representing fixed surface or exchange-site
 charge.  Fixed clay-surface or exchange-site charge and mobile aqueous charge
 are represented by the same phase/component variables
-\cite{leroy2004triple,newman2004electrochemical}.  Let
-\(\varrho_{\rm ext}\) denote any independently prescribed external bulk-charge
-density.  The total free charge density is
+\cite{leroy2004triple,newman2004electrochemical}.  The total free charge density is
 %
 \begin{equation}
 	\varrho
 	=
-	\sum_\xi\sum_\alpha\varrho_\xi^\alpha
-	+
-	\varrho_{\rm ext}
-	=
 	\sum_\xi\sum_\alpha
-	z_\xi^\alpha\phi_\xi\bar\rho_\xi\eta_\xi^\alpha
-	+
-	\varrho_{\rm ext}.
+	z_\xi^\alpha\phi_\xi\bar\rho_\xi\eta_\xi^\alpha.
 	\label{eq:mixture_charge_density_definition}
 \end{equation}
 %
-The external contribution is completed by a prescribed spatial current
-\(\mbf i_{\rm ext}\) and charge-supply rate \(s_{\rm ext}\) satisfying
-%
-\begin{equation}
-	\frac{\partial\varrho_{\rm ext}}{\partial t}
-	+
-	\nabla_{\mbf x}\cdot\mbf i_{\rm ext}
-	=
-	s_{\rm ext}.
-	\label{eq:external_charge_loading_balance}
-\end{equation}
-%
-Only two members of
-\(\{\varrho_{\rm ext},\mbf i_{\rm ext},s_{\rm ext}\}\) may be specified
-independently.  A static spatial loading has
-\(\partial\varrho_{\rm ext}/\partial t=0\),
-\(\mbf i_{\rm ext}=\mbf0\), and \(s_{\rm ext}=0\).  A transported external
-charge may instead use
-\(\mbf i_{\rm ext}=\varrho_{\rm ext}\mbf u_{\rm ext}\), with
-\eqref{eq:external_charge_loading_balance} determining its supply.  A
-time-dependent supplied loading permits nonzero \(s_{\rm ext}\), again subject
-to that balance.  The total \(\varrho\) is the field-source coefficient in the
+Thus every free-charge contribution is carried by a component mass measure.
+The charge density \(\varrho\) is the field-source coefficient in the
 electrical virtual work, Gauss' law, and the bulk field-source power
-\(-\varrho\dot\varphi\).  The prescribed triplet is not included in the
-component balances below and is not varied with the material coordinates.
-Representing fixed charge as a solid component instead ties charge storage,
-deformation, reaction, and ion exchange to the same material measures used for
-mass; such material charge must not also be included in
-\(\varrho_{\rm ext}\).
+\(-\varrho\dot\varphi\).  In particular, representing fixed charge as a solid
+component ties charge storage, deformation, reaction, and ion exchange to the
+same material measures used for mass.
 
 The material charge measure follows by multiplying the augmented component
 material measure \eqref{eq:augmented_component_material_measure} by
@@ -200,51 +169,14 @@ Local internal mechanisms must conserve electric charge,
 	\label{eq:mechanism_charge_conservation}
 \end{equation}
 %
-so that the material-carried charge satisfies
-%
-\begin{equation}
-	\frac{\partial}{\partial t}
-	\left(
-	\sum_\xi\sum_\alpha\varrho_\xi^\alpha
-	\right)
-	+
-	\nabla_{\mbf x}\cdot\mbf i
-	=0 .
-	\label{eq:mixture_material_charge_balance}
-\end{equation}
-%
-Combining this result with
-\eqref{eq:external_charge_loading_balance} gives the total charge balance
+so the total charge balance is
 %
 \begin{equation}
 	\frac{\partial\varrho}{\partial t}
 	+
-	\nabla_{\mbf x}\cdot
-	\left(
-	\mbf i+\mbf i_{\rm ext}
-	\right)
-	=
-	s_{\rm ext}.
+	\nabla_{\mbf x}\cdot\mbf i
+	= 0.
 	\label{eq:mixture_charge_balance}
-\end{equation}
-%
-Using the skeleton-following rate convention
-\eqref{eq:MC_skeleton_rate_convention}, the same balance is
-%
-\begin{equation}
-	\dot\varrho
-	+
-	\varrho
-	\nabla_{\mbf x}\cdot\mbf v_{\mc S}
-	+
-	\nabla_{\mbf x}\cdot
-	\left(
-	\mbf i+\mbf i_{\rm ext}
-	-\varrho\mbf v_{\mc S}
-	\right)
-	=
-	s_{\rm ext}.
-	\label{eq:mixture_charge_balance_skeleton_observer}
 \end{equation}
 %
 Equation \eqref{eq:mechanism_charge_conservation} is the charge analogue of the
@@ -258,8 +190,7 @@ occupancy while satisfying both mass conservation and
 formulation admits exchange among any represented phases and components whose
 stoichiometry satisfies these two conservation restrictions.  Thus charge
 attached to deforming solid sites is transported by the component current
-\(\mbf i\); the external current and supply describe only the independently
-prescribed loading.
+	\(\mbf i\).
 
 Ion-exchange and surface-complexation models are represented by retaining
 charged solid-site components, imposing

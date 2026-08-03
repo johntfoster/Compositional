@@ -1,89 +1,11 @@
 % !TeX root = ../main.tex
-\section{Technical setting, conventions, and model scope}
+\section{Observer transformations, gauges, and admissible data}
 \label{sec:technical_setting}
 
-The model combines phase-specific motions, constrained phase and component
-fractions, two thermal subsystems, and an electrostatic field.  This section
-states the conventions needed to read their balance laws: indices and measures,
-observer and rate conventions, electrical gauge, source units, and admissible
-data.  Definitions tied to individual equations remain at their first use.
-
-\subsection{Indices, configurations, and measures}
-
-The phase index is \(\xi\).  Fluid phases are indexed by \(f\in\mc F\), solid
-phases by \(s\in\mc S\), and \(\mc G\in\{\mc F,\mc S\}\) denotes one of the two
-thermal subsystems.  Greek superscripts \(\alpha\) and \(\beta\) index
-components within a phase; when a reference component is required, it is
-labelled \(N\).  The parenthesized index \((m)\) labels a conversion mechanism,
-including a chemical reaction, phase transformation, sorption process, or ion
-exchange.  Phase and component sums are written explicitly.
-
-All phases occupy the common current region \(\mc B\), with spatial coordinate
-\(\mbf x\) and volume element \(\dv\).  Phase \(\xi\) is tracked from its own
-reference region \(\mc B_{\xi0}\), with coordinate \(\mbf X_\xi\) and volume
-element \(\dVxi\).  Its motion \(\bs\chi_\xi\) is assumed one-to-one and
-continuously differentiable wherever that phase is active, with
-\(J_\xi=\det\mbf F_\xi>0\).  All load-bearing solid phases later share the
-skeleton motion \(\bs\chi(\mbf X,t)\), deformation gradient \(\mbf F\), and
-Jacobian \(J>0\).  Unless a reference coordinate is shown explicitly,
-\(\nabla_{\mbf x}\) and \(\nabla_{\mbf x}\cdot\) are current-configuration
-operators.
-
-Densities without an overbar are measured per current mixture volume:
-\(\rho_\xi^\alpha\) is a component partial density and
-\(\rho_\xi=\sum_\alpha\rho_\xi^\alpha\) is a phase partial density.  The
-intrinsic density \(\bar\rho_\xi\) is measured per current phase volume, so
-\(\rho_\xi=\phi_\xi\bar\rho_\xi\).  For the phases and components represented in
-the local model,
-\(\bar\rho_\xi>0\), \(0<\phi_\xi<1\),
-\(\eta_\xi^\alpha\ge0\),
-\(\sum_\alpha\eta_\xi^\alpha=1\), and
-\(\sum_\xi\phi_\xi=1\).  A relation containing \(1/\phi_\xi\) or
-\(1/\eta_\xi^\alpha\) is used only when that phase or component has a positive
-fraction.  An inverse mobility is used only for its independent, invertible
-rates.  Phase appearance or disappearance, and a component entering or leaving
-the represented set, require additional switching and inequality rules outside
-the local constitutive model.
-
-\subsection{Observers and rates}
-
-The operator \(D_\zeta/Dt\) follows phase \(\zeta\), and the heavy dot
-\(\phasedot{\square}_\xi\) follows phase \(\xi\).  In the constitutive and
-entropy analysis, an ordinary dot denotes the derivative following the common
-solid skeleton, as defined in
-\eqref{eq:MC_skeleton_rate_convention}.  The two rates are related by
-\eqref{eq:MC_phase_skeleton_transport_identity}; their difference contains the
-bulk phase velocity relative to the skeleton.  The notation
-\(\dot r_{(m)}\) denotes a local mechanism progress rate, not a material
-derivative of a state variable.  Likewise,
-\(\phasedot{\mc C}_\xi^\alpha\) and
-\(\phasedot c_\xi^\alpha\) are component-insertion rates attached to phase
-\(\xi\).
-
-\subsection{Mechanical and thermodynamic conventions}
-
-Cauchy stresses are tension-positive.  In the momentum balances they appear
-through \(+\nabla_{\mbf x}\cdot\bs\sigma\); tractions therefore have the sign
-of \(\bs\sigma\mbf n\) on a surface with outward unit normal \(\mbf n\).
-Thermodynamic phase pressures, capillary pressures, and the equivalent pore
-pressure are positive in compression and enter a total stress through a
-negative spherical contribution.  A single prime denotes the material stress
-obtained with intrinsic density held fixed, a double prime denotes the
-fixed-pressure Biot stress, and a superscript \(+\) denotes the electrical
-stress contribution.  The stress appearing in momentum balance is the sum of
-the material and electrical contributions.
-
-Temperatures are absolute and strictly positive.  All mobile phases share
-\(\theta_{\mc F}\), all load-bearing solid phases share
-\(\theta_{\mc S}\), and heat exchange between these groups is retained.  The
-local-thermal-equilibrium specialization sets
-\(\theta_{\mc F}=\theta_{\mc S}\).  The phase Helmholtz energies
-\(\psi_\xi\), specific internal energies \(e_\xi\), and component potentials
-are energies per unit phase mass.  The electric enthalpy
-\(\omega_\xi^+\) is energy per current phase volume, while \(\gamma\) is
-interfacial Helmholtz energy per current fluid volume.  Multiplication by the
-appropriate phase or fluid volume fraction converts these quantities to energy
-per current mixture volume.
+This appendix collects detailed observer transformations, gauge conditions, and
+admissible initial and boundary data.  The notation and conventions needed to
+follow the main derivation are introduced locally at their first substantive
+use; the material below records the corresponding global consistency checks.
 
 \subsection{Frame indifference, material symmetry, and angular momentum}
 
@@ -126,6 +48,8 @@ electrical, flux, and stress variables used below transform as
 		\bar{\mbf F}_s^\star=\mbf Q\bar{\mbf F}_s,
 		\qquad
 		\mbf A_s^\star=\mbf Q\mbf A_s\mbf Q^T,
+		\qquad
+		s\in\mc S,
 		\label{eq:observer_deformation_rules} \\
 		\varphi^\star(\mbf x^\star,t)
 		 & =
@@ -229,6 +153,8 @@ stored potentials therefore requires
 		\bar{\mbf F}_s^e,\mbf A_s^e,
 		\bar\rho_s,\{\eta_s^\alpha\},\theta_{\mc S}
 		\right),
+		\qquad
+		s\in\mc S,
 		\label{eq:solid_energy_objectivity} \\
 		\omega_\xi^+\left(
 		\mbf Q\mbf E,
@@ -307,15 +233,11 @@ The phase electric enthalpies take \(\mbf E\) as their electrical argument, and
 \(\varrho\) and prescribed outward surface charge \(\bar q\) are source-work
 coefficients rather than additional stored energies.  Material-carried charge
 is obtained by weighting each component mass by \(z_\xi^\alpha\).
-Independently prescribed bulk charge is an external loading contribution
-completed by the current and supply in
-\eqref{eq:external_charge_loading_balance}; it is not a duplicate
-representation of charge attached to a solid component.
 
 The boundary is partitioned into \(\Gamma_\varphi\), where \(\varphi\) is
 prescribed, and \(\Gamma_q\), where
 \(\mbf d\cdot\mbf n=\bar q\).  This electric-displacement datum is distinct from
-normal material or external current data.  For a pure electric-displacement
+normal material-current data.  For a pure electric-displacement
 boundary problem,
 \(\Gamma_q=\partial\mc B\), solvability and its fixed-domain rate require
 %
@@ -330,12 +252,9 @@ boundary problem,
 		\left[
 			\frac{\partial\bar q}{\partial t}
 			+
-			\left(
-			\mbf i+\mbf i_{\rm ext}
-			\right)\cdot\mbf n
+			\mbf i\cdot\mbf n
 		\right]{\rm d}a
-		 & =
-		\int_{\mc B}s_{\rm ext}\,\dv .
+		 & = 0.
 		\label{eq:electrical_pure_neumann_rate_compatibility}
 	\end{align}
 \end{subequations}
@@ -354,24 +273,6 @@ specialization takes
 \eqref{eq:electric_enthalpy_objectivity}, thereby excluding permanent
 polarization at zero field, directional dielectric structure, and independent
 dielectric relaxation.
-
-\subsection{Source units and stoichiometric basis}
-
-The component source
-\(\nu_{\xi (m)}^\alpha\dot r_{(m)}\) always has units of component mass per
-current mixture volume per time.  The progress basis may be selected separately
-for each mechanism, provided the coefficient and rate are paired consistently.
-For a mass-based transfer, \(\dot r_{(m)}\) has units of mass per current
-mixture volume per time and the signed \(\nu_{\xi (m)}^\alpha\) are
-dimensionless mass yields; a one-to-one phase transfer then uses \(-1\) and
-\(+1\).  For a molar reaction, \(\dot r_{(m)}\) has units of amount of reaction
-per current mixture volume per time and
-\(\nu_{\xi (m)}^\alpha\) is the signed molar stoichiometric coefficient
-multiplied by the component molar mass.  In either basis, each internal
-mechanism satisfies the mass- and charge-conservation restrictions stated in
-\eqref{eq:spatial_mass_3} and
-\eqref{eq:mechanism_charge_conservation}.  Relative component fluxes have units
-of component mass per current area per time.
 
 \subsection{Initial and boundary data}
 
@@ -401,7 +302,7 @@ The electrostatic potential has no independent evolution datum; it is obtained
 at each time from Gauss' law, the current charge state, and its boundary data.
 
 Mechanical data use the complementary motion/traction partition defined with
-\eqref{eq:mechanical_boundary_virtual_work}.  The natural phase traction is
+\eqref{eq:W_def}.  The natural phase traction is
 \eqref{eq:phase_natural_traction}; after common-skeleton aggregation it is
 \eqref{eq:overall_natural_traction}.  For every independent component
 \(\alpha\ne N\) in phase \(\xi\in\mc G\), transport data use complementary
@@ -515,8 +416,6 @@ the same integral determines the rate of total momentum.
 Electrostatic data use the potential/displacement partition and compatibility
 conditions \eqref{eq:electrical_pure_neumann_compatibility}.  Normal component
 mass fluxes determine the material-carried current
-\(\mbf i\cdot\mbf n\); independently prescribed
-\(\mbf i_{\rm ext}\cdot\mbf n\) and \(s_{\rm ext}\) belong to the external
-loading protocol.  Pure-flux component data must also satisfy the component
+\(\mbf i\cdot\mbf n\).  Pure-flux component data must also satisfy the component
 mass balances integrated over \(\mc B\), so that initial mass plus integrated
 mechanism supply minus outward boundary flux equals current component mass.

@@ -53,7 +53,9 @@ notation,
 	-\frac{\bs\kappa\,\kappa_{rf}}{\mu_f^{\mathrm{visc}}}
 	\left(
 	\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g
-	\right).
+	\right),
+	\qquad
+	f\in\mc F .
 	\label{eq:classical_fixed_frame_darcy_velocity}
 \end{equation}
 %
@@ -100,7 +102,9 @@ A concrete classical closure set is
 		k\in\{{\rm disp},{\rm diff}\},
 		\\
 		\mu_f^\alpha &= \mu_g^\alpha
-		\quad \text{for equilibrated fluid phases } f,g .
+		\quad \text{for equilibrated fluid phases } f,g,
+		\qquad
+		f,g\in\mc F,\quad s\in\mc S .
 	\end{aligned}
 	\label{eq:classical_compositional_closure_set}
 \end{equation}
@@ -145,7 +149,7 @@ differences with respect to the independent mass fractions:
 	}
 	\nabla_{\mbf x}\eta_f^\gamma ,
 	\qquad
-	\beta\ne N,
+	\beta\ne N,\quad f\in\mc F,
 	\label{eq:composition_gradient_chemical_potential_tangent}
 \end{equation}
 %
@@ -173,7 +177,7 @@ define the effective Fickian diffusion--dispersion tensor by
 		\partial\eta_f^\gamma
 	},
 	\qquad
-	\alpha,\gamma\ne N.
+	\alpha,\gamma\ne N,\quad f\in\mc F .
 	\label{eq:effective_fickian_diffusion_dispersion_tensor}
 \end{equation}
 %
@@ -393,9 +397,8 @@ water, oil, and gas, \(\mc F=\{w,o,g\}\), neglect mechanical dispersion and
 molecular diffusion by setting
 \(\mbf j_{f,{\rm disp}}^\alpha=\mbf j_{f,{\rm diff}}^\alpha=\mbf 0\), use a
 fixed solid frame, and impose the neutral nonelectrical specialization
-\(\omega_\xi^+=0\), \(z_\xi^\alpha=0\),
-\(\varrho_{\rm ext}=s_{\rm ext}=0\),
-\(\mbf i_{\rm ext}=\mbf0\), and \(\mbf E=\mbf d=\mbf0\).  Replace the full
+	\(\omega_\xi^+=0\), \(z_\xi^\alpha=0\), and \(\mbf E=\mbf d=\mbf0\).
+	Replace the full
 component EOS by black-oil formation-volume factors and solution-gas data.  In
 stock-tank units the phase/component storage factors are identified as
 %
@@ -482,10 +485,8 @@ before evaluating \eqref{eq:black_oil_darcy_flux}.
 
 The electrostatic single-fluid specialization recovers the
 Nernst--Planck--Darcy system.  Take one isothermal fluid phase in a fixed solid
-frame, set the reaction and phase-transformation rates and mechanical-dispersion
-fluxes to zero, set the prescribed external charge data
-\(\varrho_{\rm ext}\), \(\mbf i_{\rm ext}\), and \(s_{\rm ext}\) to zero, and
-neglect inertia, gravity, and capillarity.  Let \(\phi_f\)
+	frame, set the reaction and phase-transformation rates and mechanical-dispersion
+	fluxes to zero, and neglect inertia, gravity, and capillarity.  Let \(\phi_f\)
 be constant, take a linear isotropic dielectric response
 \(\mbf d_f=\epsilon_f\mbf E\) with constant \(\epsilon_f\), set fixed solid
 charge and the solid electrical displacement to zero, and assign all free
@@ -512,7 +513,9 @@ retained independently in this limit.  Gauss' law then gives
 	+
 	\left(
 		\sum_\alpha z_f^\alpha\rho_f^\alpha
-	\right)\mbf E .
+	\right)\mbf E,
+	\qquad
+	f\in\mc F .
 	\label{eq:nernst_planck_darcy_maxwell_force_reduction}
 \end{align}
 %
@@ -540,6 +543,8 @@ With \(\mbf v_s=\mbf0\), the reaction-free form of
 				\sum_\alpha z_f^\alpha\rho_f^\alpha
 			\right)\mbf E
 		\right],
+		\qquad
+		f\in\mc F,
 		\label{eq:nernst_planck_darcy_velocity}
 		\\
 		\frac{\partial\rho_f^\alpha}{\partial t}
@@ -561,7 +566,7 @@ With \(\mbf v_s=\mbf0\), the reaction-free form of
 		\right]
 		=0,
 		\qquad
-		\alpha\ne N,
+		\alpha\ne N,\quad f\in\mc F,
 		\label{eq:nernst_planck_darcy_component_balance}
 		\\
 		\nabla_{\mbf x}\cdot
@@ -571,7 +576,9 @@ With \(\mbf v_s=\mbf0\), the reaction-free form of
 		&=
 		\sum_\alpha z_f^\alpha\rho_f^\alpha,
 		\qquad
-		\mbf E=-\nabla_{\mbf x}\varphi .
+		\mbf E=-\nabla_{\mbf x}\varphi,
+		\qquad
+		f\in\mc F .
 		\label{eq:nernst_planck_darcy_gauss_law}
 	\end{align}
 \end{subequations}
@@ -620,7 +627,9 @@ Under \(\dot r_{(m)}=0\), the overall momentum balance
 	\bs\sigma^{\prime\prime}
 	-B\bar p_f\mbf I
 	\right)
-	+\rho\mbf g .
+	+\rho\mbf g,
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:biot_limit_spatial_momentum}
 \end{equation}
 %
@@ -634,7 +643,9 @@ is dropped, giving the usual equilibrium equation
 	\bs\sigma^{\prime\prime}
 	-B\bar p_f\mbf I
 	\right)
-	+\rho\mbf g=\mbf 0 .
+	+\rho\mbf g=\mbf 0,
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:biot_limit_quasistatic_momentum}
 \end{equation}
 %
@@ -652,7 +663,9 @@ the Piola identity gives the solid-reference equilibrium equation
 	-B\bar p_f J\mbf F^{-T}
 	\right)
 	+J\rho\mbf g
-	=\mbf 0 .
+	=\mbf 0,
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:biot_limit_reference_momentum}
 \end{equation}
 %
@@ -676,7 +689,9 @@ splitting the fluid velocity into solid motion plus relative flux,
 	+\nabla_{\mbf x}\cdot
 	\left(\phi_f\bar\rho_f\mbf v_s\right)
 	+\nabla_{\mbf x}\cdot\mbf w_f
-	=0 .
+	=0,
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:biot_limit_current_fluid_mass_balance}
 \end{equation}
 %
@@ -688,7 +703,9 @@ becomes
 	\frac{D_s}{Dt}\left(\phi_f\bar\rho_f\right)
 	+\phi_f\bar\rho_f\nabla_{\mbf x}\cdot\mbf v_s
 	+\nabla_{\mbf x}\cdot\mbf w_f
-	=0 .
+	=0,
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:biot_limit_solid_derivative_fluid_mass_balance}
 \end{equation}
 %
@@ -699,7 +716,9 @@ combine into the derivative of \(J\phi_f\bar\rho_f\),
 	\frac{1}{J}\frac{D_s}{Dt}
 	\left(J\phi_f\bar\rho_f\right)
 	+\nabla_{\mbf x}\cdot\mbf w_f
-	=0 .
+	=0,
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:biot_limit_jacobian_current_mass_balance}
 \end{equation}
 %
@@ -712,7 +731,9 @@ Multiplying by \(J\), using the divergence transform
 	\frac{\partial}{\partial t}
 	\left(J\phi_f\bar\rho_f\right)
 	+\nabla_{\mbf X}\cdot\mbf W_f
-	=0 .
+	=0,
+	\qquad
+	f\in\mc F .
 	\label{eq:biot_limit_reference_fluid_mass}
 \end{equation}
 %
@@ -722,7 +743,9 @@ Thus the finite-deformation storage variable is the Lagrangian fluid mass
 \begin{equation}
 	\frac{\partial}{\partial t}\left(\Phi_f\bar\rho_f\right)
 	+\nabla_{\mbf X}\cdot\mbf W_f
-	=0 .
+	=0,
+	\qquad
+	f\in\mc F .
 	\label{eq:biot_limit_lagrangian_pore_volume_mass_balance}
 \end{equation}
 %
@@ -739,19 +762,19 @@ fluid bulk modulus, then
 		\frac{\partial \bar p_f}{\partial t}
 	\right]
 	+\nabla_{\mbf X}\cdot\mbf W_f
-	=0 .
+	=0,
+	\qquad
+	f\in\mc F .
 	\label{eq:biot_limit_barotropic_storage_balance}
 \end{equation}
 %
-Recovering the classical Biot storage equation requires one further assumption;
-it is not derived from the phase energy above.  We adopt a finite-deformation
-extension of the standard small-strain porosity tangent summarized by
-\cite{coussy2004poromechanics,detournay1993fundamentals}.  For this comparison,
-\(B\) plays the role of the usual Biot coefficient \(\alpha\).  The cited
-references motivate the small-strain coefficients; they do not state the
-finite-deformation identity used here.  We also assume homogeneous solid
-grains, so the unjacketed moduli coincide and uniform unjacketed loading does
-not change porosity.  Using the same \(B\) in the stress and pore-volume
+For comparison with the classical Biot storage equation, we supplement the
+phase energy with a finite-deformation extension of the standard small-strain
+porosity tangent summarized by
+\cite{coussy2004poromechanics,detournay1993fundamentals}.  In this extension,
+\(B\) plays the role of the usual Biot coefficient \(\alpha\).  We also assume
+homogeneous solid grains, so the unjacketed moduli coincide and uniform
+unjacketed loading does not change porosity.  Using the same \(B\) in the stress and pore-volume
 tangents is an additional reciprocity and storage assumption.  Over a finite
 loading history, this tangent must come from an integrable storage law or serve
 as the evolution law for \(\Phi_f\); an arbitrary state-dependent \(B\) need
@@ -769,7 +792,9 @@ denoting the Biot storage modulus,
 	\frac{1}{M}
 	=
 	\frac{B-\Phi_f}{K_s}
-	+\frac{\Phi_f}{K_f}.
+	+\frac{\Phi_f}{K_f},
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:biot_limit_porosity_tangent_storage}
 \end{equation}
 %
@@ -780,7 +805,9 @@ Substitution gives the finite-deformation pressure-storage balance
 	B\frac{1}{J}\frac{\partial J}{\partial t}
 	+\frac{1}{M}\frac{\partial\bar p_f}{\partial t}
 	+\frac{1}{\bar\rho_f}\nabla_{\mbf X}\cdot\mbf W_f
-	=0 .
+	=0,
+	\qquad
+	f\in\mc F .
 	\label{eq:biot_limit_pressure_storage_balance}
 \end{equation}
 %
@@ -801,7 +828,9 @@ small-strain, small-compressibility transport approximation give
 	J\mbf q_f\cdot
 	\nabla_{\mbf x}\ln\bar\rho_f
 	\simeq
-	\nabla_{\mbf x}\cdot\mbf q_f .
+	\nabla_{\mbf x}\cdot\mbf q_f,
+	\qquad
+	f\in\mc F .
 	\label{eq:biot_limit_mass_to_volume_flux_approximation}
 \end{equation}
 %
@@ -814,7 +843,9 @@ The fluid--skeleton interaction closure gives, in the current configuration,
 	\left(
 		\nabla_{\mbf x}\bar p_f
 		-\bar\rho_f\mbf g
-	\right).
+	\right),
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:biot_limit_darcy_law}
 \end{equation}
 %
@@ -842,6 +873,8 @@ source-free reduced system is
 		\right)
 		+\rho\mbf g
 		 & =\mbf 0,
+		\qquad
+		f\in\mc F,\quad s\in\mc S,
 		\label{eq:linear_biot_momentum} \\
 		\frac{1}{M}\frac{\partial \bar p_f}{\partial t}
 		+B\frac{\partial}{\partial t}
@@ -851,7 +884,9 @@ source-free reduced system is
 			\frac{\bs\kappa_f}{\mu_f^{\mathrm{visc}}}
 			\left(\nabla_{\mbf x}\bar p_f-\bar\rho_f\mbf g\right)
 			\right]
-		 & =0.
+		 & =0,
+		\qquad
+		f\in\mc F .
 		\label{eq:linear_biot_fluid_content}
 	\end{align}
 \end{subequations}

@@ -31,12 +31,14 @@
 %
 The derivation begins with component mass because every later force, multiplier,
 and closure is tied to how mass is stored, converted, and transported.  The
-mixture phases occupy a common current configuration \(\mc B\).  A phase label
-\(\xi\) identifies material that moves with one motion \(\bs\chi_\xi\), while a
-component label \(\alpha\) distinguishes chemical species or constituents within
-that phase.  Fluids, gases, and solids are therefore described by the same
-phase/component notation: a phase is the collection of components sharing the
-trajectory \(\bs\chi_\xi\).  Given a differential mass \({\rm d}m^\al_\xi\) of
+mixture phases occupy a common current configuration \(\mc B\).  Fluid phases
+are indexed by \(f\in\mc F\), load-bearing solid phases by \(s\in\mc S\), and
+\(\xi\in\mc F\cup\mc S\) denotes either type.  A phase label identifies
+material that moves with one motion \(\bs\chi_\xi\), while a superscript
+\(\alpha\) distinguishes chemical species or constituents within that phase.
+Liquids, gases, and solids are therefore described by the same phase/component
+notation: a phase is the collection of components sharing the trajectory
+\(\bs\chi_\xi\).  Given a differential mass \({\rm d}m^\al_\xi\) of
 component \(\alpha\) in phase \(\xi\), define the component partial density per
 current mixture volume by
 %
@@ -75,7 +77,7 @@ its determinant \(J_\xi\) is the phase Jacobian.
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\mathbf{F}_\xi & = \p{\bs{\chi}_\xi}{\mbf{X}_\xi} \notag     \\
+	\mathbf{F}_\xi & = \p{\bs{\chi}_\xi}{\mbf{X}_\xi} \notag       \\
 	               & = \nabla_{\mbf{X}_\xi} \mbf{u}_\xi + \mbf{I}.
 	\label{eq:phase_deformation_gradient_definition}
 \end{align}
@@ -241,7 +243,9 @@ Let \(\dot r_{(m)}\) be the current progress rate of internal mechanism
 \((m)\).  Its mass-based stoichiometric coefficient for component \(\alpha\) in
 phase \(\xi\) is \(\nu_{\xi (m)}^\alpha\).  The product
 \(\nu_{\xi (m)}^\alpha\dot r_{(m)}\) is therefore the component mass-production
-rate per unit current mixture volume.  Before unresolved relative transport is
+rate per unit current mixture volume.  Equivalently, a molar progress rate may
+be used if \(\nu_{\xi (m)}^\alpha\) is the signed molar stoichiometric
+coefficient multiplied by component molar mass.  Before unresolved relative transport is
 introduced, this rate is generated only by conversion, so that
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
@@ -513,7 +517,7 @@ into the total component mass flux, using
 	\widehat\rho_\xi^\alpha
 	\widehat{\mbf v}_\xi^\alpha
 	\right\rangle
-	&=
+	 & =
 	\rho_\xi\mbf v_\xi
 	+
 	\sum_\alpha
@@ -528,7 +532,7 @@ into the total component mass flux, using
 	\right)
 	\notag
 	\\
-	&=
+	 & =
 	\rho_\xi\mbf v_\xi
 	+
 	\sum_\alpha
@@ -543,7 +547,7 @@ into the total component mass flux, using
 	\right)
 	\notag
 	\\
-	&=
+	 & =
 	\rho_\xi\mbf v_\xi
 	+
 	\sum_\alpha
@@ -590,11 +594,14 @@ specialization that the two flux families are separately zero-sum,
 	\label{eq:separate_relative_flux_sum_closure}
 \end{equation}
 %
-The material increment \(\mc C_\xi^\alpha\) is tied to the transfer potential introduced in
-\sref{virtual_power_derivation}, while the relative-flux part of
-\(\phasedot{\mc C}_\xi^\alpha\) is closed by the gauge-invariant neutral
-chemical and electric forces in the Onsager statement; these combine into the
-usual electrochemical-potential gradient at uniform temperature.  Summing
+The material increment \(\mc C_\xi^\alpha\) is tied to the transfer potential
+introduced in \sref{virtual_power_derivation}, while its relative-flux
+contribution is closed later by Onsager relations involving generalized
+transfer-work differences and a separate electric-field contribution.  The
+Coleman--Noll procedure then identifies the transfer-work differences with
+neutral chemical-potential differences; at uniform temperature, the neutral
+and electric contributions combine into the usual electrochemical-potential
+gradient.  Summing
 \eqref{eq:averaged_component_spatial_mass} over phases gives the global
 component balance,
 %
@@ -635,7 +642,8 @@ mass balance and
 	\label{eq:material_increment_insertion_constraint}
 \end{equation}
 %
-This is the insertion constraint used in \eqref{eq:C4_def}.
+This zero-sum identity becomes the material-insertion constraint in the
+Hamilton--d'Alembert principle.
 %
 The averaged balances determine where the two fluxes enter component
 transport; the entropy-admissible dissipation potential in

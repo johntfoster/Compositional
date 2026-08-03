@@ -18,7 +18,9 @@ current relative mass flux by
 \begin{equation}
 	\mbf w_f
 	=\phi_f\bar\rho_f\left(\mbf v_f-\mbf v_s\right)
-	=\rho_f\left(\mbf v_f-\mbf v_s\right).
+	=\rho_f\left(\mbf v_f-\mbf v_s\right),
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:relative_mass_flux_definition}
 \end{equation}
 %
@@ -26,7 +28,9 @@ Thus
 %
 \begin{equation}
 	\mbf v_f
-	=\mbf v_s+\frac{\mbf w_f}{\rho_f}.
+	=\mbf v_s+\frac{\mbf w_f}{\rho_f},
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:relative_flux_velocity_reconstruction}
 \end{equation}
 %
@@ -37,7 +41,9 @@ A sufficient fluid--skeleton interaction closure consistent with
 	\mbf b_f
 	=
 	-\frac{\mu_f^{\mathrm{visc}}\phi_f}{\bar\rho_f}\,
-	\bs\kappa_f^{-1}\mbf w_f .
+	\bs\kappa_f^{-1}\mbf w_f,
+	\qquad
+	f\in\mc F .
 	\label{eq:fluid_phase_interaction_law}
 \end{equation}
 %
@@ -80,6 +86,8 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 	\right)
 		+\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_s\right),
+	\qquad
+	f\in\mc F,\quad s\in\mc S,
 	\label{eq:relative_flux_linear_system}
 \end{align}
 %
@@ -101,7 +109,9 @@ tensor by
 	\left(
 		\phi_f^2\mu_f^{\mathrm{visc}}\bs\kappa_f^{-1}
 		+\sum_\alpha\phasedot{c}_f^\alpha\mbf I
-	\right)^{-1}.
+	\right)^{-1},
+	\qquad
+	f\in\mc F .
 	\label{eq:modified_relative_flux_permeability}
 \end{equation}
 %
@@ -122,7 +132,9 @@ the eigenvalues of
 	\frac{\phi_f^2\mu_f^{\mathrm{visc}}}{\kappa_{f,i}}
 	+\sum_\alpha\phasedot{c}_f^\alpha
 	\ne 0
-	\qquad\text{for every eigenvalue }\kappa_{f,i}.
+	\qquad\text{for every eigenvalue }\kappa_{f,i},
+	\qquad
+	f\in\mc F .
 	\label{eq:modified_relative_flux_nonsingularity}
 \end{equation}
 %
@@ -137,7 +149,9 @@ condition
 	\mbf z\cdot\mbf z
 	>0,
 	\qquad
-	\mbf z\ne\mbf0 .
+	\mbf z\ne\mbf0,
+	\qquad
+	f\in\mc F .
 	\label{eq:modified_relative_flux_positive_definiteness}
 \end{equation}
 %
@@ -153,7 +167,9 @@ condition is equivalently
 \begin{equation}
 	\sum_\alpha\phasedot{c}_f^\alpha
 	>
-	-\frac{\phi_f^2\mu_f^{\mathrm{visc}}}{\kappa_{f,\max}} .
+	-\frac{\phi_f^2\mu_f^{\mathrm{visc}}}{\kappa_{f,\max}},
+	\qquad
+	f\in\mc F .
 	\label{eq:modified_relative_flux_scalar_admissibility}
 \end{equation}
 %
@@ -172,7 +188,9 @@ Within this positive-definite regime, the spectral condition number is
 	}{
 		\phi_f^2\mu_f^{\mathrm{visc}}/\kappa_{f,\max}
 		+\sum_\alpha\phasedot{c}_f^\alpha
-	}.
+	},
+	\qquad
+	f\in\mc F .
 	\label{eq:modified_relative_flux_condition_number}
 \end{equation}
 %
@@ -185,7 +203,9 @@ at the first loss of positive definiteness is
 \begin{equation}
 	t_{\rm rxn}
 	=
-	\frac{\rho_f\kappa_{f,\max}}{\phi_f^2\mu_f^{\mathrm{visc}}}.
+	\frac{\rho_f\kappa_{f,\max}}{\phi_f^2\mu_f^{\mathrm{visc}}},
+	\qquad
+	f\in\mc F .
 	\label{eq:modified_relative_flux_reaction_timescale_threshold}
 \end{equation}
 %
@@ -227,7 +247,9 @@ The resulting relative mass flux is
 		\left(
 			\nabla_{\mbf x}\tau-\mbf v_s
 		\right)
-		\right].
+		\right],
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:generalized_fluid_darcy_mass_flux}
 \end{empheq}
 %
@@ -261,7 +283,9 @@ The neutral, conversion-free, negligible-inertia specialization
 	\left(
 		\nabla_{\mbf x}\bar p_f
 		-\bar\rho_f\mbf g
-	\right).
+	\right),
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:standard_darcy_mass_flux_limit}
 \end{equation}
 %
@@ -281,7 +305,9 @@ Piola transform.  Define the reference relative mass flux
 \begin{equation}
 	\mbf W_f
 	=
-	J\mbf F^{-1}\mbf w_f .
+	J\mbf F^{-1}\mbf w_f,
+	\qquad
+	f\in\mc F .
 	\label{eq:reference_relative_mass_flux}
 \end{equation}
 %
@@ -292,7 +318,9 @@ Define the pulled-back conversion-corrected mobility tensor
 	=
 	J\mbf F^{-1}
 	\widetilde{\bs\kappa}_f
-	\mbf F^{-T}.
+	\mbf F^{-T},
+	\qquad
+	f\in\mc F .
 	\label{eq:pulled_back_modified_permeability}
 \end{equation}
 %
@@ -324,7 +352,9 @@ The flux assembled in the reference component balances is then
 	\left.
 	+\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
-	\right].
+	\right],
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:solid_reference_relative_flux}
 \end{align}
 %
@@ -336,7 +366,9 @@ divergence of a spatial flux obeys
 	J\nabla_{\mbf x}\cdot\mbf w_f
 	=
 	\nabla_{\mbf X}\cdot
-	\mbf W_f .
+	\mbf W_f,
+	\qquad
+	f\in\mc F .
 	\label{eq:solid_reference_flux_divergence}
 \end{equation}
 %
@@ -371,7 +403,9 @@ term on the solid trajectory gives
 	\right)
 	\right]
 	=
-	J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
+	J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)},
+	\qquad
+	f\in\mc F .
 	\label{eq:solid_reference_fluid_component_balance}
 \end{equation}
 %
@@ -441,7 +475,7 @@ divergence and multiplying the remaining spatial source terms by \(J\).  Using
 	-J\phi
 	\left.
 	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}}
+	\right\vert_{\{S_f\}_{f\in\mc F}}
 	\mbf F^{-T}\nabla_{\mbf X}\theta_{\mc F}
 	\notag \\
 	&\;
@@ -492,7 +526,7 @@ from
 	-J\phi
 	\left.
 	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}}
+	\right\vert_{\{S_f\}_{f\in\mc F}}
 	\mbf F^{-T}\nabla_{\mbf X}\theta_{\mc F}
 	\notag \\
 	&\;
@@ -533,7 +567,9 @@ with current velocities reconstructed from the relative mass fluxes by
 	\mbf v_f
 	=\mbf v_s+\frac{\mbf w_f}{\rho_f},
 	\qquad
-	\mbf W_f=J\mbf F^{-1}\mbf w_f .
+	\mbf W_f=J\mbf F^{-1}\mbf w_f,
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:reservoir_simulation_velocity_flux_summary}
 \end{equation}
 %
@@ -566,7 +602,8 @@ The corresponding admissible reference flux is
 	+\sum_\alpha\phasedot{c}_f^\alpha
 	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
 	\right],
-	\qquad f\in\mc F .
+	\qquad
+	f\in\mc F,\quad s\in\mc S .
 	\label{eq:reservoir_simulation_reference_flux_summary}
 \end{align}
 %
@@ -584,7 +621,8 @@ saturation state,
 	=
 	\bar p_n-\bar p_w
 	-\left(\omega_n^+-\omega_w^+\right),
-	\qquad (w,n)\in\mc I .
+	\qquad
+	f\in\mc F,\quad (w,n)\in\mc I .
 	\label{eq:reservoir_simulation_capillary_summary}
 \end{equation}
 %
