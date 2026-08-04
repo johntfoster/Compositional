@@ -469,7 +469,12 @@ The interfacial state set is
 The phase energies use \(\mc X_f\) and \(\mc X_s\), while \(\mc X_\gamma\)
 controls the shared pore-scale interfacial storage.  The capillary-history
 variables are therefore internal variables of the fluid subsystem rather than
-additional composition coordinates of an individual fluid phase.
+additional composition coordinates of an individual fluid phase.  The
+saturation rates \(\dot S_f\) are process rates and are not members of
+\(\mc X_\gamma\).  In the dynamic-capillary branch, the resistance \(\mc T\)
+may depend on the current constitutive and pore-structure state, but it is held
+fixed while the instantaneous saturation rates are varied by Onsager
+stationarity.
 
 The intrinsic density rate needed in the Coleman--Noll analysis follows from
 \eqref{eq:MC_solid_true_split}, isochoric plastic flow, and the
@@ -2329,7 +2334,8 @@ The coefficient of
 For a fluid, \(\bs\sigma_f'=\mbf0\) because the Helmholtz energy has no elastic
 deformation argument.  After the isotropic Maxwell contribution is combined
 with the pressure relation, the remaining nonpressure reversible stress enters
-the fluid momentum balance \eqref{eq:el_mom_f_simplified} through
+the dynamic-capillary fluid momentum balance
+\eqref{eq:el_mom_f_dynamic_capillary} through
 \(\phi_f\mbf E\otimes\mbf d_f\); the fluid pressure is determined separately by
 the intrinsic-density coefficient.
 
@@ -2434,8 +2440,37 @@ The solid and fluid volume-fraction rates are constrained by
 \(\sum_\xi\dot\phi_\xi=0\), so their reversible coefficients are determined up
 to the common multiplier \(\lambda\).  The multiplier power was retained in
 both subsystem energy balances; consequently, the same \(\lambda\) appears in
-the solid and fluid coefficients even when their temperatures differ.  Setting
-the independent volume-fraction coefficients to zero gives
+the solid and fluid coefficients even when their temperatures differ.
+
+For the fluid phases, let
+\(\dot\phi=D_{\mc S}\phi/Dt\) and use
+\(\dot\phi_f=S_f\dot\phi+\phi\dot S_f\), with
+\(\sum_f\dot S_f=0\).  The fluid volume-fraction power then separates into a
+pore-volume part and a saturation-redistribution part:
+%
+\begin{align}
+	&\sum_{f\in\mc F}
+	\left(
+	\lambda+\bar p_f-\omega_f^+-\gamma_f
+	\right)\dot\phi_f
+	\notag\\
+	&\qquad={}
+	\left[
+	\lambda
+	+\sum_{f\in\mc F}S_f
+	\left(
+	\bar p_f-\omega_f^+-\gamma_f
+	\right)
+	\right]\dot\phi
+	+\phi\sum_{f\in\mc F}
+	\left(
+	\bar p_f-\omega_f^+-\gamma_f
+	\right)\dot S_f .
+	\label{eq:MC_fluid_volume_fraction_rate_decomposition}
+\end{align}
+%
+The solid volume-fraction rates and the total fluid pore-volume rate remain
+reversible.  Setting their coefficients to zero gives
 %
 \begin{subequations}
 	\label{eq:MC_volume_fraction_restrictions}
@@ -2453,20 +2488,22 @@ the independent volume-fraction coefficients to zero gives
 		0
 		      & =
 		\lambda
-		+
-		\bar p_f
-		-
-		\omega^{+}_{f}
-		-\gamma_f,
-		\quad &
-		f\in\mc F .
+		+\sum_{f\in\mc F}S_f
+		\left(
+		\bar p_f-\omega_f^+-\gamma_f
+		\right).
 		\label{eq:MC_fluid_volume_fraction_restriction}
 	\end{align}
 \end{subequations}
 %
-These are the same volume-fraction stationarity relations obtained from the
-reversible variation.  Their form does not require
-\(\theta_{\mc F}=\theta_{\mc S}\).
+The second relation and
+\(\sum_fS_f\gamma_f=\gamma\) preserve the equivalent-pressure identity
+\eqref{eq:equivalent_pore_pressure_capillary_relation}.  The final term in
+\eqref{eq:MC_fluid_volume_fraction_rate_decomposition} is retained in the
+residual inequality and closed by the dynamic-capillary Onsager relation.  If
+\(\mc T=\mbf0\), that closure makes the phase coefficients equal; the common
+pore-volume relation then recovers the individual reversible fluid relations.
+This split does not require \(\theta_{\mc F}=\theta_{\mc S}\).
 
 Only \(N-1\) composition rates are independent in each fluid phase.  Subtracting
 the component-\(N\) coefficient from the other coefficients gives
@@ -3410,9 +3447,12 @@ Drumheller's deviatoric true-plastic driving stress through the phase distension
 map
 \cite[eqs.~(108)--(112)]{drumheller2000}.
 
-Applying the reversible pressure, stress, distension, composition, and entropy
-relations from \sref{MC_reversible_restrictions} removes their rate
-coefficients from \eqref{eq:MC_collected_entropy}.  The component-supply terms
+Applying the reversible pressure, stress, distension, composition, entropy,
+and common pore-volume relations from
+\sref{MC_reversible_restrictions} removes their rate coefficients from
+\eqref{eq:MC_collected_entropy}.  The saturation-redistribution term from
+\eqref{eq:MC_fluid_volume_fraction_rate_decomposition} remains dissipative.
+The component-supply terms
 are then replaced by the temperature-weighted reaction and relative-transport
 powers derived in \eqref{eq:MC_temperature_weighted_reaction_power} and
 \eqref{eq:MC_relative_transport_power}.  Gauss' law was already used in the
@@ -3461,6 +3501,13 @@ supplies below.  What remains is the residual dissipation inequality
 			\nu_{\xi (m)}^\alpha
 			\right]\dot r_{(m)}
 			\notag\\
+		         & +
+		\frac{\phi}{\theta_{\mc F}}
+		\sum_{f\in\mc F}
+		\left(
+		\bar p_f-\omega_f^+-\gamma_f
+		\right)\dot S_f
+		\notag\\
 		         & -
 		\sum_{\mc G\in\{\mc F,\mc S\}}
 		\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
@@ -3524,8 +3571,9 @@ supplies below.  What remains is the residual dissipation inequality
 	\label{eq:MC_residual_dissipation}
 \end{align}
 %
-Equation~\eqref{eq:MC_residual_dissipation} retains the capillary-history
-force--rate product together with the other dissipative mechanisms.  It
+Equation~\eqref{eq:MC_residual_dissipation} retains the dynamic-capillary and
+capillary-history force--rate products together with the other dissipative
+mechanisms.  It
 contains no standalone
 Helmholtz-energy-gradient force on the bulk phase velocity.  The bulk velocity
 is determined by phase momentum balance together with the interphase drag law,
@@ -3538,8 +3586,53 @@ explicit positive-semidefinite coupled closure, but they are additional
 constitutive physics rather than the observer-conversion term in
 \eqref{eq:MC_phase_rate_free_energy_transport_identity}.
 
-\subsubsection{Capillary-history closure}
+\subsubsection{Dynamic-capillary and capillary-history closures}
 \label{sec:MC_capillary_history_closure}
+
+The saturation-rate stationarity statement and its general force--rate closure
+are \eqref{eq:MC_dynamic_capillary_onsager_stationarity} and
+\eqref{eq:MC_dynamic_capillary_onsager_relation}.  Substitution into the
+saturation term in \eqref{eq:MC_residual_dissipation} gives
+%
+\begin{align}
+	&\frac{\phi}{\theta_{\mc F}}
+	\sum_{f\in\mc F}
+	\left(
+	\bar p_f-\omega_f^+-\gamma_f
+	\right)\dot S_f
+	\notag\\
+	&\qquad={}
+	\frac{\phi}{\theta_{\mc F}}
+	\sum_{f\ne f_\star}\sum_{g\ne f_\star}
+	\mc T_{fg}\dot S_f\dot S_g
+	\ge0 .
+	\label{eq:MC_dynamic_capillary_dissipation}
+\end{align}
+%
+For two fluid phases, take \(f_\star=w\) and write
+\(\mc T_{nw}\equiv\mc T_{nn}\).  Equations
+\eqref{eq:pc_def} and
+\eqref{eq:MC_dynamic_capillary_force_rate_relation} give
+%
+\begin{empheq}[box=\fbox]{equation}
+	\bar p_n-\bar p_w
+	=
+	p_{c,nw}
+	+\omega_n^+-\omega_w^+
+	+\mc T_{nw}\dot S_n,
+	\qquad
+	\mc T_{nw}\ge0,
+	\qquad
+	(w,n)\in\mc I .
+	\label{eq:MC_two_phase_dynamic_capillary_pressure}
+\end{empheq}
+%
+Because \(\dot S_n=-\dot S_w\), the final term may equivalently be written
+\(-\mc T_{nw}\dot S_w\).  Setting \(\mc T=\mbf0\) recovers the algebraic
+electrocapillary relation
+\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  This closure adds
+rate dependence to the dissipative pressure response without adding
+\(\dot S_f\) to the stored interfacial energy.
 
 The reversible coordinate variation holds \(\mbf h\) fixed, so the
 capillary-history state has no Euler--Lagrange equation.  Its skeleton-following
@@ -3560,17 +3653,19 @@ residual mechanisms, a sufficient pointwise restriction is
 %
 A material model supplies \(N_h\) evolution equations for \(\mbf h\) that
 satisfy \eqref{eq:MC_capillary_history_admissibility}, with
-\(\dot{\mbf h}=D_S\mbf h/Dt\).  Drainage--imbibition rules may use the
+\(\dot{\mbf h}=D_{\mc S}\mbf h/Dt\).  Drainage--imbibition rules may use the
 saturation-rate direction to select loading or unloading and store reversal and
 trapping data in \(\mbf h\).  Between switching events the state is continuous,
 so the capillary pressure may follow primary, secondary, and higher-order
 scanning paths \cite{wei2006capillary_hysteresis}.  The same history state may
-also enter a separately calibrated relative-permeability closure.  The present
-capillary closure is history dependent but contains no explicit pressure
-dependence on \(\dot S_f\).
+also enter a separately calibrated relative-permeability closure.
 Setting \(N_h=0\), or holding \(\mbf h\) fixed, recovers the single-valued
-capillary law and removes this dissipation term.  Coupled history, transport,
-and thermal kinetics are admissible when their combined force--rate form remains
+stored capillary law and removes the history-dissipation term.  The displayed
+dynamic and history laws are uncoupled.  A joint Onsager block coupling
+\(\dot S_f\) and \(\dot{\mbf h}\) is admissible when its symmetric resistance
+is positive semidefinite; loading--unloading switches may instead retain the
+present nonsmooth history rule.  Coupled capillary, transport, and thermal
+kinetics are admissible when their combined force--rate form remains
 nonnegative.
 
 \subsubsection{Reaction and relative-transport closures}
@@ -3954,9 +4049,11 @@ Here \(\mbf b_\xi\) is the momentum supplied to phase \(\xi\), while
 \(\left.\rho_\xi e_\xi^{\rm int}\right\vert_{\rm mech}\) is the associated
 internal-energy supply.  The full \(e_\xi^{\rm int}\) in the subsystem energy
 balance is the sum of this mechanical contribution, ordinary heat exchange, and
-any reaction-associated interphase energy transfer.  The reversible
-volume-constraint powers are absent because their coefficients have
-already vanished through \eqref{eq:MC_volume_fraction_restrictions}.
+any reaction-associated interphase energy transfer.  The reversible solid and
+pore-volume constraint powers are absent because their coefficients have
+already vanished through \eqref{eq:MC_volume_fraction_restrictions}; the
+saturation-redistribution power remains separately in
+\eqref{eq:MC_dynamic_capillary_dissipation}.
 Because the free-energy convection term has been recombined with the
 phase-following reversible rate, the entropy contribution of this mechanism is
 the temperature-weighted mechanical internal-energy supply.  When it is closed
@@ -4927,7 +5024,7 @@ volume fraction \(\phi=\sum_{f\in\mc F}\phi_f\).
 
 For the summed fluid balance, apply the fluid stress restriction
 \eqref{eq:MC_fluid_stress_free} to
-\eqref{eq:el_mom_f_simplified}.  Differentiating
+\eqref{eq:el_mom_f_dynamic_capillary}.  Differentiating
 \eqref{eq:saturation_weighted_primitive_potential_sum}, using
 \(\sum_f\nabla_{\mbf x}S_f=\mbf0\), and applying the saturation-derivative
 convention stated after \eqref{eq:interfacial_internal_energy} gives the
@@ -4961,7 +5058,7 @@ terms give
 		\right)
 		-\phi_f\nabla_{\mbf x}
 		\left(
-			\bar p_E+\gamma_f
+			\bar p_f-\omega_f^+
 		\right)
 	\right]
 	={}&
@@ -4984,17 +5081,28 @@ terms give
 	\left(\nabla_{\mbf x}\mbf h\right)^T
 	\left.
 	\p{\gamma}{\mbf h}
-	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}.
+	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+	\notag\\
+	&
+	+\phi\sum_{f\in\mc F}
+	\left(
+	\bar p_f-\bar p_E-\gamma_f-\omega_f^+
+	\right)
+	\nabla_{\mbf x}S_f .
 	\label{eq:MC_fluid_pressure_gradient_rollup}
 \end{align}
 %
+The final term follows from the common pore-volume restriction
+\eqref{eq:MC_fluid_volume_fraction_restriction}.  It vanishes in the reversible
+limit and carries the dynamic capillary pressure through the summed momentum
+balance.
+
 Adding the solid and fluid pressure terms and using
 \(\sum_\xi\phi_\xi=1\) and
 \(\mbf d=\sum_\xi\phi_\xi\mbf d_\xi\) gives
 %
-\begin{equation}
-	\begin{aligned}
-		 & \sum_{s\in\mc S}
+\begin{align}
+	& \sum_{s\in\mc S}
 		\left\{
 		\nabla_{\mbf x}\cdot
 		\left[
@@ -5004,8 +5112,8 @@ Adding the solid and fluid pressure terms and using
 		-\phi_s\nabla_{\mbf x}\bar p_E
 		-\nabla_{\mbf x}\left(\phi_s\omega_s^+\right)
 		\right\}
-		\\
-		 & \quad
+		\notag\\
+	& \quad
 		+\sum_{f\in\mc F}
 		\left[
 			\nabla_{\mbf x}\cdot
@@ -5014,29 +5122,39 @@ Adding the solid and fluid pressure terms and using
 			\right)
 			-\phi_f\nabla_{\mbf x}
 			\left(
-				\bar p_E+\gamma_f
+				\bar p_f-\omega_f^+
 			\right)
 		\right]
-		\\
-		 & \qquad =
+		\notag\\
+	& \qquad =
 		\nabla_{\mbf x}\cdot
 		\left[
 			-B\bar p_E\mbf I
 			+\mbf E\otimes\mbf d
-			\right]
+		\right]
+		\notag\\
+	& \qquad
 		-\phi
 		\left.
 		\p{\gamma}{\theta_{\mc F}}
 		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
 		\nabla_{\mbf x}\theta_{\mc F}
+		\notag\\
+	& \qquad
 		-\phi
 		\left(\nabla_{\mbf x}\mbf h\right)^T
 		\left.
 		\p{\gamma}{\mbf h}
-		\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}.
-	\end{aligned}
+		\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+		\notag\\
+	& \qquad
+		+\phi\sum_{f\in\mc F}
+		\left(
+		\bar p_f-\bar p_E-\gamma_f-\omega_f^+
+		\right)
+		\nabla_{\mbf x}S_f .
 	\label{eq:MC_pressure_gradient_overall_rollup}
-\end{equation}
+\end{align}
 %
 The pairwise interaction forces cancel when all phase momentum balances are
 summed.  Substituting
@@ -5071,6 +5189,13 @@ momentum balance
 	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
 	\notag\\
 	&
+	+\phi\sum_{f\in\mc F}
+	\left(
+	\bar p_f-\bar p_E-\gamma_f-\omega_f^+
+	\right)
+	\nabla_{\mbf x}S_f
+	\notag\\
+	&
 	+\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
 	\left(
 	\nabla_{\mbf x}\tau-\mbf v_\xi
@@ -5095,7 +5220,8 @@ The corresponding overall natural traction is
 	\label{eq:overall_natural_traction}
 \end{equation}
 %
-The thermocapillary, capillary-history-gradient, and conversion terms in
+The thermocapillary, capillary-history-gradient, dynamic-capillary, and
+conversion terms in
 \eqref{eq:MC_overall_momentum_nonlinear_biot} remain bulk sources and do not
 modify \eqref{eq:overall_natural_traction} unless an additional external-surface
 model is introduced.
@@ -5118,6 +5244,8 @@ vanishes in the isothermal limit or when the interfacial potential has no
 explicit temperature dependence.  The capillary-history-gradient term records
 spatial variation of the drainage--imbibition state and vanishes when
 \(\mbf h\) is spatially uniform or \(\gamma\) is independent of it.
+The dynamic-capillary term vanishes when \(\mc T=\mbf0\) or when the
+saturation field is spatially uniform.
 
 \subsection{Additive solid component specialization}
 \label{sec:MC_additive_component_specialization}
@@ -5968,6 +6096,9 @@ components in each solid phase.  If the component counts vary by phase, the
 products in the tables are replaced by the corresponding phase sums.  Let \(N_{(m)}\)
 be the number of independent conversion mechanisms and \(d\) the spatial
 dimension.  The number of continuous capillary-history variables is \(N_h\).
+The dynamic-capillary resistance \(\mc T\) is constitutive, and the saturation
+rates are obtained from the independent phase volume fractions, so the optional
+closure introduces no additional pointwise unknown family.
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.66\textwidth}>{\raggedleft\arraybackslash}p{0.24\textwidth}}
 	\caption{Bulk unknown families for a fully implicit active-phase pointwise discretization.}
@@ -6024,13 +6155,14 @@ Table~\ref{tab:MC_equation_block_count}.
 	Equation block                                                                                                                          & Count                                                 \\
 	\hline
 	\endhead
-		Fluid-phase momentum balances \eqref{eq:el_mom_f_simplified} and overall momentum balance \eqref{eq:MC_overall_momentum_nonlinear_biot} & \(d(P_{\mc F}+1)\)                                                     \\
+		Fluid-phase momentum balances \eqref{eq:el_mom_f_dynamic_capillary} and overall momentum balance \eqref{eq:MC_overall_momentum_nonlinear_biot} & \(d(P_{\mc F}+1)\)                                                     \\
 		Component mass balances \eqref{eq:averaged_component_spatial_mass}                                                                      & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)                              \\
 		Dispersion and diffusion closures \eqref{eq:MC_relative_transport_closures}                                                             & \(2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\)                 \\
 		Nonzero pairwise mechanical-interaction closures satisfying \eqref{eq:MC_interaction_energy_conservation}--\eqref{eq:MC_mechanical_interaction_admissibility}; sufficient aggregate fluid--skeleton specialization \eqref{eq:MC_interphase_exchange_law} with energy allocation \eqref{eq:MC_drag_heating_equal_partition} & \(\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)\)                       \\
 		Fourier nonadvective energy-flux closures \eqref{eq:MC_heat_flux_law}                                                                    & \(dP\)                                                                 \\
 		Fluid--solid heat-exchange closure \eqref{eq:MC_fluid_solid_heat_exchange_law}                                                          & \(1\)                                                                  \\
-		Volume-fraction restrictions \eqref{eq:MC_volume_fraction_restrictions}                                                                 & \(P\)                                                                  \\
+		Solid-phase and total-fluid pore-volume restrictions \eqref{eq:MC_volume_fraction_restrictions}                                      & \(P_{\mc S}+1\)                                                        \\
+		Dynamic-capillary saturation-rate relations \eqref{eq:MC_dynamic_capillary_onsager_relation}                                         & \(P_{\mc F}-1\)                                                        \\
 		Capillary-history evolution laws satisfying \eqref{eq:MC_capillary_history_admissibility}                                             & \(N_h\)                                                                \\
 		Reference-component evolution of \(\tau\) from \eqref{eq:MC_admissible_conversion_component}                                           & \(1\)                                                                  \\
 		Non-reference phase transfer-work recovery \eqref{eq:MC_phase_reference_transfer_work_recovery}                                        & \(P-1\)                                                                \\

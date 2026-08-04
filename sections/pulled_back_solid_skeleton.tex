@@ -10,7 +10,8 @@ $\mbf F$ and Jacobian $J$.
 \subsection{Relative flux vectors}
 \label{sec:relative_flux_vectors}
 
-The phase momentum equation \eqref{eq:el_mom_f_simplified} determines
+The dynamic-capillary phase momentum equation
+\eqref{eq:el_mom_f_dynamic_capillary} determines
 Darcy-scale relative fluxes once interphase drag is written in terms of a
 velocity relative to the solid skeleton.  For each fluid phase \(f\), define the
 current relative mass flux by
@@ -64,7 +65,7 @@ interaction-energy allocation
 
 Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 \eqref{eq:fluid_phase_interaction_law} into the fluid momentum balance
-\eqref{eq:el_mom_f_simplified} gives, for each fluid phase,
+\eqref{eq:el_mom_f_dynamic_capillary} gives, for each fluid phase,
 %
 \begin{align}
 	\frac{1}{\rho_f}
@@ -78,7 +79,7 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 	  &
 		-\phi_f\nabla_{\mbf x}
 	\left(
-		\bar p_E+\gamma_f
+		\bar p_f-\omega_f^+
 	\right)
 		\notag \\
 	  &
@@ -239,7 +240,7 @@ The resulting relative mass flux is
 		\left.
 		-\phi_f\nabla_{\mbf x}
 		\left(
-			\bar p_E+\gamma_f
+			\bar p_f-\omega_f^+
 		\right)
 		+\nabla_{\mbf x}\cdot
 		\left(
@@ -256,8 +257,9 @@ The resulting relative mass flux is
 \end{empheq}
 %
 This expression is the multicomponent fluid-phase analogue of a generalized
-Darcy flux.  Its driving force contains body force and inertia, equivalent and
-capillary pressure gradients, Maxwell stress, and conversion insertion.
+Darcy flux.  Its driving force contains body force and inertia, the actual
+phase-pressure gradient including equilibrium and dynamic capillarity, Maxwell
+stress, and conversion insertion.
 The observer-conversion term is absent from this bulk force because
 \eqref{eq:MC_collected_observer_correction_reassembly} explicitly recombines it
 with the skeleton-rate free-energy contribution before the residual inequality
@@ -335,7 +337,7 @@ The flux assembled in the reference component balances is then
 		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
 		-\phi_f\nabla_{\mbf X}
 		\left(
-			\bar p_E+\gamma_f
+			\bar p_f-\omega_f^+
 		\right)
 		\right.
 		\notag \\
@@ -488,6 +490,14 @@ divergence and multiplying the remaining spatial source terms by \(J\).  Using
 	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
 	\notag \\
 	&\;
+	+J\phi\mbf F^{-T}
+	\sum_{f\in\mc F}
+	\left(
+	\bar p_f-\bar p_E-\gamma_f-\omega_f^+
+	\right)
+	\nabla_{\mbf X}S_f
+	\notag \\
+	&\;
 	+J\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
 	\left(
 		\mbf F^{-T}\nabla_{\mbf X}\tau-\mbf v_\xi
@@ -503,6 +513,8 @@ configuration.  The same pull-back gives
 =\mbf F^{-T}\nabla_{\mbf X}\theta_{\mc F}\) in the thermocapillary force and
 \(\nabla_{\mbf x}\mbf h
 =\nabla_{\mbf X}\mbf h\,\mbf F^{-1}\) in the capillary-history force.
+The same scalar-gradient pull-back carries the dynamic-capillary term through
+\(\nabla_{\mbf x}S_f=\mbf F^{-T}\nabla_{\mbf X}S_f\).
 
 If a quasi-static solid-skeleton solve is desired, the inertial term on the left
 is dropped.  If the fluid velocities are eliminated with
@@ -546,6 +558,14 @@ from
 	\left.
 	\p{\gamma}{\mbf h}
 	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+	\notag \\
+	&\;
+	+J\phi\mbf F^{-T}
+	\sum_{f\in\mc F}
+	\left(
+	\bar p_f-\bar p_E-\gamma_f-\omega_f^+
+	\right)
+	\nabla_{\mbf X}S_f
 	\notag \\
 	&\;
 	+J\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
@@ -600,7 +620,7 @@ The corresponding admissible reference flux is
 		\rho_f\mbf F^T\left(\mbf g-\mbf a_f\right)
 		-\phi_f\nabla_{\mbf X}
 		\left(
-			\bar p_E+\gamma_f
+			\bar p_f-\omega_f^+
 		\right)
 		\right.
 		\notag \\
@@ -627,29 +647,39 @@ The corresponding admissible reference flux is
 %
 The neutral, conversion-free, negligible-inertia specialization gives
 \eqref{eq:standard_darcy_mass_flux_limit} directly.  Capillary, or
-electrocapillary, pressure closes the phase pressures at the current saturation,
-temperature, and capillary-history state,
+electrocapillary, pressure closes the phase pressures at the current saturation
+state and saturation rate,
 %
 \begin{equation}
 	\phi = \sum_{f\in\mc F}\phi_f,
 	\qquad
 	S_f = \frac{\phi_f}{\phi},
 	\qquad
-	p_{c,nw}
-	=
 	\bar p_n-\bar p_w
-	-\left(\omega_n^+-\omega_w^+\right),
+	=
+	p_{c,nw}
+	+\omega_n^+-\omega_w^+
+	+\mc T_{nw}
+	\left.
+	\frac{\partial S_n}{\partial t}
+	\right\vert_{\mbf X},
 	\qquad
-	f\in\mc F,\quad (w,n)\in\mc I .
+	\mc T_{nw}\ge0,
+	\quad (w,n)\in\mc I .
 	\label{eq:reservoir_simulation_capillary_summary}
 \end{equation}
 %
 Equivalently, a simulator may choose one reference pressure and reconstruct the
 other fluid pressures from the selected capillary-pressure laws before
-evaluating the fluxes.  The neutral specialization \(\omega_f^+=0\) gives
-\(p_{c,nw}=\bar p_n-\bar p_w\).  Together with the Maxwell stress, the
-pressure reconstruction gives the equivalent-pressure identity
-\eqref{eq:MC_fluid_pressure_gradient_rollup}.
+evaluating the fluxes.  Because \(\mbf X\) follows the skeleton,
+\(\left.\partial S_n/\partial t\right\vert_{\mbf X}=D_{\mc S}S_n/Dt\).
+The neutral equilibrium specialization
+\(\omega_f^+=0\) and \(\mc T=\mbf0\) gives
+\(p_{c,nw}=\bar p_n-\bar p_w\).  In a fully implicit implementation, the
+time-discrete saturation rate enters the pressure reconstruction, and its
+spatial gradient is carried by the Darcy flux.  Together with the Maxwell
+stress, the pressure reconstruction gives the equivalent-pressure identity
+and dynamic term in \eqref{eq:MC_fluid_pressure_gradient_rollup}.
 
 In this subblock,
 \eqref{eq:reservoir_simulation_overall_momentum_summary} and
@@ -658,7 +688,8 @@ equations.  Equations
 \eqref{eq:reservoir_simulation_velocity_flux_summary} and
 \eqref{eq:reservoir_simulation_reference_flux_summary} are constitutive
 reconstructions, and
-\eqref{eq:reservoir_simulation_capillary_summary} is a history-dependent
+\eqref{eq:reservoir_simulation_capillary_summary} is a history- and
+rate-dependent
 constitutive closure.  A
 complete solve must additionally retain the solid component balances
 \eqref{eq:solid_reference_solid_component_balance}, the two subsystem energy

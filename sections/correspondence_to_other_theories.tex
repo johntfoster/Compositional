@@ -67,7 +67,8 @@ A concrete classical closure set is
 \begin{equation}
 	\begin{aligned}
 		\mbf v_s &= \mbf 0, \\
-		\bar p_f &= \bar p_{\rm ref}+p_{c,f}(\{S_g\}_{g\in\mc F},\mbf h,\theta_{\mc F}), \\
+		\bar p_f &= \bar p_{\rm ref}+p_{c,f}, \\
+		p_{c,f} &= p_{c,f}(\{S_g\}_{g\in\mc F},\{\dot S_g\}_{g\in\mc F},\mbf h,\theta_{\mc F}), \\
 		\bar\rho_f &= \bar\rho_f(\bar p_{\rm ref},\theta_{\mc F},\{\eta_f^\alpha\}), \qquad
 			\mu_f^{\mathrm{visc}}
 			=
@@ -113,6 +114,9 @@ A concrete classical closure set is
 \end{equation}
 %
 Here \(\mc G_f\) is the specific Gibbs energy supplied by the EOS or flash model.
+The rate dependence of the phase pressure offsets is restricted by
+\eqref{eq:MC_dynamic_capillary_onsager_relation}; setting \(\mc T=\mbf0\)
+recovers the usual algebraic capillary closure.
 Although \(\mc G_f\) is physically evaluated for mass fractions whose sum is one,
 the partial derivatives in
 \eqref{eq:classical_compositional_closure_set} may be taken from any
@@ -234,21 +238,24 @@ phase compositions.
 Capillary pressure enters the compositional-flow limit through the interfacial
 energy.  The general theory defines saturations through
 \eqref{eq:fluid_saturation_definitions}, assigns an interfacial Helmholtz energy
-\eqref{eq:interfacial_energy_density}, and recovers phase pressure differences in
+\eqref{eq:interfacial_energy_density}, and recovers the zero-rate phase pressure
+differences in
 \eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  At fixed
-\(\mbf h\), capillary, or electrocapillary, laws are algebraic
-pressure-difference closures.  The evolution laws constrained by
+\(\mbf h\), the stored capillary contribution is algebraic, while
+\eqref{eq:MC_dynamic_capillary_onsager_relation} adds a dissipative pressure
+lag proportional to the skeleton-following saturation rates.  The evolution
+laws constrained by
 \eqref{eq:MC_capillary_history_admissibility} select the drainage, imbibition,
 and scanning path.  A neutral
 compositional implementation
 typically chooses one reference pressure and reconstructs the other phase
 pressures from capillary-pressure relations before evaluating the Darcy fluxes.
-In this variational model, this is the algebraic specialization of the
-more general statement \(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\).  When
+The relation \(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\) is the
+\(\mc T=\mbf0\) specialization.  When
 electrical enthalpy is retained, the pressure reconstruction includes the
 correction \(\omega_n^+-\omega_w^+\) in
-\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}; in the neutral limit
-this reduces to the usual capillary-pressure closure.  The offsets redistribute
+\eqref{eq:MC_two_phase_dynamic_capillary_pressure}; in the neutral equilibrium
+limit this reduces to the usual capillary-pressure closure.  The offsets redistribute
 the phase pressures and combine with the Maxwell-stress and phase-volume
 electrical forces according to
 \eqref{eq:MC_fluid_pressure_gradient_rollup}.
@@ -471,15 +478,21 @@ the fixed-frame flux closure is
 	\label{eq:black_oil_darcy_flux}
 \end{equation}
 %
-If oil pressure is chosen as the black-oil reference pressure, the general
-capillary-pressure closure in \eqref{eq:wetting_nonwetting_capillary_pressure_recovery}
-specializes to the usual water-oil and
-gas-oil relations
+If oil pressure is chosen as the black-oil reference pressure, a diagonal
+pairwise specialization of
+\eqref{eq:MC_dynamic_capillary_onsager_relation} gives the water--oil and
+gas--oil relations
 %
 \begin{equation}
-	\bar p_w=\bar p_o-p_{cow}(S_w,\mbf h),
+	\bar p_w
+	=
+	\bar p_o-p_{cow}(S_w,\mbf h)+\mc T_{ow}\dot S_w,
 	\qquad
-	\bar p_g=\bar p_o+p_{cgo}(S_g,\mbf h).
+	\bar p_g
+	=
+	\bar p_o+p_{cgo}(S_g,\mbf h)+\mc T_{go}\dot S_g,
+	\qquad
+	\mc T_{ow},\mc T_{go}\ge0 .
 	\label{eq:black_oil_capillary_pressure_closures}
 \end{equation}
 %
@@ -491,11 +504,13 @@ before evaluating \eqref{eq:black_oil_darcy_flux}.  Pair-specific entries of
 paths.  Holding \(\mbf h\) fixed recovers single-valued saturation functions;
 updating it with an admissible loading--unloading rule gives drainage,
 imbibition, and scanning curves for capillary pressure and, when selected,
-relative permeability.  In a potential-based three-phase specialization, both
-pairwise pressure laws must be derivatives of the common \(\gamma\), which
-imposes the corresponding cross-derivative compatibility.  Independently fitted
-pairwise laws are an empirical reservoir closure when that condition is not
-satisfied.
+relative permeability.  Setting \(\mc T_{ow}=\mc T_{go}=0\) recovers the
+standard algebraic black-oil closures.  In a potential-based three-phase
+specialization, both stored pairwise pressure laws must be derivatives of the
+common \(\gamma\), and the dynamic coefficients are entries of the common
+positive-semidefinite resistance matrix.  Independently fitted pairwise laws
+are an empirical reservoir closure when those compatibility conditions are not
+imposed.
 
 \subsection{Nernst--Planck--Darcy limit}
 \label{sec:nernst_planck_darcy_limit}
@@ -518,7 +533,7 @@ retained independently in this limit.  Gauss' law then gives
 \begin{align}
 	&-\phi_f\nabla_{\mbf x}
 	\left(
-		\bar p_E+\gamma_f
+		\bar p_f-\omega_f^+
 	\right)
 	+\nabla_{\mbf x}\cdot
 	\left(
@@ -536,8 +551,7 @@ retained independently in this limit.  Gauss' law then gives
 	\label{eq:nernst_planck_darcy_maxwell_force_reduction}
 \end{align}
 %
-Here the pressure relation
-\(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\), with
+Here the linear dielectric relation
 \(\omega_f^+=-\frac{1}{2}\mbf E\cdot\mbf d_f\), absorbs the isotropic part of
 the Maxwell stress.  Thus the tensor-divergence term in the general flux law
 becomes the familiar electric body force exerted on the mobile charge.

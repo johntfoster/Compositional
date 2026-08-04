@@ -15,9 +15,10 @@ phase pressures, entropies, generalized component-transfer forces,
 traditional electrochemical affinities, gauge-invariant nonisothermal
 chemical and electric transport forces, capillary-history dissipation, and
 residual dissipation.  Onsager
-stationarity provides one admissible near-equilibrium choice for reaction,
-diffusion, and dispersion.  Agreement of the independently derived reversible
-relations supplies an internal check on the construction.
+stationarity provides admissible near-equilibrium choices for dynamic
+saturation redistribution, reaction, diffusion, and dispersion.  Agreement of
+the independently derived reversible relations supplies an internal check on
+the construction.
 
 The derivation yields six specific advances.  First,
 converted mass enters the phase momentum production explicitly, and the same
@@ -30,8 +31,10 @@ gauge-invariant electrochemical transport and reaction forces by separating
 the temperature-weighted neutral-potential gradient from the electric field.
 Fourth, the constrained saturation variation and capillary-history state give
 drainage--imbibition-dependent pressure jumps, and the history evolution enters
-the residual dissipation explicitly.  The phase electrical enthalpy difference
-enters the same jump, and the common potential also generates dielectric
+the residual dissipation explicitly.  An optional positive-semidefinite
+resistance relates the pressure lag to the skeleton-following saturation rate
+without adding that rate to the stored energy.  The phase electrical enthalpy
+difference enters the same jump, and the common potential also generates dielectric
 pressure, Maxwell stress, and the equivalent pore pressure.  Fifth, the
 generalized composition-stationarity conditions
 recover electrochemical equilibrium while determining off-equilibrium
@@ -65,8 +68,11 @@ Several limitations delimit the present result.  The theory applies while the
 participating phases and components remain present; phase appearance and
 disappearance require separate switching conditions.  Capillary hysteresis is
 represented by continuous internal variables and material-specific
-loading--unloading rules.  Dynamic capillary pressure and independent
-interfacial-area evolution require further state variables and kinetics.  The
+loading--unloading rules.  Dynamic capillary pressure is represented by an
+optional near-equilibrium saturation-rate resistance; calibration determines
+whether this branch is active for a particular reservoir transient.
+Independent interfacial-area evolution requires a further state variable and
+kinetic equation.  The
 electrical state is
 electroquasistatic and isotropic and excludes permanent polarization,
 directional dielectric structure, relaxation, and wave dynamics.  Inserted
@@ -90,3 +96,6 @@ provide regression targets for pore-filling, crystallization, and
 electrocapillary benchmarks.  A cyclic two-fluid drainage--imbibition test can
 verify reversal continuity, scanning paths, trapping, and nonnegative
 capillary-history dissipation before the closure is extended to three phases.
+A rate sweep for fracture--matrix imbibition and flowback in a tight or shale
+sample can then compare \(\mc T=\mbf0\) with the dynamic closure using uptake,
+pressure lag, and saturation profiles as observables.

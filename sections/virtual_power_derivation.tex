@@ -9,8 +9,8 @@ stationarity.  The Hamilton--d'Alembert calculation follows the extended
 Hamilton principles used by Bedford and Drumheller for porous and reacting immiscible mixtures
 \cite{bedford1979variational,drumheller1980thermomechanical,bedford1983theories}
 and determines the mixture coordinates and constraints.  The Onsager
-calculation pairs reaction and relative-transport rates with their
-thermodynamic forces.  Exploitation of the entropy inequality then requires
+calculation pairs dissipative saturation, reaction, and relative-transport
+rates with their thermodynamic forces.  Exploitation of the entropy inequality then requires
 nonnegative dissipation \cite{doi2011onsager,wang2021onsager}.  This is the continuum counterpart of
 using virtual work for coordinate changes and virtual power for process rates
 \cite{germain1973virtualpower,gurtin2010continua}.  Keeping the two calculations
@@ -173,8 +173,12 @@ conversion transfer-momentum coefficient in the reversible variation.
 The reversible coordinate variations are $\mbf x_\xi$, $\eta_\xi^\alpha$,
 $\phi_\xi$, $\bar\rho_\xi$, and $\mc C_\xi^\alpha$.  The mechanism rates
 and the two relative fluxes are varied later as independent process rates
-through the constrained Onsager entropy-rate functional in
-Section~\ref{sec:onsager_reaction_transport}.
+	through the constrained Onsager entropy-rate functional in
+	Section~\ref{sec:onsager_reaction_transport}.  In the optional
+	dynamic-capillary branch, the independent zero-sum saturation rates are
+	Onsager rates driven by the phase-pressure coefficient in
+	\eqref{eq:dynamic_capillary_virtual_work}.  The entropy inequality later
+	supplies the constitutive admissibility condition.
 
 \subsubsection{Extending Bedford and Drumheller transport identity}
 \label{sec:extended_bd_identity}
@@ -468,12 +472,44 @@ coordinate variations remain phase-specific.  Both
 operations differentiate the same primitive volume-fraction fields, so the
 conjugate interfacial coefficient remains \(\gamma_f\).
 
-At fixed \(\mbf h\), the capillary pressure remains algebraic at the current
-saturations and fluid temperature.  Evolution of \(\mbf h\) makes that pressure
-depend on the drainage--imbibition path.  Setting \(N_h=0\) recovers the
-single-valued local-equilibrium closure.  Dynamic capillary pressure and
-independent interfacial-area evolution require further state variables and
-kinetic equations.
+At fixed \(\mbf h\), the stored capillary contribution remains algebraic at the
+current saturations and fluid temperature.  Evolution of \(\mbf h\) makes that
+contribution depend on the drainage--imbibition path.  Setting \(N_h=0\)
+recovers the single-valued equilibrium closure.
+
+Dynamic capillarity is introduced through dissipative saturation work while
+leaving the stored potential \(\gamma\) unchanged.  The skeleton-following
+saturation rates are
+\(\dot S_f=D_{\mc S}S_f/Dt\), with
+\(\sum_{f\in\mc F}\dot S_f=0\).  The optional dynamic branch augments the
+virtual work by
+%
+\begin{equation}
+	\delta W
+	\longmapsto
+	\delta W
+	-
+	\int_{\mc B}
+	\phi
+	\sum_{f\in\mc F}
+	\left(
+	\bar p_f-\omega_f^+-\gamma_f
+	\right)
+	\left.\delta S_f\right\vert_{\mbf x}
+	\dv .
+	\label{eq:dynamic_capillary_virtual_work}
+\end{equation}
+%
+The admissible saturation variations sum to zero, so a common shift of all
+coefficients in \eqref{eq:dynamic_capillary_virtual_work} performs no work.
+The transported part of the fixed-point variation supplies the corresponding
+phase-pressure force in the fluid momentum balance.  The entropy inequality
+and Onsager stationarity close this force with the resistance
+\(\mc T\) in \eqref{eq:MC_dynamic_capillary_onsager_relation}.  Setting
+\(\mc T=\mbf0\) makes the augmentation perform no admissible saturation work
+and recovers the reversible pressure relation.  Independent interfacial-area
+evolution would require an additional stored state and kinetic equation and is
+not included here.
 
 \subsubsection{Variation of the phase electric enthalpy}
 \label{sec:electric_field_variation}
@@ -962,7 +998,8 @@ fluid phases, to eliminate the volume-constraint multiplier in favor of phase
 pressure and interfacial terms.  The fluid-phase variation also contains the
 primitive capillary potential.
 
-The next relations are consequences of the fluid-phase volume-fraction
+When the dynamic work in \eqref{eq:dynamic_capillary_virtual_work} is absent,
+the next relations are consequences of the fluid-phase volume-fraction
 Euler--Lagrange equation and this phase-pressure definition.
 Returning to the fluid-phase volume-fraction variation, its coefficient in
 \eqref{eq:collected_full} contains both the primitive interfacial potential
@@ -1019,7 +1056,7 @@ Using \eqref{eq:pc_def}, the wetting/non-wetting relation is therefore
 %
 For two fluid phases with $\mc F=\{w,n\}$ and one oriented pair $(w,n)$,
 \eqref{eq:wetting_nonwetting_capillary_pressure_recovery} defines the
-electrocapillary pressure jump: \(p_{c,nw}\) is the intrinsic capillary
+zero-rate electrocapillary pressure jump: \(p_{c,nw}\) is the intrinsic capillary
 contribution associated with the interfacial potential, and
 \(\omega_n^+-\omega_w^+\) is the pressure-like electrical contribution.  This
 relation is consistent with electrowetting interface balances in which the
@@ -1029,6 +1066,9 @@ against capillary and Maxwell or electro-osmotic terms
 \cite{papageorgiou2019film_flows_electric_fields,yamamoto2015contact_angle_saturation}.
 The same phase-attributed electrical enthalpy enters the phase momentum
 balances, reversible stresses, and thermodynamic restrictions.
+The dynamic branch replaces this zero-rate relation by
+\eqref{eq:MC_two_phase_dynamic_capillary_pressure}; its additional pressure is
+proportional to \(D_{\mc S}S_n/Dt\).
 If the interfacial energy is parameterized by the wetting saturation $S_w$, then
 \(p_{c,nw}=-{\rm d}\gamma(S_w,1-S_w,\mbf h,\theta_{\mc F})/{\rm d}S_w\) at
 fixed \(\mbf h\) and \(\theta_{\mc F}\) in the neutral limit.
@@ -1043,8 +1083,9 @@ volume constraint.  Define
 \end{equation}
 % AGENT-LOCK-END
 %
-Multiplying $\bar p_f=\gamma_f+\omega_f^++\bar p_E$ by the fluid saturations
-and summing over fluid phases gives
+In the reversible branch, multiplying
+$\bar p_f=\gamma_f+\omega_f^++\bar p_E$ by the fluid saturations and summing
+over fluid phases gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -1091,7 +1132,9 @@ equivalent pore pressure used in thermodynamically stable coupled multiphase
 poromechanics \cite{coussy2004poromechanics,kim2013rigorous}.  The term
 \(-\sum_{f\in\mc F}S_f\omega_f^+\) is the present electrical extension,
 obtained from the phase-pressure relation above rather than attributed to
-either reference.
+either reference.  The common pore-volume restriction
+\eqref{eq:MC_fluid_volume_fraction_restriction} preserves this identity when
+dynamic capillarity is active.
 
 The remaining independent variations determine the composition and
 component-transfer relations.
@@ -1289,19 +1332,49 @@ volume-fraction force.  The fluid momentum balance is therefore
 \end{empheq}
 % AGENT-LOCK-END
 %
-The electrical force in \eqref{eq:el_mom_f_simplified} is consequently carried
+When \eqref{eq:dynamic_capillary_virtual_work} is active, its transported
+saturation variation replaces the equilibrium pressure gradient by the actual
+phase-pressure gradient.  The dynamic-capillary form is
+%
+\begin{empheq}[box=\fbox]{align}
+	\rho_f\mbf a_f
+	={}&
+	\nabla_{\mbf x}\cdot
+	\left(
+	\bs\sigma_f'
+	+\phi_f\mbf E\otimes\mbf d_f
+	\right)
+	-\phi_f\nabla_{\mbf x}
+	\left(
+	\bar p_f-\omega_f^+
+	\right)
+	+\rho_f\mbf g+\mbf b_f
+	\notag\\
+	&+
+	\sum_\alpha\phasedot{c}_f^\alpha
+	\left(
+	\nabla_{\mbf x}\tau-\mbf v_f
+	\right),
+	\qquad f\in\mc F .
+	\label{eq:el_mom_f_dynamic_capillary}
+\end{empheq}
+%
+Equation~\eqref{eq:el_mom_f_dynamic_capillary} reduces to
+\eqref{eq:el_mom_f_simplified} when \(\mc T=\mbf0\).  The electrical force in
+both forms is carried
 by the anisotropic Maxwell term
 \(\nabla_{\mbf x}\cdot(\phi_f\mbf E\otimes\mbf d_f)\), while the isotropic
-electric-enthalpy contribution is absorbed into the equivalent-pressure
-relation.  The primitive capillary potential remains through
-\(-\phi_f\nabla_{\mbf x}\gamma_f\).  This separated form is used in the
+electric-enthalpy contribution is absorbed into the pressure reconstruction.
+The stored capillary potential and the dynamic pressure lag enter through
+\(\bar p_f-\omega_f^+\).  This separated form is used in the
 summed solid--fluid momentum balance.  Related Maxwell forces appear in
 leaky-dielectric and electrowetting theories
 \cite{melcher1969electrohydrodynamics,yamamoto2015contact_angle_saturation}.
 
 Under the neutral, conversion-free specialization
 \(\omega_f^+=0\) and \(\phasedot{c}_f^\alpha=0\),
-\eqref{eq:el_mom_f_simplified} reduces to the standard pressure-gradient form,
+\eqref{eq:el_mom_f_dynamic_capillary} reduces to the standard
+pressure-gradient form,
 %
 \begin{equation}
 	\rho_f\mbf{a}_f
@@ -1367,15 +1440,16 @@ The neutral specialization additionally sets \(\omega_\xi^+=0\) and
 \(z_\xi^\alpha=0\), where \(z_\xi^\alpha\) is the charge per unit component
 mass.
 
-\subsection{Onsager principle for dissipative reaction and transport}
+\subsection{Onsager principle for dissipative saturation, reaction, and transport}
 \label{sec:onsager_reaction_transport}
 
 The Hamilton--d'Alembert variation determines the reversible coordinate
-equations at fixed endpoint variations.  Reactions and relative component
-transport are determined separately by an Onsager principle: at a fixed current
-thermodynamic state, the process rates for the immediate response are chosen by
-stationarity of an entropy-rate functional containing a dissipation potential
-and the linear thermodynamic rate~\cite{doi2011onsager,wang2021onsager}.  The Onsager
+equations at fixed endpoint variations.  Saturation redistribution, reactions,
+and relative component transport are determined separately by an Onsager
+principle: at a fixed current thermodynamic state, the process rates for the
+immediate response are chosen by stationarity of an entropy-rate functional
+containing a dissipation potential and the linear thermodynamic
+rate~\cite{doi2011onsager,wang2021onsager}.  The Onsager
 statement is local in time and selects near-equilibrium rates at the current
 thermodynamic state.  The entropy-rate form displayed here remains valid when
 \(\theta_{\mc F}\ne\theta_{\mc S}\).  Its coefficients are retained in the
@@ -1384,7 +1458,8 @@ chemical-potential interpretation is derived later by the Coleman--Noll
 procedure.  The state variables that enter the coefficients are held fixed
 during this minimization.  For each active phase,
 select one active reference component \(N\).  The independent process rates are
-\(\dot r_{(m)}\), \(\mbf j_{\xi,{\rm disp}}^\alpha\), and
+the \(|\mc F|-1\) saturation rates, \(\dot r_{(m)}\),
+\(\mbf j_{\xi,{\rm disp}}^\alpha\), and
 \(\mbf j_{\xi,{\rm diff}}^\alpha\) for \(\alpha\ne N\).  The reference-component
 fluxes are reconstructed separately for dispersion and diffusion by
 %
@@ -1762,7 +1837,7 @@ reconstructed from
 \eqref{eq:onsager_reference_flux_reconstruction}; prescribed relative-flux data
 must consequently satisfy the same zero-sum restriction.
 
-\subsubsection{Collected Onsager variation}
+\subsubsection{Reaction and relative-transport Onsager variation}
 \label{sec:collected_onsager_variation}
 
 The Onsager variations can now be collected in the same way as the
@@ -2004,3 +2079,73 @@ The two reference-component fluxes follow from
 The entropy inequality in Section~\ref{sec:constitutive_models_entropy_inequality}
 then checks that these Onsager force--rate laws are dissipative and records the
 positivity assumptions that make the closures admissible.
+
+\subsubsection{Saturation-redistribution Onsager variation}
+\label{sec:saturation_redistribution_onsager_variation}
+
+Choose one active reference fluid phase \(f_\star\).  The
+\(|\mc F|-1\) independent saturation rates are varied at fixed current state,
+with
+\(\dot S_{f_\star}=-\sum_{f\ne f_\star}\dot S_f\).  Their Onsager stationarity
+statement is
+%
+\begin{align}
+	0
+	={}&
+	\delta
+	\left\{
+	\frac{1}{2}
+	\int_{\mc B}
+	\frac{\phi}{\theta_{\mc F}}
+	\sum_{f\ne f_\star}\sum_{g\ne f_\star}
+	\mc T_{fg}\dot S_f\dot S_g
+	\dv
+	\right.
+	\notag\\
+	&\left.
+	\qquad
+	-
+	\int_{\mc B}
+	\frac{\phi}{\theta_{\mc F}}
+	\sum_{f\in\mc F}
+	\left(
+	\bar p_f-\omega_f^+-\gamma_f
+	\right)\dot S_f
+	\dv
+	\right\}.
+	\label{eq:MC_dynamic_capillary_onsager_stationarity}
+\end{align}
+%
+Stationarity gives
+%
+\begin{subequations}
+	\label{eq:MC_dynamic_capillary_onsager_relation}
+	\begin{align}
+		&\left(
+		\bar p_f-\omega_f^+-\gamma_f
+		\right)
+		-
+		\left(
+		\bar p_{f_\star}-\omega_{f_\star}^+-\gamma_{f_\star}
+		\right)
+		=
+		\sum_{g\ne f_\star}\mc T_{fg}\dot S_g,
+		\qquad
+		f\ne f_\star,
+		\label{eq:MC_dynamic_capillary_force_rate_relation}\\
+		&\mc T_{fg}=\mc T_{gf},
+		\qquad
+		\sum_{f\ne f_\star}\sum_{g\ne f_\star}
+		y_f\mc T_{fg}y_g\ge0
+		\quad
+		\text{for all real }\{y_f\}_{f\ne f_\star}.
+		\label{eq:MC_dynamic_capillary_resistance_admissibility}
+	\end{align}
+\end{subequations}
+%
+The resistance entries \(\mc T_{fg}\) have units of pressure times time.  They
+may depend on saturation, capillary history, temperature, deformation, and
+other current pore-structure variables.  Their state dependence is held fixed
+during the Onsager rate variation.  The residual entropy inequality later
+confirms that the positive-semidefinite resistance gives nonnegative
+saturation-redistribution dissipation.
