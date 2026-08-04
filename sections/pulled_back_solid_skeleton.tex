@@ -49,7 +49,9 @@ A sufficient fluid--skeleton interaction closure consistent with
 %
 Here $\mu_f^{\mathrm{visc}}$ is the dynamic viscosity and $\bs\kappa_f$ is the
 permeability tensor for phase $f$.  Phase relative permeability may be absorbed
-into $\bs\kappa_f$.  Equation~\eqref{eq:fluid_phase_interaction_law} contains
+into $\bs\kappa_f$ and may use the same capillary-history state \(\mbf h\) when
+relative-permeability hysteresis is retained.
+Equation~\eqref{eq:fluid_phase_interaction_law} contains
 only dissipative drag; all reversible driving forces remain in the phase
 momentum balance.  From \eqref{eq:relative_mass_flux_definition}, the two drag
 tensors are related by
@@ -475,8 +477,15 @@ divergence and multiplying the remaining spatial source terms by \(J\).  Using
 	-J\phi
 	\left.
 	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}_{f\in\mc F}}
+	\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
 	\mbf F^{-T}\nabla_{\mbf X}\theta_{\mc F}
+	\notag \\
+	&\;
+	-J\phi\mbf F^{-T}
+	\left(\nabla_{\mbf X}\mbf h\right)^T
+	\left.
+	\p{\gamma}{\mbf h}
+	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
 	\notag \\
 	&\;
 	+J\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
@@ -491,7 +500,9 @@ Here
 the conversion-insertion force is evaluated from the solid reference
 configuration.  The same pull-back gives
 \(\nabla_{\mbf x}\theta_{\mc F}
-=\mbf F^{-T}\nabla_{\mbf X}\theta_{\mc F}\) in the thermocapillary force.
+=\mbf F^{-T}\nabla_{\mbf X}\theta_{\mc F}\) in the thermocapillary force and
+\(\nabla_{\mbf x}\mbf h
+=\nabla_{\mbf X}\mbf h\,\mbf F^{-1}\) in the capillary-history force.
 
 If a quasi-static solid-skeleton solve is desired, the inertial term on the left
 is dropped.  If the fluid velocities are eliminated with
@@ -526,8 +537,15 @@ from
 	-J\phi
 	\left.
 	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}_{f\in\mc F}}
+	\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
 	\mbf F^{-T}\nabla_{\mbf X}\theta_{\mc F}
+	\notag \\
+	&\;
+	-J\phi\mbf F^{-T}
+	\left(\nabla_{\mbf X}\mbf h\right)^T
+	\left.
+	\p{\gamma}{\mbf h}
+	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
 	\notag \\
 	&\;
 	+J\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
@@ -609,8 +627,8 @@ The corresponding admissible reference flux is
 %
 The neutral, conversion-free, negligible-inertia specialization gives
 \eqref{eq:standard_darcy_mass_flux_limit} directly.  Capillary, or
-electrocapillary, pressure closes the phase pressures algebraically through the
-saturation state,
+electrocapillary, pressure closes the phase pressures at the current saturation,
+temperature, and capillary-history state,
 %
 \begin{equation}
 	\phi = \sum_{f\in\mc F}\phi_f,
@@ -630,7 +648,7 @@ Equivalently, a simulator may choose one reference pressure and reconstruct the
 other fluid pressures from the selected capillary-pressure laws before
 evaluating the fluxes.  The neutral specialization \(\omega_f^+=0\) gives
 \(p_{c,nw}=\bar p_n-\bar p_w\).  Together with the Maxwell stress, the
-algebraic pressure reconstruction gives the equivalent-pressure identity
+pressure reconstruction gives the equivalent-pressure identity
 \eqref{eq:MC_fluid_pressure_gradient_rollup}.
 
 In this subblock,
@@ -640,9 +658,11 @@ equations.  Equations
 \eqref{eq:reservoir_simulation_velocity_flux_summary} and
 \eqref{eq:reservoir_simulation_reference_flux_summary} are constitutive
 reconstructions, and
-\eqref{eq:reservoir_simulation_capillary_summary} is an algebraic closure.  A
+\eqref{eq:reservoir_simulation_capillary_summary} is a history-dependent
+constitutive closure.  A
 complete solve must additionally retain the solid component balances
 \eqref{eq:solid_reference_solid_component_balance}, the two subsystem energy
 balances \eqref{eq:MC_energy_balance}, Gauss' law \eqref{eq:gauss_law},
-mechanism kinetics, solid internal-variable evolution, and the remaining
+mechanism kinetics, capillary-history and solid internal-variable evolution,
+and the remaining
 constitutive restrictions appropriate to the selected specialization.

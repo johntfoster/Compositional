@@ -51,6 +51,10 @@ electrical, flux, and stress variables used below transform as
 		\qquad
 		s\in\mc S,
 		\label{eq:observer_deformation_rules} \\
+		\mbf h^\star(\mbf x^\star,t)
+		 & =
+		\mbf h(\mbf x,t),
+		\label{eq:observer_capillary_history_rule} \\
 		\varphi^\star(\mbf x^\star,t)
 		 & =
 		\varphi(\mbf x,t)+c_\varphi(t),
@@ -76,7 +80,11 @@ electrical, flux, and stress variables used below transform as
 	\end{align}
 \end{subequations}
 %
-Here \(k\in\{{\rm disp},{\rm diff}\}\).
+Here \(k\in\{{\rm disp},{\rm diff}\}\).  The entries of \(\mbf h\) are
+internal scalar variables, so the bold notation collects them but does not make
+\(\mbf h\) a spatial vector.  Consequently, the capillary-history-gradient
+force in \eqref{eq:MC_overall_momentum_nonlinear_biot} transforms as a spatial
+vector.
 The transfer potential is a kinematic potential rather than an objective
 thermodynamic scalar.  Between inertial observers, take
 \(\mbf Q(t)=\mbf Q_0\) and
@@ -279,9 +287,13 @@ dielectric relaxation.
 The local theory does not prescribe a single boundary-value problem.  An
 application must supply a compatible independent set of initial
 phase/component masses, active phase fractions, fluid and solid temperatures,
-solid kinematic and internal variables, and, when inertia is retained, phase
-velocities.  These data must satisfy the mass-fraction, volume-fraction, mass,
-and charge restrictions.  Here and below, \(s_\star\in\mc S\) denotes the
+capillary-history variables, solid kinematic and internal variables, and, when
+inertia is retained, phase velocities.  These data must satisfy the
+mass-fraction, volume-fraction, mass, and charge restrictions, together with the
+constitutive bounds on the capillary-history state.
+The local evolution law for \(\mbf h\) requires initial data but no boundary
+data; a nonlocal regularization would add the corresponding boundary
+conditions.  Here and below, \(s_\star\in\mc S\) denotes the
 selected solid-phase transfer reference.  The transfer potential requires one
 initial datum
 for the skeleton-trajectory evolution

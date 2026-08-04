@@ -59,12 +59,15 @@ notation,
 	\label{eq:classical_fixed_frame_darcy_velocity}
 \end{equation}
 %
+The same history state may enter \(\kappa_{rf}\) when relative-permeability
+hysteresis is retained.
+
 A concrete classical closure set is
 %
 \begin{equation}
 	\begin{aligned}
 		\mbf v_s &= \mbf 0, \\
-		\bar p_f &= \bar p_{\rm ref}+p_{c,f}(\{S_g\}_{g\in\mc F}), \\
+		\bar p_f &= \bar p_{\rm ref}+p_{c,f}(\{S_g\}_{g\in\mc F},\mbf h,\theta_{\mc F}), \\
 		\bar\rho_f &= \bar\rho_f(\bar p_{\rm ref},\theta_{\mc F},\{\eta_f^\alpha\}), \qquad
 			\mu_f^{\mathrm{visc}}
 			=
@@ -212,7 +215,8 @@ Substituting these closures into
 This is the standard reservoir compositional-flow form: storage is written in
 terms of porosity, saturation, phase density, and phase composition; transport is
 the phase Darcy flux multiplied by the component mass fraction; capillary
-pressure reconstructs phase pressures from the chosen reference pressure
+pressure and its capillary-history state reconstruct phase pressures from the
+chosen reference pressure
 \(\bar p_{\rm ref}\); and the EOS or flash closure supplies densities,
 viscosities, equilibrium compositions, and the chemical-potential/composition
 tangent that converts the entropy-admissible \(D\nabla\mu\) flux into the usual
@@ -231,8 +235,11 @@ Capillary pressure enters the compositional-flow limit through the interfacial
 energy.  The general theory defines saturations through
 \eqref{eq:fluid_saturation_definitions}, assigns an interfacial Helmholtz energy
 \eqref{eq:interfacial_energy_density}, and recovers phase pressure differences in
-\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  Thus capillary, or
-electrocapillary, laws are algebraic pressure-difference closures.  A neutral
+\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  At fixed
+\(\mbf h\), capillary, or electrocapillary, laws are algebraic
+pressure-difference closures.  The evolution laws constrained by
+\eqref{eq:MC_capillary_history_admissibility} select the drainage, imbibition,
+and scanning path.  A neutral
 compositional implementation
 typically chooses one reference pressure and reconstructs the other phase
 pressures from capillary-pressure relations before evaluating the Darcy fluxes.
@@ -450,7 +457,8 @@ the phase/component storage factors.
 
 The phase fluxes follow from the neutral, conversion-free,
 negligible-inertia reduction \eqref{eq:standard_darcy_mass_flux_limit}.  With
-\(\bs\kappa_f=k_{rf}\bs\kappa\), where $k_{rf}$ is the relative permeability,
+\(\bs\kappa_f=k_{rf}\bs\kappa\), where $k_{rf}$ is the relative permeability
+and may depend on \(\mbf h\),
 the fixed-frame flux closure is
 %
 \begin{equation}
@@ -469,16 +477,25 @@ specializes to the usual water-oil and
 gas-oil relations
 %
 \begin{equation}
-	\bar p_w=\bar p_o-p_{cow}(S_w),
+	\bar p_w=\bar p_o-p_{cow}(S_w,\mbf h),
 	\qquad
-	\bar p_g=\bar p_o+p_{cgo}(S_g).
+	\bar p_g=\bar p_o+p_{cgo}(S_g,\mbf h).
 	\label{eq:black_oil_capillary_pressure_closures}
 \end{equation}
 %
 These closures are then used with one pressure, for example \(\bar p_o\), and
 two independent saturations because \(S_w+S_o+S_g=1\).  The remaining phase
 pressures are reconstructed from \eqref{eq:black_oil_capillary_pressure_closures}
-before evaluating \eqref{eq:black_oil_darcy_flux}.
+before evaluating \eqref{eq:black_oil_darcy_flux}.  Pair-specific entries of
+\(\mbf h\) store reversal and trapping data for the water--oil and gas--oil
+paths.  Holding \(\mbf h\) fixed recovers single-valued saturation functions;
+updating it with an admissible loading--unloading rule gives drainage,
+imbibition, and scanning curves for capillary pressure and, when selected,
+relative permeability.  In a potential-based three-phase specialization, both
+pairwise pressure laws must be derivatives of the common \(\gamma\), which
+imposes the corresponding cross-derivative compatibility.  Independently fitted
+pairwise laws are an empirical reservoir closure when that condition is not
+satisfied.
 
 \subsection{Nernst--Planck--Darcy limit}
 \label{sec:nernst_planck_darcy_limit}

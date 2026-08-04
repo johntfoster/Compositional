@@ -21,8 +21,10 @@ and Darcy-type porous-flow reductions
 Macroscopic porous-medium thermodynamics derives multiphase balances,
 capillary restrictions, and generalized transport laws from averaged energy
 and entropy statements
-\cite{hassanizadeh1993thermodynamic,gray1999thermodynamics}, while
-poromechanics identifies effective-stress and equivalent-pressure structures
+\cite{hassanizadeh1993thermodynamic,gray1999thermodynamics}.  Internal-variable
+extensions represent drainage--imbibition hysteresis as dissipative evolution
+within the interfacial state \cite{wei2006capillary_hysteresis}.  Poromechanics
+identifies effective-stress and equivalent-pressure structures
 \cite{coussy2004poromechanics,kim2013rigorous}.  Seguin and Walkington give a
 nonreactive multicomponent, multiphase poroelastic theory in a solid observer
 \cite{seguin2019multicomponent}, and Foster and Xu derive a fixed-pressure
@@ -86,13 +88,15 @@ Within that construction, the paper makes six specific contributions.
 	      being counted twice.
 
 	\item Capillarity and electrostatics are generated from the same constrained
-	      stored-energy construction.  The saturation constraint produces
-	      capillary-pressure differences, and the phase electrical enthalpies
-	      contribute a definite difference term to those pressure jumps while
-	      also generating electric displacement, Maxwell stress, and dielectric
-	      pressure.  The same stored potential therefore generates the
-	      electrocapillary law, the electrically corrected equivalent pore
-	      pressure, and their contributions to the phase momentum equations.
+	      stored-energy construction.  The saturation constraint and a continuous
+	      capillary-history state produce drainage--imbibition-dependent pressure
+	      differences, while the history evolution contributes an explicit
+	      dissipative force--rate product.  The phase electrical enthalpies add a
+	      definite difference term to those pressure jumps while also generating
+	      electric displacement, Maxwell stress, and dielectric pressure.  The
+	      same stored potential therefore generates the electrocapillary law, the
+	      electrically corrected equivalent pore pressure, and their contributions
+	      to the phase momentum equations.
 
 	\item Variation of the component material measures gives a generalized
 	      composition-stationarity system.  At equilibrium it recovers equality of
@@ -121,15 +125,18 @@ single-solid/single-fluid Biot equations.  Each reduction states which
 electrical, thermal, conversion, kinematic, or constitutive terms are removed.
 The resulting correspondence checks the general formulation.  Application to a
 particular material or reservoir additionally requires equations of state,
-relative permeabilities, kinetic data, and numerical algorithms.
+relative permeabilities, capillary-history evolution laws, kinetic data, and
+numerical algorithms.
 
 The scope is deliberately local and continuum-scale.  Constitutive functions
-are assumed sufficiently smooth for the phases and components that are present,
+are assumed sufficiently smooth between phase and hysteresis switching events,
 with positive phase densities, volume fractions, and temperatures.  Separate
 switching conditions are needed when a phase or component appears or
-disappears.  The interfacial energy gives an algebraic local-equilibrium
-capillary closure; dynamic capillary pressure, hysteresis, and independent
-interfacial area are not included.  The electroquasistatic state describes an isotropic
+disappears.  Continuous capillary-history variables encode saturation reversal
+and phase trapping, while material-specific evolution laws select drainage,
+imbibition, and scanning paths.  Dynamic capillary pressure and independent
+interfacial-area evolution remain outside the present state.  The
+electroquasistatic state describes an isotropic
 dielectric response without permanent polarization, dielectric relaxation, or
 electromagnetic-wave dynamics.  Mass added to or removed from a phase carries
 that phase's specific internal energy and entropy.  The general two-temperature

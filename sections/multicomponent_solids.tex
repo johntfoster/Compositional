@@ -453,6 +453,24 @@ The nonelectrical state sets used in the constitutive derivatives are
 	\label{eq:MC_state_sets}
 \end{equation}
 %
+The interfacial state set is
+%
+\begin{equation}
+	\mc X_\gamma
+	=
+	\left\{
+	\{S_f\}_{f\in\mc F},\mbf h,\theta_{\mc F}
+	\right\},
+	\qquad
+	\mbf h\in\mathbb R^{N_h}.
+	\label{eq:MC_interfacial_state_set}
+\end{equation}
+%
+The phase energies use \(\mc X_f\) and \(\mc X_s\), while \(\mc X_\gamma\)
+controls the shared pore-scale interfacial storage.  The capillary-history
+variables are therefore internal variables of the fluid subsystem rather than
+additional composition coordinates of an individual fluid phase.
+
 The intrinsic density rate needed in the Coleman--Noll analysis follows from
 \eqref{eq:MC_solid_true_split}, isochoric plastic flow, and the
 composition-dependent stress-free true deformation.  In the derivatives below,
@@ -765,10 +783,12 @@ the Maxwell stress,
 \end{equation}
 %
 The interfacial Helmholtz density \(\gamma\) is measured per current fluid
-volume and depends on the fluid saturations and \(\theta_{\mc F}\).  Temperature
+volume and has the state set \eqref{eq:MC_interfacial_state_set}.  Temperature
 dependence permits the capillary pressure to vary with fluid temperature, as in
 the nonisothermal porous-media formulation of Hassanizadeh and Gray
-\cite{hassanizadeh1993thermodynamic}.  The mixture stores
+\cite{hassanizadeh1993thermodynamic}.  The internal-variable construction makes
+the pressure depend on the drainage--imbibition path
+\cite{wei2006capillary_hysteresis}.  The mixture stores
 \(\phi\gamma\) per current volume.  Differentiating this quantity along the
 skeleton trajectory and using the interfacial potentials \(\gamma_f\) from
 \eqref{eq:primitive_gamma_derivatives} gives
@@ -784,15 +804,23 @@ skeleton trajectory and using the interfacial potentials \(\gamma_f\) from
 	+
 	\phi
 	\left.
+	\p{\gamma}{\mbf h}
+	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+	\cdot\dot{\mbf h}
+	+
+	\phi
+	\left.
 	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}_{f\in\mc F}}
+	\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
 	\dot\theta_{\mc F} .
 	\label{eq:MC_interfacial_helmholtz_rate}
 \end{equation}
 %
-This term is a bulk storage rate in the fluid-subsystem energy balance.  It
-represents unresolved interfaces through the averaged density
-\(\phi\gamma\); no sharp interface or interface velocity is introduced.  A
+This term is a bulk storage rate in the fluid-subsystem energy balance.  The
+history rate records the change in interfacial storage as the pore-scale fluid
+arrangement changes; its dissipative restriction is derived below.  The density
+\(\phi\gamma\) represents unresolved interfaces; no sharp interface or
+interface velocity is introduced.  A
 sharp-interface theory would instead require separate surface balances of
 energy and entropy
 \cite{bothe2022sharp_interface}.
@@ -1009,8 +1037,14 @@ power, while the shared electric-potential-rate term is carried by
 		+
 		\phi
 		\left.
+		\p{\gamma}{\mbf h}
+		\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+		\cdot\dot{\mbf h}
+		+
+		\phi
+		\left.
 		\p{\gamma}{\theta_{\mc F}}
-		\right\vert_{\{S_f\}_{f\in\mc F}}
+		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
 		\dot\theta_{\mc F}
 		\right]
 		\\
@@ -1526,14 +1560,20 @@ leaving the material stress \(\bs\sigma_\xi'\).  The result is
 	       & -
 	\frac{1}{\theta_{\mc F}}
 	\left[
-	\sum_{f\in\mc F}
-	\gamma_f\dot\phi_f
-	+
-	\phi
-	\left.
-	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}_{f\in\mc F}}
-	\dot\theta_{\mc F}
+		\sum_{f\in\mc F}
+		\gamma_f\dot\phi_f
+		+
+		\phi
+		\left.
+		\p{\gamma}{\mbf h}
+		\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+		\cdot\dot{\mbf h}
+		+
+		\phi
+		\left.
+		\p{\gamma}{\theta_{\mc F}}
+		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
+		\dot\theta_{\mc F}
 	\right]
 	\notag          \\
 	       & +
@@ -1658,10 +1698,10 @@ the electric-field part of the transport force.  A charge-rate projection
 derived with the source terms below records the equivalent potential-charge
 accounting separately.
 No boundary divergence is discarded.
-Collecting the volume-fraction, composition, temperature, reaction, and
-transport rates gives one inequality
-organized into five labelled blocks.  The first block contains the elastic,
-distension, and volume-fraction rates.  Each subsequent display continues the
+Collecting the volume-fraction, capillary-history, composition, temperature,
+reaction, and transport rates gives one inequality organized into five labelled
+blocks.  The first block contains the elastic, distension, volume-fraction, and
+capillary-history rates.  Each subsequent display continues the
 right-hand side of the first, so its leading sign belongs to the same sum.  All
 five blocks therefore form the single inequality
 \eqref{eq:MC_collected_entropy}.
@@ -1750,11 +1790,17 @@ five blocks therefore form the single inequality
 	+
 	\bar p_f
 	-
-	\omega^{+}_{f}
-	-
-	\gamma_f
-	\right)\dot\phi_f
-	\label{eq:MC_collected_entropy_elastic_distension}
+		\omega^{+}_{f}
+		-
+		\gamma_f
+		\right)\dot\phi_f
+		-
+		\frac{\phi}{\theta_{\mc F}}
+		\left.
+		\p{\gamma}{\mbf h}
+		\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+		\cdot\dot{\mbf h}
+		\label{eq:MC_collected_entropy_elastic_distension}
 \end{align}
 \noindent\emph{Density and composition rates.}
 \par\nopagebreak[4]
@@ -1894,11 +1940,11 @@ five blocks therefore form the single inequality
 	\p{\omega^{+}_{f}}{\theta_{\mc F}}
 	\right\vert_{\mc X_f,\mbf E}
 	-
-	\phi
-	\left.
-	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}_{f\in\mc F}}
-	\right]\dot\theta_{\mc F}
+		\phi
+		\left.
+		\p{\gamma}{\theta_{\mc F}}
+		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
+		\right]\dot\theta_{\mc F}
 	\notag                  \\
 	       & +
 	\frac{1}{\theta_{\mc S}}
@@ -2547,7 +2593,7 @@ composition dependence of its stress-free maps,
 Finally, \(\dot\theta_{\mc F}\) and \(\dot\theta_{\mc S}\) are independent, so
 their coefficients define separate fluid- and solid-subsystem entropies.  The
 interfacial entropy belongs to the fluid subsystem because
-\(\gamma=\gamma(\{S_f\}_{f\in\mc F},\theta_{\mc F})\):
+\(\gamma=\gamma(\{S_f\}_{f\in\mc F},\mbf h,\theta_{\mc F})\):
 %
 \begin{subequations}
 	\label{eq:MC_entropy_definitions}
@@ -2568,7 +2614,7 @@ interfacial entropy belongs to the fluid subsystem because
 		\phi
 		\left.
 		\p{\gamma}{\theta_{\mc F}}
-		\right\vert_{\{S_f\}_{f\in\mc F}},
+		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h},
 		\label{eq:MC_fluid_entropy_definition}
 		\\
 		\sum_{s\in\mc S}\rho_s\mathfrak{s}_s
@@ -3437,6 +3483,13 @@ supplies below.  What remains is the residual dissipation inequality
 			\nabla_{\mbf x}\varphi
 		\right]
 		\notag\displaybreak[3]\\
+		         & -
+		\frac{\phi}{\theta_{\mc F}}
+		\left.
+		\p{\gamma}{\mbf h}
+		\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+		\cdot\dot{\mbf h}
+		\notag\\
 		         & +
 		\frac{1}{\theta_{\mc S}}
 		\sum_{s\in\mc S}
@@ -3471,7 +3524,9 @@ supplies below.  What remains is the residual dissipation inequality
 	\label{eq:MC_residual_dissipation}
 \end{align}
 %
-Equation~\eqref{eq:MC_residual_dissipation} therefore contains no standalone
+Equation~\eqref{eq:MC_residual_dissipation} retains the capillary-history
+force--rate product together with the other dissipative mechanisms.  It
+contains no standalone
 Helmholtz-energy-gradient force on the bulk phase velocity.  The bulk velocity
 is determined by phase momentum balance together with the interphase drag law,
 so pressure, capillarity, electrostatics, gravity, inertia, and conversion may
@@ -3482,6 +3537,41 @@ the bulk drag.  Thermo-osmotic or other cross effects may be added through an
 explicit positive-semidefinite coupled closure, but they are additional
 constitutive physics rather than the observer-conversion term in
 \eqref{eq:MC_phase_rate_free_energy_transport_identity}.
+
+\subsubsection{Capillary-history closure}
+\label{sec:MC_capillary_history_closure}
+
+The reversible coordinate variation holds \(\mbf h\) fixed, so the
+capillary-history state has no Euler--Lagrange equation.  Its skeleton-following
+rate is an internal dissipative rate.  When it is uncoupled from the other
+residual mechanisms, a sufficient pointwise restriction is
+%
+\begin{equation}
+	0
+	\le
+	-
+	\frac{\phi}{\theta_{\mc F}}
+	\left.
+	\p{\gamma}{\mbf h}
+	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+	\cdot\dot{\mbf h} .
+	\label{eq:MC_capillary_history_admissibility}
+\end{equation}
+%
+A material model supplies \(N_h\) evolution equations for \(\mbf h\) that
+satisfy \eqref{eq:MC_capillary_history_admissibility}, with
+\(\dot{\mbf h}=D_S\mbf h/Dt\).  Drainage--imbibition rules may use the
+saturation-rate direction to select loading or unloading and store reversal and
+trapping data in \(\mbf h\).  Between switching events the state is continuous,
+so the capillary pressure may follow primary, secondary, and higher-order
+scanning paths \cite{wei2006capillary_hysteresis}.  The same history state may
+also enter a separately calibrated relative-permeability closure.  The present
+capillary closure is history dependent but contains no explicit pressure
+dependence on \(\dot S_f\).
+Setting \(N_h=0\), or holding \(\mbf h\) fixed, recovers the single-valued
+capillary law and removes this dissipation term.  Coupled history, transport,
+and thermal kinetics are admissible when their combined force--rate form remains
+nonnegative.
 
 \subsubsection{Reaction and relative-transport closures}
 \label{sec:MC_reaction_transport_closures}
@@ -4841,7 +4931,7 @@ For the summed fluid balance, apply the fluid stress restriction
 \eqref{eq:saturation_weighted_primitive_potential_sum}, using
 \(\sum_f\nabla_{\mbf x}S_f=\mbf0\), and applying the saturation-derivative
 convention stated after \eqref{eq:interfacial_internal_energy} gives the
-nonisothermal identity
+interfacial state-gradient identity
 %
 \begin{equation}
 	\sum_{f\in\mc F}
@@ -4849,15 +4939,20 @@ nonisothermal identity
 	=
 	\left.
 	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}_{f\in\mc F}}
-	\nabla_{\mbf x}\theta_{\mc F}.
-	\label{eq:interfacial_thermal_gradient_identity}
+	\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
+	\nabla_{\mbf x}\theta_{\mc F}
+	+
+	\left(\nabla_{\mbf x}\mbf h\right)^T
+	\left.
+	\p{\gamma}{\mbf h}
+	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}.
+	\label{eq:interfacial_state_gradient_identity}
 \end{equation}
 %
 Thus, writing \(\phi_f=\phi S_f\), the summed fluid pressure and electrical
 terms give
 %
-\begin{equation}
+\begin{align}
 	\sum_{f\in\mc F}
 	\left[
 		\nabla_{\mbf x}\cdot
@@ -4869,20 +4964,29 @@ terms give
 			\bar p_E+\gamma_f
 		\right)
 	\right]
-	=
+	={}&
 	\nabla_{\mbf x}\cdot
 	\left(
 		\sum_{f\in\mc F}
 		\phi_f\mbf E\otimes\mbf d_f
 	\right)
 	-\phi\nabla_{\mbf x}\bar p_E
+	\notag\\
+	&
 	-\phi
 	\left.
 	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}_{f\in\mc F}}
-	\nabla_{\mbf x}\theta_{\mc F}.
+	\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
+	\nabla_{\mbf x}\theta_{\mc F}
+	\notag\\
+	&
+	-\phi
+	\left(\nabla_{\mbf x}\mbf h\right)^T
+	\left.
+	\p{\gamma}{\mbf h}
+	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}.
 	\label{eq:MC_fluid_pressure_gradient_rollup}
-\end{equation}
+\end{align}
 %
 Adding the solid and fluid pressure terms and using
 \(\sum_\xi\phi_\xi=1\) and
@@ -4923,8 +5027,13 @@ Adding the solid and fluid pressure terms and using
 		-\phi
 		\left.
 		\p{\gamma}{\theta_{\mc F}}
-		\right\vert_{\{S_f\}_{f\in\mc F}}
-		\nabla_{\mbf x}\theta_{\mc F}.
+		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
+		\nabla_{\mbf x}\theta_{\mc F}
+		-\phi
+		\left(\nabla_{\mbf x}\mbf h\right)^T
+		\left.
+		\p{\gamma}{\mbf h}
+		\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}.
 	\end{aligned}
 	\label{eq:MC_pressure_gradient_overall_rollup}
 \end{equation}
@@ -4934,9 +5043,9 @@ summed.  Substituting
 \eqref{eq:MC_pressure_gradient_overall_rollup} then gives the overall mixture
 momentum balance
 %
-\begin{empheq}[box=\fbox]{equation}
+\begin{empheq}[box=\fbox]{align}
 	\sum_\xi\rho_\xi\mbf a_\xi
-	=
+	={}&
 	\nabla_{\mbf x}\cdot
 	\left[
 		\bs\sigma^{\prime\prime}
@@ -4946,11 +5055,22 @@ momentum balance
 		\mbf E\otimes\mbf d
 	\right]
 	+\rho\mbf g
+	\notag\\
+	&
 	-\phi
 	\left.
 	\p{\gamma}{\theta_{\mc F}}
-	\right\vert_{\{S_f\}_{f\in\mc F}}
+	\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
 	\nabla_{\mbf x}\theta_{\mc F}
+	\notag\\
+	&
+	-\phi
+	\left(\nabla_{\mbf x}\mbf h\right)^T
+	\left.
+	\p{\gamma}{\mbf h}
+	\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
+	\notag\\
+	&
 	+\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
 	\left(
 	\nabla_{\mbf x}\tau-\mbf v_\xi
@@ -4975,16 +5095,16 @@ The corresponding overall natural traction is
 	\label{eq:overall_natural_traction}
 \end{equation}
 %
-The thermocapillary and conversion terms in
+The thermocapillary, capillary-history-gradient, and conversion terms in
 \eqref{eq:MC_overall_momentum_nonlinear_biot} remain bulk sources and do not
 modify \eqref{eq:overall_natural_traction} unless an additional external-surface
 model is introduced.
 
 The term proportional to
-\(\left.\partial\gamma/\partial\theta_{\mc F}\right\vert_{\{S_f\}_{f\in\mc F}}\)
+\(\left.\partial\gamma/\partial\theta_{\mc F}\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}\)
 is the interfacial Gibbs--Duhem thermal contribution generated by the bulk
 free-energy aggregation.  Indeed,
-\(-\left.\partial\gamma/\partial\theta_{\mc F}\right\vert_{\{S_f\}_{f\in\mc F}}\)
+\(-\left.\partial\gamma/\partial\theta_{\mc F}\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}\)
 is the interfacial entropy per current fluid volume, so the sign agrees with
 the bulk Gibbs--Duhem identity
 \cite[eq.~(59)]{bothe2015continuum}.  The contribution is therefore a bulk
@@ -4995,8 +5115,9 @@ surface momentum balance
 \cite{jasnow1996thermocapillary,guo2015thermocapillary}; none of those
 geometric fields belongs to the present averaged state set.  The bulk term
 vanishes in the isothermal limit or when the interfacial potential has no
-explicit temperature dependence, recovering the corresponding isothermal
-balance.
+explicit temperature dependence.  The capillary-history-gradient term records
+spatial variation of the drainage--imbibition state and vanishes when
+\(\mbf h\) is spatially uniform or \(\gamma\) is independent of it.
 
 \subsection{Additive solid component specialization}
 \label{sec:MC_additive_component_specialization}
@@ -5846,7 +5967,7 @@ components in each fluid phase and \(N^{\mc S}\) the number of tracked
 components in each solid phase.  If the component counts vary by phase, the
 products in the tables are replaced by the corresponding phase sums.  Let \(N_{(m)}\)
 be the number of independent conversion mechanisms and \(d\) the spatial
-dimension.
+dimension.  The number of continuous capillary-history variables is \(N_h\).
 
 \begin{longtable}{>{\raggedright\arraybackslash}p{0.66\textwidth}>{\raggedleft\arraybackslash}p{0.24\textwidth}}
 	\caption{Bulk unknown families for a fully implicit active-phase pointwise discretization.}
@@ -5862,6 +5983,7 @@ dimension.
 		Intrinsic phase densities \(\bar\rho_\xi\) for \(\xi=1,\ldots,P\)                               & \(P\)                                                                  \\
 		Independent fluid and solid mass fractions                                                      & \(P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)\)                     \\
 		Independent phase volume fractions                                                              & \(P-1\)                                                                \\
+		Capillary-history variables \(\mbf h\)                                                          & \(N_h\)                                                                \\
 		Volume-fraction multiplier \(\lambda\)                                                          & \(1\)                                                                  \\
 		Transfer potential \(\tau\)                                                                     & \(1\)                                                                  \\
 		Non-reference phase transfer-work levels \(L_\xi^N\), \(\xi\ne s_\star\)                       & \(P-1\)                                                                \\
@@ -5885,7 +6007,7 @@ dimension.
 				+(d^2+1)P_{\mc S} \\
 			&\quad
 			+P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}
-			+2P+P_{\mc S}+N_{(m)}+4
+			+2P+P_{\mc S}+N_{(m)}+N_h+4
 		\end{aligned}\)}
 \end{longtable}
 %
@@ -5909,6 +6031,7 @@ Table~\ref{tab:MC_equation_block_count}.
 		Fourier nonadvective energy-flux closures \eqref{eq:MC_heat_flux_law}                                                                    & \(dP\)                                                                 \\
 		Fluid--solid heat-exchange closure \eqref{eq:MC_fluid_solid_heat_exchange_law}                                                          & \(1\)                                                                  \\
 		Volume-fraction restrictions \eqref{eq:MC_volume_fraction_restrictions}                                                                 & \(P\)                                                                  \\
+		Capillary-history evolution laws satisfying \eqref{eq:MC_capillary_history_admissibility}                                             & \(N_h\)                                                                \\
 		Reference-component evolution of \(\tau\) from \eqref{eq:MC_admissible_conversion_component}                                           & \(1\)                                                                  \\
 		Non-reference phase transfer-work recovery \eqref{eq:MC_phase_reference_transfer_work_recovery}                                        & \(P-1\)                                                                \\
 		Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                                & \(P_{\mc S}\)                                                          \\
@@ -5927,7 +6050,7 @@ Table~\ref{tab:MC_equation_block_count}.
 				+(d^2+1)P_{\mc S} \\
 			&\quad
 			+P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}
-			+2P+P_{\mc S}+N_{(m)}+4
+			+2P+P_{\mc S}+N_{(m)}+N_h+4
 		\end{aligned}\)}
 \end{longtable}
 %
