@@ -1,0 +1,58 @@
+[Tests]
+  design = 'moose_app/input/fragment_catalog.yml moose_app/doc/q2_eg_architecture_audit.md'
+  issues = ''
+
+  [eg_q2_mms_1d]
+    type = CSVDiff
+    input = eg_q2_mms_1d.i
+    cli_args = 'Outputs/file_base=eg_q2_mms_1d'
+    csvdiff = eg_q2_mms_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall assemble a one-dimensional included Q2 solid and EG pressure/tau MMS deck, consume total enriched pressure/tau fields in materials, and solve the coupled reference residual with AD Jacobians.'
+  []
+
+  [eg_q2_mms_2d]
+    type = CSVDiff
+    input = eg_q2_mms_2d.i
+    cli_args = 'Outputs/file_base=eg_q2_mms_2d'
+    csvdiff = eg_q2_mms_2d.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall assemble a two-dimensional included Q2 solid and EG pressure/tau MMS deck with interior facet and weak EG boundary pressure terms.'
+  []
+
+  [eg_q2_mms_3d]
+    type = CSVDiff
+    input = eg_q2_mms_3d.i
+    cli_args = 'Outputs/file_base=eg_q2_mms_3d'
+    csvdiff = eg_q2_mms_3d.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall assemble a three-dimensional included Q2 solid and EG pressure/tau MMS deck with interior facet and weak EG boundary pressure terms.'
+  []
+
+  [q2_eg_convergence]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_q2_eg_hierarchy_convergence.py'
+    requirement = 'The application shall quantitatively enforce Q2 displacement L2/H1 convergence, P1+P0 EG pressure value/gradient convergence, fluxless EG tau value/gradient convergence, and tau null-mode removal by the enrichment anchor.'
+  []
+
+  [coupled_q2_eg_poro_mms_1d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_coupled_q2_eg_poro_mms_1d.py'
+    max_time = 120
+    requirement = 'The application shall quantitatively solve a mutually coupled one-dimensional EDGE3/Q2 solid and P1+P0 EG pressure manufactured solution in which P = P_double_prime - B p_E J F_inverse_transpose and the summed reference component balance uses the direct AD rate of J phi_f rhobar_f eta_f_alpha, Darcy flux, and J-weighted source.'
+  []
+
+  [coupled_q2_eg_poro_mms_2d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_coupled_q2_eg_poro_mms_2d.py'
+    max_time = 120
+    requirement = 'The application shall quantitatively solve a mutually coupled two-dimensional QUAD9/Q2 solid and P1+P0 EG pressure manufactured solution in which P = P_double_prime - B p_E J F_inverse_transpose and the summed reference component balance uses the direct AD rate of J phi_f fluid_intrinsic_density eta_f_alpha, Darcy reference flux, and J-weighted source; every displacement, pressure, enrichment, summed-storage, and strong-residual norm shall not exceed 1e-10.'
+  []
+
+  [coupled_q2_eg_poro_mms_3d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_coupled_q2_eg_poro_mms_3d.py'
+    max_time = 180
+    requirement = 'The application shall quantitatively solve a mutually coupled three-dimensional TET10/Q2 solid and P1+P0 EG pressure manufactured solution in which P = P_double_prime - B p_E J F_inverse_transpose and the summed reference component balance uses the direct AD rate of J phi_f fluid_intrinsic_density eta_f_alpha, Darcy reference flux, and J-weighted source; every displacement, pressure, enrichment, summed-storage, and strong-residual norm shall not exceed 1e-10.'
+  []
+[]

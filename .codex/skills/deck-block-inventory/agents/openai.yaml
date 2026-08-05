@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inventory Deck Blocks"
+  short_description: "Inventory MOOSE input objects and coverage"
+  default_prompt: "Use $deck-block-inventory to audit all MOOSE input blocks and registry coverage."

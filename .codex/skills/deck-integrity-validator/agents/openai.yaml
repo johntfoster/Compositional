@@ -1,0 +1,4 @@
+interface:
+  display_name: "Validate Deck Integrity"
+  short_description: "Verify locked blocks and deck provenance"
+  default_prompt: "Use $deck-integrity-validator to check registry hashes and assembled-deck provenance."

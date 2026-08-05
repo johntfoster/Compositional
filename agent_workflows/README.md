@@ -28,6 +28,12 @@ back to validated MOOSE examples and the equations they instantiate.
   DOI, and BibTeX verification workflow.
 - `checklists/post_edit_validation.md` -- post-edit validation checks.
 - `schemas/problem_spec.schema.json` -- structured problem specification schema
-  for future generated MOOSE decks.
+  for generated MOOSE decks, including verified block selection.
+- `../moose_app/input/verified_block_registry.yml` -- exact content digests,
+  semantic object inventories, versions, status, and verification evidence for
+  every canonical input fragment.
+- `scripts/verified_blocks.py` -- deterministic inventory, candidate sync,
+  promotion, assembly, and integrity-validation commands used by the four
+  repository-local deck-block skills.
 - `runbooks/moose_failure_triage.md` -- layered diagnosis path for failed
   generated or hand-written MOOSE runs.

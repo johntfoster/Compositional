@@ -1,0 +1,4 @@
+interface:
+  display_name: "Assemble Verified Decks"
+  short_description: "Assemble decks from verified registry blocks"
+  default_prompt: "Use $deck-assembler to generate a MOOSE deck only from verified input blocks."

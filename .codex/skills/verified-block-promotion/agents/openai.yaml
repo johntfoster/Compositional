@@ -1,0 +1,4 @@
+interface:
+  display_name: "Promote Verified Blocks"
+  short_description: "Promote tested deck blocks into lock registry"
+  default_prompt: "Use $verified-block-promotion to promote a tested MOOSE input fragment into the verified registry."

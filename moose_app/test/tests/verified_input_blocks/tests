@@ -1,0 +1,19 @@
+[Tests]
+  design = 'moose_app/input/verified_block_registry.yml agent_workflows/scripts/verified_blocks.py'
+  issues = ''
+
+  [verified_block_registry_integrity]
+    type = RunCommand
+    command = 'python3 ../../../../agent_workflows/scripts/verified_blocks.py validate --all-assemblies'
+    requirement = 'The application shall reject stale candidate inventories, modified verified fragments, and generated decks whose resolved includes differ from their provenance manifests.'
+  []
+
+  [verified_q2_eg_mms_2d_assembly]
+    type = CSVDiff
+    input = verified_q2_eg_mms_2d_assembly.i
+    cli_args = 'Outputs/file_base=verified_q2_eg_mms_2d_assembly'
+    csvdiff = verified_q2_eg_mms_2d_assembly.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall solve a generated two-dimensional Q2/EG deck assembled only from hash-verified fragments and scenario-local non-protected objects.'
+  []
+[]
