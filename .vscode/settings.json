@@ -6,76 +6,27 @@
   "latex-workshop.latex.recipe.default": "first",
   "latex-workshop.latex.recipes": [
     {
-      "name": "pdflatex -> bibtex -> pdflatex x2",
+      "name": "latexmk -> build/",
       "tools": [
-        "pdflatex",
-        "bibtex",
-        "pdflatex",
-        "pdflatex"
-      ]
-    },
-    {
-      "name": "pdflatex",
-      "tools": [
-        "pdflatex"
+        "latexmk"
       ]
     }
   ],
   "latex-workshop.latex.tools": [
     {
-      "name": "pdflatex",
-      "command": "/usr/bin/fish",
+      "name": "latexmk",
+      "command": "latexmk",
       "args": [
-        "-lc",
-        "pdflatex -synctex=1 -interaction=nonstopmode -file-line-error -output-directory=\"%OUTDIR%\" \"%DOC%\""
-      ]
-    },
-    {
-      "name": "bibtex",
-      "command": "/usr/bin/fish",
-      "args": [
-        "-lc",
-        "cd \"%OUTDIR%\"; env BIBINPUTS=\"../:\" BSTINPUTS=\"../:\" bibtex \"%DOCFILE%\""
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "-cd",
+        "%DOC%"
       ]
     }
   ],
   "latex-workshop.view.pdf.viewer": "tab",
-  "latex-workshop.synctex.afterBuild.enabled": true,
-  "latex-workshop.formatting.latex": "latexindent",
-  "latex-workshop.formatting.latexindent.path": "/usr/local/texlive/2022/bin/x86_64-linux/latexindent",
-  "latex-workshop.formatting.latexindent.args": [
-    "-l=latexindent.yaml",
-    "-r",
-    "-c=/tmp",
-    "%TMPFILE%"
-  ],
-  "latex-workshop.intellisense.citation.backend": "bibtex",
-  "latex-workshop.intellisense.package.enabled": true,
-  "files.autoSave": "off",
-  "editor.fontSize": 16,
-  "[latex]": {
-    "editor.defaultFormatter": "James-Yu.latex-workshop",
-    "editor.formatOnPaste": false,
-    "editor.formatOnSave": true,
-    "editor.formatOnType": false,
-    "editor.wordWrap": "on"
-  },
-  "[tex]": {
-    "editor.defaultFormatter": "James-Yu.latex-workshop",
-    "editor.formatOnPaste": false,
-    "editor.formatOnSave": true,
-    "editor.formatOnType": false,
-    "editor.wordWrap": "on"
-  },
-  "workbench.colorTheme": "Dark Modern",
-  "accessibility.voice.autoSynthesize": "on",
-  "terminal.integrated.defaultProfile.linux": "fish",
-  "terminal.integrated.profiles.linux": {
-    "fish": {
-      "path": "/usr/bin/fish",
-      "args": [
-        "-l"
-      ]
-    }
-  }
+  "latex-workshop.synctex.afterBuild.enabled": true
 }
