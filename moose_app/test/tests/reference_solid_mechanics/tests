@@ -1,0 +1,67 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [reference_solid_momentum_1d_traction]
+    type = CSVDiff
+    input = reference_solid_momentum_1d_traction.i
+    cli_args = 'Outputs/file_base=reference_solid_momentum_1d_traction'
+    csvdiff = reference_solid_momentum_1d_traction.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve the one-dimensional quasi-static reference-solid momentum residual with finite-deformation effective stress, Biot pressure pull-back, and prescribed reference traction.'
+  []
+
+  [reference_solid_loaded_reference_prestress_1d]
+    type = CSVDiff
+    input = reference_solid_loaded_reference_prestress_1d.i
+    cli_args = 'Outputs/file_base=reference_solid_loaded_reference_prestress_1d'
+    csvdiff = reference_solid_loaded_reference_prestress_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The reference-solid stress assembly shall accept an independently selectable input-deck prestress and exactly equilibrate a spatially varying initial Biot pore-pressure load in a loaded reference configuration.'
+  []
+
+  [reference_solid_momentum_2d_patch]
+    type = CSVDiff
+    input = reference_solid_momentum_2d_patch.i
+    cli_args = 'Outputs/file_base=reference_solid_momentum_2d_patch'
+    csvdiff = reference_solid_momentum_2d_patch.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a two-dimensional affine finite-deformation reference-solid momentum patch test with multidirectional displacement coupling and Biot pressure pull-back.'
+  []
+
+  [reference_solid_momentum_3d_patch]
+    type = CSVDiff
+    input = reference_solid_momentum_3d_patch.i
+    cli_args = 'Outputs/file_base=reference_solid_momentum_3d_patch'
+    csvdiff = reference_solid_momentum_3d_patch.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a three-dimensional affine finite-deformation reference-solid momentum patch test with all displacement components coupled through the reference stress.'
+  []
+
+  [reference_solid_momentum_1d_nonaffine]
+    type = CSVDiff
+    input = reference_solid_momentum_1d_nonaffine.i
+    cli_args = 'Outputs/file_base=reference_solid_momentum_1d_nonaffine'
+    csvdiff = reference_solid_momentum_1d_nonaffine.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a one-dimensional EDGE3 Q2 non-affine manufactured finite-deformation reference-solid momentum problem using the reconstructed total of a P1+P0 EG equivalent-pressure pair in the Neo-Hookean and Biot pressure stress with analytic body forcing.'
+  []
+
+  [reference_solid_momentum_2d_nonaffine]
+    type = CSVDiff
+    input = reference_solid_momentum_2d_nonaffine.i
+    cli_args = 'Outputs/file_base=reference_solid_momentum_2d_nonaffine'
+    csvdiff = reference_solid_momentum_2d_nonaffine.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a two-dimensional QUAD9 Q2 non-affine manufactured finite-deformation reference-solid momentum problem using the reconstructed total of a P1+P0 EG equivalent-pressure pair in the Neo-Hookean and Biot pressure stress with analytic body forcing.'
+  []
+
+  [reference_solid_momentum_3d_nonaffine]
+    type = CSVDiff
+    input = reference_solid_momentum_3d_nonaffine.i
+    cli_args = 'Outputs/file_base=reference_solid_momentum_3d_nonaffine'
+    csvdiff = reference_solid_momentum_3d_nonaffine.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a three-dimensional TET10 Q2 non-affine manufactured finite-deformation reference-solid momentum problem using the reconstructed total of a P1+P0 EG equivalent-pressure pair in the Neo-Hookean and Biot pressure stress with analytic body forcing.'
+  []
+[]

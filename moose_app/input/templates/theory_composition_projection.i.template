@@ -1,0 +1,104 @@
+# Opt-in compositional manuscript-theory preset.
+# Omit this entire file for a noncompositional model.
+#
+# Repeat the projection material once per compositional phase. Fluid phases
+# leave @COMPOSITION_CORRECTION_PROPERTIES@ empty. A solid phase instantiates
+# one stress-map correction block for A0 and one for Fbar0, then lists both
+# term-major output sets in the projection material.
+#
+# storage_multiplier_mode=recover is the manuscript default: pi is recovered
+# algebraically and introduces no primary field. Use coupled only for a focused
+# algebraic solve or a formulation that deliberately promotes pi to unknowns.
+[Materials]
+  [@PHASE@_specific_helmholtz]
+    type = ADDerivativeParsedMaterial
+    coupled_variables = '@ALL_PHASE_MASS_FRACTIONS@ @INTRINSIC_DENSITY_STATE@ @PHASE_TEMPERATURE@'
+    property_name = @PHASE@_specific_helmholtz
+    expression = '@SPECIFIC_HELMHOLTZ_EXPRESSION@'
+    derivative_order = 2
+    enable_jit = true
+  []
+  [@PHASE@_electric_enthalpy]
+    type = ADDerivativeParsedMaterial
+    coupled_variables = '@ELECTRIC_FIELD_COMPONENTS@ @ALL_PHASE_MASS_FRACTIONS@ @INTRINSIC_DENSITY_STATE@ @PHASE_TEMPERATURE@'
+    property_name = @PHASE@_electric_enthalpy
+    expression = '@ELECTRIC_ENTHALPY_EXPRESSION@'
+    derivative_order = 2
+    enable_jit = true
+  []
+
+  # Solid-only selectable term 1 from Eq. (183). Delete for a fluid phase.
+  [@PHASE@_distension_composition_correction]
+    type = ADCompositionStressMapCorrectionMaterial
+    coefficient_tensor_name = @DISTENSION_STRESS_COEFFICIENT@
+    stress_free_map_inverse_name = @DISTENSION_STRESS_FREE_MAP_INVERSE@
+    stress_free_map_derivative_names = '@D_A0_D_ETA_PROPERTIES@'
+    correction_names = '@DISTENSION_CORRECTION_OUTPUTS@'
+  []
+
+  # Solid-only selectable term 2 from Eq. (183). Delete for a fluid phase.
+  [@PHASE@_deformation_composition_correction]
+    type = ADCompositionStressMapCorrectionMaterial
+    coefficient_tensor_name = @DEFORMATION_STRESS_COEFFICIENT@
+    stress_free_map_inverse_name = @DEFORMATION_STRESS_FREE_MAP_INVERSE@
+    stress_free_map_derivative_names = '@D_FBAR0_D_ETA_PROPERTIES@'
+    correction_names = '@DEFORMATION_CORRECTION_OUTPUTS@'
+  []
+
+  [@PHASE@_theory_composition]
+    type = ADTheoryCompositionProjectionMaterial
+    phase_registry = @PHASE_REGISTRY@
+    phase = @PHASE@
+    mass_fractions = '@ALL_PHASE_MASS_FRACTIONS@'
+    phase_fraction = @PHASE_FRACTION@
+    intrinsic_density_name = @PHASE_INTRINSIC_DENSITY@
+    phase_pressure_name = @PHASE_TOTAL_PRESSURE@
+    specific_helmholtz_name = @PHASE@_specific_helmholtz
+    electric_enthalpy_name = @PHASE@_electric_enthalpy
+    composition_correction_names = '@COMPOSITION_CORRECTION_PROPERTIES@'
+    storage_multiplier_mode = @RECOVER_OR_COUPLED@
+    storage_multipliers = '@COUPLED_PI_VARIABLES_ONLY_WHEN_COUPLED@'
+    property_prefix = @PHASE@_theory_composition
+  []
+[]
+
+# Include these only with storage_multiplier_mode=coupled. Add N pi variables,
+# N-1 projection kernels, and one phase-pressure-storage kernel. The example
+# below shows component beta; repeat for beta=0,...,N-2. The final pi variable
+# carries the pressure-sum row. With recover mode, omit this entire section.
+[Variables]
+  [@PI_BETA@]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  [@PI_REFERENCE@]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+[]
+
+[Kernels]
+  [@PHASE@_composition_projection_@BETA@]
+    type = ADMaterialPropertyResidual
+    variable = @PI_BETA@
+    property = @PHASE@_theory_composition_projection_residual_@BETA@
+  []
+  [@PHASE@_pressure_storage_sum]
+    type = ADMaterialPropertyResidual
+    variable = @PI_REFERENCE@
+    property = @PHASE@_theory_composition_phase_pressure_storage_residual
+  []
+[]
+
+# The material also exposes:
+# - normalization_residual = sum_alpha eta_alpha - 1;
+# - composition_multiplier (Pi_xi);
+# - composition_coefficient_alpha;
+# - storage_multiplier_alpha and storage_multiplier_over_mass_fraction_alpha;
+# - specific_storage_work_alpha = pi_alpha/(phi_xi*rhobar_xi*eta_alpha);
+# - neutral_component_potential_alpha.
+# Stitch normalization into the chosen independent composition hierarchy and
+# use the neutral potentials in ADGeneralizedTransferWorkMaterial. For the
+# reference neutral component, pass specific_storage_work_N directly to
+# ADTauEvolutionMaterial::reference_pressure_work_name. Do not add
+# conventional fugacity-equality rows unless constructing the comparison deck.

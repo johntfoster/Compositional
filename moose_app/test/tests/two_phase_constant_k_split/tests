@@ -1,0 +1,85 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [two_phase_split_1d]
+    type = CSVDiff
+    input = two_phase_split_1d.i
+    cli_args = 'Outputs/file_base=two_phase_split_1d'
+    csvdiff = two_phase_split_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute a restricted active two-phase, two-component constant-K split in one dimension with equilibrium, composition, and volume-constraint diagnostics.'
+  []
+
+  [two_phase_split_2d]
+    type = CSVDiff
+    input = two_phase_split_2d.i
+    cli_args = 'Outputs/file_base=two_phase_split_2d'
+    csvdiff = two_phase_split_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute a restricted active two-phase, two-component constant-K split in two dimensions.'
+  []
+
+  [two_phase_split_3d]
+    type = CSVDiff
+    input = two_phase_split_3d.i
+    cli_args = 'Outputs/file_base=two_phase_split_3d'
+    csvdiff = two_phase_split_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute a restricted active two-phase, two-component constant-K split in three dimensions.'
+  []
+
+  [two_phase_split_balance_1d]
+    type = CSVDiff
+    input = two_phase_split_balance_1d.i
+    cli_args = 'Outputs/file_base=two_phase_split_balance_1d'
+    csvdiff = two_phase_split_balance_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a one-dimensional component balance using storage produced by the restricted constant-K phase-split material.'
+  []
+
+  [two_phase_split_phase0_appears_1d]
+    type = CSVDiff
+    input = two_phase_split_phase0_appears_1d.i
+    cli_args = 'Outputs/file_base=two_phase_split_phase0_appears_1d'
+    csvdiff = two_phase_split_phase0_appears_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall bound the constant-K split to the phase-0-only endpoint when the unbounded phase-1 mass fraction is negative.'
+  []
+
+  [two_phase_split_phase1_appears_1d]
+    type = CSVDiff
+    input = two_phase_split_phase1_appears_1d.i
+    cli_args = 'Outputs/file_base=two_phase_split_phase1_appears_1d'
+    csvdiff = two_phase_split_phase1_appears_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall bound the constant-K split to the phase-1-only endpoint when the unbounded phase-1 mass fraction exceeds one.'
+  []
+
+  [two_phase_split_flux_balance_1d]
+    type = CSVDiff
+    input = two_phase_split_flux_balance_1d.i
+    cli_args = 'Outputs/file_base=two_phase_split_flux_balance_1d'
+    csvdiff = two_phase_split_flux_balance_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a one-dimensional component balance with nonzero phase-specific Darcy fluxes assembled using split-derived phase compositions.'
+  []
+
+  [two_phase_split_flux_balance_2d]
+    type = CSVDiff
+    input = two_phase_split_flux_balance_2d.i
+    cli_args = 'Outputs/file_base=two_phase_split_flux_balance_2d'
+    csvdiff = two_phase_split_flux_balance_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a two-dimensional component balance with multidirectional phase-specific Darcy fluxes assembled using split-derived phase compositions.'
+  []
+
+  [two_phase_split_flux_balance_3d]
+    type = CSVDiff
+    input = two_phase_split_flux_balance_3d.i
+    cli_args = 'Outputs/file_base=two_phase_split_flux_balance_3d'
+    csvdiff = two_phase_split_flux_balance_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a three-dimensional component balance with multidirectional phase-specific Darcy fluxes assembled using split-derived phase compositions.'
+  []
+[]

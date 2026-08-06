@@ -1,0 +1,102 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [three_component_tensor_spd_closure]
+    type = CSVDiff
+    input = multicomponent_onsager_flux_3component.i
+    cli_args = 'Outputs/file_base=multicomponent_onsager_flux_3component'
+    csvdiff = multicomponent_onsager_flux_3component.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'The reduced N-1 component closure shall apply reciprocal spatial tensor blocks, reconstruct the dependent reference flux so all N current fluxes sum to zero, and distinguish force-flux power from physical entropy production.'
+  []
+
+  [nonreciprocal_tensor_rejected]
+    type = RunException
+    input = multicomponent_onsager_flux_3component.i
+    cli_args = "Outputs/file_base=nonreciprocal_tensor_rejected Materials/onsager/mobility_tensor_entries='2 0.2 0.2 1  0.3 0.1 0.05 0.2  0.3 0.06 0.1 0.2  1.5 0.1 0.1 1.2'"
+    expect_err = 'Onsager tensor reciprocity failed'
+    requirement = 'The reduced transport closure shall reject blocks that violate D_ab=D_ba^T.'
+  []
+
+  [indefinite_tensor_rejected]
+    type = RunException
+    input = multicomponent_onsager_flux_3component.i
+    cli_args = "Outputs/file_base=indefinite_tensor_rejected Materials/onsager/mobility_tensor_entries='-1 0 0 1  0 0 0 0  0 0 0 0  1 0 0 1'"
+    expect_err = 'Onsager tensor mobility is not positive definite'
+    requirement = 'The reduced transport closure shall reject a reciprocal tensor block matrix that is not positive definite.'
+  []
+
+  [small_dimensional_mobility_accepted]
+    type = RunApp
+    input = multicomponent_onsager_flux_3component.i
+    cli_args = "Outputs/file_base=small_dimensional_mobility_accepted Materials/onsager/mobility_tensor_entries='2e-20 2e-21 2e-21 1e-20  3e-21 1e-21 1e-21 2e-21  3e-21 1e-21 1e-21 2e-21  1.5e-20 1e-21 1e-21 1.2e-20'"
+    requirement = 'The relative reciprocity and positive-definiteness audits shall accept a physically admissible mobility tensor independently of its dimensional magnitude.'
+  []
+
+  [nonpositive_temperature_rejected]
+    type = RunException
+    input = multicomponent_onsager_flux_3component.i
+    cli_args = 'Outputs/file_base=nonpositive_temperature_rejected Materials/temperature/prop_values=0'
+    expect_err = 'absolute subsystem temperature must remain positive'
+    requirement = 'The entropy-production audit shall reject a nonpositive absolute temperature.'
+  []
+
+  [state_dependent_tensor_cg_eg_solve]
+    type = CSVDiff
+    input = state_dependent_tensor_cg_eg_jacobian_1d.i
+    cli_args = 'Outputs/file_base=state_dependent_tensor_cg_eg_jacobian_1d'
+    csvdiff = state_dependent_tensor_cg_eg_jacobian_1d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-11
+    requirement = 'A solved P1-plus-P0 CG/EG residual shall consume state-dependent AD tensor mobility components and converge with the dependent reference flux reconstructed exactly.'
+  []
+
+  [state_dependent_tensor_cg_eg_jacobian]
+    type = PetscJacobianTester
+    input = state_dependent_tensor_cg_eg_jacobian_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'The solved P1-plus-P0 CG/EG transport residual shall retain AD derivatives through reconstructed state-dependent tensor mobility.'
+  []
+
+  [coupled_tensor_balance_mms_2d]
+    type = CSVDiff
+    input = onsager_coupled_balance_mms_2d.i
+    cli_args = 'Outputs/file_base=onsager_coupled_balance_mms_2d'
+    csvdiff = onsager_coupled_balance_mms_2d.csv
+    abs_zero = 1e-10
+    rel_err = 1e-9
+    requirement = 'A genuinely two-dimensional QUAD9/P2-plus-P0 EG solve shall stitch the full reciprocal off-diagonal tensor Onsager block into both component balances, interior facets, and weak enrichment boundary rows, while reconstructing the dependent reference-component flux.'
+  []
+
+  [coupled_tensor_balance_mms_1d]
+    type = CSVDiff
+    input = onsager_coupled_balance_mms_1d.i
+    cli_args = 'Outputs/file_base=onsager_coupled_balance_mms_1d'
+    csvdiff = onsager_coupled_balance_mms_1d.csv
+    abs_zero = 1e-10
+    rel_err = 1e-9
+    requirement = 'An EDGE3/P2-plus-P0 EG solve shall close both cross-coupled Onsager component balances and the dependent reference-flux reconstruction in one dimension using the same block facet hierarchy as the multidimensional cases.'
+  []
+
+  [coupled_tensor_balance_jacobian_2d]
+    type = PetscJacobianTester
+    input = onsager_coupled_balance_mms_2d.i
+    cli_args = 'Outputs/file_base=onsager_coupled_balance_jacobian_2d'
+    ratio_tol = 1e-6
+    difference_tol = 1e-5
+    requirement = 'The two-dimensional block CG/EG Onsager system shall retain every diagonal and off-diagonal AD Jacobian contribution in volume, interior-facet, and weak-boundary residuals.'
+  []
+
+  [coupled_tensor_balance_mms_3d]
+    type = CSVDiff
+    input = onsager_coupled_balance_mms_3d.i
+    cli_args = 'Outputs/file_base=onsager_coupled_balance_mms_3d'
+    csvdiff = onsager_coupled_balance_mms_3d.csv
+    abs_zero = 1e-10
+    rel_err = 1e-9
+    requirement = 'A genuinely three-dimensional TET10/P2-plus-P0 EG solve shall close both cross-coupled Onsager component balances and reconstruct the dependent reference flux in all three spatial directions.'
+  []
+[]

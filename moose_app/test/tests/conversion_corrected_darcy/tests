@@ -1,0 +1,13 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [conversion_corrected_relative_flux_1d]
+    type = CSVDiff
+    input = conversion_corrected_relative_flux_1d.i
+    cli_args = 'Outputs/file_base=conversion_corrected_relative_flux_1d'
+    csvdiff = conversion_corrected_relative_flux_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A transforming relative-flux phase shall use the manuscript conversion-corrected resistance and q_f(grad(tau)-v_s) insertion force in its pulled-back generalized Darcy flux.'
+  []
+[]

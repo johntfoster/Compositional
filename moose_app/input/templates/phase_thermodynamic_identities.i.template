@@ -1,0 +1,106 @@
+# Select the phase-volume, dynamic-saturation, pressure-reconstruction, gradient,
+# momentum, entropy, and solid-Legendre groups independently in the structured
+# problem specification. The complete phase-transforming selection uses every
+# object below. Omit the fluid group for a solid-only model and omit the solid
+# group when no multicomponent solid phase is active.
+
+[Materials]
+  # Independent saturation rates and the symmetric positive-semidefinite
+  # resistance construct L_f^sat-L_ref^sat. State-dependent resistance entries
+  # may replace resistance_matrix together with their full product-rule gradients.
+  [saturation_onsager]
+    type = ADSaturationOnsagerForceMaterial
+    independent_phase_names = '<NONREFERENCE_FLUID_PHASES>'
+    saturation_rate_names = '<NONREFERENCE_SATURATION_RATE_PROPERTIES>'
+    resistance_matrix = '<ROW_MAJOR_SYMMETRIC_PSD_RESISTANCE>'
+    porosity_name = <FLUID_FRACTION_PROPERTY>
+    fluid_temperature_name = <FLUID_TEMPERATURE_PROPERTY>
+    property_prefix = phase_saturation_onsager
+  []
+
+  # Use the identical phase ordering, resistance entries, and prefix as the
+  # value material. For property-valued resistance, replace resistance_matrix
+  # in both objects with the same resistance_property_names and provide the
+  # matching resistance_gradient_property_names and saturation_rate_names here.
+  [saturation_onsager_gradients]
+    type = ADSaturationOnsagerForceGradientMaterial
+    independent_phase_names = '<NONREFERENCE_FLUID_PHASES>'
+    saturation_rate_gradient_names = '<NONREFERENCE_SATURATION_RATE_GRADIENT_PROPERTIES>'
+    resistance_matrix = '<ROW_MAJOR_SYMMETRIC_PSD_RESISTANCE>'
+    property_prefix = phase_saturation_onsager
+  []
+
+  # The deck supplies one absolute L_f^sat per phase and fixes its common gauge
+  # through reference_saturation_force_name. The predicted nonreference force
+  # differences are the outputs of saturation_onsager in matching phase order.
+  [phase_thermodynamic_identities]
+    type = ADPhaseThermodynamicIdentityMaterial
+    include_fluid_identities = <ENABLE_FLUID_IDENTITIES>
+    include_fluid_gradients = <ENABLE_PHASE_PRESSURE_GRADIENTS>
+    include_solid_legendre = <ENABLE_SOLID_LEGENDRE_IDENTITIES>
+    enforce_identity_residuals = <ENFORCE_IDENTITIES_AS_GUARDS>
+
+    fluid_saturation_names = '<PHYSICAL_SATURATION_PROPERTIES>'
+    fluid_pressure_names = '<ACTUAL_PHASE_PRESSURE_PROPERTIES>'
+    fluid_primitive_potential_names = '<PRIMITIVE_SURFACE_ENERGY_PROPERTIES>'
+    fluid_electric_enthalpy_names = '<PHASE_ELECTRIC_ENTHALPY_PROPERTIES>'
+    fluid_saturation_force_names = '<ABSOLUTE_SATURATION_FORCE_PROPERTIES>'
+    fluid_saturation_rate_names = '<ALL_SATURATION_RATE_PROPERTIES>'
+    reference_fluid_index = <REFERENCE_FLUID_INDEX>
+    reference_saturation_force_name = <REFERENCE_FORCE_GAUGE_PROPERTY>
+    predicted_force_difference_names = '<ONSAGER_FORCE_DIFFERENCE_PROPERTIES>'
+    fluid_fraction_name = <FLUID_FRACTION_PROPERTY>
+    fluid_temperature_name = <FLUID_TEMPERATURE_PROPERTY>
+    volume_constraint_multiplier_name = <VOLUME_MULTIPLIER_PROPERTY>
+    interfacial_helmholtz_name = <INTERFACIAL_HELMHOLTZ_PROPERTY>
+    equivalent_pressure_name = <EQUIVALENT_PRESSURE_PROPERTY>
+
+    fluid_volume_fraction_el_residual_names = '<PHASE_VOLUME_EL_RESIDUAL_OUTPUTS>'
+    exposed_saturation_force_names = '<ABSOLUTE_SATURATION_FORCE_OUTPUT_ALIASES>'
+    force_difference_names = '<NONREFERENCE_FORCE_DIFFERENCE_OUTPUTS>'
+    force_rate_residual_names = '<NONREFERENCE_FORCE_RATE_RESIDUAL_OUTPUTS>'
+    reconstructed_fluid_pressure_names = '<RECONSTRUCTED_ACTUAL_PRESSURE_OUTPUTS>'
+    fluid_pressure_residual_names = '<ACTUAL_PRESSURE_IDENTITY_RESIDUAL_OUTPUTS>'
+
+    fluid_saturation_gradient_names = '<PHYSICAL_SATURATION_GRADIENT_PROPERTIES>'
+    fluid_primitive_potential_gradient_names = '<PRIMITIVE_SURFACE_ENERGY_GRADIENT_PROPERTIES>'
+    fluid_electric_enthalpy_gradient_names = '<PHASE_ELECTRIC_ENTHALPY_GRADIENT_PROPERTIES>'
+    # Reconstruct each absolute gradient from the selected reference-gauge
+    # gradient and the matching saturation_onsager_gradients difference. The
+    # providers named here are mandatory when gradients are enabled.
+    fluid_saturation_force_gradient_names = '<RECONSTRUCTED_ABSOLUTE_SATURATION_FORCE_GRADIENT_PROPERTIES>'
+    equivalent_pressure_gradient_name = <EQUIVALENT_PRESSURE_GRADIENT_PROPERTY>
+    reconstructed_fluid_pressure_gradient_names = '<RECONSTRUCTED_ACTUAL_PRESSURE_GRADIENT_OUTPUTS>'
+    phase_momentum_pressure_potential_gradient_names = '<PHASE_MOMENTUM_PRESSURE_POTENTIAL_GRADIENT_OUTPUTS>'
+
+    solid_specific_helmholtz_name = <SOLID_SPECIFIC_HELMHOLTZ_PROPERTY>
+    solid_electric_enthalpy_name = <SOLID_ELECTRIC_ENTHALPY_PROPERTY>
+    solid_intrinsic_specific_volume_name = <SOLID_INTRINSIC_SPECIFIC_VOLUME_PROPERTY>
+    solid_phase_pressure_name = <SOLID_PHASE_PRESSURE_PROPERTY>
+    solid_equivalent_pressure_name = <SOLID_EQUIVALENT_PRESSURE_PROPERTY>
+  []
+[]
+
+[Kernels]
+  # Instantiate one kernel for each active fluid phase and Cartesian momentum
+  # component. Its input is Grad_X(p_f-omega_f^+), assembled by the identity
+  # material as Grad_X(p_E+gamma_f+L_f^sat-sum_g S_g L_g^sat). Do not add
+  # separate p_E, gamma_f, or L_f scalar-gradient kernels to the same equation.
+  [<PHASE>_momentum_<COMPONENT>_pressure_potential]
+    type = ADPhaseMomentumPressurePotentialGradientTerm
+    variable = <PHASE_MOMENTUM_COMPONENT_VARIABLE>
+    component = <COMPONENT_INDEX>
+    phase_momentum_pressure_potential_gradient_name = <PHASE_MOMENTUM_PRESSURE_POTENTIAL_GRADIENT>
+    coefficient_name = <PHASE_FRACTION_PROPERTY>
+  []
+
+  # The anisotropic electrical force is a separate Maxwell-stress kernel. The
+  # electric-enthalpy gradient has already canceled from p_f-omega_f^+ and must
+  # not be inserted as another isotropic scalar-gradient force.
+  [<PHASE>_momentum_<COMPONENT>_maxwell]
+    type = ADPhaseMomentumStressTerm
+    variable = <PHASE_MOMENTUM_COMPONENT_VARIABLE>
+    component = <COMPONENT_INDEX>
+    piola_stress_name = <PHASE_MAXWELL_PIOLA_STRESS_PROPERTY>
+  []
+[]

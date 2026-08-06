@@ -1,0 +1,85 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [oil_phase_history_extension_1d]
+    type = CSVDiff
+    input = oil_phase_history_extension_1d.i
+    cli_args = 'Outputs/file_base=oil_phase_history_extension_1d'
+    csvdiff = oil_phase_history_extension_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall evolve oil phase-history F_o and J_o on the solid reference mesh for one-dimensional homogeneous extension and report quantitative errors against the analytic matrix-exponential solution.'
+  []
+
+  [gas_phase_history_shear_2d]
+    type = CSVDiff
+    input = gas_phase_history_shear_2d.i
+    cli_args = 'Outputs/file_base=gas_phase_history_shear_2d'
+    csvdiff = gas_phase_history_shear_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall evolve gas phase-history tensor components and J_g on the solid reference mesh for a two-dimensional shear/dilation matrix-exponential solution.'
+  []
+
+  [water_phase_history_diagonal_3d]
+    type = CSVDiff
+    input = water_phase_history_diagonal_3d.i
+    cli_args = 'Outputs/file_base=water_phase_history_diagonal_3d'
+    csvdiff = water_phase_history_diagonal_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall evolve water phase-history diagonal tensor components and J_w on the solid reference mesh in three dimensions and compare J_w with det(F_w).'
+  []
+
+  [oil_phase_history_relative_advection_1d]
+    type = CSVDiff
+    input = oil_phase_history_relative_advection_1d.i
+    cli_args = 'Outputs/file_base=oil_phase_history_relative_advection_1d'
+    csvdiff = oil_phase_history_relative_advection_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall include c_o dot Grad_X F_o in the oil material derivative with c_o computed from W_o/(J_s rho_o), using current bulk phase density rather than intrinsic density or phase activity as an extra denominator factor.'
+  []
+
+  [oil_phase_history_relative_advection_2d]
+    type = CSVDiff
+    input = oil_phase_history_relative_advection_2d.i
+    cli_args = 'Outputs/file_base=oil_phase_history_relative_advection_2d'
+    csvdiff = oil_phase_history_relative_advection_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall include a two-dimensional c_o dot Grad_X F_o material-derivative term with c_o computed componentwise from W_o/(J_s rho_o).'
+  []
+
+  [oil_phase_history_relative_advection_3d]
+    type = CSVDiff
+    input = oil_phase_history_relative_advection_3d.i
+    cli_args = 'Outputs/file_base=oil_phase_history_relative_advection_3d'
+    csvdiff = oil_phase_history_relative_advection_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall include a three-dimensional c_o dot Grad_X F_o material-derivative term with c_o computed componentwise from W_o/(J_s rho_o).'
+  []
+
+  [gas_phase_history_inactive_policy_1d]
+    type = CSVDiff
+    input = gas_phase_history_inactive_policy_1d.i
+    cli_args = 'Outputs/file_base=gas_phase_history_inactive_policy_1d'
+    csvdiff = gas_phase_history_inactive_policy_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall preserve inactive gas phase-history fields by setting both c_g and l_g to zero, despite nonzero prescribed Grad_X(v_g), and avoid division by vanished bulk phase density when active_g is zero.'
+  []
+
+  [gas_phase_history_inactive_policy_2d]
+    type = CSVDiff
+    input = gas_phase_history_inactive_policy_2d.i
+    cli_args = 'Outputs/file_base=gas_phase_history_inactive_policy_2d'
+    csvdiff = gas_phase_history_inactive_policy_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall preserve inactive gas phase-history fields in two dimensions by setting c_g and l_g to zero despite nonzero prescribed Grad_X(v_g) and W_g.'
+  []
+
+  [gas_phase_history_inactive_policy_3d]
+    type = CSVDiff
+    input = gas_phase_history_inactive_policy_3d.i
+    cli_args = 'Outputs/file_base=gas_phase_history_inactive_policy_3d'
+    csvdiff = gas_phase_history_inactive_policy_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall preserve inactive gas phase-history fields in three dimensions by setting c_g and l_g to zero despite nonzero prescribed Grad_X(v_g) and W_g.'
+  []
+[]

@@ -1,0 +1,30 @@
+# Optional synthetic isothermal SPE black-oil thermodynamic specialization.
+# It maps R_s to the actual oil-phase gas mass fraction, applies the manuscript
+# fluid composition projection and phase-pressure storage sum, and supplies the
+# absolute component potentials and phase Helmholtz properties consumed by
+# phase_transformation_nonequilibrium.i.template. Replace this closure with a
+# calibrated caloric EOS when phase free-energy data are available.
+[Materials]
+  [@MECHANISM@_black_oil_thermodynamics]
+    type = ADBlackOilPhaseTransformationThermodynamicsMaterial
+    undersaturation_gap_name = @BLACK_OIL_UNDERSATURATION_GAP@
+    oil_component_mass_fraction_name = @BLACK_OIL_OIL_COMPONENT_MASS_FRACTION@
+    dissolved_gas_mass_fraction_name = @BLACK_OIL_DISSOLVED_GAS_MASS_FRACTION@
+    oil_intrinsic_density_name = @BLACK_OIL_OIL_INTRINSIC_DENSITY@
+    gas_intrinsic_density_name = @BLACK_OIL_GAS_INTRINSIC_DENSITY@
+    oil_bulk_density_name = @BLACK_OIL_OIL_BULK_DENSITY@
+    gas_bulk_density_name = @BLACK_OIL_GAS_BULK_DENSITY@
+    oil_pressure_name = @BLACK_OIL_OIL_PRESSURE@
+    gas_pressure_name = @BLACK_OIL_GAS_PRESSURE@
+    solution_gas_oil_ratio_scale = @RS_SCALE@
+    chemical_stiffness = @CHEMICAL_STIFFNESS@
+    oil_surface_density = @BLACK_OIL_SURFACE_OIL_DENSITY@
+    gas_surface_density = @BLACK_OIL_SURFACE_GAS_DENSITY@
+    oil_reference_specific_helmholtz = @BLACK_OIL_REFERENCE_SPECIFIC_HELMHOLTZ@
+    synthetic_gas_specific_helmholtz_offset = @BLACK_OIL_SYNTHETIC_GAS_HELMHOLTZ_OFFSET@
+    electric_potential = @OPTIONAL_ELECTRIC_POTENTIAL@
+    dissolved_specific_charge = @DISSOLVED_SPECIFIC_CHARGE@
+    free_specific_charge = @FREE_SPECIFIC_CHARGE@
+    property_prefix = @MECHANISM@
+  []
+[]

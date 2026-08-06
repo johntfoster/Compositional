@@ -1,0 +1,4 @@
+time,actual_reaction_energy_transfer_rate_error,energy_force_error,fluid_temperature_error,onsager_determinant_error,onsager_quadratic_dissipation_error,predicted_reaction_energy_transfer_rate_error,predicted_reaction_rate_error,reaction_energy_entropy_production_error,reaction_energy_transfer_rate_error,reaction_energy_transfer_rate_residual_error,reaction_entropy_production_error,reaction_rate_error,reaction_rate_residual_error,solid_temperature_error,total_entropy_production_error
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+

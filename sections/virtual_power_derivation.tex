@@ -824,12 +824,9 @@ including those from \(\delta C_4\):
 		\right]\cdot\delta\mbf{x}_{\xi} \,\dv            \\
 		 & + \sum_{f\in\mc F}\int_{\mc B}
 		\left[
-			\gamma_f\nabla_{\mbf x}\phi_f
-		\right]\cdot\delta\mbf x_f\,\dv                  \\
-		 & + \sum_{f\in\mc F}\int_{\mc B}
-		\left[
 			\left(
-			\mc L_f^{\rm sat}
+			\gamma_f
+			+\mc L_f^{\rm sat}
 			-\sum_{g\in\mc F}S_g\mc L_g^{\rm sat}
 			\right)
 			\nabla_{\mbf x}\phi_f
@@ -842,9 +839,6 @@ including those from \(\delta C_4\):
 		 & + \sum_{f\in\mc F}\int_{\mc B}
 		\left[
 			-\gamma_f
-		\right]\delta\phi_f\,\dv                         \\
-		 & + \sum_{f\in\mc F}\int_{\mc B}
-		\left[
 			-\mc L_f^{\rm sat}
 			+\sum_{g\in\mc F}S_g\mc L_g^{\rm sat}
 		\right]\delta\phi_f\,\dv                         \\
@@ -928,7 +922,7 @@ pressure as the usual thermodynamic pressure plus the dielectric pressure
 correction induced by the intrinsic-density dependence of the phase electric
 enthalpy.
 
-For phases without an explicit capillary contribution, the
+For solid phases $s \in \mc{S}$ without an explicit capillary contribution, the
 phase-volume-fraction variation \(\delta\phi_\xi\) gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
@@ -1008,27 +1002,26 @@ neutral, this relation gives the standard capillary-equilibrium condition
 \end{equation}
 % AGENT-LOCK-END
 %
-For two fluid phases with $\mc F=\{w,n\}$ and one oriented pair $(w,n)$,
+For two fluid phases with \(\mc F=\{w,n\}\) and one oriented pair \((w,n)\),
 the zero-rate form of
-\eqref{eq:fluid_pressure_difference_primitive_potential} contains the intrinsic
-capillary contribution \(p_{c,nw}\) and the pressure-like electrical
+\eqref{eq:fluid_pressure_difference_primitive_potential} combines the intrinsic
+capillary contribution \(p_{c,nw}\) with the pressure-like electrical
 contribution \(\omega_n^+-\omega_w^+\).  This electrocapillary relation is
-consistent with electrowetting interface balances in which the free energy
+consistent with electrowetting interface balances, in which the free energy
 contains surface, electrostatic, and ionic contributions and stationarity of
 the interface position gives a pressure-difference balance against capillary
 and Maxwell or electro-osmotic terms
 \cite{papageorgiou2019film_flows_electric_fields,yamamoto2015contact_angle_saturation}.
 The same phase-attributed electrical enthalpy enters the phase momentum
-balances, reversible stresses, and thermodynamic restrictions.
-Under electrical neutrality, equation
-\eqref{eq:wetting_nonwetting_capillary_pressure_recovery} recovers the standard
-capillary-pressure relation.  The dynamic branch augments the stored and
-electrical pressure difference by
-the lag in \eqref{eq:MC_two_phase_dynamic_capillary_pressure}, which is
+balances, reversible stresses, and thermodynamic restrictions.  The dynamic
+branch augments the pressure difference in
+\eqref{eq:fluid_pressure_difference_primitive_potential} by the lag in
+\eqref{eq:MC_two_phase_dynamic_capillary_pressure}, which is
 proportional to \(D_{\mc S}S_n/Dt\).
-If the interfacial energy is parameterized by the wetting saturation $S_w$, then
+If the interfacial energy is parameterized by the wetting saturation \(S_w\),
+then
 \(p_{c,nw}=-{\rm d}\gamma(S_w,1-S_w,\mbf h,\theta_{\mc F})/{\rm d}S_w\) at
-fixed \(\mbf h\) and \(\theta_{\mc F}\) in the neutral limit.
+fixed \(\mbf h\) and \(\theta_{\mc F}\).
 
 The same relations identify the equivalent pore pressure associated with the
 volume constraint.  Define
@@ -1041,10 +1034,11 @@ volume constraint.  Define
 % AGENT-LOCK-END
 %
 Multiplying \eqref{eq:fluid_pressure_primitive_potential_relation} by the fluid
-saturations and summing over fluid phases eliminates the generalized force.
-Indeed, \(\sum_fS_f\mc L_f^{\rm sat}\) is canceled by
-\((\sum_fS_f)(\sum_gS_g\mc L_g^{\rm sat})\), while the remaining multiplier
-term is \(-\lambda\sum_fS_f=-\lambda=\bar p_E\).  The result is
+saturations and summing over fluid phases eliminates the generalized force:
+because the saturations sum to unity, \(\sum_fS_f=1\), the term
+\(\sum_fS_f\mc L_f^{\rm sat}\) cancels against
+\((\sum_fS_f)(\sum_gS_g\mc L_g^{\rm sat})=\sum_gS_g\mc L_g^{\rm sat}\), and the
+multiplier term becomes \(-\lambda\sum_fS_f=-\lambda=\bar p_E\).  The result is
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
@@ -1089,11 +1083,12 @@ When \(\omega_f^+=0\), equation
 \eqref{eq:equivalent_pore_pressure_capillary_relation} reduces to the
 equivalent pore pressure used in thermodynamically stable coupled multiphase
 poromechanics \cite{coussy2004poromechanics,kim2013rigorous}.  The term
-\(-\sum_{f\in\mc F}S_f\omega_f^+\) is the present electrical extension,
-obtained from the phase-pressure relation above rather than attributed to
-either reference.  The common pore-volume restriction
-\eqref{eq:MC_fluid_volume_fraction_restriction} preserves this identity for the
-actual phase pressures when the dynamic lag is active.
+\(-\sum_{f\in\mc F}S_f\omega_f^+\) is the present electrical extension of the
+equivalent pore pressure, obtained from the phase-pressure relation above.
+The common pore-volume restriction
+\eqref{eq:MC_fluid_volume_fraction_restriction} restates this identity in the
+actual phase pressures, and it remains valid when the dynamic lag is active
+because the lag cancels from the saturation-weighted combination.
 
 The remaining independent variations determine the composition and
 component-transfer relations.
@@ -1184,26 +1179,30 @@ the Bedford--Drumheller transfer-potential equation, with microinertia omitted
 \cite[eq.~(2.8)]{drumheller1980thermomechanical}
 \cite[eq.~(48)]{drumheller2000}.  Because \(\tau\) is one scalar field shared
 by all phases and components, one phase trajectory supplies its evolution
-equation.  The remaining phase-reference equations determine the corresponding
-specific generalized transfer-work potentials \(L_\xi^N\), while the within-phase
-component differences determine \(L_\xi^\alpha-L_\xi^N\).  The square closure
-and its thermodynamic restrictions are obtained later from the component-supply
-terms in the Coleman--Noll procedure.
+equation.  The remaining componentwise relations then fix the transfer-work
+potentials: the reference-component relation determines the reference
+potential \(L_\xi^N\), and subtracting it from the other component relations
+determines the within-phase differences \(L_\xi^\alpha-L_\xi^N\).  The closure
+that makes the retained-\(\tau\) system fully determined, and its thermodynamic
+restrictions, are obtained later from the component-supply terms in the
+Coleman--Noll procedure.
 
-\subsubsection{Phase momentum balance}
+\subsubsection{Solid-phase momentum balance}
 \label{sec:phase_momentum_balance}
 
-The phase-motion variation \(\delta\mbf x_\xi\), after substitution of
-\eqref{eq:el_lambda}, gives
+For a solid phase \(s\in\mc S\), the phase-motion variation
+\(\delta\mbf x_s\), after substitution of
+\eqref{eq:el_lambda} and the equivalent-pore-pressure definition
+\eqref{eq:equivalent_pore_pressure_definition}, gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
-	\rho_{\xi}\mbf{a}_{\xi} =
-	\nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
-	+ \phi_{\xi} \nabla_{\mbf{x}}\lambda
-	-\nabla_{\mbf x}\left(\phi_\xi\omega_\xi^+\right)
-	+\sum_\alpha\dot{c}_\xi^\alpha
-	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right),
+	\rho_s\mbf{a}_s =
+	\nabla_{\mbf{x}}\cdot\bs\sigma_s^{\prime+} + \rho_s\mbf{g} + \mbf{b}_s
+	- \phi_s\nabla_{\mbf x}\bar p_E
+	-\nabla_{\mbf x}\left(\phi_s\omega_s^+\right)
+	+\sum_\alpha\dot{c}_s^\alpha
+	\left(\nabla_{\mbf x}\tau-\mbf v_s\right),
 	\label{eq:el_momentum_uniform}
 \end{equation}
 % AGENT-LOCK-END
@@ -1212,25 +1211,30 @@ The boundary coefficients from
 \eqref{eq:deltaU_uniform},
 \eqref{eq:vp_electric_full_variation},
 \eqref{eq:deltaC2_lines}, and the prescribed traction work in
-\eqref{eq:W_def} give
+\eqref{eq:W_def} give the solid-phase natural traction.  Eliminating the
+component-supply sum through \eqref{eq:el_lambda} and replacing
+\(\lambda\) by the equivalent pore pressure
+\eqref{eq:equivalent_pore_pressure_definition} expresses the traction in
+terms of \(\bar p_E\):
 %
 \begin{equation}
 	\left[
-		\bs\sigma_\xi^{\prime+}
+		\bs\sigma_s^{\prime+}
 		-
+		\phi_s
 		\left(
-		\sum_\alpha\pi_\xi^\alpha
+		\bar p_E+\omega_s^+
 		\right)\mbf I
 		\right]\mbf n
 	=
-	\mbf t_\xi
+	\mbf t_s
 	\qquad
-	\text{on }\Gamma_{\mbf t_\xi}.
+	\text{on }\Gamma_{\mbf t_s}.
 	\label{eq:phase_natural_traction}
 \end{equation}
 %
 The complementary prescribed-motion condition is
-\(\delta\mbf x_\xi=\mbf0\) on \(\Gamma_{\mbf x_\xi}\).
+\(\delta\mbf x_s=\mbf0\) on \(\Gamma_{\mbf x_s}\).
 
 The fluid-phase balance contains additional capillary forces and is reduced
 separately below.
@@ -1238,25 +1242,40 @@ separately below.
 \subsubsection{Fluid-phase momentum balance}
 \label{sec:fluid_phase_momentum}
 
-For any fluid phase $f\in\mc F$, the scalar-transport capillary contribution
-gives the intermediate form
+For any fluid phase $f\in\mc F$, the collected variation
+\eqref{eq:collected_full} gives the general intermediate form
 %
-% AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\rho_f\mbf a_f = \nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+} + \rho_f\mbf g + \mbf b_f -\lambda\nabla_{\mbf x}\phi_f -\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha +\gamma_f\nabla_{\mbf x}\phi_f+\sum_\alpha\dot{c}_f^\alpha\left(\nabla_{\mbf x}\tau-\mbf v_f\right).
-	\label{eq:el_mom_f_start}
-\end{equation}
+% AGENT-LOCK-BEGIN equation-lock: general fluid-phase momentum balance; do not edit unless explicitly unlocked by user
+\begin{align}
+	\rho_f\mbf a_f
+	={}&
+	\nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+}
+	+ \rho_f\mbf g + \mbf b_f
+	-\lambda\nabla_{\mbf x}\phi_f
+	-\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha
+	\notag\\
+	&+
+	\gamma_f\nabla_{\mbf x}\phi_f
+	+\left(\mc L_f^{\rm sat}-\sum_{g\in\mc F}S_g\mc L_g^{\rm sat}\right)\nabla_{\mbf x}\phi_f
+	+\sum_\alpha\dot{c}_f^\alpha
+	\left(\nabla_{\mbf x}\tau-\mbf v_f\right),
+	\qquad f\in\mc F .
+	\label{eq:el_mom_f_dynamic_capillary_general}
+\end{align}
 % AGENT-LOCK-END
 %
-Using \(\sum_\alpha\pi_f^\alpha=\phi_f\bar p_f\) and
-\(\lambda=\gamma_f+\omega_f^+-\bar p_f\), the multiplier,
-interfacial-gradient, and electric-enthalpy terms collapse as
+Using \(\sum_\alpha\pi_f^\alpha=\phi_f\bar p_f\) and the fluid
+volume-fraction Euler--Lagrange relation
+\eqref{eq:fluid_pressure_primitive_potential_relation_a}, the multiplier,
+interfacial-gradient, electric-enthalpy, and saturation-force terms collapse
+as
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	-\lambda\nabla_{\mbf x}\phi_f
 	-\nabla_{\mbf x}\left(\phi_f\bar p_f\right)
 	+\gamma_f\nabla_{\mbf x}\phi_f
+	+\left(\mc L_f^{\rm sat}-\sum_{g\in\mc F}S_g\mc L_g^{\rm sat}\right)\nabla_{\mbf x}\phi_f
 	=
 	-\phi_f\nabla_{\mbf x}\bar p_f
 	-\omega_f^+\nabla_{\mbf x}\phi_f .
@@ -1264,17 +1283,90 @@ interfacial-gradient, and electric-enthalpy terms collapse as
 \end{equation}
 % AGENT-LOCK-END
 %
+The generalized saturation force enters the collected variation
+\eqref{eq:collected_full} both directly, as the gradient term in
+\eqref{eq:el_mom_f_dynamic_capillary_general}, and through the
+volume-fraction multiplier \(\lambda\) in
+\eqref{eq:fluid_pressure_primitive_potential_relation_a}.  These two
+contributions cancel in the combination
+\eqref{eq:fluid_capillary_pressure_gradient_collapse}, so the collapse into
+the actual phase-pressure gradient carries no explicit saturation force.  The
+saturation change forces instead enter the phase-pressure difference relation
+\eqref{eq:fluid_pressure_difference_primitive_potential} and, after summation,
+the overall solid--fluid momentum balance.
+%
 Substituting the total reversible stress definition
 \eqref{eq:vp_total_reversible_stress_definition}, the Maxwell stress
-\eqref{eq:vp_electrical_stress_definition}, and the pressure relation
-\eqref{eq:fluid_pressure_primitive_potential_relation} cancels the isotropic
-Maxwell contribution against the explicit electric-enthalpy
-volume-fraction force.  The fluid momentum balance is therefore
+\eqref{eq:vp_electrical_stress_definition}, and combining
+\(-\omega_f^+\nabla_{\mbf x}\phi_f\) with the isotropic Maxwell contribution
+absorbs the isotropic electric-enthalpy force into the phase-pressure
+gradient.  The general fluid-phase momentum balance therefore uses the actual
+phase-pressure gradient,
+%
+\begin{empheq}[box=\fbox]{equation}
+	\rho_f\mbf a_f
+	=
+	\nabla_{\mbf x}\cdot
+	\left(
+	\bs\sigma_f'
+	+\phi_f\mbf E\otimes\mbf d_f
+	\right)
+	-\phi_f\nabla_{\mbf x}
+	\left(
+	\bar p_f-\omega_f^+
+	\right)
+	+\rho_f\mbf g+\mbf b_f
+	+
+	\sum_\alpha\dot{c}_f^\alpha
+	\left(
+	\nabla_{\mbf x}\tau-\mbf v_f
+	\right),
+	\qquad f\in\mc F .
+	\label{eq:el_mom_f_dynamic_capillary}
+\end{empheq}
+%
+The boundary coefficients and the prescribed traction work in
+\eqref{eq:W_def} give the fluid-phase natural traction.  Because the phase
+pressure enters only through the volume gradient, the traction is the normal
+projection of the fluid stress divergence alone,
+%
+\begin{equation}
+	\left(
+	\bs\sigma_f'
+	+\phi_f\mbf E\otimes\mbf d_f
+	\right)\mbf n
+	=
+	\mbf t_f
+	\qquad
+	\text{on }\Gamma_{\mbf t_f}.
+	\label{eq:fluid_natural_traction}
+\end{equation}
+%
+The complementary prescribed-motion condition is
+\(\delta\mbf x_f=\mbf 0\) on \(\Gamma_{\mbf x_f}\).
+The electrical force in the general balance is carried by the anisotropic
+Maxwell term \(\nabla_{\mbf x}\cdot(\phi_f\mbf E\otimes\mbf d_f)\), while the
+isotropic electric-enthalpy contribution is absorbed into the pressure
+reconstruction.  The dynamic capillary lag, closed later by Onsager
+stationarity, does not appear as a body force in this individual balance; it
+enters through the phase-pressure difference
+\eqref{eq:fluid_pressure_difference_primitive_potential} and, through the
+saturation-weighted combination, in the summed solid--fluid momentum balance.
+Related Maxwell forces appear in leaky-dielectric and electrowetting theories
+\cite{melcher1969electrohydrodynamics,yamamoto2015contact_angle_saturation}.
+
+When the generalized saturation-force differences vanish, the zero-lag
+reversible limit, the pressure relation
+\eqref{eq:fluid_pressure_primitive_potential_relation_b} gives
+\(\bar p_f-\omega_f^+=\bar p_E+\gamma_f\), and
+\eqref{eq:el_mom_f_dynamic_capillary} reduces to the equivalent-pore-pressure
+form
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{empheq}[box=\fbox]{align}
+\begin{equation}
 	\rho_f\mbf{a}_f
-	& = \nabla_{\mbf x}\cdot
+	=
+	\nabla_{\mbf x}\cdot
 	\left(
 	\bs\sigma_f'
 	+\phi_f\mbf E\otimes\mbf d_f
@@ -1288,48 +1380,8 @@ volume-fraction force.  The fluid momentum balance is therefore
 	\left(\nabla_{\mbf x}\tau-\mbf v_f\right),
 	\qquad f\in\mc F .
 	\label{eq:el_mom_f_simplified}
-\end{empheq}
+\end{equation}
 % AGENT-LOCK-END
-%
-When the saturation-work term in \eqref{eq:W_def} is active, its variation adds
-the dissipative pressure-lag force to the stored and electrical contributions.
-The resulting balance uses the actual
-phase-pressure gradient,
-%
-\begin{empheq}[box=\fbox]{align}
-	\rho_f\mbf a_f
-	={}&
-	\nabla_{\mbf x}\cdot
-	\left(
-	\bs\sigma_f'
-	+\phi_f\mbf E\otimes\mbf d_f
-	\right)
-	-\phi_f\nabla_{\mbf x}
-	\left(
-	\bar p_f-\omega_f^+
-	\right)
-	+\rho_f\mbf g+\mbf b_f
-	\notag\\
-	&+
-	\sum_\alpha\dot{c}_f^\alpha
-	\left(
-	\nabla_{\mbf x}\tau-\mbf v_f
-	\right),
-	\qquad f\in\mc F .
-	\label{eq:el_mom_f_dynamic_capillary}
-\end{empheq}
-%
-Equation~\eqref{eq:el_mom_f_dynamic_capillary} reduces to
-\eqref{eq:el_mom_f_simplified} when the dynamic pressure lag vanishes.  The
-electrical force in both forms is carried
-by the anisotropic Maxwell term
-\(\nabla_{\mbf x}\cdot(\phi_f\mbf E\otimes\mbf d_f)\), while the isotropic
-electric-enthalpy contribution is absorbed into the pressure reconstruction.
-The actual pressure in \(\bar p_f-\omega_f^+\) contains the stored capillary
-part and the dynamic lag.  This separated form is used in the
-summed solid--fluid momentum balance.  Related Maxwell forces appear in
-leaky-dielectric and electrowetting theories
-\cite{melcher1969electrohydrodynamics,yamamoto2015contact_angle_saturation}.
 
 Under the neutral, conversion-free specialization
 \(\omega_f^+=0\) and \(\dot{c}_f^\alpha=0\),

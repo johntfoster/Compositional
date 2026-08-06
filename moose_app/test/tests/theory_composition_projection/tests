@@ -1,0 +1,22 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [theory_composition_projection_1d]
+    type = CSVDiff
+    input = theory_composition_projection_1d.i
+    cli_args = 'Outputs/file_base=theory_composition_projection_1d'
+    csvdiff = theory_composition_projection_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall implement the current theory fluid Eq. (182) and solid Eq. (183) composition projections, including Helmholtz, electric-enthalpy, independently selectable distension-map and true-deformation-map stress corrections, mass-fraction normalization, phase-pressure storage sum, storage-multiplier recovery, the exact pi/(phi rhobar eta) tau pressure work, and the neutral component Euler identity.'
+  []
+
+  [theory_composition_projection_newton_1d]
+    type = CSVDiff
+    input = theory_composition_projection_newton_1d.i
+    cli_args = 'Outputs/file_base=theory_composition_projection_newton_1d'
+    csvdiff = theory_composition_projection_newton_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve the manuscript Eq. (182) N-1 composition-projection equation and phase-pressure storage sum simultaneously for the component storage multipliers with a consistent automatic Jacobian.'
+  []
+[]

@@ -1,0 +1,13 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [solid_phase_mass_volume_modes_1d]
+    type = CSVDiff
+    input = solid_phase_mass_volume_modes_1d.i
+    cli_args = 'Outputs/file_base=solid_phase_mass_volume_modes_1d'
+    csvdiff = solid_phase_mass_volume_modes_1d.csv
+    abs_zero = 1e-13
+    requirement = 'The solid-phase mass and volume material shall reconstruct current solid and fluid fractions exactly from conserved solid-reference component storage while preserving the explicitly coupled legacy spatial-fraction mode.'
+  []
+[]

@@ -1,0 +1,14 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [stone_ii_spe2_table_1d]
+    type = CSVDiff
+    input = stone_ii_spe2_table_1d.i
+    cli_args = 'Outputs/file_base=stone_ii_spe2_table_1d'
+    csvdiff = stone_ii_spe2_table_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'The application shall reproduce the SPE2 water/oil and gas/oil table values and combine them with the published Stone second three-phase oil relative-permeability formula.'
+  []
+[]

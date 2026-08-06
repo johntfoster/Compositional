@@ -1,0 +1,133 @@
+# High-order saturation transport in V_EG(h,l) = CG_l + P0.
+# Use LAGRANGE/FIRST for the baseline or BERNSTEIN/SECOND for a pointwise
+# admissible higher-order phase that can disappear. BDF2 is recommended when
+# measuring spatial order.
+[Variables]
+  [@SATURATION_BACKBONE@]
+    family = @BACKBONE_FAMILY@
+    order = @BACKBONE_ORDER@
+  []
+  [@SATURATION_ENRICHMENT@]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+[]
+
+[AuxVariables]
+  [@SATURATION_BACKBONE_BOUND_AUX@]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  [@SATURATION_ENRICHMENT_BOUND_AUX@]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+[]
+
+[Materials]
+  [@SATURATION_PREFIX@_reconstruction]
+    type = ADEGReconstructedScalarMaterial
+    backbone = @SATURATION_BACKBONE@
+    enrichment = @SATURATION_ENRICHMENT@
+    field_name = @SATURATION_PREFIX@
+    total_value_name = @SATURATION_TOTAL@
+    total_gradient_name = @SATURATION_GRADIENT@
+    total_dot_name = @SATURATION_RATE@
+    value_transform = @IDENTITY_OR_SMOOTH_POSITIVE@
+    positive_regularization = @POSITIVE_REGULARIZATION@
+  []
+  [@SATURATION_PREFIX@_entropy_viscosity]
+    type = ADEntropyViscosityReferenceFluxMaterial
+    scalar_name = @SATURATION_TOTAL@
+    scalar_gradient_name = @SATURATION_GRADIENT@
+    scalar_dot_name = @SATURATION_RATE@
+    transport_velocity_name = @SATURATION_TRANSPORT_VELOCITY@
+    entropy_flux_derivative_name = @PHYSICAL_FLUX_DERIVATIVE_WITH_RESPECT_TO_SATURATION@
+    entropy_storage_coefficient_name = @REFERENCE_PHASE_MASS_COEFFICIENT@
+    entropy_storage_coefficient_rate_name = @REFERENCE_PHASE_MASS_COEFFICIENT_RATE@
+    source_names = '@WELL_CONVERSION_AND_EXTERNAL_REFERENCE_SOURCES@'
+    mass_coefficient_name = @STABILIZATION_FLUX_MASS_COEFFICIENT@
+    entropy = @POWER_OR_LOG_BARRIER@
+    power = @EVEN_ENTROPY_POWER@
+    lambda_linear = @LAMBDA_LINEAR@
+    lambda_entropy = @LAMBDA_ENTROPY@
+    entropy_average = @LAGGED_ENTROPY_AVERAGE_OR_CONSTANT@
+    entropy_deviation_norm = @LAGGED_ENTROPY_LINF_OR_CONSTANT@
+    differentiate_viscosity = @DIFFERENTIATE_ENTROPY_VISCOSITY@
+    property_prefix = @SATURATION_PREFIX@_ev
+  []
+[]
+
+# For an exactly disappearing phase, independently lower-bound the backbone
+# coefficients and P0 enrichment and select identity. P1 Lagrange and P2
+# Bernstein basis functions are nonnegative partitions of unity on simplex
+# elements, so the reconstructed field remains pointwise nonnegative and can
+# equal zero exactly. P2 Lagrange nodal bounds alone do not provide that
+# guarantee. The SPE1 production choice is P2 Bernstein+P0 for gas and P2
+# Lagrange+P0 for nondegenerate water.
+
+[Bounds]
+  [@SATURATION_PREFIX@_backbone_lower_bound]
+    type = @CONSTANT_OR_COEFFICIENT_BOUNDS@
+    variable = @SATURATION_BACKBONE_BOUND_AUX@
+    bounded_variable = @SATURATION_BACKBONE@
+    bound_type = lower
+    bound_value = 0
+  []
+  [@SATURATION_PREFIX@_enrichment_lower_bound]
+    type = ConstantBounds
+    variable = @SATURATION_ENRICHMENT_BOUND_AUX@
+    bounded_variable = @SATURATION_ENRICHMENT@
+    bound_type = lower
+    bound_value = 0
+  []
+[]
+
+[Kernels]
+  # Physical storage/source/volume-flux row for the continuous backbone.
+  [@SATURATION_PREFIX@_backbone_balance]
+    type = ADEnrichedGalerkinScalarBalance
+    variable = @SATURATION_BACKBONE@
+    enrichment = @SATURATION_ENRICHMENT@
+    reference_component_storage_rate_name = @PHYSICAL_STORAGE_RATE@
+    source_name = @PHYSICAL_SOURCE@
+    reference_flux_name = @PHYSICAL_REFERENCE_FLUX@
+  []
+  # Artificial diffusion is deliberately a separate selectable kernel.
+  [@SATURATION_PREFIX@_backbone_entropy_flux]
+    type = ADReferenceComponentFluxTerm
+    variable = @SATURATION_BACKBONE@
+    reference_flux_name = @SATURATION_PREFIX@_ev_reference_flux
+  []
+  [@SATURATION_PREFIX@_enrichment_balance]
+    type = ADEnrichedGalerkinScalarEnrichmentBalance
+    variable = @SATURATION_ENRICHMENT@
+    backbone = @SATURATION_BACKBONE@
+    reference_component_storage_rate_name = @PHYSICAL_STORAGE_RATE@
+    source_name = @PHYSICAL_SOURCE@
+  []
+[]
+
+[DGKernels]
+  # Instantiate the physical numerical-flux block appropriate to the chosen
+  # phase/component closure independently of these stabilization blocks.
+  [@SATURATION_PREFIX@_entropy_enrichment_flux]
+    type = ADEnrichedGalerkinFluxDG
+    variable = @SATURATION_ENRICHMENT@
+    reference_flux_name = @SATURATION_PREFIX@_ev_reference_flux
+    mobility_name = @SATURATION_PREFIX@_ev_mobility
+    epsilon = -1
+    sigma = @ENTROPY_PENALTY@
+  []
+  [@SATURATION_PREFIX@_entropy_backbone_symmetry]
+    type = ADEnrichedGalerkinSymmetryDG
+    variable = @SATURATION_BACKBONE@
+    enrichment = @SATURATION_ENRICHMENT@
+    mobility_name = @SATURATION_PREFIX@_ev_mobility
+    epsilon = -1
+  []
+[]
+
+# In the Executioner use scheme=bdf2 for the order study. The production
+# monolithic solve may retain its chosen implicit scheme, but P1/P2 comparisons
+# must keep the time error below the spatial error.

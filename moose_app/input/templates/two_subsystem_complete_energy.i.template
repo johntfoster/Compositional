@@ -1,0 +1,43 @@
+# Complete selectable realization of eq:MC_energy_balance for distinct fluid
+# and solid temperatures. This is a composition recipe: instantiate
+# thermal_subsystem_energy.i.template once with @SUBSYSTEM@=fluid and once with
+# @SUBSYSTEM@=solid, then instantiate fluid_solid_heat_exchange.i.template.
+# Each named kernel block remains independent and may be omitted only when its
+# corresponding manuscript physics is inactive.
+
+# Required template expansions, in order:
+#   1. thermal_subsystem_energy.i.template          (fluid properties/fields)
+#   2. thermal_subsystem_energy.i.template          (solid properties/fields;
+#      omit the three fluid-only surface-energy state-rate blocks)
+#   3. fluid_solid_heat_exchange.i.template         (equal/opposite sources)
+#
+# Optional composable providers selected by the input deck:
+#   phase_transformation_nonequilibrium.i.template  conversion transfer work
+#   reaction_energy_onsager_coupling.i.template     reaction-energy allocation
+#   pairwise_phase_interaction.i.template           drag/mechanical heating
+#   electric_enthalpy_maxwell.i.template            global field-power closure
+#   surface_energy_overall_momentum.i.template      shared surface state/gradient
+#
+# Invariants enforced by the stitched hierarchy:
+#   q_F = h_FS(theta_S-theta_F), q_S = -q_F;
+#   q_F + q_S = 0;
+#   q_F/theta_F + q_S/theta_S >= 0 for h_FS >= 0 and positive temperatures;
+#   current-volume sources are multiplied by solid_reference_J exactly once;
+#   shared electric-potential-rate power is closed globally by Gauss' law and
+#   is not duplicated in either thermal subsystem.
+#
+# Durable executable evidence:
+#   energy_atomic.two_subsystem_energy_all_terms_mms_1d
+#   energy_atomic.two_subsystem_energy_all_terms_jacobian_1d
+#   inter_subsystem_heat_exchange.two_temperature_energy_exchange_mms_1d
+#   inter_subsystem_heat_exchange.two_temperature_energy_exchange_mms_2d
+#   inter_subsystem_heat_exchange.two_temperature_energy_exchange_mms_3d
+#   inter_subsystem_heat_exchange.two_temperature_energy_exchange_jacobian_2d
+#   inter_subsystem_heat_exchange.two_temperature_energy_all_terms_mms_1d
+#   inter_subsystem_heat_exchange.two_temperature_energy_all_terms_mms_2d
+#   inter_subsystem_heat_exchange.two_temperature_energy_all_terms_mms_3d
+#   inter_subsystem_heat_exchange.two_temperature_energy_all_terms_jacobian_2d
+#   inter_subsystem_heat_exchange.two_temperature_energy_all_terms_jacobian_3d
+#
+# The explicit P2+P0 EG activation-token realization is available in
+# two_temperature_energy_hierarchy.i.template.

@@ -1,0 +1,84 @@
+# Generic black-oil constitutive preset for CG/EG saturation transport.
+# Instantiate the high-order saturation template first.  Every saturation-
+# dependent closure below consumes the same reconstructed backbone+P0 value;
+# dynamic and storage terms also consume its consistent reconstructed rate.
+[Materials]
+  [water_saturation_reconstruction]
+    type = ADEGReconstructedScalarMaterial
+    backbone = @WATER_SATURATION_BACKBONE@
+    enrichment = @WATER_SATURATION_ENRICHMENT@
+    field_name = @WATER_SATURATION_FIELD_NAME@
+  []
+  [gas_saturation_reconstruction]
+    type = ADEGReconstructedScalarMaterial
+    backbone = @GAS_SATURATION_BACKBONE@
+    enrichment = @GAS_SATURATION_ENRICHMENT@
+    field_name = @GAS_SATURATION_FIELD_NAME@
+    # Use identity for independently bounded P1 Lagrange+P0 or P2
+    # Bernstein+P0 coefficients. Use smooth_positive only for a P2 Lagrange
+    # backbone whose nonnegative nodal coefficients do not ensure interior
+    # positivity.
+    value_transform = @GAS_IDENTITY_OR_SMOOTH_POSITIVE@
+    positive_regularization = @GAS_POSITIVE_REGULARIZATION@
+  []
+
+  [black_oil_pvt]
+    type = ADBlackOilPVTMaterial
+    compute_storage_rates = @COMPUTE_STORAGE_RATES@
+    pressure_name = @OIL_PRESSURE_TOTAL_PROPERTY@
+    pressure_rate_name = @OIL_PRESSURE_TOTAL_RATE_PROPERTY@
+    porosity = @POROSITY@
+    water_saturation_name = @WATER_SATURATION_FIELD_NAME@_total
+    water_saturation_rate_name = @WATER_SATURATION_FIELD_NAME@_total_dot
+    gas_saturation_name = @GAS_SATURATION_FIELD_NAME@_total
+    gas_saturation_rate_name = @GAS_SATURATION_FIELD_NAME@_total_dot
+    pressure_points = '@PVT_PRESSURE_POINTS@'
+    water_formation_volume_factor_values = '@WATER_FVF_VALUES@'
+    oil_formation_volume_factor_values = '@OIL_FVF_VALUES@'
+    gas_formation_volume_factor_values = '@GAS_FVF_VALUES@'
+    solution_gas_oil_ratio_values = '@SOLUTION_GAS_OIL_RATIO_VALUES@'
+    water_viscosity_values = '@WATER_VISCOSITY_VALUES@'
+    oil_viscosity_values = '@OIL_VISCOSITY_VALUES@'
+    gas_viscosity_values = '@GAS_VISCOSITY_VALUES@'
+    water_surface_density = @WATER_SURFACE_DENSITY@
+    oil_surface_density = @OIL_SURFACE_DENSITY@
+    gas_surface_density = @GAS_SURFACE_DENSITY@
+    property_prefix = @BLACK_OIL_PROPERTY_PREFIX@
+  []
+
+  [black_oil_capillary]
+    type = ADBlackOilCapillaryPressureMaterial
+    oil_pressure = @OIL_PRESSURE_BACKBONE@
+    water_pressure = @WATER_PRESSURE_BACKBONE@
+    gas_pressure = @GAS_PRESSURE_BACKBONE@
+    water_saturation_name = @WATER_SATURATION_FIELD_NAME@_total
+    water_saturation_rate_name = @WATER_SATURATION_FIELD_NAME@_total_dot
+    gas_saturation_name = @GAS_SATURATION_FIELD_NAME@_total
+    gas_saturation_rate_name = @GAS_SATURATION_FIELD_NAME@_total_dot
+    water_saturation_points = '@WATER_CAPILLARY_SATURATION_POINTS@'
+    water_oil_capillary_pressure_values = '@WATER_OIL_CAPILLARY_PRESSURE_VALUES@'
+    gas_saturation_points = '@GAS_CAPILLARY_SATURATION_POINTS@'
+    gas_oil_capillary_pressure_values = '@GAS_OIL_CAPILLARY_PRESSURE_VALUES@'
+    water_oil_dynamic_coefficient = @WATER_DYNAMIC_CAPILLARY_COEFFICIENT@
+    gas_oil_dynamic_coefficient = @GAS_DYNAMIC_CAPILLARY_COEFFICIENT@
+    property_prefix = @BLACK_OIL_PROPERTY_PREFIX@
+  []
+
+  [black_oil_relative_permeability]
+    type = ADBlackOilRelativePermeabilityMaterial
+    water_saturation_name = @WATER_SATURATION_FIELD_NAME@_total
+    gas_saturation_name = @GAS_SATURATION_FIELD_NAME@_total
+    water_saturation_points = '@WATER_RELPERM_SATURATION_POINTS@'
+    water_relative_permeability_values = '@WATER_RELPERM_VALUES@'
+    oil_water_relative_permeability_values = '@OIL_WATER_RELPERM_VALUES@'
+    gas_saturation_points = '@GAS_RELPERM_SATURATION_POINTS@'
+    gas_relative_permeability_values = '@GAS_RELPERM_VALUES@'
+    oil_gas_relative_permeability_values = '@OIL_GAS_RELPERM_VALUES@'
+    property_prefix = @BLACK_OIL_PROPERTY_PREFIX@
+  []
+[]
+
+# For phase transformation, also instantiate
+# phase_transformation_nonequilibrium.i.template and both fluid/solid copies
+# of thermal_subsystem_energy.i.template.  PVT alone is not the general
+# nonequilibrium tau/mu closure.

@@ -1,0 +1,3 @@
+time,gas_saturation_l2,injector_completion_volume,layer_1_permeability_l2,layer_1_pressure_l2,layer_2_permeability_l2,layer_2_pressure_l2,layer_3_permeability_l2,layer_3_pressure_l2,porosity_l2,producer_completion_volume,rock_compressibility_l2,rock_reference_pressure_l2,solution_gas_oil_ratio_l2,water_saturation_l2
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,0,566336.93184002,0,3.1468992274036e-05,0,3.6980449640288e-05,0,5.8134212131549e-05,0,1415842.3296,0,0,4.5018342406975e-10,2.6410581231464e-13

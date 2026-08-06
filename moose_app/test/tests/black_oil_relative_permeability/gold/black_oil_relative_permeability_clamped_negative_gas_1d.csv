@@ -1,0 +1,3 @@
+time,gas_relative_permeability_l2,oil_gas_relative_permeability_l2,oil_relative_permeability_l2,oil_water_relative_permeability_l2,water_relative_permeability_l2
+0,0,0,1.1102230246252e-16,1.1102230246252e-16,6.9388939039072e-18
+1,0,0,1.1102230246252e-16,1.1102230246252e-16,6.9388939039072e-18

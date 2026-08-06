@@ -1,0 +1,25 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [user_helmholtz_eos_1d]
+    type = CSVDiff
+    input = user_helmholtz_eos_1d.i
+    cli_args = 'Outputs/file_base=user_helmholtz_eos_1d'
+    csvdiff = user_helmholtz_eos_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall accept a user-entered Helmholtz free-energy density and automatically differentiate it to obtain component chemical potentials, phase pressure, entropy density, intrinsic density, bulk phase density, specific Helmholtz energy, and consistent composition/temperature Hessian entries.'
+  []
+
+  [user_helmholtz_q2_eg_balance_1d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_user_helmholtz_q2_eg_balance_1d.py'
+    requirement = 'The user-supplied Helmholtz EOS path shall quantitatively close its AD-derived pressure and two absolute neutral component potentials onto reconstructed P1 plus P0 EG fields, use those fields in Darcy and component-potential fluxes, and solve both direct summed Eq. (32) component balances with EDGE3/Q2 solid kinematics, nonzero storage rates, fluxes, sources, and errors no larger than 1e-10, thereby exercising eq:component_partial_density_representation, eq:MC_absolute_neutral_component_potential, eq:MC_fluid_legendre_relation, eq:solid_reference_fluid_component_balance, and eq:fluid_component_residual.'
+  []
+
+  [user_helmholtz_q2_eg_balance_2d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_user_helmholtz_q2_eg_balance_2d.py'
+    requirement = 'The genuinely two-dimensional user-supplied Helmholtz EOS path shall close its AD-derived pressure and two absolute neutral component potentials onto reconstructed P1 plus P0 EG fields, drive EOS-density Darcy and both component-potential fluxes in x and y, and solve both direct summed Eq. (32) component balances with QUAD9/Q2 solid kinematics, all four nonzero face integrals, nonzero storage rates, J-weighted sources, independent global balances, and errors no larger than 1e-10, thereby exercising eq:component_partial_density_representation, eq:MC_absolute_neutral_component_potential, eq:MC_fluid_legendre_relation, eq:MC_neutral_component_euler_identity, eq:solid_reference_fluid_component_balance, and eq:fluid_component_residual.'
+  []
+[]

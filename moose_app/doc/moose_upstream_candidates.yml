@@ -1,0 +1,40 @@
+schema_version: 1
+candidates:
+  - id: "generic-higher-order-fe-coefficient-bounds"
+    observed_at_moose_commit: "abafb58b67a6037c6723ffeb19647c84484466da"
+    core_location:
+      - "framework/include/bounds/BoundsBase.h"
+      - "framework/src/bounds/BoundsBase.C"
+    limitation: >-
+      BoundsBase accepts nodal variables or element constants and maps only one
+      DOF per node or element. Quadratic BERNSTEIN variables are supported by
+      libMesh and MOOSE nonlinear systems but cannot use ConstantBounds.
+    repository_workaround:
+      object: "CoefficientBounds"
+      files:
+        - "moose_app/include/bounds/CoefficientBounds.h"
+        - "moose_app/src/bounds/CoefficientBounds.C"
+    upstream_assessment:
+      disposition: "candidate_pull_request"
+      proposed_scope: >-
+        Extend the bounds subsystem with a thread-safe coefficient-wise path
+        based on DofMap::dof_indices, retaining existing nodal and constant
+        behavior and adding BERNSTEIN regression coverage.
+      prerequisite_tests:
+        - test: "serial P2 BERNSTEIN lower bound"
+          status: "passed_in_application"
+          evidence: "test:coefficient_bounds.bernstein_lower_bound_1d"
+        - test: "MPI ownership and shared-DOF handling"
+          status: "pending_before_upstream_submission"
+        - test: "upper and lower bounds"
+          status: "pending_before_upstream_submission"
+        - test: "unchanged LAGRANGE and MONOMIAL behavior"
+          status: "pending_before_upstream_submission"
+  - id: "optional-premake-check"
+    observed_at_moose_commit: "abafb58b67a6037c6723ffeb19647c84484466da"
+    local_patch: "moose_app/patches/moose/0001-skip-automatic-premake-check.patch"
+    upstream_assessment:
+      disposition: "not_as_is"
+      possible_upstream_shape: >-
+        A documented opt-in Make variable could suppress premake without
+        changing MOOSE's default prebuild behavior.

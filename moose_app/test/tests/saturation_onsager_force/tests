@@ -1,0 +1,58 @@
+[Tests]
+  design = 'main.tex sections/virtual_power_derivation.tex moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [saturation_onsager_force_1d]
+    type = CSVDiff
+    input = saturation_onsager_force_1d.i
+    cli_args = 'Outputs/file_base=saturation_onsager_force_1d'
+    csvdiff = saturation_onsager_force_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'The application shall evaluate the full symmetric cross-coupled generalized saturation-force relation, its nonnegative pressure-rate dissipation, and phi/theta-weighted entropy production for the independent phase rates in the manuscript collected Onsager variation.'
+  []
+
+  [saturation_onsager_force_nonsymmetric_rejected]
+    type = RunException
+    input = saturation_onsager_force_nonsymmetric.i
+    expect_err = 'The Onsager resistance matrix must be symmetric.'
+    requirement = 'The generalized saturation-force material shall reject a nonsymmetric resistance matrix.'
+  []
+
+  [saturation_onsager_force_indefinite_rejected]
+    type = RunException
+    input = saturation_onsager_force_indefinite.i
+    expect_err = 'The Onsager resistance matrix must be positive semidefinite.'
+    requirement = 'The generalized saturation-force material shall reject an indefinite resistance matrix.'
+  []
+
+  [tiny_scale_symmetric_resistance_accepted]
+    type = RunApp
+    input = saturation_onsager_force_1d.i
+    cli_args = "Materials/saturation_onsager/resistance_matrix='2e-15 5e-16 5e-16 3e-15' Outputs/csv=false"
+    requirement = 'The generalized saturation-force material shall accept a symmetric positive-semidefinite resistance matrix independently of its dimensional scale.'
+  []
+
+  [tiny_scale_nonsymmetric_resistance_rejected]
+    type = RunException
+    input = saturation_onsager_force_1d.i
+    cli_args = "Materials/saturation_onsager/resistance_matrix='2e-15 5e-16 0 3e-15'"
+    expect_err = 'The Onsager resistance matrix must be symmetric.'
+    requirement = 'The generalized saturation-force material symmetry check shall remain relative to the active resistance scale and reject a materially nonsymmetric tiny pressure-time matrix.'
+  []
+
+  [zero_resistance_accepted]
+    type = RunApp
+    input = saturation_onsager_force_1d.i
+    cli_args = "Materials/saturation_onsager/resistance_matrix='0 0 0 0' Outputs/csv=false"
+    requirement = 'The relative positive-semidefinite check shall admit the exactly zero Onsager matrix as the nondissipative limiting closure.'
+  []
+
+  [state_dependent_saturation_onsager_jacobian]
+    type = PetscJacobianTester
+    input = state_dependent_saturation_onsager_jacobian_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'The state-dependent saturation Onsager resistance and resulting generalized forces shall retain their AD derivatives with respect to the current state.'
+  []
+[]

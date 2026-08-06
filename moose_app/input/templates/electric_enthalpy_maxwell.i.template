@@ -1,0 +1,71 @@
+# Define omega_xi^+(E,rhobar,eta,theta) declaratively. derivative_order must
+# expose d(omega)/dE_i and every d(omega)/d(state_a) named below.
+[Materials]
+  [@PHASE@_electric_enthalpy]
+    type = ADDerivativeParsedMaterial
+    coupled_variables = '@E_COMPONENTS@ @INTRINSIC_DENSITY@ @COMPOSITIONS@ @TEMPERATURE@'
+    property_name = @PHASE@_electric_enthalpy
+    expression = '@OMEGA_PLUS_EXPRESSION@'
+    derivative_order = 2
+    enable_jit = true
+  []
+
+  # Reconstruct each scalar state separately with ADEGReconstructedScalarMaterial
+  # when it has a P0 enrichment, then list its total-gradient property here.
+  # This block supplies Grad_X(omega_xi^+) to the phase-pressure identity.
+  [@PHASE@_electric_enthalpy_gradient]
+    type = ADThermodynamicPotentialGradientMaterial
+    potential_derivative_names = '@D_OMEGA_D_STATE_PROPERTIES@'
+    state_gradient_names = '@STATE_TOTAL_GRADIENT_PROPERTIES@'
+    potential_gradient_name = @PHASE@_electric_enthalpy_gradient
+  []
+
+  # Instantiate once per nonreference phase. This difference gradient is a
+  # selectable correction in ADPhasePressureGradientAssemblerMaterial.
+  [@PHASE@_minus_@REFERENCE_PHASE@_electric_enthalpy_gradient]
+    type = ADPhasePressureGradientAssemblerMaterial
+    base_pressure_gradient_name = @PHASE@_electric_enthalpy_gradient
+    correction_gradient_names = @REFERENCE_PHASE@_electric_enthalpy_gradient
+    correction_scales = '-1'
+    phase_pressure_gradient_name = @PHASE@_minus_@REFERENCE_PHASE@_electric_enthalpy_gradient
+  []
+
+  [@PHASE@_electrical_response]
+    type = ADPhaseElectricEnthalpyMaterial
+    phase = @PHASE@
+    electric_field = '@E_COMPONENTS@'
+    phase_fraction = @PHASE_FRACTION@
+    electric_enthalpy_field_derivative_names = '@D_OMEGA_D_E_PROPERTIES@'
+  []
+  [mixture_electrical_response]
+    type = ADMixtureElectricFieldMaterial
+    phase_fractions = '@ALL_PHASE_FRACTIONS@'
+    phase_electric_displacement_names = '@ALL_PHASE_ELECTRIC_DISPLACEMENTS@'
+    charged_component_densities = '@CHARGED_COMPONENT_DENSITIES@'
+    specific_charges = '@SPECIFIC_CHARGES@'
+  []
+[]
+
+[Kernels]
+  # Add one constraint for each spatial component.
+  [electric_field_constraint_@I@]
+    type = ADElectricFieldPotentialConstraint
+    variable = @E_COMPONENT_I@
+    component = @I@
+    electric_potential = @ELECTRIC_POTENTIAL@
+  []
+
+  # Add this independently to each phase-momentum component.
+  [@PHASE@_maxwell_momentum_@I@]
+    type = ADPhaseMomentumStressTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    piola_stress_name = @PHASE@_maxwell_piola_stress
+  []
+  [gauss_law]
+    type = ADElectrostaticGaussLaw
+    variable = @ELECTRIC_POTENTIAL@
+    reference_electric_displacement_name = reference_electric_displacement
+    reference_free_charge_name = reference_free_charge
+  []
+[]

@@ -1,0 +1,147 @@
+# Pick-and-choose two-independent-component CG/EG stitch for one reciprocal
+# Onsager block. Instantiate after the flux material and reconstructed fields.
+# For N-1 > 2, repeat each @ROW@/@COLUMN@ cross object for every b != a.
+# D_ab names the row-a/column-b spatial tensor and D_ba=D_ab^T.
+
+[Kernels]
+  [@PREFIX@_row0_backbone]
+    type = ADEnrichedGalerkinScalarBalance
+    variable = @ROW0_BACKBONE@
+    enrichment = @ROW0_ENRICHMENT@
+    time_coefficient = @ROW0_STORAGE_COEFFICIENT@
+    reference_flux_name = @ROW0_REFERENCE_FLUX@
+    source_name = @ROW0_REFERENCE_SOURCE@
+  []
+  [@PREFIX@_row0_enrichment]
+    type = ADEnrichedGalerkinScalarEnrichmentBalance
+    variable = @ROW0_ENRICHMENT@
+    backbone = @ROW0_BACKBONE@
+    time_coefficient = @ROW0_STORAGE_COEFFICIENT@
+    source_name = @ROW0_REFERENCE_SOURCE@
+  []
+  [@PREFIX@_row1_backbone]
+    type = ADEnrichedGalerkinScalarBalance
+    variable = @ROW1_BACKBONE@
+    enrichment = @ROW1_ENRICHMENT@
+    time_coefficient = @ROW1_STORAGE_COEFFICIENT@
+    reference_flux_name = @ROW1_REFERENCE_FLUX@
+    source_name = @ROW1_REFERENCE_SOURCE@
+  []
+  [@PREFIX@_row1_enrichment]
+    type = ADEnrichedGalerkinScalarEnrichmentBalance
+    variable = @ROW1_ENRICHMENT@
+    backbone = @ROW1_BACKBONE@
+    time_coefficient = @ROW1_STORAGE_COEFFICIENT@
+    source_name = @ROW1_REFERENCE_SOURCE@
+  []
+[]
+
+[DGKernels]
+  [@PREFIX@_row0_diagonal_flux]
+    type = ADEnrichedGalerkinFluxDG
+    variable = @ROW0_ENRICHMENT@
+    reference_flux_name = @ROW0_REFERENCE_FLUX@
+    mobility_name = @D00@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+  []
+  [@PREFIX@_row0_column1_flux]
+    type = ADEnrichedGalerkinCrossFluxDG
+    variable = @ROW0_ENRICHMENT@
+    column_enrichment = @ROW1_ENRICHMENT@
+    cross_mobility_name = @D01@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+  []
+  [@PREFIX@_row0_diagonal_symmetry]
+    type = ADEnrichedGalerkinSymmetryDG
+    variable = @ROW0_BACKBONE@
+    enrichment = @ROW0_ENRICHMENT@
+    mobility_name = @D00@
+    epsilon = @EG_EPSILON@
+  []
+  [@PREFIX@_row0_column1_symmetry]
+    type = ADEnrichedGalerkinCrossSymmetryDG
+    variable = @ROW0_BACKBONE@
+    column_enrichment = @ROW1_ENRICHMENT@
+    cross_mobility_name = @D01@
+    epsilon = @EG_EPSILON@
+  []
+  [@PREFIX@_row1_diagonal_flux]
+    type = ADEnrichedGalerkinFluxDG
+    variable = @ROW1_ENRICHMENT@
+    reference_flux_name = @ROW1_REFERENCE_FLUX@
+    mobility_name = @D11@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+  []
+  [@PREFIX@_row1_column0_flux]
+    type = ADEnrichedGalerkinCrossFluxDG
+    variable = @ROW1_ENRICHMENT@
+    column_enrichment = @ROW0_ENRICHMENT@
+    cross_mobility_name = @D10@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+  []
+  [@PREFIX@_row1_diagonal_symmetry]
+    type = ADEnrichedGalerkinSymmetryDG
+    variable = @ROW1_BACKBONE@
+    enrichment = @ROW1_ENRICHMENT@
+    mobility_name = @D11@
+    epsilon = @EG_EPSILON@
+  []
+  [@PREFIX@_row1_column0_symmetry]
+    type = ADEnrichedGalerkinCrossSymmetryDG
+    variable = @ROW1_BACKBONE@
+    column_enrichment = @ROW0_ENRICHMENT@
+    cross_mobility_name = @D10@
+    epsilon = @EG_EPSILON@
+  []
+[]
+
+[BCs]
+  [@PREFIX@_row0_diagonal_penalty]
+    type = ADEnrichedGalerkinPenaltyBC
+    variable = @ROW0_ENRICHMENT@
+    backbone = @ROW0_BACKBONE@
+    boundary = '@DIRICHLET_BOUNDARIES@'
+    reference_flux_name = @ROW0_REFERENCE_FLUX@
+    mobility_name = @D00@
+    function = @ROW0_BOUNDARY_FUNCTION@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+  []
+  [@PREFIX@_row0_column1_penalty]
+    type = ADEnrichedGalerkinCrossPenaltyBC
+    variable = @ROW0_ENRICHMENT@
+    column_backbone = @ROW1_BACKBONE@
+    column_enrichment = @ROW1_ENRICHMENT@
+    boundary = '@DIRICHLET_BOUNDARIES@'
+    cross_mobility_name = @D01@
+    function = @ROW1_BOUNDARY_FUNCTION@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+  []
+  [@PREFIX@_row1_diagonal_penalty]
+    type = ADEnrichedGalerkinPenaltyBC
+    variable = @ROW1_ENRICHMENT@
+    backbone = @ROW1_BACKBONE@
+    boundary = '@DIRICHLET_BOUNDARIES@'
+    reference_flux_name = @ROW1_REFERENCE_FLUX@
+    mobility_name = @D11@
+    function = @ROW1_BOUNDARY_FUNCTION@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+  []
+  [@PREFIX@_row1_column0_penalty]
+    type = ADEnrichedGalerkinCrossPenaltyBC
+    variable = @ROW1_ENRICHMENT@
+    column_backbone = @ROW0_BACKBONE@
+    column_enrichment = @ROW0_ENRICHMENT@
+    boundary = '@DIRICHLET_BOUNDARIES@'
+    cross_mobility_name = @D10@
+    function = @ROW0_BOUNDARY_FUNCTION@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+  []
+[]

@@ -1,0 +1,23 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml validation/reference_data/spe2_si_conversions.yml'
+  issues = ''
+
+  [spe2_producer_control_rz]
+    type = CSVDiff
+    input = spe2_producer_control_rz.i
+    cli_args = 'Outputs/file_base=spe2_producer_control_rz'
+    csvdiff = spe2_producer_control_rz.csv
+    abs_zero = 1e-12
+    rel_err = 1e-10
+    requirement = 'The modular SPE2 producer shall use both published completion kh values, the 9110-ft datum, the layer-8 hydrostatic correction, the exact annular completion volumes, and the first scheduled oil rate.'
+  []
+
+  [spe2_producer_control_rz_jacobian]
+    type = PetscJacobianTester
+    input = spe2_producer_control_rz.i
+    cli_args = '-snes_test_err 1e-7'
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'The assembled SPE2 two-completion producer control shall provide the coupled field, total-rate, and datum-BHP Jacobian blocks.'
+  []
+[]

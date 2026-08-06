@@ -1,0 +1,78 @@
+# Constitutive closure.  Replace constants by component mobility property lists
+# to activate the manuscript additive composition-dependent specialization.
+[Materials]
+  # Optional full solid-kinematic stitch. The stress-free maps are separate
+  # material properties so thermal/composition laws can be selected upstream.
+  [<solid_phase>_plastic_kinematics]
+    type = ADSolidPlasticKinematicsMaterial
+    solid_deformation_gradient_name = <F_s>
+    distension_tensor = '<A_00> <A_01> ... row-major dim*dim ...'
+    plastic_distension_tensor = '<Ap_00> <Ap_01> ... row-major dim*dim ...'
+    plastic_true_deformation = '<Fp_00> <Fp_01> ... row-major dim*dim ...'
+    distension_stress_free_map_name = <A0_s>
+    true_deformation_stress_free_map_name = <Fbar0_s>
+    distension_name = <A_s>
+    true_deformation_name = <Fbar_s>
+    elastic_distension_name = <A_e_s>
+    elastic_true_deformation_name = <Fbar_e_s>
+  []
+  [<solid_phase>_associated_plastic_flow]
+    type = ADAssociatedPlasticFlowMaterial
+    material_stress_name = <sigma_prime_s>
+    elastic_true_deformation_name = <Fbar_e_s>
+    distension_tensor_name = <A_s>
+    elastic_distension_tensor_name = <A_e_s>
+    plastic_deformation_mobility_names = '<Lambda_F_component0> <Lambda_F_component1> ...'
+    plastic_distension_mobility_names = '<Lambda_A_component0> <Lambda_A_component1> ...'
+    driving_stress_name = <prefix>_S
+    plastic_deformation_log_rate_name = <prefix>_Lp
+    plastic_distension_log_rate_name = <prefix>_LAp
+    scalar_plastic_distension_log_rate_name = <prefix>_ap_log_rate
+    plastic_deformation_dissipation_name = <prefix>_Fp_dissipation
+    tensor_plastic_distension_dissipation_name = <prefix>_Ap_dissipation
+    plastic_distension_dissipation_name = <prefix>_ap_dissipation
+  []
+[]
+
+# For exact discrete isochoric flow, instantiate ADPlasticDeformationEvolution
+# for every component with a shared multiplier and use the determinant residual
+# as the multiplier equation. The component-wise time kernels without this
+# constrained update are rate-consistent and do not preserve det(Fbar_p)=1 exactly.
+[Kernels]
+  [<solid_phase>_Fp_<row>_<column>]
+    type = ADPlasticDeformationEvolution
+    variable = <Fp_row_column>
+    row = <row>
+    column = <column>
+    plastic_deformation_gradient = '<Fp_00> <Fp_01> ... row-major ...'
+    plastic_deformation_log_rate_name = <prefix>_Lp
+    isochoric_multiplier = <Fp_isochoric_multiplier>
+    # Verification-only MMS hook; omit in physical decks.
+    # forcing = <Fp_component_manufactured_forcing>
+  []
+  [<solid_phase>_Fp_determinant]
+    type = ADPlasticDeformationDeterminantConstraint
+    variable = <Fp_isochoric_multiplier>
+    plastic_deformation_gradient = '<Fp_00> <Fp_01> ... row-major ...'
+    target_determinant = 1
+  []
+[]
+
+# Select exactly one plastic-distension representation per solid phase. The
+# Action creates all dim*dim tensor kernels or the single scalar kernel; the
+# unused variable parameter must be omitted and invalid mixed selections are
+# rejected during input processing.
+[Physics]
+  [PlasticDistension]
+    [<solid_phase>]
+      mode = <tensor_or_scalar>
+      # mode=tensor:
+      tensor_variables = '<Ap_00> <Ap_01> ... row-major dim*dim ...'
+      tensor_log_rate_name = <prefix>_LAp
+      # Optional MMS hook: tensor_forcing_names = '<f_00> <f_01> ... row-major ...'
+      # mode=scalar (omit tensor_variables and tensor_log_rate_name):
+      # scalar_variable = <ap_s>
+      # scalar_log_rate_name = <prefix>_ap_log_rate
+    []
+  []
+[]

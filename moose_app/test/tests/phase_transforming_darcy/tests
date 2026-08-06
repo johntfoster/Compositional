@@ -1,0 +1,41 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [phase_transforming_relative_flux_1d]
+    type = CSVDiff
+    input = phase_transforming_relative_flux_1d.i
+    cli_args = 'Outputs/file_base=phase_transforming_relative_flux_1d'
+    csvdiff = phase_transforming_relative_flux_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The production transforming-phase Darcy closure shall combine bulk and intrinsic density into phi_f, include q_f in resistance, and include the tau insertion force.'
+  []
+
+  [phase_transforming_inactive_flux_1d]
+    type = CSVDiff
+    input = phase_transforming_relative_flux_1d.i
+    cli_args = 'Materials/phase_state/prop_values="4 0 1 0 0" Postprocessors/flux_l2/function=zero Outputs/file_base=phase_transforming_inactive_flux_1d'
+    csvdiff = phase_transforming_inactive_flux_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A disappeared transforming phase shall have zero generalized Darcy flux without evaluating a singular inverse relative permeability.'
+  []
+
+  [phase_transforming_nonpositive_resistance_rejected]
+    type = RunException
+    input = phase_transforming_relative_flux_1d.i
+    cli_args = 'Materials/phase_state/prop_values="4 2 -1 1 1"'
+    expect_err = 'conversion-corrected Darcy resistance lost its positive margin.'
+    requirement = 'An active transforming phase shall reject loss of the manuscript positive-resistance condition.'
+  []
+
+  [phase_transforming_zero_kr_flux_1d]
+    type = CSVDiff
+    input = phase_transforming_relative_flux_1d.i
+    cli_args = 'Materials/phase_state/prop_values="4 2 1 1 0" Postprocessors/flux_l2/function=zero Outputs/file_base=phase_transforming_zero_kr_flux_1d'
+    csvdiff = phase_transforming_zero_kr_flux_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A transforming phase with active kinetic availability but zero relative permeability shall have the exact zero generalized-Darcy phase limit.'
+  []
+[]
+
+

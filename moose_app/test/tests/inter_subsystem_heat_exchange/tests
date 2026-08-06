@@ -1,0 +1,143 @@
+[Tests]
+  design = 'sections/multicomponent_solids.tex moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [conservative_entropy_positive_exchange]
+    type = CSVDiff
+    input = inter_subsystem_heat_exchange_1d.i
+    cli_args = 'Outputs/file_base=inter_subsystem_heat_exchange_1d'
+    csvdiff = inter_subsystem_heat_exchange_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'The selectable fluid-solid heat-exchange closure shall implement Eq. (MC_fluid_solid_heat_exchange_law), cancel exactly from total energy, and produce the nonnegative entropy term in Eq. (MC_fluid_solid_heat_exchange_positive).'
+  []
+
+  [state_dependent_heat_exchange_cg_eg_solve]
+    type = CSVDiff
+    input = inter_subsystem_heat_exchange_cg_eg_jacobian_1d.i
+    cli_args = 'Outputs/file_base=inter_subsystem_heat_exchange_cg_eg_jacobian_1d'
+    csvdiff = inter_subsystem_heat_exchange_cg_eg_jacobian_1d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-11
+    requirement = 'Solved fluid and solid P1-plus-P0 CG/EG residuals shall stitch the signed current-volume exchange sources through separate solid-reference energy-source kernels with J applied once.'
+  []
+
+  [state_dependent_heat_exchange_cg_eg_jacobian]
+    type = PetscJacobianTester
+    input = inter_subsystem_heat_exchange_cg_eg_jacobian_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-6
+    requirement = 'The solved two-temperature P1-plus-P0 CG/EG exchange system shall retain AD derivatives through reconstructed temperatures and state-dependent heat-transfer coefficient.'
+  []
+
+  [two_temperature_energy_exchange_mms_2d]
+    type = CSVDiff
+    input = two_temperature_energy_exchange_mms_2d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_exchange_mms_2d'
+    csvdiff = two_temperature_energy_exchange_mms_2d.csv
+    abs_zero = 1e-9
+    rel_err = 1e-9
+    requirement = 'A genuinely two-dimensional QUAD9/P2-plus-P0 EG solve shall couple separate fluid and solid Fourier energy balances through equal-and-opposite state-dependent exchange while preserving exact total-energy cancellation.'
+  []
+
+  [two_temperature_energy_exchange_mms_1d]
+    type = CSVDiff
+    input = two_temperature_energy_exchange_mms_1d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_exchange_mms_1d'
+    csvdiff = two_temperature_energy_exchange_mms_1d.csv
+    abs_zero = 1e-9
+    rel_err = 1e-9
+    requirement = 'The reusable two-temperature energy hierarchy shall reproduce a 1D EDGE3/P2-plus-P0 EG manufactured solution with conservative state-dependent fluid-solid exchange.'
+  []
+
+  [two_temperature_energy_exchange_mms_3d]
+    type = CSVDiff
+    input = two_temperature_energy_exchange_mms_3d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_exchange_mms_3d'
+    csvdiff = two_temperature_energy_exchange_mms_3d.csv
+    abs_zero = 1e-8
+    rel_err = 1e-8
+    requirement = 'The reusable two-temperature energy hierarchy shall reproduce a genuinely 3D TET10/P2-plus-P0 EG manufactured solution with conservative state-dependent fluid-solid exchange.'
+  []
+
+  [two_temperature_energy_exchange_jacobian_2d]
+    type = PetscJacobianTester
+    input = two_temperature_energy_exchange_mms_2d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_exchange_jacobian_2d'
+    ratio_tol = 1e-6
+    difference_tol = 1e-5
+    requirement = 'The two-dimensional fluid-solid energy hierarchy shall retain AD coupling through both reconstructed temperatures, the state-dependent exchange coefficient, Fourier fluxes, interior facets, and weak boundaries.'
+  []
+
+  [two_temperature_energy_all_terms_mms_1d]
+    type = CSVDiff
+    input = two_temperature_energy_all_terms_mms_1d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_all_terms_mms_1d'
+    csvdiff = two_temperature_energy_all_terms_mms_1d.csv
+    abs_zero = 1e-9
+    rel_err = 1e-9
+    requirement = 'The complete two-temperature EDGE3/P2-plus-P0 EG hierarchy shall stitch storage, relative internal-energy advection, Fourier/cross flux, stress power, conversion work, relative-current electric work, external heat, and equal-and-opposite exchange.'
+  []
+
+  [two_temperature_energy_all_terms_mms_2d]
+    type = CSVDiff
+    input = two_temperature_energy_all_terms_mms_2d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_all_terms_mms_2d'
+    csvdiff = two_temperature_energy_all_terms_mms_2d.csv
+    abs_zero = 1e-8
+    rel_err = 1e-8
+    requirement = 'A genuinely two-dimensional QUAD9/P2-plus-P0 EG MMS shall solve both complete subsystem-energy rows with every independently named thermal hierarchy contribution active.'
+  []
+
+  [two_temperature_energy_all_terms_mms_3d]
+    type = CSVDiff
+    input = two_temperature_energy_all_terms_mms_3d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_all_terms_mms_3d'
+    csvdiff = two_temperature_energy_all_terms_mms_3d.csv
+    abs_zero = 1e-8
+    rel_err = 1e-8
+    requirement = 'A genuinely three-dimensional TET10/P2-plus-P0 EG MMS shall solve both complete subsystem-energy rows with nonzero flux, stress, conversion, electric, external, and exchange contributions.'
+  []
+
+  [two_temperature_energy_all_terms_jacobian_2d]
+    type = PetscJacobianTester
+    input = two_temperature_energy_all_terms_mms_2d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_all_terms_jacobian_2d'
+    ratio_tol = 1e-6
+    difference_tol = 2e-5
+    requirement = 'The full two-dimensional CG/EG two-temperature residual shall retain AD derivatives through reconstructed temperatures, all flux rows, state-dependent exchange, interior facets, and weak enrichment boundaries.'
+  []
+
+  [two_temperature_energy_all_terms_jacobian_3d]
+    type = PetscJacobianTester
+    input = two_temperature_energy_all_terms_mms_3d.i
+    cli_args = 'Outputs/file_base=two_temperature_energy_all_terms_jacobian_3d'
+    ratio_tol = 1e-6
+    difference_tol = 1e-5
+    requirement = 'The full three-dimensional CG/EG two-temperature residual shall retain the complete AD Jacobian, including cross-subsystem derivatives of conservative heat exchange.'
+  []
+
+  [negative_state_dependent_coefficient_rejected]
+    type = RunException
+    input = inter_subsystem_heat_exchange_cg_eg_jacobian_1d.i
+    cli_args = "Materials/heat_transfer_coefficient/expression='-1'"
+    expect_err = 'heat-transfer coefficient must remain nonnegative'
+    requirement = 'The heat-exchange closure shall reject a negative state-dependent heat-transfer coefficient.'
+  []
+
+  [nonpositive_temperature_rejected]
+    type = RunException
+    input = inter_subsystem_heat_exchange_1d.i
+    cli_args = 'ICs/theta_f_ic/value=0'
+    expect_err = 'absolute subsystem temperatures must remain positive'
+    requirement = 'The heat-exchange entropy audit shall reject a nonpositive absolute subsystem temperature.'
+  []
+
+  [dual_coefficient_modes_rejected]
+    type = RunException
+    input = inter_subsystem_heat_exchange_cg_eg_jacobian_1d.i
+    cli_args = 'Materials/heat_exchange/heat_transfer_coefficient=2'
+    expect_err = 'Choose a constant coefficient or an AD coefficient property'
+    requirement = 'The heat-exchange closure shall reject simultaneous constant and property coefficient modes.'
+  []
+[]

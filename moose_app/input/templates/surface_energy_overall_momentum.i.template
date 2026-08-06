@@ -1,0 +1,28 @@
+# The three explicit bulk surface-energy/lag forces in
+# Eq. (solid_reference_overall_momentum).
+[Kernels]
+  [thermocapillary_@I@]
+    type = ADOverallMomentumThermocapillaryTerm
+    variable = @SOLID_DISPLACEMENT_I@
+    component = @I@
+    temperature = @FLUID_TEMPERATURE@
+    fluid_fraction = @FLUID_FRACTION@
+    surface_energy_temperature_derivative_name = @D_GAMMA_D_THETA@
+  []
+  [capillary_history_gradient_@I@]
+    type = ADOverallMomentumCapillaryHistoryGradientTerm
+    variable = @SOLID_DISPLACEMENT_I@
+    component = @I@
+    history_variables = '@HISTORY_VARIABLES@'
+    fluid_fraction = @FLUID_FRACTION@
+    surface_energy_history_derivative_names = '@D_GAMMA_D_HISTORY_PROPERTIES@'
+  []
+  [dynamic_pressure_lag_@I@]
+    type = ADOverallMomentumDynamicPressureLagTerm
+    variable = @SOLID_DISPLACEMENT_I@
+    component = @I@
+    saturations = '@SATURATIONS@'
+    fluid_fraction = @FLUID_FRACTION@
+    pressure_lag_names = '@P_MINUS_PE_MINUS_GAMMA_MINUS_OMEGA_PROPERTIES@'
+  []
+[]

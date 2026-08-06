@@ -1,0 +1,3 @@
+time,dissipation_l2,entropy_production_l2,gas_force_l2,minimum_eigenvalue_l2,water_force_l2
+0,0,0,0,0,0
+1,1.0408340855861e-17,1.0164395367052e-20,5.5511151231258e-17,0,8.3266726846887e-17

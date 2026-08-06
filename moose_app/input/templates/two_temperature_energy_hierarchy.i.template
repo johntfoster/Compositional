@@ -1,0 +1,291 @@
+# Instantiate this template after defining the fluid/solid P2 backbones, P0
+# enrichments, velocity components, electric potential, material properties,
+# exact boundary functions, and EG penalty parameters named below. Each
+# contribution has its own enable token, so physics can be selected entirely
+# in the input deck. The two aggregate source properties must use the same
+# enable tokens when they sum the local right-hand-side powers.
+
+[Materials]
+  [fluid_temperature_reconstruction]
+    type = ADEGReconstructedScalarMaterial
+    backbone = @FLUID_TEMPERATURE_BACKBONE@
+    enrichment = @FLUID_TEMPERATURE_ENRICHMENT@
+    field_name = @FLUID_TEMPERATURE_FIELD@
+  []
+  [solid_temperature_reconstruction]
+    type = ADEGReconstructedScalarMaterial
+    backbone = @SOLID_TEMPERATURE_BACKBONE@
+    enrichment = @SOLID_TEMPERATURE_ENRICHMENT@
+    field_name = @SOLID_TEMPERATURE_FIELD@
+  []
+  [fluid_solid_heat_exchange]
+    type = ADInterSubsystemHeatExchangeMaterial
+    fluid_temperature_name = @FLUID_TEMPERATURE_FIELD@_total
+    solid_temperature_name = @SOLID_TEMPERATURE_FIELD@_total
+    heat_transfer_coefficient_name = @HEAT_TRANSFER_COEFFICIENT@
+    fluid_heat_source_name = @FLUID_EXCHANGE_SOURCE@
+    solid_heat_source_name = @SOLID_EXCHANGE_SOURCE@
+    exchange_cancellation_name = @EXCHANGE_CANCELLATION@
+    entropy_production_name = @EXCHANGE_ENTROPY_PRODUCTION@
+    enable = @ENABLE_HEAT_EXCHANGE@
+  []
+[]
+
+[Kernels]
+  [fluid_internal_energy_storage]
+    type = ADReferenceEnergyStorageTerm
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    coefficient_name = @FLUID_STORAGE_COEFFICIENT@
+    enable = @ENABLE_FLUID_STORAGE@
+  []
+  [fluid_relative_internal_energy_advection]
+    type = ADReferenceEnergyFluxTerm
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    reference_flux_name = @FLUID_RELATIVE_INTERNAL_ENERGY_FLUX@
+    scale = -1
+    enable = @ENABLE_FLUID_ADVECTION@
+  []
+  [fluid_fourier_cross_flux]
+    type = ADReferenceEnergyFluxTerm
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    reference_flux_name = @FLUID_FOURIER_CROSS_FLUX@
+    scale = -1
+    enable = @ENABLE_FLUID_HEAT_FLUX@
+  []
+  [fluid_stress_power]
+    type = ADReferenceEnergyStressPowerTerm
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    phase_velocity = '@FLUID_VELOCITY_COMPONENTS@'
+    cauchy_stress_name = @FLUID_CAUCHY_STRESS@
+    enable = @ENABLE_FLUID_STRESS_POWER@
+  []
+  [fluid_conversion_work]
+    type = ADReferenceEnergyConversionTransferWorkTerm
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    generalized_transfer_work_names = '@FLUID_TRANSFER_WORK_PROPERTIES@'
+    current_component_source_names = '@FLUID_COMPONENT_SOURCE_PROPERTIES@'
+    enable = @ENABLE_FLUID_CONVERSION_WORK@
+  []
+  [fluid_electric_work]
+    type = ADReferenceEnergyRelativeCurrentWorkTerm
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    current_relative_charge_flux_name = @FLUID_RELATIVE_CHARGE_CURRENT@
+    electric_potential = @ELECTRIC_POTENTIAL@
+    enable = @ENABLE_FLUID_ELECTRIC_WORK@
+  []
+  [fluid_external_heat]
+    type = ADReferenceEnergySourceTerm
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    source_name = @FLUID_EXTERNAL_HEAT@
+    enable = @ENABLE_FLUID_EXTERNAL_HEAT@
+  []
+  [fluid_exchange]
+    type = ADReferenceEnergySourceTerm
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    source_name = @FLUID_EXCHANGE_SOURCE@
+    enable = @ENABLE_HEAT_EXCHANGE@
+  []
+  [fluid_enrichment_balance]
+    type = ADEnrichedGalerkinScalarEnrichmentBalance
+    variable = @FLUID_TEMPERATURE_ENRICHMENT@
+    backbone = @FLUID_TEMPERATURE_BACKBONE@
+    time_coefficient_name = @FLUID_STORAGE_COEFFICIENT@
+    source_name = @FLUID_TOTAL_ENERGY_SOURCE@
+  []
+
+  [solid_internal_energy_storage]
+    type = ADReferenceEnergyStorageTerm
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    coefficient_name = @SOLID_STORAGE_COEFFICIENT@
+    enable = @ENABLE_SOLID_STORAGE@
+  []
+  [solid_relative_internal_energy_advection]
+    type = ADReferenceEnergyFluxTerm
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    reference_flux_name = @SOLID_RELATIVE_INTERNAL_ENERGY_FLUX@
+    scale = -1
+    enable = @ENABLE_SOLID_ADVECTION@
+  []
+  [solid_fourier_cross_flux]
+    type = ADReferenceEnergyFluxTerm
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    reference_flux_name = @SOLID_FOURIER_CROSS_FLUX@
+    scale = -1
+    enable = @ENABLE_SOLID_HEAT_FLUX@
+  []
+  [solid_stress_power]
+    type = ADReferenceEnergyStressPowerTerm
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    phase_velocity = '@SOLID_VELOCITY_COMPONENTS@'
+    cauchy_stress_name = @SOLID_CAUCHY_STRESS@
+    enable = @ENABLE_SOLID_STRESS_POWER@
+  []
+  [solid_conversion_work]
+    type = ADReferenceEnergyConversionTransferWorkTerm
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    generalized_transfer_work_names = '@SOLID_TRANSFER_WORK_PROPERTIES@'
+    current_component_source_names = '@SOLID_COMPONENT_SOURCE_PROPERTIES@'
+    enable = @ENABLE_SOLID_CONVERSION_WORK@
+  []
+  [solid_electric_work]
+    type = ADReferenceEnergyRelativeCurrentWorkTerm
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    current_relative_charge_flux_name = @SOLID_RELATIVE_CHARGE_CURRENT@
+    electric_potential = @ELECTRIC_POTENTIAL@
+    enable = @ENABLE_SOLID_ELECTRIC_WORK@
+  []
+  [solid_external_heat]
+    type = ADReferenceEnergySourceTerm
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    source_name = @SOLID_EXTERNAL_HEAT@
+    enable = @ENABLE_SOLID_EXTERNAL_HEAT@
+  []
+  [solid_exchange]
+    type = ADReferenceEnergySourceTerm
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    source_name = @SOLID_EXCHANGE_SOURCE@
+    enable = @ENABLE_HEAT_EXCHANGE@
+  []
+  [solid_enrichment_balance]
+    type = ADEnrichedGalerkinScalarEnrichmentBalance
+    variable = @SOLID_TEMPERATURE_ENRICHMENT@
+    backbone = @SOLID_TEMPERATURE_BACKBONE@
+    time_coefficient_name = @SOLID_STORAGE_COEFFICIENT@
+    source_name = @SOLID_TOTAL_ENERGY_SOURCE@
+  []
+[]
+
+[DGKernels]
+  [fluid_advection_flux]
+    type = ADEnrichedGalerkinFluxDG
+    variable = @FLUID_TEMPERATURE_ENRICHMENT@
+    reference_flux_name = @FLUID_RELATIVE_INTERNAL_ENERGY_FLUX@
+    mobility_name = @FLUID_ADVECTION_MOBILITY@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+    enable = @ENABLE_FLUID_ADVECTION@
+  []
+  [fluid_advection_symmetry]
+    type = ADEnrichedGalerkinSymmetryDG
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    enrichment = @FLUID_TEMPERATURE_ENRICHMENT@
+    mobility_name = @FLUID_ADVECTION_MOBILITY@
+    epsilon = @EG_EPSILON@
+    enable = @ENABLE_FLUID_ADVECTION@
+  []
+  [fluid_heat_flux]
+    type = ADEnrichedGalerkinFluxDG
+    variable = @FLUID_TEMPERATURE_ENRICHMENT@
+    reference_flux_name = @FLUID_FOURIER_CROSS_FLUX@
+    mobility_name = @FLUID_HEAT_MOBILITY@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+    enable = @ENABLE_FLUID_HEAT_FLUX@
+  []
+  [fluid_heat_symmetry]
+    type = ADEnrichedGalerkinSymmetryDG
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    enrichment = @FLUID_TEMPERATURE_ENRICHMENT@
+    mobility_name = @FLUID_HEAT_MOBILITY@
+    epsilon = @EG_EPSILON@
+    enable = @ENABLE_FLUID_HEAT_FLUX@
+  []
+  [solid_advection_flux]
+    type = ADEnrichedGalerkinFluxDG
+    variable = @SOLID_TEMPERATURE_ENRICHMENT@
+    reference_flux_name = @SOLID_RELATIVE_INTERNAL_ENERGY_FLUX@
+    mobility_name = @SOLID_ADVECTION_MOBILITY@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+    enable = @ENABLE_SOLID_ADVECTION@
+  []
+  [solid_advection_symmetry]
+    type = ADEnrichedGalerkinSymmetryDG
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    enrichment = @SOLID_TEMPERATURE_ENRICHMENT@
+    mobility_name = @SOLID_ADVECTION_MOBILITY@
+    epsilon = @EG_EPSILON@
+    enable = @ENABLE_SOLID_ADVECTION@
+  []
+  [solid_heat_flux]
+    type = ADEnrichedGalerkinFluxDG
+    variable = @SOLID_TEMPERATURE_ENRICHMENT@
+    reference_flux_name = @SOLID_FOURIER_CROSS_FLUX@
+    mobility_name = @SOLID_HEAT_MOBILITY@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+    enable = @ENABLE_SOLID_HEAT_FLUX@
+  []
+  [solid_heat_symmetry]
+    type = ADEnrichedGalerkinSymmetryDG
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    enrichment = @SOLID_TEMPERATURE_ENRICHMENT@
+    mobility_name = @SOLID_HEAT_MOBILITY@
+    epsilon = @EG_EPSILON@
+    enable = @ENABLE_SOLID_HEAT_FLUX@
+  []
+[]
+
+[BCs]
+  [fluid_backbone_temperature]
+    type = FunctionDirichletBC
+    variable = @FLUID_TEMPERATURE_BACKBONE@
+    boundary = '@THERMAL_BOUNDARIES@'
+    function = @FLUID_TEMPERATURE_BOUNDARY_FUNCTION@
+  []
+  [fluid_advection_enrichment]
+    type = ADEnrichedGalerkinPenaltyBC
+    variable = @FLUID_TEMPERATURE_ENRICHMENT@
+    backbone = @FLUID_TEMPERATURE_BACKBONE@
+    boundary = '@THERMAL_BOUNDARIES@'
+    reference_flux_name = @FLUID_RELATIVE_INTERNAL_ENERGY_FLUX@
+    mobility_name = @FLUID_ADVECTION_MOBILITY@
+    function = @FLUID_TEMPERATURE_BOUNDARY_FUNCTION@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+    enable = @ENABLE_FLUID_ADVECTION@
+  []
+  [fluid_heat_enrichment]
+    type = ADEnrichedGalerkinPenaltyBC
+    variable = @FLUID_TEMPERATURE_ENRICHMENT@
+    backbone = @FLUID_TEMPERATURE_BACKBONE@
+    boundary = '@THERMAL_BOUNDARIES@'
+    reference_flux_name = @FLUID_FOURIER_CROSS_FLUX@
+    mobility_name = @FLUID_HEAT_MOBILITY@
+    function = @FLUID_TEMPERATURE_BOUNDARY_FUNCTION@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+    enable = @ENABLE_FLUID_HEAT_FLUX@
+  []
+
+  [solid_backbone_temperature]
+    type = FunctionDirichletBC
+    variable = @SOLID_TEMPERATURE_BACKBONE@
+    boundary = '@THERMAL_BOUNDARIES@'
+    function = @SOLID_TEMPERATURE_BOUNDARY_FUNCTION@
+  []
+  [solid_advection_enrichment]
+    type = ADEnrichedGalerkinPenaltyBC
+    variable = @SOLID_TEMPERATURE_ENRICHMENT@
+    backbone = @SOLID_TEMPERATURE_BACKBONE@
+    boundary = '@THERMAL_BOUNDARIES@'
+    reference_flux_name = @SOLID_RELATIVE_INTERNAL_ENERGY_FLUX@
+    mobility_name = @SOLID_ADVECTION_MOBILITY@
+    function = @SOLID_TEMPERATURE_BOUNDARY_FUNCTION@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+    enable = @ENABLE_SOLID_ADVECTION@
+  []
+  [solid_heat_enrichment]
+    type = ADEnrichedGalerkinPenaltyBC
+    variable = @SOLID_TEMPERATURE_ENRICHMENT@
+    backbone = @SOLID_TEMPERATURE_BACKBONE@
+    boundary = '@THERMAL_BOUNDARIES@'
+    reference_flux_name = @SOLID_FOURIER_CROSS_FLUX@
+    mobility_name = @SOLID_HEAT_MOBILITY@
+    function = @SOLID_TEMPERATURE_BOUNDARY_FUNCTION@
+    epsilon = @EG_EPSILON@
+    sigma = @EG_SIGMA@
+    enable = @ENABLE_SOLID_HEAT_FLUX@
+  []
+[]

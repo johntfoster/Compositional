@@ -1,0 +1,214 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [spe1_initial_pvt_1d]
+    type = CSVDiff
+    input = spe1_initial_pvt_1d.i
+    cli_args = 'Outputs/file_base=spe1_initial_pvt_1d'
+    csvdiff = spe1_initial_pvt_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The SPE black-oil PVT material shall reproduce the official SPE1 Case 1 PVTW, PVDG, and undersaturated PVTO state at 4800 psia and satisfy the gas-saturation/dissolved-gas complementarity relation.'
+  []
+
+  [spe1_phase_transform_mu_1d]
+    type = CSVDiff
+    input = spe1_phase_transform_mu_1d.i
+    cli_args = 'Outputs/file_base=spe1_phase_transform_mu_1d'
+    csvdiff = spe1_phase_transform_mu_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The SPE black-oil phase-transforming specialization shall map the PVTO undersaturation coordinate through a convex free energy to explicit dissolved and free-gas neutral and electrochemical potentials and the corresponding transformation affinity with a consistent AD dependency on electric potential.'
+  []
+
+  [phase_transform_helmholtz_identity_1d]
+    type = CSVDiff
+    input = phase_transform_helmholtz_identity_1d.i
+    cli_args = 'Outputs/file_base=phase_transform_helmholtz_identity_1d'
+    csvdiff = phase_transform_helmholtz_identity_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The SPE phase-transform penalty shall supply phase-specific Helmholtz values in specific-energy units, and its derivative with respect to normalized dissolved-gas content shall equal the dissolved chemical-potential increment.'
+  []
+
+  [phase_transform_helmholtz_identity_jacobian_1d]
+    type = PetscJacobianTester
+    input = phase_transform_helmholtz_identity_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-8
+    requirement = 'The phase-transform Helmholtz and chemical-potential identities shall preserve their automatic-differentiation dependence on normalized dissolved-gas content.'
+  []
+
+  [pressure_dependent_rock_storage_1d]
+    type = CSVDiff
+    input = pressure_dependent_rock_storage_1d.i
+    csvdiff = pressure_dependent_rock_storage_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The SPE black-oil component storage shall include the exponential ROCK pore-volume multiplier at the current oil pressure.'
+  []
+
+  [spe1_oversaturated_rs_rejected]
+    type = RunException
+    input = spe1_initial_pvt_1d.i
+    cli_args = 'ICs/solution_gas_oil_ratio_ic/function=oversaturated_solution_gas_oil_ratio'
+    expect_err = 'dissolved R_s exceeds saturated R_s at the current oil pressure.'
+    requirement = 'The SPE black-oil PVT material shall reject dissolved gas above the saturated R_s at the current oil pressure.'
+  []
+
+  [spe1_active_gas_pvt_1d]
+    type = CSVDiff
+    input = spe1_initial_pvt_1d.i
+    cli_args = 'ICs/solution_gas_oil_ratio_ic/function=saturated_solution_gas_oil_ratio_state ICs/gas_saturation_ic/function=active_gas_saturation Postprocessors/oil_fvf_l2/function=saturated_oil_fvf_exact Postprocessors/oil_viscosity_l2/function=saturated_oil_viscosity_exact Postprocessors/undersaturation_gap_l2/function=zero Outputs/file_base=spe1_active_gas_pvt_1d'
+    csvdiff = spe1_active_gas_pvt_1d.csv
+    abs_zero = 1e-11
+    requirement = 'With gas present, the SPE black-oil PVT material shall enforce saturated R_s, use the saturated PVTO curve, and satisfy the gas-appearance complementarity relation.'
+  []
+
+  [spe1_history_cap_negative_gas_rejected_1d]
+    type = CSVDiff
+    input = spe1_initial_pvt_1d.i
+    cli_args = 'ICs/gas_saturation_ic/function=negative_gas_saturation Materials/spe1_pvt/maximum_solution_gas_oil_ratio=1.27 Postprocessors/gas_appearance_complementarity_l2/function=cap_branch_complementarity_exact Outputs/file_base=spe1_history_cap_negative_gas_rejected_1d'
+    csvdiff = spe1_history_cap_negative_gas_rejected_1d.csv
+    abs_zero = 1e-11
+    requirement = 'When the irreversible dissolved-gas history cap controls attainable R_s, the gas-appearance complementarity residual shall still reject negative free-gas saturation.'
+  []
+
+  [spe1_left_extreme_completed_pvto_1d]
+    type = CSVDiff
+    input = spe1_initial_pvt_1d.i
+    cli_args = 'ICs/solution_gas_oil_ratio_ic/function=left_extreme_solution_gas_oil_ratio Postprocessors/oil_fvf_l2/function=left_extreme_oil_fvf_exact Postprocessors/oil_viscosity_l2/function=left_extreme_oil_viscosity_exact Postprocessors/undersaturation_gap_l2/function=left_extreme_undersaturation_gap_exact Outputs/file_base=spe1_left_extreme_completed_pvto_1d'
+    csvdiff = spe1_left_extreme_completed_pvto_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The SPE1 PVTO evaluator shall complete single-row undersaturated branches with ECLIPSE compressibility and viscosibility ratios, interpolate reciprocal PVT quantities, and apply OPM left-extreme interpolation between R_s branches.'
+  []
+
+  [gas_appearance_complementarity_solve_1d]
+    type = CSVDiff
+    input = gas_appearance_complementarity_solve_1d.i
+    cli_args = 'Outputs/file_base=gas_appearance_complementarity_solve_1d'
+    csvdiff = gas_appearance_complementarity_solve_1d.csv
+    abs_zero = 1e-10
+    requirement = 'For an active gas phase, the Fischer-Burmeister gas-appearance residual shall solve the coupled dissolved R_s state to R_s saturated at the oil pressure through an AD material-property residual.'
+  []
+
+  [irreversible_solution_gas_history_1d]
+    type = CSVDiff
+    input = gas_appearance_complementarity_solve_1d.i
+    cli_args = 'ICs/solution_gas_oil_ratio_ic/function=solution_gas_oil_ratio_exact AuxKernels/oil_pressure_history/function=oil_pressure_history Kernels/gas_appearance/property=benchmark_black_oil_solution_gas_constraint_residual Materials/benchmark_pvt/enforce_nonincreasing_solution_gas=true Materials/benchmark_pvt/maximum_solution_gas_oil_ratio=2 Materials/benchmark_pvt/solution_gas_transition_width=0.05 Postprocessors/solution_gas_oil_ratio_l2/function=solution_gas_oil_ratio_history_exact Executioner/type=Transient Executioner/dt=1 Executioner/num_steps=2 Outputs/file_base=irreversible_solution_gas_history_1d'
+    csvdiff = irreversible_solution_gas_history_1d.csv
+    abs_zero = 1e-10
+    requirement = 'The dissolved-gas history law shall reduce R_s during pressure-driven exsolution and shall prevent redissolution when pressure subsequently recovers.'
+  []
+
+  [spe1_component_flux_assembly_1d]
+    type = CSVDiff
+    input = spe1_component_flux_assembly_1d.i
+    cli_args = 'ICs/solution_gas_oil_ratio_ic/function=saturated_solution_gas_oil_ratio_state ICs/gas_saturation_ic/function=active_gas_saturation Postprocessors/oil_fvf_l2/function=saturated_oil_fvf_exact Postprocessors/oil_viscosity_l2/function=saturated_oil_viscosity_exact Postprocessors/undersaturation_gap_l2/function=zero Outputs/file_base=spe1_component_flux_assembly_1d'
+    csvdiff = spe1_component_flux_assembly_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The official SPE1 PVT state shall expose black-oil phase component fractions that assemble water, stock-tank oil, and stock-tank gas reference component fluxes from the water, oil, and gas phase relative mass fluxes.'
+  []
+
+  [spe1_cartesian_grid_3d]
+    type = RunApp
+    input = spe1_cartesian_grid_3d.i
+    expect_out = 'Mesh Dimension:\s+3.*Spatial Dimension:\s+3.*Elems:\s+300.*Num Subdomains:\s+5'
+    requirement = 'The pinned SPE1 Case 1 dimensions shall generate the official 10 by 10 by 3 Cartesian grid with 300 cells, three permeability layers, and distinct injector and producer completion-cell subdomains in SI length units.'
+  []
+
+  [spe1_layer_properties_3d]
+    type = CSVDiff
+    input = spe1_cartesian_grid_3d.i
+    cli_args = 'Outputs/file_base=spe1_layer_properties_3d'
+    csvdiff = spe1_layer_properties_3d.csv
+    abs_zero = 1e-16
+    requirement = 'The official SPE1 Case 1 grid shall carry the three 500, 50, and 200 mD layer permeabilities, constant porosity, ROCK reference pressure, rock compressibility, and exact injector and producer completion-cell volumes after explicit SI conversion.'
+  []
+
+  [spe1_initial_state_3d]
+    type = CSVDiff
+    input = spe1_initial_state_3d.i
+    cli_args = 'Outputs/file_base=spe1_initial_state_3d'
+    csvdiff = spe1_initial_state_3d.csv
+    abs_zero = 1e-5
+    requirement = 'The official SPE1 Case 1 EQUIL/RSVD data shall initialize the 300-cell SI grid to the hydrostatic layer-center oil pressures, converted dissolved gas-oil ratio, connate water, and no free gas.'
+  []
+
+  [spe1_transient_storage_rates_1d]
+    type = CSVDiff
+    input = spe1_transient_storage_rates_1d.i
+    cli_args = 'Outputs/file_base=spe1_transient_storage_rates_1d'
+    csvdiff = spe1_transient_storage_rates_1d.csv
+    abs_zero = 1e-9
+    requirement = 'The official SPE1 PVT tables shall provide exact AD chain-rule water, oil, and gas reference-storage rates and solve a coupled transient active-gas component cell with the stock-tank-gas balance on the continuous solution-gas row and the gas-appearance variational inequality on the continuous nonnegative gas-saturation row.'
+  []
+
+  [spe1_transient_flux_well_1d]
+    type = CSVDiff
+    input = spe1_transient_flux_well_1d.i
+    cli_args = 'ICs/oil_pressure_ic/function=oil_pressure_initial_spatial ICs/solution_gas_oil_ratio_ic/function=solution_gas_oil_ratio_initial_spatial Executioner/dt=0.01 Executioner/nl_abs_tol=1e-10 Executioner/nl_rel_tol=1e-10 Outputs/file_base=spe1_transient_flux_well_1d'
+    csvdiff = spe1_transient_flux_well_1d.csv
+    abs_zero = 1e-8
+    requirement = 'The active-gas SPE1 PVT storage system shall solve with saturation-dependent Darcy phase fluxes, phase-to-component flux assembly, a pure gas-injection Peaceman source, and quantitative water/oil/gas global conservation.'
+  []
+
+  [spe1_case1_transient_fv]
+    type = CSVDiff
+    input = spe1_case1_transient_fv.i
+    cli_args = "Executioner/num_steps=1 Variables/oil_pressure/family=MONOMIAL Variables/oil_pressure/order=CONSTANT Variables/oil_pressure/fv=true Variables/solution_gas_oil_ratio/family=MONOMIAL Variables/solution_gas_oil_ratio/order=CONSTANT Variables/solution_gas_oil_ratio/fv=true Variables/water_saturation/family=MONOMIAL Variables/water_saturation/order=CONSTANT Variables/water_saturation/fv=true Variables/gas_saturation/family=MONOMIAL Variables/gas_saturation/order=CONSTANT Variables/gas_saturation/fv=true AuxVariables/porosity/family=MONOMIAL AuxVariables/porosity/order=CONSTANT AuxVariables/porosity/fv=true Materials/oil_pressure_reconstruction/enrichment='' Outputs/file_base=spe1_case1_transient_fv"
+    csvdiff = spe1_case1_transient_fv.csv
+    abs_zero = 1e-11
+    rel_err = 1e-8
+    requirement = 'The separate official-grid SPE1 Case 1 FV diagnostic shall solve for one day with cell-centered black-oil variables, phase-by-phase upstream Darcy fluxes, fixed-history dissolved gas in both storage and well sources, shared scalar BHP controls, nonnegative free-gas saturation to numerical tolerance, and quantitative global component conservation; this test has no production-theory acceptance role.'
+  []
+
+  [spe1_case1_monthly_fv]
+    type = RunApp
+    input = spe1_case1_monthly_fv.i
+    cli_args = "Executioner/end_time=13046400 Executioner/num_steps=10 Executioner/nl_abs_tol=1e-9 Executioner/nl_rel_tol=1e-12 Variables/oil_pressure/family=MONOMIAL Variables/oil_pressure/order=CONSTANT Variables/oil_pressure/fv=true Variables/solution_gas_oil_ratio/family=MONOMIAL Variables/solution_gas_oil_ratio/order=CONSTANT Variables/solution_gas_oil_ratio/fv=true Variables/water_saturation/family=MONOMIAL Variables/water_saturation/order=CONSTANT Variables/water_saturation/fv=true Variables/gas_saturation/family=MONOMIAL Variables/gas_saturation/order=CONSTANT Variables/gas_saturation/fv=true AuxVariables/porosity/family=MONOMIAL AuxVariables/porosity/order=CONSTANT AuxVariables/porosity/fv=true Materials/oil_pressure_reconstruction/enrichment='' Outputs/csv=false Outputs/console=false Outputs/file_base=spe1_case1_monthly_fv"
+    max_time = 180
+    requirement = 'The separate official-grid SPE1 Case 1 FV diagnostic shall reproduce the pinned OPM Flow 2021.10 internal steps through the first five TSTEP reporting boundaries at 13,046,400 seconds with irreversible DRSDT=0 exsolution, phase-upwind component transport, and shared scalar BHP/rate complementarity; minimum gas saturation shall be at least -1e-12, each absolute water/oil/gas global defect shall be at most 1e-8, and each rate-active well shall meet its scheduled surface-rate target within 1e-8 m3/s while remaining strictly inside its BHP limit. These quantitative checks do not certify the finite-deformation CG/EG production path.'
+  []
+
+  [spe1_case1_fifth_report_opm]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/compare_spe1_fv_to_opm.py --moose-csv spe1_case1_monthly_fv.csv --opm-csv ../../../../validation/reference_data/spe1_case1_opm_flow_2021_10.csv --expected-end-day 151'
+    prereq = spe1_case1_monthly_fv
+    requirement = 'For the fixed-skeleton FV diagnostic only, across SPE1 Case 1 report rows at days 31, 59, 90, 120, and 151, MOOSE cumulative oil and gas volumes shall agree with pinned OPM Flow 2021.10 within 0.5 percent and every compared rate, pressure, BHP, and GOR shall agree within 2 percent; these thresholds have no production-theory acceptance role.'
+  []
+
+  [spe1_case1_q2_eg_initialization_check]
+    type = RunApp
+    input = spe1_case1_q2_eg_initialization_check.i
+    cli_args = '--check-input'
+    requirement = 'The first SPE1 finite-deformation initialization slice shall instantiate the 1800-element TET10 mapping, solved Q2 matrix displacement, reconstructed P1 plus P0 EG oil pressure, continuous black-oil state fields, matrix component storage, represented-phase volume closure, and coupled total-stress momentum without substituting the fixed-skeleton FV diagnostic.'
+  []
+
+  [spe1_case1_q2_eg_phase_appearance]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_spe1_q2_eg_phase_appearance.py --mpi-ranks 8'
+    max_time = 600
+    requirement = 'The coupled four-phase finite-deformation SPE1 Q2/CG-EG deck shall reach one day with continuous nonnegative gas saturation, finite-rate tau- and electrochemical-potential-driven phase conversion, vanishing kinetic closure residual, nonnegative conversion dissipation, conservative water/oil/gas component balances, represented-phase volume closure, matrix constituent balance, two live temperature equations, and positive solid-reference Jacobian.'
+  []
+
+  [spe1_case1_q2_eg_nonequilibrium_reduced]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_spe1_q2_eg_phase_appearance.py --reduced'
+    max_time = 120
+    requirement = 'A reduced 18-element TET10 slice of the production SPE1 CG/EG deck shall reach one day with its Q2 mechanics, P1 plus P0 EG pressure and tau, black-oil mass balances, electrochemical-potential/tau finite-rate phase transformation, nonnegative dissipation, and two solved temperature equations all active under the same strict quantitative gates as the full benchmark.'
+  []
+
+  [spe1_case1_q2_eg_nonequilibrium_active_wells]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_spe1_q2_eg_phase_appearance.py --active-wells --mpi-ranks 8'
+    max_time = 1800
+    requirement = 'The full 1800-element TET10 production SPE1 CG/EG deck shall reach one day with injector and producer scalar rate/BHP controls active while preserving nonnegative gas saturation, tau/electrochemical-potential finite-rate closure, nonnegative dissipation, water/oil/gas conservation, phase-volume and mechanics closure, and both solved temperature equations; each active rate shall match its target within 1e-4 relative error and remain inside its BHP limit.'
+  []
+
+  [spe1_schedule_10_year]
+    type = CSVDiff
+    input = spe1_schedule_10_year.i
+    cli_args = 'Outputs/file_base=spe1_schedule_10_year'
+    csvdiff = spe1_schedule_10_year.csv
+    abs_zero = 1e-12
+    requirement = 'The official SPE1 Case 1 TSTEP data shall execute all 120 prescribed time increments and terminate at 315360000 seconds, corresponding to 3650 days.'
+  []
+[]

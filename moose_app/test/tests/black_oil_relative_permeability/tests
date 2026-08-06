@@ -1,0 +1,39 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [black_oil_relative_permeability_1d]
+    type = CSVDiff
+    input = black_oil_relative_permeability_1d.i
+    cli_args = 'Outputs/file_base=black_oil_relative_permeability_1d'
+    csvdiff = black_oil_relative_permeability_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The black-oil saturation material shall interpolate SWOF/SGOF water and gas curves and reproduce the default ECLIPSE/OPM saturation-weighted three-phase oil relative permeability.'
+  []
+
+  [black_oil_relative_permeability_ad_jacobian_1d]
+    type = CSVDiff
+    input = black_oil_relative_permeability_ad_jacobian_1d.i
+    cli_args = 'Outputs/file_base=black_oil_relative_permeability_ad_jacobian_1d'
+    csvdiff = black_oil_relative_permeability_ad_jacobian_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The active SWOF/SGOF table slopes shall remain in the AD Jacobian used by a nonlinear saturation residual.'
+  []
+
+  [black_oil_relative_permeability_clamped_negative_gas_1d]
+    type = CSVDiff
+    input = black_oil_relative_permeability_1d.i
+    cli_args = 'Functions/gas_saturation_exact/expression=-0.1 Functions/gas_relative_permeability_exact/expression=0 Functions/oil_water_relative_permeability_exact/expression=0.9 Functions/oil_gas_relative_permeability_exact/expression=1 Functions/oil_relative_permeability_exact/expression=0.9 Outputs/file_base=black_oil_relative_permeability_clamped_negative_gas_1d'
+    csvdiff = black_oil_relative_permeability_clamped_negative_gas_1d.csv
+    abs_zero = 1e-12
+    requirement = 'Under the clamp policy, a negative nonlinear trial gas saturation shall use the lower SGOF endpoint in both the table evaluations and the three-phase oil-mobility blend.'
+  []
+
+  [black_oil_relative_permeability_negative_table_rejected]
+    type = RunException
+    input = black_oil_relative_permeability_1d.i
+    cli_args = 'Materials/black_oil_relative_permeability/gas_relative_permeability_values="0 -0.1 0.96"'
+    expect_err = 'Relative-permeability values must be nonnegative.'
+    requirement = 'The black-oil relative-permeability material shall reject negative table values.'
+  []
+[]

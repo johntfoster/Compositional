@@ -1,0 +1,5 @@
+time,completion_1_bhp,completion_1_datum_bhp,completion_1_datum_correction,completion_1_oil_surface_rate,completion_2_bhp,completion_2_datum_bhp,completion_2_datum_correction,completion_2_oil_surface_rate,reported_datum_bhp,total_oil_surface_rate,datum_bhp
+0,0,0,0,40,0,0,0,60,0,0,90
+1,110,100,10,20,120,100,20,30,100,50,100
+2,115,105,10,10,125,105,20,15,105,25,105
+

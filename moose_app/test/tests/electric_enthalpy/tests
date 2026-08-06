@@ -1,0 +1,22 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [electric_enthalpy_gauss_mms_1d]
+    type = CSVDiff
+    input = electric_enthalpy_gauss_mms_1d.i
+    cli_args = 'Outputs/file_base=electric_enthalpy_gauss_mms_1d'
+    csvdiff = electric_enthalpy_gauss_mms_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall couple E=-grad(varphi), arbitrary parsed phase electric enthalpies, phase electric displacements d_xi=-partial omega_xi^+/partial E, phase Maxwell stresses, mixture d=sum phi_xi d_xi, its solid-reference Piola pull-back, material-carried free charge, and Gauss law with a consistent AD Jacobian.'
+  []
+
+  [helmholtz_electric_enthalpy_eos_1d]
+    type = CSVDiff
+    input = helmholtz_electric_enthalpy_eos_1d.i
+    cli_args = 'Outputs/file_base=helmholtz_electric_enthalpy_eos_1d'
+    csvdiff = helmholtz_electric_enthalpy_eos_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The combined material-Helmholtz and electric-enthalpy EOS shall recover total pressure, absolute neutral chemical potentials, material internal energy, and each separate electrical state-rate coefficient from automatic derivatives.'
+  []
+[]

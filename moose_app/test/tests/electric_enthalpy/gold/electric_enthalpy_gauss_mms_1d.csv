@@ -1,0 +1,3 @@
+time,current_charge_l2,electric_field_l2,gas_displacement_l2,gas_maxwell_cauchy_00_l2,gas_maxwell_piola_00_l2,mixture_displacement_l2,oil_displacement_l2,oil_maxwell_cauchy_00_l2,oil_maxwell_piola_00_l2,potential_l2,reference_charge_l2,reference_displacement_l2
+0,0,0,0,0,0,0,0,0,0,0,0,0
+1,0,3.9046448737597e-16,1.5618579495039e-15,2.2360922228493e-15,2.2360922228493e-15,1.2076710223594e-15,7.8092897475193e-16,7.9326824668019e-16,7.9326824668019e-16,7.7509455252239e-10,0,1.2076710223594e-15

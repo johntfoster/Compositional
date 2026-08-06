@@ -1,0 +1,370 @@
+schema_version: 1
+manuscript_composite_sha256: "3523f703080e5855af7acc5fdd5acf1f7d050471c6460e472dcb28456a0e22a0"
+manuscript_fingerprint_command: "sha256sum main.tex defs.tex sections/*.tex | sha256sum"
+discretization:
+  production: "CG/EG"
+  finite_volume: "diagnostic_only"
+  fracture: "deferred_by_user"
+
+solid_distension_evolution:
+  basis:
+    - "eq:MC_solid_distension_evolution"
+    - "eq:MC_solid_distension_mass_relation"
+    - "eq:solid_reference_solid_component_balance"
+  terms:
+    logarithmic_distension_rate:
+      object: "ADSolidDistensionEvolution"
+      status: "cartesian_1d_2d_3d_and_axisymmetric_mms_pass"
+    finite_deformation_volumetric_rate:
+      objects: ["ADSolidReferenceKinematics", "ADAxisymmetricSolidReferenceKinematics", "ADSolidDistensionEvolution"]
+      status: "solved_q2_kinematics_and_offdiagonal_jacobian_pass"
+    intrinsic_density_rate:
+      object: "ADSolidDistensionEvolution"
+      status: "nonzero_rate_mms_and_positivity_rejection_pass"
+    conserved_solid_component_storage_and_source:
+      objects: ["ADSolidPhaseMassVolumeMaterial", "ADMaterialPropertyResidual"]
+      status: "cartesian_1d_2d_3d_and_axisymmetric_stitched_mms_pass"
+    integrated_distension_mass_relation:
+      object: "ADSolidPhaseMassVolumeMaterial"
+      status: "stitched_sign_jacobian_density_audit_pass"
+  templates: ["input/templates/solid_distension_evolution.i.template", "input/templates/solid_component_distension_hierarchy.i.template"]
+
+composition_projection:
+  optional: true
+  noncompositional_policy: "omit all eta, pi, projection materials, and algebraic rows"
+  manuscript_basis:
+    - "eq:phase_pressure_storage"
+    - "eq:el_eta_constraint"
+    - "eq:Pi_componentwise"
+    - "eq:pi_difference_system"
+    - "eq:MC_fluid_composition_projection"
+    - "eq:MC_solid_composition_projection"
+    - "eq:MC_neutral_component_euler_identity"
+  terms:
+    helmholtz_mass_fraction_derivatives:
+      object: "ADTheoryCompositionProjectionMaterial"
+      status: "analytic_and_newton_atomic_pass"
+    electric_enthalpy_mass_fraction_derivatives:
+      object: "ADTheoryCompositionProjectionMaterial"
+      status: "analytic_and_newton_atomic_pass"
+    solid_distension_stress_free_map:
+      object: "ADCompositionStressMapCorrectionMaterial"
+      status: "atomic_pass"
+    solid_true_deformation_stress_free_map:
+      object: "ADCompositionStressMapCorrectionMaterial"
+      status: "atomic_pass"
+    mass_fraction_normalization:
+      object: "ADTheoryCompositionProjectionMaterial"
+      status: "atomic_pass"
+    phase_pressure_storage_sum:
+      object: "ADTheoryCompositionProjectionMaterial"
+      status: "analytic_recovery_and_newton_pass"
+    storage_multiplier_and_Pi_recovery:
+      object: "ADTheoryCompositionProjectionMaterial"
+      status: "analytic_recovery_and_newton_pass"
+    neutral_component_euler_identity:
+      object: "ADTheoryCompositionProjectionMaterial"
+      status: "atomic_pass"
+    exact_tau_pressure_work:
+      object: "ADTheoryCompositionProjectionMaterial -> ADTauEvolutionMaterial"
+      status: "projection_tau_transfer_reaction_pipeline_pass"
+  traditional_comparison:
+    object: "ADRegisteredPhaseFlashMaterial"
+    scope: "comparison_only"
+    prohibited_in: "manuscript_theory_hierarchy"
+  template: "input/templates/theory_composition_projection.i.template"
+mass:
+  basis:
+    - "eq:averaged_component_spatial_mass"
+    - "eq:reference_conversion_accumulation_rate"
+  terms:
+    conservative_storage:
+      object: "ADReferenceComponentStorageTerm"
+      status: "implemented_and_stitched_mms"
+    phase_advection:
+      object: "ADReferenceComponentFluxTerm"
+      status: "implemented_existing_flux_mms"
+    unresolved_dispersion:
+      object: "ADReferenceComponentFluxTerm"
+      status: "implemented_existing_flux_mms"
+    molecular_diffusion:
+      object: "ADReferenceComponentFluxTerm"
+      status: "implemented_existing_charged_transport_mms"
+    stoichiometric_conversion:
+      object: "ADReferenceComponentSourceTerm"
+      status: "implemented_and_stitched_mms"
+    external_and_well_sources:
+      object: "ADReferenceComponentSourceTerm"
+      status: "implemented_existing_well_mms"
+
+phase_momentum:
+  basis:
+    - "eq:el_mom_f_dynamic_capillary"
+    - "eq:solid_reference_overall_momentum"
+  terms:
+    material_acceleration:
+      object: "ADPhaseMomentumInertiaTerm"
+      status: "implemented_and_stitched_mms"
+    material_stress:
+      object: "ADPhaseMomentumStressTerm"
+      status: "all_term_mms_pass"
+    maxwell_stress:
+      objects: ["ADPhaseElectricEnthalpyMaterial", "ADPhaseMomentumStressTerm"]
+      status: "constitutive_and_momentum_mms_pass"
+    actual_phase_pressure_momentum_potential_gradient:
+      objects: ["ADPhaseThermodynamicIdentityMaterial", "ADPhaseMomentumPressurePotentialGradientTerm"]
+      status: "source_and_q2_eg_1d_2d_3d_decks_static_validated_compiled_verification_pending"
+      identity: "Grad_X(p_f-omega_f^+)=Grad_X(p_E+gamma_f+L_f^sat-sum_g S_g L_g^sat)"
+      selection_rule: "insert this assembled gradient exactly once; the individual equivalent-pressure, primitive-surface-energy, and saturation-force scalar gradients are not inserted again"
+    electric_enthalpy_cancellation_and_maxwell_separation:
+      objects: ["ADPhaseThermodynamicIdentityMaterial", "ADPhaseMomentumStressTerm"]
+      status: "identity_and_template_static_validated_compiled_verification_pending"
+      note: "the isotropic electric-enthalpy gradient cancels from p_f-omega_f^+; the anisotropic Maxwell stress remains a separate momentum term"
+    gravity_body_and_pairwise_interaction:
+      objects: ["ADPhaseMomentumVectorSourceTerm", "ADPhaseMomentumFunctionSourceTerm"]
+      status: "all_term_atomic_mms_pass"
+    fluid_skeleton_drag:
+      object: "ADPhaseMomentumDragTerm"
+      status: "implemented_and_stitched_mms"
+    conversion_insertion:
+      object: "ADPhaseMomentumConversionInsertionTerm"
+      status: "implemented_and_stitched_mms"
+    thermocapillary:
+      object: "ADOverallMomentumThermocapillaryTerm"
+      status: "all_term_atomic_mms_pass"
+    capillary_history_gradient:
+      object: "ADOverallMomentumCapillaryHistoryGradientTerm"
+      status: "all_term_atomic_mms_pass"
+    dynamic_pressure_lag:
+      object: "ADOverallMomentumDynamicPressureLagTerm"
+      status: "all_term_atomic_mms_pass"
+
+saturation_redistribution:
+  basis:
+    - "eq:fluid_volume_fraction_el_relation"
+    - "eq:fluid_pressure_primitive_potential_relation"
+    - "eq:fluid_pressure_difference_primitive_potential"
+    - "eq:saturation_weighted_pressure_sum"
+    - "eq:saturation_weighted_primitive_potential_sum"
+    - "eq:equivalent_pore_pressure_capillary_relation"
+    - "eq:MC_dynamic_capillary_force_rate_relation"
+    - "eq:MC_dynamic_capillary_resistance_admissibility"
+  terms:
+    generalized_force_differences:
+      object: "ADSaturationOnsagerForceMaterial"
+      status: "constant_and_state_dependent_matrix_mms_and_ad_jacobian_pass"
+    resistance_admissibility:
+      object: "ADSaturationOnsagerForceMaterial"
+      status: "constant_and_per_quadrature_symmetry_psd_rejection_pass"
+    force_difference_gradients:
+      object: "ADSaturationOnsagerForceGradientMaterial"
+      status: "complete_state_dependent_product_rule_mms_pass"
+    pressure_difference_stitch:
+      object: "ADBlackOilPhasePressureDifferenceMaterial"
+      status: "stored_surface_electrical_and_onsager_all_terms_pass"
+    absolute_force_gauge_and_weighted_average:
+      object: "ADPhaseThermodynamicIdentityMaterial"
+      status: "source_and_decks_static_validated_compiled_verification_pending"
+    phase_volume_euler_lagrange_and_actual_pressure_identities:
+      object: "ADPhaseThermodynamicIdentityMaterial"
+      status: "source_and_decks_static_validated_compiled_verification_pending"
+    equivalent_pressure_and_primitive_surface_energy_identities:
+      object: "ADPhaseThermodynamicIdentityMaterial"
+      status: "source_and_decks_static_validated_compiled_verification_pending"
+    absolute_force_rate_residuals_and_entropy_production:
+      object: "ADPhaseThermodynamicIdentityMaterial"
+      status: "source_and_decks_static_validated_compiled_verification_pending"
+
+energy:
+  basis:
+    - "eq:MC_energy_balance"
+    - "eq:MC_electrostatic_power_identity"
+  subsystem_count: 2
+  terms:
+    internal_energy_storage:
+      object: "ADReferenceEnergyStorageTerm"
+      status: "two_subsystem_atomic_mms_pass"
+    skeleton_relative_internal_energy_advection:
+      object: "ADReferenceEnergyFluxTerm"
+      status: "two_subsystem_atomic_mms_pass"
+    nonadvective_heat_and_cross_flux:
+      object: "ADReferenceEnergyFluxTerm"
+      status: "two_subsystem_atomic_and_charged_energy_mms_pass"
+    electric_enthalpy_state_rates:
+      object: "ADReferenceEnergyStateRateTerm"
+      status: "two_subsystem_atomic_mms_pass"
+    interfacial_energy_state_rates:
+      object: "ADReferenceEnergyStateRateTerm"
+      status: "two_subsystem_atomic_mms_pass"
+    total_reversible_and_maxwell_stress_power:
+      object: "ADReferenceEnergyStressPowerTerm"
+      status: "two_subsystem_atomic_mms_pass"
+    pressure_constraint_and_multiplier_powers:
+      objects: ["ADReferenceEnergyStateRateTerm", "ADReferenceEnergySourceTerm"]
+      status: "two_subsystem_atomic_mms_pass"
+    conversion_transfer_work:
+      object: "ADReferenceEnergyConversionTransferWorkTerm"
+      status: "two_subsystem_atomic_mms_pass"
+    relative_current_electric_work:
+      object: "ADReferenceEnergyRelativeCurrentWorkTerm"
+      status: "two_subsystem_atomic_and_charged_energy_mms_pass"
+    external_heat_and_interphase_internal_energy:
+      object: "ADReferenceEnergySourceTerm"
+      status: "two_subsystem_atomic_mms_pass"
+    global_field_power:
+      object: "ADElectrostaticGaussLaw"
+      status: "electric_enthalpy_gauss_mms_pass"
+
+phase_transformation:
+  mandatory_for_every_phase_transforming_model: true
+  basis:
+    - "eq:el_conversion_component"
+    - "eq:MC_admissible_conversion_component"
+    - "eq:MC_generalized_conversion_affinity_relation"
+  required:
+    chemical_or_electrochemical_potentials:
+      object: "ADHelmholtzEOSClosureMaterial"
+      status: "stitched_mms_pass"
+    transfer_potential_tau:
+      objects: ["ADTauEvolutionMaterial", "ADEnrichedGalerkinMaterialPropertyResidual"]
+      status: "stitched_mms_pass"
+    phase_tau_offsets:
+      object: "ADPhaseTauMaterialDerivative"
+      status: "stitched_mms_pass"
+    full_phase_component_transfer_work:
+      object: "ADGeneralizedTransferWorkMaterial"
+      test: "reaction_tau.generalized_transfer_work_material_1d"
+      status: "atomic_and_production_spe1_full_and_reduced_history_pass"
+    affinity_kinetics_sources_dissipation:
+      object: "ADReactionNetworkMaterial"
+      status: "stitched_mms_pass"
+    conversion_momentum:
+      object: "ADPhaseMomentumConversionInsertionTerm"
+      status: "stitched_mms_pass"
+    conversion_energy:
+      object: "ADReferenceEnergyConversionTransferWorkTerm"
+      status: "operator_mms_and_full_transfer_work_spe1_history_pass"
+  black_oil_specialization:
+    pvto_free_energy_and_mu:
+      object: "ADBlackOilPhaseTransformationThermodynamicsMaterial"
+      test: "black_oil_benchmark_pvt.spe1_phase_transform_mu_1d"
+      status: "pass"
+    dissolved_and_free_gas_storage_split:
+      object: "ADBlackOilBenchmarkPVTMaterial"
+      test: "black_oil_benchmark_pvt.spe1_transient_storage_rates_1d"
+      invariant: "total gas storage rate = dissolved gas rate + free gas rate"
+      status: "pass"
+    nonlinear_reference_storage_operator:
+      object: "ADReferenceMaterialStorageRateTerm"
+      status: "implemented_production_and_reduced_spe_gate_pass"
+    directional_phase_availability:
+      object: "ADReactionNetworkMaterial"
+      test: "reaction_tau.reaction_network_directional_availability_1d"
+      status: "pass"
+    production_tau_rate_energy_stitch:
+      tests:
+        - "black_oil_benchmark_pvt.spe1_case1_q2_eg_nonequilibrium_reduced"
+        - "black_oil_benchmark_pvt.spe1_case1_q2_eg_phase_appearance"
+      status: "operators_pass_atomic_mms_current_conserved_reference_storage_p2_bernstein_reduced_and_full_active_history_pass"
+
+templates:
+  directory: "input/templates"
+  status: "pick_and_choose_set_implemented_with_directional_phase_availability"
+verification:
+  stitched_phase_transformation:
+    test: "reaction_tau.phase_transformation_nonequilibrium_mms_1d"
+    status: "pass"
+  equation_complete_atomic_momentum:
+    test: "momentum_atomic.all_terms_momentum_mms_1d"
+    status: "pass"
+  equation_complete_two_subsystem_energy:
+    test: "energy_atomic.two_subsystem_energy_all_terms_mms_1d"
+    status: "pass"
+  equation_complete_two_subsystem_energy_cg_eg:
+    tests:
+      - "inter_subsystem_heat_exchange.two_temperature_energy_all_terms_mms_1d"
+      - "inter_subsystem_heat_exchange.two_temperature_energy_all_terms_mms_2d"
+      - "inter_subsystem_heat_exchange.two_temperature_energy_all_terms_mms_3d"
+      - "inter_subsystem_heat_exchange.two_temperature_energy_all_terms_jacobian_2d"
+      - "inter_subsystem_heat_exchange.two_temperature_energy_all_terms_jacobian_3d"
+    status: "pass_5_of_5_full_hierarchy"
+    evidence: "P2+P0 reconstructed fluid/solid temperatures; independently active storage, advection, Fourier/cross flux, stress, conversion, electric, external, and conservative exchange terms; maximum strong-residual L2 7.36420e-12; exact cancellation; positive entropy production."
+  electric_enthalpy_and_gauss:
+    test: "electric_enthalpy.electric_enthalpy_gauss_mms_1d"
+    status: "pass"
+  spe:
+    reduced_nonequilibrium_two_temperature:
+      test: "black_oil_benchmark_pvt.spe1_case1_q2_eg_nonequilibrium_reduced"
+      status: "current_p2_bernstein_local_p2_rate_all_timestep_gates_pass"
+      evidence:
+        accepted_timesteps: 8
+        maximum_history_matrix_component_balance_l2: 9.4156564889661e-07
+        minimum_gas_saturation: 1.0023431920086e-09
+        phase_transform_kinetic_residual_l2: 1.0890085029646e-11
+        minimum_phase_transform_dissipation: -1.9815561037244e-21
+        gas_global_balance: -1.1073714102812e-11
+        average_fluid_temperature: 333.15
+        average_solid_temperature: 333.15
+        minimum_solid_reference_jacobian: 0.99999368635622
+    full_1800_element_wells_inactive:
+      test: "black_oil_benchmark_pvt.spe1_case1_q2_eg_phase_appearance"
+      status: "current_conserved_reference_storage_p2_bernstein_all_timestep_gates_pass"
+      evidence:
+        minimum_gas_saturation: 3.203931723547e-10
+        phase_transform_kinetic_residual_l2: 5.4178760664667e-12
+        minimum_phase_transform_dissipation: -7.4485488338172e-21
+        gas_global_balance: 6.1170307100872e-13
+        matrix_component_balance_l2: 0.0
+        phase_volume_constraint_l2: 0.0
+        average_fluid_temperature: 333.15
+        average_solid_temperature: 333.15
+        minimum_solid_reference_jacobian: 0.99999235611458
+    full_1800_element_active_wells:
+      test: "black_oil_benchmark_pvt.spe1_case1_q2_eg_nonequilibrium_active_wells"
+      status: "current_conserved_reference_storage_p2_bernstein_local_p2_rate_all_timestep_gates_pass"
+      evidence:
+        minimum_gas_saturation: 0.0
+        phase_transform_kinetic_residual_l2: 3.6053714893496e-09
+        minimum_phase_transform_dissipation: -4.8159480928023e-14
+        gas_global_balance: 9.8410168902774e-13
+        matrix_component_balance_l2: 0.0
+        phase_volume_constraint_l2: 0.0
+        minimum_solid_reference_jacobian: 0.99929615788968
+        maximum_history_gas_global_balance_absolute: 2.9096547393692e-08
+        history_limit: 1.0e-06
+    reduced_active_wells:
+      test: "black_oil_benchmark_pvt.spe1_case1_q2_eg_nonequilibrium_reduced_active_wells"
+      status: "current_conserved_reference_storage_p2_bernstein_local_p2_rate_all_timestep_gates_pass"
+      evidence:
+        minimum_gas_saturation: 0.0
+        phase_transform_kinetic_residual_l2: 4.6080640670174e-08
+        minimum_phase_transform_dissipation: -2.3504123798311e-14
+        gas_global_balance: 2.8553586162161e-09
+        matrix_component_balance_l2: 0.0
+        phase_volume_constraint_l2: 0.0
+        injected_gas_surface_rate: 32.774127999463
+        produced_oil_surface_rate: 0.036802614235525
+        average_fluid_temperature: 333.15
+        average_solid_temperature: 333.15
+        minimum_solid_reference_jacobian: 1.000729867255
+      superseded_continuous_rate_p2_bernstein_evidence:
+        mesh: "2 x 2 x 3 physical cells; 72 TET10 elements"
+        status: "fail"
+        phase_transform_kinetic_residual_l2: 1.2041420930653e-07
+        phase_transform_kinetic_residual_limit: 1.0e-07
+        minimum_gas_saturation: 0.0
+        minimum_phase_transform_dissipation: -1.1811536494273e-13
+        gas_global_balance: 6.821210263297e-12
+        minimum_solid_reference_jacobian: 1.0007347095436
+      current_local_rate_p2_bernstein_evidence:
+        mesh: "1 x 1 x 3 physical cells; 18 TET10 elements"
+        status: "pass"
+        accepted_timesteps: 8
+        maximum_history_matrix_component_balance_l2: 9.6569838190416e-07
+        phase_transform_kinetic_residual_l2: 4.6083000528743e-08
+        minimum_gas_saturation: 0.0
+        minimum_phase_transform_dissipation: -2.3499425631585e-14
+        gas_global_balance: -3.1832314562052e-12
+        minimum_solid_reference_jacobian: 1.0007298719319
+    convergence_and_reduced_momentum_conversion_accounting:
+      status: "pending"

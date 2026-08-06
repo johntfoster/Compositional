@@ -1,0 +1,14 @@
+[Tests]
+  design = 'sections/multicomponent_solids.tex'
+  issues = ''
+
+  [shared_multiplier_newton]
+    type = CSVDiff
+    input = pore_volume_restrictions_newton_1d.i
+    cli_args = 'Outputs/file_base=pore_volume_restrictions_newton_1d'
+    csvdiff = pore_volume_restrictions_newton_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'The application shall solve the common pore-volume multiplier and satisfy every solid-phase and total-fluid restriction in Eq. (MC_volume_fraction_restrictions) for arbitrary phase counts with a consistent AD Jacobian.'
+  []
+[]

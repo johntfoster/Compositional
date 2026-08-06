@@ -1,0 +1,453 @@
+schema_version: 1
+include_root: "moose_app/input/includes"
+include_order:
+  - "common"
+  - "mesh"
+  - "fields"
+  - "ics"
+  - "materials"
+  - "operators"
+  - "schedules"
+  - "executioner"
+  - "outputs"
+rules:
+  coupled_solid_mechanics:
+    displacement_family: "LAGRANGE"
+    displacement_order: "SECOND"
+    required_mesh_elements:
+      1: "EDGE3"
+      2: "QUAD9"
+      3: "TET10 routine; HEX27 requires a larger AD derivative container for coupled Q2+EG solves"
+    unsupported_local_dof_combinations:
+      - dimension: 3
+        mesh_element: "HEX27"
+        reason: "The current optimized build's AD derivative container is not large enough for coupled 3D HEX27 Q2 displacement plus pressure/tau EG local DOFs."
+        policy: "reject for coupled Q2+EG production and acceptance decks in this build"
+  primary_pressure_like_fields:
+    required_space: "EG"
+    backbone:
+      family: "LAGRANGE"
+      order: "FIRST"
+    enrichment:
+      family: "MONOMIAL"
+      order: "CONSTANT"
+    reconstructed_total_required: true
+  tau:
+    required_space: "EG"
+    fluxless_anchor:
+      property: "tau_enr"
+      assumption: "Fluxless or algebraic tau reductions use a P0 enrichment anchor to remove the backbone/enrichment null mode while materials consume tau + tau_enr."
+fragments:
+  - id: "common.defaults"
+    path: "common/defaults.i"
+    provides:
+      - "default EG penalty/scaling substitutions"
+  - id: "common.solver_defaults"
+    path: "common/solver_defaults.i"
+    provides:
+      - "transient solve_dt and solve_steps substitutions"
+  - id: "common.eg_pressure_defaults"
+    path: "common/eg_pressure_defaults.i"
+    provides:
+      - "EG pressure penalty and scalar diffusivity substitutions"
+  - id: "common.eg_tau_defaults"
+    path: "common/eg_tau_defaults.i"
+    provides:
+      - "fluxless EG tau enrichment anchor substitution"
+  - id: "common.solid_effective_defaults"
+    path: "common/solid_effective_defaults.i"
+    provides:
+      - "effective solid Neo-Hookean modulus substitutions"
+  - id: "mesh.generated_1d_q2"
+    path: "mesh/generated_1d_q2.i"
+    dimension: 1
+    provides:
+      - "GeneratedMesh EDGE3"
+  - id: "mesh.generated_2d_q2"
+    path: "mesh/generated_2d_q2.i"
+    dimension: 2
+    provides:
+      - "GeneratedMesh QUAD9"
+  - id: "mesh.generated_3d_q2"
+    path: "mesh/generated_3d_q2.i"
+    dimension: 3
+    provides:
+      - "GeneratedMesh TET10"
+  - id: "mesh.spe1_case1_3d_q2_tet10"
+    path: "mesh/spe1_case1_3d_q2_tet10.i"
+    dimension: 3
+    provides:
+      - "SPE1 10 x 10 x 3 physical-cell mapping subdivided into 1800 TET10 elements"
+      - "layer and completion subdomains with coordinate-selected completion nodesets"
+      - "three coordinate-selected pin nodesets for the six scalar rigid-motion constraints"
+  - id: "mesh.spe2_rz_q2_quad9"
+    path: "mesh/spe2_rz_q2_quad9.i"
+    dimension: 2
+    provides:
+      - "SPE2 radial-vertical Q2 finite-element mesh with the published radial and layer boundaries"
+      - "layer and completion subdomains plus well, outer, top, and bottom boundary node sets"
+  - id: "fields.solid_q2_1d"
+    path: "fields/solid_q2_1d.i"
+    dimension: 1
+    provides:
+      - "ux Q2"
+  - id: "fields.solid_q2_aux_1d"
+    path: "fields/solid_q2_aux_1d.i"
+    dimension: 1
+    provides:
+      - "prescribed ux Q2 AuxVariable"
+  - id: "fields.solid_q2_2d"
+    path: "fields/solid_q2_2d.i"
+    dimension: 2
+    provides:
+      - "ux Q2"
+      - "uy Q2"
+  - id: "fields.solid_q2_aux_2d"
+    path: "fields/solid_q2_aux_2d.i"
+    dimension: 2
+    provides:
+      - "prescribed ux/uy Q2 AuxVariables"
+  - id: "fields.solid_q2_3d"
+    path: "fields/solid_q2_3d.i"
+    dimension: 3
+    provides:
+      - "ux Q2"
+      - "uy Q2"
+      - "uz Q2"
+  - id: "fields.spe1_black_oil_q2_eg"
+    path: "fields/spe1_black_oil_q2_eg.i"
+    dimension: 3
+    provides:
+      - "ux/uy/uz Q2"
+      - "oil_pressure/oil_pressure_enrichment P1+P0 EG pair"
+      - "water_saturation/water_saturation_enrichment and gas_saturation/gas_saturation_enrichment P2+P0 CG/EG pairs"
+      - "continuous P1 solution_gas_oil_ratio field"
+  - id: "fields.spe2_black_oil_q2_eg"
+    path: "fields/spe2_black_oil_q2_eg.i"
+    dimension: 2
+    provides:
+      - "axisymmetric radial/axial Q2 solid displacement"
+      - "oil_pressure/oil_pressure_enrichment P1+P0 EG pair"
+      - "water and gas saturation P2 Bernstein plus P0 CG/EG pairs"
+      - "P1 solution-gas ratio, P1+P0 tau, local P2 transformation rate, two P1 temperatures, solid storage, and producer BHP"
+  - id: "fields.solid_q2_aux_3d"
+    path: "fields/solid_q2_aux_3d.i"
+    dimension: 3
+    provides:
+      - "prescribed ux/uy/uz Q2 AuxVariables"
+  - id: "fields.eg_pressure_tau"
+    path: "fields/eg_pressure_tau.i"
+    provides:
+      - "p/p_enr EG pair"
+      - "tau/tau_enr EG pair"
+      - "p_total/tau_total output fields"
+  - id: "fields.eg_pressure"
+    path: "fields/eg_pressure.i"
+    provides:
+      - "p/p_enr EG pair"
+      - "p_total output field"
+  - id: "fields.eg_pressure_legacy"
+    path: "fields/eg_pressure_legacy.i"
+    provides:
+      - "pressure/pressure_enr EG pair"
+      - "pressure_total output field"
+  - id: "fields.eg_pressure_legacy_aux"
+    path: "fields/eg_pressure_legacy_aux.i"
+    provides:
+      - "prescribed pressure/pressure_enr EG-like AuxVariable pair for MMS drivers"
+      - "pressure_total output field"
+  - id: "fields.eg_pressure_pair_aux"
+    path: "fields/eg_pressure_pair_aux.i"
+    provides:
+      - "prescribed pressure0/pressure0_enr and pressure1/pressure1_enr EG-like AuxVariable pairs for two-phase MMS drivers"
+      - "pressure0_total/pressure1_total output fields"
+  - id: "fields.eg_pressure_potential_aux"
+    path: "fields/eg_pressure_potential_aux.i"
+    provides:
+      - "prescribed pressure_potential/pressure_potential_enr EG-like AuxVariable pair for phase-momentum MMS drivers"
+      - "pressure_potential_total output field"
+  - id: "fields.eg_capillary_pressure_aux"
+    path: "fields/eg_capillary_pressure_aux.i"
+    provides:
+      - "prescribed capillary_pressure/capillary_pressure_enr EG-like AuxVariable pair"
+      - "capillary_pressure_total output field"
+  - id: "fields.eg_equivalent_pressure_aux"
+    path: "fields/eg_equivalent_pressure_aux.i"
+    provides:
+      - "prescribed equivalent_pressure/equivalent_pressure_enr EG-like AuxVariable pair"
+      - "equivalent_pressure_total output field"
+  - id: "fields.eg_tau"
+    path: "fields/eg_tau.i"
+    provides:
+      - "tau/tau_enr EG pair"
+      - "tau_total output field"
+  - id: "fields.eg_registered_phase_pressures_aux"
+    path: "fields/eg_registered_phase_pressures_aux.i"
+    provides:
+      - "prescribed registered-phase pressure/enrichment pairs for MMS drivers"
+  - id: "materials.solid_kinematics_1d"
+    path: "materials/solid_kinematics_1d.i"
+    dimension: 1
+    requires:
+      - "fields.solid_q2_1d"
+  - id: "materials.solid_kinematics_2d"
+    path: "materials/solid_kinematics_2d.i"
+    dimension: 2
+    requires:
+      - "fields.solid_q2_2d"
+  - id: "materials.solid_kinematics_3d"
+    path: "materials/solid_kinematics_3d.i"
+    dimension: 3
+    requires:
+      - "fields.solid_q2_3d"
+  - id: "materials.eg_reconstruction"
+    path: "materials/eg_reconstruction.i"
+    requires:
+      - "fields.eg_pressure_tau"
+  - id: "materials.eg_pressure_reconstruction"
+    path: "materials/eg_pressure_reconstruction.i"
+    requires:
+      - "fields.eg_pressure"
+  - id: "materials.eg_pressure_legacy_reconstruction"
+    path: "materials/eg_pressure_legacy_reconstruction.i"
+    requires:
+      - "fields.eg_pressure_legacy"
+  - id: "materials.eg_pressure_pair_reconstruction"
+    path: "materials/eg_pressure_pair_reconstruction.i"
+    requires:
+      - "fields.eg_pressure_pair_aux"
+  - id: "materials.eg_pressure_potential_reconstruction"
+    path: "materials/eg_pressure_potential_reconstruction.i"
+    requires:
+      - "fields.eg_pressure_potential_aux"
+  - id: "materials.eg_capillary_pressure_reconstruction"
+    path: "materials/eg_capillary_pressure_reconstruction.i"
+    requires:
+      - "fields.eg_capillary_pressure_aux"
+  - id: "materials.eg_equivalent_pressure_reconstruction"
+    path: "materials/eg_equivalent_pressure_reconstruction.i"
+    requires:
+      - "fields.eg_equivalent_pressure_aux"
+  - id: "materials.eg_tau_reconstruction"
+    path: "materials/eg_tau_reconstruction.i"
+    requires:
+      - "fields.eg_tau"
+  - id: "materials.eg_registered_phase_pressures_reconstruction"
+    path: "materials/eg_registered_phase_pressures_reconstruction.i"
+    requires:
+      - "fields.eg_registered_phase_pressures_aux"
+    provides:
+      - "reconstructed registered-phase total pressures"
+  - id: "materials.darcy_pressure_flux"
+    path: "materials/darcy_pressure_flux.i"
+    requires:
+      - "materials.solid_kinematics_*"
+      - "fields.eg_pressure_tau"
+  - id: "materials.eg_pressure_diffusion_flux"
+    path: "materials/eg_pressure_diffusion_flux.i"
+    requires:
+      - "fields.eg_pressure"
+  - id: "materials.solid_stress_eg_pressure"
+    path: "materials/solid_stress_eg_pressure.i"
+    requires:
+      - "materials.solid_kinematics_*"
+      - "fields.eg_pressure_tau"
+  - id: "materials.solid_biot_from_specific_volume"
+    path: "materials/solid_biot_from_specific_volume.i"
+    requires:
+      - "materials.solid_kinematics_*"
+      - "user-supplied intrinsic skeleton specific-volume material property and fixed-p_E tangent"
+    provides:
+      - "AD solid_biot_coefficient from B = 1 - v_s0^{-1} partial(vbar_s)/partial J_s at fixed p_E"
+  - id: "materials.solid_stress_eg_pressure_nonlinear_biot"
+    path: "materials/solid_stress_eg_pressure_nonlinear_biot.i"
+    requires:
+      - "materials.solid_kinematics_*"
+      - "fields.eg_pressure or fields.eg_pressure_tau"
+      - "materials.solid_biot_from_specific_volume"
+    provides:
+      - "reference-solid total stress consuming AD nonlinear Biot coefficient and p+p_enr"
+  - id: "materials.solid_stress_eg_equivalent_pressure"
+    path: "materials/solid_stress_eg_equivalent_pressure.i"
+    requires:
+      - "materials.solid_kinematics_*"
+      - "fields.eg_equivalent_pressure_aux"
+  - id: "materials.solid_stress_eg_equivalent_pressure_nonlinear_biot"
+    path: "materials/solid_stress_eg_equivalent_pressure_nonlinear_biot.i"
+    requires:
+      - "materials.solid_kinematics_*"
+      - "fields.eg_equivalent_pressure_aux"
+      - "materials.solid_biot_from_specific_volume"
+    provides:
+      - "reference-solid total stress consuming AD nonlinear Biot coefficient and equivalent_pressure+equivalent_pressure_enr"
+  - id: "materials.solid_stress_effective"
+    path: "materials/solid_stress_effective.i"
+    requires:
+      - "materials.solid_kinematics_*"
+  - id: "materials.solid_phase_mass_volume"
+    path: "materials/solid_phase_mass_volume.i"
+    requires:
+      - "materials.solid_kinematics_*"
+      - "continuous solid-reference component storage"
+    provides:
+      - "J phi_s rho_s storage and source-free solid-reference component-balance residual"
+      - "represented-phase volume residual phi_s + phi_f - 1"
+  - id: "materials.eg_tau_evolution"
+    path: "materials/eg_tau_evolution.i"
+    requires:
+      - "fields.eg_tau or fields.eg_pressure_tau"
+  - id: "materials.eg_tau_evolution_velocity"
+    path: "materials/eg_tau_evolution_velocity.i"
+    requires:
+      - "fields.eg_tau or fields.eg_pressure_tau"
+    provides:
+      - "tau evolution residual with tau + tau_enr and reference phase velocity"
+  - id: "materials.spe1_case1_black_oil_pvt"
+    path: "materials/spe1_case1_black_oil_pvt.i"
+    dimension: 3
+    requires:
+      - "fields.spe1_black_oil_q2_eg"
+    provides:
+      - "SPE1 Case 1 black-oil PVT closure"
+  - id: "materials.spe2_black_oil_pvt"
+    path: "materials/spe2_black_oil_pvt.i"
+    dimension: 2
+    requires:
+      - "fields.spe2_black_oil_q2_eg"
+      - "reconstructed SPE2 oil-pressure and saturation properties"
+      - "solid-current porosity and its material rate"
+    provides:
+      - "SPE2 SI PVTW, PVDG, ragged PVTO, density, component-storage, and phase-appearance properties"
+      - "SPE2 Stone-II water, oil, and gas relative permeabilities"
+  - id: "materials.spe2_layer_permeability"
+    path: "materials/spe2_layer_permeability.i"
+    dimension: 2
+    requires:
+      - "mesh.spe2_rz_q2_quad9"
+    provides:
+      - "SPE2 Table 2 radial, vertical, and hoop permeability tensors on all 15 layers and completion blocks"
+  - id: "ics.spe2_layer_solid_storage"
+    path: "ics/spe2_layer_solid_storage.i"
+    dimension: 2
+    requires:
+      - "fields.spe2_black_oil_q2_eg"
+      - "mesh.spe2_rz_q2_quad9"
+    provides:
+      - "SPE2 Table 2 heterogeneous normalized solid-reference constituent storage J(1-phi)"
+  - id: "materials.spe2_phase_pressure_closure"
+    path: "materials/spe2_phase_pressure_closure.i"
+    dimension: 2
+    requires:
+      - "fields.spe2_black_oil_q2_eg"
+      - "solid-current porosity and transient rate"
+    provides:
+      - "SPE2 CG/EG reconstructed pressure, saturations, tau, and temperatures"
+      - "stored surface-energy, explicit neutral electrical-enthalpy, and zero-coefficient saturation Onsager pressure terms and gradients"
+      - "modular actual water, oil, and gas phase-pressure gradients"
+  - id: "operators.spe2_phase_pressure_closure"
+    path: "operators/spe2_phase_pressure_closure.i"
+    dimension: 2
+    requires:
+      - "materials.spe2_phase_pressure_closure"
+      - "fields.spe2_black_oil_q2_eg"
+    provides:
+      - "P2 CG water/oil and gas/oil manuscript pressure-difference closure rows"
+  - id: "materials.phase_transforming_darcy_sources"
+    path: "materials/phase_transforming_darcy_sources.i"
+    provides:
+      - "pick-and-choose phase conversion source assembled from reaction rates and phase stoichiometric mass coefficients"
+  - id: "operators.eg_pressure_diffusion"
+    path: "operators/eg_pressure_diffusion.i"
+    requires:
+      - "materials.darcy_pressure_flux"
+  - id: "operators.eg_reference_component_balance"
+    path: "operators/eg_reference_component_balance.i"
+    requires:
+      - "fields.eg_pressure"
+      - "materials.eg_pressure_reconstruction"
+      - "summed_reference_component_storage_rate AD material property"
+      - "summed_reference_component_flux AD material property"
+      - "summed_reference_component_source AD material property"
+    provides:
+      - "P1 backbone and P0 enrichment rows for the summed solid-reference component balance"
+      - "interior EG flux/symmetry terms and weak enrichment Dirichlet terms"
+  - id: "operators.eg_tau_fluxless"
+    path: "operators/eg_tau_fluxless.i"
+    requires:
+      - "materials.eg_tau_evolution"
+  - id: "operators.eg_tau_fluxless_volume_anchor"
+    path: "operators/eg_tau_fluxless_volume_anchor.i"
+    requires:
+      - "materials.eg_tau_evolution"
+  - id: "operators.solid_momentum_1d"
+    path: "operators/solid_momentum_1d.i"
+    dimension: 1
+    requires:
+      - "materials.solid_stress_eg_pressure"
+  - id: "operators.solid_momentum_2d"
+    path: "operators/solid_momentum_2d.i"
+    dimension: 2
+    requires:
+      - "materials.solid_stress_eg_pressure"
+  - id: "operators.solid_momentum_3d"
+    path: "operators/solid_momentum_3d.i"
+    dimension: 3
+    requires:
+      - "materials.solid_stress_eg_pressure"
+  - id: "schedules.spe1_case1_opm_flow_2021_10_time_sequence"
+    path: "schedules/spe1_case1_opm_flow_2021_10_time_sequence.i"
+    dimension: 3
+    provides:
+      - "SPE1 Case 1 OPM Flow 2021.10 report-time sequence"
+  - id: "executioner.transient_newton"
+    path: "executioner/transient_newton.i"
+    provides:
+      - "transient Newton solve defaults"
+  - id: "executioner.steady_newton"
+    path: "executioner/steady_newton.i"
+    provides:
+      - "steady Newton solve defaults"
+  - id: "executioner.steady_material"
+    path: "executioner/steady_material.i"
+    provides:
+      - "steady executioner with solve=false for material-only diagnostics"
+  - id: "outputs.csv"
+    path: "outputs/csv.i"
+    provides:
+      - "console and CSV output"
+  - id: "fields.spe2_producer_control"
+    path: "fields/spe2_producer_control.i"
+    dimension: 2
+    requires:
+      - "fields.spe2_black_oil_q2_eg"
+    provides:
+      - "shared SPE2 total stock-tank oil-rate scalar"
+  - id: "schedules.spe2_oil_rate_schedule"
+    path: "schedules/spe2_oil_rate_schedule.i"
+    dimension: 2
+    provides:
+      - "published four-interval SPE2 oil-rate schedule in SI units"
+  - id: "materials.spe2_producer_well"
+    path: "materials/spe2_producer_well.i"
+    dimension: 2
+    requires:
+      - "fields.spe2_black_oil_q2_eg"
+      - "materials.spe2_phase_pressure_closure"
+      - "materials.spe2_black_oil_pvt"
+    provides:
+      - "two published SPE2 Peaceman completions with datum-aware shared BHP"
+      - "completion-local water, oil, and gas component source properties"
+  - id: "operators.spe2_producer_control"
+    path: "operators/spe2_producer_control.i"
+    dimension: 2
+    requires:
+      - "fields.spe2_black_oil_q2_eg"
+      - "fields.spe2_producer_control"
+      - "materials.spe2_producer_well"
+      - "schedules.spe2_oil_rate_schedule"
+    provides:
+      - "AD completion-rate aggregation through reconstructed CG/EG pressure"
+      - "time-dependent oil-rate and 3000-psia datum-BHP complementarity"
+      - "completion oil, water, gas, and BHP observables"
+
+

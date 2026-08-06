@@ -1,0 +1,17 @@
+mesh_nx = 4
+eg_epsilon = -1.0
+eg_sigma = 12.0
+eg_tau_anchor = 1.0
+eg_permeability = 1.0
+eg_viscosity = 1.0
+eg_fluid_density = 1.0
+solid_shear_modulus = 4.0
+solid_lame_lambda = 6.0
+solid_biot = 0.4
+solid_intrinsic_specific_volume_name = solid_intrinsic_specific_volume
+solid_reference_specific_volume = 1.0
+solid_biot_coefficient_name = solid_biot_coefficient
+solid_biot_jacobian_symbol = solid_reference_J
+solid_biot_fixed_pressure_symbol = equivalent_pressure_total
+solve_dt = 1.0
+solve_steps = 1

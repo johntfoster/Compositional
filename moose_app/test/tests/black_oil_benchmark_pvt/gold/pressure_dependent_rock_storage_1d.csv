@@ -1,0 +1,3 @@
+time,gas_appearance_complementarity_l2,gas_fvf_l2,gas_viscosity_l2,oil_fvf_l2,oil_viscosity_l2,rock_oil_storage_l2,saturated_solution_gas_oil_ratio_l2,undersaturation_gap_l2,water_fvf_l2,water_viscosity_l2
+0,0,0,0,0,0,0,2.2204460492503e-16,1.1102230246252e-16,0,0
+1,0,0,0,0,0,0,2.2204460492503e-16,1.1102230246252e-16,0,0

@@ -1,0 +1,21 @@
+[Tests]
+  design = 'ADPhaseTransformingPressureGradientDarcyReferenceFluxMaterial.md'
+  issues = ''
+
+  [anisotropic_conversion_corrected_flux_2d]
+    type = CSVDiff
+    input = anisotropic_phase_transforming_darcy_2d.i
+    cli_args = 'Outputs/file_base=anisotropic_phase_transforming_darcy_2d'
+    csvdiff = anisotropic_phase_transforming_darcy_2d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'The phase-transforming pressure-gradient Darcy closure shall preserve a symmetric-positive-definite tensor permeability, including anisotropic conversion-corrected resistance, mobility, tau insertion, and reference flux.'
+  []
+
+  [indefinite_permeability_rejected]
+    type = RunException
+    input = anisotropic_phase_transforming_darcy_bad_tensor.i
+    expect_err = 'permeability tensor must be positive definite'
+    requirement = 'The anisotropic phase-transforming Darcy closure shall reject an indefinite permeability tensor.'
+  []
+[]

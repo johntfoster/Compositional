@@ -1,0 +1,3 @@
+time,gas_closure_l2,gas_pressure_difference_l2,gas_pressure_gradient_l2,saturation_onsager_dissipation_l2,saturation_onsager_entropy_l2,water_closure_l2,water_pressure_difference_l2,water_pressure_gradient_l2
+0,0,0,0,0,0,0,0,0
+1,6.0619820491319e-13,6.0091072314038e-13,1.6801351517813e-09,0,0,5.4090373107597e-12,1.5794021693968e-11,1.7025786071075e-09

@@ -1,0 +1,10 @@
+# Select molecular diffusion and unresolved dispersion independently through
+# multicomponent_onsager_diffusion.i.template and
+# multicomponent_onsager_dispersion.i.template. Their separate current-volume
+# flux families are pulled back and stitched into the component balances as
+# independent ADReferenceComponentFluxTerm contributions.
+# When the independent potentials themselves use CG/EG, also instantiate
+# multicomponent_onsager_block_eg.i.template once per two-component block (or
+# repeat its row/column pattern for arbitrary N-1). This supplies the
+# off-diagonal interior-facet, adjoint-consistency, and weak-boundary terms;
+# omitting them changes the discrete multicomponent operator.

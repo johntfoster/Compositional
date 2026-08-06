@@ -1,0 +1,22 @@
+/build/
+/lib/
+/test/lib/
+/*-opt
+/*-dbg
+/*-devel
+/*-oprof
+/*.yaml
+/.libs/
+/**/.libs/
+/**/*.lo
+/**/*.lo.d
+/**/*.la
+/**/*.so
+/**/*.so.*
+
+# Transient test output data; gold reference data lives under test/**/gold/
+*.csv
+!**/gold/*.csv
+
+# Generated AD backing-store header (build environment, not app source)
+/ADRealMonolithic.h

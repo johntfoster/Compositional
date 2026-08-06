@@ -1,0 +1,3 @@
+time,free_gas_phase_mass_coefficient_identity_l2,gas_phase_rate_split_l2,gas_saturation_l2,gas_storage_rate_l2,oil_pressure_enrichment_l2,oil_pressure_l2,oil_storage_rate_l2,solution_gas_oil_ratio_l2,water_phase_mass_coefficient_identity_l2,water_saturation_l2,water_storage_rate_l2
+0,0,0,0,0,0,0,0,0,0,0,0
+0.1,0,0,7.7847983372022e-06,3.1903955706244e-18,6.0839345300414e-14,0.087144165473546,1.9264457624933e-15,3.0326169585593e-05,0,3.3728509610254e-08,2.5444077798541e-14

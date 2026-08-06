@@ -1,0 +1,92 @@
+# Pick only the unordered phase pairs active in this model. This template
+# shows one pair (phase0, phase1). Extend the lists for additional pairs and
+# instantiate one momentum kernel per active spatial component and one energy
+# kernel per active phase. Delete the entire block for models without this
+# interaction. All variables are standard CG/EG variables; no FV object is
+# used here.
+[Materials]
+  [pairwise_phase_interaction]
+    type = ADPairwisePhaseInteractionMaterial
+    phase_velocity_names = '<v_phase0> <v_phase1> ...'
+    phase_temperature_names = '<theta_phase0> <theta_phase1> ...'
+    pair_first = '<first_index_pair0> <first_index_pair1> ...'
+    pair_second = '<second_index_pair0> <second_index_pair1> ...'
+    pair_resistance_tensor_names = '<R_pair0> <R_pair1> ...'
+    # Alternatively use pair-major row-major active scalar AD properties:
+    # pair_resistance_component_names = '<R0_00> <R0_01> ...'
+    resistance_tensors_are_constant = false
+    heating_fraction_to_first = '<chi_pair0> <chi_pair1> ...'
+    phase_force_names = '<b_phase0> <b_phase1> ...'
+    phase_mechanical_energy_supply_names = '<e_mech_phase0> <e_mech_phase1> ...'
+  []
+[]
+
+[Kernels]
+  # Keep x in 1-D, x/y in 2-D, and x/y/z in 3-D.
+  [phase0_pair_force_x]
+    type = ADPhaseMomentumVectorSourceTerm
+    variable = <phase0_velocity_x>
+    component = 0
+    source_name = <b_phase0>
+    solid_jacobian_name = <solid_reference_J>
+  []
+  [phase0_pair_force_y]
+    type = ADPhaseMomentumVectorSourceTerm
+    variable = <phase0_velocity_y>
+    component = 1
+    source_name = <b_phase0>
+    solid_jacobian_name = <solid_reference_J>
+  []
+  [phase0_pair_force_z]
+    type = ADPhaseMomentumVectorSourceTerm
+    variable = <phase0_velocity_z>
+    component = 2
+    source_name = <b_phase0>
+    solid_jacobian_name = <solid_reference_J>
+  []
+  [phase1_pair_force_x]
+    type = ADPhaseMomentumVectorSourceTerm
+    variable = <phase1_velocity_x>
+    component = 0
+    source_name = <b_phase1>
+    solid_jacobian_name = <solid_reference_J>
+  []
+  [phase1_pair_force_y]
+    type = ADPhaseMomentumVectorSourceTerm
+    variable = <phase1_velocity_y>
+    component = 1
+    source_name = <b_phase1>
+    solid_jacobian_name = <solid_reference_J>
+  []
+  [phase1_pair_force_z]
+    type = ADPhaseMomentumVectorSourceTerm
+    variable = <phase1_velocity_z>
+    component = 2
+    source_name = <b_phase1>
+    solid_jacobian_name = <solid_reference_J>
+  []
+
+  # Mechanical interaction energy, including the selected dissipation split.
+  [phase0_pair_energy]
+    type = ADReferenceEnergySourceTerm
+    variable = <phase0_energy_or_temperature>
+    source_name = <e_mech_phase0>
+    solid_jacobian_name = <solid_reference_J>
+  []
+  [phase1_pair_energy]
+    type = ADReferenceEnergySourceTerm
+    variable = <phase1_energy_or_temperature>
+    source_name = <e_mech_phase1>
+    solid_jacobian_name = <solid_reference_J>
+  []
+[]
+
+# chi=0.5 recovers the manuscript equal-partition fluid-skeleton specialization.
+# Any chi in [0,1] preserves total interaction energy and separate mechanical
+# admissibility; the exposed cancellation and entropy properties are acceptance diagnostics.
+# Set resistance_tensors_are_constant=true only for tensors invariant in space,
+# time, and nonlinear state; this validates SPD once per material instance and
+# avoids an eigenvalue calculation at every quadrature point.
+# Both source kernels convert current-volume force/power to the solid reference
+# using J. Set multiply_by_jacobian=false only for an energy source already
+# supplied per reference volume.

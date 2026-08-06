@@ -1,0 +1,3 @@
+time,affinity_0_value,affinity_1_value,correction_0_value,correction_1_value,gas_current_source_0_value,gas_current_source_1_value,gas_mass_sum_0_value,gas_mass_sum_1_value,generalized_0_value,generalized_1_value,kinetic_residual_0_value,kinetic_residual_1_value,oil_current_source_0_value,oil_current_source_1_value,oil_mass_sum_0_value,oil_mass_sum_1_value,reaction_power_0_value,reaction_power_1_value,total_reference_source_0_value,total_reference_source_1_value
+0,1,-29,0,-4,0.5,0.25,0,3,1,-25,0,2.75,-1,0.5,0,-2,0.5,-6.25,-1,1.5
+1,1,-29,0,-4,0.5,0.25,0,3,1,-25,0,2.75,-1,0.5,0,-2,0.5,-6.25,-1,1.5

@@ -1,0 +1,13 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [modular_phase_pressure_gradient_1d]
+    type = CSVDiff
+    input = modular_phase_pressure_gradient_1d.i
+    cli_args = 'Executioner/type=Transient Executioner/dt=1 Executioner/num_steps=1 Outputs/file_base=modular_phase_pressure_gradient_1d'
+    csvdiff = modular_phase_pressure_gradient_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall evaluate stored surface-energy pressure gradients from saturation tables, add independently selectable electrical and saturation-force gradients, and drive the phase-transforming solid-reference Darcy flux with the assembled actual phase-pressure gradient and transfer potential tau.'
+  []
+[]

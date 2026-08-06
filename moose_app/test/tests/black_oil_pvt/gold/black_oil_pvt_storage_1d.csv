@@ -1,0 +1,3 @@
+time,gas_component_fraction_l2,gas_current_storage_l2,gas_density_l2,gas_fvf_l2,gas_reference_storage_l2,gas_viscosity_l2,oil_component_fraction_l2,oil_current_storage_l2,oil_density_l2,oil_fvf_l2,oil_reference_storage_l2,oil_saturation_l2,oil_viscosity_l2,solution_gas_oil_ratio_l2,water_current_storage_l2,water_density_l2,water_fvf_l2,water_reference_storage_l2,water_viscosity_l2
+0,1.3877787807814e-17,3.5527136788005e-15,0,0,3.5527136788005e-15,0,1.1102230246252e-16,1.4210854715202e-14,2.2737367544323e-13,2.2204460492503e-16,1.4210854715202e-14,0,0,0,0,0,0,0,0
+1,1.3877787807814e-17,3.5527136788005e-15,0,0,3.5527136788005e-15,0,1.1102230246252e-16,1.4210854715202e-14,2.2737367544323e-13,2.2204460492503e-16,1.4210854715202e-14,0,0,0,0,0,0,0,0

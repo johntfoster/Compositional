@@ -1,0 +1,14 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml moose_app/input/includes/materials/spe2_layer_permeability.i'
+  issues = ''
+
+  [spe2_layer_permeability_rz]
+    type = CSVDiff
+    input = spe2_layer_permeability_rz.i
+    cli_args = 'Outputs/file_base=spe2_layer_permeability_rz'
+    csvdiff = spe2_layer_permeability_rz.csv
+    abs_zero = 1e-24
+    rel_err = 1e-11
+    requirement = 'The SPE2 RZ model shall reproduce every published layer radial and vertical permeability in SI units, assign horizontal permeability to the hoop direction, and include completion blocks 107 and 108 in layers 7 and 8.'
+  []
+[]

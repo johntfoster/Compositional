@@ -1,0 +1,21 @@
+[Tests]
+  design = 'ADThermodynamicPotentialGradientMaterial.md'
+  issues = ''
+
+  [chain_rule_2d]
+    type = CSVDiff
+    input = thermodynamic_potential_gradient_2d.i
+    cli_args = 'Outputs/file_base=thermodynamic_potential_gradient_2d'
+    csvdiff = thermodynamic_potential_gradient_2d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'A thermodynamic potential gradient shall be assembled from independently named constitutive derivatives, reconstructed state gradients, and an optional direct gradient.'
+  []
+
+  [mismatched_state_list_rejected]
+    type = RunException
+    input = thermodynamic_potential_gradient_bad_size.i
+    expect_err = 'Supply exactly one state gradient for every potential derivative'
+    requirement = 'The thermodynamic potential gradient object shall reject incomplete input-deck chain-rule specifications.'
+  []
+[]

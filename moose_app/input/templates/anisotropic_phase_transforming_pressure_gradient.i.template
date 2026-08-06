@@ -1,0 +1,45 @@
+# Full modular phase-pressure gradient and anisotropic phase-transforming
+# Darcy closure. Instantiate one pressure-gradient assembler and Darcy object
+# per mobile phase. Every correction is independently selectable.
+[Materials]
+  [@PHASE@_pressure_gradient]
+    type = ADPhasePressureGradientAssemblerMaterial
+    base_pressure_gradient_name = @REFERENCE_PRESSURE_TOTAL_GRADIENT@
+    correction_gradient_names = '@STORED_SURFACE_ENERGY_GRADIENT@ @ELECTRIC_ENTHALPY_DIFFERENCE_GRADIENT@ @SATURATION_ONSAGER_FORCE_GRADIENT@'
+    correction_scales = '1 1 1'
+    phase_pressure_gradient_name = @PHASE@_actual_pressure_gradient
+  []
+
+  [@PHASE@_transforming_darcy]
+    type = ADPhaseTransformingPressureGradientDarcyReferenceFluxMaterial
+    phase = @PHASE@
+    phase_registry = @PHASE_REGISTRY@
+    phase_pressure_gradient_name = @PHASE@_actual_pressure_gradient
+    intrinsic_density_source = material
+    intrinsic_density_name = @PHASE@_intrinsic_density
+    bulk_density_name = @PHASE@_bulk_density
+    conversion_source_name = @PHASE@_current_conversion_source
+    phase_active_name = @PHASE@_active
+    tau = @TAU_BACKBONE@
+    tau_enrichment = @TAU_ENRICHMENT@
+    solid_displacements = '@SOLID_DISPLACEMENTS@'
+    # For anisotropic media, provide exactly one SPD RankTwoTensor property.
+    # Replace this with `permeability = value` only for an isotropic model.
+    permeability_name = @SPATIAL_PERMEABILITY_TENSOR@
+    viscosity_name = @PHASE@_viscosity
+    relative_permeability_name = @PHASE@_relative_permeability
+    gravity = '@GRAVITY_VECTOR@'
+    # Optional inertia and electrical/Maxwell body force remain atomic:
+    # include_acceleration = true
+    # phase_acceleration = '@PHASE_ACCELERATION_COMPONENTS@'
+    # include_electrical_force = true
+    # electrical_force_name = @PHASE@_electrical_force
+    darcy_mobility_ref_name = @PHASE@_reference_pressure_mobility
+    combined_resistance_name = @PHASE@_mean_conversion_corrected_resistance
+    resistance_denominator_name = @PHASE@_mean_conversion_corrected_denominator
+    combined_resistance_tensor_name = @PHASE@_conversion_corrected_resistance_tensor
+    resistance_denominator_tensor_name = @PHASE@_conversion_corrected_denominator_tensor
+    spatial_relative_mass_flux_name = @PHASE@_spatial_relative_mass_flux
+    reference_relative_mass_flux_name = @PHASE@_reference_relative_mass_flux
+  []
+[]

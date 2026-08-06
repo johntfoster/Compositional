@@ -1,0 +1,64 @@
+schema_version: 1
+benchmark: "SPE2 three-phase coning study"
+manuscript_fingerprint: "3b2612b65e4e694d7b73687e6c573e23be9b55ebac657ed6f3af87ff3354a0f1"
+entries:
+  - term: "generalized saturation-force differences"
+    manuscript:
+      - "eq:W_def"
+      - "eq:collected_onsager_variation"
+      - "eq:MC_dynamic_capillary_onsager_relation"
+    object: "ADSaturationOnsagerForceMaterial"
+    inputs:
+      - "independent reconstructed saturation-rate properties"
+      - "symmetric positive-semidefinite resistance matrix T_fg"
+      - "porosity"
+      - "fluid temperature"
+    outputs:
+      - "L_f^sat-L_ref^sat for every independent phase"
+      - "dot(S)^T T dot(S)"
+      - "phi dot(S)^T T dot(S)/theta_F"
+    tests:
+      - "test:saturation_onsager_force.saturation_onsager_force_1d"
+      - "test:saturation_onsager_force.saturation_onsager_force_nonsymmetric_rejected"
+      - "test:saturation_onsager_force.saturation_onsager_force_indefinite_rejected"
+    status: "verified"
+
+  - term: "stored, electrical, and dissipative phase-pressure differences"
+    manuscript:
+      - "eq:fluid_pressure_primitive_potential_relation"
+      - "eq:fluid_pressure_difference_primitive_potential"
+      - "eq:el_mom_f_dynamic_capillary"
+    object: "ADBlackOilPhasePressureDifferenceMaterial"
+    inputs:
+      - "tabulated gamma_w-gamma_o and gamma_g-gamma_o"
+      - "omega_w^+-omega_o^+ and omega_g^+-omega_o^+"
+      - "L_w^sat-L_o^sat and L_g^sat-L_o^sat"
+    outputs:
+      - "p_w-p_o reconstruction and closure residual"
+      - "p_g-p_o reconstruction and closure residual"
+      - "each independently reportable contribution"
+    residual_object: "ADMaterialPropertyResidual"
+    test: "test:black_oil_capillary_force.phase_pressure_difference_all_terms_1d"
+    status: "verified"
+
+  - term: "SPE2 three-phase oil mobility"
+    source: "SPE-10489-PA; Dietrich-Bondor form identified there with Stone's second method"
+    object: "ADBlackOilStoneIIRelativePermeabilityMaterial"
+    test: "test:black_oil_stone_ii.stone_ii_spe2_table_1d"
+    status: "verified"
+
+  - term: "published radial geometry and layer topology"
+    source: "validation/reference_data/spe2_primary_tables.yml"
+    fragment: "moose_app/input/includes/mesh/spe2_rz_q2_quad9.i"
+    test: "test:spe2_mesh.spe2_rz_q2_mesh_volume"
+    status: "verified"
+
+  - term: "phase-transforming black-oil mass, momentum, tau/mu, and energy assembly"
+    manuscript:
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:C4_variation"
+      - "eq:el_conversion_component"
+      - "eq:MC_absolute_neutral_component_potential"
+      - "eq:el_mom_f_dynamic_capillary"
+    planned_deck: "moose_app/examples/spe2_q2_eg_phase_transforming.i"
+    status: "pending coupled assembly and run"

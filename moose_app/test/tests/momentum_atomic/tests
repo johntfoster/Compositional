@@ -1,0 +1,13 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [all_terms_momentum_mms_1d]
+    type = CSVDiff
+    input = all_terms_momentum_mms_1d.i
+    cli_args = 'Outputs/file_base=all_terms_momentum_mms_1d'
+    csvdiff = all_terms_momentum_mms_1d.csv
+    abs_zero = 1e-7
+    requirement = 'The CG momentum implementation shall stitch atomic phase inertia, material and Maxwell stresses, equivalent/stored/electrical pressure gradients, gravity and pairwise interactions, drag, tau-based conversion insertion, and the overall material/Maxwell stress, thermocapillary, surface-history-gradient, and dynamic-pressure-lag terms into manufactured phase and overall balances.'
+  []
+[]

@@ -1,0 +1,14 @@
+[Tests]
+  design = 'moose_app/doc/spe2_term_traceability.yml'
+  issues = ''
+
+  [spe2_phase_pressure_closure_2d]
+    type = CSVDiff
+    input = spe2_phase_pressure_closure_2d.i
+    cli_args = 'Outputs/file_base=spe2_phase_pressure_closure_2d'
+    csvdiff = spe2_phase_pressure_closure_2d.csv
+    abs_zero = 1e-8
+    rel_err = 1e-10
+    requirement = 'The SPE2 P2 water/oil and gas/oil pressure-difference fields shall solve the stored-surface-energy, explicit neutral electrical-enthalpy, and explicit zero dynamic Onsager closures while each modular gradient contribution drives the actual phase-pressure gradient.'
+  []
+[]

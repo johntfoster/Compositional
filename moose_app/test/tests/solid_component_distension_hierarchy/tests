@@ -1,0 +1,59 @@
+[Tests]
+  design = 'sections/pulled_back_solid_skeleton.tex sections/multicomponent_solids.tex'
+  issues = ''
+
+  [stitched_1d]
+    type = CSVDiff
+    input = solid_component_distension_hierarchy_1d.i
+    cli_args = 'Outputs/file_base=solid_component_distension_hierarchy_1d'
+    csvdiff = solid_component_distension_hierarchy_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall solve the solid-reference constituent storage/source balance and exact finite-deformation distension evolution together with Q2 displacement and coupled intrinsic density in one dimension.'
+  []
+  [stitched_2d]
+    type = CSVDiff
+    input = solid_component_distension_hierarchy_2d.i
+    cli_args = 'Outputs/file_base=solid_component_distension_hierarchy_2d'
+    csvdiff = solid_component_distension_hierarchy_2d.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall stitch the sourced solid constituent balance to the exact two-dimensional finite-deformation distension law with configurable kinematics-property names.'
+  []
+  [stitched_3d]
+    type = CSVDiff
+    input = solid_component_distension_hierarchy_3d.i
+    cli_args = 'Outputs/file_base=solid_component_distension_hierarchy_3d'
+    csvdiff = solid_component_distension_hierarchy_3d.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall stitch sourced solid constituent storage to the exact three-dimensional finite-deformation distension law on the active TET10 Q2 policy.'
+  []
+  [stitched_rz]
+    type = CSVDiff
+    input = solid_component_distension_hierarchy_rz.i
+    cli_args = 'Outputs/file_base=solid_component_distension_hierarchy_rz'
+    csvdiff = solid_component_distension_hierarchy_rz.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall stitch sourced solid constituent storage to axisymmetric finite-deformation distension with radial, axial, and circumferential Jacobian contributions.'
+  []
+  [stitched_offdiag_jacobian]
+    type = PetscJacobianTester
+    input = solid_component_distension_hierarchy_2d.i
+    cli_args = '-snes_test_err 1e-7'
+    ratio_tol = 2e-6
+    difference_tol = 1e-5
+    requirement = 'The stitched solid constituent and distension hierarchy shall retain AD couplings among conserved storage, intrinsic density, distension, and every finite-deformation displacement component.'
+  []
+  [stitched_nonpositive_density_rejected]
+    type = RunException
+    input = solid_component_distension_hierarchy_1d.i
+    cli_args = "Functions/rho_exact/expression='-1'"
+    expect_err = 'solid intrinsic density must remain positive'
+    requirement = 'The stitched hierarchy shall reject nonpositive solid intrinsic density before evaluating reconstructed constituent volume.'
+  []
+  [stitched_nonpositive_jacobian_rejected]
+    type = RunException
+    input = solid_component_distension_hierarchy_1d.i
+    cli_args = 'ICs/ux_ic/function=inverted_ux'
+    expect_err = 'solid-reference Jacobian must remain positive'
+    requirement = 'The stitched hierarchy shall reject an orientation-reversing solid map in both the constituent-storage and distension paths.'
+  []
+[]

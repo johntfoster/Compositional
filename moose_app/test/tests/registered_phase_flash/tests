@@ -1,0 +1,112 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [registered_three_phase_flash_1d]
+    type = CSVDiff
+    input = registered_three_phase_flash_1d.i
+    cli_args = 'Outputs/file_base=registered_three_phase_flash_1d'
+    csvdiff = registered_three_phase_flash_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall assemble a registered oil/gas/water three-phase, two-component flash state inside a solid/oil/gas/water registry, consume EOS-derived pressure and chemical potentials, compute total reference component storages, and suppress inactive-phase equilibrium residuals.'
+  []
+
+  [registered_three_phase_flash_appearance_2d]
+    type = CSVDiff
+    input = registered_three_phase_flash_appearance_2d.i
+    cli_args = 'Outputs/file_base=registered_three_phase_flash_appearance_2d'
+    csvdiff = registered_three_phase_flash_appearance_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The registered flash material shall reproduce a two-dimensional water-phase appearance/disappearance state and suppress deliberately non-equilibrium mass-fraction, chemical-potential, and pressure residuals where water is inactive.'
+  []
+
+  [registered_three_phase_flash_appearance_3d]
+    type = CSVDiff
+    input = registered_three_phase_flash_appearance_3d.i
+    cli_args = 'Outputs/file_base=registered_three_phase_flash_appearance_3d'
+    csvdiff = registered_three_phase_flash_appearance_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The registered flash material shall reproduce a three-dimensional water-phase appearance/disappearance state and suppress deliberately non-equilibrium mass-fraction, chemical-potential, and pressure residuals where water is inactive.'
+  []
+
+  [registered_phase_flash_volume_newton_1d]
+    type = CSVDiff
+    input = registered_phase_flash_volume_newton_1d.i
+    cli_args = 'Outputs/file_base=registered_phase_flash_volume_newton_1d'
+    csvdiff = registered_phase_flash_volume_newton_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve an algebraic flash volume constraint with a Newton residual supplied by an AD material property.'
+  []
+
+  [registered_phase_component_flux_1d]
+    type = CSVDiff
+    input = registered_phase_component_flux_1d.i
+    cli_args = 'Outputs/file_base=registered_phase_component_flux_1d'
+    csvdiff = registered_phase_component_flux_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall assemble a component reference flux from an arbitrary registered phase list, use flash-derived phase compositions and active flags, and solve a one-dimensional component balance with inactive-phase flux suppressed.'
+  []
+
+  [registered_phase_component_flux_2d]
+    type = CSVDiff
+    input = registered_phase_component_flux_2d.i
+    cli_args = 'Outputs/file_base=registered_phase_component_flux_2d'
+    csvdiff = registered_phase_component_flux_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall assemble a flash-derived registered-phase component flux and solve a two-dimensional component balance on the solid reference mesh.'
+  []
+
+  [registered_phase_component_flux_3d]
+    type = CSVDiff
+    input = registered_phase_component_flux_3d.i
+    cli_args = 'Outputs/file_base=registered_phase_component_flux_3d'
+    csvdiff = registered_phase_component_flux_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall assemble a flash-derived registered-phase component flux and solve a three-dimensional component balance on the solid reference mesh.'
+  []
+
+  [classical_compositional_q2_eg_mms_1d]
+    type = CSVDiff
+    input = classical_compositional_q2_eg_mms_1d.i
+    cli_args = 'Outputs/file_base=classical_compositional_q2_eg_mms_1d'
+    csvdiff = classical_compositional_q2_eg_mms_1d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall solve two independent direct summed Eq. (32) component balances for a two-mobile-phase, two-component classical compositional reduction using EDGE3/Q2 solid-reference kinematics, reconstructed P1+P0 EG phase pressures, registered equilibrium-flash compositions, and nonzero phase/component reference fluxes and sources.'
+  []
+
+  [classical_compositional_q2_eg_mms_1d_quantitative]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_classical_compositional_q2_eg_mms_1d.py'
+    requirement = 'The classical compositional 1D acceptance checker shall require every primary, reconstructed, flash-closure, storage, phase/component flux, source, boundary-integral, and independent direct global-balance error to be no greater than 1e-10.'
+  []
+
+  [classical_compositional_q2_eg_mms_2d]
+    type = CSVDiff
+    input = classical_compositional_q2_eg_mms_2d.i
+    cli_args = 'Outputs/file_base=classical_compositional_q2_eg_mms_2d'
+    csvdiff = classical_compositional_q2_eg_mms_2d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall solve two independent direct summed Eq. (32) component balances for a genuinely two-dimensional two-mobile-phase, two-component classical compositional reduction using QUAD9/Q2 solid-reference kinematics with nonzero x and y deformation, reconstructed P1+P0 EG phase pressures, registered equilibrium-flash compositions, and production phase Darcy and component assembly with nonzero x and y phase/component reference fluxes, all four face integrals, J-weighted sources, and direct global balances.'
+  []
+
+  [classical_compositional_q2_eg_mms_2d_quantitative]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_classical_compositional_q2_eg_mms_2d.py'
+    requirement = 'The genuinely 2D classical compositional acceptance checker shall require every primary, Q2 kinematic, reconstructed P1+P0 EG pressure, flash-closure, direct summed Eq. (32) storage, production Darcy phase/component x-y flux, all-four-face integral, J-weighted source, and independent direct global-balance error to be no greater than 1e-10 and shall reject zero x or y transport evidence.'
+  []
+
+  [classical_compositional_q2_eg_mms_3d]
+    type = CSVDiff
+    input = classical_compositional_q2_eg_mms_3d.i
+    cli_args = 'Outputs/file_base=classical_compositional_q2_eg_mms_3d'
+    csvdiff = classical_compositional_q2_eg_mms_3d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall solve two independent direct summed Eq. (32) component balances for a genuinely three-dimensional two-mobile-phase, two-component classical compositional reduction using active-policy TET10/Q2 solid-reference kinematics with nonzero x, y, and z deformation, reconstructed P1+P0 EG phase pressures, registered equilibrium-flash compositions, and production Darcy phase and registered component assembly with nonzero x, y, and z fluxes, all six face integrals, matching J-weighted sources, and independent direct global balances.'
+  []
+
+  [classical_compositional_q2_eg_mms_3d_quantitative]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_classical_compositional_q2_eg_mms_3d.py'
+    requirement = 'The genuinely 3D classical compositional acceptance checker shall require every primary, TET10/Q2 kinematic, reconstructed P1+P0 EG pressure, flash-closure, direct summed Eq. (32) storage, production Darcy phase/component x-y-z flux, all-six-face integral, J-weighted source, and independent direct global-balance error to be no greater than 1e-10 and shall reject zero x, y, or z transport evidence.'
+  []
+[]

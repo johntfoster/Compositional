@@ -1,0 +1,14 @@
+[Tests]
+  design = 'sections/virtual_power_derivation.tex validation/reference_data/spe2_primary_tables.yml moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [phase_pressure_difference_all_terms_1d]
+    type = CSVDiff
+    input = phase_pressure_difference_all_terms_1d.i
+    cli_args = 'Outputs/file_base=phase_pressure_difference_all_terms_1d'
+    csvdiff = phase_pressure_difference_all_terms_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'The application shall reconstruct water/oil and gas/oil pressure differences by independently stitching the SPE2 stored surface-energy tables, phase electrical-enthalpy differences, and the full cross-coupled generalized saturation-force differences from the manuscript Onsager relation.'
+  []
+[]

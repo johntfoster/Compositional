@@ -1,0 +1,112 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [charged_nonisothermal_flux_1d]
+    type = CSVDiff
+    input = charged_nonisothermal_flux_1d.i
+    cli_args = 'Outputs/file_base=charged_nonisothermal_flux_1d'
+    csvdiff = charged_nonisothermal_flux_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute a one-dimensional electrochemical and thermal component flux from neutral-potential, electric-potential, and temperature gradients, pull it to the solid reference mesh, solve the component balance, and report direct electric-field work on the charge flux.'
+  []
+
+  [charged_nonisothermal_nonlinear_flux_1d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_1d.py'
+    requirement = 'The application shall quantitatively manufacture a one-dimensional charged and nonisothermal component balance with EDGE3/Q2 prescribed solid displacement, P1 plus P0 EG reconstructed neutral, electric, and temperature drivers, a positive spatially nonlinear AD mobility, the current force f_alpha = Grad(mu_neutral_alpha) + z_alpha Grad(phi) + c_T Grad(theta), current flux w_alpha = -L_alpha(X) f_alpha, reference pull-back W_alpha = J F_inverse w_alpha, charge flux, electric work, analytic reference-flux divergence, and a direct solid-reference component-balance residual no larger than 1e-10.'
+  []
+
+  [charged_nonisothermal_energy_balance_1d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_energy_balance_mms_1d.py'
+    requirement = 'The application shall quantitatively manufacture the stationary one-dimensional solid-reference reduction of eq:MC_energy_balance with EDGE3/Q2 prescribed solid displacement; P1 plus P0 EG reconstructed temperature, electric, and neutral drivers; Fourier current heat flux pulled back as Q=J F_inverse q; independently nonzero reference heat-flux divergence, direct relative-current electric work, volumetric heat supply, and both boundary heat-flux values; signed local and global residuals no larger than 1e-10; and invariance under a constant electric-potential gauge shift.'
+  []
+
+  [charged_nonisothermal_energy_balance_1d_csv]
+    type = CSVDiff
+    input = charged_nonisothermal_energy_balance_1d.i
+    cli_args = 'Outputs/file_base=charged_nonisothermal_energy_balance_1d'
+    csvdiff = charged_nonisothermal_energy_balance_1d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall retain a gold CSV regression for the one-dimensional stationary solid-reference energy-balance reduction and its independently nonzero signed physical terms.'
+  []
+
+  [charged_nonisothermal_energy_balance_2d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_energy_balance_mms_2d.py'
+    requirement = 'The application shall quantitatively manufacture the stationary genuinely two-dimensional solid-reference reduction of eq:MC_energy_balance with QUAD9/Q2 prescribed solid displacement in x and y; P1 plus P0 EG reconstructed temperature, electric, and neutral drivers; Fourier current heat flux pulled back as Q=J F_inverse q with independently nonzero x and y components; independently nonzero reference heat-flux divergence, direct relative-current electric work, volumetric heat supply, and all four face heat-flux integrals; signed local and direct global residuals no larger than 1e-10; and invariance under a constant electric-potential gauge shift.'
+  []
+
+  [charged_nonisothermal_energy_balance_2d_csv]
+    type = CSVDiff
+    input = charged_nonisothermal_energy_balance_2d.i
+    cli_args = 'Outputs/file_base=charged_nonisothermal_energy_balance_2d'
+    csvdiff = charged_nonisothermal_energy_balance_2d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall retain a gold CSV regression for the genuinely two-dimensional stationary solid-reference energy-balance reduction, both current and reference heat-flux components, and all independently nonzero signed physical terms.'
+  []
+
+  [charged_nonisothermal_energy_balance_3d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_energy_balance_mms_3d.py'
+    requirement = 'The application shall quantitatively manufacture the stationary genuinely three-dimensional solid-reference reduction of eq:MC_energy_balance on TET10 with SECOND-order prescribed solid displacement in x, y, and z; P1 plus P0 EG reconstructed temperature, electric, and neutral drivers; Fourier current heat flux pulled back as Q=J F_inverse q with independently nonzero x, y, and z components; independently nonzero reference heat-flux divergence, direct relative-current electric work, volumetric heat supply, and all six face heat-flux integrals; signed local and direct global residuals no larger than 1e-10; and invariance under a constant electric-potential gauge shift.'
+  []
+
+  [charged_nonisothermal_energy_balance_3d_csv]
+    type = CSVDiff
+    input = charged_nonisothermal_energy_balance_3d.i
+    cli_args = 'Outputs/file_base=charged_nonisothermal_energy_balance_3d'
+    csvdiff = charged_nonisothermal_energy_balance_3d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall retain a gold CSV regression for the genuinely three-dimensional stationary solid-reference energy-balance reduction, all current and reference heat-flux components, and all independently nonzero signed physical terms.'
+  []
+
+  [charged_nonisothermal_onsager_matrix_1d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_1d.py'
+    requirement = 'The application shall quantitatively manufacture a one-dimensional two-independent-component transport slice for eq:MC_relative_transport_closures with EDGE3/Q2 prescribed solid displacement, P1 plus P0 EG reconstructed distinct electrochemical and thermal forces, a symmetric positive-definite two-by-two Onsager matrix with nonzero cross coefficient, w_0 = -(L_00 f_0 + L_01 f_1), w_1 = -(L_10 f_0 + L_11 f_1), L_01 = L_10, nonnegative sum_i f_i dot (-w_i), current-to-reference pull-back, and direct balances of both summed Eq. (32) variables no larger than 1e-10.'
+  []
+
+  [charged_nonisothermal_onsager_matrix_2d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_2d.py'
+    requirement = 'The application shall quantitatively manufacture a genuinely two-dimensional two-independent-component transport slice for eq:MC_relative_transport_closures with QUAD9/Q2 prescribed solid displacement in x and y, distinct P1 plus P0 EG reconstructed neutral potentials, reconstructed electric potential and temperature, a symmetric positive-definite two-by-two Onsager matrix with nonzero cross coefficient, nonzero x and y forces and current/reference fluxes for both components, reciprocity, nonnegative dissipation, current-to-reference pull-back, all four face reference-flux integrals for each component, and direct global balances of both summed Eq. (32) variables no larger than 1e-10.'
+  []
+
+  [charged_nonisothermal_onsager_matrix_3d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_3d.py'
+    requirement = 'The application shall quantitatively manufacture a genuinely three-dimensional two-independent-component transport slice for eq:MC_relative_transport_closures on TET10 with SECOND-order prescribed solid displacement in x, y, and z; distinct P1 plus P0 EG reconstructed neutral potentials, reconstructed electric potential and temperature; a symmetric positive-definite two-by-two Onsager matrix with nonzero cross coefficient; independently nonzero x, y, and z current and pulled-back reference fluxes for both components; reciprocity; determinant 2.75; dissipation 42.125; all six face reference-flux integrals for each component; and direct global balances of both summed Eq. (32) variables sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component0 and sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component1 no larger than 1e-10.'
+  []
+
+  [charged_nonisothermal_nonlinear_flux_2d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_2d.py'
+    requirement = 'The application shall quantitatively manufacture a genuinely two-dimensional charged and nonisothermal component balance with QUAD9/Q2 prescribed solid displacement in both directions, P1 plus P0 EG reconstructed neutral, gauge-shifted electric, and temperature drivers, a positive spatially nonlinear AD mobility, nonzero x and y current/reference/charge fluxes, the analytic Div_X(W_alpha) as a J-weighted source, all four boundary-face flux integrals, and a direct global solid-reference component balance no larger than 1e-10.'
+  []
+
+  [charged_nonisothermal_nonlinear_flux_3d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_3d.py'
+    requirement = 'The application shall quantitatively manufacture a genuinely three-dimensional charged and nonisothermal component balance on TET10 with SECOND-order prescribed solid displacement in x, y, and z; P1 plus P0 EG reconstructed neutral, gauge-shifted electric, and temperature drivers; positive spatially nonlinear AD mobility; nonzero x, y, and z transport-force, current-flux, pulled-back reference-flux, and charge-flux components; direct electric work; analytic Div_X(W_alpha) as the J-weighted source; all six boundary-face reference-flux integrals; and a direct balance of the summed Eq. (32) component variable sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_alpha no larger than 1e-10.'
+  []
+
+  [charged_nonisothermal_flux_2d]
+    type = CSVDiff
+    input = charged_nonisothermal_flux_2d.i
+    cli_args = 'Outputs/file_base=charged_nonisothermal_flux_2d'
+    csvdiff = charged_nonisothermal_flux_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute a two-dimensional electrochemical and thermal component flux from gauge-shifted electric potential data and assemble it through the registered-phase component-flux material.'
+  []
+
+  [charged_nonisothermal_flux_3d]
+    type = CSVDiff
+    input = charged_nonisothermal_flux_3d.i
+    cli_args = 'Outputs/file_base=charged_nonisothermal_flux_3d'
+    csvdiff = charged_nonisothermal_flux_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute a three-dimensional electrochemical and thermal component flux, charge flux, electric-field work, and reference component flux on the solid reference mesh.'
+  []
+[]

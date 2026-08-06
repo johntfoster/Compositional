@@ -1,0 +1,14 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml moose_app/input/includes/ics/spe2_layer_solid_storage.i'
+  issues = ''
+
+  [spe2_layer_porosity_rz]
+    type = CSVDiff
+    input = spe2_layer_porosity_rz.i
+    cli_args = 'Executioner/type=Transient Executioner/dt=1 Executioner/num_steps=1 Outputs/file_base=spe2_layer_porosity_rz'
+    csvdiff = spe2_layer_porosity_rz.csv
+    abs_zero = 1e-11
+    rel_err = 1e-11
+    requirement = 'The SPE2 heterogeneous reference-solid storage shall reconstruct every published layer porosity exactly on the RZ mesh while satisfying the phase-volume constraint, including completion blocks 107 and 108.'
+  []
+[]

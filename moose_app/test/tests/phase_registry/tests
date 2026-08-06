@@ -1,0 +1,20 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [registered_four_phase_eos_1d]
+    type = CSVDiff
+    input = registered_four_phase_eos_1d.i
+    cli_args = 'Outputs/file_base=registered_four_phase_eos_1d'
+    csvdiff = registered_four_phase_eos_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall register solid, oil, gas, and water from the input deck and derive distinct pressures and chemical potentials from a user-supplied Helmholtz EOS for every registered phase.'
+  []
+
+  [duplicate_phase_rejected]
+    type = RunException
+    input = duplicate_phase_rejected.i
+    expect_err = "Duplicate phase name 'oil'"
+    requirement = 'The phase registry shall reject duplicate phase names rather than silently aliasing phase-specific material properties.'
+  []
+[]

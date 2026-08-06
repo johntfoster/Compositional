@@ -1,0 +1,63 @@
+# Eqs. (el_mom_f_dynamic_capillary) and (solid_reference_overall_momentum).
+[Kernels]
+  [@PHASE@_inertia_@I@]
+    type = ADPhaseMomentumInertiaTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    phase_velocity = '@VELOCITY_COMPONENTS@'
+    solid_displacements = '@SOLID_DISPLACEMENTS@'
+    bulk_density = @BULK_DENSITY@
+  []
+  [@PHASE@_material_stress_@I@]
+    type = ADPhaseMomentumStressTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    piola_stress_name = @MATERIAL_PIOLA_STRESS@
+  []
+  [@PHASE@_maxwell_stress_@I@]
+    type = ADPhaseMomentumStressTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    piola_stress_name = @MAXWELL_PIOLA_STRESS@
+  []
+  [@PHASE@_pressure_@I@]
+    type = ADPhaseMomentumScalarGradientTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    potential = @PRESSURE_BACKBONE@
+    potential_enrichment = @PRESSURE_ENRICHMENT@
+    coefficient_variable = @PHASE_FRACTION@
+  []
+  [@PHASE@_drag_@I@]
+    type = ADPhaseMomentumDragTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    phase_velocity = '@VELOCITY_COMPONENTS@'
+    solid_displacements = '@SOLID_DISPLACEMENTS@'
+    phase_fraction = @PHASE_FRACTION@
+    viscosity_name = @VISCOSITY@
+    permeability_name = @PERMEABILITY@
+  []
+  [@PHASE@_gravity_@I@]
+    type = ADPhaseMomentumVectorSourceTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    source_name = @RHO_GRAVITY_VECTOR@
+  []
+  [@PHASE@_pairwise_interactions_@I@]
+    type = ADPhaseMomentumVectorSourceTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    source_name = @PAIRWISE_INTERACTION_VECTOR@
+  []
+  [@PHASE@_conversion_@MECHANISM@_@I@]
+    type = ADPhaseMomentumConversionInsertionTerm
+    variable = @VELOCITY_I@
+    component = @I@
+    conversion_rate = @RATE@
+    rate_scale = @SIGNED_PHASE_MASS_STOICHIOMETRY@
+    tau = @TAU_BACKBONE@
+    tau_enrichment = @TAU_ENRICHMENT@
+    phase_velocity_component = @VELOCITY_I@
+  []
+[]

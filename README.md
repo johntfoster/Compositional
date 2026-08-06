@@ -13,11 +13,18 @@ and agent-facing simulator workflow templates.
 sets the title/author block, inputs the manuscript sections, and owns the
 bibliography.
 
-Current section files live in `sections/`:
+Current section files live in `sections/` and are input by `main.tex`:
 
+- `sections/introduction.tex`
 - `sections/material_mass.tex`
-- `sections/variational_derivation.tex`
-- `sections/coleman_noll.tex`
+- `sections/conservation_of_charge.tex`
+- `sections/virtual_power_derivation.tex`
+- `sections/multicomponent_solids.tex`
+- `sections/pulled_back_solid_skeleton.tex`
+- `sections/correspondence_to_other_theories.tex`
+- `sections/conclusions.tex`
+- `sections/technical_setting.tex`
+- `sections/appendix_component_potential_derivation.tex`
 
 Shared macros and notation helpers live in `defs.tex`. Bibliographic entries
 live in `all.bib`.

@@ -3,12 +3,751 @@
 
 schema_version: 1
 entries:
+  - id: solid_distension_evolution_mms
+    status: passing_regression
+    target_phenomenon: "Exact finite-deformation solid-distension evolution in Cartesian and axisymmetric solid-reference kinematics"
+    manuscript_reduction:
+      - "eq:MC_solid_distension_evolution"
+    configuration: "Solved Q2 displacement with nonzero finite-deformation and intrinsic-density rates in Cartesian 1D/2D/3D and axisymmetric RZ; the stitched hierarchy also solves sourced conserved storage J phi_s rhobar_s, reconstructs phi_s, and audits a_s phi_s rhobar_s0 = J phi_s rhobar_s."
+    variables: ["solid distension", "solid intrinsic density", "solid-reference component storage", "Q2 solid displacement components"]
+    moose_objects_required:
+      kernels: ["ADSolidDistensionEvolution", "ADMaterialPropertyResidual"]
+      materials: ["ADSolidPhaseMassVolumeMaterial", "ADSolidReferenceKinematics", "ADAxisymmetricSolidReferenceKinematics"]
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/solid_distension_evolution/solid_distension_evolution_mms_1d.i"
+      - "moose_app/test/tests/solid_distension_evolution/solid_distension_evolution_mms_2d.i"
+      - "moose_app/test/tests/solid_distension_evolution/solid_distension_evolution_mms_3d.i"
+      - "moose_app/test/tests/solid_distension_evolution/solid_distension_evolution_mms_rz.i"
+      - "moose_app/test/tests/solid_component_distension_hierarchy/solid_component_distension_hierarchy_1d.i"
+      - "moose_app/test/tests/solid_component_distension_hierarchy/solid_component_distension_hierarchy_2d.i"
+      - "moose_app/test/tests/solid_component_distension_hierarchy/solid_component_distension_hierarchy_3d.i"
+      - "moose_app/test/tests/solid_component_distension_hierarchy/solid_component_distension_hierarchy_rz.i"
+    reference_result: "a=1+0.2t, rhobar=2+0.5t, and exact affine finite-deformation determinants computed from solved Q2 displacement; RZ includes circumferential stretch."
+    expected_outputs: ["a/rhobar/storage/displacement L2 errors", "reconstructed phi_s and kinematics-material J L2 errors", "component-balance and distension-mass-relation residuals", "PETSc Jacobian comparison", "invalid-state rejection"]
+    pass_fail: "The atomic group passes 8/8 and the stitched group passes 7/7 with zero skips/failures. The largest final stitched norm is the 3D component-balance residual 4.1220133025417e-12; the 3D J and distension-mass-relation errors are 2.8140237968365e-12 and 2.0078776091077e-12."
+    notes: "J is computed by the Cartesian or axisymmetric kinematics material from solved displacement. Reversing the J-weighted source sign changes the solved storage and fails the CSV reference; incorrect J or rhobar_s reconstruction changes both phi_s and the integrated mass relation."
+
+  - id: q2_eg_hierarchy_mms
+    status: passing_regression
+    target_phenomenon: "Composable input hierarchy with Q2 solid mechanics and enriched-Galerkin pressure/tau fields"
+    manuscript_reduction:
+      - "eq:momentum_residual"
+      - "eq:fluid_component_residual"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:reference_relative_mass_flux"
+      - "eq:implementation_tau_solid_frame"
+    configuration: "one-, two-, and three-dimensional coupled MMS leaves assembled from reusable include fragments; displacement components use SECOND-order LAGRANGE spaces, pressure and tau use P1 LAGRANGE backbone variables plus P0 MONOMIAL enrichment variables, constitutive materials consume reconstructed total fields, and mutually coupled poromechanics acceptance is quantitative in 1D, 2D, and 3D"
+    variables:
+      - "solid displacement components on Q2 Lagrange finite elements"
+      - "pressure backbone p and enrichment p_enr with reconstructed p_total"
+      - "tau backbone tau and enrichment tau_enr with reconstructed tau_total"
+      - "direct summed reference component storage J phi_f fluid_intrinsic_density eta_f_alpha in the coupled 1D, 2D, and 3D leaves"
+    moose_objects_required:
+      kernels:
+        - "ADEnrichedGalerkinScalarBalance"
+        - "ADEnrichedGalerkinScalarEnrichmentBalance"
+        - "ADEnrichedGalerkinMaterialPropertyResidual"
+        - "ADReferenceSolidMomentum"
+      materials:
+        - "ADEGReconstructedScalarMaterial"
+        - "ADScalarDiffusionReferenceFluxMaterial"
+        - "ADSolidReferenceKinematics"
+        - "ADStandardDarcyReferenceFluxMaterial"
+        - "ADReferenceSolidStressMaterial"
+        - "ADReferenceFluidComponentFluxMaterial"
+        - "ADTauEvolutionMaterial"
+      userobjects: []
+      actions: []
+      dgkernels:
+        - "ADEnrichedGalerkinFluxDG"
+        - "ADEnrichedGalerkinSymmetryDG"
+      boundary_conditions:
+        - "ADEnrichedGalerkinPenaltyBC"
+        - "FunctionDirichletBC"
+      postprocessors:
+        - "ADMaterialScalarL2Error"
+        - "ADMaterialVectorL2Error"
+    input_deck:
+      - "moose_app/test/tests/eg_hierarchy/eg_q2_mms_1d.i"
+      - "moose_app/test/tests/eg_hierarchy/eg_q2_mms_2d.i"
+      - "moose_app/test/tests/eg_hierarchy/eg_q2_mms_3d.i"
+      - "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_1d.i"
+      - "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_2d.i"
+      - "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_3d.i"
+    reference_result: "manufactured pressure diffusion, fluxless tau evolution with an anchored enrichment row, finite-deformation mechanics with pressure coupling, and mutually coupled 1D/2D/3D poromechanics solves using the direct summed reference component storage rate"
+    expected_outputs:
+      - "p_total_l2 and tau_total_l2 postprocessors"
+      - "ux_l2, uy_l2, and uz_l2 postprocessors where dimensionally applicable"
+      - "p_enrichment_average and tau_enrichment_average anchor diagnostics"
+      - "mesh-refinement convergence script output"
+      - "coupled 1D norms checked by validation/scripts/check_coupled_q2_eg_poro_mms_1d.py"
+      - "coupled 2D norms checked by validation/scripts/check_coupled_q2_eg_poro_mms_2d.py"
+      - "coupled 3D norms checked by validation/scripts/check_coupled_q2_eg_poro_mms_3d.py"
+    pass_fail: "The focused eg_hierarchy group passes 7/7 with 0 skipped/failed. The mutually coupled 1D leaf reports all six required norms <=6.496273e-13. The mutually coupled 2D leaf reports every required norm <=5.541733e-11. The mutually coupled 3D TET10 leaf reports ux_l2=8.290929e-13, ux_h1_semi=2.115951e-11, uy_l2=5.423713e-13, uy_h1_semi=1.412566e-11, uz_l2=3.020649e-13, uz_h1_semi=8.600638e-12, p_material_l2=5.176241e-14, p_gradient_l2=1.069063e-12, p_enrichment_l2=1.064211e-13, summed_reference_component_storage_l2=6.720734e-12, and summed_reference_component_balance_residual_l2=7.171978e-12 against a 1.0e-10 limit. The separate pressure, tau, and mechanics convergence check passes all configured 1D/2D/3D rate thresholds."
+    notes: "This entry gates coupled MMS/SPE acceptance. The residual-specific MMS inventory is quantitatively complete in validation/mms_inventory.yml, including reaction cells/fronts and dimensionally applicable 1D/2D/3D black-oil/compositional reductions. SPE acceptance remains separately tracked. Routine 3D Q2/EG acceptance decks use TET10; the fragment catalog rejects coupled 3D HEX27 Q2/EG combinations for this build because of the AD derivative-container limit."
+
+  - id: selectable_phase_momentum_models
+    status: passing_regression
+    target_phenomenon: "Per-registered-phase full momentum solves and algebraic relative-flux reductions"
+    manuscript_reduction:
+      - "eq:el_mom_f_dynamic_capillary"
+      - "eq:generalized_fluid_darcy_mass_flux"
+      - "eq:reference_relative_mass_flux"
+      - "eq:implementation_full_phase_momentum_residual"
+    configuration: "one-, two-, and three-dimensional transient full oil momentum MMS within a solid/oil/gas/water registry using Q2 prescribed solid displacement and P1+P0 EG pressure-potential/capillary drivers, plus matrix/brine solve=false relative-flux reductions with Q2/EG driver fragments, multidirectional base fluxes, and one-dimensional acceleration/capillarity switch branches"
+    variables:
+      - "phase velocity for momentum model full"
+      - "reference relative mass flux for momentum model relative_flux"
+    moose_objects_required:
+      kernels:
+        - "ADRegisteredPhaseMomentum"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADStandardDarcyReferenceFluxMaterial"
+      userobjects:
+        - "PhaseRegistry"
+      actions: []
+      boundary_conditions:
+        - "FunctionDirichletBC; ADRegisteredPhaseMomentumTractionBC is available for natural data"
+    input_deck:
+      - "moose_app/test/tests/phase_momentum_models/full_phase_momentum_1d.i"
+      - "moose_app/test/tests/phase_momentum_models/full_phase_momentum_1d.i with include_capillary_pressure=true"
+      - "moose_app/test/tests/phase_momentum_models/full_phase_momentum_2d.i"
+      - "moose_app/test/tests/phase_momentum_models/full_phase_momentum_2d.i with include_capillary_pressure=true"
+      - "moose_app/test/tests/phase_momentum_models/full_phase_momentum_3d.i"
+      - "moose_app/test/tests/phase_momentum_models/full_phase_momentum_3d.i with include_capillary_pressure=true"
+      - "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_1d.i"
+      - "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_2d.i"
+      - "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_3d.i"
+      - "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_1d.i with include_acceleration=true"
+      - "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_1d.i with include_capillary_pressure=true"
+      - "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_1d.i with acceleration and capillary pressure enabled"
+    reference_result: "full momentum v_i = t X_i with material acceleration X_i(1+t^2), base pressure force 0.5, optional capillary force 1, and drag t X_i; reduced brine flux components are -3 in the base case, -9 with either supplied a_i=1 or gamma=2x in the 1D switch cases, and -15 when both switches are enabled"
+    expected_outputs:
+      - "velocity_l2 component postprocessors for the full solve"
+      - "flux_l2 component postprocessors for the algebraic reduction"
+    pass_fail: "The focused phase_momentum_models group passed 16/16 after Q2/EG migration with abs_zero = 1e-12. Full-momentum velocity errors are at most 4.4127889763761e-14 in 1D, 1.6907196940566e-13 in 2D, and 1.1105490729189e-14 in 3D in the gold CSVs; capillary variants have comparable roundoff errors. Reduced-flux component errors are zero or roundoff in 1D, 2D, and 3D. Four RunException tests verify that both momentum paths reject a missing enabled capillary field and a capillary field while disabled."
+    notes: "The full kernel supports optional extra Cauchy/Maxwell stress, added phase interactions, conversion insertion, gravity, reference traction, independently switched phase capillarity, and optional EG pressure-potential/capillary enrichment. The MMS isolates inertia, advection, equivalent pressure, phase capillarity, and skeleton drag."
+
+  - id: conversion_corrected_phase_transforming_relative_flux_regression
+    status: implemented_existing_regressions_pending_current_serialized_rerun
+    target_phenomenon: "Scalar and anisotropic conversion-corrected phase-relative flux with modular pressure, transfer-potential, body, acceleration, and electrical force families"
+    manuscript_reduction:
+      - "eq:fluid_phase_interaction_law"
+      - "eq:relative_flux_linear_system"
+      - "eq:modified_relative_flux_permeability"
+      - "eq:modified_relative_flux_scalar_admissibility"
+    configuration: "The scalar one-dimensional material cases evaluate the conversion-corrected resistance and tau insertion force on Q2 solid-reference kinematics, including active, inactive, zero-relative-permeability, and inadmissible-resistance branches. The two-dimensional QUAD9 case evaluates a diagonal anisotropic permeability tensor, separately assembled pressure gradient, tensor mobility and resistance diagnostics, and the pulled-back reference flux."
+    variables:
+      - "phase pressure or separately assembled phase-pressure gradient"
+      - "transfer potential tau"
+      - "Q2 solid displacement or supplied solid velocity"
+    moose_objects_required:
+      kernels:
+        - "ADRegisteredPhaseMomentum for the full velocity-based drag-law path"
+      materials:
+        - "ADConversionCorrectedDarcyReferenceFluxMaterial"
+        - "ADPhaseTransformingDarcyReferenceFluxMaterial"
+        - "ADPhaseTransformingPressureGradientDarcyReferenceFluxMaterial"
+        - "ADSolidReferenceKinematics"
+      userobjects:
+        - "PhaseRegistry for registered relative_flux phases"
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/conversion_corrected_darcy/conversion_corrected_relative_flux_1d.i"
+      - "moose_app/test/tests/phase_transforming_darcy/phase_transforming_relative_flux_1d.i"
+      - "moose_app/test/tests/anisotropic_phase_transforming_darcy/anisotropic_phase_transforming_darcy_2d.i"
+      - "moose_app/test/tests/anisotropic_phase_transforming_darcy/anisotropic_phase_transforming_darcy_bad_tensor.i"
+    reference_result: "The scalar conversion-corrected diagnostic has resistance 1.5 and pulled-back flux 8/3. The registered phase-transforming tests retain exact zero inactive and zero-relative-permeability limits and reject loss of positive resistance. The anisotropic case has denominator eigenvalues 0.35, 0.4, and 0.45 and pressure-mobility eigenvalues 10/7, 15/8, and 20/9."
+    expected_outputs:
+      - "scalar resistance and reference-flux L2 errors"
+      - "anisotropic resistance, denominator, mobility, and reference-flux L2 errors"
+      - "nonpositive conversion-corrected resistance rejection"
+      - "indefinite permeability rejection"
+    pass_fail: "The existing CSVDiff references require every scalar and anisotropic diagnostic to match the analytic values at 1e-11 relative or 1e-12 absolute tolerance. RunException cases require the positive-resistance and permeability-definiteness guards. These focused groups were not rerun while another agent owned the serialized MOOSE test queue."
+    verification_commands:
+      - "cd moose_app && ~/.local/moose/python/run_tests -j1 --re 'conversion_corrected_darcy|phase_transforming_darcy|anisotropic_phase_transforming_darcy'"
+    notes: "The modular templates are moose_app/input/templates/phase_transforming_darcy.i and moose_app/input/templates/anisotropic_phase_transforming_pressure_gradient.i.template. The scalar full-force material makes capillary or dynamic-lag pressure, electrical force, gravity, acceleration, and conversion insertion independently selectable."
+
+  - id: input_registered_n_phase_eos
+    status: passing_regression
+    target_phenomenon: "Input-deck registration of an arbitrary number of phases"
+    manuscript_reduction:
+      - "eq:implementation_eos_chemical_potential"
+      - "eq:implementation_eos_pressure"
+    configuration: "registered solid/oil/gas/water four-phase EOS test, two-phase solid/mobile kinematic reductions, and a five-registered-phase EOS reduction including hydrate"
+    variables:
+      - "input-deck phase-name list and selected reference phase"
+      - "phase-specific partial densities and user Helmholtz energies"
+    moose_objects_required:
+      kernels: []
+      materials:
+        - "ADHelmholtzEOSClosureMaterial"
+      userobjects:
+        - "PhaseRegistry"
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/phase_registry/registered_four_phase_eos_1d.i"
+      - "moose_app/test/tests/user_helmholtz_eos/user_helmholtz_eos_1d.i"
+      - "moose_app/test/tests/phase_history_kinematics/oil_phase_history_extension_1d.i"
+    reference_result: "four distinct registered phase EOS closures give (mu,p) = (2,2), (4,4), (6,6), and (8,8) for solid, oil, gas, and water; reduced decks validate arbitrary two- and five-phase registries"
+    expected_outputs:
+      - "phase-specific pressure and chemical-potential values"
+      - "CSVDiff gold values"
+    pass_fail: "All registry, EOS, and reduced phase-history tests pass with exact or roundoff agreement."
+    notes: "No phase enum or compiled upper phase-count limit remains. The number and names of phases are input data."
+
+  - id: reference_component_balance_mms
+    status: passing_regression
+    target_phenomenon: "Solid-reference fluid component balance with pulled-back fluxes"
+    manuscript_reduction:
+      - "eq:reference_relative_mass_flux"
+      - "eq:solid_reference_flux_divergence"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    configuration: "continuous Galerkin finite-element residual on the solid reference configuration with include-driven Q2 prescribed solid displacement and reusable solid-kinematics fragments"
+    variables:
+      - "component_storage = J phi_f rhobar_f eta_f^alpha"
+      - "solid displacement components used only to assemble F, J, and J F^{-1}"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceFluidComponentBalance"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADReferenceFluidComponentMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions:
+        - "ADReferenceFluidComponentFluxBC"
+    input_deck:
+      - "moose_app/test/tests/reference_component_balance/reference_component_balance_1d.i"
+      - "moose_app/test/tests/reference_component_balance/reference_component_balance_1d_natural_flux.i"
+      - "moose_app/test/tests/reference_component_balance/reference_component_balance_2d.i"
+      - "moose_app/test/tests/reference_component_balance/reference_component_balance_3d.i"
+    reference_result: "manufactured storage, flux, and J-weighted source with zero displacement and exact Dirichlet boundary data"
+    expected_outputs:
+      - "component_l2 postprocessor"
+      - "CSVDiff gold values for component_l2 in 1D, 2D, 3D, and the natural-flux 1D case"
+      - "nonlinear convergence for 1D, 2D, and 3D meshes"
+      - "natural outward reference phase-flux boundary condition in 1D"
+    pass_fail: "The focused reference_component_balance group passed 7/7 after hierarchy migration with abs_zero = 1e-12. Current gold component_l2 values are 8.9003252571989e-3 in 1D, 8.943217935344e-3 for the 1D natural-flux case, 2.1693362738662e-2 in 2D, and 5.6779856759705e-2 in 3D."
+    notes: "Routine regression. This case validates the residual path and dimension-aware pull-back topology using Q2 solid-reference kinematics; it does not validate EOS, phase behavior, upwinding, entropy stabilization, or SPE benchmark physics."
+
+  - id: darcy_storage_flux_mms
+    status: passing_regression
+    target_phenomenon: "Reference component storage and standard Darcy relative-flux closure"
+    manuscript_reduction:
+      - "eq:component_partial_density_representation"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:reference_relative_mass_flux"
+      - "eq:pulled_back_modified_permeability"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    configuration: "one-, two-, and three-dimensional continuous Galerkin regressions with include-driven Q2 zero solid displacement, constant porosity, constant intrinsic density, constant component mass fraction, and prescribed P1+P0 EG pressure drivers"
+    variables:
+      - "component_storage solved by the reference balance"
+      - "pressure prescribed for the Darcy flux closure"
+      - "porosity, intrinsic density, and component mass fraction prescribed for storage"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceFluidComponentBalance"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADReferenceComponentStorageMaterial"
+        - "ADStandardDarcyReferenceFluxMaterial"
+        - "ADReferenceFluidComponentFluxMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/reference_component_balance/darcy_storage_flux_1d.i"
+      - "moose_app/test/tests/reference_component_balance/darcy_storage_flux_2d.i"
+      - "moose_app/test/tests/reference_component_balance/darcy_storage_flux_3d.i"
+    reference_result: "1D manufactured solution with pressure sin(pi x), W_f = -grad_X p, exact storage 0.5, and source pi^2 sin(pi x); 2D and 3D nonzero linear pressure fields with zero divergence and exact constant storage"
+    expected_outputs:
+      - "component_l2 postprocessor"
+      - "storage_closure_l2 postprocessor"
+      - "CSVDiff gold values for component_l2 and storage_closure_l2"
+    pass_fail: "The focused reference_component_balance group passed 7/7 after hierarchy migration with abs_zero = 1e-12. Current 1D gold component_l2 is 1.1619938256922e-4 with storage_closure_l2 0, 2D gold errors are 0 and 0, and 3D gold errors are 6.2063353831182e-17 and 7.6011774306101e-17."
+    notes: "Routine regression. This validates algebraic component storage and the standard neutral Darcy pull-back using Q2 solid kinematics and an EG pressure driver. It imposes single-phase constant-property reductions and does not validate EOS, phase equilibrium, capillarity, relative permeability, electrochemical forces, thermal forces, upwinding, entropy stabilization, or SPE benchmark physics."
+
+  - id: user_helmholtz_eos_material_mms
+    status: passing_regression
+    target_phenomenon: "User-entered phase Helmholtz density with automatically derived pressure, chemical potentials, entropy, and thermodynamic Hessian"
+    manuscript_reduction:
+      - "eq:MC_absolute_neutral_component_potential"
+      - "eq:MC_fluid_legendre_relation"
+      - "eq:MC_neutral_component_euler_identity"
+      - "eq:implementation_eos_chemical_potential"
+      - "eq:implementation_eos_pressure"
+      - "eq:implementation_eos_entropy"
+    configuration: "one-dimensional material regression with a user-entered two-component oil Helmholtz density, constant partial densities rho0 = 1 and rho1 = 2, temperature 3, and phase volume fraction 0.25"
+    variables:
+      - "constituent partial densities per unit current phase volume"
+      - "temperature and phase volume fraction"
+    moose_objects_required:
+      kernels: []
+      materials:
+        - "ADDerivativeParsedMaterial"
+        - "ADHelmholtzEOSClosureMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck: "moose_app/test/tests/user_helmholtz_eos/user_helmholtz_eos_1d.i"
+    reference_result: "analytic A, mu0, mu1, p = 55, entropy density, intrinsic density 3, bulk density 0.75, and Hessian entries dmu0/drho0 = 19, dmu0/drho1 = 4, dmu1/drho1 = 11.5, dmu1/dT = 5 log(2)"
+    expected_outputs:
+      - "L2 errors for the Helmholtz density and every derived first-derivative property"
+      - "L2 errors for representative composition and temperature Hessian entries"
+      - "CSVDiff gold values"
+    pass_fail: "MOOSE CSVDiff test passes with abs_zero = 1e-12; all errors are zero or roundoff, with maximum 1.7763568394003e-15."
+    notes: "This validates the declarative EOS differentiation path. Full phase equilibrium, flash/root selection, charged electrochemical additions, and tabulated nonsmooth EOS wrappers remain separate closures."
+
+  - id: electric_enthalpy_phase_pressure_eos_regression
+    status: implemented_existing_regression_pending_current_serialized_rerun
+    target_phenomenon: "Registered-phase pressure and absolute neutral potentials from material Helmholtz density plus electric enthalpy"
+    manuscript_reduction:
+      - "eq:MC_phase_pressure_definitions"
+      - "eq:MC_fluid_pressure_definition"
+      - "eq:MC_solid_pressure_definition"
+      - "eq:MC_absolute_neutral_component_potential"
+    configuration: "A one-dimensional analytic cell supplies two constituent partial densities, absolute temperature, phase fraction, a parsed material Helmholtz density, and a parsed electric-enthalpy density to the same registered-phase EOS closure used for fluid or solid phases."
+    variables:
+      - "constituent partial densities per current phase volume"
+      - "absolute temperature"
+      - "phase volume fraction"
+    moose_objects_required:
+      kernels: []
+      materials:
+        - "ADDerivativeParsedMaterial"
+        - "ADHelmholtzElectricEnthalpyEOSMaterial"
+      userobjects:
+        - "PhaseRegistry"
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/electric_enthalpy/helmholtz_electric_enthalpy_eos_1d.i"
+    reference_result: "For the prescribed state, the closure gives material pressure -8, dielectric pressure correction 12, total phase pressure 4, intrinsic density 5, bulk density 2.5, neutral component potentials 7 and 4, specific Helmholtz energy 4.4, and specific material internal energy 2."
+    expected_outputs:
+      - "material, dielectric, and total pressure L2 errors"
+      - "absolute neutral-potential and density L2 errors"
+      - "separate electrical phase-fraction, constituent-density, and temperature rate coefficients"
+    pass_fail: "The durable CSVDiff reference requires every analytic error to be zero or roundoff at abs_zero=1e-12. This case was not rerun while another agent owned the serialized MOOSE test queue."
+    verification_commands:
+      - "cd moose_app && ~/.local/moose/python/run_tests -j1 --re helmholtz_electric_enthalpy_eos"
+
+  - id: ideal_mixture_eos_material_mms
+    status: passing_regression
+    target_phenomenon: "Neutral ideal-mixture EOS material for intrinsic density, component storage, Helmholtz energy, and neutral component potentials"
+    manuscript_reduction:
+      - "eq:component_partial_density_representation"
+      - "eq:MC_absolute_neutral_component_potential"
+      - "eq:MC_fluid_legendre_relation"
+      - "eq:MC_neutral_component_euler_identity"
+    configuration: "one-, two-, and three-dimensional material regressions with zero solid displacement, non-reference constant pressure, constant temperature, constant porosity, and two prescribed component mass fractions"
+    variables:
+      - "pressure and temperature as primitive EOS inputs"
+      - "porosity as the fixed phase volume fraction entering component storage"
+      - "two component mass fractions eta_f^0 and eta_f^1"
+    moose_objects_required:
+      kernels:
+        - "NullKernel for the material-only test harness"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADIdealMixtureFluidEOSMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/ideal_mixture_eos/ideal_mixture_eos_1d.i"
+      - "moose_app/test/tests/ideal_mixture_eos/ideal_mixture_eos_2d.i"
+      - "moose_app/test/tests/ideal_mixture_eos/ideal_mixture_eos_3d.i"
+    reference_result: "constant analytic non-reference state with p_f = 2.5, rhobar_f = 2 exp(0.15), phase partial density 0.4 rhobar_f, storages 0.4 rhobar_f eta_f^alpha, and neutral potentials psi_vol + p_f/rhobar_f + mu_ref^alpha + R_mix theta log(eta_f^alpha)"
+    expected_outputs:
+      - "density_l2, storage0_l2, storage1_l2"
+      - "mu0_l2 and mu1_l2"
+      - "mass_fraction_sum_l2, pressure_identity_l2, and pressure_identity_residual_l2"
+      - "psi_l2 and phase_density_l2 in the 1D deck"
+      - "CSVDiff gold values for all postprocessor errors"
+    pass_fail: "MOOSE CSVDiff tests pass with abs_zero = 1e-12; current non-reference gold values are zero or roundoff, with the largest material-only error 2.512147933894e-15."
+    notes: "Routine regression. This validates the implemented neutral ideal-mixture reduction, the pressure identity rhobar_f^2 d psi_vol / d rhobar_f = p_f away from the reference state, the mass-fraction sum diagnostic, and the held-fixed derivative convention for positive mass fractions. It does not validate phase equilibrium, phase appearance/disappearance, vanishing-composition regularization, activity-coefficient models, charged electrochemical potentials, tabulated PVT, or temperature-dependent density."
+
+  - id: eos_darcy_balance_mms
+    status: passing_regression
+    target_phenomenon: "Component balance with Darcy flux consuming EOS-derived intrinsic density"
+    manuscript_reduction:
+      - "eq:component_partial_density_representation"
+      - "eq:MC_absolute_neutral_component_potential"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:reference_relative_mass_flux"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    configuration: "one-, two-, and three-dimensional manufactured balances with Q2 prescribed solid displacement, P1+P0 EG pressure drivers p = x, p = x + y, and p = x + y + z, rhobar_f = 2 exp(0.2 p), constant temperature, constant porosity, and constant component mass fraction"
+    variables:
+      - "component_storage solved by the reference balance"
+      - "pressure as the primitive EOS and Darcy variable"
+      - "temperature and composition as prescribed EOS inputs"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceFluidComponentBalance"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADIdealMixtureFluidEOSMaterial"
+        - "ADStandardDarcyReferenceFluxMaterial"
+        - "ADReferenceFluidComponentFluxMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/ideal_mixture_eos/eos_darcy_balance_1d.i"
+      - "moose_app/test/tests/ideal_mixture_eos/eos_darcy_balance_2d.i"
+      - "moose_app/test/tests/ideal_mixture_eos/eos_darcy_balance_3d.i"
+    reference_result: "manufactured storage 0.25 exp(0.2 p), EOS-derived density-weighted Darcy flux, and analytic flux-divergence sources -0.05 exp(0.2 x), -0.1 exp(0.2(x+y)), and -0.15 exp(0.2(x+y+z)) in 1D, 2D, and 3D"
+    expected_outputs:
+      - "component_l2 postprocessor"
+      - "storage0_l2 postprocessor for EOS material storage output"
+      - "CSVDiff gold values for both postprocessor errors"
+    pass_fail: "The focused ideal_mixture_eos group passed 6/6 after hierarchy migration with abs_zero = 1e-12. The 1D gold component_l2 is 9.2402711406972e-6 and storage0_l2 is 1.6004513934177e-3, 2D gold component_l2 is 5.6922868980597e-5 and storage0_l2 is 4.1826344422744e-3, and 3D gold component_l2 is 3.4912858609529e-4 and storage0_l2 is 7.383817233816e-3."
+    notes: "Routine regression. This validates AD material-property coupling from the EOS density into the Darcy flux with Q2 solid kinematics and EG pressure consumption. It remains a single-fluid neutral reduction without phase equilibrium, capillarity, relative permeability, charged forces, nonisothermal transport, upwinding, entropy stabilization, or SPE benchmark physics."
+
+  - id: charged_nonisothermal_transport_mms
+    status: passing_regression
+    target_phenomenon: "Charged and nonisothermal component transport on the solid reference mesh"
+    manuscript_reduction:
+      - "eq:MC_transport_force_gauge_objectivity"
+      - "eq:MC_relative_transport_closures"
+      - "eq:reference_relative_mass_flux"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    configuration: "one-, two-, and three-dimensional registered oil-component balance regressions; nonlinear and two-independent-component Onsager 1D EDGE3, genuinely 2D QUAD9, and genuinely 3D TET10 acceptance leaves; and stationary 1D EDGE3, genuinely 2D QUAD9, and genuinely 3D TET10 solid-reference energy-balance leaves with prescribed Q2 solid displacement and P1+P0 EG reconstructed neutral, electric, and temperature drivers"
+    variables:
+      - "direct summed Eq. (32) reference-component storage solved by the reference balance"
+      - "neutral component potential"
+      - "electric potential"
+      - "temperature"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceFluidComponentBalance"
+        - "ADReferenceStationaryEnergyBalance"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADChargedNonisothermalComponentFluxMaterial"
+        - "ADTwoComponentOnsagerFluxMaterial"
+        - "ADRegisteredPhaseComponentFluxMaterial"
+        - "ADEGReconstructedScalarMaterial"
+        - "ADParsedMaterial"
+        - "ADGenericConstantMaterial"
+        - "ADGenericConstantVectorMaterial"
+        - "ADReferenceThermalEnergyMaterial"
+      userobjects:
+        - "PhaseRegistry"
+      actions: []
+      boundary_conditions:
+        - "FunctionDirichletBC"
+    input_deck:
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_flux_1d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_flux_2d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_flux_3d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_nonlinear_flux_1d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_nonlinear_flux_2d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_nonlinear_flux_3d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_onsager_matrix_1d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_onsager_matrix_2d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_onsager_matrix_3d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_energy_balance_1d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_energy_balance_2d.i"
+      - "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_energy_balance_3d.i"
+    reference_result: "The constant-coefficient 1D/2D/3D leaves retain their closed-form force, flux, charge-flux, and electric-work checks. The nonlinear 1D leaf uses f_alpha=4.75, L_alpha=0.5+0.2(1.5+X)^2, and matching net/source integrals -3.8. The nonlinear 2D leaf uses theta=1.5+X+2Y, f_alpha=(2,4), L_alpha=0.5+0.2 theta^2, F=1.1I, W_alpha=(-2.2L_alpha,-4.4L_alpha), and matching net/source integrals -13.2. The nonlinear 3D leaf uses theta=1.5+X+2Y+3Z, f_alpha=(2,4,6), F=1.1I, J=1.331, W_alpha=1.21w_alpha, and matching net/source integrals -60.984. The two-component Onsager leaves use symmetric positive-definite L=(2,0.5;0.5,1.5), determinant 2.75, and verify all active current/reference flux components and both direct summed Eq. (32) global balances. The 3D leaf uses f_0=(1.25,0.5,-0.75), f_1=(-1,4.5,2), W_0=(-2.42,-3.9325,0.605), W_1=(1.05875,-8.47,-3.17625), and dissipation 42.125. The stationary 1D energy leaf uses Q=-(3.5+X), Div_X(Q)=-1, reference direct electric work 9.5+1.9X, and reference heat supply -10.5-1.9X. The genuinely 2D leaf uses F=1.1I, J=1.21, theta=1.5+X+2Y, q=(-1.1,-2.2)(3.5+X+2Y), Q=(-1.21,-2.42)(3.5+X+2Y), Div_X(Q)=-6.05, reference direct electric work -2.42, and reference heat supply -3.63. The genuinely 3D leaf uses F=1.1I, J=1.331, theta=1.5+X+2Y+3Z, q=(-1.21,-2.42,-3.63)(3.5+X+2Y+3Z), Q=(-1.4641,-2.9282,-4.3923)(3.5+X+2Y+3Z), Div_X(Q)=-20.4974, reference direct electric work 13.31, and reference heat supply -33.8074. Each leaf satisfies -Div_X(Q)+J electric_work+J rho r=0 pointwise and in direct global form."
+    expected_outputs:
+      - "component storage L2 error"
+      - "transport-force component L2 errors"
+      - "current component-flux and pulled-back reference-flux component L2 errors"
+      - "charge-flux component L2 errors"
+      - "direct electric-field work L2 error"
+      - "nonlinear AD mobility L2 error"
+      - "analytic reference-flux divergence/source L2 error"
+      - "direct reference component-balance error and boundary/source integrals"
+      - "two-component matrix flux, reciprocity, positive-definite determinant, dissipation, pull-back, and both direct summed Eq. (32) balances"
+      - "current and pulled-back heat-flux L2 errors, heat-flux divergence, direct electric-work, and heat-supply integrals"
+      - "signed local and global stationary energy-balance residuals and electric-potential gauge-shift invariance"
+    pass_fail: "The focused charged_nonisothermal_transport group passed 15/15, 0 skipped, 0 failed. The stationary 3D energy checker has maximum field/material/balance error 2.700062e-13, maximum face/integral error zero, maximum +100 electric-potential gauge-shift difference 8.243924e-15, nonzero six-face heat-flux integrals -8.7846, -10.2487, -16.1051, -21.9615, -21.9615, and -35.1384, Div_X(Q)/electric-work/heat-supply integrals -20.4974/13.31/-33.8074, and direct global balance -2.700062e-13 at tolerance 1e-10. The stationary 1D/2D energy and all constant-coefficient, nonlinear, and Onsager leaves retain their quantitative passing results."
+    verification_commands:
+      - "cd moose_app && ~/.local/moose/scripts/run_tests -j$(nproc) --re charged_nonisothermal_transport"
+      - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_1d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_2d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_3d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_1d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_2d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_3d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_1d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_2d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_3d.py"
+    notes: "This validates gauge-shift-insensitive electric forcing through Grad(phi), thermal driving through Grad(theta), direct electric-field work, AD reconstructed gradients and nonlinear scalar mobility, a symmetric positive-definite two-component Onsager matrix with nonzero cross coefficient in 1D/2D/3D, current/reference pull-back, 1D/2D/3D Q2 solid-reference scalar transport, analytic flux divergence, every 2D and 3D face flux, direct solid-reference component balances, and the signed stationary 1D/2D/3D reductions -Div_X(Q)+J electric_work+J rho r=0 of eq:MC_energy_balance. Transient thermal storage and stabilization/upwinding remain separate work."
+
+  - id: reduced_tensor_transport_and_heat_exchange_regression
+    status: passing_regression
+    target_phenomenon: "Tensor-valued reduced multicomponent diffusion/dispersion and conservative inter-subsystem heat exchange"
+    manuscript_reduction:
+      - "eq:separate_relative_flux_sum_closure"
+      - "eq:onsager_reference_flux_reconstruction"
+      - "eq:onsager_dispersion_mobility_balance"
+      - "eq:onsager_diffusion_mobility_balance"
+      - "eq:MC_dispersion_closure"
+      - "eq:MC_diffusion_closure"
+      - "eq:MC_onsager_dispersion_stationarity"
+      - "eq:MC_onsager_diffusion_stationarity"
+      - "eq:MC_helmholtz_source_projection"
+      - "eq:MC_onsager_reaction_transport_dissipation"
+      - "eq:MC_fluid_solid_heat_exchange_law"
+      - "eq:MC_fluid_solid_heat_exchange_positive"
+      - "eq:MC_energy_balance"
+    configuration: "Tensor-transport diagnostics are paired with transient two-temperature EDGE3/QUAD9/TET10 P2-backbone-plus-P0-enrichment CG/EG balances. Both thermal subsystem rows independently activate storage, skeleton-relative internal-energy advection, Fourier/cross flux, phase stress power, conversion transfer work, relative-current electric work, external heat, and equal/opposite exchange computed from reconstructed temperatures and state-dependent h_FS. Separate facet and weak-boundary objects preserve independent advection/heat-flux selection."
+    variables:
+      - "two independent component coordinates plus a reconstructed dependent reference-component flux"
+      - "P1 state backbone plus P0 state enrichment"
+      - "fluid and solid P1 temperature backbones plus P0 enrichments"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceComponentFluxTerm"
+        - "ADReferenceEnergyStorageTerm"
+        - "ADReferenceEnergyFluxTerm"
+        - "ADReferenceEnergySourceTerm"
+        - "ADReferenceEnergyStressPowerTerm"
+        - "ADReferenceEnergyConversionTransferWorkTerm"
+        - "ADReferenceEnergyRelativeCurrentWorkTerm"
+        - "ADMaterialPropertyResidual"
+        - "ADEnrichedGalerkinScalarEnrichmentBalance"
+      dgkernels:
+        - "ADEnrichedGalerkinFluxDG"
+        - "ADEnrichedGalerkinSymmetryDG"
+      materials:
+        - "ADMulticomponentOnsagerFluxMaterial"
+        - "ADInterSubsystemHeatExchangeMaterial"
+        - "ADEGReconstructedScalarMaterial"
+        - "ADParsedMaterial"
+        - "ADGenericConstantMaterial"
+        - "ADGenericConstantVectorMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions:
+        - "ADDirichletBC"
+        - "ADEnrichedGalerkinPenaltyBC"
+    input_deck:
+      - "moose_app/test/tests/multicomponent_onsager_flux/multicomponent_onsager_flux_3component.i"
+      - "moose_app/test/tests/multicomponent_onsager_flux/state_dependent_tensor_cg_eg_jacobian_1d.i"
+      - "moose_app/test/tests/inter_subsystem_heat_exchange/inter_subsystem_heat_exchange_1d.i"
+      - "moose_app/test/tests/inter_subsystem_heat_exchange/inter_subsystem_heat_exchange_cg_eg_jacobian_1d.i"
+      - "moose_app/test/tests/inter_subsystem_heat_exchange/two_temperature_energy_all_terms_mms_1d.i"
+      - "moose_app/test/tests/inter_subsystem_heat_exchange/two_temperature_energy_all_terms_mms_2d.i"
+      - "moose_app/test/tests/inter_subsystem_heat_exchange/two_temperature_energy_all_terms_mms_3d.i"
+    reference_result: "The full transient thermal hierarchy passes 5/5 focused tests: 1D/2D/3D exact-field CSVDiff plus 2D/3D PETSc Jacobians. Final exchange cancellation is exactly zero in every dimension, minimum entropy production is 0.0349335, and the maximum audited strong-residual L2 norm is 7.36420e-12 in 3D. The final reconstructed-temperature L2 errors are 0, 4.08405e-14, and 6.99729e-14 at worst across 1D, 2D, and 3D."
+    expected_outputs:
+      - "independent, dependent-reference, and zero-sum flux L2 errors"
+      - "tensor reciprocity residual and minimum Cholesky pivot"
+      - "force-flux power-density and entropy-production L2 errors"
+      - "fluid/solid temperature and enrichment L2 errors"
+      - "signed heat-source and cancellation L2 errors"
+      - "PETSc Jacobian comparisons for both solved state-dependent CG/EG systems"
+      - "separate advection, Fourier/cross, total-flux, strong-residual, exact-cancellation, and minimum-entropy diagnostics"
+      - "failure guards for nonreciprocity, indefiniteness, nonpositive temperature, negative h_FS, and ambiguous coefficient mode"
+    pass_fail: "The separately focused full-energy hierarchy passed 5/5 with zero skips and failures. Each dimensional strong-residual norm must remain below 1e-8, cancellation must remain at roundoff, entropy production must remain positive, and both multidimensional Jacobian checks must pass."
+    verification_commands:
+      - "cd moose_app && ~/.local/moose/scripts/run_tests -j1 --re 'multicomponent_onsager_flux|inter_subsystem_heat_exchange'"
+    notes: "Constant tensor blocks are constructed and audited once, leaving O((N-1)^2 d^2) tensor-force work per quadrature point; state-dependent blocks retain the O(((N-1)d)^3) positive-definiteness audit per quadrature point. Molecular diffusion and unresolved dispersion remain separate selectable template families. The material outputs current-volume component fluxes, so production balance assembly must apply J F^{-1} before using the reference-flux kernel."
+
+  - id: restricted_two_phase_constant_k_split_mms
+    status: passing_regression
+    target_phenomenon: "Restricted bounded two-phase, two-component constant-K phase split"
+    manuscript_reduction:
+      - "eq:mass_fraction_constraint"
+      - "eq:phase_volume_fraction"
+      - "eq:volume_fraction_constraint"
+      - "eq:component_partial_density_representation"
+      - "eq:classical_compositional_closure_set"
+      - "eq:classical_phase_equilibrium_mu"
+      - "eq:implementation_component_density_partition"
+      - "eq:implementation_volume_partition"
+      - "eq:implementation_mass_fraction_partition"
+      - "eq:implementation_phase_material_storage"
+    configuration: "one-, two-, and three-dimensional material regressions with include-driven Q2 prescribed solid displacement for two active phases, two components, total porosity 0.3, densities 4 and 1, overall composition 0.5 and 0.5, and K-values 2 and 0.5"
+    variables:
+      - "overall component mass fractions z^0 and z^1"
+      - "total fluid volume fraction phi"
+      - "phase intrinsic densities"
+    moose_objects_required:
+      kernels:
+        - "NullKernel for material-only tests"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADTwoPhaseConstantKEquilibriumMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_1d.i"
+      - "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_2d.i"
+      - "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_3d.i"
+    reference_result: "analytic active split beta = 0.5, S0 = 0.2, S1 = 0.8, phi0 = 0.06, phi1 = 0.24, x0 = 1/3, y0 = 2/3, total reference storage for component 0 equal to 0.24, plus endpoint cases with beta clamped to zero or one"
+    expected_outputs:
+      - "phase split, saturation, volume-fraction, storage, equilibrium residual, composition residual, and volume-constraint postprocessors"
+      - "CSVDiff gold values for all postprocessor errors"
+    pass_fail: "The focused two_phase_constant_k_split group passed 9/9 after hierarchy migration with abs_zero = 1e-12; current gold values are zero or roundoff, with the largest split material error 2.7755575615629e-17."
+    notes: "Routine regression. This is a bounded algebraic split with endpoint branches for one present phase and one incipient inactive phase, not a full flash. It rejects non-normalized overall compositions. It does not validate smooth complementarity, pressure-dependent K-values, capillary pressure, nonideal activity models, oil/gas/water three-fluid flash, or SPE benchmark physics."
+
+  - id: two_phase_split_balance_mms
+    status: passing_regression
+    target_phenomenon: "Component balance using storage from the restricted two-phase split"
+    manuscript_reduction:
+      - "eq:component_partial_density_representation"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+      - "eq:implementation_phase_material_storage"
+    configuration: "one-dimensional zero-flux storage balance plus one-, two-, and three-dimensional nonzero split-derived Darcy-flux component balances using Q2 prescribed solid displacement and named P1+P0 EG pressure0/pressure1 drivers with multidirectional phase pressure gradients"
+    variables:
+      - "component_storage solved by the reference balance"
+      - "overall composition and total porosity supplied to the split material"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceFluidComponentBalance"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADTwoPhaseConstantKEquilibriumMaterial"
+        - "ADReferenceFluidComponentMaterial"
+        - "ADStandardDarcyReferenceFluxMaterial"
+        - "ADTwoPhaseSplitComponentFluxMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_balance_1d.i"
+      - "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_flux_balance_1d.i"
+      - "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_flux_balance_2d.i"
+      - "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_flux_balance_3d.i"
+    reference_result: "constant split-derived total reference component storage 0.24 with zero source; 1D nonzero flux has component-0 reference flux -8/3, 2D flux is (-8/3,-2/3), and 3D flux is (-8/3,-2/3,-10/3)"
+    expected_outputs:
+      - "component_l2 postprocessor"
+      - "split_storage_l2 postprocessor"
+      - "component_flux_x_l2, component_flux_y_l2, and component_flux_z_l2 postprocessors for multidirectional nonzero flux cases"
+      - "CSVDiff gold values for all postprocessor errors"
+    pass_fail: "The focused two_phase_constant_k_split group passed 9/9 after hierarchy migration with abs_zero = 1e-12. Current zero-flux gold component_l2 is 0 and split_storage_l2 is 2.2662332591842e-17. The nonzero flux cases have component-flux errors no larger than 5.4389598220421e-16 in 1D, 7.8678884242805e-16 in 2D, and 8.2336343155639e-16 in 3D."
+    notes: "Routine regression. This validates coupling between the split storage material, phase-specific Darcy W_a fields using EG pressure drivers, split-derived phase compositions, Q2 solid-reference pull-back, and the existing component-balance residual. The flux assembly is two-phase only and must be generalized for oil/gas/water transport."
+
+  - id: phase_history_kinematics_mms
+    status: passing_regression
+    target_phenomenon: "Oil, gas, and water phase-history deformation-gradient and Jacobian kinematics on the solid reference mesh"
+    manuscript_reduction:
+      - "eq:reference_relative_mass_flux"
+      - "eq:implementation_phase_velocity_reconstruction"
+      - "eq:fluid_material_derivative_on_solid_frame"
+      - "eq:implementation_phase_velocity_gradient"
+      - "eq:implementation_phase_deformation_gradient_history"
+      - "eq:implementation_phase_jacobian_history"
+      - "eq:implementation_phase_deformation_gradient_residual"
+      - "eq:implementation_phase_jacobian_residual"
+    configuration: "one-dimensional oil homogeneous extension, two-dimensional gas shear/dilation, three-dimensional TET10 water diagonal compression/extension, one-, two-, and three-dimensional oil relative-advection MMS cases, and one-, two-, and three-dimensional inactive gas policy checks, all with include-driven Q2 prescribed solid displacement"
+    variables:
+      - "phase-specific F_o, F_g, F_w components"
+      - "phase-specific J_o, J_g, J_w"
+      - "phase velocities and reference relative mass fluxes on the solid mesh"
+    moose_objects_required:
+      kernels:
+        - "ADPhaseDeformationGradientHistory"
+        - "ADPhaseJacobianHistory"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADPhaseHistoryKinematicsMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/phase_history_kinematics/oil_phase_history_extension_1d.i"
+      - "moose_app/test/tests/phase_history_kinematics/gas_phase_history_shear_2d.i"
+      - "moose_app/test/tests/phase_history_kinematics/water_phase_history_diagonal_3d.i"
+      - "moose_app/test/tests/phase_history_kinematics/oil_phase_history_relative_advection_1d.i"
+      - "moose_app/test/tests/phase_history_kinematics/oil_phase_history_relative_advection_2d.i"
+      - "moose_app/test/tests/phase_history_kinematics/oil_phase_history_relative_advection_3d.i"
+      - "moose_app/test/tests/phase_history_kinematics/gas_phase_history_inactive_policy_1d.i"
+      - "moose_app/test/tests/phase_history_kinematics/gas_phase_history_inactive_policy_2d.i"
+      - "moose_app/test/tests/phase_history_kinematics/gas_phase_history_inactive_policy_3d.i"
+    reference_result: "matrix-exponential analytic solutions for homogeneous velocity gradients, J_a = exp(integral tr(l_a) dt), J_a - det(F_a) diagnostics, relative-advection MMS cases with c_o = (1), (1,2), and (1,2,3) from W_o/(J_s rho_o), and inactive gas cases with c_g = 0 and l_g = 0 with rho_g = 0 despite prescribed nonzero Grad_X(v_g) and W_g"
+    expected_outputs:
+      - "F_a component L2 errors against analytic functions"
+      - "J_a L2 errors against exp(integral tr(l_a) dt)"
+      - "det(F_a) and J_a - det(F_a) diagnostics"
+      - "c_a L2 diagnostic in active and inactive relative-advection cases"
+      - "CSVDiff gold values for all postprocessor errors"
+    pass_fail: "The focused phase_history_kinematics group passed 9/9 after hierarchy migration with abs_zero = 1e-12. Current largest analytic time-discretization error is 4.6787552569201e-6 in the 1D oil extension case. Relative-advection Fo00 errors are 2.9373740229761e-16 in 1D, 2.7662667149845e-14 in 2D, and roundoff in 3D, with c_a component errors zero or roundoff. Inactive-policy F/J/c diagnostics are zero or roundoff in 1D, 2D, and 3D."
+    notes: "Routine regression. These tests validate phase-history kinematics and material derivative assembly with Q2 solid-reference pull-backs, not constitutive stress, full oil/gas/water flash, capillary pressure, relative permeability, or SPE benchmark physics."
+
+  - id: classical_compositional_q2_eg_mms_1d_2d
+    status: passing_regression_1d_2d
+    target_phenomenon: "Classical two-mobile-phase, two-component compositional-flow reduction through the registered equilibrium-flash and phase-flux architecture"
+    manuscript_reduction:
+      - "eq:classical_compositional_closure_set"
+      - "eq:classical_phase_equilibrium_mu"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    configuration: "One-dimensional EDGE3/Q2, genuinely two-dimensional QUAD9/Q2, and genuinely three-dimensional active-policy TET10/Q2 prescribed solid displacements; reconstructed P1+P0 EG oil/gas pressure drivers; two active mobile phases; two independent fluid components; Helmholtz-EOS densities and equilibrium potentials; registered flash compositions; nonzero multidirectional Darcy phase fluxes; and two solved direct summed Eq. (32) component variables."
+    variables:
+      - "component0_reference_storage = sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component0"
+      - "component1_reference_storage = sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component1"
+      - "oil/gas phase fractions and registered-flash phase compositions"
+      - "P1 pressure backbones plus P0 enrichments reconstructed as total phase pressures"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceFluidComponentBalance"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADEGReconstructedScalarMaterial"
+        - "ADHelmholtzEOSClosureMaterial"
+        - "ADRegisteredPhaseFlashMaterial"
+        - "ADStandardDarcyReferenceFluxMaterial"
+        - "ADRegisteredPhaseComponentFluxMaterial"
+      userobjects:
+        - "PhaseRegistry"
+      actions: []
+      boundary_conditions:
+        - "FunctionDirichletBC"
+      postprocessors:
+        - "ADMaterialScalarL2Error"
+        - "ADMaterialVectorL2Error"
+        - "ADSideIntegralMaterialProperty"
+        - "LinearCombinationPostprocessor"
+    input_deck:
+      - "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_1d.i"
+      - "validation/scripts/check_classical_compositional_q2_eg_mms_1d.py"
+      - "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_1d.csv"
+      - "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_2d.i"
+      - "validation/scripts/check_classical_compositional_q2_eg_mms_2d.py"
+      - "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_2d.csv"
+      - "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_3d.i"
+      - "validation/scripts/check_classical_compositional_q2_eg_mms_3d.py"
+      - "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_3d.csv"
+    reference_result: "In 1D, net outward fluxes and J-weighted sources are -0.09 and 0.09. In 2D, u=(0.1x,0.2y), J=1.32, reconstructed p=2+x+y, and W_oil=W_gas=(-0.72,-0.605) give -0.13266375 and 0.13266375. In 3D, u=(0.1x,0.2y,0.3z), J=1.716, reconstructed p=2+x+y+z, and W_oil=W_gas=(-0.936,-0.7865,-0.670153846153846) give net-outward fluxes and matching J-weighted sources -0.291567664127219 and 0.291567664127219 for the two explicit direct sums sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component."
+    expected_outputs:
+      - "primary/reconstructed field and solid-reference J errors"
+      - "flash phase-fraction, composition, volume, pressure-equilibrium, chemical-equilibrium, and overall-composition closure errors"
+      - "both direct summed Eq. (32) storage errors"
+      - "both phase fluxes, all four phase/component fluxes, and both assembled component-flux errors"
+      - "source, all dimensionally applicable boundary-face integrals, net-outward flux, and independent global-balance errors"
+    pass_fail: "The 1D/2D/3D exact leaves and quantitative checkers pass 6/6; the focused registered_phase_flash group passes 13/13 with 0 skipped and 0 failed. The genuinely 3D case has maximum required error 2.220446e-15, maximum analytic face/integral error 3.802514e-15, component0/component1 global balances -2.220446049250e-15 and -1.998401444325e-15, matching net-outward flux/source integrals -0.2915676641272 and 0.2915676641272, and nonzero component0 x/y/z face evidence -1.0760715/-0.8953803375/-0.7570798881657 at tolerance 1e-10."
+    notes: "These are solved 1D/2D/3D classical compositional-flow balances, not material-only flash diagnostics or renamed black-oil cases."
+
   - id: black_oil_style_smoke
-    status: planned
+    status: in_progress_verified_1d_2d_well_source_1d_2d_3d_spatial_flux_and_1d_2d_3d_q2_eg_storage_pvt_capillary_three_phase_mobility_and_viscosity_slices
     target_phenomenon: "Black-oil-style pressure, saturation, and component balance reduction"
     manuscript_reduction:
-      - "correspondence_to_other_theories: black-oil-style specialization"
-      - "phase/component mass balance labels to be resolved before implementation"
+      - "eq:black_oil_storage_identifications"
+      - "eq:black_oil_water_balance"
+      - "eq:black_oil_oil_balance"
+      - "eq:black_oil_gas_balance"
+      - "eq:black_oil_darcy_flux"
+      - "eq:black_oil_capillary_pressure_closures"
     configuration: "reference solid skeleton with reservoir-style current-volume observables"
     variables:
       - "oil pressure or equivalent pressure"
@@ -16,22 +755,258 @@ entries:
       - "gas saturation"
       - "component densities or compositions as required by the selected reduction"
     moose_objects_required:
-      kernels: []
-      materials: []
+      kernels:
+        - "ADEnrichedGalerkinScalarBalance"
+      materials:
+        - "ADBlackOilCapillaryPressureMaterial"
+        - "ADBlackOilPVTMaterial"
+        - "ADBlackOilRelativePermeabilityMaterial"
+        - "ADBlackOilPeacemanWellMaterial"
+        - "ADStandardDarcyReferenceFluxMaterial"
       userobjects: []
       actions: []
       boundary_conditions: []
-    input_deck: "moose_app/examples/black_oil_style_smoke.i"
-    reference_result: "manufactured or reduced analytic result to be defined"
+    input_deck:
+      - "moose_app/test/tests/black_oil_pvt/black_oil_pvt_storage_1d.i"
+      - "moose_app/test/tests/black_oil_pvt/black_oil_pvt_ad_jacobian_1d.i"
+      - "moose_app/test/tests/black_oil_pvt/black_oil_storage_rate_1d.i"
+      - "moose_app/test/tests/black_oil_pvt/black_oil_three_component_storage_balance_1d.i"
+      - "moose_app/test/tests/black_oil_pvt/black_oil_three_component_storage_balance_2d.i"
+      - "moose_app/test/tests/black_oil_pvt/black_oil_three_component_storage_balance_3d.i"
+      - "moose_app/test/tests/black_oil_pvt/black_oil_three_component_spatial_flux_balance_1d.i"
+      - "validation/scripts/check_black_oil_three_component_spatial_flux_balance_1d.py"
+      - "moose_app/test/tests/black_oil_pvt/black_oil_three_component_spatial_flux_balance_2d.i"
+      - "validation/scripts/check_black_oil_three_component_spatial_flux_balance_2d.py"
+      - "moose_app/test/tests/black_oil_pvt/black_oil_three_component_spatial_flux_balance_3d.i"
+      - "validation/scripts/check_black_oil_three_component_spatial_flux_balance_3d.py"
+      - "moose_app/test/tests/black_oil_well/q2_eg_three_component_well_source_balance_1d.i"
+      - "validation/scripts/check_black_oil_q2_eg_well_source_balance_1d.py"
+      - "moose_app/test/tests/black_oil_well/q2_eg_three_component_well_source_balance_2d.i"
+      - "validation/scripts/check_black_oil_q2_eg_well_source_balance_2d.py"
+      - "moose_app/test/tests/black_oil_well/q2_eg_three_component_well_source_balance_3d.i"
+      - "validation/scripts/check_black_oil_q2_eg_well_source_balance_3d.py"
+      - "moose_app/test/tests/black_oil_well/gold/q2_eg_three_component_well_source_balance_3d.csv"
+      - "moose_app/test/tests/black_oil_capillary/black_oil_capillary_static_1d.i"
+      - "moose_app/test/tests/black_oil_capillary/black_oil_capillary_dynamic_1d.i"
+      - "moose_app/test/tests/black_oil_relative_permeability/black_oil_relative_permeability_1d.i"
+      - "moose_app/test/tests/black_oil_relative_permeability/black_oil_relative_permeability_ad_jacobian_1d.i"
+      - "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_1d.i"
+      - "moose_app/examples/black_oil_style_smoke.i (planned integrated case)"
+    reference_result: "At p=150 on a two-point table, the PVT slice obtains B_w=1.05, B_o=1.3, B_g=0.015, R_s=75, and water/oil/gas viscosities 0.35/1.5/0.025 and reproduces the manuscript water, oil, and gas storage identifications to roundoff. A Newton solve from p=125 recovers p=150 in one nonlinear update through the tabular AD slope. The 1D EDGE3, 2D QUAD9, and active-policy 3D TET10 cells advance reconstructed P1+P0 EG pressure, S_w, and S_g through direct J-weighted water/oil/gas storage rates and analytic manufactured sources. The 3D final errors are pressure_l2=2.5916174936096e-12, pressure_enrichment_l2=1.4038894920175e-13, water_saturation_l2=4.9737237718842e-16, gas_saturation_l2=2.4981653138052e-15, J_l2=0, and all three storage-rate/source L2 errors zero. The integrated 1D spatial-flux leaf combines EDGE3/Q2 kinematics, reconstructed P1+P0 EG oil pressure, capillary-reconstructed water and gas pressures, production PVT and relative-permeability materials, and registered phase-to-component flux assembly. Its maximum required error is 4.965068e-16, maximum face/integral error is 3.635980e-15, water and gas net-outward fluxes are -5.818181818182e-3 and -1.045454545455e-3, and all three direct summed Eq. (32) global balances are zero to roundoff. The genuinely 2D QUAD9/Q2 and P1+P0 EG leaf uses u=(0.1x,0.2y), nonzero x/y oil, water, and gas pressure gradients, capillary reconstruction, production relative permeability, three phase Darcy fluxes, and registered phase-to-component assembly. Its maximum required error is 5.900916e-16, maximum face/integral error is 3.635980e-15, water/gas net-outward fluxes are -9.559272727273e-3 and -1.468787878788e-3, all twelve phase-component boundary values are nonzero, and all three direct summed Eq. (32) balances are below 5.0e-16. The genuinely 3D active-policy TET10/Q2 and P1+P0 EG leaf extends the affine state into z, checks all x/y/z phase and component fluxes and eighteen nonzero face integrals, obtains maximum required and face-integral errors 9.992007e-16 and 3.858025e-15, water/gas net-outward fluxes -1.959160839161e-2 and -2.524747319347e-3, and all direct summed Eq. (32) balances below 1.0e-15. The 1D well/source MMS couples EDGE3/Q2 kinematics and reconstructed P1+P0 EG pressure through production PVT, relative-permeability, and Peaceman-well materials into the direct sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component water/oil/gas balances. Its maximum required and analytic-integral errors are 1.713248e-12 and 1.383268e-14, with water/oil/gas source integrals -3.333333333338e-3, -6.428571428580e-3, and -9.666666666680e-3; the focused black_oil_well group passes 12/12. Static and dynamic capillary tests reconstruct water and gas pressures with the manuscript signs to roundoff. The SWOF/SGOF slice reproduces the default ECLIPSE/OPM oil-curve blend and preserves active table slopes in the AD Jacobian. The Darcy mobility slice uses S=0.5, k_r=S^2=0.25, and a base reference mass flux of -3 to obtain -0.75 exactly; a material viscosity of 4 in place of the constant value 2 obtains -1.5 exactly. Classical compositional reductions are verified by the registered-phase Q2/EG 1D/2D/3D leaves."
+    quantitative_well_source_2d: "The 2 by 3 QUAD9/Q2 companion uses u=(0.1x,0.2y), J=1.32, reconstructed P1+P0 EG pressure, completion reference area 6, and production PVT, relative-permeability, and Peaceman-well materials. Maximum required error is 1.114623e-13, maximum analytic-integral error is 5.290907e-16, integral J is 7.92, and expected/observed water, stock-tank oil, and stock-tank gas source totals are -3.333333333333e-3, -6.428571428571e-3, and -9.666666666667e-3. The focused black_oil_well group passes 13/13 with zero skips and failures."
+    quantitative_well_source_3d: "The 2 by 3 by 4 active-policy TET10/Q2 companion uses u=(0.1x,0.2y,0.3z), J=1.716, reconstructed P1+P0 EG pressure, completion reference volume 24, and production PVT, relative-permeability, and Peaceman-well materials. Maximum required error is 1.926805e-15, maximum analytic-integral error is 3.339343e-17, integral J is 41.184, and expected/observed water, stock-tank oil, and stock-tank gas source totals are -3.333333333333e-3, -6.428571428571e-3, and -9.666666666667e-3. The focused black_oil_well group passes 14/14 with zero skips and failures."
     expected_outputs:
       - "mass balance residual norms"
       - "phase pressure and saturation fields"
-    pass_fail: "not defined"
-    notes: "First durable case should be small enough for routine regression."
+    pass_fail: "All PVT/storage, storage-rate, tabular-Jacobian, capillary-reconstruction, and relative-permeability mobility L2 errors must be below 1e-12; the coupled pressure-saturation cell errors and integrated 1D/2D/3D spatial-flux and well/source direct summed Eq. (32) storage/source/global-balance/rate/BHP/control and analytic-integral errors must be below 1e-10; invalid table coordinates, out-of-range pressure under the default policy, and negative relative permeability must be rejected. Signed capillary-pressure values are permitted for SPE-compatible table conventions."
+    notes: "The current slices provide pressure-tabulated AD PVT/storage/storage rates and phase viscosities, coupled 1D, 2D, and 3D Q2-solid/P1+P0-EG-pressure water/oil/gas storage-balance solves, integrated 1D, genuinely 2D, and genuinely 3D water/oil/gas spatial-flux and production-well/source solves, fixed-history static and dynamic capillary pressure reconstruction, and default ECLIPSE/OPM three-phase tabulated relative permeability with constant intrinsic permeability. Darcy mobility accepts either constant or AD material viscosity. The 3D storage and well/source leaves use the active TET10 policy. The fluxless manufactured storage problem anchors the P0 enrichment; the spatial-flux leaves use the EG oil-pressure interior-facet and weak-boundary operators. Capillary/relative-permeability history evolution, endpoint scaling, separate benchmark PVT grids and PVTO branches, and the classical compositional reductions are verified separately by the registered-phase Q2/EG 1D/2D/3D leaves."
+
+  - id: saturation_onsager_phase_pressure_closure
+    status: existing_relative_closure_passing_absolute_identity_and_momentum_stitch_compiled_verification_pending
+    target_phenomenon: "Absolute and relative generalized saturation forces, dissipation, actual phase-pressure and equivalent-pressure identities, solid Legendre identities, and the unique phase-momentum pressure potential"
+    manuscript_reduction:
+      - "eq:fluid_volume_fraction_el_relation"
+      - "eq:fluid_pressure_primitive_potential_relation"
+      - "eq:fluid_pressure_difference_primitive_potential"
+      - "eq:saturation_weighted_pressure_sum"
+      - "eq:saturation_weighted_primitive_potential_sum"
+      - "eq:equivalent_pore_pressure_capillary_relation"
+      - "eq:el_mom_f_simplified"
+      - "eq:MC_dynamic_capillary_onsager_relation"
+      - "eq:MC_dynamic_capillary_force_rate_relation"
+      - "eq:MC_dynamic_capillary_resistance_admissibility"
+      - "eq:MC_dynamic_capillary_dissipation"
+      - "eq:MC_two_phase_dynamic_capillary_pressure"
+      - "eq:MC_capillary_history_admissibility"
+      - "eq:MC_phase_legendre_transform"
+      - "eq:MC_phase_equivalent_pressure"
+    configuration: "the previously passing relative-force and black-oil difference cells plus drafted solved one-, two-, and three-dimensional Q2-solid/P1-plus-P0-EG equivalent-pressure stitches with physical P2-plus-P0 saturation reconstruction, absolute force gauge, nonuniform electric enthalpy, complete product-rule actual-pressure and momentum-potential gradients, and one pulled-back phase-momentum insertion"
+    variables:
+      - "independent water and gas reconstructed saturation rates"
+      - "water-minus-oil and gas-minus-oil pressure-difference fields"
+      - "absolute per-phase saturation forces and reference-force gauge"
+      - "reconstructed actual phase pressures and equivalent pressure"
+      - "phase velocity components"
+    moose_objects_required:
+      kernels:
+        - "ADMaterialPropertyResidual"
+        - "ADPhaseMomentumPressurePotentialGradientTerm"
+      materials:
+        - "ADSaturationOnsagerForceMaterial"
+        - "ADSaturationOnsagerForceGradientMaterial"
+        - "ADBlackOilPhasePressureDifferenceMaterial"
+        - "ADCapillaryHistoryOnsagerMaterial"
+        - "ADPhaseThermodynamicIdentityMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/saturation_onsager_force/saturation_onsager_force_1d.i"
+      - "moose_app/test/tests/saturation_onsager_force_gradient/saturation_onsager_force_gradient_1d.i"
+      - "moose_app/test/tests/saturation_onsager_force/state_dependent_saturation_onsager_jacobian_1d.i"
+      - "moose_app/test/tests/black_oil_capillary_force/phase_pressure_difference_all_terms_1d.i"
+      - "moose_app/test/tests/energy_atomic/capillary_history_onsager_1d.i"
+      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_1d.i"
+      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_2d.i"
+      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_3d.i"
+    reference_result: "For prescribed saturation rates and a symmetric positive-semidefinite 2 by 2 matrix, direct matrix multiplication gives both generalized-force differences, their gradients, quadratic dissipation, and entropy production; the black-oil closure adds those differences to the independently evaluated stored surface-energy and electrical-enthalpy differences with the manuscript signs."
+    expected_outputs:
+      - "both generalized saturation-force differences and their reference gradients"
+      - "quadratic dissipation, entropy production, and minimum resistance eigenvalue"
+      - "stored, electrical, dynamic, and reconstructed phase-pressure-difference terms"
+      - "absolute phase-volume and pressure-identity residuals, force-rate residuals, and explicit gauge residual"
+      - "actual-pressure gradients, p_f-omega_f^+ momentum gradients, and phase-velocity errors in 1D/2D/3D"
+    pass_fail: "Existing constant- and state-dependent relative-force evidence remains passing. Revised acceptance additionally requires a clean optimized build; zero analytic identity and dimensional stitch errors within declared tolerances; exact electric-enthalpy cancellation from the scalar momentum potential; passing AD Jacobian and gauge/saturation/temperature/list guards; tiny-scale symmetric and zero Onsager matrices accepted; tiny materially nonsymmetric matrices rejected; and nonnegative entropy production. These revised tests are drafted but cannot be claimed passing until compiled execution is available."
+    notes: "Force differences are gauge invariant, while the phase-volume equations require exposed absolute forces and an explicit deck-selected common gauge. The revised source, template, test inventory, include resolution, and protected-block validator pass static checks. Compiled verification is pending because the guarded build request was rejected by the approval-service external-command limit."
+
+  - id: spe1_black_oil
+    status: current_conserved_reference_storage_p2_bernstein_local_p2_rate_reduced_and_full_active_history_pass
+    target_phenomenon: "Official SPE1 Case 1 three-dimensional black-oil gas injection and production"
+    manuscript_reduction:
+      - "eq:black_oil_storage_identifications"
+      - "eq:black_oil_water_balance"
+      - "eq:black_oil_oil_balance"
+      - "eq:black_oil_gas_balance"
+      - "eq:black_oil_darcy_flux"
+      - "eq:black_oil_capillary_pressure_closures"
+      - "eq:MC_admissible_conversion_component"
+      - "eq:MC_phase_reference_transfer_work_recovery"
+      - "eq:MC_generalized_transfer_phase_offset"
+      - "eq:classical_phase_equilibrium_mu"
+    configuration: "the executable production deck uses a loaded finite-deformation solid reference state, solved Q2 displacement, P1+P0 enriched-Galerkin oil pressure and tau, P2+P0 CG/EG water saturation, coefficient-bounded P2 Bernstein+P0 gas saturation with identity reconstruction for exact phase disappearance, an element-local P2 monomial phase-transformation-rate field, entropy viscosity, explicit dissolved/free-gas electrochemical potentials and transfer affinity, directional phase availability, a finite-rate phase-conversion row, solid/fluid component balances, phase-volume closure, full current-phase-velocity conversion momentum, and separate solved fluid/solid temperature balances with full generalized transfer work and interphase heat exchange; one-day spatial levels use 1x1x3, 2x2x3, 4x4x3, 8x8x3, and 10x10x3 physical cells mapped to 18, 72, 288, 1152, and 1800 TET10 elements; clean temporal levels use 3 h, 1.5 h, and 0.75 h backward-Euler steps on the 288-element mesh; the official long schedule remains pending; FV remains diagnostic only"
+    variables:
+      - "oil pressure backbone and elementwise enrichment"
+      - "tau backbone and elementwise enrichment"
+      - "P2 water-saturation backbone and P0 enrichment"
+      - "P2 Bernstein disappearing-gas-saturation backbone and P0 enrichment"
+      - "element-local P2 monomial gas phase-transformation-rate field on production and coarse meshes"
+      - "dissolved solution gas-oil ratio history"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceSolidMomentum (initialization slice verified executable)"
+        - "ADMaterialPropertyResidual rows for matrix constituent balance and represented-phase volume closure (initialization slice verified executable)"
+        - "ADEnrichedGalerkinScalarBalance and ADEnrichedGalerkinScalarEnrichmentBalance (initialization slice verified executable)"
+        - "ADEnrichedGalerkinFluxDG and ADEnrichedGalerkinSymmetryDG (initialization slice verified executable)"
+        - "ADMaterialPropertyResidual rows for reconstructed tau evolution"
+        - "pointwise gas-appearance row driven by the gas-component chemical-potential/transfer-affinity difference"
+        - "conversion-insertion contribution in the applicable phase or overall momentum residual"
+        - "BlackOilNodalWellControl for completion sources and shared well controls (production integration pending)"
+      materials:
+        - "ADSolidReferenceKinematics (initialization slice verified executable)"
+        - "ADSolidPhaseMassVolumeMaterial (initialization slice verified executable)"
+        - "ADCompressibleNeoHookeanReferenceStressMaterial (initialization slice verified executable)"
+        - "ADReferenceSolidStressMaterial (initialization slice verified executable)"
+        - "ADBlackOilBenchmarkPVTMaterial"
+        - "ADBlackOilPVTMaterial"
+        - "ADBlackOilCapillaryPressureMaterial"
+        - "ADBlackOilRelativePermeabilityMaterial"
+        - "ADBlackOilPeacemanWellMaterial"
+        - "ADTauEvolutionMaterial and ADPhaseTauMaterialDerivative"
+        - "ADGeneralizedTransferWorkMaterial for each transforming phase/component"
+        - "thermodynamically consistent black-oil chemical-potential extension"
+        - "ADReactionNetworkMaterial or an equivalent phase-transfer affinity material"
+      userobjects:
+        - "gas-appearance AD residual (verified for the equilibrium-transfer branch)"
+        - "completion-local BHP/oil-rate/gas-rate controls and BHP switching (verified)"
+        - "one-completion shared scalar well BHP controls (verified)"
+        - "multi-completion aggregator (open)"
+      actions:
+        - "pinned ECLIPSE PVT, saturation, grid, rock, initialization, completion, control, and schedule extractor (verified)"
+        - "explicit SI conversion, 300-cell mesh, layer-property, and EQUIL/RSVD initialization path (verified)"
+        - "MOOSE schedule and multi-completion generator (open)"
+      boundary_conditions:
+        - "weak EG no-flow external component boundaries"
+        - "completion-local INJ and PROD well sources with rate/BHP switching (verified slice; schedule connection open)"
+      bounds:
+        - "ConstantBounds and PETSc variational-inequality solve for nonnegative gas saturation"
+    input_deck:
+      - "agent_workflows/specs/spe1_black_oil.problem.json"
+      - "validation/reference_data/opm_spe_manifest.yml"
+      - "validation/scripts/extract_eclipse_black_oil.py"
+      - "validation/scripts/generate_spe1_initial_state.py"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_initial_pvt_1d.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/gas_appearance_complementarity_solve_1d.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_component_flux_assembly_1d.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_transient_storage_rates_1d.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_transient_flux_well_1d.i"
+      - "moose_app/examples/spe1_case1_mesh.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_initial_state_3d.i"
+      - "moose_app/test/tests/black_oil_well/peaceman_bhp_component_sources_1d.i"
+      - "moose_app/examples/spe1_case1_transient.i"
+      - "moose_app/examples/spe1_case1_q2_eg_transient.i"
+      - "moose_app/input/includes/schedules/spe1_case1_opm_flow_2021_10_time_sequence.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_case1_q2_eg_initialization_check.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_case1_transient_3d.i"
+      - "validation/scripts/check_spe1_q2_eg_phase_appearance.py"
+      - "validation/reference_data/spe1_case1_opm_flow_2021_10.csv"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_schedule_10_year.i"
+    reference_result: "The provenance-locked conserved-solid-reference-storage formulation passes every endpoint and accepted-timestep gate on the one-day 18-element reduced and 1800-element active-well meshes. The full endpoint has reconstructed-tau evolution L2 1.689056e-10, kinetic L2 3.605350e-9, exact affinity and force-rate-power identities, generalized-force identity L2 1.726557e-20, maximum scaled momentum weak residual 1.772543e-11, maximum scaled subsystem-energy weak residual 1.799860e-14, minimum dissipation -4.815904e-14, gas-balance defect 3.552714e-14 kg/s, and minimum J 0.999296. The largest full-history water, oil, and gas balance defects are 1.2722e-10, 1.31086e-8, and 2.90949e-8 kg/s. Superseded and failed development evidence remains preserved without tolerance changes. The fixed-skeleton FV/OPM path retains diagnostic-only status."
+    expected_outputs:
+      - "field oil rate and gas-oil ratio"
+      - "injector and producer block pressure and BHP"
+      - "gas saturation at the nine official report blocks"
+      - "well phase rates and cumulative volumes"
+      - "water, oil, and gas component global-balance defects"
+      - "tau evolution, reconstruction, and phase-transfer offsets"
+      - "phase/component chemical potentials and gas-transfer affinity"
+      - "mechanismwise dissipation and conversion-insertion momentum contribution"
+    pass_fail: "The one-day production solve and the 18-, 288-, 1152-, and 1800-element history audits pass every thermodynamic, momentum, energy, closure, conservation, and solver-event gate. The retained 72-element datum fails only the unchanged tau gate with a peak gate fraction of 1.373. Clean 3 h, 1.5 h, and 0.75 h levels pass 8, 16, and 32 accepted steps with zero rejections; average pressure, maximum gas saturation, produced gas volume, and producer BHP show observed timestep orders 1.40, 1.28, 1.03, and 0.97. The nominal 6 h level is a failed uniform-step robustness datum because it rejects the final step and cuts back to 3 h. OPM differences are reported without tuning and have no threshold that can substitute for the theory gates."
+    notes: "The executable CG/EG slice contains tau backbone/enrichment, black-oil electrochemical potentials, reconstructed current phase velocities, tau material derivatives, tau-corrected affinity, directional phase availability, finite-rate conversion, dissolved/free gas source/storage split, nonnegative dissipation diagnostics, conversion insertion in all three overall-momentum rows, two solved temperature equations with storage, heat flux, interphase exchange, and full generalized conversion-transfer work, and active injector/producer scalar rate-BHP controls. SPE1 supplies no absolute chemical-potential reference data, phase-transfer resistance, or thermal calibration; the input deck declares these closures and the report identifies their gauge and calibration scope. Spatial, timestep, and isolated P1/P2 saturation-order convergence are recorded in validation/results/spe1_case1/convergence_summary_v1.json and the benchmark report. A direct boundary-flux decomposition of global energy and the official long-horizon comparison remain pending. The fixed-skeleton cell-centered FV path remains diagnostic only."
+
+  - id: reference_solid_mechanics_mms
+    status: passing_regression
+    target_phenomenon: "Quasi-static finite-deformation solid-skeleton momentum on the solid reference configuration"
+    manuscript_reduction:
+      - "eq:MC_phase_biot_coefficient"
+      - "eq:MC_phase_pk_biot_split"
+      - "eq:MC_phase_biot_split"
+      - "eq:MC_overall_momentum_nonlinear_biot"
+      - "eq:overall_natural_traction"
+      - "eq:momentum_residual"
+    configuration: "one-dimensional finite-deformation traction test, two-/three-dimensional affine patch tests, and one-, two-, and three-dimensional non-affine Neo-Hookean/Biot MMS cases with spatially varying equivalent pressure and analytic reference body forcing"
+    variables:
+      - "solid displacement components"
+      - "equivalent pore pressure supplied as an AD-coupled field"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceSolidMomentum"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADCompressibleNeoHookeanReferenceStressMaterial"
+        - "ADSkeletonSpecificVolumeBiotMaterial"
+        - "ADConstrainedSkeletonBiotMaterial"
+        - "ADHydrostaticBarotropicSkeletonStressMaterial"
+        - "ADVolumetricBarotropicSkeletonStressMaterial"
+        - "ADReferenceSolidStressMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions:
+        - "ADReferenceSolidTractionBC"
+        - "FunctionDirichletBC"
+    input_deck:
+      - "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_1d_traction.i"
+      - "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_2d_patch.i"
+      - "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_3d_patch.i"
+      - "moose_app/test/tests/nonlinear_biot_coefficient/specific_volume_biot_partial_1d.i"
+      - "moose_app/test/tests/nonlinear_biot_coefficient/constrained_biot_tangent_1d.i"
+      - "moose_app/test/tests/nonlinear_biot_coefficient/barotropic_double_prime_transform_3d.i"
+      - "moose_app/test/tests/nonlinear_biot_coefficient/volumetric_barotropic_transform_3d.i"
+      - "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_1d_nonaffine.i"
+      - "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_2d_nonaffine.i"
+      - "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_3d_nonaffine.i"
+    reference_result: "affine displacement fields with constant finite-deformation Neo-Hookean P'', total first Piola stress P'' - B p_E J F^{-T}, zero reference body force, and the analytic right-boundary traction in the 1D case; non-affine diagonal quadratic displacement fields with spatially varying equivalent pressure and reference body force b_0 = -Div_X(P'' - B p_E J F^{-T})"
+    expected_outputs:
+      - "ux_l2 in the 1D traction test"
+      - "ux_l2 and uy_l2 in the 2D patch test"
+      - "ux_l2, uy_l2, and uz_l2 in the 3D patch test"
+      - "ux_l2, uy_l2, and uz_l2 in non-affine coupled mechanics MMS cases"
+      - "CSVDiff gold values for all displacement errors"
+    pass_fail: "MOOSE CSVDiff tests pass with abs_zero = 1e-12; affine displacement errors are 5.2041704279304e-18 in 1D, 1.9873754096202e-18 and 1.8566467579446e-18 in 2D, and 2.0399142143509e-18, 1.1358481270731e-18, and 1.2314169531725e-18 in 3D. The Q2/EG non-affine MMS errors are 1.0854646573284e-15 in 1D, 1.7664534612674e-14 and 4.2240280931456e-15 in 2D, and 1.1250151888783e-14, 5.4773804766292e-15, and 3.6281582279385e-15 in 3D."
+    notes: "Routine regression. The 1D, 2D, and 3D non-affine cases use the include hierarchy, Q2 displacement, and a prescribed P1+P0 EG equivalent-pressure pair consumed through its reconstructed total material property; the 3D case uses the routine TET10 Q2 policy. This validates the reference stress residual, Biot pressure pull-back, finite-deformation stress AD path, reference-area traction sign, and non-affine pressure-coupled body-force balance. It does not yet validate inertia, thermocapillary forces, conversion-insertion source reconstruction, plasticity, or reservoir benchmark physics."
 
   - id: reaction_source_affinity_smoke
-    status: planned
-    target_phenomenon: "Reaction/source term with affinity-controlled production"
+    status: passing_regression
+    target_phenomenon: "Reaction/source term, transfer-potential material derivative, and affinity-controlled production"
     manuscript_reduction:
       - "eq:MC_admissible_conversion_component"
       - "eq:MC_phase_reference_transfer_work_recovery"
@@ -39,27 +1014,118 @@ entries:
       - "eq:MC_affinity_projection"
       - "eq:MC_generalized_conversion_affinity_relation"
       - "material mass source definitions"
-    configuration: "single-cell or one-dimensional reduced source problem"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:MC_overall_momentum_nonlinear_biot"
+      - "eq:momentum_residual"
+    configuration: "one-dimensional registered oil/gas reaction-network material regression; a transient zero-flux reaction-only closed box solved in the summed Eq. (32) component variables; drained, undrained, and moving-front one-dimensional reaction cells using EDGE3/Q2 displacement and reconstructed P1+P0 EG pressure; quantitative two-dimensional QUAD9 and three-dimensional active-policy TET10 Q2-solid and P1+P0-EG-pressure reaction/source cells with multidirectional Darcy reference-component flux; and one-, two-, and three-dimensional transfer-potential evolution/material-derivative MMS cases using P1+P0 EG tau and reconstructed total-field material consumption"
     variables:
-      - "component densities"
-      - "reaction progress or mechanism rate"
+      - "mechanism rates"
       - "transfer potential tau"
-      - "P-1 phase-reference transfer-work levels"
+      - "phase tau-transfer offsets"
+      - "phase chemical potentials"
+      - "sum_xi J rho_xi^component0"
+      - "sum_xi J rho_xi^component1"
+      - "Q2 solid displacement u_x in the undrained reaction-mechanics cell"
+      - "reconstructed P1+P0 EG pressure in the drained and undrained cells"
+      - "QUAD9/Q2 u_x and u_y plus reconstructed P1+P0 EG pressure in the two-dimensional reaction/source cell"
+      - "TET10/Q2 u_x, u_y, and u_z plus reconstructed P1+P0 EG pressure in the three-dimensional reaction/source cell"
+      - "translating fluid component mass fraction and registered reaction-rate front"
     moose_objects_required:
-      kernels: []
-      materials: []
-      userobjects: []
+      kernels:
+        - "ADMaterialPropertyResidual"
+        - "ADReferenceFluidComponentBalance"
+        - "ADEnrichedGalerkinScalarBalance"
+        - "ADEnrichedGalerkinScalarEnrichmentBalance"
+        - "ADReferenceSolidMomentum"
+      materials:
+        - "ADReactionNetworkMaterial"
+        - "ADPhaseTauMaterialDerivative"
+        - "ADTauEvolutionMaterial"
+        - "ADGenericConstantMaterial"
+        - "ADGenericConstantVectorMaterial"
+        - "ADSolidReferenceKinematics"
+        - "ADReferenceSolidStressMaterial"
+        - "ADStandardDarcyReferenceFluxMaterial"
+      userobjects:
+        - "PhaseRegistry"
+      actions: []
+      boundary_conditions:
+        - "ADReferenceSolidTractionBC"
+    input_deck:
+      - "moose_app/test/tests/reaction_tau/reaction_network_sources_1d.i"
+      - "moose_app/test/tests/reaction_tau/reaction_only_closed_box.i"
+      - "moose_app/test/tests/reaction_tau/drained_reaction_cell_1d.i"
+      - "moose_app/test/tests/reaction_tau/drained_reaction_source_mms_2d.i"
+      - "moose_app/test/tests/reaction_tau/drained_reaction_source_mms_3d.i"
+      - "moose_app/test/tests/reaction_tau/undrained_reaction_mechanics_cell_1d.i"
+      - "moose_app/test/tests/reaction_tau/coupled_reaction_mechanics_front_1d.i"
+      - "moose_app/test/tests/reaction_tau/tau_evolution_material_derivative_1d.i"
+      - "moose_app/test/tests/reaction_tau/tau_evolution_material_derivative_2d.i"
+      - "moose_app/test/tests/reaction_tau/tau_evolution_material_derivative_3d.i"
+      - "moose_app/test/tests/reaction_tau/generalized_transfer_work_material_1d.i"
+    reference_result: "mechanism 0 has oil stoichiometry (-1,1) and gas stoichiometry (1,-1), so both phase mass sums are zero, affinity is 1, tau correction is 0, and generalized conversion coefficient is 1. Mechanism 1 has oil stoichiometry (-2,0) and gas stoichiometry (0,3), so the phase mass sums are -2 and 3, affinity is -29, tau correction is -4, and generalized conversion coefficient is -25. The closed box uses rate 0.4, J = 1, and zero reference flux, so sum_xi J rho_xi^component0 = 2 - 0.4 t and sum_xi J rho_xi^component1 = 1 + 0.4 t; their total is 3, their sources sum to zero, and the oil/gas stoichiometric mass sums are -1/+1. The undrained reaction-mechanics cell uses u_x=(0.04+0.01t)x, reconstructed p=1+0.1t, J=1.04+0.01t, fluid intrinsic density=2.5+0.05t, direct summed Eq. (32) storage J*0.25*fluid_intrinsic_density*1, a current reaction rate equal to the exact storage rate divided by J, exact total-stress traction, and zero normal reference-component flux on both boundaries. The moving-front cell uses u_x=(0.04+0.01t)x, p=1+0.2x+0.1t, fluid intrinsic density=2.5+0.1x+0.05t, and eta_fluid_component0=0.55+0.2x-0.06t. The direct summed Eq. (32) storage rate plus the divergence of the analytic Darcy reference-component flux defines the J-weighted registered-network source, while momentum uses P=P_double_prime-0.25*p*J*F_inverse_transpose, reference body force 0.05, and exact right traction. The 2D reaction/source cell uses u_x=u_y=0 and p=1+0.2x+0.15y+0.1t; the direct sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component0 rate 0.0125 plus net outward multidirectional Darcy flux -0.009375 balances the J-weighted registered source 0.003125. The 3D active-policy TET10 reaction/source cell uses u_x=u_y=u_z=0 and p=1+0.2x+0.15y+0.1z+0.1t; the direct sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component0 rate is 0.0125, its x/y/z Darcy flux divergences are -0.006, -0.003375, and -0.0015, and their net outward flux -0.010875 balances the J-weighted registered source 0.001625. The 1D tau MMS has tau = x + 3 t, W_o = (2,0,0), J = 1, rho_o = 4, and v_o = 0.25, giving c_o dot Grad_X tau = 0.5, D_o tau/Dt = 3.5, |v_o|^2 = 0.0625, and transfer offset 3.46875. The 2D case uses tau = x + 2y + 3t, W_o = (2,4,0), and v_o = (0.25,0.5), giving convective term 2.5 and offset 5.34375. The 3D case uses tau = x + 2y + 3z + 4t, W_o = (2,4,6), and v_o = (0.25,0.5,0.75), giving convective term 7 and offset 10.5625."
+    expected_outputs:
+      - "phase component source averages"
+      - "J-weighted reference component source averages"
+      - "generalized conversion coefficient and transfer-work correction"
+      - "kinetic residuals and reaction powers"
+      - "tau evolution, tau material-derivative, convective-term, velocity-square, and transfer-offset L2 errors"
+      - "closed-box summed component L2 errors, component integrals, total mass, source sum, and mechanism stoichiometric mass sum"
+      - "undrained-cell Q2 displacement, reconstructed pressure, J, reaction rate, direct summed storage/rate/source errors, both boundary reference-component fluxes, and global balance"
+      - "moving-front Q2 displacement, reconstructed pressure, J, total first Piola stress, translating composition and reaction-rate profile, direct summed storage/rate/source, Darcy reference-component flux, and global balance errors"
+      - "two-dimensional Q2 displacement, reconstructed pressure, direct summed storage/rate, registered source, multidirectional Darcy reference-component flux, boundary integrals, and global balance errors"
+      - "three-dimensional TET10 Q2 displacement, reconstructed pressure, direct summed storage/rate, registered source, independently checked x/y/z Darcy reference-component flux, all six face integrals, and global balance errors"
+    pass_fail: "The focused reaction_tau group passed 17/17 with zero skips and failures. The generalized-transfer-work regression composes 5 - 1.5 - 0.25 = 3.25 with zero L2 error. The 3D active-policy TET10 Q2/EG reaction/source checker has maximum required field/storage/source/flux/face-integral/global-balance error 1.998401e-15 and absolute global balance 1.7546727959505e-15; its storage-rate, net-outward-flux, and registered-source integrals are 0.0125, -0.010875, and 0.001625. The 2D QUAD9/Q2-EG reaction/source case has maximum field/storage/source/flux error 6.7346603619128e-16 and maximum absolute global balance 3.8294020732188e-16; its storage-rate, net-outward-flux, and registered-source integrals are 0.0125, -0.009375, and 0.003125. The moving-front Q2/EG reaction-mechanics case has maximum primary/mechanics/storage/source/flux/front error 8.6176480930456e-16 and maximum absolute global balance 5.759281940243e-16 at abs_zero=1e-10. The undrained cell has exactly zero left, right, and net outward reference-component flux and maximum absolute global balance 6.2450045135165e-17. The drained cell maximum field/storage/source error is 8.6176480930456e-16 and maximum absolute global balance is 5.98479599212e-17. The reaction-network values are exact in the gold CSV. The closed-box maximum summed-component L2 error is 3.5108334685767e-16; total-mass, summed-source, and mechanism stoichiometric-mass-sum errors are zero. The 1D tau evolution residual L2 error is 3.6821932062951e-16, tau L2 error is 5.0876810486276e-16, and the largest 1D tau material-derivative diagnostic error is 1.9420971147417e-15. The largest corresponding diagnostic errors are 1.0751280640826e-14 in 2D and 1.8676182147969e-14 in 3D."
+    notes: "This quantitative slice validates source assembly, reaction-network source consumption by direct summed Eq. (32) component balances in a closed box and drained/undrained/moving-front Q2/EG cells, reconstructed total pressure, finite-deformation total-stress coupling, direct storage, zero-flux undrained boundaries, nonzero moving-front Darcy reference-component flux, front gradients, boundary flux and global balance, traditional affinity, transfer-work correction, generalized conversion coefficients, kinetic residual diagnostics, tau_dot Newton coupling through EG tau, total tau material consumption, and the mobile phase material derivative c_xi = W_xi/(J rho_xi). Charged two-temperature reaction-energy coupling and nonlinear rate laws as residual equations remain validation items."
+
+  - id: reaction_onsager_and_energy_allocation_regression
+    status: implemented_existing_regressions_pending_current_serialized_rerun
+    target_phenomenon: "Neutral temperature-weighted reaction kinetics and optional reciprocal reaction-energy transfer between fluid and solid thermal subsystems"
+    manuscript_reduction:
+      - "eq:MC_generalized_transfer_potential_difference"
+      - "eq:MC_transfer_work_reference_normalization"
+      - "eq:MC_helmholtz_source_projection"
+      - "eq:onsager_affinity_constitutive_relation"
+      - "eq:onsager_reaction_rate_variational"
+      - "eq:MC_onsager_reaction_rate"
+      - "eq:MC_reaction_energy_allocation"
+      - "eq:MC_reaction_energy_allocation_mixture"
+      - "eq:MC_reaction_energy_allocation_subsystems"
+      - "eq:MC_reaction_energy_coupled_admissibility"
+    configuration: "A registered mechanism computes its neutral temperature-weighted force from phase/component transfer coefficients and phase temperatures and solves the local rate residual from a selectable positive mobility. A separate optional two-by-two reciprocal positive-semidefinite Onsager block couples that reaction force to the inverse-temperature force and solves both the reaction rate and physical fluid-to-solid energy-transfer rate."
+    variables:
+      - "local mechanism reaction rate"
+      - "optional physical reaction-energy transfer rate"
+      - "fluid and solid absolute temperatures"
+    moose_objects_required:
+      kernels:
+        - "ADMaterialPropertyResidual"
+        - "ADReferenceEnergySourceTerm with opposite fluid and solid signs in the selectable template"
+      materials:
+        - "ADGeneralizedTransferWorkMaterial"
+        - "ADReactionNetworkMaterial"
+        - "ADReactionEnergyOnsagerMaterial"
+        - "ADMulticomponentOnsagerFluxMaterial for the transport projection"
+      userobjects:
+        - "PhaseRegistry"
       actions: []
       boundary_conditions: []
-    input_deck: "moose_app/examples/reaction_source_affinity_smoke.i"
-    reference_result: "closed-form source integration or manufactured solution"
+    input_deck:
+      - "moose_app/test/tests/reaction_tau/temperature_weighted_reaction_1d.i"
+      - "moose_app/test/tests/reaction_tau/reaction_energy_onsager_1d.i"
+      - "moose_app/input/templates/reaction_energy_onsager_coupling.i.template"
+    reference_result: "The neutral temperature-weighted mechanism test checks the independently assembled traditional affinity, tau correction, generalized conversion coefficient, rate residual, and both reaction-power identities. The coupled case uses reaction force 2, temperatures 2 and 4, and Onsager matrix [[4,1],[1,2]], giving reaction rate 8.25, energy-transfer rate 2.5, determinant 7, and total entropy production 17.125."
     expected_outputs:
-      - "component mass histories"
-      - "affinity and source-rate diagnostics"
-      - "generalized conversion coefficient and transfer-work correction"
-      - "tau evolution and algebraic transfer-work recovery residuals"
-    pass_fail: "not defined"
-    notes: "Include both a phasewise mass-conserving mechanism, where the traditional affinity equals the variational conversion coefficient, and a phase-changing mechanism, where the transfer-work correction is nonzero."
+      - "temperature-weighted reaction force and kinetic residual"
+      - "reaction and energy-transfer rate residuals"
+      - "equal-and-opposite energy-source template signs"
+      - "separate and total entropy-production diagnostics"
+      - "PETSc AD Jacobian and nonpositive-temperature or indefinite-matrix rejection"
+    pass_fail: "The durable test specifications require analytic values at 1e-12 absolute and relative tolerance, PETSc Jacobian ratios and differences at 1e-7, rejection of nonpositive temperatures, and rejection of an indefinite Onsager block. These cases were not rerun while another agent owned the serialized MOOSE test queue."
+    verification_commands:
+      - "cd moose_app && ~/.local/moose/python/run_tests -j1 --re 'temperature_weighted_reaction|reaction_energy_onsager'"
+    notes: "The selectable template inserts the same physical reaction-energy transfer property into the fluid and solid reference-energy balances with scales +1 and -1, enforcing mechanismwise mixture-energy conservation."
 
   - id: poromechanics_limit_smoke
     status: planned
@@ -84,3 +1150,130 @@ entries:
       - "pressure-displacement comparison fields"
     pass_fail: "not defined"
     notes: "Use a reduced mechanics case before coupling to full compositional flow."
+
+  - id: verified_input_block_governance
+    status: passing_regression
+    target_phenomenon: "Reproducible assembly from versioned, hash-verified MOOSE input blocks"
+    manuscript_reduction:
+      - "q2_eg_hierarchy_mms controlling equations and discretization"
+    configuration: "The structured verified_q2_eg_mms_2d problem specification selects fourteen version 1.0.0 blocks. The assembler reads their protected payloads, checks dimension and dependencies, adds scenario-local functions, initial conditions, and postprocessors, and emits a deck plus an exact provenance manifest."
+    variables:
+      - "Q2 solid displacement components"
+      - "P1 plus P0 EG pressure"
+      - "P1 plus P0 EG tau"
+    moose_objects_required:
+      kernels:
+        - "ADEnrichedGalerkinScalarBalance"
+        - "ADEnrichedGalerkinScalarEnrichmentBalance"
+        - "ADReferenceSolidMomentum"
+      materials:
+        - "ADEGReconstructedScalarMaterial"
+        - "ADStandardDarcyReferenceFluxMaterial"
+        - "ADReferenceSolidStressMaterial"
+        - "ADTauEvolutionMaterial"
+      userobjects: []
+      actions: []
+      dgkernels:
+        - "ADEnrichedGalerkinFluxDG"
+        - "ADEnrichedGalerkinSymmetryDG"
+      boundary_conditions:
+        - "ADEnrichedGalerkinPenaltyBC"
+        - "FunctionDirichletBC"
+    input_deck:
+      - "agent_workflows/specs/verified_q2_eg_mms_2d.problem.json"
+      - "moose_app/input/assemblies/verified_q2_eg_mms_2d.i"
+      - "moose_app/test/tests/verified_input_blocks/verified_q2_eg_mms_2d_assembly.i"
+    reference_result: "The assembled deck reproduces the existing two-dimensional Q2/EG manufactured-solution CSV within its configured tolerance while every reusable protected object resolves to the version and SHA-256 digest recorded in the sidecar manifest."
+    expected_outputs:
+      - "registry and assembly integrity gate"
+      - "assembly provenance manifest"
+      - "Q2 displacement, EG pressure, and EG tau error CSV"
+    pass_fail: "The verified_input_blocks group passes 2/2 with zero skips and failures, including the integrity command and the assembled MOOSE CSVDiff solve. The workflow unit suite passes 8/8, including a negative protected-payload mutation test that must report a lock violation."
+    notes: "This entry validates simulator-workflow provenance and the already validated q2_eg_hierarchy_mms physics path. Promotion of additional physics fragments requires their own mapped regression, MMS, benchmark, or acceptance evidence."
+
+  - id: associated_solid_plastic_flow
+    status: passing_regression
+    target_phenomenon: "Associated true-plastic deformation and tensor/scalar plastic distension with composition-dependent mobility"
+    manuscript_reduction:
+      - "eq:true_plastic_driving_stress_definition"
+      - "eq:MC_solid_isochoric_plastic_flow"
+      - "eq:MC_generic_plastic_flow_rules"
+      - "eq:MC_component_resolved_plastic_flow_rules"
+      - "eq:MC_scalar_plastic_distension_flow_rule"
+    configuration: "Nontrivial mapped constitutive audit, a genuinely tensorial QUAD9/Q2 two-dimensional manufactured solution through the complete solid kinematic factorization, and a solved three-dimensional transient tensor update with component-resolved AD mobilities, all nine true-plastic component rows, one shared isochoric multiplier, generic tensor plastic distension, and the selectable scalar specialization."
+    variables:
+      - "component mobility state"
+      - "nine true-plastic deformation components and one isochoric multiplier"
+      - "nine tensor plastic-distension components"
+      - "scalar plastic distension"
+    moose_objects_required:
+      kernels:
+        - "ADPlasticDeformationEvolution"
+        - "ADPlasticDeformationDeterminantConstraint"
+        - "ADPlasticDistensionEvolution"
+        - "ADScalarPlasticDistensionEvolution"
+      materials:
+        - "ADAssociatedPlasticFlowMaterial"
+        - "ADSolidPlasticKinematicsMaterial"
+      userobjects: []
+      actions:
+        - "PlasticDistensionAction"
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/associated_plastic_flow/associated_plastic_flow_constitutive_1d.i"
+      - "moose_app/test/tests/associated_plastic_flow/associated_plastic_flow_evolution_1d.i"
+      - "moose_app/test/tests/associated_plastic_flow/associated_plastic_flow_tensor_evolution_3d.i"
+      - "moose_app/test/tests/associated_plastic_flow/plastic_distension_action_modes_1d.i"
+      - "moose_app/test/tests/associated_plastic_flow/associated_plastic_flow_kinematic_hierarchy_mms_2d.i"
+    reference_result: "The mapped driving stress is traceless; the tensor-distension rate uses A_s^e rather than Fbar_s^e; every selected mobility contribution is nonnegative; the constrained update satisfies det(Fbar_s^p)=1 while retaining all nine rate rows."
+    expected_outputs:
+      - "mapped stress, tensor rates, and separate plastic-power errors"
+      - "three-dimensional internal-variable errors and determinant error"
+      - "two-dimensional total/elastic/plastic factorization closure and manufactured-field errors"
+      - "PETSc AD Jacobian comparison"
+      - "mobility and orientation-preservation rejection tests"
+    pass_fail: "The focused associated_plastic_flow cases in the combined 25-case plastic/pairwise run all pass with zero skips and failures. The 2D hierarchy closes all three multiplicative factorizations to 1.899e-16 or better, preserves det(Fbar_s^p) with final L2 error 7.384e-13, matches its manufactured elastic factors within 6.345e-12, and passes its full PETSc AD Jacobian test. The constrained 3D tensor update and input-level tensor/scalar selectors also pass."
+    notes: "The unconstrained component-wise backward-Euler option is documented only as rate-consistent. Exact discrete isochoricity uses the shared multiplier formulation. The Table 3 plastic-flow row has dimensional constitutive-hierarchy, selector, Jacobian, dissipation, and admissibility evidence; integration into each whole-model benchmark remains governed by that benchmark's acceptance plan."
+
+  - id: pairwise_phase_mechanical_interaction
+    status: passing_regression
+    target_phenomenon: "Pairwise bulk-phase momentum exchange and conservative mechanical heating"
+    manuscript_reduction:
+      - "eq:MC_interaction_energy_conservation"
+      - "eq:MC_mechanical_interaction_admissibility"
+      - "eq:MC_pairwise_interaction_force"
+      - "eq:MC_interaction_power_pairing"
+      - "eq:MC_interphase_exchange_law"
+      - "eq:MC_fluid_skeleton_interaction_force"
+      - "eq:MC_aggregate_solid_interaction_force"
+      - "eq:MC_fluid_skeleton_drag_tensor"
+      - "eq:MC_drag_heating_equal_partition"
+      - "eq:MC_fluid_interaction_energy_supply"
+      - "eq:MC_solid_interaction_energy_supply"
+    configuration: "Arbitrary three-phase/two-pair algebraic audit plus nonlinear state-dependent one-, two-, and three-dimensional all-component phase-momentum and two-energy residual stitches."
+    variables:
+      - "phase velocities"
+      - "phase temperatures"
+      - "state-dependent resistance coordinate"
+    moose_objects_required:
+      kernels:
+        - "ADPhaseMomentumVectorSourceTerm"
+        - "ADReferenceEnergySourceTerm"
+      materials:
+        - "ADPairwisePhaseInteractionMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions: []
+    input_deck:
+      - "moose_app/test/tests/pairwise_phase_interaction/pairwise_phase_interaction_3phase_2d.i"
+      - "moose_app/test/tests/pairwise_phase_interaction/pairwise_phase_interaction_state_dependent_1d.i"
+      - "moose_app/test/tests/pairwise_phase_interaction/pairwise_phase_interaction_state_dependent_2d.i"
+      - "moose_app/test/tests/pairwise_phase_interaction/pairwise_phase_interaction_state_dependent_3d.i"
+    reference_result: "Pair forces cancel, mechanical internal-energy supplies plus phase force powers cancel, drag dissipation and temperature-weighted entropy production are nonnegative, and active resistance tensors are symmetric positive definite."
+    expected_outputs:
+      - "phase force and total momentum-cancellation errors"
+      - "energy-cancellation, dissipation, entropy-production, and minimum-eigenvalue errors"
+      - "state-dependent 1D/2D/3D solved fields and PETSc AD Jacobian comparisons"
+      - "temperature, SPD, symmetry, scale-invariance, and heating-allocation rejection tests"
+    pass_fail: "Every pairwise_phase_interaction case in the combined 25-case plastic/pairwise run passes with zero skips and failures. The state-dependent 2D and 3D solves stitch all phase-velocity components and both energy supplies, pass their PETSc AD Jacobian tests, preserve momentum exactly, close total mechanical interaction energy within 5.496e-16, and match positive drag dissipation and temperature-weighted entropy production within 7.530e-16 and 3.879e-18. All symmetry, small-scale SPD, definiteness, temperature, and heating-allocation guards pass."
+    notes: "Constant resistance tensors can opt into validation caching; state-dependent tensors are checked at quadrature points. The Table 3 pairwise mechanical-interaction row has dimensional momentum/energy, Jacobian, conservation, dissipation, and admissibility evidence; integration into each whole-model benchmark remains governed by that benchmark's acceptance plan."

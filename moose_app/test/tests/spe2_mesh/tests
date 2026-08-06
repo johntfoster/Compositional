@@ -1,0 +1,14 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml validation/reports/spe2.md'
+  issues = ''
+
+  [spe2_rz_q2_mesh_volume]
+    type = CSVDiff
+    input = spe2_mesh_volume.i
+    cli_args = 'Outputs/file_base=spe2_mesh_volume'
+    csvdiff = spe2_mesh_volume.csv
+    abs_zero = 1e-12
+    rel_err = 1e-12
+    requirement = 'The SPE2 mesh shall contain 150 QUAD9 finite elements and 651 nodes and shall reproduce the published annular reservoir and completion-cell volumes through RZ finite-element quadrature.'
+  []
+[]

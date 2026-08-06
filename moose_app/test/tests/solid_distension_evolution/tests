@@ -1,0 +1,77 @@
+[Tests]
+  design = 'sections/multicomponent_solids.tex'
+  issues = ''
+
+  [transient_mms_1d]
+    type = CSVDiff
+    input = solid_distension_evolution_mms_1d.i
+    cli_args = 'Outputs/file_base=solid_distension_evolution_mms_1d'
+    csvdiff = solid_distension_evolution_mms_1d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-10
+    requirement = 'The application shall solve manuscript Eq. (MC_solid_distension_evolution) on a Cartesian solid reference with Q2 displacement, nonzero finite-deformation and intrinsic-density rates, and positive coefficient bounds on distension and intrinsic density.'
+  []
+
+  [transient_mms_2d]
+    type = CSVDiff
+    input = solid_distension_evolution_mms_2d.i
+    cli_args = 'Outputs/file_base=solid_distension_evolution_mms_2d'
+    csvdiff = solid_distension_evolution_mms_2d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-10
+    requirement = 'The application shall solve manuscript Eq. (MC_solid_distension_evolution) with the exact two-dimensional J-dot/J rate, a nonzero intrinsic-density rate, Q2 displacement, and configurable kinematic property names.'
+  []
+
+  [transient_mms_3d]
+    type = CSVDiff
+    input = solid_distension_evolution_mms_3d.i
+    cli_args = 'Outputs/file_base=solid_distension_evolution_mms_3d'
+    csvdiff = solid_distension_evolution_mms_3d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-10
+    requirement = 'The application shall solve manuscript Eq. (MC_solid_distension_evolution) with the exact three-dimensional J-dot/J rate, a nonzero intrinsic-density rate, and Q2 displacement on TET10 elements.'
+  []
+
+  [transient_mms_rz]
+    type = CSVDiff
+    input = solid_distension_evolution_mms_rz.i
+    cli_args = 'Outputs/file_base=solid_distension_evolution_mms_rz'
+    csvdiff = solid_distension_evolution_mms_rz.csv
+    abs_zero = 1e-11
+    rel_err = 1e-10
+    requirement = 'The application shall solve manuscript Eq. (MC_solid_distension_evolution) on a Q2 axisymmetric solid reference with the exact radial, axial, and circumferential contributions to J-dot/J.'
+  []
+
+  [finite_deformation_offdiag_jacobian]
+    type = PetscJacobianTester
+    input = solid_distension_evolution_mms_2d.i
+    cli_args = "Outputs/file_base=solid_distension_evolution_jacobian Functions/rho_exact/expression='1+0.05*t' Functions/distension_forcing/expression='0.2/(1+0.2*t)-0.1/(1+0.1*t)+0.04/(1-0.04*t)-0.05/(1+0.05*t)' -snes_test_err 1e-7"
+    ratio_tol = 2e-6
+    difference_tol = 1e-5
+    requirement = 'The finite-deformation distension residual shall retain AD Jacobian couplings to distension, intrinsic density, and every displacement contribution carried by J-dot/J.'
+  []
+
+  [nonpositive_distension_rejected]
+    type = RunException
+    input = solid_distension_evolution_mms_2d.i
+    cli_args = "Outputs/file_base=nonpositive_distension_rejected Functions/a_exact/expression='-1'"
+    expect_err = 'solid distension must remain positive'
+    requirement = 'The solid-distension evolution residual shall reject nonpositive total solid distension.'
+  []
+
+  [nonpositive_intrinsic_density_rejected]
+    type = RunException
+    input = solid_distension_evolution_mms_2d.i
+    cli_args = "Outputs/file_base=nonpositive_intrinsic_density_rejected Functions/rho_exact/expression='-1'"
+    expect_err = 'solid intrinsic density must remain positive'
+    requirement = 'The solid-distension evolution residual shall reject nonpositive solid intrinsic density.'
+  []
+
+  [nonpositive_solid_jacobian_rejected]
+    type = RunException
+    input = solid_distension_evolution_mms_2d.i
+    cli_args = "Outputs/file_base=nonpositive_solid_jacobian_rejected ICs/ux_ic/function=inverted_ux"
+    expect_err = 'solid-reference Jacobian must remain positive'
+    requirement = 'The solid-distension evolution residual shall reject an orientation-reversing solid-reference map.'
+  []
+[]

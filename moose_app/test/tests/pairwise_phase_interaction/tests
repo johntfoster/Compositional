@@ -1,0 +1,123 @@
+[Tests]
+  design = 'sections/multicomponent_solids.tex'
+  issues = ''
+
+  [three_phase_pair_graph]
+    type = CSVDiff
+    input = pairwise_phase_interaction_3phase_2d.i
+    cli_args = 'Outputs/file_base=pairwise_phase_interaction_3phase_2d'
+    csvdiff = pairwise_phase_interaction_3phase_2d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'A selectable arbitrary phase-pair graph shall satisfy manuscript pairwise force antisymmetry, total momentum cancellation, exact interaction-energy conservation, nonnegative drag heating, and temperature-weighted mechanical admissibility.'
+  []
+
+  [state_dependent_pairwise_solve]
+    type = CSVDiff
+    input = pairwise_phase_interaction_state_dependent_1d.i
+    cli_args = 'Outputs/file_base=pairwise_phase_interaction_state_dependent_1d'
+    csvdiff = pairwise_phase_interaction_state_dependent_1d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-10
+    requirement = 'A nonlinear solve shall stitch state-dependent pair drag into phase momentum and both mechanical-heating supplies into separate energy residuals while preserving momentum, total energy, and temperature-weighted admissibility.'
+  []
+
+  [state_dependent_pairwise_jacobian]
+    type = PetscJacobianTester
+    input = pairwise_phase_interaction_state_dependent_1d.i
+    ratio_tol = 2e-7
+    difference_tol = 1e-6
+    requirement = 'The pairwise momentum and mechanical-heating residuals shall retain AD derivatives through phase velocities, phase temperatures, and state-dependent resistance components.'
+  []
+
+  [state_dependent_pairwise_solve_2d]
+    type = CSVDiff
+    input = pairwise_phase_interaction_state_dependent_2d.i
+    cli_args = 'Outputs/file_base=pairwise_phase_interaction_state_dependent_2d'
+    csvdiff = pairwise_phase_interaction_state_dependent_2d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-10
+    requirement = 'A solved two-dimensional CG system shall stitch every component of both phase momentum residuals and both phase energy residuals to spatially varying anisotropic state-dependent pair resistance while preserving momentum, energy, nonnegative drag dissipation, and temperature-weighted admissibility.'
+  []
+
+  [state_dependent_pairwise_jacobian_2d]
+    type = PetscJacobianTester
+    input = pairwise_phase_interaction_state_dependent_2d.i
+    ratio_tol = 2e-6
+    difference_tol = 1e-5
+    requirement = 'The complete two-dimensional momentum-energy stitch shall retain AD derivatives through all velocity components, both temperatures, and all state-dependent resistance components.'
+  []
+
+  [state_dependent_pairwise_solve_3d]
+    type = CSVDiff
+    input = pairwise_phase_interaction_state_dependent_3d.i
+    cli_args = 'Outputs/file_base=pairwise_phase_interaction_state_dependent_3d'
+    csvdiff = pairwise_phase_interaction_state_dependent_3d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-10
+    requirement = 'A solved three-dimensional CG system shall stitch every component of both phase momentum residuals and both phase energy residuals to a full anisotropic state-dependent resistance tensor while preserving momentum, energy, nonnegative drag dissipation, and temperature-weighted admissibility.'
+  []
+
+  [state_dependent_pairwise_jacobian_3d]
+    type = PetscJacobianTester
+    input = pairwise_phase_interaction_state_dependent_3d.i
+    ratio_tol = 2e-6
+    difference_tol = 1e-5
+    requirement = 'The complete three-dimensional momentum-energy stitch shall retain AD derivatives through all velocity components, both temperatures, and the full state-dependent resistance tensor.'
+  []
+
+  [nonsymmetric_resistance_rejected]
+    type = RunException
+    input = pairwise_phase_interaction_3phase_2d.i
+    cli_args = "Materials/resistance01/tensor_values='2 1 0  0 1 0  0 0 3'"
+    expect_err = 'pair resistance tensor must be symmetric'
+    requirement = 'The pairwise interaction closure shall reject a nonreciprocal resistance tensor.'
+  []
+
+  [small_scale_nonsymmetric_resistance_rejected]
+    type = RunException
+    input = pairwise_phase_interaction_3phase_2d.i
+    cli_args = "Materials/resistance01/tensor_values='2e-15 1e-15 0  0 2e-15 0  0 0 1e-15'"
+    expect_err = 'pair resistance tensor must be symmetric'
+    requirement = 'Symmetry validation shall be relative to the active resistance scale and reject materially nonsymmetric tensors even when their physical units make every entry much smaller than one.'
+  []
+
+  [small_scale_spd_resistance_accepted]
+    type = RunApp
+    input = pairwise_phase_interaction_3phase_2d.i
+    cli_args = "Materials/resistance01/tensor_values='2e-15 5e-16 0  5e-16 2e-15 0  0 0 1e-15' Outputs/csv=false"
+    requirement = 'The relative symmetry and Cholesky checks shall accept a symmetric positive-definite active resistance tensor independently of its dimensional scale.'
+  []
+
+  [indefinite_resistance_rejected]
+    type = RunException
+    input = pairwise_phase_interaction_3phase_2d.i
+    cli_args = "Materials/resistance01/tensor_values='-1 0 0  0 1 0  0 0 3'"
+    expect_err = 'pair resistance tensor must be positive definite'
+    requirement = 'The pairwise interaction closure shall reject resistance tensors that cannot guarantee nonnegative drag dissipation.'
+  []
+
+  [nonpositive_temperature_rejected]
+    type = RunException
+    input = pairwise_phase_interaction_state_dependent_1d.i
+    cli_args = 'ICs/theta0_ic/value=0'
+    expect_err = 'every phase temperature must remain positive'
+    requirement = 'The temperature-weighted mechanical admissibility closure shall reject nonpositive absolute temperature.'
+  []
+
+  [state_dependent_indefinite_resistance_rejected]
+    type = RunException
+    input = pairwise_phase_interaction_state_dependent_1d.i
+    cli_args = "Materials/resistance/expression='-1'"
+    expect_err = 'pair resistance tensor must be positive definite'
+    requirement = 'The state-dependent scalar-component resistance path shall validate positive definiteness at quadrature points.'
+  []
+
+  [inadmissible_heating_partition_rejected]
+    type = RunException
+    input = pairwise_phase_interaction_state_dependent_1d.i
+    cli_args = 'Materials/interaction/heating_fraction_to_first=1.1'
+    expect_err = 'Every heating fraction must lie in'
+    requirement = 'The pairwise energy allocation shall reject fractions outside the admissible closed interval from zero to one.'
+  []
+[]

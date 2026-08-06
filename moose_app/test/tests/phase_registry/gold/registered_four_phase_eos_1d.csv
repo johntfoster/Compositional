@@ -1,0 +1,3 @@
+time,gas_mu_value,gas_pressure_value,oil_mu_value,oil_pressure_value,solid_mu_value,solid_pressure_value,water_mu_value,water_pressure_value
+0,6,6,4,4,2,2,8,8
+1,6,6,4,4,2,2,8,8

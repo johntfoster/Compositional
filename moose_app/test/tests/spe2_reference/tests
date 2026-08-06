@@ -1,0 +1,15 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml validation/reference_data/spe2_si_conversions.yml'
+  issues = ''
+
+  [spe2_primary_tables_and_si_conversions]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_spe2_primary_tables.py'
+    requirement = 'The SPE2 primary transcription shall retain every geometry, layer, PVT, saturation-function, well, schedule, and participant row and shall satisfy the published oil, water, and gas density identities and exact SI annular-volume conversions.'
+  []
+  [spe2_hydrostatic_capillary_initial_state]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/generate_spe2_initial_state.py --check-only'
+    requirement = 'The SPE2 hydrostatic and capillary initial-state construction shall reproduce oil, water, and total gas in place inside the envelope of the eleven published participant results before a coupled schedule run is attempted.'
+  []
+[]

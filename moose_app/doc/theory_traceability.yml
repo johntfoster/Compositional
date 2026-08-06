@@ -11,7 +11,7 @@ principles:
 
 object_families:
   kinematics:
-    status: planned
+    status: implemented_solid_reference_and_mobile_phase_history_slice
     likely_directories:
       - "include/materials"
       - "src/materials"
@@ -20,25 +20,247 @@ object_families:
     required_notes:
       - "reference/current configuration"
       - "Jacobian and deformation-gradient definitions"
+    implemented_objects:
+      - name: "PhaseRegistry"
+        files:
+          - "include/userobjects/PhaseRegistry.h"
+          - "src/userobjects/PhaseRegistry.C"
+        notes:
+          - "registers an arbitrary positive number of unique input-deck phase names"
+          - "identifies the registered phase whose map defines the reference configuration"
+          - "rejects duplicate, malformed, and unregistered phase names"
+          - "assigns reference, full, or relative_flux momentum formulation independently to every phase"
+      - name: "ADSolidReferenceKinematics"
+        files:
+          - "include/materials/ADSolidReferenceKinematics.h"
+          - "src/materials/ADSolidReferenceKinematics.C"
+        manuscript_basis:
+          - "eq:reference_relative_mass_flux"
+          - "eq:solid_reference_flux_divergence"
+        notes:
+          - "computes F = I + Grad u, J = det F, F^{-1}, J F^{-1}, and J_dot = J tr(F_dot F^{-1})"
+          - "uses only the active mesh-dimension displacement components and leaves inactive diagonal entries as identity"
+          - "under transient execution, F_dot uses the AD current displacement gradient and the old gradient divided by dt so the summed component storage rate preserves displacement Jacobian coupling"
+      - name: "ADSolidDistensionEvolution"
+        files:
+          - "include/kernels/ADSolidDistensionEvolution.h"
+          - "src/kernels/ADSolidDistensionEvolution.C"
+        manuscript_basis:
+          - "eq:MC_solid_distension_evolution"
+        notes:
+          - "implements a_dot/a - J_dot/J - rhobar_dot/rhobar = 0"
+          - "consumes configurable J and J_dot AD material properties from Cartesian or axisymmetric finite-deformation kinematics"
+          - "retains off-diagonal AD coupling to every active Q2 displacement component and rejects nonpositive a, rhobar, or J"
+          - "passes the 1D/2D/3D/RZ stitched hierarchy with the conserved solid constituent storage and source path"
+      - name: "ADSolidPhaseMassVolumeMaterial"
+        files:
+          - "include/materials/ADSolidPhaseMassVolumeMaterial.h"
+          - "src/materials/ADSolidPhaseMassVolumeMaterial.C"
+        manuscript_basis:
+          - "eq:solid_reference_solid_component_balance"
+          - "eq:MC_solid_distension_mass_relation"
+        notes:
+          - "accepts constant or coupled current intrinsic density and computes the exact rate of J phi_s rhobar_s"
+          - "reconstructs phi_s and its rate from conserved solid-reference storage while retaining AD coupling through J and rhobar_s"
+          - "consumes the current-volume solid component source with the manuscript J multiplier"
+          - "reports a_s phi_s rhobar_s0 - J phi_s rhobar_s as the integrated distension-mass audit"
+          - "the stitched 1D/2D/3D/RZ solve, off-diagonal Jacobian, and rho/J rejection tests pass"
+      - name: "ADPhaseHistoryKinematicsMaterial"
+        files:
+          - "include/materials/ADPhaseHistoryKinematicsMaterial.h"
+          - "src/materials/ADPhaseHistoryKinematicsMaterial.C"
+        manuscript_basis:
+          - "eq:reference_relative_mass_flux"
+          - "eq:implementation_phase_velocity_reconstruction"
+          - "eq:fluid_material_derivative_on_solid_frame"
+          - "eq:implementation_phase_velocity_gradient"
+          - "eq:implementation_phase_history_kinematics"
+        notes:
+          - "requires any non-reference phase registered by PhaseRegistry"
+          - "stores phase-history F_a and J_a on the solid reference mesh; these are not the solid pull-back map"
+          - "computes l_a = Grad_X v_a F_s^{-1} and c_a = W_a / (J_s rho_a), with rho_a = phi_a rhobar_a the current bulk phase density"
+          - "sets both c_a and l_a to zero when active_fraction is below active_tol, preserving inactive phase-history fields and avoiding division by vanished density"
+      - name: "ADPhaseDeformationGradientHistory"
+        files:
+          - "include/kernels/ADPhaseDeformationGradientHistory.h"
+          - "src/kernels/ADPhaseDeformationGradientHistory.C"
+        manuscript_basis:
+          - "eq:fluid_material_derivative_on_solid_frame"
+          - "eq:implementation_phase_deformation_gradient_history"
+          - "eq:implementation_phase_deformation_gradient_residual"
+        notes:
+          - "residual for one row/column component of F_a for any registered mobile phase on the solid reference mesh"
+          - "includes the phase material derivative term c_a dot Grad_X F_a"
+      - name: "ADPhaseJacobianHistory"
+        files:
+          - "include/kernels/ADPhaseJacobianHistory.h"
+          - "src/kernels/ADPhaseJacobianHistory.C"
+        manuscript_basis:
+          - "eq:fluid_material_derivative_on_solid_frame"
+          - "eq:implementation_phase_jacobian_history"
+          - "eq:implementation_phase_jacobian_residual"
+        notes:
+          - "residual for J_o, J_g, or J_w on the solid reference mesh"
+          - "evolves J_a with J_a tr(l_a) and includes c_a dot Grad_X J_a"
+      - name: "ADRegisteredPhaseMomentum"
+        files:
+          - "include/kernels/ADRegisteredPhaseMomentum.h"
+          - "src/kernels/ADRegisteredPhaseMomentum.C"
+        manuscript_basis:
+          - "eq:el_mom_f_simplified"
+          - "eq:implementation_full_phase_momentum_residual"
+        notes:
+          - "requires a phase registered with momentum model full"
+          - "uses D_a v_a / Dt = partial_t v_a|_X + [F_s^{-1}(v_a-v_s)] dot Grad_X v_a"
+          - "pulls all current-volume forces and optional Cauchy stress to the reference-phase mesh"
+          - "supports additional registered phase-interaction forces and conversion insertion"
+          - "pressure_potential_enrichment supplies the P0 enrichment for Q2/EG momentum decks, so the force uses Grad_X(p_E + p_E,enr)"
+          - "include_capillary_pressure defaults false; true requires phase gamma_a and uses Grad_X(p_E + p_E,enr + gamma_a + gamma_a,enr) when capillary enrichment is supplied"
+      - name: "ADRegisteredPhaseMomentumTractionBC"
+        files:
+          - "include/bcs/ADRegisteredPhaseMomentumTractionBC.h"
+          - "src/bcs/ADRegisteredPhaseMomentumTractionBC.C"
+        notes:
+          - "prescribes a full-phase traction component per unit reference area"
 
   thermodynamics:
-    status: planned
+    status: implemented_user_helmholtz_eos_and_reduced_ideal_mixture_regression
     likely_directories:
       - "include/materials"
       - "src/materials"
       - "include/userobjects"
       - "src/userobjects"
     manuscript_basis:
+      - "eq:component_partial_density_representation"
       - "eq:MC_absolute_neutral_component_potential"
+      - "eq:MC_fluid_legendre_relation"
       - "eq:MC_neutral_component_euler_identity"
       - "reversible thermodynamic restrictions"
     required_notes:
       - "state set"
       - "held-fixed variables"
       - "derivative source: parsed expression, compiled material, tabulated object, or EOS solve"
+    implemented_objects:
+      - name: "ADHelmholtzEOSClosureMaterial"
+        files:
+          - "include/materials/ADHelmholtzEOSClosureMaterial.h"
+          - "src/materials/ADHelmholtzEOSClosureMaterial.C"
+        manuscript_basis:
+          - "eq:MC_absolute_neutral_component_potential"
+          - "eq:MC_fluid_legendre_relation"
+          - "eq:MC_neutral_component_euler_identity"
+          - "eq:implementation_eos_chemical_potential"
+          - "eq:implementation_eos_pressure"
+          - "eq:implementation_eos_entropy"
+        notes:
+          - "supports any phase name registered by the input-deck PhaseRegistry"
+          - "consumes a user-supplied Helmholtz density and derivatives generated by ADDerivativeParsedMaterial"
+          - "uses partial constituent densities per unit current phase volume as independent composition variables"
+          - "derives chemical potentials, pressure, entropy density, intrinsic density, bulk phase density, and specific Helmholtz energy"
+          - "derivative_order = 2 exposes the consistent composition/temperature Hessian for Newton coupling"
+      - name: "ADHelmholtzElectricEnthalpyEOSMaterial"
+        files:
+          - "include/materials/ADHelmholtzElectricEnthalpyEOSMaterial.h"
+          - "src/materials/ADHelmholtzElectricEnthalpyEOSMaterial.C"
+        manuscript_basis:
+          - "eq:MC_phase_pressure_definitions"
+          - "eq:MC_fluid_pressure_definition"
+          - "eq:MC_solid_pressure_definition"
+          - "eq:MC_absolute_neutral_component_potential"
+        notes:
+          - "derives the phase pressure from the material Helmholtz-density Euler term plus the electric-enthalpy constituent-density derivatives for any registered fluid or solid phase"
+          - "reports the material and dielectric pressure contributions separately together with absolute neutral potentials, intrinsic and bulk phase densities, specific Helmholtz and internal energies, and electrical state-rate coefficients"
+          - "the analytic electric_enthalpy regression verifies total pressure 4 as the sum of material pressure -8 and dielectric correction 12"
+      - name: "ADTheoryCompositionProjectionMaterial"
+        files:
+          - "include/materials/ADTheoryCompositionProjectionMaterial.h"
+          - "src/materials/ADTheoryCompositionProjectionMaterial.C"
+        manuscript_basis:
+          - "eq:phase_pressure_storage"
+          - "eq:el_eta_constraint"
+          - "eq:Pi_componentwise"
+          - "eq:pi_difference_system"
+          - "eq:MC_fluid_composition_projection"
+          - "eq:MC_solid_composition_projection"
+          - "eq:MC_neutral_component_euler_identity"
+        notes:
+          - "implements the current theory Eqs. (182)--(183), not a traditional fugacity-equality flash"
+          - "assembles rho_xi d psi_xi/d eta, phi_xi d omega_xi^+/d eta, and any independently supplied solid stress-map corrections"
+          - "recover mode algebraically evaluates Pi_xi and every pi_xi^alpha from the N-1 difference system and phase-pressure sum without adding primary fields"
+          - "coupled mode exposes the N-1 projection residuals and pressure-storage residual for an explicit AD Newton solve"
+          - "reports the mass-fraction normalization residual, exact specific storage work pi/(phi rhobar eta), and absolute neutral component potentials from the manuscript Euler identity"
+          - "the exact reference-component specific storage work is consumed directly by ADTauEvolutionMaterial; no approximate pressure-work reconstruction is permitted"
+          - "composition physics is opt-in and this object is absent from noncompositional input hierarchies"
+          - "the focused analytic and coupled-Newton regressions pass in theory_composition_projection"
+      - name: "ADCompositionStressMapCorrectionMaterial"
+        files:
+          - "include/materials/ADCompositionStressMapCorrectionMaterial.h"
+          - "src/materials/ADCompositionStressMapCorrectionMaterial.C"
+        manuscript_basis:
+          - "eq:MC_solid_composition_projection"
+        notes:
+          - "assembles one selectable -tr[C (dG0/d eta_alpha) G0^{-1}] contribution at a time"
+          - "separate instances represent the distension A0 and true-deformation Fbar0 terms, preserving input-deck modularity"
+      - name: "ADRegisteredPhaseFlashMaterial"
+        scope: "traditional_comparison_only"
+        notes:
+          - "consumes prescribed phase amounts and compositions and reports conventional active-phase pressure/chemical-potential equality residuals"
+          - "does not implement the manuscript Eqs. (182)--(183), storage multipliers, tau evolution, or generalized transfer work"
+          - "excluded from the manuscript-theory hierarchy and retained only for matched comparison runs"
+      - name: "ADReferenceComponentStorageMaterial"
+        files:
+          - "include/materials/ADReferenceComponentStorageMaterial.h"
+          - "src/materials/ADReferenceComponentStorageMaterial.C"
+        manuscript_basis:
+          - "eq:component_partial_density_representation"
+          - "eq:solid_reference_fluid_component_balance"
+        notes:
+          - "computes rho_xi^alpha = phi_xi rhobar_xi eta_xi^alpha in the current configuration"
+          - "computes reference_component_storage = J rho_xi^alpha for reference-volume component storage"
+          - "does not yet perform an EOS, phase split, chemical-potential derivative, or vanishing-phase regularization"
+      - name: "ADIdealMixtureFluidEOSMaterial"
+        files:
+          - "include/materials/ADIdealMixtureFluidEOSMaterial.h"
+          - "src/materials/ADIdealMixtureFluidEOSMaterial.C"
+        manuscript_basis:
+          - "eq:component_partial_density_representation"
+          - "eq:MC_absolute_neutral_component_potential"
+          - "eq:MC_fluid_legendre_relation"
+          - "eq:MC_neutral_component_euler_identity"
+        notes:
+          - "computes rhobar_f from a slightly compressible pressure law using pressure as a primitive variable"
+          - "pressure_enrichment supplies the P0 EG pressure enrichment when the EOS is used in coupled hierarchy decks"
+          - "computes J phi_f rhobar_f eta_f^alpha for each supplied component mass fraction"
+          - "computes a neutral ideal-mixture Helmholtz specialization and hat_mu_f^alpha as the fixed-volume constituent-density derivative"
+          - "exposes rhobar_f^2 d psi_vol / d rhobar_f - p_f and the mass-fraction sum as diagnostics"
+          - "holds phase volume fraction, temperature, other component densities, and kinematic/internal fields fixed; electric enthalpy is omitted in this neutral reduction"
+          - "uses the positive-composition log(eta_f^alpha) ideal-mixture formula and rejects mass fractions that do not sum to one"
+          - "the quantitative 1D EDGE3/Q2 plus reconstructed P1+P0 EG acceptance leaf closes pressure and both absolute neutral component potentials, consumes EOS intrinsic density in standard Darcy/reference component fluxes, and solves both explicitly named direct summed Eq. (32) variables with maximum required error 1.528727e-13"
+          - "does not yet perform phase equilibrium, phase appearance/disappearance, tabulated PVT, or CALPHAD/EOS flash solves"
+      - name: "ADTwoPhaseConstantKEquilibriumMaterial"
+        files:
+          - "include/materials/ADTwoPhaseConstantKEquilibriumMaterial.h"
+          - "src/materials/ADTwoPhaseConstantKEquilibriumMaterial.C"
+        manuscript_basis:
+          - "eq:mass_fraction_constraint"
+          - "eq:phase_volume_fraction"
+          - "eq:volume_fraction_constraint"
+          - "eq:component_partial_density_representation"
+          - "eq:classical_compositional_closure_set"
+          - "eq:classical_phase_equilibrium_mu"
+          - "eq:implementation_component_density_partition"
+          - "eq:implementation_volume_partition"
+          - "eq:implementation_mass_fraction_partition"
+          - "eq:implementation_phase_material_storage"
+        notes:
+          - "implements a restricted bounded two-phase, two-component constant-K split"
+          - "computes phase mass split, saturations, phase volume fractions, phase compositions, equilibrium residuals, and total reference component storages"
+          - "uses an active interior split for 0 < beta < 1 and endpoint branches for one present phase plus one incipient inactive phase"
+          - "branches on the raw unbounded beta value; AD propagates through the selected branch"
+          - "does not yet implement full flash, pressure-dependent K-values, capillary pressure, relative permeability, or a smooth complementarity formulation"
 
   transport:
-    status: planned
+    status: implemented_reference_darcy_charged_nonisothermal_and_1d_cross_component_onsager_slices
     likely_directories:
       - "include/kernels"
       - "src/kernels"
@@ -49,6 +271,9 @@ object_families:
       - "eq:MC_energy_balance"
       - "eq:MC_transport_force_gauge_objectivity"
       - "eq:MC_relative_transport_closures"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:reference_relative_mass_flux"
+      - "eq:pulled_back_modified_permeability"
     required_notes:
       - "FE or FV variable choice"
       - "flux law"
@@ -57,35 +282,652 @@ object_families:
       - "direct electric-field work on the relative charge flux"
       - "exclude isolated electric-potential-weighted charge fluxes"
       - "electric potential gauge test"
+    implemented_objects:
+      - name: "ADReferenceFluidComponentMaterial"
+        files:
+          - "include/materials/ADReferenceFluidComponentMaterial.h"
+          - "src/materials/ADReferenceFluidComponentMaterial.C"
+        manuscript_basis:
+          - "eq:reference_relative_mass_flux"
+          - "eq:solid_reference_fluid_component_balance"
+        notes:
+          - "computes W_f = J F^{-1} w_f"
+          - "computes eta_f^alpha W_f + J F^{-1}(j_disp^alpha + j_diff^alpha)"
+          - "computes the J-weighted current-volume source"
+      - name: "ADReferenceFluidComponentBalance"
+        files:
+          - "include/kernels/ADReferenceFluidComponentBalance.h"
+          - "src/kernels/ADReferenceFluidComponentBalance.C"
+        manuscript_basis:
+          - "eq:solid_reference_flux_divergence"
+          - "eq:solid_reference_fluid_component_balance"
+          - "eq:fluid_component_residual"
+        notes:
+          - "continuous Galerkin residual for storage time derivative, reference-divergence component flux, and source"
+      - name: "ADReferenceStationaryEnergyBalance"
+        files:
+          - "include/kernels/ADReferenceStationaryEnergyBalance.h"
+          - "src/kernels/ADReferenceStationaryEnergyBalance.C"
+        manuscript_basis:
+          - "eq:MC_energy_balance"
+        notes:
+          - "weak solid-reference residual of the stationary reduction -Div_X(Q)+J electric_work+J rho r=0"
+          - "uses the equation sign convention directly and consumes no electric-potential-weighted charge flux"
+      - name: "ADReferenceFluidComponentFluxBC"
+        files:
+          - "include/bcs/ADReferenceFluidComponentFluxBC.h"
+          - "src/bcs/ADReferenceFluidComponentFluxBC.C"
+        manuscript_basis:
+          - "eq:fluid_component_residual"
+        notes:
+          - "natural outward reference phase-flux boundary contribution multiplied by component mass fraction"
+      - name: "ADStandardDarcyReferenceFluxMaterial"
+        files:
+          - "include/materials/ADStandardDarcyReferenceFluxMaterial.h"
+          - "src/materials/ADStandardDarcyReferenceFluxMaterial.C"
+        manuscript_basis:
+          - "eq:standard_darcy_mass_flux_limit"
+          - "eq:black_oil_darcy_flux"
+          - "eq:reference_relative_mass_flux"
+          - "eq:pulled_back_modified_permeability"
+        notes:
+          - "computes a reduced standard Darcy relative mass flux on the solid reference configuration"
+          - "uses scalar intrinsic permeability, constant or optional AD material viscosity, optional AD relative permeability, pressure gradient, optional P0 pressure enrichment gradient, intrinsic density, gravity, and the AD solid pull-back"
+          - "include_acceleration defaults false for the negligible-inertia reduction; true requires phase_acceleration and uses g-a_f"
+          - "include_capillary_pressure defaults false; true requires phase gamma_f and uses Grad_X(p_E + p_E,enr + gamma_f + gamma_f,enr) when pressure/capillary enrichments are supplied"
+          - "can consume intrinsic density from either a coupled variable or an AD EOS material property"
+          - "accepts supplied phase capillary and relative-permeability properties but excludes their constitutive laws, phase equilibrium, electrochemical forces, thermal forces, and conversion-induced driving terms"
+      - name: "ADBlackOilPVTMaterial"
+        files:
+          - "include/materials/ADBlackOilPVTMaterial.h"
+          - "src/materials/ADBlackOilPVTMaterial.C"
+        manuscript_basis:
+          - "eq:black_oil_storage_identifications"
+          - "eq:black_oil_water_balance"
+          - "eq:black_oil_oil_balance"
+          - "eq:black_oil_gas_balance"
+          - "eq:solid_reference_fluid_component_balance"
+        notes:
+          - "linearly interpolates pressure-tabulated B_w, B_o, B_g, R_s, and optional water/oil/gas viscosities while preserving the active table slope in the AD graph"
+          - "computes phase intrinsic densities, oil-phase component mass fractions, oil saturation, and current- and solid-reference component storage"
+          - "accepts either a coupled pressure variable or a reconstructed-total AD pressure and pressure-rate material-property pair, preserving backbone and enrichment Jacobian coupling"
+          - "when compute_storage_rates=true in a transient solve, provides the full chain-rule material time rate of each J-weighted reference component storage for pressure-saturation balance kernels"
+          - "supports explicit error, clamp, and linear-extrapolation policies outside the supplied pressure interval"
+          - "supplies storage, storage-rate, PVT, and optional phase-viscosity properties; component-balance kernels, phase fluxes, capillary pressure, relative permeability, and wells remain separate objects"
+      - name: "ADBlackOilBenchmarkPVTMaterial"
+        files:
+          - "include/materials/ADBlackOilBenchmarkPVTMaterial.h"
+          - "src/materials/ADBlackOilBenchmarkPVTMaterial.C"
+        manuscript_basis:
+          - "eq:black_oil_storage_identifications"
+          - "eq:black_oil_water_balance"
+          - "eq:black_oil_oil_balance"
+          - "eq:black_oil_gas_balance"
+          - "eq:black_oil_darcy_flux"
+        notes:
+          - "evaluates ECLIPSE-style PVTW constant-compressibility water, separate-grid PVDG gas, and ragged PVTO oil branches with AD pressure and dissolved-R_s dependence"
+          - "treats dissolved R_s as an independent coupled state and exposes saturated R_s, the nonnegative undersaturation gap, and a Fischer-Burmeister gas-saturation complementarity residual"
+          - "uses the saturated PVTO curve when gas is active under equilibrium transfer, while an explicit switch retains the undersaturated fixed-R_s branch for DRSDT=0 benchmark evolution"
+          - "declares phase viscosity, intrinsic-density, J-weighted water/oil/gas component-storage, and exact chain-rule reference-storage-rate properties for the benchmark flux and balance objects"
+          - "exposes both the actual dissolved R_s state and saturated R_s so DRSDT=0 well sources use the history state while equilibrium-transfer closures use the saturated state"
+          - "storage rates include PVTW, PVDG, ragged PVTO, dissolved R_s, porosity, saturation, and reference-J rates on the selected phase branch"
+          - "the SPE1 initial and active-gas equilibrium PVT states are regression tested, ADMaterialPropertyResidual solves the equilibrium active-gas complementarity equation, and the DRSDT=0 300-cell regression holds dissolved R_s fixed while free gas accumulates"
+          - "the fixed-skeleton official-grid FV diagnostic passes the pinned OPM comparison through day 151 on the OPM internal time boundaries, and the combined focused black-oil checks pass 22/22 including the coupled Q2/EG deck check; its completed day-3650 run retains component conservation but fails the long-horizon OPM and nonnegative-saturation gates, and neither result verifies the finite-deformation mixture theory or its CG/EG discretization"
+      - name: "FVBlackOilComponentBalance"
+        scope: "diagnostic_only"
+        files:
+          - "include/fvkernels/FVBlackOilComponentBalance.h"
+          - "src/fvkernels/FVBlackOilComponentBalance.C"
+        manuscript_basis:
+          - "eq:black_oil_water_balance"
+          - "eq:black_oil_oil_balance"
+          - "eq:black_oil_gas_balance"
+        notes:
+          - "excluded from the finite-deformation Q2/CG-EG production path and every SPE acceptance gate"
+          - "assembles one cell-centered reference storage-rate minus reference-source residual"
+          - "consumes AD PVT and well properties without embedding either closure in the kernel"
+      - name: "FVBlackOilPhaseUpwindComponentFlux"
+        scope: "diagnostic_only"
+        files:
+          - "include/fvkernels/FVBlackOilPhaseUpwindComponentFlux.h"
+          - "src/fvkernels/FVBlackOilPhaseUpwindComponentFlux.C"
+        manuscript_basis:
+          - "eq:black_oil_water_balance"
+          - "eq:black_oil_oil_balance"
+          - "eq:black_oil_gas_balance"
+          - "eq:black_oil_darcy_flux"
+        notes:
+          - "excluded from the finite-deformation Q2/CG-EG production path and every SPE acceptance gate"
+          - "uses one equal-and-opposite face flux with phase-by-phase first-order upstream density, mobility, and component fraction"
+          - "uses harmonic scalar absolute permeability on the orthogonal fixed-reference SPE1 grid"
+          - "provides a monotone benchmark transport path without an artificial-diffusion material coefficient"
+      - name: "FVBlackOilWellControl"
+        scope: "diagnostic_only"
+        files:
+          - "include/fvkernels/FVBlackOilWellControl.h"
+          - "src/fvkernels/FVBlackOilWellControl.C"
+        manuscript_basis:
+          - "eq:black_oil_water_balance"
+          - "eq:black_oil_oil_balance"
+          - "eq:black_oil_gas_balance"
+        notes:
+          - "excluded from the finite-deformation Q2/CG-EG production path and every SPE acceptance gate"
+          - "adds one AD rate or rate/BHP complementarity equation to a shared scalar BHP for a one-cell FV completion"
+          - "multi-completion aggregation remains a separate workflow object"
+      - name: "ADBlackOilCapillaryPressureMaterial"
+        files:
+          - "include/materials/ADBlackOilCapillaryPressureMaterial.h"
+          - "src/materials/ADBlackOilCapillaryPressureMaterial.C"
+        manuscript_basis:
+          - "eq:black_oil_capillary_pressure_closures"
+        notes:
+          - "reconstructs water and gas pressures from an oil reference pressure using the manuscript water-oil and gas-oil signs"
+          - "uses fixed-history tabulated p_cow(S_w) and p_cgo(S_g) curves with AD interpolation"
+          - "optionally includes nonnegative diagonal T_ow S_w_dot and T_go S_g_dot dynamic-capillary terms in transient solves"
+          - "history-state evolution for reversal and trapping remains a separate constitutive object"
+      - name: "ADSaturationOnsagerForceMaterial"
+        files:
+          - "include/materials/ADSaturationOnsagerForceMaterial.h"
+          - "src/materials/ADSaturationOnsagerForceMaterial.C"
+        manuscript_basis:
+          - "eq:MC_dynamic_capillary_onsager_relation"
+          - "eq:MC_dynamic_capillary_force_rate_relation"
+          - "eq:MC_dynamic_capillary_resistance_admissibility"
+          - "eq:MC_dynamic_capillary_dissipation"
+        notes:
+          - "evaluates every independent L_f^sat-L_fstar^sat difference from the complete symmetric positive-semidefinite resistance matrix and the independent reconstructed saturation rates"
+          - "accepts either a constant row-major matrix or state-dependent AD resistance properties and checks the latter for symmetry and positive semidefiniteness at every quadrature point"
+          - "reports dot(S)^T T dot(S), phi dot(S)^T T dot(S)/theta_F, and the minimum resistance eigenvalue"
+          - "keeps the reference phase implicit, matching the manuscript elimination of the dependent saturation rate"
+          - "uses a dimensionless relative symmetry and positive-semidefinite tolerance scaled by the actual maximum matrix magnitude; an exactly zero matrix is admissible"
+      - name: "ADCapillaryHistoryOnsagerMaterial"
+        files:
+          - "include/materials/ADCapillaryHistoryOnsagerMaterial.h"
+          - "src/materials/ADCapillaryHistoryOnsagerMaterial.C"
+        manuscript_basis:
+          - "eq:MC_capillary_history_admissibility"
+        notes:
+          - "closes each skeleton-carried history coordinate by dot(h_k)=-M_k partial(gamma)/partial(h_k) with a separately selectable nonnegative diagonal mobility"
+          - "solves the history-rate residual and reports both the actual and predicted capillary-history dissipation together with the temperature-scaled entropy production"
+      - name: "ADSaturationOnsagerForceGradientMaterial"
+        files:
+          - "include/materials/ADSaturationOnsagerForceGradientMaterial.h"
+          - "src/materials/ADSaturationOnsagerForceGradientMaterial.C"
+        manuscript_basis:
+          - "eq:fluid_pressure_difference_primitive_potential"
+          - "eq:MC_dynamic_capillary_force_rate_relation"
+        notes:
+          - "supplies the reference-configuration gradient of each generalized saturation-force difference for modular phase-pressure-gradient and momentum closures"
+          - "state-dependent resistance mode evaluates the complete product rule T grad(dot(S)) + dot(S) grad(T) and requires explicit resistance-gradient properties"
+          - "uses the same active-magnitude relative validation and zero-matrix semantics as ADSaturationOnsagerForceMaterial"
+      - name: "ADPhaseThermodynamicIdentityMaterial"
+        files:
+          - "include/materials/ADPhaseThermodynamicIdentityMaterial.h"
+          - "src/materials/ADPhaseThermodynamicIdentityMaterial.C"
+        verification_status: "source_and_decks_static_validated_compiled_verification_pending"
+        manuscript_basis:
+          - "eq:fluid_volume_fraction_el_relation"
+          - "eq:fluid_pressure_primitive_potential_relation"
+          - "eq:fluid_pressure_difference_primitive_potential"
+          - "eq:saturation_weighted_primitive_potential_sum"
+          - "eq:equivalent_pore_pressure_capillary_relation"
+          - "eq:MC_dynamic_capillary_force_rate_relation"
+          - "eq:MC_dynamic_capillary_dissipation"
+          - "eq:MC_phase_legendre_transform"
+          - "eq:MC_phase_legendre_transform_definition"
+          - "eq:MC_phase_legendre_transform_pressure_derivative"
+          - "eq:MC_phase_equivalent_pressure"
+        notes:
+          - "exposes every absolute L_f^sat, the saturation-weighted average, an explicit reference-force gauge, force differences, force-rate residuals, phase-volume Euler-Lagrange residuals, actual pressures, and equivalent-pressure identities"
+          - "reports phi sum_f L_f^sat dot(S_f) and its positive-temperature entropy-production contribution"
+          - "evaluates the complete product-rule actual-pressure gradient and the distinct momentum-potential gradient Grad_X(p_f-omega_f^+), in which electric enthalpy cancels exactly"
+          - "optionally evaluates the solid phase Legendre transform, its pressure derivative, and p_E=p_s-omega_s^+ identity"
+      - name: "ADPhaseMomentumPressurePotentialGradientTerm"
+        files:
+          - "include/kernels/ADPhaseMomentumPressurePotentialGradientTerm.h"
+          - "src/kernels/ADPhaseMomentumPressurePotentialGradientTerm.C"
+        verification_status: "source_and_decks_static_validated_compiled_verification_pending"
+        manuscript_basis:
+          - "eq:el_mom_f_dynamic_capillary"
+        notes:
+          - "provides the unique pulled-back J phi_f F^{-T} Grad_X(p_f-omega_f^+) scalar-pressure insertion for one phase and momentum component"
+          - "the selectable template forbids duplicate p_E, gamma_f, or L_f scalar-gradient insertions and retains the anisotropic Maxwell stress as a separate momentum term"
+      - name: "ADBlackOilPhasePressureDifferenceMaterial"
+        files:
+          - "include/materials/ADBlackOilPhasePressureDifferenceMaterial.h"
+          - "src/materials/ADBlackOilPhasePressureDifferenceMaterial.C"
+        manuscript_basis:
+          - "eq:fluid_pressure_difference_primitive_potential"
+          - "eq:wetting_nonwetting_capillary_pressure_recovery"
+          - "eq:saturation_weighted_pressure_sum"
+          - "eq:MC_two_phase_dynamic_capillary_pressure"
+        notes:
+          - "stitches independently selected stored surface-energy, electric-enthalpy, and generalized saturation-force differences into water-minus-oil and gas-minus-oil pressure differences"
+          - "uses oil as the omitted saturation reference without requiring an absolute generalized saturation-force gauge"
+          - "keeps each physical contribution exposed as a separately named AD property for input-deck selection and verification"
+      - name: "ADBlackOilRelativePermeabilityMaterial"
+        files:
+          - "include/materials/ADBlackOilRelativePermeabilityMaterial.h"
+          - "src/materials/ADBlackOilRelativePermeabilityMaterial.C"
+        manuscript_basis:
+          - "eq:black_oil_darcy_flux"
+        notes:
+          - "interpolates SWOF/SGOF-style water, gas, oil-water, and oil-gas relative-permeability tables with AD slopes"
+          - "combines the two oil curves with the default ECLIPSE/OPM saturation-weighted three-phase rule and its near-connate regularization"
+          - "declares phase relative-permeability properties consumed directly by ADStandardDarcyReferenceFluxMaterial"
+          - "table curves represent a fixed history state; hysteresis updates remain separate"
+      - name: "ADBlackOilPeacemanWellMaterial"
+        files:
+          - "include/materials/ADBlackOilPeacemanWellMaterial.h"
+          - "src/materials/ADBlackOilPeacemanWellMaterial.C"
+        manuscript_basis:
+          - "eq:black_oil_water_balance"
+          - "eq:black_oil_oil_balance"
+          - "eq:black_oil_gas_balance"
+          - "eq:black_oil_storage_identifications"
+        notes:
+          - "computes completion-local Peaceman phase reservoir rates and water, stock-tank oil, and stock-tank gas surface rates"
+          - "supports prescribed BHP, completion-local oil/gas surface-rate controls, and a scalar_bhp mode driven by one shared well unknown"
+          - "negative gas-rate control with injection_phase=gas injects only free gas and excludes producer dissolved-gas and crossflow terms"
+          - "uses production-positive phase rates and therefore returns negative reference component sources for production and positive sources for injection"
+          - "the 1D EDGE3/Q2, genuinely 2D QUAD9/Q2, and genuinely 3D active-policy TET10/Q2 production-well MMS leaves consume reconstructed P1+P0 EG pressure through production PVT and relative permeability and close the direct summed Eq. (32) water, stock-tank oil, and stock-tank gas storage/source balances at or below 1e-10"
+          - "verified producer and gas-injector tests cover active rate controls, BHP limits, and the signed unmet-rate residual"
+          - "shared scalar control is verified for one Cartesian completion; schedule selection and multi-completion aggregation remain open workflow objects"
+      - name: "BlackOilNodalWellControl"
+        files:
+          - "include/scalarkernels/BlackOilNodalWellControl.h"
+          - "src/scalarkernels/BlackOilNodalWellControl.C"
+        manuscript_basis:
+          - "eq:black_oil_water_balance"
+          - "eq:black_oil_oil_balance"
+          - "eq:black_oil_gas_balance"
+        notes:
+          - "solves one scalar BHP from the completion-averaged oil or gas surface rate"
+          - "uses a Fischer-Burmeister residual to impose minimum or maximum BHP complementarity"
+          - "couples the scalar row to the continuous pressure nodes of a named completion node set with a lagged productivity Jacobian"
+          - "oil-production and free-gas-injection tests verify active rate and BHP-limit branches; the official 300-cell SPE1 regression verifies the shared injector and producer controls"
+          - "one trilinear Cartesian completion is covered; aggregation and pressure averaging across multiple completion cells remain open"
+      - name: "ADReferenceFluidComponentFluxMaterial"
+        files:
+          - "include/materials/ADReferenceFluidComponentFluxMaterial.h"
+          - "src/materials/ADReferenceFluidComponentFluxMaterial.C"
+        manuscript_basis:
+          - "eq:reference_relative_mass_flux"
+          - "eq:solid_reference_fluid_component_balance"
+          - "eq:fluid_component_residual"
+        notes:
+          - "assembles eta_f^alpha W_f + J F^{-1}(j_disp^alpha + j_diff^alpha) from a material-provided phase relative flux"
+          - "can add an AD current component extra-flux material property before pull-back"
+          - "computes the J-weighted current-volume component source for the residual kernel"
+      - name: "ADRegisteredPhaseComponentFluxMaterial"
+        files:
+          - "include/materials/ADRegisteredPhaseComponentFluxMaterial.h"
+          - "src/materials/ADRegisteredPhaseComponentFluxMaterial.C"
+        manuscript_basis:
+          - "eq:reference_relative_mass_flux"
+          - "eq:solid_reference_fluid_component_balance"
+          - "eq:fluid_component_residual"
+        notes:
+          - "assembles a component reference flux from an arbitrary registered phase list"
+          - "uses phase mass fractions, phase reference relative mass fluxes, optional phase-active flags, and optional AD current extra-flux material properties"
+          - "the verified 1D, 2D, and 3D registered-phase component-balance decks use Q2 prescribed solid displacement, P1+P0 EG-like oil/gas/water pressure drivers, and material-property consumption of each reconstructed total pressure"
+      - name: "ADChargedNonisothermalComponentFluxMaterial"
+        files:
+          - "include/materials/ADChargedNonisothermalComponentFluxMaterial.h"
+          - "src/materials/ADChargedNonisothermalComponentFluxMaterial.C"
+        manuscript_basis:
+          - "eq:MC_transport_force_gauge_objectivity"
+          - "eq:MC_relative_transport_closures"
+        notes:
+          - "computes a current component flux from neutral-potential, electric-potential, and temperature gradients"
+          - "optionally consumes AD material properties for P1+P0 EG reconstructed driver gradients and a spatially varying scalar mobility while retaining constant-mobility coupled-variable inputs"
+          - "uses only Grad(phi) for the electric contribution, so electric-potential gauge shifts do not enter the force"
+          - "reports the transport force, current component flux, charge flux, and direct electric-field work on that charge flux"
+          - "validated in one, two, and three dimensions by registered-phase component-balance regressions; the quantitative nonlinear 1D Q2/EG leaf verifies L_alpha=0.5+0.2(1.5+X)^2, analytic Div(W_alpha), and the direct reference balance with maximum error 3.7080784212314e-14"
+      - name: "ADReferenceThermalEnergyMaterial"
+        files:
+          - "include/materials/ADReferenceThermalEnergyMaterial.h"
+          - "src/materials/ADReferenceThermalEnergyMaterial.C"
+        manuscript_basis:
+          - "eq:MC_energy_balance"
+          - "eq:MC_heat_flux_law"
+        notes:
+          - "computes q=-k F^{-T} Grad_X(theta) and the solid-reference pull-back Q=J F^{-1}q"
+          - "sums direct relative-current electric-field-work properties from ADChargedNonisothermalComponentFluxMaterial and multiplies them by J"
+          - "reports separate J-weighted electric-work, volumetric heat-supply, and total reference-source properties"
+          - "does not construct an isolated electric-potential-weighted charge flux"
+      - name: "ADInterSubsystemHeatExchangeMaterial"
+        files:
+          - "include/materials/ADInterSubsystemHeatExchangeMaterial.h"
+          - "src/materials/ADInterSubsystemHeatExchangeMaterial.C"
+        manuscript_basis:
+          - "eq:MC_fluid_solid_heat_exchange_law"
+          - "eq:MC_fluid_solid_heat_exchange_positive"
+          - "eq:MC_energy_balance"
+        notes:
+          - "computes current-volume q_F=h_FS(theta_S-theta_F), q_S=-q_F, exact cancellation, and the associated nonnegative entropy-production density"
+          - "accepts coupled temperatures or reconstructed AD temperature properties and a constant or state-dependent nonnegative h_FS in W/(m^3 K)"
+          - "separate ADReferenceEnergySourceTerm kernels apply J once to the already signed current-volume properties in the fluid and solid energy residuals"
+          - "full EDGE3/QUAD9/TET10 P2+P0 CG/EG two-temperature energy MMS cases pass in 1D/2D/3D with reconstructed temperatures, Fourier fluxes, state-dependent h_FS, and exact exchange cancellation; a genuinely 2D PETSc Jacobian covers volume, interior-facet, weak-boundary, and cross-temperature AD coupling"
+          - "the complete transient EDGE3/QUAD9/TET10 P2+P0 CG/EG hierarchy independently activates storage, skeleton-relative internal-energy advection, Fourier/cross flux, phase stress power, conversion transfer work, relative-current electric work, external heat, and the real state-dependent exchange closure in both subsystem rows"
+          - "the 1D/2D/3D all-term MMS cases and 2D/3D PETSc Jacobian tests pass 5/5; final exchange cancellation is exactly zero, minimum exchange entropy production is 0.0349335, and the largest audited strong-residual L2 norm is 7.36420e-12"
+          - "selectable hierarchy evidence is provided by thermal_subsystem_energy.i.template, fluid_solid_heat_exchange.i.template, two_subsystem_complete_energy.i.template, and the explicit activation-token composition in two_temperature_energy_hierarchy.i.template"
+      - name: "ADTwoComponentOnsagerFluxMaterial"
+        files:
+          - "include/materials/ADTwoComponentOnsagerFluxMaterial.h"
+          - "src/materials/ADTwoComponentOnsagerFluxMaterial.C"
+        manuscript_basis:
+          - "eq:MC_relative_transport_closures"
+        notes:
+          - "computes w_0=-(L_00 f_0+L_01 f_1) and w_1=-(L_10 f_0+L_11 f_1) from two AD transport-force properties"
+          - "accepts all four row-major coefficients, enforces L_01=L_10 within a configured tolerance, and rejects matrices unless L_00>0 and det(L)>0"
+          - "reports the reciprocity residual, positive-definite determinant, and sum_i f_i dot (-w_i) dissipation"
+          - "the quantitative 1D EDGE3/Q2 and P1+P0 EG leaf uses f=(1.25,-1), L=(2,0.5;0.5,1.5), w=(-2,0.875), det(L)=2.75, dissipation=3.375, and both direct summed Eq. (32) balances with maximum error 4.520667e-15"
+      - name: "ADMulticomponentOnsagerFluxMaterial"
+        files:
+          - "include/materials/ADMulticomponentOnsagerFluxMaterial.h"
+          - "src/materials/ADMulticomponentOnsagerFluxMaterial.C"
+        manuscript_basis:
+          - "eq:separate_relative_flux_sum_closure"
+          - "eq:onsager_reference_flux_reconstruction"
+          - "eq:onsager_dispersion_mobility_balance"
+          - "eq:onsager_diffusion_mobility_balance"
+          - "eq:MC_dispersion_closure"
+          - "eq:MC_diffusion_closure"
+          - "eq:MC_onsager_dispersion_stationarity"
+          - "eq:MC_onsager_diffusion_stationarity"
+          - "eq:MC_helmholtz_source_projection"
+          - "eq:MC_relative_transport_closures"
+          - "eq:MC_onsager_reaction_transport_dissipation"
+        notes:
+          - "applies an (N-1)-by-(N-1) matrix of spatial mobility tensors to the independent temperature-weighted forces and reconstructs the dependent reference-component current flux so the N physical component fluxes sum to zero"
+          - "accepts constant active tensor entries, AD RankTwoTensor properties, or AD scalar tensor-component properties and enforces D_ab=D_ba^T plus positive definiteness on the combined component-spatial block"
+          - "constant tensors and their dense reciprocity/Cholesky audit are cached once; state-dependent tensors retain the audit at each quadrature point"
+          - "reports force-flux power density and the distinct physical entropy-production density obtained by division by positive absolute temperature"
+          - "constant 2D tensor tests cover transpose reciprocity, positive definiteness, dependent-flux reconstruction, and thermodynamic guards"
+          - "full block EDGE3/QUAD9/TET10 P2+P0 EG component-balance MMS cases pass in 1D/2D/3D; the 2D case uses nonsymmetric spatial cross blocks satisfying D_ab=D_ba^T and verifies the complete volume, interior-facet, weak-boundary, and AD-Jacobian hierarchy"
+      - name: "ADConversionCorrectedDarcyReferenceFluxMaterial"
+        files:
+          - "include/materials/ADConversionCorrectedDarcyReferenceFluxMaterial.h"
+          - "src/materials/ADConversionCorrectedDarcyReferenceFluxMaterial.C"
+        manuscript_basis:
+          - "eq:fluid_phase_interaction_law"
+          - "eq:relative_flux_linear_system"
+          - "eq:modified_relative_flux_permeability"
+          - "eq:modified_relative_flux_scalar_admissibility"
+        notes:
+          - "assembles independently selectable pressure, capillary or dynamic-lag, electrical, gravity, acceleration, and conversion-insertion forces before the scalar conversion-corrected algebraic solve"
+          - "inverts phi_f^2 mu_f/(k_f k_rf)+q_f, reports the resistance margin, rejects a nonpositive or singular denominator, and pulls the relative mass flux back with J_s F_s^{-1}"
+      - name: "ADPhaseTransformingDarcyReferenceFluxMaterial"
+        files:
+          - "include/materials/ADPhaseTransformingDarcyReferenceFluxMaterial.h"
+          - "src/materials/ADPhaseTransformingDarcyReferenceFluxMaterial.C"
+        manuscript_basis:
+          - "eq:relative_flux_linear_system"
+          - "eq:modified_relative_flux_permeability"
+          - "eq:modified_relative_flux_scalar_admissibility"
+        notes:
+          - "uses bulk and intrinsic density to recover phase fraction, includes q_f in the scalar resistance and q_f(Grad_X tau-v_s) in the force, and returns exact zero flux for inactive or zero-relative-permeability phases"
+          - "the focused test group includes a nonpositive-resistance rejection case for the manuscript admissibility condition"
+      - name: "ADPhaseTransformingPressureGradientDarcyReferenceFluxMaterial"
+        files:
+          - "include/materials/ADPhaseTransformingPressureGradientDarcyReferenceFluxMaterial.h"
+          - "src/materials/ADPhaseTransformingPressureGradientDarcyReferenceFluxMaterial.C"
+        manuscript_basis:
+          - "eq:fluid_phase_interaction_law"
+          - "eq:relative_flux_linear_system"
+          - "eq:modified_relative_flux_permeability"
+          - "eq:modified_relative_flux_scalar_admissibility"
+        notes:
+          - "implements the anisotropic tensor denominator phi_f^2 mu_f I+q_f k_rf K_f, validates symmetric-positive-definite permeability and the positive eigenvalue margin, and exposes full tensor resistance and mobility diagnostics"
+          - "consumes a separately assembled phase-pressure gradient so pressure, capillary history, electric enthalpy, and other conservative phase-pressure terms remain modular in the input deck"
+      - name: "ADTwoPhaseSplitComponentFluxMaterial"
+        files:
+          - "include/materials/ADTwoPhaseSplitComponentFluxMaterial.h"
+          - "src/materials/ADTwoPhaseSplitComponentFluxMaterial.C"
+        manuscript_basis:
+          - "eq:reference_relative_mass_flux"
+          - "eq:solid_reference_fluid_component_balance"
+          - "eq:fluid_component_residual"
+          - "eq:implementation_mass_fraction_partition"
+        notes:
+          - "assembles a selected component reference flux from two phase-specific W_a fields and split-derived phase compositions"
+          - "validated with a nonzero split-derived Darcy flux balance; current object is still two-phase and must be generalized before four mobile phase transport"
 
   mechanics:
-    status: planned
+    status: implemented_quasi_static_reference_solid_slice
     likely_directories:
       - "include/kernels"
       - "src/kernels"
       - "include/materials"
       - "src/materials"
+      - "include/bcs"
+      - "src/bcs"
     manuscript_basis:
-      - "reference solid weak forms"
+      - "eq:MC_overall_momentum_nonlinear_biot"
+      - "eq:overall_natural_traction"
+      - "eq:MC_solid_biot_rollup_definition"
+      - "eq:MC_solid_biot_rollup_coefficient"
+      - "eq:momentum_residual"
     required_notes:
       - "stress measure"
       - "coupling terms retained"
       - "boundary traction convention"
+    implemented_objects:
+      - name: "ADCompressibleNeoHookeanReferenceStressMaterial"
+        files:
+          - "include/materials/ADCompressibleNeoHookeanReferenceStressMaterial.h"
+          - "src/materials/ADCompressibleNeoHookeanReferenceStressMaterial.C"
+        manuscript_basis:
+          - "eq:MC_phase_pk_stresses"
+          - "eq:momentum_residual"
+        notes:
+          - "computes the finite-deformation effective first Piola stress P'' from a compressible Neo-Hookean free-energy specialization"
+          - "consumes ADSolidReferenceKinematics material properties F, J, and F^{-1}"
+      - name: "ADReferenceSolidStressMaterial"
+        files:
+          - "include/materials/ADReferenceSolidStressMaterial.h"
+          - "src/materials/ADReferenceSolidStressMaterial.C"
+        manuscript_basis:
+          - "eq:MC_phase_pk_biot_split"
+          - "eq:MC_phase_biot_split"
+          - "eq:MC_overall_momentum_nonlinear_biot"
+          - "eq:MC_solid_biot_rollup_definition"
+          - "eq:MC_solid_biot_rollup_coefficient"
+          - "eq:momentum_residual"
+        notes:
+          - "assembles the total first Piola stress P'' - B p_E J F^{-T}"
+          - "optionally adds an independently supplied reference first-Piola prestress, permitting a loaded reference configuration without embedding benchmark initialization in the constitutive law"
+          - "optionally adds a current Maxwell stress pulled back as J sigma^+ F^{-T}"
+          - "accepts either AD-coupled pressure fields or an ADEGReconstructedScalarMaterial total-pressure property and keeps the aggregate Biot coefficient as an explicit closure parameter"
+      - name: "ADSkeletonSpecificVolumeBiotMaterial"
+        files:
+          - "include/materials/ADSkeletonSpecificVolumeBiotMaterial.h"
+          - "src/materials/ADSkeletonSpecificVolumeBiotMaterial.C"
+        manuscript_basis:
+          - "eq:MC_phase_biot_coefficient"
+        notes:
+          - "computes B=1-(partial vbar_s/partial J_s)|p_E/v_s0 from a user-supplied AD specific-volume closure and its explicitly named fixed-pressure tangent"
+          - "optionally checks the Eq. (32) mass reconstruction vbar_s=J_s phi_s/sum_alpha(J_s rho_s^alpha)"
+      - name: "ADConstrainedSkeletonBiotMaterial"
+        files:
+          - "include/materials/ADConstrainedSkeletonBiotMaterial.h"
+          - "src/materials/ADConstrainedSkeletonBiotMaterial.C"
+        manuscript_basis:
+          - "eq:MC_phase_biot_coefficient"
+          - "eq:MC_phase_pk_biot_split"
+          - "eq:MC_phase_biot_split"
+        notes:
+          - "solves the local implicit constitutive tangent at fixed equivalent pressure and evaluates the nonlinear Biot coefficient from summed registered solid component accumulations"
+          - "preserves AD dependence of the coefficient in the Q2 solid and P1+P0 EG pressure mechanics Jacobian"
+      - name: "ADHydrostaticBarotropicSkeletonStressMaterial"
+        files:
+          - "include/materials/ADHydrostaticBarotropicSkeletonStressMaterial.h"
+          - "src/materials/ADHydrostaticBarotropicSkeletonStressMaterial.C"
+        manuscript_basis:
+          - "eq:MC_phase_pk_biot_split"
+          - "eq:MC_phase_biot_split"
+        notes:
+          - "provides the hydrostatic barotropic specialization of the double-prime phase stress used by the inverse Biot transform"
+          - "the three-dimensional analytic regression recovers the prime and total first Piola stresses at nonzero equivalent pressure"
+      - name: "ADVolumetricBarotropicSkeletonStressMaterial"
+        files:
+          - "include/materials/ADVolumetricBarotropicSkeletonStressMaterial.h"
+          - "src/materials/ADVolumetricBarotropicSkeletonStressMaterial.C"
+        manuscript_basis:
+          - "eq:MC_phase_pk_biot_split"
+          - "eq:MC_phase_biot_split"
+        notes:
+          - "provides the isochoric-volumetric barotropic specialization of the double-prime phase stress used by the inverse Biot transform"
+          - "the three-dimensional analytic regression recovers the prime and total first Piola stresses under finite anisotropic deformation"
+      - name: "ADReferenceSolidMomentum"
+        files:
+          - "include/kernels/ADReferenceSolidMomentum.h"
+          - "src/kernels/ADReferenceSolidMomentum.C"
+        manuscript_basis:
+          - "eq:MC_overall_momentum_nonlinear_biot"
+          - "eq:momentum_residual"
+        notes:
+          - "quasi-static residual for one displacement component on the solid reference configuration"
+          - "consumes the total first Piola stress material property and reference-volume force terms"
+          - "current-volume force components are multiplied by J before entering the reference residual"
+          - "inertia and automatic reconstruction of thermocapillary and conversion-insertion forces remain follow-up closures"
+      - name: "ADReferenceSolidTractionBC"
+        files:
+          - "include/bcs/ADReferenceSolidTractionBC.h"
+          - "src/bcs/ADReferenceSolidTractionBC.C"
+        manuscript_basis:
+          - "eq:overall_natural_traction"
+          - "eq:momentum_residual"
+        notes:
+          - "prescribes a traction component per unit reference area with outward-positive convention"
+      - name: "ADAssociatedPlasticFlowMaterial"
+        files:
+          - "include/materials/ADAssociatedPlasticFlowMaterial.h"
+          - "src/materials/ADAssociatedPlasticFlowMaterial.C"
+        manuscript_basis:
+          - "eq:true_plastic_driving_stress_definition"
+          - "eq:MC_generic_plastic_flow_rules"
+          - "eq:MC_generic_plastic_deformation_flow_rule"
+          - "eq:MC_generic_plastic_distension_flow_rule"
+          - "eq:MC_generic_plastic_deformation_mobility_nonnegative"
+          - "eq:MC_generic_plastic_distension_mobility_nonnegative"
+          - "eq:MC_component_resolved_plastic_flow_rules"
+          - "eq:MC_component_true_plastic_flow_rule"
+          - "eq:MC_component_distension_plastic_flow_rule"
+          - "eq:MC_component_plastic_mobilities"
+          - "eq:MC_scalar_plastic_distension_power"
+          - "eq:MC_scalar_plastic_distension_flow_rule"
+        notes:
+          - "forms the manuscript mapped deviatoric true-plastic driving stress using total A_s and Fbar_s^e, and forms the generic tensor plastic-distension rate using the distinct elastic distension A_s^e"
+          - "accepts either phase mobilities or component-resolved nonnegative mobilities whose sums drive the common phase rates"
+          - "reports the isochoric trace audit and separate nonnegative true-plastic, tensor-distension, and scalar-distension power densities"
+      - name: "ADSolidPlasticKinematicsMaterial"
+        files:
+          - "include/materials/ADSolidPlasticKinematicsMaterial.h"
+          - "src/materials/ADSolidPlasticKinematicsMaterial.C"
+        manuscript_basis:
+          - "eq:MC_solid_distension_decomposition"
+          - "eq:MC_solid_kinematic_splits"
+          - "eq:MC_solid_distension_split"
+          - "eq:MC_solid_true_split"
+          - "eq:MC_solid_elastic_arguments"
+        notes:
+          - "reconstructs Fbar_s=A_s^{-1}F and the dependent elastic arguments A_s^e=A_s(A_s^0)^{-1}(A_s^p)^{-1} and Fbar_s^e=Fbar_s(Fbar_s^0)^{-1}(Fbar_s^p)^{-1}"
+          - "accepts dimension-aware row-major coupled total/plastic maps and independently supplied stress-free-map properties"
+          - "audits the total, distension, and true-deformation multiplicative decompositions and rejects every orientation-reversing map"
+      - name: "ADPlasticDeformationEvolution"
+        files:
+          - "include/kernels/ADPlasticDeformationEvolution.h"
+          - "src/kernels/ADPlasticDeformationEvolution.C"
+        manuscript_basis:
+          - "eq:MC_solid_isochoric_plastic_flow"
+          - "eq:MC_generic_plastic_deformation_flow_rule"
+        notes:
+          - "provides one independently selectable AD evolution residual per row-major component of the true-plastic deformation tensor"
+          - "optionally couples every component row to one shared isochoric multiplier so the determinant constraint is enforced without omitting a rate row"
+          - "provides a zero-default function forcing solely for manufactured-solution verification"
+          - "rejects nonpositive plastic Jacobians"
+      - name: "ADPlasticDeformationDeterminantConstraint"
+        files:
+          - "include/kernels/ADPlasticDeformationDeterminantConstraint.h"
+          - "src/kernels/ADPlasticDeformationDeterminantConstraint.C"
+        manuscript_basis:
+          - "eq:MC_solid_isochoric_plastic_flow"
+        notes:
+          - "enforces det(Fbar_s^p)=1 as the algebraic equation for the shared constrained-update multiplier"
+      - name: "ADPlasticDistensionEvolution"
+        files:
+          - "include/kernels/ADPlasticDistensionEvolution.h"
+          - "src/kernels/ADPlasticDistensionEvolution.C"
+        manuscript_basis:
+          - "eq:MC_generic_plastic_distension_flow_rule"
+          - "eq:MC_component_distension_plastic_flow_rule"
+        notes:
+          - "evolves every selected row-major component through dot(A_s^p)=L_A A_s^p and rejects nonpositive plastic-distension Jacobians"
+          - "provides a zero-default function forcing solely for manufactured-solution verification"
+      - name: "ADScalarPlasticDistensionEvolution"
+        files:
+          - "include/kernels/ADScalarPlasticDistensionEvolution.h"
+          - "src/kernels/ADScalarPlasticDistensionEvolution.C"
+        manuscript_basis:
+          - "eq:MC_scalar_plastic_distension_flow_rule"
+        notes:
+          - "provides the independently selectable AD logarithmic evolution residual for scalar plastic distension"
+          - "rejects nonpositive scalar plastic distension"
+      - name: "PlasticDistensionAction"
+        files:
+          - "include/actions/PlasticDistensionAction.h"
+          - "src/actions/PlasticDistensionAction.C"
+        manuscript_basis:
+          - "eq:MC_generic_plastic_distension_flow_rule"
+          - "eq:MC_scalar_plastic_distension_flow_rule"
+        notes:
+          - "Physics/PlasticDistension/* selects mode=tensor or mode=scalar and constructs exactly the corresponding independent evolution-kernel family"
+          - "tensor mode requires exactly dim*dim row-major variables; scalar mode requires one positive scalar variable; mixed mode-specific inputs are rejected"
+          - "the 11/11 associated-plastic suite includes both selector modes, a genuine 2D kinematic/constitutive hierarchy and AD Jacobian, a full nine-row constrained 3D tensor update and AD Jacobian, dissipation audits, and admissibility guards"
+      - name: "ADPairwisePhaseInteractionMaterial"
+        files:
+          - "include/materials/ADPairwisePhaseInteractionMaterial.h"
+          - "src/materials/ADPairwisePhaseInteractionMaterial.C"
+        manuscript_basis:
+          - "eq:MC_interaction_energy_conservation"
+          - "eq:MC_mechanical_interaction_admissibility"
+          - "eq:MC_pairwise_interaction_force"
+          - "eq:MC_interaction_power_pairing"
+          - "eq:MC_interphase_exchange_law"
+          - "eq:MC_fluid_skeleton_interaction_force"
+          - "eq:MC_aggregate_solid_interaction_force"
+          - "eq:MC_fluid_skeleton_drag_tensor"
+          - "eq:MC_drag_heating_equal_partition"
+          - "eq:MC_fluid_interaction_energy_supply"
+          - "eq:MC_solid_interaction_energy_supply"
+        notes:
+          - "assembles an arbitrary retained phase-pair graph into antisymmetric phase forces and phase mechanical-energy supplies"
+          - "accepts tensor properties or scalar AD tensor components and retains derivatives through state-dependent velocities, resistance, temperatures, momentum residuals, and energy residuals"
+          - "checks active-space symmetry and positive definiteness at each quadrature point; an explicit constant-tensor assertion caches that audit for performance"
+          - "reports total momentum and energy cancellation, drag dissipation, temperature-weighted entropy production, and the minimum active resistance eigenvalue"
 
   reactions:
-    status: planned
+    status: implemented_reaction_tau_material_slice
     likely_directories:
       - "include/materials"
       - "src/materials"
       - "include/userobjects"
       - "src/userobjects"
     manuscript_basis:
+      - "eq:onsager_affinity_constitutive_relation"
+      - "eq:onsager_reaction_rate_variational"
+      - "eq:MC_onsager_reaction_rate"
       - "eq:MC_admissible_conversion_component"
       - "eq:MC_phase_reference_transfer_work_recovery"
       - "eq:MC_transfer_work_full_recovery"
       - "eq:MC_affinity_projection"
       - "eq:MC_generalized_conversion_affinity_relation"
       - "eq:MC_temperature_weighted_reaction_power"
+      - "eq:MC_reaction_energy_allocation"
+      - "eq:MC_reaction_energy_allocation_mixture"
+      - "eq:MC_reaction_energy_allocation_subsystems"
       - "eq:MC_reaction_energy_coupled_admissibility"
     required_notes:
       - "mechanism index convention"
@@ -98,18 +940,314 @@ object_families:
       - "neutral temperature-weighted reaction force for general charged two-temperature mechanisms"
       - "separate subsystem charge conservation as the condition for electrochemical-neutral equivalence"
       - "gauge-invariant reaction-energy coupling and mechanismwise dissipation test"
+    implemented_objects:
+      - name: "ADPhaseTauMaterialDerivative"
+        files:
+          - "include/materials/ADPhaseTauMaterialDerivative.h"
+          - "src/materials/ADPhaseTauMaterialDerivative.C"
+        manuscript_basis:
+          - "eq:MC_phase_reference_transfer_work_recovery"
+          - "eq:MC_transfer_work_full_recovery"
+          - "eq:implementation_fluid_transfer_work_recovery"
+        notes:
+          - "computes D_xi tau/Dt on the solid reference mesh"
+          - "uses c_xi = W_xi/(J rho_xi) for mobile phases, with rho_xi the current bulk phase density"
+          - "optionally reconstructs v_xi = dot(u_s) + F W_xi/(J rho_xi) with full AD kinematic coupling"
+          - "reports the transfer offset D_xi tau/Dt - |v_xi|^2/2"
+          - "sets all reported quantities to zero for inactive phases below active_tol"
+      - name: "ADGeneralizedTransferWorkMaterial"
+        files:
+          - "include/materials/ADGeneralizedTransferWorkMaterial.h"
+          - "src/materials/ADGeneralizedTransferWorkMaterial.C"
+        manuscript_basis:
+          - "eq:MC_generalized_transfer_potential_difference"
+          - "eq:MC_transfer_work_full_recovery"
+          - "eq:implementation_fluid_transfer_work_recovery"
+        notes:
+          - "composes each phase/component L_xi^alpha from independently selectable chemical-potential, specific-Helmholtz, and tau-transfer-offset properties"
+          - "supplies the full generalized transfer work consumed by the modular conversion-energy kernel"
+          - "generalized_transfer_work_material_1d verifies 5 - 1.5 - 0.25 = 3.25 to roundoff"
+      - name: "ADTauEvolutionMaterial"
+        files:
+          - "include/materials/ADTauEvolutionMaterial.h"
+          - "src/materials/ADTauEvolutionMaterial.C"
+        manuscript_basis:
+          - "eq:MC_transfer_work_reference_normalization"
+          - "eq:MC_phase_reference_transfer_work_recovery"
+          - "eq:implementation_tau_solid_frame"
+        notes:
+          - "forms the pointwise AD residual for tau evolution on the solid reference mesh"
+          - "supports a manufactured forcing and optional thermodynamic right-hand-side properties"
+          - "is consumed by ADMaterialPropertyResidual so Newton sees the tau_dot Jacobian"
+      - name: "ADReactionNetworkMaterial"
+        files:
+          - "include/materials/ADReactionNetworkMaterial.h"
+          - "src/materials/ADReactionNetworkMaterial.C"
+        manuscript_basis:
+          - "eq:onsager_affinity_constitutive_relation"
+          - "eq:onsager_reaction_rate_variational"
+          - "eq:MC_onsager_reaction_rate"
+          - "eq:MC_helmholtz_source_projection"
+          - "eq:MC_admissible_conversion_component"
+          - "eq:MC_affinity_projection"
+          - "eq:MC_generalized_conversion_affinity_relation"
+        notes:
+          - "uses mechanism-major, then phase-major, then component-major stoichiometric coefficients"
+          - "reports phase component sources, total component sources, and J-weighted reference sources"
+          - "reports traditional affinities, phasewise stoichiometric mass sums, tau-transfer corrections, generalized conversion coefficients, optional kinetic residuals, and reaction powers"
+          - "the first quantitative test covers both a phasewise mass-conserving mechanism and a phase-changing mechanism with nonzero transfer-work correction"
+          - "the coupled_reaction_mechanics_front_1d quantitative test consumes its J-weighted registered source in the direct summed Eq. (32) balance with EDGE3/Q2 mechanics, reconstructed P1+P0 EG pressure, finite-deformation total stress, and nonzero Darcy reference-component flux"
+      - name: "ADReactionEnergyOnsagerMaterial"
+        files:
+          - "include/materials/ADReactionEnergyOnsagerMaterial.h"
+          - "src/materials/ADReactionEnergyOnsagerMaterial.C"
+        manuscript_basis:
+          - "eq:MC_reaction_energy_allocation"
+          - "eq:MC_reaction_energy_allocation_mixture"
+          - "eq:MC_reaction_energy_allocation_subsystems"
+          - "eq:MC_reaction_energy_coupled_admissibility"
+        notes:
+          - "applies a reciprocal positive-semidefinite two-by-two Onsager block to the neutral temperature-weighted reaction force and the inverse-temperature energy-transfer force"
+          - "declares the physical reaction-energy transfer rate used with opposite signs by the fluid and solid reference-energy source kernels in the selectable input template"
+          - "reports both force-rate contributions, their sum, the Onsager quadratic dissipation, and the matrix determinant"
+
+  enriched_galerkin:
+    status: implemented_q2_eg_hierarchy_slice
+    likely_directories:
+      - "include/kernels"
+      - "src/kernels"
+      - "include/dgkernels"
+      - "src/dgkernels"
+      - "include/bcs"
+      - "src/bcs"
+      - "include/materials"
+      - "src/materials"
+      - "include/postprocessors"
+      - "src/postprocessors"
+    manuscript_basis:
+      - "eq:fluid_component_residual"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:reference_relative_mass_flux"
+      - "eq:implementation_tau_solid_frame"
+      - "eq:momentum_residual"
+    required_notes:
+      - "primary pressure-like fields and tau use P1 LAGRANGE backbone plus P0 MONOMIAL enrichment"
+      - "constitutive materials consume reconstructed total fields"
+      - "fluxless tau uses a documented P0 enrichment anchor"
+      - "3D coupled Q2/EG acceptance decks use TET10 in this build"
+    implemented_objects:
+      - name: "ADEGReconstructedScalarMaterial"
+        files:
+          - "include/materials/ADEGReconstructedScalarMaterial.h"
+          - "src/materials/ADEGReconstructedScalarMaterial.C"
+        notes:
+          - "declares total value, gradient, and time derivative from a continuous backbone plus optional P0 enrichment"
+          - "uses coupled AD time derivatives under transient executioners and reports zero total_dot under steady solve=false material diagnostics"
+      - name: "ADScalarDiffusionReferenceFluxMaterial"
+        files:
+          - "include/materials/ADScalarDiffusionReferenceFluxMaterial.h"
+          - "src/materials/ADScalarDiffusionReferenceFluxMaterial.C"
+        notes:
+          - "provides W = -D Grad_X(u + u_enr) and matching mobility for isolated EG convergence checks"
+      - name: "ADEnrichedGalerkinScalarBalance"
+        files:
+          - "include/kernels/ADEnrichedGalerkinScalarBalance.h"
+          - "src/kernels/ADEnrichedGalerkinScalarBalance.C"
+        notes:
+          - "continuous backbone volume row for total storage/source and reference-flux divergence"
+          - "can consume the direct AD rate of summed reference component storage instead of a scalar coefficient times pressure rate"
+      - name: "ADEnrichedGalerkinScalarEnrichmentBalance"
+        files:
+          - "include/kernels/ADEnrichedGalerkinScalarEnrichmentBalance.h"
+          - "src/kernels/ADEnrichedGalerkinScalarEnrichmentBalance.C"
+        notes:
+          - "elementwise enrichment volume row for total storage/source with optional P0 anchor"
+          - "uses the same direct AD summed reference component storage-rate property as the backbone row"
+      - name: "ADEnrichedGalerkinMaterialPropertyResidual"
+        files:
+          - "include/kernels/ADEnrichedGalerkinMaterialPropertyResidual.h"
+          - "src/kernels/ADEnrichedGalerkinMaterialPropertyResidual.C"
+        notes:
+          - "applies a material residual to backbone or enrichment rows and anchors fluxless tau enrichment when requested"
+      - name: "ADEnrichedGalerkinFluxDG"
+        files:
+          - "include/dgkernels/ADEnrichedGalerkinFluxDG.h"
+          - "src/dgkernels/ADEnrichedGalerkinFluxDG.C"
+        notes:
+          - "interior EG enrichment flux and penalty row using the total-field jump"
+      - name: "ADEnrichedGalerkinSymmetryDG"
+        files:
+          - "include/dgkernels/ADEnrichedGalerkinSymmetryDG.h"
+          - "src/dgkernels/ADEnrichedGalerkinSymmetryDG.C"
+        notes:
+          - "continuous-row adjoint-consistency term for scalar EG interior penalty forms"
+      - name: "ADEnrichedGalerkinPenaltyBC"
+        files:
+          - "include/bcs/ADEnrichedGalerkinPenaltyBC.h"
+          - "src/bcs/ADEnrichedGalerkinPenaltyBC.C"
+        notes:
+          - "weak EG boundary penalty term for total-field Dirichlet data"
+      - name: "ADMaterialScalarL2Error"
+        files:
+          - "include/postprocessors/ADMaterialScalarL2Error.h"
+          - "src/postprocessors/ADMaterialScalarL2Error.C"
+        notes:
+          - "measures direct L2 error of an AD scalar material property against an analytic function"
+      - name: "ADMaterialVectorL2Error"
+        files:
+          - "include/postprocessors/ADMaterialVectorL2Error.h"
+          - "src/postprocessors/ADMaterialVectorL2Error.C"
+        notes:
+          - "measures direct L2 error of an AD vector material property against an analytic function gradient"
+      - name: "ADEnrichedGalerkinCrossFluxDG"
+        files:
+          - "include/dgkernels/ADEnrichedGalerkinCrossFluxDG.h"
+          - "src/dgkernels/ADEnrichedGalerkinCrossFluxDG.C"
+        manuscript_basis:
+          - "eq:MC_relative_transport_closures"
+          - "eq:MC_dispersion_closure"
+          - "eq:MC_diffusion_closure"
+        notes:
+          - "adds each off-diagonal component-block penalty and adjoint contribution to an EG enrichment row while the physical row flux is supplied exactly once"
+      - name: "ADEnrichedGalerkinCrossSymmetryDG"
+        files:
+          - "include/dgkernels/ADEnrichedGalerkinCrossSymmetryDG.h"
+          - "src/dgkernels/ADEnrichedGalerkinCrossSymmetryDG.C"
+        manuscript_basis:
+          - "eq:MC_relative_transport_closures"
+        notes:
+          - "adds the transpose-correct D_ab spatial adjoint term from a column-enrichment jump to a continuous component row"
+      - name: "ADEnrichedGalerkinCrossPenaltyBC"
+        files:
+          - "include/bcs/ADEnrichedGalerkinCrossPenaltyBC.h"
+          - "src/bcs/ADEnrichedGalerkinCrossPenaltyBC.C"
+        manuscript_basis:
+          - "eq:MC_relative_transport_closures"
+        notes:
+          - "adds selectable off-diagonal block penalty and adjoint contributions for weak total-field Dirichlet data"
+          - "multicomponent_onsager_block_eg.i.template exposes the complete two-independent-component pattern and documents repetition for arbitrary N-1"
 
 validation_links:
+  - validation_id: "q2_eg_hierarchy_mms"
+    status: implemented
+    object_families:
+      - mechanics
+      - transport
+      - kinematics
+      - enriched_galerkin
+      - input_hierarchy
+  - validation_id: "poromechanics_limit_mms"
+    status: implemented_1d
+    object_families:
+      - mechanics
+      - transport
+      - kinematics
+      - enriched_galerkin
+  - validation_id: "reference_component_balance_mms"
+    status: implemented
+    object_families:
+      - kinematics
+      - transport
+  - validation_id: "user_helmholtz_eos_material_mms"
+    status: implemented_material_and_coupled_1d_2d_q2_eg
+    evidence: "The genuinely 2D QUAD9/Q2 plus reconstructed P1+P0 EG checker exercises the user-entered Helmholtz EOS partial-density representation, AD-derived pressure and two absolute neutral component potentials, fluid Legendre/neutral Euler identities, EOS-density Darcy flux and two neutral-potential extra fluxes in x and y, and two direct summed Eq. (32) component balances. Maximum required error is 3.519964e-12, maximum four-face/integral error is 2.999823e-13, storage-rate/net-outward-flux/J-weighted-source triples are (0.0165,-0.24,-0.2235) and (0.033,-0.48,-0.447), and independent global balances are -2.822742040109e-14 and -4.135580766729e-14 at tolerance 1e-10."
+    verification_commands:
+      - "cd moose_app && ~/.local/moose/scripts/run_tests -j1 --re user_helmholtz_eos"
+      - "python3 validation/scripts/check_user_helmholtz_q2_eg_balance_2d.py"
+    object_families:
+      - kinematics
+      - thermodynamics
+      - transport
+  - validation_id: "darcy_storage_flux_mms"
+    status: implemented
+    object_families:
+      - kinematics
+      - thermodynamics
+      - transport
+  - validation_id: "ideal_mixture_eos_material_mms"
+    status: implemented_1d_2d_3d_material_and_coupled_1d_q2_eg
+    evidence: "The coupled 1D EDGE3/Q2 plus reconstructed P1+P0 EG checker exercises the production ideal-mixture EOS, component partial-density representation, intrinsic density/storage, absolute neutral potentials, fluid Legendre/neutral Euler identity, standard Darcy/reference component fluxes, and two solved direct summed Eq. (32) balances. Every required error is at most 1.528727e-13, maximum integral error is 1.076693e-15, and the two direct global balances are 3.599551212652e-16 and 1.073793831630e-15 at tolerance 1e-10."
+    verification_commands:
+      - "cd moose_app && ~/.local/moose/scripts/run_tests -j$(nproc) --re ideal_mixture_eos"
+      - "python3 validation/scripts/check_ideal_mixture_q2_eg_balance_1d.py"
+    object_families:
+      - kinematics
+      - thermodynamics
+      - transport
+  - validation_id: "eos_darcy_balance_mms"
+    status: implemented
+    object_families:
+      - kinematics
+      - thermodynamics
+      - transport
+  - validation_id: "charged_nonisothermal_transport_mms"
+    status: implemented
+    evidence: "The stationary genuinely 3D TET10/Q2 plus P1/P0 EG energy checker passes with maximum field/material/balance error 2.700062e-13, zero face/integral error, maximum +100 electric-potential gauge-shift difference 8.243924e-15, Div_X(Q)/electric-work/heat-supply integrals -20.4974/13.31/-33.8074, all six nonzero face fluxes, and direct signed global residual -2.700062e-13 at tolerance 1e-10. The stationary 1D/2D, component-transport, nonlinear-coefficient, and 1D/2D/3D cross-component Onsager leaves retain their quantitative passing results."
+    verification_commands:
+      - "cd moose_app && ~/.local/moose/scripts/run_tests -j$(nproc) --re charged_nonisothermal_transport"
+      - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_1d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_2d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_3d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_1d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_1d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_2d.py"
+      - "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_3d.py"
+    remaining_gap: "transient thermal storage and stabilization/upwinding remain separate acceptance items"
+    object_families:
+      - kinematics
+      - transport
+  - validation_id: "restricted_two_phase_constant_k_split_mms"
+    status: implemented
+    object_families:
+      - kinematics
+      - thermodynamics
+  - validation_id: "two_phase_split_balance_mms"
+    status: implemented
+    object_families:
+      - kinematics
+      - thermodynamics
+      - transport
+  - validation_id: "phase_history_kinematics_mms"
+    status: implemented
+    object_families:
+      - kinematics
+  - validation_id: "reference_solid_mechanics_mms"
+    status: implemented
+    object_families:
+      - mechanics
+      - kinematics
+    evidence:
+      test: "reference_solid_mechanics.reference_solid_loaded_reference_prestress_1d"
+      result: "pass; a spatially varying p_0=2+x and matching input-deck reference prestress give zero displacement and total-stress xx L2 error 1.1702778228589e-16"
   - validation_id: "black_oil_style_smoke"
-    status: planned
+    status: implemented_1d_2d_3d_q2_eg_direct_storage_pvt_mobility_component_flux_and_well_control_slices
     object_families:
       - transport
       - thermodynamics
+  - validation_id: "spe1_black_oil"
+    status: current_conserved_reference_storage_p2_bernstein_local_p2_rate_reduced_and_full_active_history_pass
+    object_families:
+      - mechanics
+      - kinematics
+      - transport
+      - thermodynamics
+      - enriched_galerkin
+      - reactions
+    evidence:
+      command: "cd moose_app && ~/.local/moose/scripts/run_tests -j1 --re 'spe1_case1_q2_eg_(phase_appearance|nonequilibrium_reduced)'"
+      predecessor_result: "The former P1+P0 disappearing-gas basis passed one-day full and reduced active-well gates; those results do not verify the current higher-order basis."
+      current_coarse_result: "A provenance-locked 72-element P2 Bernstein+P0 gas-saturation run with a superseded continuous rate field reaches one day but fails the fixed kinetic gate: L2=1.204142e-7 > 1e-7. It is retained only as a failed convergence datum; the production and next coarse deck use an element-local P2 monomial rate field."
+      current_result: "The provenance-locked conserved-solid-reference-storage formulation passes all accepted-timestep gates on the 18-element reduced and 1800-element active-well meshes. The full endpoint has reconstructed-tau evolution L2 1.689056e-10, kinetic L2 3.605350e-9, exact affinity and power identities, generalized-force identity L2 1.726557e-20, maximum scaled momentum weak residual 1.772543e-11, maximum scaled subsystem-energy weak residual 1.799860e-14, minimum dissipation -4.815904e-14, gas-balance defect 3.552714e-14 kg/s, and minimum J 0.999296. The largest full-history gas-balance defect is 2.90949e-8 kg/s."
+      qualification: "The one-day full and reduced runs gate conversion momentum, subsystem energy, reconstructed tau, and chemical-potential/force identities at every accepted timestep. Controlled spatial refinement spans 18, 72, 288, 1152, and 1800 TET10 elements, retaining the 72-element tau-gate failure; clean temporal refinement spans 3 h, 1.5 h, and 0.75 h with first-order-consistent observables, while the nominal 6 h level is retained as a cutback failure. The P1/P2 saturation MMS verifies the production higher-order choice. The official-horizon CG/EG comparison remains pending."
   - validation_id: "reaction_source_affinity_smoke"
-    status: planned
+    status: implemented
     object_families:
       - reactions
       - thermodynamics
+      - transport
+      - mechanics
+      - kinematics
+      - enriched_galerkin
   - validation_id: "poromechanics_limit_smoke"
     status: planned
     object_families:

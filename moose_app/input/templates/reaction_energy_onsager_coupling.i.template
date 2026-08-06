@@ -1,0 +1,60 @@
+# Optional mechanismwise reaction/energy cross-coupling preset.
+# Use this instead of ADReactionNetworkMaterial::kinetic_mobilities for a
+# mechanism transferring energy between the fluid and solid subsystems.
+[Variables]
+  [@REACTION_RATE@]
+    family = @LOCAL_RATE_FAMILY@
+    order = @LOCAL_RATE_ORDER@
+  []
+  [@REACTION_ENERGY_TRANSFER_RATE@]
+    family = @LOCAL_RATE_FAMILY@
+    order = @LOCAL_RATE_ORDER@
+  []
+[]
+
+[Materials]
+  [@MECHANISM@_reaction_energy_onsager]
+    type = ADReactionEnergyOnsagerMaterial
+    reaction_force_name = @MECHANISM@_temperature_weighted_force_@MECHANISM_INDEX@
+    fluid_temperature_name = @FLUID_TEMPERATURE_PROPERTY@
+    solid_temperature_name = @SOLID_TEMPERATURE_PROPERTY@
+    reaction_rate = @REACTION_RATE@
+    reaction_energy_transfer_rate = @REACTION_ENERGY_TRANSFER_RATE@
+    reaction_mobility = @L_00_NONNEGATIVE@
+    cross_mobility = @L_01_RECIPROCAL@
+    energy_mobility = @L_11_NONNEGATIVE@
+    property_prefix = @MECHANISM@_reaction_energy
+  []
+[]
+
+[Kernels]
+  [@MECHANISM@_coupled_reaction_rate_equation]
+    type = ADMaterialPropertyResidual
+    variable = @REACTION_RATE@
+    property = @MECHANISM@_reaction_energy_reaction_rate_residual
+  []
+  [@MECHANISM@_coupled_reaction_energy_equation]
+    type = ADMaterialPropertyResidual
+    variable = @REACTION_ENERGY_TRANSFER_RATE@
+    property = @MECHANISM@_reaction_energy_reaction_energy_transfer_rate_residual
+  []
+  [@MECHANISM@_fluid_reaction_energy_supply]
+    type = ADReferenceEnergySourceTerm
+    variable = @FLUID_TEMPERATURE_OR_ENERGY@
+    source_name = @MECHANISM@_reaction_energy_reaction_energy_transfer_rate
+    scale = 1
+  []
+  [@MECHANISM@_solid_reaction_energy_supply]
+    type = ADReferenceEnergySourceTerm
+    variable = @SOLID_TEMPERATURE_OR_ENERGY@
+    source_name = @MECHANISM@_reaction_energy_reaction_energy_transfer_rate
+    scale = -1
+  []
+[]
+
+# Require:
+# - L_00 >= 0, L_11 >= 0, L_00*L_11-L_01^2 >= 0;
+# - equal-and-opposite fluid/solid energy allocations;
+# - @MECHANISM@_reaction_energy_total_entropy_production >= 0;
+# - zero reaction-rate and reaction-energy-transfer-rate residuals.
+

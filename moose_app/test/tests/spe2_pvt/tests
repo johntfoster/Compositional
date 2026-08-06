@@ -1,0 +1,14 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml validation/reference_data/spe2_si_conversions.yml'
+  issues = ''
+
+  [spe2_pvt_3600psi_1d]
+    type = CSVDiff
+    input = spe2_pvt_3600psi_1d.i
+    cli_args = 'Outputs/file_base=spe2_pvt_3600psi_1d'
+    csvdiff = spe2_pvt_3600psi_1d.csv
+    abs_zero = 1e-10
+    rel_err = 1e-11
+    requirement = 'The SPE2 candidate PVT fragment shall reproduce the SI PVTW, PVDG, saturated PVTO, density, and Stone-II endpoint values at 3600 psia using the primary paper constants and tables.'
+  []
+[]

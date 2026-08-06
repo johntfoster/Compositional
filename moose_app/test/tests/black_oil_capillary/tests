@@ -1,0 +1,30 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [black_oil_capillary_static_1d]
+    type = CSVDiff
+    input = black_oil_capillary_static_1d.i
+    cli_args = 'Outputs/file_base=black_oil_capillary_static_1d'
+    csvdiff = black_oil_capillary_static_1d.csv
+    abs_zero = 1e-12
+    requirement = 'At fixed capillary history, the black-oil closure shall reconstruct p_w=p_o-p_cow(S_w) and p_g=p_o+p_cgo(S_g) from tabulated curves.'
+  []
+
+  [black_oil_capillary_dynamic_1d]
+    type = CSVDiff
+    input = black_oil_capillary_dynamic_1d.i
+    cli_args = 'Outputs/file_base=black_oil_capillary_dynamic_1d'
+    csvdiff = black_oil_capillary_dynamic_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The black-oil pressure reconstruction shall consume reconstructed CG/EG saturation values and rates and add T_ow S_w_dot and T_go S_g_dot with nonnegative diagonal dynamic-capillary coefficients.'
+  []
+
+  [black_oil_capillary_invalid_table_rejected]
+    type = RunException
+    input = black_oil_capillary_static_1d.i
+    cli_args = 'Materials/black_oil_capillary/water_saturation_points="0.5 0.5"'
+    expect_err = 'Saturation points must be strictly increasing.'
+    requirement = 'The black-oil capillary material shall reject a table whose saturation coordinates are not strictly increasing while permitting signed capillary-pressure values.'
+  []
+[]

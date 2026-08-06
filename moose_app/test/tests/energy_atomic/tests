@@ -1,0 +1,74 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [two_subsystem_energy_all_terms_mms_1d]
+    type = CSVDiff
+    input = two_subsystem_energy_all_terms_mms_1d.i
+    cli_args = 'Outputs/file_base=two_subsystem_energy_all_terms_mms_1d'
+    csvdiff = two_subsystem_energy_all_terms_mms_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall solve distinct fluid and solid temperature balances with atomic conservative storage, every electric-enthalpy and interfacial-state rate family, skeleton-relative internal-energy and nonadvective heat fluxes, total-stress and Maxwell powers, conversion transfer work, gauge-invariant relative-current work, pressure and constraint powers, external heat, interphase energy exchange, and mechanical-interaction heating using a consistent coupled AD Jacobian.'
+  []
+
+  [two_subsystem_energy_all_terms_jacobian_1d]
+    type = PetscJacobianTester
+    input = two_subsystem_energy_all_terms_mms_1d.i
+    cli_args = 'Outputs/file_base=two_subsystem_energy_all_terms_jacobian_1d'
+    ratio_tol = 1e-6
+    difference_tol = 1e-5
+    requirement = 'The complete two-subsystem energy hierarchy shall retain a consistent monolithic AD Jacobian through every storage, state-rate, flux, stress-power, conversion-work, relative-current-work, local-power, and state-dependent conservative fluid-solid heat-exchange contribution.'
+  []
+
+  [interfacial_surface_energy_1d]
+    type = CSVDiff
+    input = interfacial_surface_energy_1d.i
+    cli_args = 'Outputs/file_base=interfacial_surface_energy_1d'
+    csvdiff = interfacial_surface_energy_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-12
+    requirement = 'An arbitrary three-phase gamma(S,h,theta_F) shall reconstruct all gamma_f values and assemble the exact skeleton-following rate of phi gamma, including phase-volume, capillary-history, and temperature storage contributions with nonnegative history entropy production.'
+  []
+
+  [interfacial_surface_energy_jacobian]
+    type = PetscJacobianTester
+    input = interfacial_surface_energy_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'The general surface-energy assembler and property-rate energy kernel shall retain AD coupling through reconstructed CG/EG-compatible state rates.'
+  []
+
+  [interfacial_surface_energy_nonpositive_fluid_fraction_rejected]
+    type = RunException
+    input = interfacial_surface_energy_1d.i
+    cli_args = 'Materials/constants/prop_values="1 1 0 0 0 0 0 10 1 3 5 2 -4 -0.5 0.25 0.1 3 300"'
+    expect_err = 'total fluid volume fraction must be positive'
+    requirement = 'The interfacial surface-energy state shall reject a nonpositive total fluid volume fraction.'
+  []
+
+  [capillary_history_onsager_1d]
+    type = CSVDiff
+    input = capillary_history_onsager_1d.i
+    cli_args = 'Outputs/file_base=capillary_history_onsager_1d'
+    csvdiff = capillary_history_onsager_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-12
+    requirement = 'A skeleton-carried capillary-history coordinate shall evolve by dot(h)=-M gamma_h with M nonnegative and satisfy the manuscript history dissipation and entropy-production identities.'
+  []
+
+  [capillary_history_onsager_negative_mobility_rejected]
+    type = RunException
+    input = capillary_history_onsager_1d.i
+    cli_args = 'Materials/history_onsager/history_mobilities=-0.5'
+    expect_err = 'History mobilities must be nonnegative'
+    requirement = 'The capillary-history Onsager closure shall reject negative mobility.'
+  []
+
+  [capillary_history_onsager_nonpositive_temperature_rejected]
+    type = RunException
+    input = capillary_history_onsager_1d.i
+    cli_args = 'Materials/constants/prop_values="0.6 0 2"'
+    expect_err = 'fluid temperature must be positive'
+    requirement = 'The capillary-history entropy-production closure shall reject nonpositive absolute fluid temperature.'
+  []
+[]

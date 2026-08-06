@@ -1,0 +1,4 @@
+time,dissipation_error,entropy_production_error,history_error,predicted_dissipation_error,predicted_rate_error,rate_residual_error
+0,0,0,0,0,0,0
+0.1,2.2204460492503e-16,8.673617379884e-19,0,0,0,2.2204460492503e-16
+

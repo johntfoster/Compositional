@@ -1,0 +1,29 @@
+[Tests]
+  design = 'moose_app/input/templates/high_order_saturation_entropy_viscosity.i.template'
+  issues = ''
+
+  [entropy_viscosity_material_1d]
+    type = CSVDiff
+    input = entropy_viscosity_material_1d.i
+    cli_args = 'Outputs/file_base=entropy_viscosity_material_1d'
+    csvdiff = entropy_viscosity_material_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The high-order CG plus P0 EG saturation stabilization shall independently compute the Lee-Wheeler minimum of linear and entropy residual viscosities, including the selectable full stored-entropy coefficient rate and multiple physical sources, and expose the matching conservative reference flux and isotropic facet mobility.'
+  []
+
+  [entropy_viscosity_frozen_sensor_1d]
+    type = CSVDiff
+    input = entropy_viscosity_material_1d.i
+    cli_args = 'Materials/entropy_viscosity/differentiate_viscosity=false Outputs/file_base=entropy_viscosity_frozen_sensor_1d'
+    csvdiff = entropy_viscosity_frozen_sensor_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The selectable frozen nonlinear entropy-viscosity sensor shall preserve the same stabilization coefficient and conservative flux values while retaining AD differentiation of the mass coefficient and reconstructed-saturation gradient.'
+  []
+
+  [high_order_saturation_convergence]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_high_order_saturation_convergence.py'
+    max_time = 120
+    requirement = 'The saturation transport hierarchy shall demonstrate at least second-order L2 convergence for P1 plus P0 EG, at least third-order L2 convergence for P2 plus P0 EG, the corresponding first- and second-order gradient convergence, and a quantitative P2 accuracy advantage on a matched mesh.'
+  []
+[]

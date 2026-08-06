@@ -1,0 +1,19 @@
+# Shared-lambda reversible pore-volume restrictions from Table 3.
+[Materials]
+  [pore_volume_restrictions]
+    type = ADPoreVolumeRestrictionMaterial
+    pore_volume_multiplier = <lambda>
+    fluid_saturations = '<S_f0> <S_f1> ...'
+    solid_pressure_names = '<pbar_s0> <pbar_s1> ...'
+    solid_omega_plus_names = '<omega_plus_s0> <omega_plus_s1> ...'
+    fluid_pressure_names = '<pbar_f0> <pbar_f1> ...'
+    fluid_omega_plus_names = '<omega_plus_f0> <omega_plus_f1> ...'
+    fluid_gamma_names = '<gamma_f0> <gamma_f1> ...'
+    solid_restriction_names = '<solid0_restriction> <solid1_restriction> ...'
+    fluid_restriction_name = <total_fluid_restriction>
+  []
+[]
+
+# Stitch one independent restriction to lambda and the remaining independent
+# algebraic coordinates with ADMaterialPropertyResidual objects.  Do not add
+# redundant equations after applying the saturation-sum coordinate reduction.

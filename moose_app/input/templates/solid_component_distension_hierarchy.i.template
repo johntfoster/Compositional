@@ -1,0 +1,29 @@
+# Select the dimension-appropriate solid-reference kinematics material separately.
+[Materials]
+  [@SOLID_PHASE@_component_source]
+    type = ADGenericFunctionMaterial
+    prop_names = @CURRENT_COMPONENT_SOURCE@
+    prop_values = @CURRENT_COMPONENT_SOURCE_FUNCTION@
+  []
+  [@SOLID_PHASE@_mass_volume]
+    type = ADSolidPhaseMassVolumeMaterial
+    reference_component_storage = @REFERENCE_COMPONENT_STORAGE@
+    solid_intrinsic_density = @REFERENCE_INTRINSIC_DENSITY@
+    solid_intrinsic_density_variable = @CURRENT_INTRINSIC_DENSITY@
+    solid_distension = @SOLID_DISTENSION@
+    current_component_source_name = @CURRENT_COMPONENT_SOURCE@
+  []
+[]
+
+[Kernels]
+  [@SOLID_PHASE@_component_balance]
+    type = ADMaterialPropertyResidual
+    variable = @REFERENCE_COMPONENT_STORAGE@
+    property = solid_reference_component_balance_residual
+  []
+  [@SOLID_PHASE@_distension_evolution]
+    type = ADSolidDistensionEvolution
+    variable = @SOLID_DISTENSION@
+    intrinsic_density = @CURRENT_INTRINSIC_DENSITY@
+  []
+[]

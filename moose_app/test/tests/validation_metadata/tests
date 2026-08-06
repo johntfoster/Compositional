@@ -1,0 +1,10 @@
+[Tests]
+  design = 'validation/mms_inventory.yml validation/code_only_acceptance_audit.yml'
+  issues = ''
+
+  [validation_yaml_inventory_consistency]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/validate_validation_yaml.py'
+    requirement = 'The repository validation YAML shall parse; the MMS inventory shall reject contradictory acceptance states; every SPE family shall have a report; and an accepted report shall contain its physics, deck, quantitative verification, plots, comparison, remaining-work, and reproducibility evidence.'
+  []
+[]

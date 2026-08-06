@@ -1,0 +1,23 @@
+# Pick-and-choose unresolved-dispersion closure on the N-1 independent
+# component coordinates. Each D_ab property is a spatial RankTwoTensor, listed
+# in component-row-major order, and must satisfy D_ab=D_ba^T. Use dispersion
+# tensors distinct from the molecular-diffusion tensors.
+[Materials]
+  [@PREFIX@_multicomponent_dispersion]
+    type = ADMulticomponentOnsagerFluxMaterial
+    transport_force_names = '@INDEPENDENT_TRANSPORT_FORCE_PROPERTIES@'
+    mobility_tensor_property_names = '@DISPERSION_REDUCED_TENSOR_PROPERTIES@'
+    component_flux_names = '@INDEPENDENT_DISPERSION_CURRENT_FLUX_PROPERTIES@'
+    reference_component_flux_name = @REFERENCE_DISPERSION_CURRENT_FLUX_PROPERTY@
+    temperature_name = @SUBSYSTEM_ABSOLUTE_TEMPERATURE_PROPERTY@
+    zero_sum_residual_name = @PREFIX@_dispersion_zero_sum_residual
+    reciprocity_residual_name = @PREFIX@_dispersion_reciprocity_residual
+    minimum_cholesky_pivot_name = @PREFIX@_dispersion_minimum_cholesky_pivot
+    force_flux_power_density_name = @PREFIX@_dispersion_force_flux_power_density
+    entropy_production_name = @PREFIX@_dispersion_entropy_production
+  []
+[]
+
+# The outputs are current-volume fluxes. Pull each selected physical-component
+# flux back with J F^{-1} before supplying it to ADReferenceComponentFluxTerm.
+# The force-flux power density is theta times the entropy-production density.

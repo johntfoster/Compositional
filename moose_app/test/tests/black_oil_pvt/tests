@@ -1,0 +1,92 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [black_oil_pvt_storage_1d]
+    type = CSVDiff
+    input = black_oil_pvt_storage_1d.i
+    cli_args = 'Outputs/file_base=black_oil_pvt_storage_1d'
+    csvdiff = black_oil_pvt_storage_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The black-oil PVT material shall linearly interpolate B_w, B_o, B_g, R_s, and the three phase viscosities and reproduce the manuscript water, oil, and gas component storage identifications on the solid reference configuration.'
+  []
+
+  [black_oil_pvt_ad_jacobian_1d]
+    type = CSVDiff
+    input = black_oil_pvt_ad_jacobian_1d.i
+    cli_args = 'Outputs/file_base=black_oil_pvt_ad_jacobian_1d'
+    csvdiff = black_oil_pvt_ad_jacobian_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The pressure slope of each active black-oil PVT table interval shall remain in the automatic-differentiation Jacobian used by a nonlinear residual.'
+  []
+
+  [black_oil_storage_rate_1d]
+    type = CSVDiff
+    input = black_oil_storage_rate_1d.i
+    cli_args = 'Outputs/file_base=black_oil_storage_rate_1d'
+    csvdiff = black_oil_storage_rate_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The black-oil PVT material shall provide the chain-rule material time rates of the water, oil, and gas solid-reference component storages for direct use in pressure-saturation balance kernels.'
+  []
+
+  [black_oil_three_component_storage_balance_1d]
+    type = CSVDiff
+    input = black_oil_three_component_storage_balance_1d.i
+    cli_args = 'Outputs/file_base=black_oil_three_component_storage_balance_1d'
+    csvdiff = black_oil_three_component_storage_balance_1d.csv
+    abs_zero = 1e-10
+    requirement = 'The three manuscript black-oil component storage balances shall form a coupled transient pressure, water-saturation, and gas-saturation solve using EDGE3/Q2 solid-reference kinematics, reconstructed enriched-Galerkin total pressure, and reconstructed total saturation value/rate material properties consumed by the generic PVT storage-rate closure.'
+  []
+
+  [black_oil_three_component_storage_balance_2d]
+    type = CSVDiff
+    input = black_oil_three_component_storage_balance_2d.i
+    cli_args = 'Outputs/file_base=black_oil_three_component_storage_balance_2d'
+    csvdiff = black_oil_three_component_storage_balance_2d.csv
+    abs_zero = 1e-10
+    requirement = 'The three manuscript black-oil component storage balances shall form a quantitative two-dimensional transient pressure, water-saturation, and gas-saturation solve using QUAD9/Q2 solid-reference kinematics and reconstructed P1 plus P0 enriched-Galerkin total pressure consumed by the PVT material storage-rate properties.'
+  []
+
+  [black_oil_three_component_storage_balance_3d]
+    type = CSVDiff
+    input = black_oil_three_component_storage_balance_3d.i
+    cli_args = 'Outputs/file_base=black_oil_three_component_storage_balance_3d'
+    csvdiff = black_oil_three_component_storage_balance_3d.csv
+    abs_zero = 1e-10
+    requirement = 'The three manuscript black-oil component storage balances shall form a quantitative three-dimensional transient pressure, water-saturation, and gas-saturation solve using active-policy TET10/Q2 solid-reference kinematics and reconstructed P1 plus P0 enriched-Galerkin total pressure consumed by the PVT material storage-rate properties.'
+  []
+
+  [black_oil_three_component_spatial_flux_balance_1d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_black_oil_three_component_spatial_flux_balance_1d.py'
+    requirement = 'The direct summed Eq. (32) water, stock-tank oil, and stock-tank gas component balances shall quantitatively reproduce a one-dimensional black-oil spatial-flux MMS with EDGE3/Q2 solid kinematics, reconstructed P1 plus P0 EG oil pressure, capillary-reconstructed water and gas phase pressures, production PVT and relative-permeability materials, nonzero phase-assembled reference component fluxes and boundary-face integrals, and direct global balance residuals no larger than 1e-10.'
+  []
+
+  [black_oil_three_component_spatial_flux_balance_2d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_black_oil_three_component_spatial_flux_balance_2d.py'
+    requirement = 'The direct summed Eq. (32) water, stock-tank oil, and stock-tank gas component balances shall quantitatively reproduce a genuinely two-dimensional black-oil spatial-flux MMS with QUAD9/Q2 solid kinematics, reconstructed P1 plus P0 EG oil pressure, capillary-reconstructed water and gas phase pressures, production PVT and relative-permeability materials, nonzero x and y phase-assembled reference component fluxes and all four boundary-face integrals, and direct global balance residuals no larger than 1e-10.'
+  []
+
+  [black_oil_three_component_spatial_flux_balance_3d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_black_oil_three_component_spatial_flux_balance_3d.py'
+    requirement = 'The direct summed Eq. (32) water, stock-tank oil, and stock-tank gas component balances shall quantitatively reproduce a genuinely three-dimensional black-oil spatial-flux MMS with active-policy TET10/Q2 solid kinematics, reconstructed P1 plus P0 EG oil pressure, capillary-reconstructed water and gas phase pressures, production PVT and relative-permeability materials, nonzero x, y, and z phase-assembled reference component fluxes and all six boundary-face integrals, and direct global balance residuals no larger than 1e-10.'
+  []
+
+  [black_oil_pvt_out_of_range_rejected]
+    type = RunException
+    input = black_oil_pvt_storage_1d.i
+    cli_args = 'ICs/pressure_ic/function=out_of_range_pressure'
+    expect_err = 'pressure is above the PVT table interval.'
+    requirement = 'The default black-oil PVT policy shall reject a pressure outside the supplied table interval.'
+  []
+
+  [black_oil_pvt_invalid_table_rejected]
+    type = RunException
+    input = black_oil_pvt_storage_1d.i
+    cli_args = 'Materials/black_oil_pvt/pressure_points="100 100"'
+    expect_err = 'Pressure points must be strictly increasing.'
+    requirement = 'The black-oil PVT material shall reject a table whose pressure coordinates are not strictly increasing.'
+  []
+[]

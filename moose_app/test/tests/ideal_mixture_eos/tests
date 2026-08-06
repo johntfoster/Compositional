@@ -1,0 +1,64 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [ideal_mixture_eos_1d]
+    type = CSVDiff
+    input = ideal_mixture_eos_1d.i
+    cli_args = 'Outputs/file_base=ideal_mixture_eos_1d'
+    csvdiff = ideal_mixture_eos_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute intrinsic density, component storage, Helmholtz free energy, and neutral component potentials for a one-dimensional ideal-mixture EOS reduction.'
+  []
+
+  [ideal_mixture_eos_2d]
+    type = CSVDiff
+    input = ideal_mixture_eos_2d.i
+    cli_args = 'Outputs/file_base=ideal_mixture_eos_2d'
+    csvdiff = ideal_mixture_eos_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute intrinsic density, component storage, and neutral component potentials for a two-dimensional ideal-mixture EOS reduction.'
+  []
+
+  [ideal_mixture_eos_3d]
+    type = CSVDiff
+    input = ideal_mixture_eos_3d.i
+    cli_args = 'Outputs/file_base=ideal_mixture_eos_3d'
+    csvdiff = ideal_mixture_eos_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute intrinsic density, component storage, and neutral component potentials for a three-dimensional ideal-mixture EOS reduction.'
+  []
+
+  [eos_darcy_balance_1d]
+    type = CSVDiff
+    input = eos_darcy_balance_1d.i
+    cli_args = 'Outputs/file_base=eos_darcy_balance_1d'
+    csvdiff = eos_darcy_balance_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a one-dimensional manufactured component balance whose Darcy relative flux consumes intrinsic density from the ideal-mixture EOS material.'
+  []
+
+  [eos_darcy_balance_2d]
+    type = CSVDiff
+    input = eos_darcy_balance_2d.i
+    cli_args = 'Outputs/file_base=eos_darcy_balance_2d'
+    csvdiff = eos_darcy_balance_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a two-dimensional manufactured component balance whose multidirectional Darcy flux consumes intrinsic density from the ideal-mixture EOS material.'
+  []
+
+  [eos_darcy_balance_3d]
+    type = CSVDiff
+    input = eos_darcy_balance_3d.i
+    cli_args = 'Outputs/file_base=eos_darcy_balance_3d'
+    csvdiff = eos_darcy_balance_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a three-dimensional manufactured component balance whose multidirectional Darcy flux consumes intrinsic density from the ideal-mixture EOS material.'
+  []
+
+  [ideal_mixture_q2_eg_balance_1d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_ideal_mixture_q2_eg_balance_1d.py'
+    requirement = 'The production ideal-mixture EOS shall quantitatively close reconstructed P1 plus P0 EG pressure and both absolute neutral component potentials, compute component partial densities, intrinsic density, Helmholtz/pressure/neutral Euler identities, standard Darcy and component reference fluxes, and solve both direct summed Eq. (32) variables sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component with EDGE3/Q2 solid kinematics, nonzero storage rates, fluxes, sources, direct global balances, and every required error no larger than 1e-10.'
+  []
+[]

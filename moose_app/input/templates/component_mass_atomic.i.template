@@ -1,0 +1,28 @@
+# Eq. (averaged_component_spatial_mass), pulled to the solid reference.
+[Kernels]
+  [@PHASE@_@COMPONENT@_storage]
+    type = ADReferenceComponentStorageTerm
+    variable = @COMPONENT_VARIABLE@
+    coefficient_name = @REFERENCE_STORAGE_COEFFICIENT@
+  []
+  [@PHASE@_@COMPONENT@_phase_advection]
+    type = ADReferenceComponentFluxTerm
+    variable = @COMPONENT_VARIABLE@
+    reference_flux_name = @REFERENCE_PHASE_ADVECTIVE_FLUX@
+  []
+  [@PHASE@_@COMPONENT@_dispersion]
+    type = ADReferenceComponentFluxTerm
+    variable = @COMPONENT_VARIABLE@
+    reference_flux_name = @REFERENCE_DISPERSIVE_FLUX@
+  []
+  [@PHASE@_@COMPONENT@_diffusion]
+    type = ADReferenceComponentFluxTerm
+    variable = @COMPONENT_VARIABLE@
+    reference_flux_name = @REFERENCE_DIFFUSIVE_FLUX@
+  []
+  [@PHASE@_@COMPONENT@_conversion]
+    type = ADReferenceComponentSourceTerm
+    variable = @COMPONENT_VARIABLE@
+    reference_source_name = @REFERENCE_STOICHIOMETRIC_SOURCE@
+  []
+[]

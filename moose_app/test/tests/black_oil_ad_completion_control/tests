@@ -1,0 +1,23 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml'
+  issues = ''
+
+  [ad_completion_control_cg_eg_1d]
+    type = CSVDiff
+    input = ad_completion_control_cg_eg_1d.i
+    cli_args = 'Outputs/file_base=ad_completion_control_cg_eg_1d'
+    csvdiff = ad_completion_control_cg_eg_1d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-11
+    requirement = 'The completion-rate constraint shall use the reconstructed CG/EG pressure, aggregate completion rates into a shared scalar, and solve the scheduled datum BHP.'
+  []
+
+  [ad_completion_control_cg_eg_jacobian]
+    type = PetscJacobianTester
+    input = ad_completion_control_cg_eg_1d.i
+    cli_args = '-snes_test_err 1e-7'
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'The AD completion constraint shall retain Jacobian derivatives with respect to both the continuous pressure backbone and the discontinuous enrichment, the total-rate scalar, and datum BHP.'
+  []
+[]

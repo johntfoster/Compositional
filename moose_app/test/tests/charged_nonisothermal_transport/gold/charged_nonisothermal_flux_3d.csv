@@ -1,0 +1,3 @@
+time,charge_flux_x_l2,charge_flux_y_l2,charge_flux_z_l2,component_l2,current_flux_x_l2,current_flux_y_l2,current_flux_z_l2,electric_work_l2,reference_flux_x_l2,reference_flux_y_l2,reference_flux_z_l2,transport_force_x_l2,transport_force_y_l2,transport_force_z_l2
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,6.2803698347351e-16,1.3253105708781e-15,7.5298989078712e-16,0,1.5700924586838e-16,3.3132764271952e-16,1.8824747269678e-16,3.0119595631485e-15,1.5700924586838e-16,3.3132764271952e-16,1.8824747269678e-16,1.4043333874307e-15,3.1125870256501e-15,1.3687748718836e-15

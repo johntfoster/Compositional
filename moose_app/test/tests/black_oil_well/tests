@@ -1,0 +1,130 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [peaceman_bhp_component_sources_1d]
+    type = CSVDiff
+    input = peaceman_bhp_component_sources_1d.i
+    cli_args = 'Outputs/file_base=peaceman_bhp_component_sources_1d'
+    csvdiff = peaceman_bhp_component_sources_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A BHP-controlled Peaceman completion shall convert phase reservoir rates to water, stock-tank oil, and stock-tank gas surface rates and reference component sources with the black-oil B and R_s identifications.'
+  []
+
+  [peaceman_free_gas_source_1d]
+    type = CSVDiff
+    input = peaceman_free_gas_source_1d.i
+    cli_args = 'Outputs/file_base=peaceman_free_gas_source_1d'
+    csvdiff = peaceman_free_gas_source_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A Peaceman completion shall expose the free-gas surface rate and source separately from the total stock-tank gas rate and source that also include dissolved gas carried by oil.'
+  []
+
+  [peaceman_coupled_pressure_sources_1d]
+    type = CSVDiff
+    input = peaceman_coupled_pressure_sources_1d.i
+    cli_args = 'Outputs/file_base=peaceman_coupled_pressure_sources_1d'
+    csvdiff = peaceman_coupled_pressure_sources_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A Peaceman completion shall consume AD-coupled phase-pressure variables directly and reproduce the same BHP-controlled reservoir rates, surface rates, and component sources as the material-pressure path.'
+  []
+
+  [q2_eg_three_component_well_source_balance_1d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_black_oil_q2_eg_well_source_balance_1d.py'
+    requirement = 'A production BHP-controlled Peaceman completion shall couple reconstructed P1 plus P0 EG pressure and PVT/relative-permeability properties to the direct summed Eq. (32) water, stock-tank oil, and stock-tank gas variables sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component in an EDGE3/Q2 transient storage/source solve whose analytic storage, well-source, rate, BHP, and global-balance errors are no larger than 1e-10.'
+  []
+
+  [q2_eg_three_component_well_source_balance_2d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_black_oil_q2_eg_well_source_balance_2d.py'
+    requirement = 'A production BHP-controlled Peaceman completion shall couple reconstructed P1 plus P0 EG pressure and production PVT/relative-permeability properties to the direct summed Eq. (32) water, stock-tank oil, and stock-tank gas variables sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component in a genuinely two-dimensional 2 by 3 QUAD9/Q2 transient storage/source solve with nontrivial prescribed x and y displacements, analytic J and completion-area integrals, and field, storage, well-source, rate, BHP/control, and global-balance errors no larger than 1e-10.'
+  []
+
+  [q2_eg_three_component_well_source_balance_3d]
+    type = RunCommand
+    command = 'python3 ../../../../validation/scripts/check_black_oil_q2_eg_well_source_balance_3d.py'
+    requirement = 'A production BHP-controlled Peaceman completion shall couple reconstructed P1 plus P0 EG pressure and production PVT/relative-permeability properties to the direct summed Eq. (32) water, stock-tank oil, and stock-tank gas variables sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component in a genuinely three-dimensional 2 by 3 by 4 TET10/Q2 transient storage/source solve with nontrivial prescribed x, y, and z displacements, analytic J and completion-volume integrals, and field, storage, well-source, rate, BHP/control, and global-balance errors no larger than 1e-10.'
+  []
+
+  [peaceman_relative_permeability_viscosity_sources_1d]
+    type = CSVDiff
+    input = peaceman_bhp_component_sources_1d.i
+    cli_args = 'Materials/well/mobility_source=relative_permeability_viscosity Materials/well/water_relative_permeability_name=water_relative_permeability Materials/well/oil_relative_permeability_name=oil_relative_permeability Materials/well/gas_relative_permeability_name=gas_relative_permeability Materials/well/water_viscosity_name=water_viscosity Materials/well/oil_viscosity_name=oil_viscosity Materials/well/gas_viscosity_name=gas_viscosity Outputs/file_base=peaceman_relative_permeability_viscosity_sources_1d'
+    csvdiff = peaceman_relative_permeability_viscosity_sources_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A Peaceman completion shall compute its AD well mobilities from separate relative-permeability and viscosity properties and reproduce the direct-mobility source path.'
+  []
+
+  [peaceman_oil_rate_control_1d]
+    type = CSVDiff
+    input = peaceman_bhp_component_sources_1d.i
+    cli_args = 'Materials/well/control_mode=oil_surface_rate Materials/well/target_surface_rate=20 Outputs/file_base=peaceman_oil_rate_control_1d'
+    csvdiff = peaceman_oil_rate_control_1d.csv
+    abs_zero = 1e-11
+    requirement = 'An oil-surface-rate controlled Peaceman completion shall solve its effective BHP from the AD oil productivity and reproduce the target stock-tank oil rate.'
+  []
+
+  [peaceman_oil_rate_minimum_bhp_switch_1d]
+    type = CSVDiff
+    input = peaceman_bhp_component_sources_1d.i
+    cli_args = 'Materials/well/control_mode=oil_surface_rate Materials/well/target_surface_rate=40 Materials/well/apply_bhp_limit=true Materials/well/bhp_limit_type=minimum Materials/well/bhp_limit=80 Postprocessors/water_reservoir_rate_l2/function=limited_water_reservoir_rate_exact Postprocessors/oil_reservoir_rate_l2/function=limited_oil_reservoir_rate_exact Postprocessors/gas_reservoir_rate_l2/function=limited_gas_reservoir_rate_exact Postprocessors/water_surface_rate_l2/function=limited_water_surface_rate_exact Postprocessors/oil_surface_rate_l2/function=limited_oil_surface_rate_exact Postprocessors/gas_surface_rate_l2/function=limited_gas_surface_rate_exact Postprocessors/water_source_l2/function=limited_water_source_exact Postprocessors/oil_source_l2/function=limited_oil_source_exact Postprocessors/gas_source_l2/function=limited_gas_source_exact Postprocessors/effective_bhp_l2/function=limited_effective_bhp_exact Postprocessors/control_surface_rate_residual_l2/function=limited_control_residual_exact Outputs/file_base=peaceman_oil_rate_minimum_bhp_switch_1d'
+    csvdiff = peaceman_oil_rate_minimum_bhp_switch_1d.csv
+    abs_zero = 1e-11
+    requirement = 'An oil-rate controlled producer shall switch to its minimum BHP limit when the target rate would require a lower BHP and shall expose the resulting unmet rate residual.'
+  []
+
+  [peaceman_gas_injection_rate_control_1d]
+    type = CSVDiff
+    input = peaceman_bhp_component_sources_1d.i
+    cli_args = 'Materials/well/control_mode=gas_surface_rate Materials/well/injection_phase=gas Materials/well/target_surface_rate=-60 Postprocessors/water_reservoir_rate_l2/function=gas_rate_water_reservoir_rate_exact Postprocessors/oil_reservoir_rate_l2/function=gas_rate_oil_reservoir_rate_exact Postprocessors/gas_reservoir_rate_l2/function=gas_rate_gas_reservoir_rate_exact Postprocessors/water_surface_rate_l2/function=gas_rate_water_surface_rate_exact Postprocessors/oil_surface_rate_l2/function=gas_rate_oil_surface_rate_exact Postprocessors/gas_surface_rate_l2/function=gas_rate_gas_surface_rate_exact Postprocessors/water_source_l2/function=gas_rate_water_source_exact Postprocessors/oil_source_l2/function=gas_rate_oil_source_exact Postprocessors/gas_source_l2/function=gas_rate_gas_source_exact Postprocessors/effective_bhp_l2/function=gas_rate_effective_bhp_exact Outputs/file_base=peaceman_gas_injection_rate_control_1d'
+    csvdiff = peaceman_gas_injection_rate_control_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A stock-tank gas-rate controlled injector shall solve its effective BHP from free and dissolved gas productivity and reproduce the signed injection target.'
+  []
+
+  [peaceman_gas_injection_maximum_bhp_switch_1d]
+    type = CSVDiff
+    input = peaceman_bhp_component_sources_1d.i
+    cli_args = 'Materials/well/control_mode=gas_surface_rate Materials/well/injection_phase=gas Materials/well/target_surface_rate=-60 Materials/well/apply_bhp_limit=true Materials/well/bhp_limit_type=maximum Materials/well/bhp_limit=123 Postprocessors/water_reservoir_rate_l2/function=limited_gas_rate_water_reservoir_rate_exact Postprocessors/oil_reservoir_rate_l2/function=limited_gas_rate_oil_reservoir_rate_exact Postprocessors/gas_reservoir_rate_l2/function=limited_gas_rate_gas_reservoir_rate_exact Postprocessors/water_surface_rate_l2/function=limited_gas_rate_water_surface_rate_exact Postprocessors/oil_surface_rate_l2/function=limited_gas_rate_oil_surface_rate_exact Postprocessors/gas_surface_rate_l2/function=limited_gas_rate_gas_surface_rate_exact Postprocessors/water_source_l2/function=limited_gas_rate_water_source_exact Postprocessors/oil_source_l2/function=limited_gas_rate_oil_source_exact Postprocessors/gas_source_l2/function=limited_gas_rate_gas_source_exact Postprocessors/effective_bhp_l2/function=limited_gas_rate_effective_bhp_exact Postprocessors/control_surface_rate_residual_l2/function=limited_gas_rate_control_residual_exact Outputs/file_base=peaceman_gas_injection_maximum_bhp_switch_1d'
+    csvdiff = peaceman_gas_injection_maximum_bhp_switch_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A gas-rate controlled injector shall switch to its maximum BHP limit and expose the signed unmet injection-rate residual.'
+  []
+
+  [nodal_global_oil_rate_control_1d]
+    type = CSVDiff
+    input = nodal_global_oil_control_1d.i
+    cli_args = 'Outputs/file_base=nodal_global_oil_rate_control_1d'
+    csvdiff = nodal_global_oil_rate_control_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A shared scalar well BHP shall enforce the completion-averaged oil surface-rate target through a nodal scalar control equation.'
+  []
+
+  [nodal_global_oil_minimum_bhp_control_1d]
+    type = CSVDiff
+    input = nodal_global_oil_control_1d.i
+    cli_args = 'ScalarKernels/well_control/target_surface_rate=40 ScalarKernels/well_control/apply_bhp_limit=true ScalarKernels/well_control/bhp_limit_type=minimum ScalarKernels/well_control/bhp_limit=80 Outputs/file_base=nodal_global_oil_minimum_bhp_control_1d'
+    csvdiff = nodal_global_oil_minimum_bhp_control_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A shared producer BHP shall switch globally to its minimum limit when the completion-averaged target rate is infeasible.'
+  []
+
+  [nodal_global_gas_rate_control_1d]
+    type = CSVDiff
+    input = nodal_global_gas_control_1d.i
+    cli_args = 'Materials/well/injection_phase=gas Materials/well/target_surface_rate=-60 ScalarKernels/well_control/surface_rate=gas_surface_rate ScalarKernels/well_control/surface_productivity=gas_surface_productivity ScalarKernels/well_control/target_surface_rate=-60 Outputs/file_base=nodal_global_gas_rate_control_1d'
+    csvdiff = nodal_global_gas_rate_control_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A shared scalar injector BHP shall enforce the completion-averaged free-gas surface injection target.'
+  []
+
+  [nodal_global_gas_maximum_bhp_control_1d]
+    type = CSVDiff
+    input = nodal_global_gas_control_1d.i
+    cli_args = 'Materials/well/injection_phase=gas Materials/well/target_surface_rate=-60 ScalarKernels/well_control/surface_rate=gas_surface_rate ScalarKernels/well_control/surface_productivity=gas_surface_productivity ScalarKernels/well_control/target_surface_rate=-60 ScalarKernels/well_control/apply_bhp_limit=true ScalarKernels/well_control/bhp_limit_type=maximum ScalarKernels/well_control/bhp_limit=123 Outputs/file_base=nodal_global_gas_maximum_bhp_control_1d'
+    csvdiff = nodal_global_gas_maximum_bhp_control_1d.csv
+    abs_zero = 1e-11
+    requirement = 'A shared injector BHP shall switch globally to its maximum limit when the completion-averaged gas injection target is infeasible.'
+  []
+[]

@@ -1,0 +1,287 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [specific_volume_biot_partial_1d]
+    type = CSVDiff
+    group = 'reduced_only'
+    input = specific_volume_biot_partial_1d.i
+    cli_args = 'Outputs/file_base=specific_volume_biot_partial_1d'
+    csvdiff = specific_volume_biot_partial_1d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall compute a nonlinear Biot coefficient from a user-input intrinsic skeleton specific volume using the fixed-equivalent-pressure partial derivative with respect to solid J, matching analytic B, central finite differences, and the fixed-partial result when J and p_E co-vary.'
+  []
+
+  [nonlinear_biot_stress_jacobian_1d]
+    type = PetscJacobianTester
+    group = 'reduced_only'
+    input = nonlinear_biot_stress_jacobian_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-5
+    requirement = 'The application shall preserve the AD Jacobian through a state-dependent nonlinear Biot coefficient in a Q2 solid and P1+P0 EG pressure mechanics residual.'
+  []
+
+  [small_strain_biot_reduction_1d]
+    type = CSVDiff
+    group = 'reduced_only'
+    input = small_strain_biot_reduction_1d.i
+    cli_args = 'Outputs/file_base=small_strain_biot_reduction_1d'
+    csvdiff = small_strain_biot_reduction_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall reduce the nonlinear intrinsic-specific-volume Biot definition to B = 1 - K / K_s in a one-dimensional Q2 solid-reference setup.'
+  []
+
+  [small_strain_biot_reduction_2d]
+    type = CSVDiff
+    group = 'reduced_only'
+    input = small_strain_biot_reduction_2d.i
+    cli_args = 'Outputs/file_base=small_strain_biot_reduction_2d'
+    csvdiff = small_strain_biot_reduction_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall reduce the nonlinear intrinsic-specific-volume Biot definition to B = 1 - K / K_s in a two-dimensional Q2 solid-reference setup.'
+  []
+
+  [small_strain_biot_reduction_3d]
+    type = CSVDiff
+    group = 'reduced_only'
+    input = small_strain_biot_reduction_3d.i
+    cli_args = 'Outputs/file_base=small_strain_biot_reduction_3d'
+    csvdiff = small_strain_biot_reduction_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall reduce the nonlinear intrinsic-specific-volume Biot definition to B = 1 - K / K_s in a three-dimensional TET10 Q2 solid-reference setup.'
+  []
+
+  [constrained_biot_tangent_1d]
+    type = CSVDiff
+    group = 'constrained_biot'
+    input = constrained_biot_tangent_1d.i
+    cli_args = 'Outputs/file_base=constrained_biot_tangent_1d'
+    csvdiff = constrained_biot_tangent_1d.csv
+    abs_zero = 1e-9
+    requirement = 'The application shall compute the production Eq. (32) constrained-skeleton Biot coefficient using the summed solid reference accumulations and volume fractions, matching its analytic fixed-equivalent-pressure tangent and preserving intrinsic-density/specific-volume inverse consistency.'
+  []
+
+  [binary_solid_spatial_mass_1d]
+    type = CSVDiff
+    group = 'constrained_biot'
+    input = binary_solid_spatial_mass_1d.i
+    cli_args = 'Outputs/file_base=binary_solid_spatial_mass_1d'
+    csvdiff = binary_solid_spatial_mass_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The binary solid material shall evaluate the pulled-back spatial mass J_s phi_s rhobar_s and its complete steady-state AD material rate without imposing an intrinsic-solid EOS.'
+  []
+
+  [barotropic_double_prime_transform_3d]
+    type = CSVDiff
+    group = 'constrained_biot'
+    input = barotropic_double_prime_transform_3d.i
+    cli_args = 'Outputs/file_base=barotropic_double_prime_transform_3d'
+    csvdiff = barotropic_double_prime_transform_3d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'At nonzero equivalent pressure, the hydrostatic barotropic potential shall generate P double prime directly, the inverse Biot transform shall recover P prime, and momentum shall use P prime minus p_E J F inverse transpose.'
+  []
+
+  [binary_fluid_eos_1d]
+    type = CSVDiff
+    group = 'constrained_biot'
+    input = binary_fluid_eos_1d.i
+    cli_args = 'Outputs/file_base=binary_fluid_eos_1d'
+    csvdiff = binary_fluid_eos_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'The binary fluid storage material shall recover both its isothermal ideal-gas density and its constant-bulk-modulus exponential density, together with the corresponding solid-reference accumulations.'
+  []
+
+  [volumetric_barotropic_transform_3d]
+    type = CSVDiff
+    group = 'constrained_biot'
+    input = volumetric_barotropic_transform_3d.i
+    cli_args = 'Outputs/file_base=volumetric_barotropic_transform_3d'
+    csvdiff = volumetric_barotropic_transform_3d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-11
+    requirement = 'At finite anisotropic deformation and nonzero equivalent pressure, the volumetric-isochoric barotropic potential shall generate the double-prime stress and the inverse Biot transform shall recover the prime and total first Piola stresses.'
+  []
+
+  [constrained_biot_small_strain_1d]
+    type = CSVDiff
+    group = 'constrained_biot'
+    input = constrained_biot_small_strain_1d.i
+    cli_args = 'Outputs/file_base=constrained_biot_small_strain_1d'
+    csvdiff = constrained_biot_small_strain_1d.csv
+    abs_zero = 1e-9
+    requirement = 'The production Eq. (32) constrained-skeleton closure shall satisfy its constraint, density, inverse-consistency, fixed-pressure tangent, storage, undrained-response, and small-strain Biot checks in one dimension.'
+  []
+
+  [constrained_biot_small_strain_2d]
+    type = CSVDiff
+    group = 'constrained_biot'
+    input = constrained_biot_small_strain_2d.i
+    cli_args = 'Outputs/file_base=constrained_biot_small_strain_2d'
+    csvdiff = constrained_biot_small_strain_2d.csv
+    abs_zero = 1e-9
+    requirement = 'The production Eq. (32) constrained-skeleton closure shall satisfy its constraint, density, inverse-consistency, fixed-pressure tangent, storage, undrained-response, and small-strain Biot checks in two dimensions.'
+  []
+
+  [constrained_biot_small_strain_3d]
+    type = CSVDiff
+    group = 'constrained_biot'
+    input = constrained_biot_small_strain_3d.i
+    cli_args = 'Outputs/file_base=constrained_biot_small_strain_3d'
+    csvdiff = constrained_biot_small_strain_3d.csv
+    abs_zero = 1e-9
+    requirement = 'The production Eq. (32) constrained-skeleton closure shall satisfy its constraint, density, inverse-consistency, fixed-pressure tangent, storage, undrained-response, and small-strain Biot checks in three dimensions.'
+  []
+
+  [constrained_biot_mechanics_jacobian_1d]
+    type = PetscJacobianTester
+    group = 'constrained_biot'
+    input = constrained_biot_mechanics_jacobian_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-5
+    requirement = 'The production Eq. (32) constrained-skeleton Biot coefficient shall preserve the AD mechanics Jacobian through its solid-J, equivalent-pressure, and implicit volume-fraction state dependence with Q2 displacement and P1+P0 EG pressure.'
+  []
+
+  [constrained_biot_small_strain_limits_1d_ratio_0]
+    type = RunCommand
+    group = 'constrained_biot'
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 1 --ratio 0'
+    max_time = 240
+    requirement = 'The one-dimensional production Eq. (32) constrained-skeleton closure shall converge to the Terzaghi endpoint B = 1 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_1d_ratio_025]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_1d_ratio_0
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 1 --ratio 0.25'
+    max_time = 240
+    requirement = 'The one-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.25 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_1d_ratio_04]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_1d_ratio_025
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 1 --ratio 0.4'
+    max_time = 240
+    requirement = 'The one-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.4 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_1d_ratio_075]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_1d_ratio_04
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 1 --ratio 0.75'
+    max_time = 240
+    requirement = 'The one-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.75 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_1d_ratio_1]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_1d_ratio_075
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 1 --ratio 1'
+    max_time = 240
+    requirement = 'The one-dimensional production Eq. (32) constrained-skeleton closure shall converge to the equal-modulus endpoint B = 0 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_2d_ratio_0]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_1d_ratio_1
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 2 --ratio 0'
+    max_time = 240
+    requirement = 'The two-dimensional production Eq. (32) constrained-skeleton closure shall converge to the Terzaghi endpoint B = 1 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_2d_ratio_025]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_2d_ratio_0
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 2 --ratio 0.25'
+    max_time = 240
+    requirement = 'The two-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.25 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_2d_ratio_04]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_2d_ratio_025
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 2 --ratio 0.4'
+    max_time = 240
+    requirement = 'The two-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.4 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_2d_ratio_075]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_2d_ratio_04
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 2 --ratio 0.75'
+    max_time = 240
+    requirement = 'The two-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.75 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_2d_ratio_1]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_2d_ratio_075
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 2 --ratio 1'
+    max_time = 240
+    requirement = 'The two-dimensional production Eq. (32) constrained-skeleton closure shall converge to the equal-modulus endpoint B = 0 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_3d_ratio_0]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_2d_ratio_1
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 3 --ratio 0'
+    max_time = 240
+    requirement = 'The three-dimensional production Eq. (32) constrained-skeleton closure shall converge to the Terzaghi endpoint B = 1 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_3d_ratio_025]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_3d_ratio_0
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 3 --ratio 0.25'
+    max_time = 240
+    requirement = 'The three-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.25 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_3d_ratio_04]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_3d_ratio_025
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 3 --ratio 0.4'
+    max_time = 240
+    requirement = 'The three-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.4 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_3d_ratio_075]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_3d_ratio_04
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 3 --ratio 0.75'
+    max_time = 240
+    requirement = 'The three-dimensional production Eq. (32) constrained-skeleton closure shall converge to B = 1-K/K_s for K/K_s = 0.75 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [constrained_biot_small_strain_limits_3d_ratio_1]
+    type = RunCommand
+    group = 'constrained_biot'
+    prereq = constrained_biot_small_strain_limits_3d_ratio_075
+    command = 'python3 ../../../../validation/scripts/check_constrained_biot_limits.py --dimension 3 --ratio 1'
+    max_time = 240
+    requirement = 'The three-dimensional production Eq. (32) constrained-skeleton closure shall converge to the equal-modulus endpoint B = 0 over four shrinking strain amplitudes while satisfying bounds, storage identity, and the supported undrained response.'
+  []
+
+  [implicit_closure_missing_tangent_rejected]
+    type = RunException
+    group = 'reduced_only'
+    input = implicit_closure_missing_tangent.i
+    expect_err = 'Implicit skeleton specific-volume closures require an explicitly supplied fixed-equivalent_pressure_total tangent material property'
+    requirement = 'The application shall reject an implicit skeleton specific-volume closure unless the fixed-p_E tangent material property is supplied.'
+  []
+[]

@@ -1,0 +1,2478 @@
+schema_version: 1
+hash_algorithm: sha256
+canonicalization: exact_bytes
+catalog: moose_app/input/fragment_catalog.yml
+include_root: moose_app/input/includes
+locked_root: .codex/verified-input-blocks
+protected_sections:
+- AuxKernels
+- DGKernels
+- FVKernels
+- Kernels
+- Materials
+- ScalarKernels
+- UserObjects
+blocks:
+- id: common.defaults
+  version: 0.1.0-candidate
+  status: candidate
+  path: common/defaults.i
+  sha256: 450e825ef27b92e924f20b84e0ea06721e1e453476ed03d6e6f98f82c9fa44c7
+  objects: []
+  provides:
+  - default EG penalty/scaling substitutions
+  verification: []
+- id: common.solver_defaults
+  version: 1.0.0
+  status: verified
+  path: common/solver_defaults.i
+  sha256: 1bc571efd429fd5d2ee00ec62d771b82bea40d1ed30107147549a28178726913
+  objects: []
+  provides:
+  - transient solve_dt and solve_steps substitutions
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: common.solver_defaults/1.0.0.i
+- id: common.eg_pressure_defaults
+  version: 0.1.0-candidate
+  status: candidate
+  path: common/eg_pressure_defaults.i
+  sha256: 8ed1f5ddcaf9bc4cf2d02ed4bce3a9db55386ac5f526895646e6c1d9a6f681f2
+  objects: []
+  provides:
+  - EG pressure penalty and scalar diffusivity substitutions
+  verification: []
+- id: common.eg_tau_defaults
+  version: 0.1.0-candidate
+  status: candidate
+  path: common/eg_tau_defaults.i
+  sha256: 2019c0ac211469afdadafc0361898ca7dbd97a8e6d82061c3337a5a24243442b
+  objects: []
+  provides:
+  - fluxless EG tau enrichment anchor substitution
+  verification: []
+- id: common.solid_effective_defaults
+  version: 0.1.0-candidate
+  status: candidate
+  path: common/solid_effective_defaults.i
+  sha256: 8364118b05213ab388860a40514e72dc45812a226e54e1c8e673c3be71931b25
+  objects: []
+  provides:
+  - effective solid Neo-Hookean modulus substitutions
+  verification: []
+- id: mesh.generated_1d_q2
+  version: 0.1.0-candidate
+  status: candidate
+  path: mesh/generated_1d_q2.i
+  sha256: be4a834474ccef1169400721ba5af67a98afdfb00a3d39a4d961bea922200dda
+  objects: []
+  dimension: 1
+  provides:
+  - GeneratedMesh EDGE3
+  verification: []
+- id: mesh.generated_2d_q2
+  version: 1.0.0
+  status: verified
+  path: mesh/generated_2d_q2.i
+  sha256: 609f7e12a7ada82d81cad18efa91043c9deb5273707bc844f3d24e3652e5402a
+  objects: []
+  dimension: 2
+  provides:
+  - GeneratedMesh QUAD9
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: mesh.generated_2d_q2/1.0.0.i
+- id: mesh.generated_3d_q2
+  version: 0.1.0-candidate
+  status: candidate
+  path: mesh/generated_3d_q2.i
+  sha256: f8ab19b6b578a381b1d45e17904fe74aedb007e636e4bc21f6e40b5cb08a238a
+  objects: []
+  dimension: 3
+  provides:
+  - GeneratedMesh TET10
+  verification: []
+- id: mesh.spe1_case1_3d_q2_tet10
+  version: 0.1.0-candidate
+  status: candidate
+  path: mesh/spe1_case1_3d_q2_tet10.i
+  sha256: 62784dd85ae0470480056a4e9027d11b1224b92a8c7a70f72727526c051b6b99
+  objects: []
+  dimension: 3
+  provides:
+  - SPE1 10 x 10 x 3 physical-cell mapping subdivided into 1800 TET10 elements
+  - layer and completion subdomains with coordinate-selected completion nodesets
+  - three coordinate-selected pin nodesets for the six scalar rigid-motion constraints
+  verification: []
+- id: mesh.spe2_rz_q2_quad9
+  version: 0.1.0-candidate
+  status: candidate
+  path: mesh/spe2_rz_q2_quad9.i
+  sha256: a31d4c4810319aceb89b8abdb2a3d772f539556e9db4d4e3f11f28595f081534
+  objects: []
+  dimension: 2
+  provides:
+  - SPE2 radial-vertical Q2 finite-element mesh with the published radial and layer boundaries
+  - layer and completion subdomains plus well, outer, top, and bottom boundary node sets
+  verification: []
+- id: fields.solid_q2_1d
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/solid_q2_1d.i
+  sha256: 5986405b0ef367e46f422749f132036020e1d85fb65a66b377e93267bd5af7df
+  objects:
+  - id: fields.solid_q2_1d::Variables/ux
+    section: Variables
+    name: ux
+    start_line: 2
+    end_line: 5
+    sha256: db08c367f739b77386b363055a4e1ed2c056c6aa46bcf04f2b367b0ddea8316e
+  dimension: 1
+  provides:
+  - ux Q2
+  verification: []
+- id: fields.solid_q2_aux_1d
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/solid_q2_aux_1d.i
+  sha256: 356568864bc04272c48f31cabf95560901115db5aa503678350e9e3dfb076b5e
+  objects:
+  - id: fields.solid_q2_aux_1d::AuxVariables/ux
+    section: AuxVariables
+    name: ux
+    start_line: 2
+    end_line: 5
+    sha256: db08c367f739b77386b363055a4e1ed2c056c6aa46bcf04f2b367b0ddea8316e
+  dimension: 1
+  provides:
+  - prescribed ux Q2 AuxVariable
+  verification: []
+- id: fields.solid_q2_2d
+  version: 1.0.0
+  status: verified
+  path: fields/solid_q2_2d.i
+  sha256: be6e25013b3df09af7f2121230cf8a9ae1be866bf8b70ac71a7a5b843a6b89c0
+  objects:
+  - id: fields.solid_q2_2d::Variables/ux
+    section: Variables
+    name: ux
+    start_line: 2
+    end_line: 5
+    sha256: db08c367f739b77386b363055a4e1ed2c056c6aa46bcf04f2b367b0ddea8316e
+  - id: fields.solid_q2_2d::Variables/uy
+    section: Variables
+    name: uy
+    start_line: 6
+    end_line: 9
+    sha256: 1dff162b4f7dff228bd42769296310459000d58f0cca3a3f9bd69625791988f3
+  dimension: 2
+  provides:
+  - ux Q2
+  - uy Q2
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: fields.solid_q2_2d/1.0.0.i
+- id: fields.solid_q2_aux_2d
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/solid_q2_aux_2d.i
+  sha256: ba258fdfec73acedb488e080bb9a8ec888770ffa370cb75c31187af0fc987fd3
+  objects:
+  - id: fields.solid_q2_aux_2d::AuxVariables/ux
+    section: AuxVariables
+    name: ux
+    start_line: 2
+    end_line: 5
+    sha256: db08c367f739b77386b363055a4e1ed2c056c6aa46bcf04f2b367b0ddea8316e
+  - id: fields.solid_q2_aux_2d::AuxVariables/uy
+    section: AuxVariables
+    name: uy
+    start_line: 6
+    end_line: 9
+    sha256: 1dff162b4f7dff228bd42769296310459000d58f0cca3a3f9bd69625791988f3
+  dimension: 2
+  provides:
+  - prescribed ux/uy Q2 AuxVariables
+  verification: []
+- id: fields.solid_q2_3d
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/solid_q2_3d.i
+  sha256: 87195582573ef1358578be6eb141e96fe13b0fb6aeb80e377624ebd59011c863
+  objects:
+  - id: fields.solid_q2_3d::Variables/ux
+    section: Variables
+    name: ux
+    start_line: 2
+    end_line: 5
+    sha256: db08c367f739b77386b363055a4e1ed2c056c6aa46bcf04f2b367b0ddea8316e
+  - id: fields.solid_q2_3d::Variables/uy
+    section: Variables
+    name: uy
+    start_line: 6
+    end_line: 9
+    sha256: 1dff162b4f7dff228bd42769296310459000d58f0cca3a3f9bd69625791988f3
+  - id: fields.solid_q2_3d::Variables/uz
+    section: Variables
+    name: uz
+    start_line: 10
+    end_line: 13
+    sha256: 6fdda4286f71b31a93c5b5488f3c3f7bb2a59dae895b1f71a69e642521f35ddb
+  dimension: 3
+  provides:
+  - ux Q2
+  - uy Q2
+  - uz Q2
+  verification: []
+- id: fields.spe1_black_oil_q2_eg
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/spe1_black_oil_q2_eg.i
+  sha256: 1fa7a5e49d8dae52699b90b7f0a7287d8cd563bf684ff471fe75e6084b6469c8
+  objects:
+  - id: fields.spe1_black_oil_q2_eg::Variables/ux
+    section: Variables
+    name: ux
+    start_line: 2
+    end_line: 5
+    sha256: db08c367f739b77386b363055a4e1ed2c056c6aa46bcf04f2b367b0ddea8316e
+  - id: fields.spe1_black_oil_q2_eg::Variables/uy
+    section: Variables
+    name: uy
+    start_line: 6
+    end_line: 9
+    sha256: 1dff162b4f7dff228bd42769296310459000d58f0cca3a3f9bd69625791988f3
+  - id: fields.spe1_black_oil_q2_eg::Variables/uz
+    section: Variables
+    name: uz
+    start_line: 10
+    end_line: 13
+    sha256: 6fdda4286f71b31a93c5b5488f3c3f7bb2a59dae895b1f71a69e642521f35ddb
+  - id: fields.spe1_black_oil_q2_eg::Variables/oil_pressure
+    section: Variables
+    name: oil_pressure
+    start_line: 14
+    end_line: 17
+    sha256: 6570c0151cb4bc285b0cb05cb12ebb1cc73065f3b96097bfb6ae4b44dc551ad0
+  - id: fields.spe1_black_oil_q2_eg::Variables/oil_pressure_enrichment
+    section: Variables
+    name: oil_pressure_enrichment
+    start_line: 18
+    end_line: 21
+    sha256: dc471b759c5f6855f99410435420bda1560d9ff555a5975efb7fc9f851c72150
+  - id: fields.spe1_black_oil_q2_eg::Variables/water_saturation
+    section: Variables
+    name: water_saturation
+    start_line: 22
+    end_line: 25
+    sha256: d7b6473e20c10f77b356b77e32e5e2439e4f09ff2c42038d0587775cc3e7e517
+  - id: fields.spe1_black_oil_q2_eg::Variables/water_saturation_enrichment
+    section: Variables
+    name: water_saturation_enrichment
+    start_line: 26
+    end_line: 29
+    sha256: 5f404d3af50b1ecbc7cd32a4ec869590e496b8ecd0d1e554db9d6a4536a844d6
+  - id: fields.spe1_black_oil_q2_eg::Variables/gas_saturation
+    section: Variables
+    name: gas_saturation
+    start_line: 30
+    end_line: 33
+    sha256: 56f0c76000544588d26b0c0fe8ed7def37020222acb728f9227b1d6e975e14c6
+  - id: fields.spe1_black_oil_q2_eg::Variables/gas_saturation_enrichment
+    section: Variables
+    name: gas_saturation_enrichment
+    start_line: 34
+    end_line: 37
+    sha256: be6fbdc52ef9694f6a3ae2ee2532a33dcb87ea6a431978c59228cbcbd0507741
+  - id: fields.spe1_black_oil_q2_eg::Variables/solution_gas_oil_ratio
+    section: Variables
+    name: solution_gas_oil_ratio
+    start_line: 38
+    end_line: 41
+    sha256: 0605c81c29e7d2de0488c721a53f24e3e1b4487a060f283685d252b5fcc5963a
+  dimension: 3
+  provides:
+  - ux/uy/uz Q2
+  - oil_pressure/oil_pressure_enrichment P1+P0 EG pair
+  - water_saturation/water_saturation_enrichment and gas_saturation/gas_saturation_enrichment P2+P0 CG/EG
+    pairs
+  - continuous P1 solution_gas_oil_ratio field
+  verification: []
+- id: fields.spe2_black_oil_q2_eg
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/spe2_black_oil_q2_eg.i
+  sha256: 72d39af2cfe625bff93afd6d7df2540a111ed2e1f91be2310dfe161e28932df6
+  objects:
+  - id: fields.spe2_black_oil_q2_eg::Variables/ux
+    section: Variables
+    name: ux
+    start_line: 4
+    end_line: 8
+    sha256: 57381a7bc85ef265aea94107d5a5bf9246c5ee2e40a01239ed9db54355c114c1
+  - id: fields.spe2_black_oil_q2_eg::Variables/uy
+    section: Variables
+    name: uy
+    start_line: 9
+    end_line: 13
+    sha256: bb7578d3ef033b1df8af1f17f80ce428b679a02d02303d873b0e30f9223caf01
+  - id: fields.spe2_black_oil_q2_eg::Variables/oil_pressure
+    section: Variables
+    name: oil_pressure
+    start_line: 14
+    end_line: 18
+    sha256: 5819f89024cb1a5b5e12c3954dc249c84f2f007aa1b0a2667c81be3c5ffbeca0
+  - id: fields.spe2_black_oil_q2_eg::Variables/oil_pressure_enrichment
+    section: Variables
+    name: oil_pressure_enrichment
+    start_line: 19
+    end_line: 24
+    sha256: e8d2821a8cd5f094ea823ba931d8a99516ecae3525b5e6350e3dc0bcca02369a
+  - id: fields.spe2_black_oil_q2_eg::Variables/solution_gas_oil_ratio
+    section: Variables
+    name: solution_gas_oil_ratio
+    start_line: 25
+    end_line: 28
+    sha256: 0605c81c29e7d2de0488c721a53f24e3e1b4487a060f283685d252b5fcc5963a
+  - id: fields.spe2_black_oil_q2_eg::Variables/water_saturation
+    section: Variables
+    name: water_saturation
+    start_line: 29
+    end_line: 33
+    sha256: f9831451aa170c7cc7337ebd6d11b8c907ab105ffac4b62a22d233b267384917
+  - id: fields.spe2_black_oil_q2_eg::Variables/water_saturation_enrichment
+    section: Variables
+    name: water_saturation_enrichment
+    start_line: 34
+    end_line: 37
+    sha256: 5f404d3af50b1ecbc7cd32a4ec869590e496b8ecd0d1e554db9d6a4536a844d6
+  - id: fields.spe2_black_oil_q2_eg::Variables/gas_saturation
+    section: Variables
+    name: gas_saturation
+    start_line: 38
+    end_line: 41
+    sha256: 654b26bdd7c21f50b2852312ed2d3c216b6f06db0ea16c5776c34c86af4f21a4
+  - id: fields.spe2_black_oil_q2_eg::Variables/gas_saturation_enrichment
+    section: Variables
+    name: gas_saturation_enrichment
+    start_line: 42
+    end_line: 45
+    sha256: be6fbdc52ef9694f6a3ae2ee2532a33dcb87ea6a431978c59228cbcbd0507741
+  - id: fields.spe2_black_oil_q2_eg::Variables/water_oil_pressure_difference
+    section: Variables
+    name: water_oil_pressure_difference
+    start_line: 46
+    end_line: 52
+    sha256: 519cd7f74dd435629eb241ecc70b79a716d815c71a5bb4e9c9cbac5c3d17f535
+  - id: fields.spe2_black_oil_q2_eg::Variables/gas_oil_pressure_difference
+    section: Variables
+    name: gas_oil_pressure_difference
+    start_line: 53
+    end_line: 57
+    sha256: dff67ea295b8ea738ed99c8dea4cf1f5bd2434ce396316dad418aba95fd01373
+  - id: fields.spe2_black_oil_q2_eg::Variables/tau
+    section: Variables
+    name: tau
+    start_line: 58
+    end_line: 61
+    sha256: 231d7a691bd457df8caba81afe83144c55deffd85378d885f058c5501bc79963
+  - id: fields.spe2_black_oil_q2_eg::Variables/tau_enrichment
+    section: Variables
+    name: tau_enrichment
+    start_line: 62
+    end_line: 65
+    sha256: 21f1cd4e7dd2d74b70f4499db355805087dc865eaf145f62a93f1235353b1788
+  - id: fields.spe2_black_oil_q2_eg::Variables/gas_phase_transformation_rate
+    section: Variables
+    name: gas_phase_transformation_rate
+    start_line: 66
+    end_line: 71
+    sha256: c1f84fe434b4648de60b8a4ba52b11dd62c76f71c50ca24998ef007eaf3889b9
+  - id: fields.spe2_black_oil_q2_eg::Variables/fluid_temperature
+    section: Variables
+    name: fluid_temperature
+    start_line: 72
+    end_line: 76
+    sha256: 5573bbbf55ff26c1f17ea066f99ee239c338030cd43e7a55b8fbf736cd74ef65
+  - id: fields.spe2_black_oil_q2_eg::Variables/solid_temperature
+    section: Variables
+    name: solid_temperature
+    start_line: 77
+    end_line: 81
+    sha256: 0c575ae44471ed6d2886ec1e690f9448e41b75457fd76949baa326d4dc9d8eb8
+  - id: fields.spe2_black_oil_q2_eg::Variables/matrix_reference_component_storage
+    section: Variables
+    name: matrix_reference_component_storage
+    start_line: 82
+    end_line: 88
+    sha256: 600debaa561abe4cd67416ecfccb841149398c9e407a698010d3bcdc57283f21
+  - id: fields.spe2_black_oil_q2_eg::Variables/producer_bhp_scalar
+    section: Variables
+    name: producer_bhp_scalar
+    start_line: 89
+    end_line: 94
+    sha256: 503928bfa38de9189f50fbf0c779818baceabbedc68815e2355afe87b411ad6d
+  - id: fields.spe2_black_oil_q2_eg::AuxVariables/water_saturation_bound
+    section: AuxVariables
+    name: water_saturation_bound
+    start_line: 98
+    end_line: 101
+    sha256: 2e953f466fa375d07f118022242ae48596c234f7397c992c77e4b3a88c9000cb
+  - id: fields.spe2_black_oil_q2_eg::AuxVariables/water_saturation_enrichment_bound
+    section: AuxVariables
+    name: water_saturation_enrichment_bound
+    start_line: 102
+    end_line: 105
+    sha256: 60f26fd53e328f277835ae036b4b19572e6fff8ad7f05c44b623d03c6fa0412c
+  - id: fields.spe2_black_oil_q2_eg::AuxVariables/gas_saturation_bound
+    section: AuxVariables
+    name: gas_saturation_bound
+    start_line: 106
+    end_line: 109
+    sha256: cb0d01feadcac621688752611926e9d4030f780fc151c5a57a9f25c40f79c7ac
+  - id: fields.spe2_black_oil_q2_eg::AuxVariables/gas_saturation_enrichment_bound
+    section: AuxVariables
+    name: gas_saturation_enrichment_bound
+    start_line: 110
+    end_line: 113
+    sha256: c196d0a7abe37b76fcd160f690c989927ebee12915e3ab8dbd6516de5d0f7586
+  - id: fields.spe2_black_oil_q2_eg::AuxVariables/phase_transform_dissipation
+    section: AuxVariables
+    name: phase_transform_dissipation
+    start_line: 114
+    end_line: 117
+    sha256: 42fd445664ce06bacb73db082b2343d362a648c82724e07eae97ea5230aa5c79
+  dimension: 2
+  provides:
+  - axisymmetric radial/axial Q2 solid displacement
+  - oil_pressure/oil_pressure_enrichment P1+P0 EG pair
+  - water and gas saturation P2 Bernstein plus P0 CG/EG pairs
+  - P1 solution-gas ratio, P1+P0 tau, local P2 transformation rate, two P1 temperatures, solid storage,
+    and producer BHP
+  verification: []
+- id: fields.solid_q2_aux_3d
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/solid_q2_aux_3d.i
+  sha256: f97ad4cab9972e650d20860abda1cd7858d735ca88891155222b010194b860e1
+  objects:
+  - id: fields.solid_q2_aux_3d::AuxVariables/ux
+    section: AuxVariables
+    name: ux
+    start_line: 2
+    end_line: 5
+    sha256: db08c367f739b77386b363055a4e1ed2c056c6aa46bcf04f2b367b0ddea8316e
+  - id: fields.solid_q2_aux_3d::AuxVariables/uy
+    section: AuxVariables
+    name: uy
+    start_line: 6
+    end_line: 9
+    sha256: 1dff162b4f7dff228bd42769296310459000d58f0cca3a3f9bd69625791988f3
+  - id: fields.solid_q2_aux_3d::AuxVariables/uz
+    section: AuxVariables
+    name: uz
+    start_line: 10
+    end_line: 13
+    sha256: 6fdda4286f71b31a93c5b5488f3c3f7bb2a59dae895b1f71a69e642521f35ddb
+  dimension: 3
+  provides:
+  - prescribed ux/uy/uz Q2 AuxVariables
+  verification: []
+- id: fields.eg_pressure_tau
+  version: 1.0.0
+  status: verified
+  path: fields/eg_pressure_tau.i
+  sha256: 16dde320851136b07535495c69596cb8d698fe9e0149aa1295e97e1431ec503b
+  objects:
+  - id: fields.eg_pressure_tau::Variables/p
+    section: Variables
+    name: p
+    start_line: 2
+    end_line: 6
+    sha256: afb77ba8f35d4a771dbf34b8a1cd14ea241affc8939042c9de4944cc6fa53445
+  - id: fields.eg_pressure_tau::Variables/p_enr
+    section: Variables
+    name: p_enr
+    start_line: 7
+    end_line: 12
+    sha256: fcda9ee24f8254da1d615a895a9536b4f2322d0fde886fddc10eda8830cbddd2
+  - id: fields.eg_pressure_tau::Variables/tau
+    section: Variables
+    name: tau
+    start_line: 13
+    end_line: 17
+    sha256: 7f858b2b83baaeff41ae09bd91effc76db78f78c003163deb920b41b5857f455
+  - id: fields.eg_pressure_tau::Variables/tau_enr
+    section: Variables
+    name: tau_enr
+    start_line: 18
+    end_line: 23
+    sha256: 377082ad9c86be2809dd154f226e518c8c6be4a26383832649f1cfbf7b1ff204
+  - id: fields.eg_pressure_tau::AuxVariables/p_total
+    section: AuxVariables
+    name: p_total
+    start_line: 27
+    end_line: 30
+    sha256: a7f8b8329e368e6200e6cb2287eb8c80e35ee4545aff8ed7ff110e95976fb78e
+  - id: fields.eg_pressure_tau::AuxVariables/tau_total
+    section: AuxVariables
+    name: tau_total
+    start_line: 31
+    end_line: 34
+    sha256: b3273521840e87d5c71bb8cab573c39c33603e70e7929ba5479dc57cea6dafb8
+  provides:
+  - p/p_enr EG pair
+  - tau/tau_enr EG pair
+  - p_total/tau_total output fields
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: fields.eg_pressure_tau/1.0.0.i
+- id: fields.eg_pressure
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_pressure.i
+  sha256: fbc9c5ca6cb6b6963adbc7adf669d78731e82c3c2eb8d288d0d9ce3e23a8df16
+  objects:
+  - id: fields.eg_pressure::Variables/p
+    section: Variables
+    name: p
+    start_line: 2
+    end_line: 6
+    sha256: afb77ba8f35d4a771dbf34b8a1cd14ea241affc8939042c9de4944cc6fa53445
+  - id: fields.eg_pressure::Variables/p_enr
+    section: Variables
+    name: p_enr
+    start_line: 7
+    end_line: 12
+    sha256: fcda9ee24f8254da1d615a895a9536b4f2322d0fde886fddc10eda8830cbddd2
+  - id: fields.eg_pressure::AuxVariables/p_total
+    section: AuxVariables
+    name: p_total
+    start_line: 16
+    end_line: 19
+    sha256: a7f8b8329e368e6200e6cb2287eb8c80e35ee4545aff8ed7ff110e95976fb78e
+  provides:
+  - p/p_enr EG pair
+  - p_total output field
+  verification: []
+- id: fields.eg_pressure_legacy
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_pressure_legacy.i
+  sha256: 0951fa0387719cf980e535778fed1ced031a9fec5f228bf0ce0b137951e0183d
+  objects:
+  - id: fields.eg_pressure_legacy::Variables/pressure
+    section: Variables
+    name: pressure
+    start_line: 2
+    end_line: 6
+    sha256: d059ceb258d1f7c93b8df6ae94b8c0922758cb16387149707904c078cf940919
+  - id: fields.eg_pressure_legacy::Variables/pressure_enr
+    section: Variables
+    name: pressure_enr
+    start_line: 7
+    end_line: 12
+    sha256: 46ff2ae065a423f8e677ec1e20b0d66f04284b053a4ecbcd8327d384fb63390b
+  - id: fields.eg_pressure_legacy::AuxVariables/pressure_total
+    section: AuxVariables
+    name: pressure_total
+    start_line: 16
+    end_line: 19
+    sha256: 71117188a8e1f4cb80d2ffd512fe8217dd231947a23f8fc59bc4f653f3490f03
+  provides:
+  - pressure/pressure_enr EG pair
+  - pressure_total output field
+  verification: []
+- id: fields.eg_pressure_legacy_aux
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_pressure_legacy_aux.i
+  sha256: 47b7ef0575326028cd763c6e0930a14ad648efbd4421596255eefcb8eb25c0ba
+  objects:
+  - id: fields.eg_pressure_legacy_aux::AuxVariables/pressure
+    section: AuxVariables
+    name: pressure
+    start_line: 2
+    end_line: 5
+    sha256: f04a3ad23e77d367e94179bac6e7a50522cfcd42f07dfa97354787eee5c90fa7
+  - id: fields.eg_pressure_legacy_aux::AuxVariables/pressure_enr
+    section: AuxVariables
+    name: pressure_enr
+    start_line: 6
+    end_line: 9
+    sha256: ede9cfd6cc10009587b41c5d16ecab2ca71d5963844a115092bce035be9836ed
+  - id: fields.eg_pressure_legacy_aux::AuxVariables/pressure_total
+    section: AuxVariables
+    name: pressure_total
+    start_line: 10
+    end_line: 13
+    sha256: 71117188a8e1f4cb80d2ffd512fe8217dd231947a23f8fc59bc4f653f3490f03
+  provides:
+  - prescribed pressure/pressure_enr EG-like AuxVariable pair for MMS drivers
+  - pressure_total output field
+  verification: []
+- id: fields.eg_pressure_pair_aux
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_pressure_pair_aux.i
+  sha256: 6a9e623fa50889a4d8546b02a109c9bb18ec88a705c0f8ab729f8a0a46b77a5c
+  objects:
+  - id: fields.eg_pressure_pair_aux::AuxVariables/pressure0
+    section: AuxVariables
+    name: pressure0
+    start_line: 2
+    end_line: 5
+    sha256: d0a5d504ea1f3710ed4e7e901098fc9cb62836e0a9430be088f02a15e1f02296
+  - id: fields.eg_pressure_pair_aux::AuxVariables/pressure0_enr
+    section: AuxVariables
+    name: pressure0_enr
+    start_line: 6
+    end_line: 9
+    sha256: 013923bb7a43f3d33f82839f4f8dd1f698f3418aa0f41e0b54ef21bb19e9ac5a
+  - id: fields.eg_pressure_pair_aux::AuxVariables/pressure0_total
+    section: AuxVariables
+    name: pressure0_total
+    start_line: 10
+    end_line: 13
+    sha256: b1639f94d9cff8f19dc5f74096ae379a3232046c63cf30bee834e41c104eedd9
+  - id: fields.eg_pressure_pair_aux::AuxVariables/pressure1
+    section: AuxVariables
+    name: pressure1
+    start_line: 14
+    end_line: 17
+    sha256: 6eaf65c9220cf11633a9d437d32256db70d322371f7c0a90d0e4ef2248ebaffa
+  - id: fields.eg_pressure_pair_aux::AuxVariables/pressure1_enr
+    section: AuxVariables
+    name: pressure1_enr
+    start_line: 18
+    end_line: 21
+    sha256: f1489063ebf5aa535e43d33ae1ba3e3e5d38653e3fa210eb0faa01e607e61e73
+  - id: fields.eg_pressure_pair_aux::AuxVariables/pressure1_total
+    section: AuxVariables
+    name: pressure1_total
+    start_line: 22
+    end_line: 25
+    sha256: 9167220d7bbe7634547e5c1d470c479f346b271b17e53859b901387811e6b9ca
+  provides:
+  - prescribed pressure0/pressure0_enr and pressure1/pressure1_enr EG-like AuxVariable pairs for two-phase
+    MMS drivers
+  - pressure0_total/pressure1_total output fields
+  verification: []
+- id: fields.eg_pressure_potential_aux
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_pressure_potential_aux.i
+  sha256: 1e863526b7fda135c27cff63b31d8baa99c5919587740eb2427be6c5ce03aa56
+  objects:
+  - id: fields.eg_pressure_potential_aux::AuxVariables/pressure_potential
+    section: AuxVariables
+    name: pressure_potential
+    start_line: 2
+    end_line: 5
+    sha256: 36a454217e4c53f479ceb2a48534be35508f612c83a1d9bb968ade873c50dc29
+  - id: fields.eg_pressure_potential_aux::AuxVariables/pressure_potential_enr
+    section: AuxVariables
+    name: pressure_potential_enr
+    start_line: 6
+    end_line: 9
+    sha256: b1e0125a91c416eb528796b08fa2445e955c76bfbe03e7fde9523425556b72ad
+  - id: fields.eg_pressure_potential_aux::AuxVariables/pressure_potential_total
+    section: AuxVariables
+    name: pressure_potential_total
+    start_line: 10
+    end_line: 13
+    sha256: 61df3279af9b28e43989ea77b8c0038c5310182823b648a78af53f7e9b741cbe
+  provides:
+  - prescribed pressure_potential/pressure_potential_enr EG-like AuxVariable pair for phase-momentum MMS
+    drivers
+  - pressure_potential_total output field
+  verification: []
+- id: fields.eg_capillary_pressure_aux
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_capillary_pressure_aux.i
+  sha256: cfcdce10109a7db3b58c882c5f6c9d51441aff132b6f634107aa0f66368f7b42
+  objects:
+  - id: fields.eg_capillary_pressure_aux::AuxVariables/capillary_pressure
+    section: AuxVariables
+    name: capillary_pressure
+    start_line: 2
+    end_line: 5
+    sha256: e8dddf12a857528f5ab85007c14dbd96473d467ab48070c90360aa080cbd6a17
+  - id: fields.eg_capillary_pressure_aux::AuxVariables/capillary_pressure_enr
+    section: AuxVariables
+    name: capillary_pressure_enr
+    start_line: 6
+    end_line: 9
+    sha256: a7d8a6809e13a1da9baeb377fb00fdd27b7502dd6fa2db3e5857c30f3d57663d
+  - id: fields.eg_capillary_pressure_aux::AuxVariables/capillary_pressure_total
+    section: AuxVariables
+    name: capillary_pressure_total
+    start_line: 10
+    end_line: 13
+    sha256: 3e1e40ab6ddbb52aefec1918cd5423dad988a29d63112122ae5739a882512962
+  provides:
+  - prescribed capillary_pressure/capillary_pressure_enr EG-like AuxVariable pair
+  - capillary_pressure_total output field
+  verification: []
+- id: fields.eg_equivalent_pressure_aux
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_equivalent_pressure_aux.i
+  sha256: 3ecb20d504e2fd3cb221d29b017c6d67d167bb4f6e7ec82ed2afa642c1f1e658
+  objects:
+  - id: fields.eg_equivalent_pressure_aux::AuxVariables/equivalent_pressure
+    section: AuxVariables
+    name: equivalent_pressure
+    start_line: 2
+    end_line: 5
+    sha256: 74d0b3e7a06b82bcc5ff03cd2895a70725b590158572bb5c4df7488b06bde4b9
+  - id: fields.eg_equivalent_pressure_aux::AuxVariables/equivalent_pressure_enr
+    section: AuxVariables
+    name: equivalent_pressure_enr
+    start_line: 6
+    end_line: 9
+    sha256: ea0e59a60497f2e81bc9be78d7fb14fb707650a8149eafa1b272a45112d0642c
+  - id: fields.eg_equivalent_pressure_aux::AuxVariables/equivalent_pressure_total
+    section: AuxVariables
+    name: equivalent_pressure_total
+    start_line: 10
+    end_line: 13
+    sha256: 2ebdbaa6d30506852ad891f9c7dbee5ba79c473e9f3bc3909cea953f9e2d17e0
+  provides:
+  - prescribed equivalent_pressure/equivalent_pressure_enr EG-like AuxVariable pair
+  - equivalent_pressure_total output field
+  verification: []
+- id: fields.eg_tau
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_tau.i
+  sha256: 0532ab882957d7c98b053d6329e37cc05506363d1f164740a7f891505f057f75
+  objects:
+  - id: fields.eg_tau::Variables/tau
+    section: Variables
+    name: tau
+    start_line: 2
+    end_line: 6
+    sha256: 7f858b2b83baaeff41ae09bd91effc76db78f78c003163deb920b41b5857f455
+  - id: fields.eg_tau::Variables/tau_enr
+    section: Variables
+    name: tau_enr
+    start_line: 7
+    end_line: 11
+    sha256: 0d4471d744e6033046920f611e3fc0bd3abcaed3331f8a7c9583edf56f30efb4
+  - id: fields.eg_tau::AuxVariables/tau_total
+    section: AuxVariables
+    name: tau_total
+    start_line: 15
+    end_line: 18
+    sha256: b3273521840e87d5c71bb8cab573c39c33603e70e7929ba5479dc57cea6dafb8
+  provides:
+  - tau/tau_enr EG pair
+  - tau_total output field
+  verification: []
+- id: fields.eg_registered_phase_pressures_aux
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/eg_registered_phase_pressures_aux.i
+  sha256: 479d32d7e53ad987c0681d5599120d749a171035dcceb062c34ca0a9f2644320
+  objects:
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_oil
+    section: AuxVariables
+    name: pressure_oil
+    start_line: 2
+    end_line: 5
+    sha256: d3116d1896636f459f96b07a5c479587e9296ca4b4b97c8f8995350ec49a1800
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_oil_enr
+    section: AuxVariables
+    name: pressure_oil_enr
+    start_line: 6
+    end_line: 9
+    sha256: 45c57332a8ada46a353de0d496cdfbea74da0617b7d06e4d418ee9672c330d46
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_oil_total
+    section: AuxVariables
+    name: pressure_oil_total
+    start_line: 10
+    end_line: 13
+    sha256: c5ab38adceb1474f1c289a7d96fbd8a33e57c12ebd402e24126fadacaa8b2fb6
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_gas
+    section: AuxVariables
+    name: pressure_gas
+    start_line: 14
+    end_line: 17
+    sha256: 451e4809ebfead9775d30ce40b83e306b46ae67044a4c42359a49d8380ebfd8f
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_gas_enr
+    section: AuxVariables
+    name: pressure_gas_enr
+    start_line: 18
+    end_line: 21
+    sha256: 9061d0ad1e49efc2c6378eb951e0e62dfde84885f336feea3bb74eba916b45a5
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_gas_total
+    section: AuxVariables
+    name: pressure_gas_total
+    start_line: 22
+    end_line: 25
+    sha256: bc15a1367cc0af6770847fbbe1c0fed338132a94ba7b895721000a826f2999da
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_water
+    section: AuxVariables
+    name: pressure_water
+    start_line: 26
+    end_line: 29
+    sha256: 4714544ab6eebcede346616f8527e1fa262f759eded6cded38ec621e8fe74601
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_water_enr
+    section: AuxVariables
+    name: pressure_water_enr
+    start_line: 30
+    end_line: 33
+    sha256: 6aaf1c44c0c47df9cdad99c3a96003f6118f7a20abf817b87d35f380c61c7dbc
+  - id: fields.eg_registered_phase_pressures_aux::AuxVariables/pressure_water_total
+    section: AuxVariables
+    name: pressure_water_total
+    start_line: 34
+    end_line: 37
+    sha256: e89758adfbf96ee88a86b7c7e3b3b30700c28e7bbd32b8e1fd5877d032848a6e
+  provides:
+  - prescribed registered-phase pressure/enrichment pairs for MMS drivers
+  verification: []
+- id: materials.solid_kinematics_1d
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/solid_kinematics_1d.i
+  sha256: cf7ec6ba6ae86b2d31407fcb59515e071b4d3411d840e96bfafd6b99a9c57767
+  objects:
+  - id: materials.solid_kinematics_1d::Materials/solid_kinematics
+    section: Materials
+    name: solid_kinematics
+    start_line: 2
+    end_line: 5
+    sha256: 009b5ee2dc04c6b8ebcd0c9eb9a84c139f126e7438c12b8a0ceb05baafeecd6d
+    type: ADSolidReferenceKinematics
+  dimension: 1
+  requires:
+  - fields.solid_q2_1d
+  verification: []
+- id: materials.solid_kinematics_2d
+  version: 1.0.0
+  status: verified
+  path: materials/solid_kinematics_2d.i
+  sha256: 93a5ba652a72f3adc160395c2f336a2ec6d7412cd367e83573c7aee233be1fc1
+  objects:
+  - id: materials.solid_kinematics_2d::Materials/solid_kinematics
+    section: Materials
+    name: solid_kinematics
+    start_line: 2
+    end_line: 5
+    sha256: 504f7530cc5d48e5001ae859d912f12d9a456d4896cb9b32e014e76220b5ec97
+    type: ADSolidReferenceKinematics
+  dimension: 2
+  requires:
+  - fields.solid_q2_2d
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: materials.solid_kinematics_2d/1.0.0.i
+- id: materials.solid_kinematics_3d
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/solid_kinematics_3d.i
+  sha256: 305aa6f7e3899ea5da320ebfbcb7401d27107146587a50a00bf9c8a3c1065376
+  objects:
+  - id: materials.solid_kinematics_3d::Materials/solid_kinematics
+    section: Materials
+    name: solid_kinematics
+    start_line: 2
+    end_line: 5
+    sha256: df84d17a5ab9bf91669a0c9e9e2d7c47a98df47101a249dfca8a14c0f71b3f1c
+    type: ADSolidReferenceKinematics
+  dimension: 3
+  requires:
+  - fields.solid_q2_3d
+  verification: []
+- id: materials.eg_reconstruction
+  version: 1.0.0
+  status: verified
+  path: materials/eg_reconstruction.i
+  sha256: 621b810e35753a258b925f14b8f0ac571dca2a402bb2feb6b2c4be9dab36fd56
+  objects:
+  - id: materials.eg_reconstruction::Materials/p_reconstructed
+    section: Materials
+    name: p_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: 1eec1f61060f46014b794610629b6a409c2849f338b3e0d48329f605256212e3
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_reconstruction::Materials/tau_reconstructed
+    section: Materials
+    name: tau_reconstructed
+    start_line: 8
+    end_line: 13
+    sha256: 4364bf05633028645c7f3ee3e189e43bc77c702369b5822c059593ed4a3089e4
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_reconstruction::AuxKernels/p_total_aux
+    section: AuxKernels
+    name: p_total_aux
+    start_line: 17
+    end_line: 22
+    sha256: bd957fe6a04e02bf658a3fb6e0038ff5c98cb7aa3ec8ce520cee6279c9c680b8
+    type: ADMaterialRealAux
+  - id: materials.eg_reconstruction::AuxKernels/tau_total_aux
+    section: AuxKernels
+    name: tau_total_aux
+    start_line: 23
+    end_line: 28
+    sha256: 6ef27d580af5ba880ac7f39a6996f8663674fcb76eed939b63f01529494706f3
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_pressure_tau
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: materials.eg_reconstruction/1.0.0.i
+- id: materials.eg_pressure_reconstruction
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_pressure_reconstruction.i
+  sha256: 2b82f827806ce5785e03f5d2155dfc1d2311b14902a6f185911dd372b37fa7a8
+  objects:
+  - id: materials.eg_pressure_reconstruction::Materials/p_reconstructed
+    section: Materials
+    name: p_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: 1eec1f61060f46014b794610629b6a409c2849f338b3e0d48329f605256212e3
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_pressure_reconstruction::AuxKernels/p_total_aux
+    section: AuxKernels
+    name: p_total_aux
+    start_line: 11
+    end_line: 16
+    sha256: bd957fe6a04e02bf658a3fb6e0038ff5c98cb7aa3ec8ce520cee6279c9c680b8
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_pressure
+  verification: []
+- id: materials.eg_pressure_legacy_reconstruction
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_pressure_legacy_reconstruction.i
+  sha256: 0f365c764cd84c31c197c7c19329b4c1b2c4af3b184c4491cfa6a4f5c99bf7d7
+  objects:
+  - id: materials.eg_pressure_legacy_reconstruction::Materials/pressure_reconstructed
+    section: Materials
+    name: pressure_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: cbd813c27f2d989afd7da1445107e78cc804dbc33e128f15977ea2c5ff4ec5fd
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_pressure_legacy_reconstruction::AuxKernels/pressure_total_aux
+    section: AuxKernels
+    name: pressure_total_aux
+    start_line: 11
+    end_line: 16
+    sha256: 043a4ba5cf67cc74be9257acbffc76cdba4a3231ba0149211a0cc546498ecd87
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_pressure_legacy
+  verification: []
+- id: materials.eg_pressure_pair_reconstruction
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_pressure_pair_reconstruction.i
+  sha256: 4ced88c958864f28464475e3152f5b0e57b1e167f0beab29cb45ab1904371413
+  objects:
+  - id: materials.eg_pressure_pair_reconstruction::Materials/pressure0_reconstructed
+    section: Materials
+    name: pressure0_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: ad46ace6e1fe99921b2bdb1a065cb8cde06879012b7ac39601937525bbbac8be
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_pressure_pair_reconstruction::Materials/pressure1_reconstructed
+    section: Materials
+    name: pressure1_reconstructed
+    start_line: 8
+    end_line: 13
+    sha256: 1fd633ac0122ca014523dfe16858eb324b860d5e874cc075e247b29fb81e45a7
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_pressure_pair_reconstruction::AuxKernels/pressure0_total_aux
+    section: AuxKernels
+    name: pressure0_total_aux
+    start_line: 17
+    end_line: 22
+    sha256: 47c0850157ef962a3b437abbcbd8da37c87b3453f888aa6a351ee21920c8cfda
+    type: ADMaterialRealAux
+  - id: materials.eg_pressure_pair_reconstruction::AuxKernels/pressure1_total_aux
+    section: AuxKernels
+    name: pressure1_total_aux
+    start_line: 23
+    end_line: 28
+    sha256: 1780610e71cc405adba2aa5c0a4010fb7ce4aaec7015df1f9b64be37383a6266
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_pressure_pair_aux
+  verification: []
+- id: materials.eg_pressure_potential_reconstruction
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_pressure_potential_reconstruction.i
+  sha256: 5dfba3ac244d82083b3f3c247b0e09061021ff1cc738865e3338daff5cc88c96
+  objects:
+  - id: materials.eg_pressure_potential_reconstruction::Materials/pressure_potential_reconstructed
+    section: Materials
+    name: pressure_potential_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: 8a9a1bb9e8a362ac0ea118754b53ece490daea8a95d3c1638ec0313ed40501c2
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_pressure_potential_reconstruction::AuxKernels/pressure_potential_total_aux
+    section: AuxKernels
+    name: pressure_potential_total_aux
+    start_line: 11
+    end_line: 16
+    sha256: 8807cfb830b4d7d71998921e9409d4ae50ae6a0af1efc656ceca81c486140272
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_pressure_potential_aux
+  verification: []
+- id: materials.eg_capillary_pressure_reconstruction
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_capillary_pressure_reconstruction.i
+  sha256: 7609430984890937f36ad93b784c1ffb4da72eee55ba45d1369710a2be0ecf84
+  objects:
+  - id: materials.eg_capillary_pressure_reconstruction::Materials/capillary_pressure_reconstructed
+    section: Materials
+    name: capillary_pressure_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: 0dbfffc32c0a4b3608e08e7e784c3a4ba3b4078ed9174793081d3e800ece6964
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_capillary_pressure_reconstruction::AuxKernels/capillary_pressure_total_aux
+    section: AuxKernels
+    name: capillary_pressure_total_aux
+    start_line: 11
+    end_line: 16
+    sha256: f8716bed8beb6a273bb89b97b337211626e15d2f7cd2b810bdc73385582d775a
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_capillary_pressure_aux
+  verification: []
+- id: materials.eg_equivalent_pressure_reconstruction
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_equivalent_pressure_reconstruction.i
+  sha256: c436b8eb70cd40b39cb67401ba4fb0b53e1143a9ffe7a1024645a2c8dd1260e8
+  objects:
+  - id: materials.eg_equivalent_pressure_reconstruction::Materials/equivalent_pressure_reconstructed
+    section: Materials
+    name: equivalent_pressure_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: 199dd067277ae741d80a6595a4336544010dacacbfc7d55feebec7024209ca24
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_equivalent_pressure_reconstruction::AuxKernels/equivalent_pressure_total_aux
+    section: AuxKernels
+    name: equivalent_pressure_total_aux
+    start_line: 11
+    end_line: 16
+    sha256: e9520e307ab2ebad7a9c8f0ddd1b5dbfd6ef15bd0e5b8a8676d824d1b4b53f4a
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_equivalent_pressure_aux
+  verification: []
+- id: materials.eg_tau_reconstruction
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_tau_reconstruction.i
+  sha256: 9daad4f8055d64e2d4ee2befeee7b6a35f27a0dd623b89136e1b939089fb69f9
+  objects:
+  - id: materials.eg_tau_reconstruction::Materials/tau_reconstructed
+    section: Materials
+    name: tau_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: 4364bf05633028645c7f3ee3e189e43bc77c702369b5822c059593ed4a3089e4
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_tau_reconstruction::AuxKernels/tau_total_aux
+    section: AuxKernels
+    name: tau_total_aux
+    start_line: 11
+    end_line: 16
+    sha256: 6ef27d580af5ba880ac7f39a6996f8663674fcb76eed939b63f01529494706f3
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_tau
+  verification: []
+- id: materials.eg_registered_phase_pressures_reconstruction
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_registered_phase_pressures_reconstruction.i
+  sha256: 3bc1afd553ebb27bb82fbe6965ade77b0780a9b9e298edf173cc76ab48da7f33
+  objects:
+  - id: materials.eg_registered_phase_pressures_reconstruction::Materials/pressure_oil_reconstructed
+    section: Materials
+    name: pressure_oil_reconstructed
+    start_line: 2
+    end_line: 7
+    sha256: faa49a65eb551dca940940658da833f8212cc9cf1fa5af47f5d60aac9eb874ce
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_registered_phase_pressures_reconstruction::Materials/pressure_gas_reconstructed
+    section: Materials
+    name: pressure_gas_reconstructed
+    start_line: 8
+    end_line: 13
+    sha256: 933398121b9da7ac3ba0997bd396d2a747469be51ba937c80c7d12a436e61898
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_registered_phase_pressures_reconstruction::Materials/pressure_water_reconstructed
+    section: Materials
+    name: pressure_water_reconstructed
+    start_line: 14
+    end_line: 19
+    sha256: 175d5a5e2dd43941dc01907c7c4e22c1d203e8879e922d80b8b184cb156cf131
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.eg_registered_phase_pressures_reconstruction::AuxKernels/pressure_oil_total_aux
+    section: AuxKernels
+    name: pressure_oil_total_aux
+    start_line: 23
+    end_line: 28
+    sha256: 9694b35e1c73ceb981f49a7e100544b4fe2e73e001e35c2045e72bebf5aa84be
+    type: ADMaterialRealAux
+  - id: materials.eg_registered_phase_pressures_reconstruction::AuxKernels/pressure_gas_total_aux
+    section: AuxKernels
+    name: pressure_gas_total_aux
+    start_line: 29
+    end_line: 34
+    sha256: 2666ebf7b774ea721f9094105b5ba3ce20c795c44fb74f3028770e068e4e93b3
+    type: ADMaterialRealAux
+  - id: materials.eg_registered_phase_pressures_reconstruction::AuxKernels/pressure_water_total_aux
+    section: AuxKernels
+    name: pressure_water_total_aux
+    start_line: 35
+    end_line: 40
+    sha256: 12128473cce3cd20677b7b3bd791c2076a3c0c7ae56cfc8d286eb94445d5834e
+    type: ADMaterialRealAux
+  requires:
+  - fields.eg_registered_phase_pressures_aux
+  provides:
+  - reconstructed registered-phase total pressures
+  verification: []
+- id: materials.darcy_pressure_flux
+  version: 1.0.0
+  status: verified
+  path: materials/darcy_pressure_flux.i
+  sha256: d101e99604f0cad83e2175bc582ff3fa0073d539b05375b35f3443891b56263c
+  objects:
+  - id: materials.darcy_pressure_flux::Materials/eg_fluid_constants
+    section: Materials
+    name: eg_fluid_constants
+    start_line: 2
+    end_line: 6
+    sha256: c8ead45ea91e0f3b526db06df01787938fa599cb6c6453ed4b962d973db7fc50
+    type: ADGenericConstantMaterial
+  - id: materials.darcy_pressure_flux::Materials/p_darcy_flux
+    section: Materials
+    name: p_darcy_flux
+    start_line: 7
+    end_line: 19
+    sha256: c6b177b64766114ffcdbe13c20500b18ac0ecfa7644aeeb3d6a43c7d2d824576
+    type: ADStandardDarcyReferenceFluxMaterial
+  requires:
+  - materials.solid_kinematics_*
+  - fields.eg_pressure_tau
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: materials.darcy_pressure_flux/1.0.0.i
+- id: materials.eg_pressure_diffusion_flux
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_pressure_diffusion_flux.i
+  sha256: 2102b6f3a2ace59ae019a0896ef17e41612c2099ffdd6712aee4bf9645ea3c59
+  objects:
+  - id: materials.eg_pressure_diffusion_flux::Materials/p_diffusion_flux
+    section: Materials
+    name: p_diffusion_flux
+    start_line: 2
+    end_line: 9
+    sha256: 5162accf187593db4baa6cc401b3a1aaa5f78e1873fba5799085f27f55414ce5
+    type: ADScalarDiffusionReferenceFluxMaterial
+  requires:
+  - fields.eg_pressure
+  verification: []
+- id: materials.solid_stress_eg_pressure
+  version: 1.0.0
+  status: verified
+  path: materials/solid_stress_eg_pressure.i
+  sha256: 4cc36e9d156c643863c6c314c137533c560c04ff80eaa69b4d2d8965d0b13dcc
+  objects:
+  - id: materials.solid_stress_eg_pressure::Materials/effective_stress
+    section: Materials
+    name: effective_stress
+    start_line: 2
+    end_line: 6
+    sha256: 9eda0c5ebb4678192c898f9036d87cddc2fec9987e60ae6668217a84644e9fb6
+    type: ADCompressibleNeoHookeanReferenceStressMaterial
+  - id: materials.solid_stress_eg_pressure::Materials/total_stress
+    section: Materials
+    name: total_stress
+    start_line: 7
+    end_line: 12
+    sha256: d27a82d997d0bb92738ecc6b960606ee3501d323564b49c506dcbfe184b19d79
+    type: ADReferenceSolidStressMaterial
+  requires:
+  - materials.solid_kinematics_*
+  - fields.eg_pressure_tau
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: materials.solid_stress_eg_pressure/1.0.0.i
+- id: materials.solid_biot_from_specific_volume
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/solid_biot_from_specific_volume.i
+  sha256: d2e6a97316d9b67ce536b1d2d396cbe3b57d985b77a7bda296b35e96c3cf7153
+  objects:
+  - id: materials.solid_biot_from_specific_volume::Materials/solid_biot
+    section: Materials
+    name: solid_biot
+    start_line: 2
+    end_line: 9
+    sha256: 3c9b76bbf497ec68783655087e62d2f890c31e49e18bb212cff64760e0775026
+    type: ADSkeletonSpecificVolumeBiotMaterial
+  requires:
+  - materials.solid_kinematics_*
+  - user-supplied intrinsic skeleton specific-volume material property and fixed-p_E tangent
+  provides:
+  - AD solid_biot_coefficient from B = 1 - v_s0^{-1} partial(vbar_s)/partial J_s at fixed p_E
+  verification: []
+- id: materials.solid_stress_eg_pressure_nonlinear_biot
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/solid_stress_eg_pressure_nonlinear_biot.i
+  sha256: 123889bb0487a80608bcb9620b4ee0c0db09e5b765955f3bb777d7677750f1a5
+  objects:
+  - id: materials.solid_stress_eg_pressure_nonlinear_biot::Materials/effective_stress
+    section: Materials
+    name: effective_stress
+    start_line: 2
+    end_line: 6
+    sha256: 9eda0c5ebb4678192c898f9036d87cddc2fec9987e60ae6668217a84644e9fb6
+    type: ADCompressibleNeoHookeanReferenceStressMaterial
+  - id: materials.solid_stress_eg_pressure_nonlinear_biot::Materials/total_stress
+    section: Materials
+    name: total_stress
+    start_line: 7
+    end_line: 12
+    sha256: 033cd4eef5cef97b5db45bdc0b86fb8dec55a99baf1f8cde7490b4c22d035cb4
+    type: ADReferenceSolidStressMaterial
+  requires:
+  - materials.solid_kinematics_*
+  - fields.eg_pressure or fields.eg_pressure_tau
+  - materials.solid_biot_from_specific_volume
+  provides:
+  - reference-solid total stress consuming AD nonlinear Biot coefficient and p+p_enr
+  verification: []
+- id: materials.solid_stress_eg_equivalent_pressure
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/solid_stress_eg_equivalent_pressure.i
+  sha256: ae0fe960c10de38b19f8079119a9aacb7b518569c9db0aefe28c660860355320
+  objects:
+  - id: materials.solid_stress_eg_equivalent_pressure::Materials/effective_stress
+    section: Materials
+    name: effective_stress
+    start_line: 2
+    end_line: 6
+    sha256: 9eda0c5ebb4678192c898f9036d87cddc2fec9987e60ae6668217a84644e9fb6
+    type: ADCompressibleNeoHookeanReferenceStressMaterial
+  - id: materials.solid_stress_eg_equivalent_pressure::Materials/total_stress
+    section: Materials
+    name: total_stress
+    start_line: 7
+    end_line: 11
+    sha256: c06faada68a7764f1d6f81e66e06c3f4ad955f0a17d14dc1667f44eb517096c5
+    type: ADReferenceSolidStressMaterial
+  requires:
+  - materials.solid_kinematics_*
+  - fields.eg_equivalent_pressure_aux
+  verification: []
+- id: materials.solid_stress_eg_equivalent_pressure_nonlinear_biot
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/solid_stress_eg_equivalent_pressure_nonlinear_biot.i
+  sha256: 68ae734d839697dabcbcbd12f8524aaed7284138ad18d25362dd7ee5d9a55490
+  objects:
+  - id: materials.solid_stress_eg_equivalent_pressure_nonlinear_biot::Materials/effective_stress
+    section: Materials
+    name: effective_stress
+    start_line: 2
+    end_line: 6
+    sha256: 9eda0c5ebb4678192c898f9036d87cddc2fec9987e60ae6668217a84644e9fb6
+    type: ADCompressibleNeoHookeanReferenceStressMaterial
+  - id: materials.solid_stress_eg_equivalent_pressure_nonlinear_biot::Materials/total_stress
+    section: Materials
+    name: total_stress
+    start_line: 7
+    end_line: 12
+    sha256: 709b402fd9a5ad905b006576a01e0a1f1aadb355daff15ac2834849664186c61
+    type: ADReferenceSolidStressMaterial
+  requires:
+  - materials.solid_kinematics_*
+  - fields.eg_equivalent_pressure_aux
+  - materials.solid_biot_from_specific_volume
+  provides:
+  - reference-solid total stress consuming AD nonlinear Biot coefficient and equivalent_pressure+equivalent_pressure_enr
+  verification: []
+- id: materials.solid_stress_effective
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/solid_stress_effective.i
+  sha256: d56cd2caaa4d1806ed19beb902a3f0319ed6dbc3c6e6004db47d230a31bfc878
+  objects:
+  - id: materials.solid_stress_effective::Materials/effective_stress
+    section: Materials
+    name: effective_stress
+    start_line: 2
+    end_line: 6
+    sha256: 9eda0c5ebb4678192c898f9036d87cddc2fec9987e60ae6668217a84644e9fb6
+    type: ADCompressibleNeoHookeanReferenceStressMaterial
+  - id: materials.solid_stress_effective::Materials/total_stress
+    section: Materials
+    name: total_stress
+    start_line: 7
+    end_line: 10
+    sha256: c5cae4973dbaf1431228142c3e01d926f59e96e62c7b5b6e650c422b40bdb2cb
+    type: ADReferenceSolidStressMaterial
+  requires:
+  - materials.solid_kinematics_*
+  verification: []
+- id: materials.solid_phase_mass_volume
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/solid_phase_mass_volume.i
+  sha256: 7aa838c277e9e40c93015c13a307a2009f27e067ea9ba2dda69b5eb3f62ea5b4
+  objects:
+  - id: materials.solid_phase_mass_volume::Materials/matrix_mass_and_volume
+    section: Materials
+    name: matrix_mass_and_volume
+    start_line: 2
+    end_line: 8
+    sha256: 3f17c99a1751f861d8f7d6f0370cc51985f6626ebc9d971b02208057d203af8e
+    type: ADSolidPhaseMassVolumeMaterial
+  requires:
+  - materials.solid_kinematics_*
+  - continuous solid-reference component storage
+  provides:
+  - J phi_s rho_s storage and source-free solid-reference component-balance residual
+  - represented-phase volume residual phi_s + phi_f - 1
+  verification: []
+- id: materials.eg_tau_evolution
+  version: 1.0.0
+  status: verified
+  path: materials/eg_tau_evolution.i
+  sha256: b2d972d396b36f68582c8b2375ce91b8ecc338deee6219cca20b7ff08b4b95e2
+  objects:
+  - id: materials.eg_tau_evolution::Materials/tau_evolution
+    section: Materials
+    name: tau_evolution
+    start_line: 2
+    end_line: 7
+    sha256: 67080b702905b23c2df47be481be43b1a4fd21e5e91b41a9a260eace6cbd216e
+    type: ADTauEvolutionMaterial
+  requires:
+  - fields.eg_tau or fields.eg_pressure_tau
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: materials.eg_tau_evolution/1.0.0.i
+- id: materials.eg_tau_evolution_velocity
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/eg_tau_evolution_velocity.i
+  sha256: 920e4bbcbf6e50916cc02980a55be3b7c5c4f0dc562d565e76af54becc1d5404
+  objects:
+  - id: materials.eg_tau_evolution_velocity::Materials/tau_evolution
+    section: Materials
+    name: tau_evolution
+    start_line: 2
+    end_line: 8
+    sha256: 951a70cfc180329d6459c83b642a70b9d45930f216a1967062b182fee5a96bef
+    type: ADTauEvolutionMaterial
+  requires:
+  - fields.eg_tau or fields.eg_pressure_tau
+  provides:
+  - tau evolution residual with tau + tau_enr and reference phase velocity
+  verification: []
+- id: materials.spe1_case1_black_oil_pvt
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/spe1_case1_black_oil_pvt.i
+  sha256: a021095a843d56242cf6f3c95132f28e41f7d6b7c33ce5bf9d34e769ff749d3a
+  objects:
+  - id: materials.spe1_case1_black_oil_pvt::Materials/spe1_pvt
+    section: Materials
+    name: spe1_pvt
+    start_line: 3
+    end_line: 49
+    sha256: 13c6b6908740e51783f45ef989b9d11fa9e7927c84409a503ebdcba312df2d99
+    type: ADBlackOilBenchmarkPVTMaterial
+  - id: materials.spe1_case1_black_oil_pvt::Materials/spe1_relative_permeability
+    section: Materials
+    name: spe1_relative_permeability
+    start_line: 51
+    end_line: 61
+    sha256: 4469c6b563d0f1e4c9b8693a462c22b6bcf68e0816ec15815cd2197d9fa8a682
+    type: ADBlackOilRelativePermeabilityMaterial
+  dimension: 3
+  requires:
+  - fields.spe1_black_oil_q2_eg
+  provides:
+  - SPE1 Case 1 black-oil PVT closure
+  verification: []
+- id: materials.spe2_black_oil_pvt
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/spe2_black_oil_pvt.i
+  sha256: ecc33670e527d2d3b6ad9bd548dcc40c15b4f5694fed95a9273dc9f689c20aad
+  objects:
+  - id: materials.spe2_black_oil_pvt::Materials/spe2_pvt
+    section: Materials
+    name: spe2_pvt
+    start_line: 5
+    end_line: 47
+    sha256: 87589844c222f796e612f29c85a32fdbd8ba2fedd3c9b3ce70a9985942dac0f8
+    type: ADBlackOilBenchmarkPVTMaterial
+  - id: materials.spe2_black_oil_pvt::Materials/spe2_relative_permeability
+    section: Materials
+    name: spe2_relative_permeability
+    start_line: 49
+    end_line: 60
+    sha256: 656a5d25a6504e9dc9843d82f23ecc3b26eaef82ac430778506dc778b2430b39
+    type: ADBlackOilStoneIIRelativePermeabilityMaterial
+  dimension: 2
+  requires:
+  - fields.spe2_black_oil_q2_eg
+  - reconstructed SPE2 oil-pressure and saturation properties
+  - solid-current porosity and its material rate
+  provides:
+  - SPE2 SI PVTW, PVDG, ragged PVTO, density, component-storage, and phase-appearance properties
+  - SPE2 Stone-II water, oil, and gas relative permeabilities
+  verification: []
+- id: materials.spe2_layer_permeability
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/spe2_layer_permeability.i
+  sha256: 524c34807187c7a638dfb4ac0a94c1d36b1a64b1883733955ea162aaadf40aec
+  objects:
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_1_permeability
+    section: Materials
+    name: spe2_layer_1_permeability
+    start_line: 6
+    end_line: 11
+    sha256: 0d24d144900c38d0e1b593f7711f39e236bb7bfacdca4ad38fe73acefc2af900
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_2_permeability
+    section: Materials
+    name: spe2_layer_2_permeability
+    start_line: 12
+    end_line: 17
+    sha256: f59d21d3921c6048f421f299f8d41b59b3bb0f539e77cee88d9a9eed046b7e3b
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_3_permeability
+    section: Materials
+    name: spe2_layer_3_permeability
+    start_line: 18
+    end_line: 23
+    sha256: 0887a970372276c0661a1f1aa58a2df3a1a3b4074160b25238d22ff9d11070cb
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_4_permeability
+    section: Materials
+    name: spe2_layer_4_permeability
+    start_line: 24
+    end_line: 29
+    sha256: 4de540bd6a1a98ff7c73d37e816f24201afc429dd6204943737f899f78e324f6
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_5_permeability
+    section: Materials
+    name: spe2_layer_5_permeability
+    start_line: 30
+    end_line: 35
+    sha256: b5cd465e64b8641dc02d55645898c57a836063f3df1639eef4b967fe0af93103
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_6_permeability
+    section: Materials
+    name: spe2_layer_6_permeability
+    start_line: 36
+    end_line: 41
+    sha256: 41761752d4082cd0ae13aad4a7492662fafbb0f8e5a5c15f74e166d37d9c8377
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_7_permeability
+    section: Materials
+    name: spe2_layer_7_permeability
+    start_line: 42
+    end_line: 47
+    sha256: dc95dd693c0103484f545b9ba1ee06354c1d12703980c16775944c78049738b3
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_8_permeability
+    section: Materials
+    name: spe2_layer_8_permeability
+    start_line: 48
+    end_line: 53
+    sha256: 736064fa6fea3f99bdfa9f039041043d8e8b87447e5e4d1a468896edb9f4ac46
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_9_permeability
+    section: Materials
+    name: spe2_layer_9_permeability
+    start_line: 54
+    end_line: 59
+    sha256: 7a2e2e48746242e65cd210c55f5f2678596c2f0be70d94a10db4fe10260135c2
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_10_permeability
+    section: Materials
+    name: spe2_layer_10_permeability
+    start_line: 60
+    end_line: 65
+    sha256: 92ca2ca9a292af546f0d789cb4e9b1cbd12e5180156cc0fd72b6f0bfb97e450b
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_11_permeability
+    section: Materials
+    name: spe2_layer_11_permeability
+    start_line: 66
+    end_line: 71
+    sha256: 9a8142933138991f9c9cbc290747db2e306503dbc40da30a57bc27fee8484966
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_12_permeability
+    section: Materials
+    name: spe2_layer_12_permeability
+    start_line: 72
+    end_line: 77
+    sha256: 1ae2f827f722d9e35d2fd6774e7b7be8eb0d4f7d2c76212b2e7da5ae1d17d117
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_13_permeability
+    section: Materials
+    name: spe2_layer_13_permeability
+    start_line: 78
+    end_line: 83
+    sha256: 67704a2b8f9660eaa588ff02e0d1fb95ec48db8404071fa8372c6765dd8d0079
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_14_permeability
+    section: Materials
+    name: spe2_layer_14_permeability
+    start_line: 84
+    end_line: 89
+    sha256: 1c4916bb3791fb19ec0305fe58732cfb6cbb82cf64f5a4f649be552a40317cc9
+    type: ADGenericConstantRankTwoTensor
+  - id: materials.spe2_layer_permeability::Materials/spe2_layer_15_permeability
+    section: Materials
+    name: spe2_layer_15_permeability
+    start_line: 90
+    end_line: 95
+    sha256: 541e2b44f985791d5e8287c09abfe5f97d811c1512d3d44a4fe6fabac60943aa
+    type: ADGenericConstantRankTwoTensor
+  dimension: 2
+  requires:
+  - mesh.spe2_rz_q2_quad9
+  provides:
+  - SPE2 Table 2 radial, vertical, and hoop permeability tensors on all 15 layers and completion blocks
+  verification: []
+- id: ics.spe2_layer_solid_storage
+  version: 0.1.0-candidate
+  status: candidate
+  path: ics/spe2_layer_solid_storage.i
+  sha256: 11860a5cff26a2feea7175de4fe68549586052c516abf070d37577e89b28fdc9
+  objects:
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_1_solid_storage
+    section: ICs
+    name: spe2_layer_1_solid_storage
+    start_line: 4
+    end_line: 9
+    sha256: a16ee777c94ec971ed78bf03c6920ab63854aeba0acdeee70e90bd83c9135846
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_2_solid_storage
+    section: ICs
+    name: spe2_layer_2_solid_storage
+    start_line: 10
+    end_line: 15
+    sha256: e61368de18e2417cb9434df25204ae23539e5952fcab65f728a08a9165e9e63d
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_3_solid_storage
+    section: ICs
+    name: spe2_layer_3_solid_storage
+    start_line: 16
+    end_line: 21
+    sha256: 77656772b15581f9b3eb3adc7714d4312aa464693ab0878d4e57d5041b9511bc
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_4_solid_storage
+    section: ICs
+    name: spe2_layer_4_solid_storage
+    start_line: 22
+    end_line: 27
+    sha256: 12108f91cc3cadc87293c4c181edaba227914dda4ca40de8c15e73e2aa02ad18
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_5_solid_storage
+    section: ICs
+    name: spe2_layer_5_solid_storage
+    start_line: 28
+    end_line: 33
+    sha256: 8d4e1320394346393ad6d6ca3e991361ceb4ce9425568937f6711866446fc1f8
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_6_solid_storage
+    section: ICs
+    name: spe2_layer_6_solid_storage
+    start_line: 34
+    end_line: 39
+    sha256: 0f699b8de030758853eb08e7f6b281dadf3602ce3db53edcea3eebd67151fc89
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_7_solid_storage
+    section: ICs
+    name: spe2_layer_7_solid_storage
+    start_line: 40
+    end_line: 45
+    sha256: 089e79341465501303911f3830e6597a81ecbbcd77ff903f10f299e8be758ee9
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_8_solid_storage
+    section: ICs
+    name: spe2_layer_8_solid_storage
+    start_line: 46
+    end_line: 51
+    sha256: e8c686a97d629c5e60776d449c843c8687290f7604660e2b37745f413893c780
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_9_solid_storage
+    section: ICs
+    name: spe2_layer_9_solid_storage
+    start_line: 52
+    end_line: 57
+    sha256: 24e5d72317dc64a52a53ff90059ecda07d0e04cfa2df3b7718b616ec406a8aaa
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_10_solid_storage
+    section: ICs
+    name: spe2_layer_10_solid_storage
+    start_line: 58
+    end_line: 63
+    sha256: 9a7ba58f88afaf00f67d97d0eb049707e48444bfc85a5bba63b92b589f407a6c
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_11_solid_storage
+    section: ICs
+    name: spe2_layer_11_solid_storage
+    start_line: 64
+    end_line: 69
+    sha256: 2d19e09e9e5c8d1daa885ef693e6abb9b0d507aa9d74210cfc56d05afe0e38ee
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_12_solid_storage
+    section: ICs
+    name: spe2_layer_12_solid_storage
+    start_line: 70
+    end_line: 75
+    sha256: e9a93d8c6d3d2c76d85359bdc821f126c37179d9c0ea3f5299e7696fa16f982b
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_13_solid_storage
+    section: ICs
+    name: spe2_layer_13_solid_storage
+    start_line: 76
+    end_line: 81
+    sha256: fc974e69ad8750a23d3720da048981c4e9e1c8bf9174efafb70e5c99dd21f2e1
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_14_solid_storage
+    section: ICs
+    name: spe2_layer_14_solid_storage
+    start_line: 82
+    end_line: 87
+    sha256: 40fbd5b0e04f8061ae5436d6a35531c0cea995a33d8d98b5d2838d562431b295
+    type: ConstantIC
+  - id: ics.spe2_layer_solid_storage::ICs/spe2_layer_15_solid_storage
+    section: ICs
+    name: spe2_layer_15_solid_storage
+    start_line: 88
+    end_line: 93
+    sha256: ff3eaf5d3bd243a52eb2646d0a51dd4ac31c3ce2ba32cdf71066374169e20dca
+    type: ConstantIC
+  dimension: 2
+  requires:
+  - fields.spe2_black_oil_q2_eg
+  - mesh.spe2_rz_q2_quad9
+  provides:
+  - SPE2 Table 2 heterogeneous normalized solid-reference constituent storage J(1-phi)
+  verification: []
+- id: materials.spe2_phase_pressure_closure
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/spe2_phase_pressure_closure.i
+  sha256: c38c0fe691d12dfa6b4187c62105405d3e0fadafb5b6abdd4e41c040f47485c6
+  objects:
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_oil_pressure_reconstruction
+    section: Materials
+    name: spe2_oil_pressure_reconstruction
+    start_line: 5
+    end_line: 10
+    sha256: 9fa6836c58f34679a797e8f7883b8c17e4ff777929b107baeed3db7ee225c720
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_water_saturation_reconstruction
+    section: Materials
+    name: spe2_water_saturation_reconstruction
+    start_line: 11
+    end_line: 17
+    sha256: 8debd2684f4d714133a8a40aaac9793e32d92ac27432a41168718b4b0758b7e0
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_gas_saturation_reconstruction
+    section: Materials
+    name: spe2_gas_saturation_reconstruction
+    start_line: 18
+    end_line: 24
+    sha256: 0d500e3c24623eed52c7860e7190e48a663ff1ac227c1c329336d3a472679ac6
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_water_oil_pressure_difference_reconstruction
+    section: Materials
+    name: spe2_water_oil_pressure_difference_reconstruction
+    start_line: 25
+    end_line: 29
+    sha256: 4c2ec0f1a050a4138d8c8dc64e9d7324644bc2556516d088d06d4c31485c5375
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_gas_oil_pressure_difference_reconstruction
+    section: Materials
+    name: spe2_gas_oil_pressure_difference_reconstruction
+    start_line: 30
+    end_line: 34
+    sha256: 69fe1947cd88b2b35eba543b56763cc89b19c34b37e646fea801081f380d7c99
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_tau_reconstruction
+    section: Materials
+    name: spe2_tau_reconstruction
+    start_line: 35
+    end_line: 40
+    sha256: 5f246fadb7b78cec042bb93eb0b9e41b7daaaade7579d8169eeeddeb2d2b6c0a
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_fluid_temperature_reconstruction
+    section: Materials
+    name: spe2_fluid_temperature_reconstruction
+    start_line: 41
+    end_line: 45
+    sha256: 40d936aa1993198fd52b5f893c7b09a2b429d83bcfe4f68b2300dd05b91f028e
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_solid_temperature_reconstruction
+    section: Materials
+    name: spe2_solid_temperature_reconstruction
+    start_line: 46
+    end_line: 50
+    sha256: 70e693ff110c643ebd9bfb9b7d658dad84b450429c67662d1946ac0ad98417c0
+    type: ADEGReconstructedScalarMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_water_saturation_rate_gradient
+    section: Materials
+    name: spe2_water_saturation_rate_gradient
+    start_line: 52
+    end_line: 57
+    sha256: 96e47ceb7c72680a5ded63abdec349ea5eac8a1dc1d45cecf311537ca34b5d9d
+    type: ADEGScalarRateGradientMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_gas_saturation_rate_gradient
+    section: Materials
+    name: spe2_gas_saturation_rate_gradient
+    start_line: 58
+    end_line: 63
+    sha256: 483b9c9abeb1bd0732bb0f56032702bf171a7d9133160bbebdfcd261d4c1b487
+    type: ADEGScalarRateGradientMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_saturation_onsager
+    section: Materials
+    name: spe2_saturation_onsager
+    start_line: 64
+    end_line: 74
+    sha256: 516bc3fa047ba70d398a7360372a832d63da40073bedc4396417340189005a9c
+    type: ADSaturationOnsagerForceMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_saturation_onsager_gradients
+    section: Materials
+    name: spe2_saturation_onsager_gradients
+    start_line: 75
+    end_line: 81
+    sha256: 9abc4629f3698fb575e1c6b11c66c3506657726d72ac4e2a3e0fdb83b604df07
+    type: ADSaturationOnsagerForceGradientMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_neutral_electrical_enthalpy_differences
+    section: Materials
+    name: spe2_neutral_electrical_enthalpy_differences
+    start_line: 83
+    end_line: 87
+    sha256: 6098682c793c71f29258a062b4bb5c4a978d13bb62ec6f24895a6a4cd680c314
+    type: ADGenericConstantMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_neutral_electrical_enthalpy_difference_gradients
+    section: Materials
+    name: spe2_neutral_electrical_enthalpy_difference_gradients
+    start_line: 88
+    end_line: 92
+    sha256: 03b933c02bd408cb930b745fb3f98191e86f4b4fa89a8d2b273df19f23ec7493
+    type: ADGenericConstantVectorMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_stored_capillary_gradients
+    section: Materials
+    name: spe2_stored_capillary_gradients
+    start_line: 94
+    end_line: 106
+    sha256: 30b66c66d6817db23d7b2932d79e00de421cd7332625a6346ee7444eaeaa04de
+    type: ADBlackOilStoredCapillaryGradientMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_phase_pressure_differences
+    section: Materials
+    name: spe2_phase_pressure_differences
+    start_line: 107
+    end_line: 123
+    sha256: 11c6ea8fbc4eab3410b723b23ad993ee344c5c59e033c48c19859ff6ecd055f1
+    type: ADBlackOilPhasePressureDifferenceMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_water_actual_pressure
+    section: Materials
+    name: spe2_water_actual_pressure
+    start_line: 125
+    end_line: 130
+    sha256: ba76d773530cba9414c4c330269dcbde5f9c1193b5fdaa2b4f801feeee237c50
+    type: ADParsedMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_gas_actual_pressure
+    section: Materials
+    name: spe2_gas_actual_pressure
+    start_line: 131
+    end_line: 136
+    sha256: 532bd4a1eabfb1069ab513fd1dc08d935cfcd854710b591c0ee9750ec0cb7c56
+    type: ADParsedMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_oil_actual_pressure_gradient
+    section: Materials
+    name: spe2_oil_actual_pressure_gradient
+    start_line: 138
+    end_line: 142
+    sha256: 5353a7885e06d5a73ee9615323351d226a7083293cabb57817e65115823b427a
+    type: ADPhasePressureGradientAssemblerMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_water_actual_pressure_gradient
+    section: Materials
+    name: spe2_water_actual_pressure_gradient
+    start_line: 143
+    end_line: 149
+    sha256: 7c5ab35a4a74125e146aabb53f1eb7635af3075306c87867a6fd234d2322a48b
+    type: ADPhasePressureGradientAssemblerMaterial
+  - id: materials.spe2_phase_pressure_closure::Materials/spe2_gas_actual_pressure_gradient
+    section: Materials
+    name: spe2_gas_actual_pressure_gradient
+    start_line: 150
+    end_line: 156
+    sha256: c9ec8a664f5330429bab47a9bf810dda88d4ba651100cc1b698b8b987ff72182
+    type: ADPhasePressureGradientAssemblerMaterial
+  dimension: 2
+  requires:
+  - fields.spe2_black_oil_q2_eg
+  - solid-current porosity and transient rate
+  provides:
+  - SPE2 CG/EG reconstructed pressure, saturations, tau, and temperatures
+  - stored surface-energy, explicit neutral electrical-enthalpy, and zero-coefficient saturation Onsager
+    pressure terms and gradients
+  - modular actual water, oil, and gas phase-pressure gradients
+  verification: []
+- id: operators.spe2_phase_pressure_closure
+  version: 0.1.0-candidate
+  status: candidate
+  path: operators/spe2_phase_pressure_closure.i
+  sha256: abd39e0a26666ffec4209f6353c922f1e51cf1235d1e4f8c19517c876ec73ee7
+  objects:
+  - id: operators.spe2_phase_pressure_closure::Kernels/spe2_water_oil_pressure_difference_closure
+    section: Kernels
+    name: spe2_water_oil_pressure_difference_closure
+    start_line: 4
+    end_line: 8
+    sha256: fd15ba9ba6ec3cbbc939bd68c3159b42770233bba282f0b8b7ecc5a53f9f0d7a
+    type: ADMaterialPropertyResidual
+  - id: operators.spe2_phase_pressure_closure::Kernels/spe2_gas_oil_pressure_difference_closure
+    section: Kernels
+    name: spe2_gas_oil_pressure_difference_closure
+    start_line: 9
+    end_line: 13
+    sha256: e4f371ffe9eec5a3c32f516cc5af0798e63a2274df934122010c535f322b153b
+    type: ADMaterialPropertyResidual
+  dimension: 2
+  requires:
+  - materials.spe2_phase_pressure_closure
+  - fields.spe2_black_oil_q2_eg
+  provides:
+  - P2 CG water/oil and gas/oil manuscript pressure-difference closure rows
+  verification: []
+- id: materials.phase_transforming_darcy_sources
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/phase_transforming_darcy_sources.i
+  sha256: 8ecb6b00f003f19c974737e6f8bc102d02da72472bd4f42453387a7febda2a70
+  objects:
+  - id: materials.phase_transforming_darcy_sources::Materials/phase_conversion_source
+    section: Materials
+    name: phase_conversion_source
+    start_line: 4
+    end_line: 9
+    sha256: db783fed7308bad74c3a201160fb39c83c6a27bb26407c289cd68032b7c44cd6
+    type: ADPhaseConversionSourceMaterial
+  provides:
+  - pick-and-choose phase conversion source assembled from reaction rates and phase stoichiometric mass
+    coefficients
+  verification: []
+- id: operators.eg_pressure_diffusion
+  version: 1.0.0
+  status: verified
+  path: operators/eg_pressure_diffusion.i
+  sha256: b13a5f1b3faf58115f15c8e01675b720d0de718b0e54601e92ce2a56036e4e0e
+  objects:
+  - id: operators.eg_pressure_diffusion::Kernels/p_backbone_balance
+    section: Kernels
+    name: p_backbone_balance
+    start_line: 2
+    end_line: 9
+    sha256: b8450fb22c4771b8f37a981a85ff0f05271c6fc346b0dc78b2af96b48146fd20
+    type: ADEnrichedGalerkinScalarBalance
+  - id: operators.eg_pressure_diffusion::Kernels/p_enrichment_balance
+    section: Kernels
+    name: p_enrichment_balance
+    start_line: 10
+    end_line: 16
+    sha256: 299e532de6baa18d5d186ba62d2f1c8b39c669083dc4199f28bad45905a4bf4b
+    type: ADEnrichedGalerkinScalarEnrichmentBalance
+  - id: operators.eg_pressure_diffusion::DGKernels/p_enrichment_flux
+    section: DGKernels
+    name: p_enrichment_flux
+    start_line: 20
+    end_line: 27
+    sha256: d19374813ef43b6819b0443e79344be85917e39b9f189e2d61494bc1af73ab32
+    type: ADEnrichedGalerkinFluxDG
+  - id: operators.eg_pressure_diffusion::DGKernels/p_backbone_symmetry
+    section: DGKernels
+    name: p_backbone_symmetry
+    start_line: 28
+    end_line: 34
+    sha256: d258467f93a85250bda9f327510f0f99d86358d15fd3ed8496037b550a6a52c8
+    type: ADEnrichedGalerkinSymmetryDG
+  - id: operators.eg_pressure_diffusion::BCs/p_backbone_dirichlet
+    section: BCs
+    name: p_backbone_dirichlet
+    start_line: 38
+    end_line: 43
+    sha256: c9d84fb8687f673f4b0d0c051f29b8b1ce8285527ce59ad2ab90d899cd3a37a6
+    type: FunctionDirichletBC
+  - id: operators.eg_pressure_diffusion::BCs/p_enrichment_weak_dirichlet
+    section: BCs
+    name: p_enrichment_weak_dirichlet
+    start_line: 44
+    end_line: 54
+    sha256: 761cf8f17a1a358fe18843410818c6e032ed369753c235c382add2cf9121f63e
+    type: ADEnrichedGalerkinPenaltyBC
+  requires:
+  - materials.darcy_pressure_flux
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: operators.eg_pressure_diffusion/1.0.0.i
+- id: operators.eg_reference_component_balance
+  version: 0.1.0-candidate
+  status: candidate
+  path: operators/eg_reference_component_balance.i
+  sha256: 3a0625b57085bc877217e4f947c874fbcff67377ef0a8eb40580e82523cc08e8
+  objects:
+  - id: operators.eg_reference_component_balance::Kernels/p_backbone_balance
+    section: Kernels
+    name: p_backbone_balance
+    start_line: 2
+    end_line: 9
+    sha256: 50b871a00fe3cdd45a22c58a8b9c1db78ffe8fdc89fffb2970a3cc76684a42e9
+    type: ADEnrichedGalerkinScalarBalance
+  - id: operators.eg_reference_component_balance::Kernels/p_enrichment_balance
+    section: Kernels
+    name: p_enrichment_balance
+    start_line: 10
+    end_line: 16
+    sha256: d3159f9aa9e2290aef6a791f8a36728c12ad410b87f35af4705d5059243c65ca
+    type: ADEnrichedGalerkinScalarEnrichmentBalance
+  - id: operators.eg_reference_component_balance::DGKernels/p_enrichment_flux
+    section: DGKernels
+    name: p_enrichment_flux
+    start_line: 20
+    end_line: 27
+    sha256: 8e5753fc843a0b5806d922f09a737a3f61275eae9ba5005686305e533ef2bd34
+    type: ADEnrichedGalerkinFluxDG
+  - id: operators.eg_reference_component_balance::DGKernels/p_backbone_symmetry
+    section: DGKernels
+    name: p_backbone_symmetry
+    start_line: 28
+    end_line: 34
+    sha256: d258467f93a85250bda9f327510f0f99d86358d15fd3ed8496037b550a6a52c8
+    type: ADEnrichedGalerkinSymmetryDG
+  - id: operators.eg_reference_component_balance::BCs/p_backbone_dirichlet
+    section: BCs
+    name: p_backbone_dirichlet
+    start_line: 38
+    end_line: 43
+    sha256: c9d84fb8687f673f4b0d0c051f29b8b1ce8285527ce59ad2ab90d899cd3a37a6
+    type: FunctionDirichletBC
+  - id: operators.eg_reference_component_balance::BCs/p_enrichment_weak_dirichlet
+    section: BCs
+    name: p_enrichment_weak_dirichlet
+    start_line: 44
+    end_line: 54
+    sha256: ab97bf43d7bdec4cdfa61fed6db979b0cc1e4289a1b93cde0ee7772265267fa3
+    type: ADEnrichedGalerkinPenaltyBC
+  requires:
+  - fields.eg_pressure
+  - materials.eg_pressure_reconstruction
+  - summed_reference_component_storage_rate AD material property
+  - summed_reference_component_flux AD material property
+  - summed_reference_component_source AD material property
+  provides:
+  - P1 backbone and P0 enrichment rows for the summed solid-reference component balance
+  - interior EG flux/symmetry terms and weak enrichment Dirichlet terms
+  verification: []
+- id: operators.eg_tau_fluxless
+  version: 1.0.0
+  status: verified
+  path: operators/eg_tau_fluxless.i
+  sha256: 025eb24badf2e94012f65e3307906f2ddc18c442e74a473a4e966eaeadb91410
+  objects:
+  - id: operators.eg_tau_fluxless::Kernels/tau_backbone_residual
+    section: Kernels
+    name: tau_backbone_residual
+    start_line: 2
+    end_line: 6
+    sha256: e2b785724d654cc4690116a7cc81bd8ffd8d01dfdb03f52c357378bf8de83d66
+    type: ADEnrichedGalerkinMaterialPropertyResidual
+  - id: operators.eg_tau_fluxless::Kernels/tau_enrichment_residual
+    section: Kernels
+    name: tau_enrichment_residual
+    start_line: 7
+    end_line: 12
+    sha256: adc77e0bc24abe82f531142ebac5842b5b7c7d96622929670fb4b38212b6de1f
+    type: ADEnrichedGalerkinMaterialPropertyResidual
+  - id: operators.eg_tau_fluxless::BCs/tau_backbone_dirichlet
+    section: BCs
+    name: tau_backbone_dirichlet
+    start_line: 16
+    end_line: 21
+    sha256: fbf5a397ebd75353f5e03a4b0cf33407767d200deea7c685abb60849ba17958c
+    type: FunctionDirichletBC
+  requires:
+  - materials.eg_tau_evolution
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: operators.eg_tau_fluxless/1.0.0.i
+- id: operators.eg_tau_fluxless_volume_anchor
+  version: 0.1.0-candidate
+  status: candidate
+  path: operators/eg_tau_fluxless_volume_anchor.i
+  sha256: 7059f2c8bbd513a472d62530897450bd64dd7312f741d7346779fd5e4da951df
+  objects:
+  - id: operators.eg_tau_fluxless_volume_anchor::Kernels/tau_backbone_residual
+    section: Kernels
+    name: tau_backbone_residual
+    start_line: 2
+    end_line: 6
+    sha256: e2b785724d654cc4690116a7cc81bd8ffd8d01dfdb03f52c357378bf8de83d66
+    type: ADEnrichedGalerkinMaterialPropertyResidual
+  - id: operators.eg_tau_fluxless_volume_anchor::Kernels/tau_enrichment_residual
+    section: Kernels
+    name: tau_enrichment_residual
+    start_line: 7
+    end_line: 12
+    sha256: adc77e0bc24abe82f531142ebac5842b5b7c7d96622929670fb4b38212b6de1f
+    type: ADEnrichedGalerkinMaterialPropertyResidual
+  requires:
+  - materials.eg_tau_evolution
+  verification: []
+- id: operators.solid_momentum_1d
+  version: 0.1.0-candidate
+  status: candidate
+  path: operators/solid_momentum_1d.i
+  sha256: cc42c6383f1648e8bbe54bfb4889b51006d400c47339cda9ec0f0a9c0a6ae2a8
+  objects:
+  - id: operators.solid_momentum_1d::Kernels/solid_x
+    section: Kernels
+    name: solid_x
+    start_line: 2
+    end_line: 7
+    sha256: c7fa87b0c2b261299bf262be0bccfe1f9e4dea3a2e9673612cbf9bc105ea9144
+    type: ADReferenceSolidMomentum
+  - id: operators.solid_momentum_1d::BCs/ux_dirichlet
+    section: BCs
+    name: ux_dirichlet
+    start_line: 11
+    end_line: 16
+    sha256: 98979c2ff42a08ad9b3d640b09785e33d8c504209dc3ca9e1f263f98117e038c
+    type: FunctionDirichletBC
+  dimension: 1
+  requires:
+  - materials.solid_stress_eg_pressure
+  verification: []
+- id: operators.solid_momentum_2d
+  version: 1.0.0
+  status: verified
+  path: operators/solid_momentum_2d.i
+  sha256: 195d10805908d7ce5e5f5d0d6737ac7e21927cecfa683aee3b7976798e54618d
+  objects:
+  - id: operators.solid_momentum_2d::Kernels/solid_x
+    section: Kernels
+    name: solid_x
+    start_line: 2
+    end_line: 7
+    sha256: c7fa87b0c2b261299bf262be0bccfe1f9e4dea3a2e9673612cbf9bc105ea9144
+    type: ADReferenceSolidMomentum
+  - id: operators.solid_momentum_2d::Kernels/solid_y
+    section: Kernels
+    name: solid_y
+    start_line: 8
+    end_line: 13
+    sha256: cf75a0401e29aea3169ce5156ec167b093d7fe42dc81231d9e02d54b8c218a44
+    type: ADReferenceSolidMomentum
+  - id: operators.solid_momentum_2d::BCs/ux_dirichlet
+    section: BCs
+    name: ux_dirichlet
+    start_line: 17
+    end_line: 22
+    sha256: 98979c2ff42a08ad9b3d640b09785e33d8c504209dc3ca9e1f263f98117e038c
+    type: FunctionDirichletBC
+  - id: operators.solid_momentum_2d::BCs/uy_dirichlet
+    section: BCs
+    name: uy_dirichlet
+    start_line: 23
+    end_line: 28
+    sha256: 1a2871945f7ed05b6889701fd0a294da2b01c7815f3cf6f7ea65947ad1401d1d
+    type: FunctionDirichletBC
+  dimension: 2
+  requires:
+  - materials.solid_stress_eg_pressure
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: operators.solid_momentum_2d/1.0.0.i
+- id: operators.solid_momentum_3d
+  version: 0.1.0-candidate
+  status: candidate
+  path: operators/solid_momentum_3d.i
+  sha256: 4b023f59a97718daffb5aa33946d8ac07de9557777bf1ce183ee693dc89c170c
+  objects:
+  - id: operators.solid_momentum_3d::Kernels/solid_x
+    section: Kernels
+    name: solid_x
+    start_line: 2
+    end_line: 7
+    sha256: c7fa87b0c2b261299bf262be0bccfe1f9e4dea3a2e9673612cbf9bc105ea9144
+    type: ADReferenceSolidMomentum
+  - id: operators.solid_momentum_3d::Kernels/solid_y
+    section: Kernels
+    name: solid_y
+    start_line: 8
+    end_line: 13
+    sha256: cf75a0401e29aea3169ce5156ec167b093d7fe42dc81231d9e02d54b8c218a44
+    type: ADReferenceSolidMomentum
+  - id: operators.solid_momentum_3d::Kernels/solid_z
+    section: Kernels
+    name: solid_z
+    start_line: 14
+    end_line: 19
+    sha256: c6d91661f11ee9002591d6dc5c414ae48857f91b33fcd3494d7b116060279c21
+    type: ADReferenceSolidMomentum
+  - id: operators.solid_momentum_3d::BCs/ux_dirichlet
+    section: BCs
+    name: ux_dirichlet
+    start_line: 23
+    end_line: 28
+    sha256: 98979c2ff42a08ad9b3d640b09785e33d8c504209dc3ca9e1f263f98117e038c
+    type: FunctionDirichletBC
+  - id: operators.solid_momentum_3d::BCs/uy_dirichlet
+    section: BCs
+    name: uy_dirichlet
+    start_line: 29
+    end_line: 34
+    sha256: 1a2871945f7ed05b6889701fd0a294da2b01c7815f3cf6f7ea65947ad1401d1d
+    type: FunctionDirichletBC
+  - id: operators.solid_momentum_3d::BCs/uz_dirichlet
+    section: BCs
+    name: uz_dirichlet
+    start_line: 35
+    end_line: 40
+    sha256: 24ec624fa5eda33e870f07b7f1d48e13f693fa562a531c3fcaad9335fa8f7dba
+    type: FunctionDirichletBC
+  dimension: 3
+  requires:
+  - materials.solid_stress_eg_pressure
+  verification: []
+- id: schedules.spe1_case1_opm_flow_2021_10_time_sequence
+  version: 0.1.0-candidate
+  status: candidate
+  path: schedules/spe1_case1_opm_flow_2021_10_time_sequence.i
+  sha256: 030b43b54f4fac358d1c8b2af97bafe362fccb159ab5b623f1a93a996160f0ce
+  objects: []
+  dimension: 3
+  provides:
+  - SPE1 Case 1 OPM Flow 2021.10 report-time sequence
+  verification: []
+- id: executioner.transient_newton
+  version: 1.0.0
+  status: verified
+  path: executioner/transient_newton.i
+  sha256: 09346a83ecf03bafc18ffe293458f54fa85bc2516e655ee2aaa9b4e222408d2e
+  objects: []
+  provides:
+  - transient Newton solve defaults
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: executioner.transient_newton/1.0.0.i
+- id: executioner.steady_newton
+  version: 0.1.0-candidate
+  status: candidate
+  path: executioner/steady_newton.i
+  sha256: 03c42adff5592f2a356333212f8d134e9200ff40b3e5bf8e5c705ff3bff76913
+  objects: []
+  provides:
+  - steady Newton solve defaults
+  verification: []
+- id: executioner.steady_material
+  version: 0.1.0-candidate
+  status: candidate
+  path: executioner/steady_material.i
+  sha256: 3c8ef08964f6210bfed2d8172444f423282a84756abbf43193fa2e255524da15
+  objects: []
+  provides:
+  - steady executioner with solve=false for material-only diagnostics
+  verification: []
+- id: outputs.csv
+  version: 1.0.0
+  status: verified
+  path: outputs/csv.i
+  sha256: ee904716b94394e739ddabf0d1ca4b2f25ef6619f18302a72c8edf30e727b966
+  objects: []
+  provides:
+  - console and CSV output
+  verification:
+  - reference: moose_app/test/tests/eg_hierarchy/tests::eg_q2_mms_2d
+    result: passed
+  promotion:
+    authorized_by: John
+    approval_ref: thread-objective-2026-08-05
+    date: '2026-08-05'
+  locked_path: outputs.csv/1.0.0.i
+- id: fields.spe2_producer_control
+  version: 0.1.0-candidate
+  status: candidate
+  path: fields/spe2_producer_control.i
+  sha256: ddf47d55c8202c6d17a6be7e303095b7e6373b7aec7f35b51f4ddc0badab631d
+  objects:
+  - id: fields.spe2_producer_control::Variables/producer_oil_rate_scalar
+    section: Variables
+    name: producer_oil_rate_scalar
+    start_line: 4
+    end_line: 9
+    sha256: fc7481ccb6df74d78775868c952818576f4c03ff221338f05aab4c861729fc9a
+  dimension: 2
+  requires:
+  - fields.spe2_black_oil_q2_eg
+  provides:
+  - shared SPE2 total stock-tank oil-rate scalar
+  verification: []
+- id: schedules.spe2_oil_rate_schedule
+  version: 0.1.0-candidate
+  status: candidate
+  path: schedules/spe2_oil_rate_schedule.i
+  sha256: f8d3f9e66568693a253e488d690b3390ec1bafe68e0da1afd7e7713c06d71cf6
+  objects:
+  - id: schedules.spe2_oil_rate_schedule::Functions/spe2_oil_rate_schedule
+    section: Functions
+    name: spe2_oil_rate_schedule
+    start_line: 4
+    end_line: 9
+    sha256: 869d15a207c64a58040f9382af8a3272d1a33650808ef2a2836c9f714ca68b18
+    type: PiecewiseConstant
+  dimension: 2
+  provides:
+  - published four-interval SPE2 oil-rate schedule in SI units
+  verification: []
+- id: materials.spe2_producer_well
+  version: 0.1.0-candidate
+  status: candidate
+  path: materials/spe2_producer_well.i
+  sha256: d93ad40507c075f3d8699162046bb3da1635c6d00004d07cba2e153c58998203
+  objects:
+  - id: materials.spe2_producer_well::Materials/spe2_completion_7_well
+    section: Materials
+    name: spe2_completion_7_well
+    start_line: 7
+    end_line: 40
+    sha256: 1d5b85893b8c9ae11332359042ee24216dbe73d1d06801f80cb05f9bacea4714
+    type: ADBlackOilPeacemanWellMaterial
+  - id: materials.spe2_producer_well::Materials/spe2_completion_8_well
+    section: Materials
+    name: spe2_completion_8_well
+    start_line: 41
+    end_line: 74
+    sha256: fe6511a99641f3135fc5b5a6e70a44a634843c4dd820a5467f7733a90515cdb8
+    type: ADBlackOilPeacemanWellMaterial
+  dimension: 2
+  requires:
+  - fields.spe2_black_oil_q2_eg
+  - materials.spe2_phase_pressure_closure
+  - materials.spe2_black_oil_pvt
+  provides:
+  - two published SPE2 Peaceman completions with datum-aware shared BHP
+  - completion-local water, oil, and gas component source properties
+  verification: []
+- id: operators.spe2_producer_control
+  version: 0.1.0-candidate
+  status: candidate
+  path: operators/spe2_producer_control.i
+  sha256: ee43ad16a43c86248cd319c0c22f9e40765dbc482ecdac4c5ce1fb6581a2c999
+  objects:
+  - id: operators.spe2_producer_control::Kernels/spe2_completion_7_oil_rate_constraint
+    section: Kernels
+    name: spe2_completion_7_oil_rate_constraint
+    start_line: 5
+    end_line: 13
+    sha256: 733abfb8e02fdaaefe6c98ddc8500d87c44b4fbc331b114426d7be0b2747ee61
+    type: ADBlackOilCompletionRateConstraint
+  - id: operators.spe2_producer_control::Kernels/spe2_completion_8_oil_rate_constraint
+    section: Kernels
+    name: spe2_completion_8_oil_rate_constraint
+    start_line: 14
+    end_line: 22
+    sha256: 2d59988fccb2be5eb87cae94a7a30321a0d0828bc672989c66f4eb0a61589cce
+    type: ADBlackOilCompletionRateConstraint
+  - id: operators.spe2_producer_control::ScalarKernels/spe2_producer_rate_equation_coverage
+    section: ScalarKernels
+    name: spe2_producer_rate_equation_coverage
+    start_line: 26
+    end_line: 31
+    sha256: 1ad13c46884e19140a0f884305301e7112ea2b7fce5a7ee2f3fbc83962465fb1
+    type: NullScalarKernel
+  - id: operators.spe2_producer_control::ScalarKernels/spe2_producer_rate_bhp_complementarity
+    section: ScalarKernels
+    name: spe2_producer_rate_bhp_complementarity
+    start_line: 32
+    end_line: 41
+    sha256: 5205462196063e0412cf39acc5313a0d157c0890876071cc6794b74b4391c91f
+    type: ADBlackOilRateBHPComplementarity
+  - id: operators.spe2_producer_control::Postprocessors/spe2_completion_7_oil_surface_rate
+    section: Postprocessors
+    name: spe2_completion_7_oil_surface_rate
+    start_line: 45
+    end_line: 50
+    sha256: 67e4a8adb19e49c42f2b297d3328c64f347bffbb208cabdd5ec006f69e3dfdf6
+    type: ADElementAverageMaterialProperty
+  - id: operators.spe2_producer_control::Postprocessors/spe2_completion_8_oil_surface_rate
+    section: Postprocessors
+    name: spe2_completion_8_oil_surface_rate
+    start_line: 51
+    end_line: 56
+    sha256: 84281aecd84e5e15ce64f67d76ce32cb2f2399046422e13fa9fb07c2d2176f83
+    type: ADElementAverageMaterialProperty
+  - id: operators.spe2_producer_control::Postprocessors/spe2_completion_7_water_surface_rate
+    section: Postprocessors
+    name: spe2_completion_7_water_surface_rate
+    start_line: 57
+    end_line: 62
+    sha256: 3d8639b3ba7e22717e9d9cf42ec5bb63a98a3e3065380bb24a8b98a1840bdfe5
+    type: ADElementAverageMaterialProperty
+  - id: operators.spe2_producer_control::Postprocessors/spe2_completion_8_water_surface_rate
+    section: Postprocessors
+    name: spe2_completion_8_water_surface_rate
+    start_line: 63
+    end_line: 68
+    sha256: 6b6dd2bd4e06c01ae5f43079536cab23c4c8b089bed7e28081a3404f400579ea
+    type: ADElementAverageMaterialProperty
+  - id: operators.spe2_producer_control::Postprocessors/spe2_completion_7_gas_surface_rate
+    section: Postprocessors
+    name: spe2_completion_7_gas_surface_rate
+    start_line: 69
+    end_line: 74
+    sha256: e0e702bbd62cdc7c0dade81e97077d5c1316350d8b11c753d037c0916c13e84a
+    type: ADElementAverageMaterialProperty
+  - id: operators.spe2_producer_control::Postprocessors/spe2_completion_8_gas_surface_rate
+    section: Postprocessors
+    name: spe2_completion_8_gas_surface_rate
+    start_line: 75
+    end_line: 80
+    sha256: b9f3c786102cf9ca664d9f121606cbc4418a7043fa9d9d16b286bfff2ef1ff56
+    type: ADElementAverageMaterialProperty
+  - id: operators.spe2_producer_control::Postprocessors/spe2_total_oil_surface_rate
+    section: Postprocessors
+    name: spe2_total_oil_surface_rate
+    start_line: 81
+    end_line: 84
+    sha256: f8eda7e08358c5a1217bbfd08dd363062e471b7986db2bd6bd3428f99a18ee8c
+    type: ScalarVariable
+  - id: operators.spe2_producer_control::Postprocessors/spe2_datum_bhp
+    section: Postprocessors
+    name: spe2_datum_bhp
+    start_line: 85
+    end_line: 88
+    sha256: 319ef374791e16157c91d2cb90a951287da3af9e69c06cd9d8e0af1a280b7549
+    type: ScalarVariable
+  - id: operators.spe2_producer_control::Postprocessors/spe2_completion_7_bhp
+    section: Postprocessors
+    name: spe2_completion_7_bhp
+    start_line: 89
+    end_line: 93
+    sha256: e53dc6b59a72480caf2d43b362910def3513e4c185a6bf60e118f8805ea24ff0
+    type: ADElementAverageMaterialProperty
+  - id: operators.spe2_producer_control::Postprocessors/spe2_completion_8_bhp
+    section: Postprocessors
+    name: spe2_completion_8_bhp
+    start_line: 94
+    end_line: 98
+    sha256: d9315301c36755bb4eea048f898ec289616f38f95f971fe02cfa744b058cbf11
+    type: ADElementAverageMaterialProperty
+  dimension: 2
+  requires:
+  - fields.spe2_black_oil_q2_eg
+  - fields.spe2_producer_control
+  - materials.spe2_producer_well
+  - schedules.spe2_oil_rate_schedule
+  provides:
+  - AD completion-rate aggregation through reconstructed CG/EG pressure
+  - time-dependent oil-rate and 3000-psia datum-BHP complementarity
+  - completion oil, water, gas, and BHP observables
+  verification: []

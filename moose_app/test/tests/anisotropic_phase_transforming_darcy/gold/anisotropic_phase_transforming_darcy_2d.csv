@@ -1,0 +1,3 @@
+time,denominator_x_l2,denominator_y_l2,denominator_z_l2,mobility_x_l2,mobility_y_l2,mobility_z_l2,reference_flux_l2,resistance_x_l2,resistance_y_l2,resistance_z_l2
+0,0,0,0,0,0,0,0,0,0,0
+1,0,0,0,2.2204460492503e-16,0,4.4408920985006e-16,2.2204460492503e-16,0,0,0

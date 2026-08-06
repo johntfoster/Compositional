@@ -1,0 +1,4 @@
+time,affinity_error,gas_neutral_coefficient_error,gas_temperature_error,gas_transfer_work_error,generalized_force_error,generalized_reaction_power_error,kinetic_residual_error,oil_neutral_coefficient_error,oil_temperature_error,oil_transfer_work_error,reaction_rate_error,selected_kinetic_force_error,tau_correction_error,temperature_weighted_force_error,temperature_weighted_reaction_power_error
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,0,0,0,0,0,2.2204460492503e-16,0,0,0,0,1.3877787807814e-17,3.4694469519536e-18,0,3.4694469519536e-18,4.336808689942e-19
+

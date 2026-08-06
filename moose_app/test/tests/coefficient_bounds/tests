@@ -1,0 +1,13 @@
+[Tests]
+  design = 'moose_app/doc/moose_upstream_candidates.yml'
+  issues = ''
+
+  [bernstein_lower_bound_1d]
+    type = CSVDiff
+    input = bernstein_lower_bound_1d.i
+    cli_args = 'Outputs/file_base=bernstein_lower_bound_1d'
+    csvdiff = bernstein_lower_bound_1d.csv
+    abs_zero = 1e-12
+    requirement = 'CoefficientBounds shall impose a lower PETSc VI bound on every coefficient of a scalar quadratic Bernstein finite-element variable.'
+  []
+[]

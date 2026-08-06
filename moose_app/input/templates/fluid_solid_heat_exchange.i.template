@@ -1,0 +1,41 @@
+# Selectable fluid-solid thermal exchange from
+# eq:MC_fluid_solid_heat_exchange_law. The heat-transfer coefficient h_FS is
+# defined per current mixture volume in W/(m^3 K), so the signed source
+# properties below have units W/m^3.
+[Materials]
+  [@PREFIX@_fluid_solid_heat_exchange]
+    type = ADInterSubsystemHeatExchangeMaterial
+    fluid_temperature_name = @FLUID_TEMPERATURE_TOTAL_PROPERTY@
+    solid_temperature_name = @SOLID_TEMPERATURE_TOTAL_PROPERTY@
+    heat_transfer_coefficient_name = @CURRENT_VOLUME_HEAT_TRANSFER_COEFFICIENT_PROPERTY@
+    fluid_heat_source_name = @PREFIX@_fluid_source
+    solid_heat_source_name = @PREFIX@_solid_source
+    exchange_cancellation_name = @PREFIX@_cancellation
+    entropy_production_name = @PREFIX@_entropy_production
+  []
+[]
+
+[Kernels]
+  [@PREFIX@_fluid_exchange_source]
+    type = ADReferenceEnergySourceTerm
+    variable = @FLUID_TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @PREFIX@_fluid_source
+    scale = 1
+    multiply_by_jacobian = true
+    solid_jacobian_name = @SOLID_REFERENCE_J_PROPERTY@
+  []
+  [@PREFIX@_solid_exchange_source]
+    type = ADReferenceEnergySourceTerm
+    variable = @SOLID_TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @PREFIX@_solid_source
+    scale = 1
+    multiply_by_jacobian = true
+    solid_jacobian_name = @SOLID_REFERENCE_J_PROPERTY@
+  []
+[]
+
+# The material already assigns opposite signs:
+# q_F=h_FS(theta_S-theta_F) and q_S=-q_F. Both source kernels therefore use
+# scale=1. Each kernel multiplies its current-volume source by J exactly once
+# to assemble the solid-reference residual. Do not premultiply h_FS or either
+# source property by J.

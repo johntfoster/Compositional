@@ -1,0 +1,59 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [saturation_onsager_force_gradient_1d]
+    type = CSVDiff
+    input = saturation_onsager_force_gradient_1d.i
+    cli_args = 'Outputs/file_base=saturation_onsager_force_gradient_1d'
+    csvdiff = saturation_onsager_force_gradient_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute CG/EG saturation-rate gradients and the full product-rule gradient of a spatially varying symmetric positive-semidefinite Onsager resistance times the phase-rate vector, while also evaluating force, dissipation, entropy production, and the local minimum resistance eigenvalue.'
+  []
+
+  [saturation_onsager_property_nonsymmetric_rejected]
+    type = RunException
+    input = saturation_onsager_force_gradient_1d.i
+    cli_args = 'Materials/resistance_properties/prop_values="T00 T01 T10_bad T11"'
+    expect_err = 'Onsager resistance matrix must be symmetric at every quadrature point'
+    requirement = 'The state-dependent saturation Onsager material shall reject a nonsymmetric resistance matrix at a quadrature point.'
+  []
+
+  [saturation_onsager_property_indefinite_rejected]
+    type = RunException
+    input = saturation_onsager_force_gradient_1d.i
+    cli_args = 'Materials/resistance_properties/prop_values="one two two one"'
+    expect_err = 'Onsager resistance matrix must be positive semidefinite at every quadrature point'
+    requirement = 'The state-dependent saturation Onsager material shall reject an indefinite resistance matrix at a quadrature point.'
+  []
+
+  [saturation_onsager_property_missing_gradient_rejected]
+    type = RunException
+    input = saturation_onsager_force_gradient_1d.i
+    cli_args = 'Materials/saturation_onsager_gradients/resistance_gradient_property_names="" Materials/saturation_onsager_gradients/saturation_rate_names=""'
+    expect_err = 'Property-valued resistance requires resistance gradients and saturation rates'
+    requirement = 'The state-dependent saturation Onsager gradient material shall require the resistance gradients and phase rates needed by the full product rule.'
+  []
+
+  [tiny_scale_symmetric_gradient_resistance_accepted]
+    type = RunApp
+    input = saturation_onsager_force_gradient_1d.i
+    cli_args = "Materials/saturation_onsager_gradients/resistance_property_names='' Materials/saturation_onsager_gradients/resistance_gradient_property_names='' Materials/saturation_onsager_gradients/saturation_rate_names='' Materials/saturation_onsager_gradients/resistance_matrix='2e-15 5e-16 5e-16 3e-15' Outputs/csv=false"
+    requirement = 'The generalized saturation-force gradient closure shall accept a symmetric positive-semidefinite resistance matrix independently of its dimensional scale.'
+  []
+
+  [tiny_scale_nonsymmetric_gradient_resistance_rejected]
+    type = RunException
+    input = saturation_onsager_force_gradient_1d.i
+    cli_args = "Materials/saturation_onsager_gradients/resistance_property_names='' Materials/saturation_onsager_gradients/resistance_gradient_property_names='' Materials/saturation_onsager_gradients/saturation_rate_names='' Materials/saturation_onsager_gradients/resistance_matrix='2e-15 5e-16 0 3e-15'"
+    expect_err = 'The Onsager resistance matrix must be symmetric.'
+    requirement = 'The generalized saturation-force gradient symmetry check shall remain relative to the active resistance scale and reject a materially nonsymmetric tiny pressure-time matrix.'
+  []
+
+  [zero_gradient_resistance_accepted]
+    type = RunApp
+    input = saturation_onsager_force_gradient_1d.i
+    cli_args = "Materials/saturation_onsager_gradients/resistance_property_names='' Materials/saturation_onsager_gradients/resistance_gradient_property_names='' Materials/saturation_onsager_gradients/saturation_rate_names='' Materials/saturation_onsager_gradients/resistance_matrix='0 0 0 0' Outputs/csv=false"
+    requirement = 'The gradient closure shall admit the exactly zero Onsager matrix with the same nondissipative limiting semantics as the force closure.'
+  []
+[]

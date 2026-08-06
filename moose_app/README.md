@@ -5,29 +5,31 @@ reacting-mixture implementation. It is intentionally independent of the earlier
 three-phase/Talha application: use that code as technical memory and design
 evidence, not as a code base to copy.
 
-Current scope:
+Current implemented scope:
 
-- Provide a buildable MOOSE app shell.
-- Keep source categories ready for kernels, materials, actions, boundary
-  conditions, user objects, tests, and examples.
-- Record implementation decisions before residual objects are written.
-- Tie future MOOSE objects to equations in the theory manuscript and companion
-  implementation paper.
-
-No physics kernels have been implemented yet.
+- Input-deck phase registration with arbitrary phase names and per-phase
+  momentum-model selection.
+- Solid-reference kinematics, registered mobile-phase history kinematics,
+  Helmholtz EOS closure materials, restricted two-phase constant-K split,
+  reference component-balance kernels, Darcy reference-flux materials, selectable
+  full/relative-flux phase momentum objects, and a quasi-static reference-solid
+  momentum slice.
+- Regression tests under `test/tests` tied to `doc/theory_traceability.yml`,
+  `../implementation_paper/equation_to_moose_map.yml`, and
+  `../validation/validation_matrix.yml`.
 
 ## Layout
 
 - `include/base/`, `src/base/` - app registration and executable entry point.
-- `include/kernels/`, `src/kernels/` - future weak-form residual kernels.
-- `include/materials/`, `src/materials/` - future thermodynamic, kinematic, and
+- `include/kernels/`, `src/kernels/` - weak-form residual kernels.
+- `include/materials/`, `src/materials/` - thermodynamic, kinematic, and
   constitutive materials.
 - `include/actions/`, `src/actions/` - future input-deck assembly helpers.
 - `include/bcs/`, `src/bcs/` - future boundary conditions.
 - `include/userobjects/`, `src/userobjects/` - future EOS, phase-equilibrium,
   reaction-network, and tabulation helpers when material properties need shared
   state.
-- `test/` - MOOSE regression tests once objects exist.
+- `test/` - MOOSE regression tests.
 - `examples/` - human-readable decks that illustrate validated reductions.
 - `doc/implementation_notes.md` - design notes and equation-to-code mapping.
 

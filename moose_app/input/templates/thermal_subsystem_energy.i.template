@@ -1,0 +1,132 @@
+# Instantiate once for the fluid subsystem and once for the solid subsystem.
+# Each physical contribution is an independent object.
+[Kernels]
+  [@SUBSYSTEM@_internal_energy_storage]
+    type = ADReferenceEnergyStorageTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    coefficient_name = @EFFECTIVE_INTERNAL_ENERGY_STORAGE@
+  []
+  [@SUBSYSTEM@_relative_internal_energy_advection]
+    type = ADReferenceEnergyFluxTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    reference_flux_name = @REFERENCE_RELATIVE_INTERNAL_ENERGY_FLUX@
+    scale = -1
+  []
+  [@SUBSYSTEM@_nonadvective_heat_flux]
+    type = ADReferenceEnergyFluxTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    reference_flux_name = @REFERENCE_NONADVECTIVE_ENERGY_FLUX@
+    scale = -1
+  []
+
+  [@SUBSYSTEM@_electric_enthalpy_phase_fraction_rate]
+    type = ADReferenceEnergyStateRateTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    state = @PHASE_FRACTION_STATE_VARIABLE@
+    coefficient_name = @ELECTRIC_ENTHALPY_PHASE_FRACTION_COEFFICIENT@
+  []
+  [@SUBSYSTEM@_electric_enthalpy_density_rate]
+    type = ADReferenceEnergyStateRateTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    state = @INTRINSIC_DENSITY_STATE_VARIABLE@
+    coefficient_name = @ELECTRIC_ENTHALPY_DENSITY_COEFFICIENT@
+  []
+  [@SUBSYSTEM@_electric_enthalpy_composition_rate]
+    type = ADReferenceEnergyStateRateTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    state = @COMPOSITION_STATE_VARIABLE@
+    coefficient_name = @ELECTRIC_ENTHALPY_COMPOSITION_COEFFICIENT@
+  []
+  [@SUBSYSTEM@_electric_enthalpy_temperature_rate]
+    type = ADReferenceEnergyStateRateTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    state = @TEMPERATURE_STATE_VARIABLE@
+    coefficient_name = @ELECTRIC_ENTHALPY_TEMPERATURE_COEFFICIENT@
+  []
+
+  # Fluid-only surface-energy terms; omit these three blocks for a subsystem
+  # to which the manuscript surface energy does not belong.
+  [@SUBSYSTEM@_surface_energy_phase_fraction_rate]
+    type = ADReferenceEnergyStateRateTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    state = @FLUID_PHASE_FRACTION_STATE_VARIABLE@
+    coefficient_name = @SURFACE_ENERGY_PHASE_FRACTION_COEFFICIENT@
+  []
+  [@SUBSYSTEM@_surface_energy_history_rate]
+    type = ADReferenceEnergyStateRateTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    state = @CAPILLARY_HISTORY_STATE_VARIABLE@
+    coefficient_name = @SURFACE_ENERGY_HISTORY_COEFFICIENT@
+  []
+  [@SUBSYSTEM@_surface_energy_temperature_rate]
+    type = ADReferenceEnergyStateRateTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    state = @FLUID_TEMPERATURE_STATE_VARIABLE@
+    coefficient_name = @SURFACE_ENERGY_TEMPERATURE_COEFFICIENT@
+  []
+
+  [@SUBSYSTEM@_intrinsic_pressure_power]
+    type = ADReferenceEnergySourceTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @INTRINSIC_PRESSURE_POWER_PROPERTY@
+  []
+  [@SUBSYSTEM@_phase_fraction_pressure_power]
+    type = ADReferenceEnergySourceTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @PHASE_FRACTION_PRESSURE_POWER_PROPERTY@
+  []
+  [@SUBSYSTEM@_volume_constraint_power]
+    type = ADReferenceEnergySourceTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @VOLUME_CONSTRAINT_POWER_PROPERTY@
+  []
+  [@SUBSYSTEM@_composition_multiplier_power]
+    type = ADReferenceEnergySourceTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @COMPOSITION_MULTIPLIER_POWER_PROPERTY@
+  []
+  [@SUBSYSTEM@_external_heat]
+    type = ADReferenceEnergySourceTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @EXTERNAL_HEAT_PROPERTY@
+  []
+  [@SUBSYSTEM@_interphase_internal_energy]
+    type = ADReferenceEnergySourceTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @INTERPHASE_INTERNAL_ENERGY_PROPERTY@
+  []
+  [@SUBSYSTEM@_mechanical_interaction_heating]
+    type = ADReferenceEnergySourceTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    source_name = @MECHANICAL_INTERACTION_HEATING_PROPERTY@
+  []
+  [@SUBSYSTEM@_phase_stress_power]
+    type = ADReferenceEnergyStressPowerTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    phase_velocity = '@PHASE_VELOCITY_COMPONENTS@'
+    cauchy_stress_name = @TOTAL_REVERSIBLE_CAUCHY_STRESS@
+  []
+  [@SUBSYSTEM@_maxwell_power_on_storage_side]
+    type = ADReferenceEnergyStressPowerTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    phase_velocity = '@PHASE_VELOCITY_COMPONENTS@'
+    cauchy_stress_name = @MAXWELL_CAUCHY_STRESS@
+    scale = -1
+  []
+  [@SUBSYSTEM@_conversion_transfer_work]
+    type = ADReferenceEnergyConversionTransferWorkTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    generalized_transfer_work_names = '@GENERALIZED_TRANSFER_WORK_PROPERTIES@'
+    current_component_source_names = '@PHASE_COMPONENT_SOURCE_PROPERTIES@'
+  []
+  [@SUBSYSTEM@_relative_current_electric_work]
+    type = ADReferenceEnergyRelativeCurrentWorkTerm
+    variable = @TEMPERATURE_OR_ENERGY_VARIABLE@
+    current_relative_charge_flux_name = @CURRENT_RELATIVE_CHARGE_FLUX@
+    electric_potential = @ELECTRIC_POTENTIAL@
+  []
+[]
+
+# The shared electric-potential-rate contribution is not assigned to either
+# thermal subsystem. Close it globally with ADElectrostaticGaussLaw and the
+# electrostatic field-power identity.

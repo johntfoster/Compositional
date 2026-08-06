@@ -2,7 +2,7 @@
 #include "AppFactory.h"
 #include "Moose.h"
 #include "MooseSyntax.h"
-#include "ModulesApp.h"
+#include "SolidMechanicsApp.h"
 
 InputParameters
 MulticomponentReactiveFlowApp::validParams()
@@ -12,6 +12,8 @@ MulticomponentReactiveFlowApp::validParams()
   params.set<bool>("use_legacy_initial_residual_evaluation_behavior") = false;
   return params;
 }
+
+registerKnownLabel("MulticomponentReactiveFlowApp");
 
 MulticomponentReactiveFlowApp::MulticomponentReactiveFlowApp(
     const InputParameters & parameters)
@@ -25,9 +27,10 @@ MulticomponentReactiveFlowApp::~MulticomponentReactiveFlowApp() {}
 void
 MulticomponentReactiveFlowApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
 {
-  ModulesApp::registerAllObjects<MulticomponentReactiveFlowApp>(f, af, syntax);
+  SolidMechanicsApp::registerAll(f, af, syntax);
   Registry::registerObjectsTo(f, {"MulticomponentReactiveFlowApp"});
   Registry::registerActionsTo(af, {"MulticomponentReactiveFlowApp"});
+  registerSyntax("PlasticDistensionAction", "Physics/PlasticDistension/*");
 }
 
 void

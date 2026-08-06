@@ -1,0 +1,4 @@
+time,completion_1_enrichment_value,completion_1_oil_surface_rate,completion_2_enrichment_value,completion_2_oil_surface_rate,reported_datum_bhp,reported_total_oil_rate,datum_bhp,total_oil_rate
+0,0,40,0,60,0,0,90,40
+1,5,32,-5,18,99,50,99,50
+

@@ -1,0 +1,3 @@
+time,tau_convective_term_l2,tau_evolution_residual_l2,tau_l2,tau_material_derivative_l2,tau_transfer_offset_l2,tau_velocity_square_l2
+0,0,0,0,0,0,0
+1,1.0711718550473e-14,5.1578592747834e-16,1.1009322920451e-15,1.0741085019148e-14,1.0751280640826e-14,2.4478116858134e-17

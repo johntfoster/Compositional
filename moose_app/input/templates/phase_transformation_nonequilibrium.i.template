@@ -1,0 +1,132 @@
+# Mandatory complete preset for any phase-transforming mechanism.
+[Variables]
+  [@TAU_BACKBONE@]
+    family = LAGRANGE
+    order = FIRST
+  []
+  [@TAU_ENRICHMENT@]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  [@RATE@]
+    # A local affinity law has no rate-gradient term. Prefer MONOMIAL/SECOND
+    # so the constitutive rate is resolved without artificial continuity.
+    family = @RATE_FAMILY@
+    order = @RATE_ORDER@
+  []
+[]
+
+[Materials]
+  # Select a thermodynamic provider separately. A compositional manuscript-
+  # theory model includes theory_composition_projection.i.template; an SPE
+  # black-oil model may include
+  # black_oil_phase_transformation_thermodynamics.i.template; and a
+  # noncompositional model supplies potentials and phase Helmholtz properties
+  # from its EOS. This generic mechanism consumes those property tokens below.
+  [tau_evolution]
+    type = ADTauEvolutionMaterial
+    tau = @TAU_BACKBONE@
+    tau_enrichment = @TAU_ENRICHMENT@
+    reference_phase_displacements = '@REFERENCE_PHASE_DISPLACEMENTS@'
+    reference_neutral_potential_name = @REFERENCE_NEUTRAL_MU@
+    reference_specific_helmholtz_name = @REFERENCE_SPECIFIC_HELMHOLTZ@
+    reference_pressure_work_name = @REFERENCE_PRESSURE_WORK@
+  []
+  [@DONOR@_tau_derivative]
+    type = ADPhaseTauMaterialDerivative
+    phase = @DONOR@
+    phase_registry = @PHASE_REGISTRY@
+    phase_kind = mobile
+    tau = @TAU_BACKBONE@
+    tau_enrichment = @TAU_ENRICHMENT@
+    solid_displacements = '@REFERENCE_PHASE_DISPLACEMENTS@'
+    deformation_gradient_name = @DEFORMATION_GRADIENT@
+    bulk_density_name = @DONOR_BULK_DENSITY@
+    reference_relative_mass_flux_name = @DONOR_REFERENCE_MASS_FLUX@
+  []
+  [@RECEIVER@_tau_derivative]
+    type = ADPhaseTauMaterialDerivative
+    phase = @RECEIVER@
+    phase_registry = @PHASE_REGISTRY@
+    phase_kind = mobile
+    tau = @TAU_BACKBONE@
+    tau_enrichment = @TAU_ENRICHMENT@
+    solid_displacements = '@REFERENCE_PHASE_DISPLACEMENTS@'
+    deformation_gradient_name = @DEFORMATION_GRADIENT@
+    bulk_density_name = @RECEIVER_BULK_DENSITY@
+    reference_relative_mass_flux_name = @RECEIVER_REFERENCE_MASS_FLUX@
+  []
+  [@DONOR@_@COMPONENT@_transfer_work]
+    type = ADGeneralizedTransferWorkMaterial
+    chemical_potential_name = @DONOR_COMPONENT_CHEMICAL_OR_ELECTROCHEMICAL_POTENTIAL@
+    specific_helmholtz_name = @DONOR_SPECIFIC_HELMHOLTZ@
+    tau_transfer_offset_name = @DONOR@_tau_transfer_offset
+    generalized_transfer_work_name = @DONOR@_@COMPONENT@_generalized_transfer_work
+    neutral_conversion_coefficient_name = @DONOR@_@COMPONENT@_neutral_conversion_coefficient
+  []
+  [@RECEIVER@_@COMPONENT@_transfer_work]
+    type = ADGeneralizedTransferWorkMaterial
+    chemical_potential_name = @RECEIVER_COMPONENT_CHEMICAL_OR_ELECTROCHEMICAL_POTENTIAL@
+    specific_helmholtz_name = @RECEIVER_SPECIFIC_HELMHOLTZ@
+    tau_transfer_offset_name = @RECEIVER@_tau_transfer_offset
+    generalized_transfer_work_name = @RECEIVER@_@COMPONENT@_generalized_transfer_work
+    neutral_conversion_coefficient_name = @RECEIVER@_@COMPONENT@_neutral_conversion_coefficient
+  []
+  [@MECHANISM@_thermodynamics]
+    type = ADReactionNetworkMaterial
+    phase_registry = @PHASE_REGISTRY@
+    phases = '@DONOR@ @RECEIVER@'
+    components = '@COMPONENTS@'
+    reaction_rates = @RATE@
+    stoichiometric_coefficients = '@STOICHIOMETRIC_COEFFICIENTS@'
+    chemical_potential_names = '@CHEMICAL_OR_ELECTROCHEMICAL_POTENTIALS@'
+    phase_tau_offset_names = '@DONOR@_tau_transfer_offset @RECEIVER@_tau_transfer_offset'
+    neutral_conversion_coefficient_names = '@PHASE_COMPONENT_NEUTRAL_CONVERSION_COEFFICIENTS@'
+    phase_temperature_names = '@DONOR_TEMPERATURE@ @RECEIVER_TEMPERATURE@'
+    kinetic_force = temperature_weighted_neutral
+    kinetic_mobilities = '@NONNEGATIVE_MOBILITY@'
+    # Directional availability is required when either participating phase
+    # can disappear.  Use smooth nonnegative availability properties (for
+    # example phase volume fractions), not a hard switch, in the kinetic law.
+    forward_phase_active_names = '@FORWARD_DONOR_AVAILABILITY@'
+    reverse_phase_active_names = '@REVERSE_DONOR_AVAILABILITY@'
+    property_prefix = @MECHANISM@
+  []
+[]
+
+[Kernels]
+  [tau_backbone_equation]
+    type = ADEnrichedGalerkinMaterialPropertyResidual
+    variable = @TAU_BACKBONE@
+    property = tau_evolution_residual
+  []
+  [tau_enrichment_equation]
+    type = ADEnrichedGalerkinMaterialPropertyResidual
+    variable = @TAU_ENRICHMENT@
+    property = tau_evolution_residual
+    anchor_coefficient = @TAU_P0_ANCHOR@
+  []
+  [@MECHANISM@_finite_rate_equation]
+    type = ADMaterialPropertyResidual
+    variable = @RATE@
+    property = @MECHANISM@_kinetic_residual_0
+  []
+  [@MECHANISM@_conversion_energy]
+    type = ADReferenceEnergyConversionTransferWorkTerm
+    variable = @THERMAL_SUBSYSTEM_TEMPERATURE_OR_ENERGY@
+    generalized_transfer_work_names = '@PHASE_COMPONENT_GENERALIZED_TRANSFER_WORKS@'
+    current_component_source_names = '@PHASE_CURRENT_COMPONENT_SOURCES@'
+  []
+[]
+
+# Also add, for every participating phase/component:
+# - ADReferenceComponentSourceTerm using @MECHANISM@_<phase>_reference_component_source_<c>
+# - ADPhaseMomentumConversionInsertionTerm using the signed phase mass stoichiometry;
+# - one complete thermal_subsystem_energy template for each thermal subsystem,
+#   with the conversion-energy kernel above placed in the subsystem receiving
+#   this mechanism's transfer work.
+# Report affinity, transfer_work_correction, generalized_conversion_coefficient,
+# temperature_weighted_force, selected kinetic_force, kinetic_residual,
+# reaction_power, and temperature_weighted_reaction_power. For the Onsager law,
+# require temperature_weighted_reaction_power >= 0; retain reaction_power as the
+# separate generalized tau/mu identity.

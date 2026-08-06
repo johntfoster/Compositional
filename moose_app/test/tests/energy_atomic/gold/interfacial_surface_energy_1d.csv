@@ -1,0 +1,4 @@
+time,fluid_fraction_error,gas_interfacial_potential_error,gas_saturation_error,history_dissipation_error,history_entropy_production_error,history_storage_rate_error,oil_interfacial_potential_error,oil_saturation_error,stored_energy_density_error,stored_energy_rate_error,temperature_storage_rate_error,water_interfacial_potential_error,water_saturation_error,water_volume_fraction_rate_error
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,0,0,2.7755575615629e-17,0,0,0,0,0,0,5.5511151231258e-17,0,0,5.5511151231258e-17,1.3877787807814e-17
+

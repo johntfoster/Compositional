@@ -1,0 +1,3 @@
+time,gas_pressure_gradient_l2,gas_stored_gradient_l2,gas_stored_value_l2,water_pressure_gradient_l2,water_reference_flux_l2,water_stored_gradient_l2,water_stored_value_l2
+0,0,0,0,0,0,0,0
+1,9.1745601653283e-15,2.1815560695973e-16,1.0134903240814e-16,8.5075253778069e-15,1.7015050755614e-14,1.5059797815742e-15,4.5625829062786e-16

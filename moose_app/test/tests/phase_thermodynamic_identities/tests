@@ -1,0 +1,62 @@
+[Tests]
+  design = 'main.tex sections/virtual_power_derivation.tex sections/multicomponent_solids.tex moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [phase_pressure_momentum_stitch_1d]
+    type = RunApp
+    input = phase_pressure_momentum_stitch_1d.i
+    requirement = 'A one-dimensional material and momentum-stitch fixture shall enforce the absolute saturation-force gauge, volume-fraction Euler-Lagrange identities, actual phase-pressure reconstruction, force-rate closure, equivalent-pressure identity, and nonnegative saturation entropy production. This fixture is not a solved Q2/EG acceptance test.'
+  []
+
+  [phase_pressure_momentum_stitch_2d]
+    type = RunApp
+    input = phase_pressure_momentum_stitch_2d.i
+    requirement = 'A two-dimensional material and momentum-stitch fixture shall exercise the full product-rule gradient and single phase-momentum insertion. This fixture is not a solved Q2/EG acceptance test.'
+  []
+
+  [phase_pressure_momentum_stitch_3d]
+    type = RunApp
+    input = phase_pressure_momentum_stitch_3d.i
+    requirement = 'A three-dimensional material and momentum-stitch fixture shall exercise the full product-rule gradient and single phase-momentum insertion in every component. This fixture is not a solved Q2/EG acceptance test.'
+  []
+
+  [phase_pressure_momentum_stitch_jacobian]
+    type = PetscJacobianTester
+    input = phase_pressure_momentum_stitch_1d.i
+    ratio_tol = 2e-7
+    difference_tol = 1e-7
+    requirement = 'The phase-pressure reconstruction and its unique momentum-potential gradient insertion shall retain AD derivatives through the coupled equivalent-pressure field.'
+  []
+
+  [negative_saturation_rejected]
+    type = RunException
+    input = phase_pressure_momentum_stitch_1d.i
+    cli_args = "Functions/phase0_saturation_exact/expression='-0.1'"
+    expect_err = 'fluid saturations must be nonnegative'
+    requirement = 'The absolute phase identity closure shall reject a negative physical fluid saturation.'
+  []
+
+  [nonpositive_temperature_rejected]
+    type = RunException
+    input = phase_pressure_momentum_stitch_1d.i
+    cli_args = "Materials/constants/prop_values='2 4 0 4 -1 1 0 0.6 0 3 -2 5 2 0.5'"
+    expect_err = 'fluid temperature must be positive'
+    requirement = 'The saturation entropy-production diagnostic shall reject a nonpositive absolute fluid temperature.'
+  []
+
+  [reference_force_gauge_violation_rejected]
+    type = RunException
+    input = phase_pressure_momentum_stitch_1d.i
+    cli_args = "Materials/constants/prop_values='2 4 0 4 -1 1 1 0.6 300 3 -2 5 2 0.5'"
+    expect_err = 'reference saturation-force gauge residual exceeds pressure_identity_tolerance'
+    requirement = 'The deck-selected absolute saturation-force gauge shall be enforced explicitly instead of being hidden in a reference-phase convention.'
+  []
+
+  [phase_list_size_mismatch_rejected]
+    type = RunException
+    input = phase_pressure_momentum_stitch_1d.i
+    cli_args = "Materials/phase_thermodynamic_identities/predicted_force_difference_names=''"
+    expect_err = 'Supply one value and output name for every fluid phase'
+    requirement = 'The phase identity material shall reject an incomplete per-phase or independent-force property list before evaluation.'
+  []
+[]

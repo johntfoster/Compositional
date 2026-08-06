@@ -1,0 +1,16 @@
+[Tests]
+  design = 'sections/multicomponent_solids.tex sections/pulled_back_solid_skeleton.tex'
+  issues = ''
+  [gravity_energy_diagnostics]
+    type = RunApp
+    input = gravity_energy_diagnostics_1d.i
+    requirement = 'The application shall form exact AD mixture gravity and an independent local subsystem-energy residual.'
+  []
+  [gravity_energy_diagnostics_jacobian]
+    type = PetscJacobianTester
+    input = gravity_energy_diagnostics_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'Mixture gravity and subsystem-energy diagnostics shall retain their coupled AD Jacobian.'
+  []
+[]

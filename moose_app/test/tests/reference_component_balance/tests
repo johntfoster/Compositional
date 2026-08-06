@@ -1,0 +1,67 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [reference_component_balance_1d]
+    type = CSVDiff
+    input = reference_component_balance_1d.i
+    cli_args = 'Outputs/file_base=reference_component_balance_1d'
+    csvdiff = reference_component_balance_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve the one-dimensional manufactured solid-reference fluid component balance with the pulled-back component flux and J-weighted source.'
+  []
+
+  [reference_component_balance_1d_natural_flux]
+    type = CSVDiff
+    input = reference_component_balance_1d_natural_flux.i
+    cli_args = 'Outputs/file_base=reference_component_balance_1d_natural_flux'
+    csvdiff = reference_component_balance_1d_natural_flux.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve the one-dimensional manufactured solid-reference fluid component balance with a prescribed outward natural reference phase-flux boundary condition.'
+  []
+
+  [reference_component_balance_2d]
+    type = CSVDiff
+    input = reference_component_balance_2d.i
+    cli_args = 'Outputs/file_base=reference_component_balance_2d'
+    csvdiff = reference_component_balance_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve the two-dimensional manufactured solid-reference fluid component balance with dimension-aware solid kinematics.'
+  []
+
+  [reference_component_balance_3d]
+    type = CSVDiff
+    input = reference_component_balance_3d.i
+    cli_args = 'Outputs/file_base=reference_component_balance_3d'
+    csvdiff = reference_component_balance_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve the three-dimensional manufactured solid-reference fluid component balance with dimension-aware solid kinematics.'
+  []
+
+  [darcy_storage_flux_1d]
+    type = CSVDiff
+    input = darcy_storage_flux_1d.i
+    cli_args = 'Outputs/file_base=darcy_storage_flux_1d'
+    csvdiff = darcy_storage_flux_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute reference component storage from thermodynamic state variables and solve a manufactured one-dimensional component balance using a standard Darcy reference-flux closure.'
+  []
+
+  [darcy_storage_flux_2d]
+    type = CSVDiff
+    input = darcy_storage_flux_2d.i
+    cli_args = 'Outputs/file_base=darcy_storage_flux_2d'
+    csvdiff = darcy_storage_flux_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute reference component storage from thermodynamic state variables and assemble a nonzero two-dimensional standard Darcy reference flux.'
+  []
+
+  [darcy_storage_flux_3d]
+    type = CSVDiff
+    input = darcy_storage_flux_3d.i
+    cli_args = 'Outputs/file_base=darcy_storage_flux_3d'
+    csvdiff = darcy_storage_flux_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute reference component storage from thermodynamic state variables and assemble a nonzero three-dimensional standard Darcy reference flux.'
+  []
+[]

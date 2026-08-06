@@ -1,0 +1,33 @@
+[Tests]
+  design = 'validation/reference_data/spe2_primary_tables.yml'
+  issues = ''
+
+  [multi_completion_datum_control_1d]
+    type = CSVDiff
+    input = multi_completion_datum_control_1d.i
+    cli_args = 'Outputs/file_base=multi_completion_datum_control_1d'
+    csvdiff = multi_completion_datum_control_1d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-11
+    requirement = 'A shared black-oil datum BHP shall enforce the sum of completion rates while each completion receives its own hydrostatic datum correction and productivity-weighted pressure coupling.'
+  []
+
+  [multi_completion_scheduled_rate_1d]
+    type = CSVDiff
+    input = multi_completion_scheduled_rate_1d.i
+    cli_args = 'Outputs/file_base=multi_completion_scheduled_rate_1d'
+    csvdiff = multi_completion_scheduled_rate_1d.csv
+    abs_zero = 1e-11
+    rel_err = 1e-11
+    requirement = 'The shared datum-BHP control shall follow a time-dependent total oil-rate function and repartition every schedule step across completion-specific productivities.'
+  []
+
+  [multi_completion_datum_control_jacobian]
+    type = PetscJacobianTester
+    input = multi_completion_datum_control_1d.i
+    cli_args = '-snes_test_err 1e-7'
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'The datum-aware multi-completion rate control shall provide the correct scalar-BHP and completion-specific pressure Jacobian blocks.'
+  []
+[]

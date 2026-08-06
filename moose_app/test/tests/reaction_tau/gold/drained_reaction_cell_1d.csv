@@ -1,0 +1,4 @@
+time,left_reference_component_flux,net_outward_reference_component_flux,p_enrichment_l2,p_total_gradient_l2,p_total_l2,right_reference_component_flux,summed_reference_component_global_balance,summed_reference_component_source_integral,summed_reference_component_source_l2,summed_reference_component_storage_l2,summed_reference_component_storage_rate_integral,summed_reference_component_storage_rate_l2,ux_l2
+0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0.1,-0.1503,-0.006,4.7944605788084e-17,8.6176480930456e-16,5.5511151231258e-17,-0.1563,3.3827107781548e-17,0.0065,6.8570966183139e-19,7.8504622934189e-17,0.0125,6.2148148147454e-17,0
+0.2,-0.1506,-0.006,6.9472386455547e-17,8.6176480930456e-16,5.5511151231258e-17,-0.1566,-5.98479599212e-17,0.0065,6.8570966183139e-19,5.5511151231258e-17,0.0125,1.0541211030737e-16,0

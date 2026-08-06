@@ -1,0 +1,10 @@
+# One independently selectable Table 3 evolution object per solid phase.
+[Kernels]
+  [@SOLID_PHASE@_distension_evolution]
+    type = ADSolidDistensionEvolution
+    variable = @SOLID_DISTENSION@
+    intrinsic_density = @SOLID_INTRINSIC_DENSITY@
+    solid_jacobian_name = @SOLID_REFERENCE_J@
+    solid_jacobian_rate_name = @SOLID_REFERENCE_J_DOT@
+  []
+[]

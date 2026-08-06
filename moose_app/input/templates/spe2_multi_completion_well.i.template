@@ -1,0 +1,16 @@
+# SPE2 modular two-completion producer.
+# Required fragments:
+#   fields.spe2_black_oil_q2_eg
+#   fields.spe2_producer_control
+#   materials.spe2_phase_pressure_closure
+#   materials.spe2_black_oil_pvt
+#   materials.spe2_producer_well
+#   schedules.spe2_oil_rate_schedule
+#   operators.spe2_producer_control
+#
+# The well material produces completion-local water, stock-tank-oil, and
+# stock-tank-gas source properties. Stitch those properties into the selected
+# component balances with block-restricted ADReferenceComponentSourceTerm
+# objects. The control operators aggregate the reconstructed-pressure rates
+# through AD, impose the published schedule, and switch to the 3000-psia datum
+# BHP limit through complementarity.

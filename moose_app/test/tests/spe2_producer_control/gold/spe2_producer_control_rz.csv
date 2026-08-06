@@ -1,0 +1,4 @@
+time,spe2_completion_7_bhp,spe2_completion_7_gas_surface_rate,spe2_completion_7_oil_surface_rate,spe2_completion_7_water_surface_rate,spe2_completion_8_bhp,spe2_completion_8_gas_surface_rate,spe2_completion_8_oil_surface_rate,spe2_completion_8_water_surface_rate,spe2_datum_bhp,spe2_total_oil_surface_rate,producer_bhp_scalar,producer_oil_rate_scalar
+0,0,0,0.0017214991840326,0,0,0,0.00011863154430066,0,0,0,24804155.647622,0.0018401307283333
+1,24804155.647622,0,0.0017214991840326,0,24825676.929446,0,0.00011863154430066,0,24804155.647622,0.0018401307283333,24804155.647622,0.0018401307283333
+

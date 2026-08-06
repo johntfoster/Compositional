@@ -1,0 +1,3 @@
+time,cancellation_l2,fluid_exchange_l2,fluid_flux_l2,solid_exchange_l2,solid_flux_l2,theta_f_enrichment_l2,theta_f_gradient_l2,theta_f_total_l2,theta_s_enrichment_l2,theta_s_gradient_l2,theta_s_total_l2
+0,0,0,0,0,0,0,0,0,0,0,0
+1,0,1.3976515890004e-13,3.6795175833961e-13,1.3976515890004e-13,6.8915358291598e-13,8.1395232479386e-15,1.8397587916981e-13,2.1764790467024e-14,1.1385546612191e-14,2.2971354639365e-13,3.8837867641913e-14

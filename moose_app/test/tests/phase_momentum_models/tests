@@ -1,0 +1,170 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [full_phase_momentum_1d]
+    type = CSVDiff
+    input = full_phase_momentum_1d.i
+    cli_args = 'Outputs/file_base=full_phase_momentum_1d'
+    csvdiff = full_phase_momentum_1d.csv
+    abs_zero = 1e-12
+    requirement = 'Within a registered solid/oil/gas/water phase set, oil using the full momentum model shall solve its material acceleration, pulled-back pressure force, gravity, fluid-skeleton and optional fluid-fluid interaction forces, conversion insertion, and optional extra-stress residual on the solid-reference mesh.'
+  []
+
+  [full_phase_momentum_with_capillary_1d]
+    type = CSVDiff
+    input = full_phase_momentum_1d.i
+    cli_args = 'Kernels/oil_momentum/include_capillary_pressure=true Kernels/oil_momentum/capillary_pressure=capillary_pressure Kernels/oil_momentum/capillary_pressure_enrichment=capillary_pressure_enr Kernels/oil_momentum/forcing=momentum_forcing_capillary Outputs/file_base=full_phase_momentum_with_capillary_1d'
+    csvdiff = full_phase_momentum_with_capillary_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A registered phase using the full momentum model shall include the phase capillary contribution in the pressure force only when its explicit capillary-pressure switch is enabled.'
+  []
+
+  [full_phase_momentum_2d]
+    type = CSVDiff
+    input = full_phase_momentum_2d.i
+    cli_args = 'Outputs/file_base=full_phase_momentum_2d'
+    csvdiff = full_phase_momentum_2d.csv
+    abs_zero = 1e-12
+    requirement = 'Within a registered phase set, oil using the full momentum model shall solve both components of a two-dimensional material-acceleration MMS on the solid-reference mesh.'
+  []
+
+  [full_phase_momentum_with_capillary_2d]
+    type = CSVDiff
+    input = full_phase_momentum_2d.i
+    cli_args = 'Kernels/oil_momentum_x/include_capillary_pressure=true Kernels/oil_momentum_x/capillary_pressure=capillary_pressure Kernels/oil_momentum_x/capillary_pressure_enrichment=capillary_pressure_enr Kernels/oil_momentum_x/forcing=momentum_x_forcing_capillary Kernels/oil_momentum_y/include_capillary_pressure=true Kernels/oil_momentum_y/capillary_pressure=capillary_pressure Kernels/oil_momentum_y/capillary_pressure_enrichment=capillary_pressure_enr Kernels/oil_momentum_y/forcing=momentum_y_forcing_capillary Outputs/file_base=full_phase_momentum_with_capillary_2d'
+    csvdiff = full_phase_momentum_with_capillary_2d.csv
+    abs_zero = 1e-12
+    requirement = 'A two-dimensional registered phase using the full momentum model shall include the phase capillary contribution componentwise when its explicit capillary-pressure switch is enabled.'
+  []
+
+  [full_phase_momentum_3d]
+    type = CSVDiff
+    input = full_phase_momentum_3d.i
+    cli_args = 'Outputs/file_base=full_phase_momentum_3d'
+    csvdiff = full_phase_momentum_3d.csv
+    abs_zero = 1e-12
+    requirement = 'Within a registered phase set, oil using the full momentum model shall solve all three components of a three-dimensional material-acceleration MMS on the solid-reference mesh.'
+  []
+
+  [full_phase_momentum_with_capillary_3d]
+    type = CSVDiff
+    input = full_phase_momentum_3d.i
+    cli_args = 'Kernels/oil_momentum_x/include_capillary_pressure=true Kernels/oil_momentum_x/capillary_pressure=capillary_pressure Kernels/oil_momentum_x/capillary_pressure_enrichment=capillary_pressure_enr Kernels/oil_momentum_x/forcing=momentum_x_forcing_capillary Kernels/oil_momentum_y/include_capillary_pressure=true Kernels/oil_momentum_y/capillary_pressure=capillary_pressure Kernels/oil_momentum_y/capillary_pressure_enrichment=capillary_pressure_enr Kernels/oil_momentum_y/forcing=momentum_y_forcing_capillary Kernels/oil_momentum_z/include_capillary_pressure=true Kernels/oil_momentum_z/capillary_pressure=capillary_pressure Kernels/oil_momentum_z/capillary_pressure_enrichment=capillary_pressure_enr Kernels/oil_momentum_z/forcing=momentum_z_forcing_capillary Outputs/file_base=full_phase_momentum_with_capillary_3d'
+    csvdiff = full_phase_momentum_with_capillary_3d.csv
+    abs_zero = 1e-12
+    requirement = 'A three-dimensional registered phase using the full momentum model shall include the phase capillary contribution componentwise when its explicit capillary-pressure switch is enabled.'
+  []
+
+  [full_capillary_enabled_without_field_rejected]
+    type = RunException
+    input = full_phase_momentum_1d.i
+    cli_args = 'Kernels/oil_momentum/include_capillary_pressure=true'
+    expect_err = 'A phase capillary field is required when include_capillary_pressure=true.'
+    requirement = 'The full phase-momentum model shall reject an enabled capillary-pressure switch without a supplied phase capillary field.'
+  []
+
+  [full_capillary_field_while_disabled_rejected]
+    type = RunException
+    input = full_phase_momentum_1d.i
+    cli_args = 'Kernels/oil_momentum/capillary_pressure=capillary_pressure'
+    expect_err = 'Set include_capillary_pressure=true to couple a phase capillary field.'
+    requirement = 'The full phase-momentum model shall reject a phase capillary field while its capillary-pressure switch is disabled.'
+  []
+
+  [relative_flux_reduction_1d]
+    type = CSVDiff
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Outputs/file_base=relative_flux_reduction_1d'
+    csvdiff = relative_flux_reduction_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A registered phase using the relative_flux momentum model shall use the algebraically reduced Darcy relative mass flux pulled back to the reference-phase mesh.'
+  []
+
+  [relative_flux_reduction_2d]
+    type = CSVDiff
+    input = relative_flux_reduction_2d.i
+    cli_args = 'Outputs/file_base=relative_flux_reduction_2d'
+    csvdiff = relative_flux_reduction_2d.csv
+    abs_zero = 1e-12
+    requirement = 'A registered phase using the relative_flux momentum model shall assemble a two-dimensional algebraically reduced Darcy relative mass flux pulled back to the reference-phase mesh.'
+  []
+
+  [relative_flux_reduction_3d]
+    type = CSVDiff
+    input = relative_flux_reduction_3d.i
+    cli_args = 'Outputs/file_base=relative_flux_reduction_3d'
+    csvdiff = relative_flux_reduction_3d.csv
+    abs_zero = 1e-12
+    requirement = 'A registered phase using the relative_flux momentum model shall assemble a three-dimensional algebraically reduced Darcy relative mass flux pulled back to the reference-phase mesh.'
+  []
+
+  [relative_flux_with_acceleration_1d]
+    type = CSVDiff
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Materials/brine_darcy/include_acceleration=true Materials/brine_darcy/phase_acceleration=phase_acceleration Outputs/file_base=relative_flux_with_acceleration_1d'
+    csvdiff = relative_flux_with_acceleration_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A registered relative_flux phase shall optionally include a supplied phase acceleration through the effective body acceleration g-a, while the default reduction omits acceleration.'
+  []
+
+  [relative_flux_with_relative_permeability_1d]
+    type = CSVDiff
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Materials/brine_darcy/relative_permeability_name=brine_relative_permeability Postprocessors/flux_l2/function=relative_permeability_flux_exact Outputs/file_base=relative_flux_with_relative_permeability_1d'
+    csvdiff = relative_flux_with_relative_permeability_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A registered relative_flux phase shall consume an AD saturation-dependent relative-permeability material property in the pulled-back Darcy mobility, as required by the black-oil Darcy reduction.'
+  []
+
+  [relative_flux_with_material_viscosity_1d]
+    type = CSVDiff
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Materials/brine_darcy/viscosity_name=phase_viscosity Postprocessors/flux_l2/function=material_viscosity_flux_exact Outputs/file_base=relative_flux_with_material_viscosity_1d'
+    csvdiff = relative_flux_with_material_viscosity_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A registered relative-flux phase shall consume a positive AD material viscosity in the pulled-back Darcy mobility for pressure-dependent black-oil mobility closures.'
+  []
+
+  [relative_flux_negative_relative_permeability_rejected]
+    type = RunException
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Materials/brine_darcy/relative_permeability_name=negative_relative_permeability'
+    expect_err = 'relative permeability must be nonnegative.'
+    requirement = 'The relative-flux Darcy material shall reject a negative relative-permeability property.'
+  []
+
+  [relative_flux_with_capillary_1d]
+    type = CSVDiff
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Materials/brine_darcy/include_capillary_pressure=true Materials/brine_darcy/capillary_pressure=capillary_pressure Materials/brine_darcy/capillary_pressure_enrichment=capillary_pressure_enr Outputs/file_base=relative_flux_with_capillary_1d'
+    csvdiff = relative_flux_with_capillary_1d.csv
+    abs_zero = 1e-12
+    requirement = 'A registered relative_flux phase shall optionally add its supplied phase capillary contribution to the equivalent-pressure gradient, while the default reduction omits capillarity.'
+  []
+
+  [relative_flux_capillary_enabled_without_field_rejected]
+    type = RunException
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Materials/brine_darcy/include_capillary_pressure=true'
+    expect_err = 'A capillary-pressure field is required when include_capillary_pressure=true.'
+    requirement = 'The relative-flux model shall reject an enabled capillary-pressure switch without a supplied phase capillary field.'
+  []
+
+  [relative_flux_capillary_field_while_disabled_rejected]
+    type = RunException
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Materials/brine_darcy/capillary_pressure=capillary_pressure'
+    expect_err = 'Set include_capillary_pressure=true to couple a capillary-pressure field.'
+    requirement = 'The relative-flux model shall reject a phase capillary field while its capillary-pressure switch is disabled.'
+  []
+
+  [relative_flux_with_acceleration_and_capillary_1d]
+    type = CSVDiff
+    input = relative_flux_reduction_1d.i
+    cli_args = 'Materials/brine_darcy/include_acceleration=true Materials/brine_darcy/phase_acceleration=phase_acceleration Materials/brine_darcy/include_capillary_pressure=true Materials/brine_darcy/capillary_pressure=capillary_pressure Materials/brine_darcy/capillary_pressure_enrichment=capillary_pressure_enr Outputs/file_base=relative_flux_with_acceleration_and_capillary_1d'
+    csvdiff = relative_flux_with_acceleration_and_capillary_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The acceleration and capillary-pressure switches in a registered relative_flux phase shall operate independently and compose in the same reference flux.'
+  []
+[]

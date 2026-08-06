@@ -1,0 +1,3 @@
+time,gas_component_storage_rate_l2,gas_saturation_l2,oil_component_storage_rate_l2,pressure_enrichment_l2,pressure_l2,solid_reference_jacobian_l2,water_component_storage_rate_l2,water_saturation_l2
+0,0,0,0,0,0,0,0,0
+0.1,0,2.3876248941964e-16,0,3.3454723020424e-16,2.0764388176818e-13,0,0,2.6874220530933e-17

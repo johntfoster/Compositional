@@ -1,0 +1,39 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [axisymmetric_reference_kinematics_affine]
+    type = CSVDiff
+    input = axisymmetric_reference_kinematics_affine.i
+    cli_args = 'Outputs/file_base=axisymmetric_reference_kinematics_affine'
+    csvdiff = axisymmetric_reference_kinematics_affine.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compute the complete radial, axial, and circumferential finite-deformation solid-reference kinematics for an affine Q2 axisymmetric annulus, including F_thetaTheta, J, F inverse, and the steady J rate.'
+  []
+
+  [axisymmetric_reference_kinematics_transient]
+    type = CSVDiff
+    input = axisymmetric_reference_kinematics_transient.i
+    cli_args = 'Outputs/file_base=axisymmetric_reference_kinematics_transient'
+    csvdiff = axisymmetric_reference_kinematics_transient.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall compute the material time rate of the complete axisymmetric solid-reference Jacobian, including the circumferential displacement rate, for a time-dependent affine annulus.'
+  []
+
+  [axisymmetric_reference_momentum_patch]
+    type = CSVDiff
+    input = axisymmetric_reference_momentum_patch.i
+    cli_args = 'Outputs/file_base=axisymmetric_reference_momentum_patch'
+    csvdiff = axisymmetric_reference_momentum_patch.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall solve an affine Q2 finite-deformation axisymmetric annulus patch with the radial P_thetaTheta/R weak-form contribution and axial reference momentum.'
+  []
+
+  [axisymmetric_reference_momentum_jacobian]
+    type = PetscJacobianTester
+    input = axisymmetric_reference_momentum_patch.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-4
+    requirement = 'The axisymmetric solid-reference kinematics, circumferential stretch, Neo-Hookean stress, and radial and axial momentum kernels shall preserve their coupled AD Jacobian.'
+  []
+[]

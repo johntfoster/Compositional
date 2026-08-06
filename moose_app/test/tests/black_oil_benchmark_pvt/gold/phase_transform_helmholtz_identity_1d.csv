@@ -1,0 +1,3 @@
+time,affinity_l2,dissolved_gas_mass_fraction_l2,dissolved_mu_l2,free_mu_l2,gas_euler_residual_l2,gas_phase_specific_helmholtz_l2,gas_pressure_storage_residual_l2,helmholtz_derivative_identity_l2,mass_fraction_rs_derivative_l2,normalization_residual_l2,oil_gas_euler_residual_l2,oil_helmholtz_identity_l2,oil_phase_specific_helmholtz_l2,oil_pressure_storage_residual_l2,oil_projection_residual_l2
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,0,0,0,0,0,0,0,3.5527136788005e-15,0,0,0,0,0,0,0

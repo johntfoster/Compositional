@@ -1,0 +1,214 @@
+[Tests]
+  design = 'moose_app/doc/theory_traceability.yml'
+  issues = ''
+
+  [reaction_network_sources_1d]
+    type = CSVDiff
+    input = reaction_network_sources_1d.i
+    cli_args = 'Outputs/file_base=reaction_network_sources_1d'
+    csvdiff = reaction_network_sources_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall assemble two registered-phase reaction mechanisms, including phase component sources, J-weighted reference sources, traditional affinities, tau-transfer corrections, generalized conversion coefficients, kinetic residuals, reaction powers, and phasewise stoichiometric mass sums.'
+  []
+
+  [reaction_network_directional_availability_1d]
+    type = CSVDiff
+    input = reaction_network_sources_1d.i
+    cli_args = "Materials/network/forward_phase_active_names='forward_availability_0 forward_availability_1' Materials/network/reverse_phase_active_names='reverse_availability_0 reverse_availability_1' Outputs/file_base=reaction_network_directional_availability_1d"
+    csvdiff = reaction_network_directional_availability_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The finite-rate reaction network shall select the forward availability for positive generalized conversion force and the reverse availability for negative force, while preserving stoichiometric sources, tau-corrected affinity, and reaction power.'
+  []
+
+  [reaction_only_closed_box]
+    type = CSVDiff
+    input = reaction_only_closed_box.i
+    cli_args = 'Outputs/file_base=reaction_only_closed_box'
+    csvdiff = reaction_only_closed_box.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a reaction-only closed box using the summed J-weighted component variables of Eq. (32), production reaction-network sources, zero boundary flux, and quantitative component, total-mass, and stoichiometric conservation observables.'
+  []
+
+  [drained_reaction_cell_1d]
+    type = CSVDiff
+    input = drained_reaction_cell_1d.i
+    cli_args = 'Outputs/file_base=drained_reaction_cell_1d'
+    csvdiff = drained_reaction_cell_1d.csv
+    abs_zero = 1e-11
+    requirement = 'The application shall solve a drained reaction cell with prescribed Q2 solid displacement, reconstructed P1 plus P0 EG pressure, direct summed Eq. (32) storage, J-weighted stoichiometric reaction production, drained pressure boundaries, and quantitative primary-field and global balance observables.'
+  []
+
+  [drained_reaction_source_mms_2d]
+    type = CSVDiff
+    input = drained_reaction_source_mms_2d.i
+    cli_args = 'Outputs/file_base=drained_reaction_source_mms_2d'
+    csvdiff = drained_reaction_source_mms_2d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall solve a two-dimensional reaction/source cell on QUAD9 with prescribed Q2 solid displacement, reconstructed P1 plus P0 EG pressure, the direct summed Eq. (32) variable sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_alpha and its time rate, a J-weighted registered-network source, multidirectional nonzero Darcy reference-component flux, and global conservation.'
+  []
+
+  [drained_reaction_source_mms_2d_quantitative]
+    type = RunCommand
+    prereq = drained_reaction_source_mms_2d
+    command = 'python3 ../../../../validation/scripts/check_drained_reaction_source_mms_2d.py'
+    max_time = 120
+    requirement = 'The application shall keep every reported primary-field, direct summed-storage, registered-source, and multidirectional reference-component-flux error and the absolute global component balance at or below 1e-10 in the two-dimensional Q2/EG reaction/source MMS.'
+  []
+
+  [drained_reaction_source_mms_3d]
+    type = CSVDiff
+    input = drained_reaction_source_mms_3d.i
+    cli_args = 'Outputs/file_base=drained_reaction_source_mms_3d'
+    csvdiff = drained_reaction_source_mms_3d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall solve a three-dimensional reaction/source cell on TET10 with prescribed Q2 solid displacement, reconstructed P1 plus P0 EG pressure, the direct summed Eq. (32) variable sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_alpha and its direct time rate, a J-weighted registered-network source, independently verified nonzero Darcy reference-component flux in x, y, and z, nonzero net outward flux, and global conservation.'
+  []
+
+  [drained_reaction_source_mms_3d_quantitative]
+    type = RunCommand
+    prereq = drained_reaction_source_mms_3d
+    command = 'python3 ../../../../validation/scripts/check_drained_reaction_source_mms_3d.py'
+    max_time = 120
+    requirement = 'The application shall keep every reported three-dimensional primary-field, direct summed-storage, direct storage-rate, registered-source, x/y/z reference-component-flux, face-flux, and absolute global component-balance error at or below 1e-10 in the TET10 Q2/EG reaction/source MMS.'
+  []
+
+  [undrained_reaction_mechanics_cell_1d]
+    type = CSVDiff
+    input = undrained_reaction_mechanics_cell_1d.i
+    cli_args = 'Outputs/file_base=undrained_reaction_mechanics_cell_1d'
+    csvdiff = undrained_reaction_mechanics_cell_1d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall solve a one-dimensional undrained reaction-mechanics cell with Q2 displacement, reconstructed P1 plus P0 EG pressure, direct summed Eq. (32) storage, J-weighted reaction-network production, zero normal reference-component flux, mutual pressure-mechanics-storage coupling, and quantitative primary-field, mechanics, storage, source, boundary-flux, and global-conservation observables.'
+  []
+
+  [coupled_reaction_mechanics_front_1d]
+    type = CSVDiff
+    input = coupled_reaction_mechanics_front_1d.i
+    cli_args = 'Outputs/file_base=coupled_reaction_mechanics_front_1d'
+    csvdiff = coupled_reaction_mechanics_front_1d.csv
+    abs_zero = 1e-10
+    requirement = 'The application shall solve a one-dimensional moving manufactured reaction front with Q2 displacement, reconstructed P1 plus P0 EG pressure, finite-deformation total stress P_double_prime - B p J F_inverse_transpose, direct summed Eq. (32) storage and storage rate, J-weighted registered reaction-network production, Darcy reference-component flux, and quantitative primary-field, mechanics, front-gradient, flux, and global-conservation observables.'
+  []
+
+  [tau_evolution_material_derivative_1d]
+    type = CSVDiff
+    input = tau_evolution_material_derivative_1d.i
+    cli_args = 'Outputs/file_base=tau_evolution_material_derivative_1d'
+    csvdiff = tau_evolution_material_derivative_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a one-dimensional transfer-potential evolution residual with a consistent Newton Jacobian and compute the mobile phase material derivative D_xi tau/Dt, reference convective term, velocity square, and transfer offset from W_xi/(J rho_xi).'
+  []
+
+  [tau_material_derivative_nonpositive_mass_rejected]
+    type = RunException
+    input = tau_evolution_material_derivative_1d.i
+    cli_args = 'Materials/scalar_constants/prop_values="1 -1 1"'
+    expect_err = 'Cannot compute D_oil tau/Dt with nonpositive J'
+    requirement = 'The mobile phase tau material derivative shall reject a nonpositive J rho phase mass by default.'
+  []
+
+  [tau_material_derivative_trial_state_deactivation]
+    type = RunApp
+    input = tau_evolution_material_derivative_1d.i
+    cli_args = 'Materials/scalar_constants/prop_values="1 -1 1" Materials/oil_tau_derivative/deactivate_on_nonpositive_mass=true Outputs/csv=false'
+    requirement = 'Only when explicitly selected, the mobile phase tau material derivative shall treat a nonpositive nonlinear trial-state J rho as inactive so a line search can recover an admissible state.'
+  []
+
+  [tau_evolution_material_derivative_2d]
+    type = CSVDiff
+    input = tau_evolution_material_derivative_2d.i
+    cli_args = 'Outputs/file_base=tau_evolution_material_derivative_2d'
+    csvdiff = tau_evolution_material_derivative_2d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a two-dimensional transfer-potential evolution residual and compute the mobile phase material derivative from a multidirectional W_xi/(J rho_xi) convective velocity.'
+  []
+
+  [tau_evolution_material_derivative_3d]
+    type = CSVDiff
+    input = tau_evolution_material_derivative_3d.i
+    cli_args = 'Outputs/file_base=tau_evolution_material_derivative_3d'
+    csvdiff = tau_evolution_material_derivative_3d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a three-dimensional transfer-potential evolution residual and compute the mobile phase material derivative from a three-component W_xi/(J rho_xi) convective velocity.'
+  []
+
+  [phase_transformation_nonequilibrium_mms_1d]
+    type = CSVDiff
+    input = phase_transformation_nonequilibrium_mms_1d.i
+    cli_args = 'Outputs/file_base=phase_transformation_nonequilibrium_mms_1d'
+    csvdiff = phase_transformation_nonequilibrium_mms_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall solve a fully coupled CG/EG phase transformation with Helmholtz-derived phase chemical potentials, thermodynamic tau evolution, phase tau material derivatives, generalized transfer affinity, finite-rate conversion, atomic stoichiometric mass-source kernels, conversion momentum insertion, tau-offset conversion work in a solved temperature equation, nonnegative conversion dissipation, and global mass conservation.'
+  []
+
+  [generalized_transfer_work_material_1d]
+    type = CSVDiff
+    input = generalized_transfer_work_material_1d.i
+    cli_args = 'Outputs/file_base=generalized_transfer_work_material_1d'
+    csvdiff = generalized_transfer_work_material_1d.csv
+    abs_zero = 1e-12
+    requirement = 'The application shall compose each phase/component generalized transfer work from independently selectable electrochemical-potential, specific-Helmholtz-energy, and full tau material-derivative properties.'
+  []
+
+  [temperature_weighted_reaction_1d]
+    type = CSVDiff
+    input = temperature_weighted_reaction_1d.i
+    cli_args = 'Outputs/file_base=temperature_weighted_reaction_1d'
+    csvdiff = temperature_weighted_reaction_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-12
+    requirement = 'A phase transformation spanning unequal thermal-subsystem temperatures shall solve the manuscript neutral temperature-weighted Onsager law while separately preserving traditional affinity, tau correction, generalized conversion force, transfer work, kinetic residual, and both reaction-power identities.'
+  []
+
+  [temperature_weighted_reaction_jacobian]
+    type = PetscJacobianTester
+    input = temperature_weighted_reaction_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'The temperature-weighted reaction law shall retain exact AD coupling among the local mechanism rate and every participating subsystem temperature.'
+  []
+
+  [temperature_weighted_reaction_nonpositive_temperature_rejected]
+    type = RunException
+    input = temperature_weighted_reaction_1d.i
+    cli_args = 'ICs/oil_temperature_ic/value=-1'
+    expect_err = 'phase temperatures must be positive for the temperature-weighted reaction force'
+    requirement = 'The temperature-weighted reaction law shall reject nonpositive absolute phase temperatures.'
+  []
+
+  [reaction_energy_onsager_1d]
+    type = CSVDiff
+    input = reaction_energy_onsager_1d.i
+    cli_args = 'Outputs/file_base=reaction_energy_onsager_1d'
+    csvdiff = reaction_energy_onsager_1d.csv
+    abs_zero = 1e-12
+    rel_err = 1e-12
+    requirement = 'A phase transformation crossing the fluid and solid thermal subsystems shall optionally couple its temperature-weighted reaction rate and equal-and-opposite physical reaction-energy transfer through a reciprocal positive-semidefinite two-by-two Onsager block with nonnegative combined entropy production.'
+  []
+
+  [reaction_energy_onsager_jacobian]
+    type = PetscJacobianTester
+    input = reaction_energy_onsager_1d.i
+    ratio_tol = 1e-7
+    difference_tol = 1e-7
+    requirement = 'The reaction-energy Onsager block shall retain AD coupling of both rates to both subsystem temperatures.'
+  []
+
+  [reaction_energy_onsager_indefinite_matrix_rejected]
+    type = RunException
+    input = reaction_energy_onsager_1d.i
+    cli_args = 'Materials/reaction_energy_onsager/cross_mobility=3'
+    expect_err = 'Positive semidefiniteness requires'
+    requirement = 'The reaction-energy Onsager block shall reject a matrix with a negative determinant.'
+  []
+
+  [reaction_energy_onsager_nonpositive_temperature_rejected]
+    type = RunException
+    input = reaction_energy_onsager_1d.i
+    cli_args = 'ICs/fluid_temperature_ic/value=-1'
+    expect_err = 'subsystem temperatures must be positive'
+    requirement = 'The reaction-energy Onsager block shall reject nonpositive absolute subsystem temperatures.'
+  []
+[]
+
+
