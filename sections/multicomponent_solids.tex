@@ -953,6 +953,13 @@ power; current-volume transport separates its geometric part into
 electrostatic field energy is Eulerian storage whose boundary power is supplied
 by the global identity below, not an additional material advective flux.
 
+The field rates \(\phasedot{\mbf E}\) and \(\phasedot\varphi\) are evaluated in the
+skeleton frame.  The electric field and potential are spatial fields with no
+reference configuration; the skeleton frame is chosen because the free charge
+coupled to them is carried by the component material measures, and the balances
+below are written on skeleton-moving control volumes, so the skeleton velocity
+supplies the convective part of the field rates.
+
 The last contribution cannot be
 assigned independently to the fluid and solid thermal subsystems because
 \(\varphi\) is one shared field.  Summing it over all phases and using Gauss'

@@ -16,7 +16,7 @@ Exploitation of the entropy inequality then requires nonnegative dissipation
 \cite{doi2011onsager,wang2021onsager}.  This is the continuum counterpart of
 using virtual work for coordinate changes and virtual power for process rates
 \cite{germain1973virtualpower,gurtin2010continua}.  The saturation force is held
-fixed during the coordinate variation and paired with \(\phasedot S_f\) during the
+fixed during the coordinate variation and paired with the saturation rates during the
 Onsager variation, so the two statements supply complementary coordinate and
 constitutive equations.
 
@@ -67,6 +67,8 @@ The energies, virtual work, and four constraints are defined together by
 	\label{eq:T_def}                                                                                                                                                                                               \\
 	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \{\eta^\al_{\xi}\},\theta_\xi)\dv
 	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F},\mbf h,\theta_{\mc F}\right) \dv
+	\notag                                                                                                                                                                                                                                                                                                                                 \\
+	         & \quad
 	+\sum_\xi\int_{\mc B}
 	\phi_\xi
 	\omega_\xi^+(\mbf E,\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta_\xi)
@@ -1485,6 +1487,14 @@ fluxes are reconstructed separately for dispersion and diffusion by
 \end{equation}
 %
 Thus every admissible flux variation satisfies the same zero-sum condition.
+The heavy dot \(\phasedot{\square}=D_{\mc S}\square/Dt\) denotes the material
+time derivative following the solid skeleton.  It is used for saturation rates
+because the saturation field is defined on the current configuration of the
+porous medium, whose material frame is the solid skeleton; the
+solid-skeleton-following rate preserves the saturation-sum constraint
+\(\sum_f S_f=1\) under differentiation and avoids the relative-velocity
+advection that a phase-following rate would introduce into the intrinsic
+saturation dynamics.
 Choose one active reference fluid phase \(f_\star\) and write
 \(\phasedot S_{f_\star}=-\sum_{f\ne f_\star}\phasedot S_f\).  The remaining saturation
 rates are independent.
@@ -1591,14 +1601,8 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 \begin{align}
 	\mc R
 	={} &
-	\Phi_{\rm rt}
-	+
-	\frac{1}{2}\int_{\mc B}
-	\frac{\phi}{\theta_{\mc F}}
-	\sum_{f\ne f_\star}\sum_{g\ne f_\star}
-	\mc T_{fg}\phasedot S_f\phasedot S_g\dv
-	\notag    \\
-	    & -
+	\Phi_{\mc{R}}
+	-
 	\int_{\mc B}
 	\frac{\phi}{\theta_{\mc F}}
 	\sum_{f\in\mc F}\mc L_f^{\rm sat}\phasedot S_f\dv
@@ -1646,11 +1650,7 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
 	\int_{\Gamma_{\mu,\xi}^{\alpha}}
-	\overline{
-		\left(
-		L_\xi^\alpha-L_\xi^N
-		\right)/\theta_{\mc G}
-	}
+	\overline{\mc M}_\xi^\alpha
 	\left(
 	\mbf j_{\xi,{\rm disp}}^\alpha
 	+
@@ -1663,18 +1663,24 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 \end{align}
 %
 The added surface term is the work of a prescribed external component
-reservoir on \(\Gamma_{\mu,\xi}^{\alpha}\).  It prescribes the neutral
-potential difference divided by temperature; the electrical boundary datum is
-provided independently by the electric-field problem.  The reservoir term
+reservoir on \(\Gamma_{\mu,\xi}^{\alpha}\).  Here
+\(\overline{\mc M}_\xi^\alpha\) is the prescribed temperature-weighted neutral
+potential difference; the electrical boundary datum is provided independently
+by the electric-field problem.  The reservoir term
 acts on the relative component flux only; the phase-advective flux is held
 fixed during the Onsager rate variation.
 
-The reaction--transport part of the near-equilibrium quadratic dissipation
-potential is
+The near-equilibrium quadratic dissipation potential is
 %
 \begin{align}
-	\Phi_{\rm rt}
+	\Phi_{\mc{R}}
 	={} &
+	\frac{1}{2}\int_{\mc B}
+	\frac{\phi}{\theta_{\mc F}}
+	\sum_{f\ne f_\star}\sum_{g\ne f_\star}
+	\mc T_{fg}\phasedot S_f\phasedot S_g\dv
+	\notag  \\
+	    & +
 	\frac{1}{2}\int_{\mc B}
 	\sum_m\frac{r_{(m)}^2}{K_{(m)}}\dv
 	\notag  \\
@@ -1708,8 +1714,12 @@ force, and
 \(\alpha,\beta\ne N\), are the reduced mobility tensors in the independent
 relative-flux coordinates; their inverses are taken in the same
 \(N-1\)-dimensional component space.  The reference flux is then reconstructed
-by \eqref{eq:onsager_reference_flux_reconstruction}.  The adopted quadratic
-potential is block diagonal in reaction, diffusion, and dispersion rates.  For
+by \eqref{eq:onsager_reference_flux_reconstruction}.  The resistance
+coefficients \(\mc T_{fg}\) govern dynamic capillary redistribution; they have
+units of pressure times time, must be symmetric
+(\(\mc T_{fg}=\mc T_{gf}\)), and must form a positive-semidefinite matrix for
+thermodynamic admissibility.  The adopted quadratic
+potential is block diagonal in saturation, reaction, diffusion, and dispersion rates.  For
 a charged mechanism that transfers net charge between the thermal subsystems,
 the neutral reaction force remains unchanged; the reaction and
 interphase-energy rates may instead be included in one gauge-invariant Onsager
@@ -1717,11 +1727,18 @@ block satisfying the mechanismwise dissipation condition derived later.  A
 block-diagonal choice is also admissible when the reaction-energy term is
 closed separately.
 Varying
-\(\Phi_{\rm rt}\) gives
+\(\Phi_{\mc{R}}\) gives
 %
 \begin{align}
-	\delta\Phi_{\rm rt}
+	\delta\Phi_{\mc{R}}
 	={} &
+	\int_{\mc B}
+	\frac{\phi}{\theta_{\mc F}}
+	\sum_{f\ne f_\star}\sum_{g\ne f_\star}
+	\mc T_{fg}\phasedot S_g\,
+	\delta\phasedot S_f\dv
+	\notag  \\
+	    & +
 	\int_{\mc B}\sum_m
 	\frac{r_{(m)}}{K_{(m)}}\,
 	\delta r_{(m)}\dv
@@ -1756,7 +1773,7 @@ The corresponding first variation of the linear thermodynamic-rate part of
 \(\mc R\), with the current state and potentials held fixed, is
 %
 \begin{align}
-	\delta\left(\mc R-\Phi_{\rm rt}\right)
+	\delta\left(\mc R-\Phi_{\mc{R}}\right)
 	={} &
 	\int_{\mc B}\sum_m
 	\left[
@@ -1806,7 +1823,7 @@ the reservoir term in \eqref{eq:onsager_stationarity}, is
 %
 \begin{align}
 	\left.
-	\delta\left(\mc R-\Phi_{\rm rt}\right)
+	\delta\left(\mc R-\Phi_{\mc{R}}\right)
 	\right\vert_{\Gamma_\mu}
 	={} &
 	-\sum_{\mc G\in\{\mc F,\mc S\}}
@@ -1816,11 +1833,7 @@ the reservoir term in \eqref{eq:onsager_stationarity}, is
 	\left[
 		\frac{L_\xi^\alpha-L_\xi^N}{\theta_{\mc G}}
 		-
-		\overline{
-			\left(
-			L_\xi^\alpha-L_\xi^N
-			\right)/\theta_{\mc G}
-		}
+		\overline{\mc M}_\xi^\alpha
 		\right]
 	\notag             \\
 	    & \qquad\qquad
