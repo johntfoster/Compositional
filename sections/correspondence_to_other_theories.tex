@@ -42,8 +42,8 @@ classical compositional simulation must supply the chemical potentials
 algebraically; \eqref{eq:MC_admissible_conversion_component} evolves the
 separate transfer potential \(\tau\), and
 \eqref{eq:MC_phase_reference_transfer_work_recovery} supplies the remaining
-phase-reference transfer-work levels.  Taking
-\(\mbf v_s=\mbf 0\) in \eqref{eq:standard_darcy_mass_flux_limit} and using
+phase-reference values of the specific transfer-work potentials.  Taking
+\(\mbf v_{\mc S}=\mbf 0\) in \eqref{eq:standard_darcy_mass_flux_limit} and using
 $\bs\kappa_f=\kappa_{rf}\bs\kappa$ gives the Darcy law in the manuscript
 notation,
 %
@@ -62,13 +62,22 @@ notation,
 The same history state may enter \(\kappa_{rf}\) when relative-permeability
 hysteresis is retained.
 
-A concrete classical closure set is
+For a neutral specialization, choose a reference phase \(f_\star\) and set
+\(\bar p_{\rm ref}=\bar p_{f_\star}\).  A concrete classical closure set is
 %
 \begin{equation}
 	\begin{aligned}
-		\mbf v_s &= \mbf 0, \\
-		\bar p_f &= \bar p_{\rm ref}+p_{c,f}, \\
-		p_{c,f} &= p_{c,f}(\{S_g\}_{g\in\mc F},\{\dot S_g\}_{g\in\mc F},\mbf h,\theta_{\mc F}), \\
+		\mbf v_{\mc S} &= \mbf 0, \\
+		\bar p_f
+		&=
+		\bar p_{\rm ref}+p_{c,f}
+		+
+		\sum_{g\ne f_\star}\mc T_{fg}\dot S_g,
+		\qquad f\ne f_\star, \\
+		p_{c,f}
+		&=
+		p_{c,f}(\{S_g\}_{g\in\mc F},\mbf h,\theta_{\mc F}),
+		\qquad f\ne f_\star, \\
 		\bar\rho_f &= \bar\rho_f(\bar p_{\rm ref},\theta_{\mc F},\{\eta_f^\alpha\}), \qquad
 			\mu_f^{\mathrm{visc}}
 			=
@@ -108,14 +117,19 @@ A concrete classical closure set is
 		\mu_f^\alpha &= \mu_g^\alpha
 		\quad \text{for equilibrated fluid phases } f,g,
 		\qquad
-		f,g\in\mc F,\quad s\in\mc S .
+		f,g\in\mc F .
 	\end{aligned}
 	\label{eq:classical_compositional_closure_set}
 \end{equation}
 %
-Here \(\mc G_f\) is the specific Gibbs energy supplied by the EOS or flash model.
-The rate dependence of the phase pressure offsets is restricted by
-\eqref{eq:MC_dynamic_capillary_onsager_relation}; setting \(\mc T=\mbf0\)
+Here \(\mc G_f\) is the specific Gibbs energy supplied by the EOS or flash
+model.  The quantity \(p_{c,f}\) is the stored, history-dependent capillary
+offset from the reference phase; in a potential-based model it is the
+appropriate difference of the \(\gamma_f\).  The separate term containing
+\(\mc T_{fg}\dot S_g\) follows by eliminating the generalized saturation force
+between \eqref{eq:fluid_pressure_difference_primitive_potential} and
+\eqref{eq:MC_dynamic_capillary_onsager_relation}.  It is the dynamic pressure
+lag.  Setting \(\mc T=\mbf0\)
 recovers the usual algebraic capillary closure.
 Although \(\mc G_f\) is physically evaluated for mass fractions whose sum is one,
 the partial derivatives in
@@ -218,9 +232,9 @@ Substituting these closures into
 %
 This is the standard reservoir compositional-flow form: storage is written in
 terms of porosity, saturation, phase density, and phase composition; transport is
-the phase Darcy flux multiplied by the component mass fraction; capillary
-pressure and its capillary-history state reconstruct phase pressures from the
-chosen reference pressure
+the phase Darcy flux multiplied by the component mass fraction; the stored
+capillary offsets, their history state, and any dynamic lag reconstruct phase
+pressures from the chosen reference pressure
 \(\bar p_{\rm ref}\); and the EOS or flash closure supplies densities,
 viscosities, equilibrium compositions, and the chemical-potential/composition
 tangent that converts the entropy-admissible \(D\nabla\mu\) flux into the usual
@@ -235,29 +249,26 @@ $\nu_{\zeta (m)}^\alpha=+1$; after summing over phases, its contribution to the
 total component source vanishes, but it still changes the phase saturations and
 phase compositions.
 
-Capillary pressure enters the compositional-flow limit through the interfacial
-energy.  The general theory defines saturations through
-\eqref{eq:fluid_saturation_definitions}, assigns an interfacial Helmholtz energy
-\eqref{eq:interfacial_energy_density}, and recovers the zero-rate phase pressure
-differences in
-\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  At fixed
-\(\mbf h\), the stored capillary contribution is algebraic, while
-\eqref{eq:MC_dynamic_capillary_onsager_relation} adds a dissipative pressure
+The compositional-flow pressure reconstruction has three distinct parts.  The
+interfacial Helmholtz energy \eqref{eq:interfacial_energy_density} gives the
+stored capillary contribution at the saturations defined by
+\eqref{eq:fluid_saturation_definitions}.  The phase electrical enthalpies give
+the correction in
+\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}, and
+\eqref{eq:MC_dynamic_capillary_onsager_relation} adds the dissipative pressure
 lag proportional to the skeleton-following saturation rates.  The evolution
 laws constrained by
 \eqref{eq:MC_capillary_history_admissibility} select the drainage, imbibition,
 and scanning path.  A neutral
 compositional implementation
 typically chooses one reference pressure and reconstructs the other phase
-pressures from capillary-pressure relations before evaluating the Darcy fluxes.
-The relation \(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\) is the
-\(\mc T=\mbf0\) specialization.  When
-electrical enthalpy is retained, the pressure reconstruction includes the
-correction \(\omega_n^+-\omega_w^+\) in
-\eqref{eq:MC_two_phase_dynamic_capillary_pressure}; in the neutral equilibrium
-limit this reduces to the usual capillary-pressure closure.  The offsets redistribute
-the phase pressures and combine with the Maxwell-stress and phase-volume
-electrical forces according to
+pressures from these stored, electrical, and dynamic contributions before
+evaluating the Darcy fluxes.  The relation
+\(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\) is recovered when the dynamic lag
+vanishes.  For two phases, the complete pressure difference is
+\eqref{eq:MC_two_phase_dynamic_capillary_pressure}; the neutral zero-lag limit
+is the usual algebraic capillary-pressure closure.  The pressure offsets combine
+with the Maxwell-stress and phase-volume electrical forces according to
 \eqref{eq:MC_fluid_pressure_gradient_rollup}.
 
 The usual within-phase composition constraint is also recovered:
@@ -273,7 +284,8 @@ stress law as separate inputs.  Here the phase Helmholtz energies and the
 interfacial and electrical potentials supply the reversible quantities:
 pressure, entropy, stress, and the composition and storage potentials.
 Permeability, diffusivity, mobility, and reaction-rate laws remain constitutive
-closures, but the same stored potentials supply the forces that drive them.
+closures.  The entropy inequality identifies their thermodynamic forces, while
+the stored potentials supply the reversible parts of those forces.
 
 Classical flash calculations impose phase-equilibrium closures, commonly written
 as fugacity equalities.  In the manuscript notation, the reversible transfer of
@@ -496,21 +508,24 @@ gas--oil relations
 	\label{eq:black_oil_capillary_pressure_closures}
 \end{equation}
 %
-These closures are then used with one pressure, for example \(\bar p_o\), and
-two independent saturations because \(S_w+S_o+S_g=1\).  The remaining phase
-pressures are reconstructed from \eqref{eq:black_oil_capillary_pressure_closures}
-before evaluating \eqref{eq:black_oil_darcy_flux}.  Pair-specific entries of
-\(\mbf h\) store reversal and trapping data for the water--oil and gas--oil
-paths.  Holding \(\mbf h\) fixed recovers single-valued saturation functions;
-updating it with an admissible loading--unloading rule gives drainage,
-imbibition, and scanning curves for capillary pressure and, when selected,
-relative permeability.  Setting \(\mc T_{ow}=\mc T_{go}=0\) recovers the
-standard algebraic black-oil closures.  In a potential-based three-phase
-specialization, both stored pairwise pressure laws must be derivatives of the
-common \(\gamma\), and the dynamic coefficients are entries of the common
-positive-semidefinite resistance matrix.  Independently fitted pairwise laws
-are an empirical reservoir closure when those compatibility conditions are not
-imposed.
+These closures are used with one pressure, for example \(\bar p_o\), and two
+independent saturations because \(S_w+S_o+S_g=1\).  The functions \(p_{cow}\)
+and \(p_{cgo}\) are the stored capillary offsets, while the terms containing
+\(\mc T_{ow}\) and \(\mc T_{go}\) are the dynamic pressure lags.  The remaining
+phase pressures are reconstructed from
+\eqref{eq:black_oil_capillary_pressure_closures} before evaluating
+\eqref{eq:black_oil_darcy_flux}.  Pair-specific entries of \(\mbf h\) store
+reversal and trapping data for the water--oil and gas--oil paths.  Holding
+\(\mbf h\) fixed recovers single-valued saturation functions; updating it with
+an admissible loading--unloading rule gives drainage, imbibition, and scanning
+curves for the stored capillary offsets and, when selected, relative
+permeability.  Setting \(\mc T_{ow}=\mc T_{go}=0\) recovers the standard
+algebraic black-oil closures.  In a potential-based three-phase specialization,
+both stored pairwise pressure laws must be derivatives of the common \(\gamma\),
+and the dynamic coefficients are entries of the positive-semidefinite
+resistance that closes the generalized saturation-force differences.
+Independently fitted pairwise laws are an empirical
+reservoir closure when those compatibility conditions are not imposed.
 
 \subsection{Nernst--Planck--Darcy limit}
 \label{sec:nernst_planck_darcy_limit}
@@ -556,7 +571,7 @@ Here the linear dielectric relation
 the Maxwell stress.  Thus the tensor-divergence term in the general flux law
 becomes the familiar electric body force exerted on the mobile charge.
 
-With \(\mbf v_s=\mbf0\), the reaction-free form of
+With \(\mbf v_{\mc S}=\mbf0\), the reaction-free form of
 \eqref{eq:modified_relative_flux_permeability}, the component balances,
 \eqref{eq:MC_relative_transport_closures}, and Gauss' law give
 %
@@ -660,7 +675,7 @@ Under \(\dot r_{(m)}=0\), the overall momentum balance
 	\right)
 	+\rho\mbf g,
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:biot_limit_spatial_momentum}
 \end{equation}
 %
@@ -676,7 +691,7 @@ is dropped, giving the usual equilibrium equation
 	\right)
 	+\rho\mbf g=\mbf 0,
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:biot_limit_quasistatic_momentum}
 \end{equation}
 %
@@ -696,13 +711,13 @@ the Piola identity gives the solid-reference equilibrium equation
 	+J\rho\mbf g
 	=\mbf 0,
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:biot_limit_reference_momentum}
 \end{equation}
 %
 The fluid transport equation is the single-fluid specialization of the
 solid-reference component balance.  Let
-\(\mbf w_f=\phi_f\bar\rho_f\left(\mbf v_f-\mbf v_s\right)\) be the current
+\(\mbf w_f=\phi_f\bar\rho_f\left(\mbf v_f-\mbf v_{\mc S}\right)\) be the current
 relative mass flux and let \(\mbf W_f\) be its Piola transform defined in
 \eqref{eq:reference_relative_mass_flux}.  In
 \eqref{eq:solid_reference_fluid_component_balance}, take the single component in
@@ -718,44 +733,44 @@ splitting the fluid velocity into solid motion plus relative flux,
 \begin{equation}
 	\frac{\partial}{\partial t}\left(\phi_f\bar\rho_f\right)
 	+\nabla_{\mbf x}\cdot
-	\left(\phi_f\bar\rho_f\mbf v_s\right)
+	\left(\phi_f\bar\rho_f\mbf v_{\mc S}\right)
 	+\nabla_{\mbf x}\cdot\mbf w_f
 	=0,
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:biot_limit_current_fluid_mass_balance}
 \end{equation}
 %
 Using the material derivative following the solid skeleton,
-\(D_s/Dt=\partial/\partial t+\mbf v_s\cdot\nabla_{\mbf x}\), this
+\(D_{\mc S}/Dt=\partial/\partial t+\mbf v_{\mc S}\cdot\nabla_{\mbf x}\), this
 becomes
 %
 \begin{equation}
-	\frac{D_s}{Dt}\left(\phi_f\bar\rho_f\right)
-	+\phi_f\bar\rho_f\nabla_{\mbf x}\cdot\mbf v_s
+	\frac{D_{\mc S}}{Dt}\left(\phi_f\bar\rho_f\right)
+	+\phi_f\bar\rho_f\nabla_{\mbf x}\cdot\mbf v_{\mc S}
 	+\nabla_{\mbf x}\cdot\mbf w_f
 	=0,
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:biot_limit_solid_derivative_fluid_mass_balance}
 \end{equation}
 %
-Since \({D_sJ}/{Dt}=J\nabla_{\mbf x}\cdot\mbf v_s\), the first two terms
+Since \({D_{\mc S}J}/{Dt}=J\nabla_{\mbf x}\cdot\mbf v_{\mc S}\), the first two terms
 combine into the derivative of \(J\phi_f\bar\rho_f\),
 %
 \begin{equation}
-	\frac{1}{J}\frac{D_s}{Dt}
+	\frac{1}{J}\frac{D_{\mc S}}{Dt}
 	\left(J\phi_f\bar\rho_f\right)
 	+\nabla_{\mbf x}\cdot\mbf w_f
 	=0,
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:biot_limit_jacobian_current_mass_balance}
 \end{equation}
 %
 Multiplying by \(J\), using the divergence transform
 \eqref{eq:solid_reference_flux_divergence}, and observing that
-\(D_s/Dt=\partial/\partial t\) at fixed \(\mbf X\) gives
+\(D_{\mc S}/Dt=\partial/\partial t\) at fixed \(\mbf X\) gives
 \eqref{eq:biot_limit_reference_fluid_mass},
 %
 \begin{equation}
@@ -825,7 +840,7 @@ denoting the Biot storage modulus,
 	\frac{B-\Phi_f}{K_s}
 	+\frac{\Phi_f}{K_f},
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:biot_limit_porosity_tangent_storage}
 \end{equation}
 %
@@ -868,7 +883,7 @@ small-strain, small-compressibility transport approximation give
 The fluid--skeleton interaction closure gives, in the current configuration,
 %
 \begin{equation}
-	\phi_f\left(\mbf v_f-\mbf v_s\right)
+	\phi_f\left(\mbf v_f-\mbf v_{\mc S}\right)
 	=
 	-\frac{\bs\kappa_f}{\mu_f^{\mathrm{visc}}}
 	\left(
@@ -876,7 +891,7 @@ The fluid--skeleton interaction closure gives, in the current configuration,
 		-\bar\rho_f\mbf g
 	\right),
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:biot_limit_darcy_law}
 \end{equation}
 %
@@ -905,7 +920,7 @@ source-free reduced system is
 		+\rho\mbf g
 		 & =\mbf 0,
 		\qquad
-		f\in\mc F,\quad s\in\mc S,
+		f\in\mc F,
 		\label{eq:linear_biot_momentum} \\
 		\frac{1}{M}\frac{\partial \bar p_f}{\partial t}
 		+B\frac{\partial}{\partial t}

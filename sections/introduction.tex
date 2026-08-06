@@ -45,25 +45,26 @@ derivation.  The resulting theory couples six extensions of the established
 balance, variational, thermodynamic, electrostatic, and reactive-solid
 constructions.
 
-The derivation has three steps with distinct roles.  A
-constrained Hamilton--d'Alembert variation determines the reversible phase
-coordinates, storage multipliers, momentum balances, and electrostatic field
-equation.  A Coleman--Noll exploitation of two subsystem energy balances and
-the entropy inequality determines the admissible stresses, pressures,
-entropies, component potentials, and residual force--rate products.  An
-Onsager stationarity principle then supplies near-equilibrium closures for
-dynamic saturation redistribution, reaction, and component-relative
-transport.  Separating these steps
-distinguishes the balance and constraint equations that every admissible
-process must satisfy from the material-specific closures that determine
-reaction and transport rates.
+The derivation has three steps with distinct roles.  A constrained
+Hamilton--d'Alembert statement determines the phase-coordinate equations,
+storage multipliers, momentum balances, and electrostatic field equation.  Its
+virtual work carries prescribed loading and the d'Alembert work of constitutive
+nonconservative forces.  A Coleman--Noll exploitation of two subsystem energy
+balances and the entropy inequality determines the admissible stresses,
+pressures, entropies, component potentials, and residual force--rate products.
+Onsager stationarity then supplies near-equilibrium closures for saturation
+redistribution, reaction, and component-relative transport.  In the dynamic
+capillary branch, the saturation force is held fixed in the coordinate
+variation and varied through its conjugate rate in the Onsager statement.  This
+separation distinguishes balance and constraint equations from the
+material-specific closures that determine the dissipative rates.
 
 Within that construction, the paper makes six specific contributions.
 %
 \begin{enumerate}
 	\item The open-system momentum balance retains the momentum carried by mass
 	      converted into each phase.  Its fluid reduction gives a generalized
-	      Darcy law containing equivalent- and capillary-pressure gradients, body
+	      Darcy law containing the actual phase-pressure gradients, body
 	      force, Maxwell stress, inertia, and conversion-insertion momentum.  Net
 	      phase conversion changes the algebraic resistance and mobility used to
 	      eliminate the phase velocity; the exact nonsingularity and stronger
@@ -88,23 +89,23 @@ Within that construction, the paper makes six specific contributions.
 	      power accounting prevents electrical body force or source power from
 	      being counted twice.
 
-	\item Capillarity and electrostatics are generated from the same constrained
-	      stored-energy construction.  The saturation constraint and a continuous
-	      capillary-history state produce drainage--imbibition-dependent pressure
-	      differences, while the history evolution contributes an explicit
-	      dissipative force--rate product.  An optional positive-semidefinite
-	      resistance relates the nonequilibrium pressure difference to the
-	      skeleton-following saturation rate.  The phase electrical enthalpies add a
-	      definite difference term to those pressure jumps while also generating
-	      electric displacement, Maxwell stress, and dielectric pressure.  The
-	      same stored potential therefore generates the electrocapillary law, the
-	      electrically corrected equivalent pore pressure, and their contributions
-	      to the phase momentum equations.
+	\item The constrained interfacial energy gives the stored capillary pressure
+	      at the current saturation and capillary-history state.  Evolution of the
+	      history variables selects drainage, imbibition, and scanning paths and
+	      contributes an explicit dissipative force--rate product.  An optional
+	      positive-semidefinite resistance adds a pressure lag proportional to the
+	      skeleton-following saturation rate.  The phase electrical enthalpies add
+	      a separate pressure-difference correction while also generating electric
+	      displacement, Maxwell stress, and dielectric pressure.  These stored,
+	      electrical, and dissipative contributions determine the actual phase
+	      pressures used in the momentum and Darcy equations and preserve the
+	      electrically corrected equivalent pore pressure.
 
 	\item Variation of the component material measures gives a generalized
 	      composition-stationarity system.  At equilibrium it recovers equality of
 	      the appropriate electrochemical potentials; away from equilibrium it
-	      determines phase-reference transfer-work levels.  Consequently, the
+		      determines phase-reference values of the specific transfer-work
+		      potentials.  Consequently, the
 	      conversion force for phase change, dissolution, precipitation, and pore
 	      filling differs from the traditional stoichiometric affinity by an
 	      explicit phase-transfer-work term.
@@ -137,7 +138,7 @@ with positive phase densities, volume fractions, and temperatures.  Separate
 switching conditions are needed when a phase or component appears or
 disappears.  Continuous capillary-history variables encode saturation reversal
 and phase trapping, while material-specific evolution laws select drainage,
-imbibition, and scanning paths.  Dynamic capillary pressure is admitted as an
+imbibition, and scanning paths.  A dynamic pressure lag is admitted as an
 optional dissipative closure for rapid saturation transients, including
 fracture--matrix exchange in tight and shale reservoirs.  Independent
 interfacial-area evolution remains outside the present state.  The

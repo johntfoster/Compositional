@@ -10,7 +10,7 @@ $\mbf F$ and Jacobian $J$.
 \subsection{Relative flux vectors}
 \label{sec:relative_flux_vectors}
 
-The dynamic-capillary phase momentum equation
+The phase momentum equation with dynamic pressure lag
 \eqref{eq:el_mom_f_dynamic_capillary} determines
 Darcy-scale relative fluxes once interphase drag is written in terms of a
 velocity relative to the solid skeleton.  For each fluid phase \(f\), define the
@@ -18,10 +18,10 @@ current relative mass flux by
 %
 \begin{equation}
 	\mbf w_f
-	=\phi_f\bar\rho_f\left(\mbf v_f-\mbf v_s\right)
-	=\rho_f\left(\mbf v_f-\mbf v_s\right),
+	=\phi_f\bar\rho_f\left(\mbf v_f-\mbf v_{\mc S}\right)
+	=\rho_f\left(\mbf v_f-\mbf v_{\mc S}\right),
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:relative_mass_flux_definition}
 \end{equation}
 %
@@ -29,9 +29,9 @@ Thus
 %
 \begin{equation}
 	\mbf v_f
-	=\mbf v_s+\frac{\mbf w_f}{\rho_f},
+	=\mbf v_{\mc S}+\frac{\mbf w_f}{\rho_f},
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:relative_flux_velocity_reconstruction}
 \end{equation}
 %
@@ -88,9 +88,9 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 		\phi_f\mbf E\otimes\mbf d_f
 	\right)
 		+\sum_\alpha\phasedot{c}_f^\alpha
-	\left(\nabla_{\mbf x}\tau-\mbf v_s\right),
+	\left(\nabla_{\mbf x}\tau-\mbf v_{\mc S}\right),
 	\qquad
-	f\in\mc F,\quad s\in\mc S,
+	f\in\mc F,
 	\label{eq:relative_flux_linear_system}
 \end{align}
 %
@@ -248,18 +248,19 @@ The resulting relative mass flux is
 		\right)
 		+\sum_\alpha\phasedot{c}_f^\alpha
 		\left(
-			\nabla_{\mbf x}\tau-\mbf v_s
+			\nabla_{\mbf x}\tau-\mbf v_{\mc S}
 		\right)
 		\right],
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:generalized_fluid_darcy_mass_flux}
 \end{empheq}
 %
 This expression is the multicomponent fluid-phase analogue of a generalized
 Darcy flux.  Its driving force contains body force and inertia, the actual
-phase-pressure gradient including equilibrium and dynamic capillarity, Maxwell
-stress, and conversion insertion.
+phase-pressure gradient assembled from stored capillarity, electrical
+corrections, and any dynamic lag, together with Maxwell stress and conversion
+insertion.
 The observer-conversion term is absent from this bulk force because
 \eqref{eq:MC_collected_observer_correction_reassembly} explicitly recombines it
 with the skeleton-rate free-energy contribution before the residual inequality
@@ -281,7 +282,7 @@ The neutral, conversion-free, negligible-inertia specialization
 \eqref{eq:generalized_fluid_darcy_mass_flux} to
 %
 \begin{equation}
-	\phi_f\left(\mbf v_f-\mbf v_s\right)
+	\phi_f\left(\mbf v_f-\mbf v_{\mc S}\right)
 	=
 	-\frac{\bs\kappa_f}{\mu_f^{\mathrm{visc}}}
 	\left(
@@ -289,7 +290,7 @@ The neutral, conversion-free, negligible-inertia specialization
 		-\bar\rho_f\mbf g
 	\right),
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:standard_darcy_mass_flux_limit}
 \end{equation}
 %
@@ -355,10 +356,10 @@ The flux assembled in the reference component balances is then
 	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
 	\left.
 	+\sum_\alpha\phasedot{c}_f^\alpha
-	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
+	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_{\mc S}\right)
 	\right],
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:solid_reference_relative_flux}
 \end{align}
 %
@@ -513,14 +514,14 @@ configuration.  The same pull-back gives
 =\mbf F^{-T}\nabla_{\mbf X}\theta_{\mc F}\) in the thermocapillary force and
 \(\nabla_{\mbf x}\mbf h
 =\nabla_{\mbf X}\mbf h\,\mbf F^{-1}\) in the capillary-history force.
-The same scalar-gradient pull-back carries the dynamic-capillary term through
+The same scalar-gradient pull-back carries the dynamic pressure-lag term through
 \(\nabla_{\mbf x}S_f=\mbf F^{-T}\nabla_{\mbf X}S_f\).
 
 If a quasi-static solid-skeleton solve is desired, the inertial term on the left
 is dropped.  If the fluid velocities are eliminated with
 \eqref{eq:relative_flux_velocity_reconstruction}, then the same equation is
-solved with $\mbf v_f=\mbf v_s+\mbf w_f/\rho_f$ for fluid phases and
-$\mbf v_s$ for the solid phase.  This leaves the solid displacement, the
+solved with $\mbf v_f=\mbf v_{\mc S}+\mbf w_f/\rho_f$ for fluid phases and
+$\mbf v_{\mc S}$ for the solid skeleton.  This leaves the solid displacement, the
 Lagrangian partial masses, and the fluid relative fluxes as the natural fields
 for a reference-configuration implementation.
 
@@ -603,11 +604,11 @@ with current velocities reconstructed from the relative mass fluxes by
 %
 \begin{equation}
 	\mbf v_f
-	=\mbf v_s+\frac{\mbf w_f}{\rho_f},
+	=\mbf v_{\mc S}+\frac{\mbf w_f}{\rho_f},
 	\qquad
 	\mbf W_f=J\mbf F^{-1}\mbf w_f,
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:reservoir_simulation_velocity_flux_summary}
 \end{equation}
 %
@@ -638,17 +639,18 @@ The corresponding admissible reference flux is
 	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
 	\left.
 	+\sum_\alpha\phasedot{c}_f^\alpha
-	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_s\right)
+	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_{\mc S}\right)
 	\right],
 	\qquad
-	f\in\mc F,\quad s\in\mc S .
+	f\in\mc F .
 	\label{eq:reservoir_simulation_reference_flux_summary}
 \end{align}
 %
 The neutral, conversion-free, negligible-inertia specialization gives
-\eqref{eq:standard_darcy_mass_flux_limit} directly.  Capillary, or
-electrocapillary, pressure closes the phase pressures at the current saturation
-state and saturation rate,
+\eqref{eq:standard_darcy_mass_flux_limit} directly.  The stored capillary law
+sets the saturation- and history-dependent part of each phase-pressure
+difference, the electrical enthalpy supplies its electrical correction, and the
+Onsager resistance supplies the saturation-rate lag,
 %
 \begin{equation}
 	\phi = \sum_{f\in\mc F}\phi_f,
@@ -670,15 +672,17 @@ state and saturation rate,
 \end{equation}
 %
 Equivalently, a simulator may choose one reference pressure and reconstruct the
-other fluid pressures from the selected capillary-pressure laws before
-evaluating the fluxes.  Because \(\mbf X\) follows the skeleton,
+other fluid pressures from the stored capillary law, the electrical correction,
+and the dynamic lag before evaluating the fluxes.  Because \(\mbf X\) follows
+the skeleton,
 \(\left.\partial S_n/\partial t\right\vert_{\mbf X}=D_{\mc S}S_n/Dt\).
 The neutral equilibrium specialization
 \(\omega_f^+=0\) and \(\mc T=\mbf0\) gives
 \(p_{c,nw}=\bar p_n-\bar p_w\).  In a fully implicit implementation, the
-time-discrete saturation rate enters the pressure reconstruction, and its
-spatial gradient is carried by the Darcy flux.  Together with the Maxwell
-stress, the pressure reconstruction gives the equivalent-pressure identity
+time-discrete saturation rate enters the pressure reconstruction, and the
+spatial gradient of the resulting pressure lag is carried by the Darcy flux.
+Together with the Maxwell stress, the pressure reconstruction gives the
+equivalent-pressure identity
 and dynamic term in \eqref{eq:MC_fluid_pressure_gradient_rollup}.
 
 In this subblock,
@@ -688,9 +692,8 @@ equations.  Equations
 \eqref{eq:reservoir_simulation_velocity_flux_summary} and
 \eqref{eq:reservoir_simulation_reference_flux_summary} are constitutive
 reconstructions, and
-\eqref{eq:reservoir_simulation_capillary_summary} is a history- and
-rate-dependent
-constitutive closure.  A
+\eqref{eq:reservoir_simulation_capillary_summary} is the combined stored,
+electrical, and rate-dependent constitutive closure.  A
 complete solve must additionally retain the solid component balances
 \eqref{eq:solid_reference_solid_component_balance}, the two subsystem energy
 balances \eqref{eq:MC_energy_balance}, Gauss' law \eqref{eq:gauss_law},
