@@ -6,9 +6,10 @@ number, including bare numbers in manuscript context.
 ## Source Priority
 
 1. Prefer `build/main.aux` when it exists.
-2. Treat root `main.aux` as potentially stale when `build/main.aux` exists.
-3. If aux data may be stale, refresh through LaTeX Workshop from `main.tex`
-   before relying on rendered numbers.
+2. If aux data may be stale, refresh through LaTeX Workshop from `main.tex`
+   before relying on rendered numbers. Builds must write into `build/`; a root
+   `main.aux` should never exist because agent-invoked builds direct all
+   outputs into `build/`.
 
 ## Lookup Procedure
 
@@ -29,7 +30,8 @@ python3 /home/john/.codex/skills/takeme/scripts/takeme_resolve.py --repo . --tar
 
 ## Failure Modes
 
-- Stale root aux files can map a number to the wrong label.
+- Stale aux files in the repository root map a number to the wrong label; keep
+  all build products under `build/`.
 - A first build pass can shift equation numbers; compile twice when label
   validation matters.
 - Raw shell builds may validate source without refreshing the open VS Code PDF

@@ -40,7 +40,7 @@ absolute temperature:
 	\delta W & = \sum_\xi \int_{\mc{B}} (\rho_\xi\mbf{g} + \mbf{b}_\xi)\cdot\delta\mbf{x}_\xi \,\dv
 	-\sum_\xi\sum_\alpha\int_{\mc B}L_\xi^\alpha
 	\frac{\delta\mc C_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}\,\dv
-	- \sum_m\int_{\mc B}\mc A_{(m)}\,\delta\dot r_{(m)} \dv
+	- \sum_m\int_{\mc B}\mc A_{(m)}\,\delta r_{(m)} \dv
 	\notag\\
 	&\quad
 	-\sum_\xi\sum_\alpha\int_{\mc B}
@@ -60,8 +60,8 @@ absolute temperature:
 	\label{eq:C3_def}                                                                                                                                                                                               \\
 	C_4      & = \sum_\xi\sum_\alpha\int_{\mc B}\mu_\xi^\alpha
 	\begin{aligned}[t]
-		\left[\frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi}
-		-\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\right.
+		\left[\frac{\phasedot{\mc C}_\xi^\alpha+\phasedot{\mc D}_\xi^\alpha}{J_\xi}
+		-\sum_m\nu_{\xi (m)}^\alpha r_{(m)}\right.
 		&+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm disp}}^\alpha
 		\\
 		&\left.+\nabla_{\mbf x}\cdot\mbf j_{\xi,{\rm diff}}^\alpha\right]
@@ -182,7 +182,7 @@ Since $\delta\mbf{v}_\xi = \mathrm{d}(\delta\mbf{x}_\xi)/\mathrm{d}t$ and $\delt
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\int_{t_1}^{t_2} \delta T \dt
-	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left[-\rho_\xi\,\mbf{a}_\xi - \sum_\al \frac{\dot{\mc C}_\xi^\alpha+\dot{\mc D}_\xi^\alpha}{J_\xi} \mbf{v}_\xi \right] \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}  \dv \dt
+	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left[-\rho_\xi\,\mbf{a}_\xi - \sum_\al \frac{\phasedot{\mc C}_\xi^\alpha+\phasedot{\mc D}_\xi^\alpha}{J_\xi} \mbf{v}_\xi \right] \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha+\delta\mc D_\xi^\alpha}{J_\xi}  \dv \dt
 	\label{eq:deltaT_app}
 \end{equation}
 % AGENT-LOCK-END
@@ -196,7 +196,7 @@ specific Helmholtz free energy and let \(N\) be the number of tracked components
 in that phase.  The corresponding contribution to the total free energy is written
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	U \supset U_\xi & = \sum_\xi \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^1, \eta_\xi^2, \dots, \eta_\xi^N)\,\dv \notag \\
+	U \supset U_\xi & = \sum_\xi \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^1, \eta_\xi^2, \phasedots, \eta_\xi^N)\,\dv \notag \\
 	                & = \sum_\xi \int_{\mc B}\rho_\xi\psi_\xi(\mbf F_\xi,\bar\rho_\xi,\eta_\xi^\beta)\,\dv
 	\label{eq:U_xi_uniform}
 \end{align}
@@ -496,26 +496,26 @@ The last term in the first line vanishes by recognizing $\sum_\alpha \nabla_{\mb
 \label{sec:stoich_conversion_variations}
 
 Conversion sources are restricted by \eqref{eq:C4_def}.  The variation of
-$\dot c_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi$ must be taken before using the
+$\phasedot c_\xi^\alpha=\phasedot{\mc C}_\xi^\alpha/J_\xi$ must be taken before using the
 stoichiometric projection because the denominator depends on the phase map.
 Repeating the transport calculation for a phase-attached rate gives
 %
 \begin{align}
 	\int_{t_1}^{t_2}\delta C_4\,\dt
 	&=\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
-	\delta\mu_\xi^\alpha\left(\dot c_\xi^\alpha-
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\right)\dv\dt
+	\delta\mu_\xi^\alpha\left(\phasedot c_\xi^\alpha-
+	\sum_m\nu_{\xi (m)}^\alpha r_{(m)}\right)\dv\dt
 	\notag\\
 	&\quad+\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
 	\left[-\frac{D_\xi\mu_\xi^\alpha}{Dt}
 	\frac{\delta\mc C_\xi^\alpha}{J_\xi}
-	+\dot c_\xi^\alpha\nabla_{\mbf x}\mu_\xi^\alpha\cdot
+	+\phasedot c_\xi^\alpha\nabla_{\mbf x}\mu_\xi^\alpha\cdot
 	\delta\mbf x_\xi\right]\dv\dt
 	\notag\\
 	&\quad-\int_{t_1}^{t_2}\int_{\mc B}\sum_m
 	\left(\sum_\xi\sum_\alpha
 	\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)
-	\delta\dot r_{(m)}\,\dv\dt+\text{b.t.}
+	\delta r_{(m)}\,\dv\dt+\text{b.t.}
 	\label{eq:C4_variation}
 \end{align}
 %
@@ -537,7 +537,7 @@ time and space gives
 	\int_{t_1}^{t_2}\int_{\mc B}\sum_\xi\sum_\alpha
 	\delta\mu_\xi^\alpha
 	\left[
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\frac{\phasedot{\mc D}_\xi^\alpha}{J_\xi}
 	+
 	\nabla_{\mbf x}\cdot
 	\left(
@@ -553,7 +553,7 @@ time and space gives
 	-\frac{D_\xi\mu_\xi^\alpha}{Dt}
 	\frac{\delta\mc D_\xi^\alpha}{J_\xi}
 	+
-	\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	\frac{\phasedot{\mc D}_\xi^\alpha}{J_\xi}
 	\nabla_{\mbf x}\mu_\xi^\alpha\cdot\delta\mbf x_\xi
 	\right]\dv\dt
 	\notag\\
@@ -590,9 +590,9 @@ Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\
 	+ \nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 	-\lambda\nabla_{\mbf{x}}\phi_\xi
 	-\sum_\alpha\nabla_{\mbf{x}}\pi_\xi^\alpha
-		+ \sum_\alpha \dot c_{\xi}^{\alpha}
+		+ \sum_\alpha \phasedot c_{\xi}^{\alpha}
 		\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
-		+\sum_\alpha\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+		+\sum_\alpha\frac{\phasedot{\mc D}_\xi^\alpha}{J_\xi}
 		\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right)
 	\Bigg]\cdot\delta\mbf{x}_{\xi} \,\dv \notag                                                                                                                          \\
 	    & + \int_{\mc B}\Big[
@@ -632,7 +632,7 @@ Collecting the coefficients of the variations $\delta\mbf{x}_\xi$, $\delta\phi_\
 		-\sum_m\int_{\mc B}
 		\left(\mc A_{(m)}+\sum_\xi\sum_\alpha
 		\mu_\xi^\alpha\nu_{\xi (m)}^\alpha\right)
-		\delta\dot r_{(m)}\,\dv
+		\delta r_{(m)}\,\dv
 		\notag\\
 		&\quad
 		-\sum_\xi\sum_\alpha\int_{\mc B}
@@ -698,9 +698,9 @@ Substituting \eqref{eq:el_lambda} into the Euler--Lagrange equations associated 
 	\rho_{\xi}\mbf{a}_{\xi} =
 	\nabla_{\mbf{x}}\cdot\bs\sigma'_{\xi} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 	+ \phi_{\xi} \nabla_{\mbf{x}}\lambda
-	+ \sum_\alpha \dot c_{\xi}^{\alpha}
+	+ \sum_\alpha \phasedot c_{\xi}^{\alpha}
 	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf{v}_{\xi}\right)
-	+\sum_\alpha\frac{\dot{\mc D}_\xi^\alpha}{J_\xi}
+	+\sum_\alpha\frac{\phasedot{\mc D}_\xi^\alpha}{J_\xi}
 	\left(\nabla_{\mbf x}\mu_\xi^\alpha-\mbf v_\xi\right),
 	\label{eq:el_momentum_uniform}
 \end{equation}
@@ -922,9 +922,9 @@ gives the intermediate form
 	-\lambda\nabla_{\mbf x}\phi_f
 	-\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha
 	+\gamma_f\nabla_{\mbf x}\phi_f
-	+ \sum_\alpha \dot c_f^{\alpha}
+	+ \sum_\alpha \phasedot c_f^{\alpha}
 	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf{v}_f\right)
-	+\sum_\alpha\frac{\dot{\mc D}_f^\alpha}{J_f}
+	+\sum_\alpha\frac{\phasedot{\mc D}_f^\alpha}{J_f}
 	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right).
 	\label{eq:el_mom_f_start}
 \end{align}
@@ -952,9 +952,9 @@ The standard phase pressure-gradient form is therefore
 	\rho_f\mbf{a}_f
 	= \rho_f\mbf{g} + \mbf{b}_f
 	- \phi_f\nabla_{\mbf{x}}\bar p_f
-	+ \sum_\alpha \dot c_f^{\alpha}
+	+ \sum_\alpha \phasedot c_f^{\alpha}
 	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf{v}_f\right)
-	+\sum_\alpha\frac{\dot{\mc D}_f^\alpha}{J_f}
+	+\sum_\alpha\frac{\phasedot{\mc D}_f^\alpha}{J_f}
 	\left(\nabla_{\mbf x}\mu_f^\alpha-\mbf v_f\right),
 	\qquad f\in\mc F .
 	\label{eq:el_mom_f_simplified}

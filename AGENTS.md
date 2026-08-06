@@ -1,5 +1,13 @@
 # AGENTS.md
 
+## Active coordination notice: verified input blocks
+
+- Code-verification agents must re-read the verified input-block rules in the
+  Agent-assisted simulator workflow section and the scoped instructions in
+  `moose_app/input/AGENTS.md` and `moose_app/test/AGENTS.md` before editing or
+  running input decks. The registry and protected versioned payload store are
+  active as of 2026-08-05.
+
 ## Project roadmap
 
 - Read `VISION.md` at the start of repository work and use it as the high-level guide for the three coordinated tracks: theory manuscript, MOOSE implementation and validation, and agent-assisted simulator workflow.
@@ -51,6 +59,28 @@
 
 ## MOOSE implementation track
 
+- Before building or running `moose_app/`, use the repository-local
+  `setup-moose-conda` skill at `.codex/skills/setup-moose-conda/SKILL.md`. Run
+  its non-destructive diagnostic first; it documents the verified `moose`
+  Conda environment, durable MOOSE checkout, `/tmp/moose` compatibility link,
+  explicit `conda run` invocation, conservative build command, and MPI sandbox
+  escalation guidance. The coupled Q2/EG production element requires a
+  128-entry MOOSE AD backing store, a matching installed
+  `include/moose/ADRealMonolithic.h`, and runtime execution inside the same
+  Conda environment. After changing AD size, move any existing
+  `moose_app/.jitcache` to a recoverable, uniquely named `/tmp` backup before
+  rerunning; stale JIT shared objects are ABI-incompatible. Do not replace a
+  conflicting runtime path or install a new toolchain without user approval.
+- Treat the MOOSE checkout as pinned external source. Any intentional edit
+  under /home/jfoster/.local/moose must be stored as a numbered patch under
+  moose_app/patches/moose/, recorded with base commit, SHA-256, rationale,
+  tests, and application state in series.yml, and assessed in
+  moose_app/doc/moose_upstream_candidates.yml for an upstream pull request.
+  Every series entry must list its exact affected files. The
+  setup-moose-conda diagnostic must validate the complete ordered series and
+  reject unrecognized staged, unstaged, or untracked core changes. The
+  canonical `moose_app/cmake/build_opt.cmake` wrapper records MOOSE HEAD and
+  status and runs that diagnostic before and after each build attempt.
 - Implementation work lives in `moose_app/`, a clean MOOSE application scaffold that is intentionally independent of the earlier three-phase/Talha app. Use the earlier app as technical memory and evidence for AD patterns, not as a source tree to copy.
 - The companion implementation-and-verification manuscript lives in `implementation_paper/`. Its finite-element equations should be written on the reference configuration of the solid skeleton unless John explicitly changes that decision.
 - Keep MOOSE source, tests, examples, and documentation separate from LaTeX manuscript source. Do not put kernels or input decks under the theory manuscript `sections/` tree.
@@ -64,6 +94,59 @@
 
 ## Validation and benchmark track
 
+- Before editing application source, input decks, verification scripts, or
+  manuscript source, and before building or running tests, check for
+  `/tmp/multicomponent_reactive_flow_spe_acceptance.lock`.  The SPE acceptance
+  runner creates this marker while it hashes and executes a provenance-critical
+  benchmark.  While the recorded process is live, defer every edit, build, or
+  test that could change the source tree, executable, runtime library, resolved
+  deck, or manuscript; read-only inspection may continue.  A stale marker is
+  moved to a uniquely named recoverable file by the next acceptance run.
+
+### SPE verification model and discretization
+
+- SPE benchmark acceptance must exercise this repository's finite-deformation,
+  solid-reference mixture theory. A benchmark-specific finite-volume reduction
+  may be retained as a separately labeled numerical diagnostic, but it cannot
+  satisfy SPE acceptance and its agreement with OPM must not be reported as
+  verification of the production theory.
+- SPE1 uses the physically required four-phase registry: one deformable solid
+  matrix phase plus water, oil, and gas fluid phases. The conserved fluid
+  components are stock-tank water, stock-tank oil, and stock-tank gas; gas is
+  present in the gas phase and dissolved in the oil phase according to the
+  black-oil closure. Register and conserve the solid constituent as required by
+  the finite-deformation mixture equations. Do not collapse the solid phase to
+  imposed `J = 1` kinematics in the production benchmark.
+- Solve solid displacement and the coupled component/phase state from the
+  finite-deformation solid-reference momentum, component-balance, phase-volume,
+  constitutive, and well/source equations. Every residual, material property,
+  closure, boundary condition, and observable must trace to the manuscript or
+  to an explicitly identified SPE1 constitutive datum.
+- Use the validated CG/EG architecture: Q2 Lagrange displacement; a P1
+  continuous oil/equivalent-pressure backbone plus P0 enrichment and total
+  reconstructed pressure; P2 continuous water and gas saturation backbones
+  plus P0 enrichments with physical reconstructed saturation and entropy
+  viscosity; the required EG interior-facet and weak boundary operators; and
+  the parent continuous closure for solution gas. The production SPE
+  acceptance deck must not switch these
+  primaries to cell-centered finite-volume variables, pure CG pressure, or a
+  fixed-skeleton surrogate.
+- Preserve the official SPE1 geometry, layers, PVT and saturation tables,
+  schedule, completions, controls, and reference observables. Resolve the
+  compatible Q2/EG three-dimensional mesh policy explicitly and document any
+  reference-grid-to-finite-element mapping; do not silently call a different
+  mesh the official 300-cell discretization.
+- Passing means that the theory-to-code traceability, AD/PETSc Jacobian,
+  component and solid mass balances, phase-volume closure, mechanics balance,
+  mesh/time-step convergence, and required solver tests pass without skips.
+  OPM/published comparison errors are reported as physical benchmark results,
+  not as a gate that may be achieved by tuning, weakening tolerances, changing
+  discretization, prescribing fields, or substituting cached/reference values.
+- Never weaken, delete, skip, xfail, bypass, or redefine a required test to make
+  SPE acceptance pass. Never relabel an FV, `solve = false`, prescribed-field,
+  material-only, or postprocessed reference path as a coupled CG/EG
+  finite-deformation solve.
+
 - Maintain a validation matrix as this track develops. Each entry should list the target phenomenon, manuscript reduction, MOOSE objects required, input deck location, reference result, expected outputs, and current status.
 - Begin with special cases already derived or planned in the manuscript: black-oil-style equations, compositional flow, coupled mechanics limits, phase equilibrium reductions, reaction/source problems, and phase-transformation examples.
 - Add reservoir-simulation challenge problems, including SPE comparison-style benchmarks, only with clear notes about which parts of the full theory they validate and which assumptions they impose.
@@ -73,6 +156,8 @@
 ## Agent-assisted simulator workflow
 
 - Build agent-facing simulator assets as explicit files: input-deck templates, parameter schemas, checklist prompts, validation scripts, run recipes, postprocessing recipes, and troubleshooting notes.
+- Treat `moose_app/input/verified_block_registry.yml` as the authority for reusable input-fragment status and exact content. Each `verified` fragment has a versioned protected payload under `.codex/verified-input-blocks/`; assembled decks consume that payload. The matching include-tree source is also locked so candidate development cannot diverge silently. Agents may include verified blocks, but they must not edit either copy, the registry digest, recorded object inventory, version, or verification evidence. An intentional change requires John’s explicit authorization, a higher semantic version, fresh mapped test evidence, and the `verified-block-promotion` skill. Run the `deck-integrity-validator` skill before accepting or running an assembled deck and after any edit under `moose_app/input/`.
+- Use the repository-local `deck-block-inventory` skill to account for new input fragments and individual MOOSE objects. Candidate fragments remain editable, but their catalog and candidate registry records must be refreshed together. Use the `deck-assembler` skill for regression, benchmark, and production decks so protected kernels, DG kernels, materials, scalar kernels, auxiliary kernels, and user objects enter generated decks only through verified includes.
 - Generate MOOSE input decks from structured templates whenever possible. Avoid one-off freeform decks unless the task is exploratory and the uncertainty is clearly stated.
 - Before running a generated deck, validate required variables, kernels, materials, boundary conditions, units, mesh assumptions, executioner settings, outputs, and postprocessors against the selected template or schema.
 - Ask clarification questions when the physical problem is underspecified in a way that changes the governing equations, constitutive closures, boundary conditions, initial conditions, or validation target.
@@ -100,6 +185,7 @@
 - Use focused equation, citation, and source-file inspection before broad filesystem rewrites.
 - Distinguish manuscript source from generated artifacts. LaTeX build products such as `.aux`, `.log`, `.out`, `.bbl`, `.blg`, `.fls`, `.fdb_latexmk`, `.synctex.gz`, and PDFs under `build/` are not authoritative except for diagnostics or rendered-number lookup.
 - Never commit LaTeX build artifacts. Keep `build/` and generated LaTeX outputs untracked; if any are accidentally staged or tracked, remove them from the Git index with `git rm --cached` rather than deleting the user's local build outputs.
+- When an agent invokes a LaTeX build itself, with `latexmk`, `pdflatex`, `lualatex`, or similar, direct every build artifact into the `build/` directory and never into the repository root. Run raw builds with an explicit output directory, for example `latexmk -outdir=build main.tex` or `pdflatex -output-directory=build main.tex`. After any such build, confirm that no `.aux`, `.bbl`, `.blg`, `.fls`, `.fdb_latexmk`, `.log`, `.out`, `.synctex.gz`, or PDF files were left at the repository root, and remove any strays before finishing. `build/` is the only sanctioned location for generated LaTeX output.
 
 ## texlab / LSP awareness
 
@@ -108,7 +194,7 @@
 - After every manuscript compilation, inspect the rendered pages around displays that span or approach a page boundary. Choose semantically appropriate page-break locations, use local `amsmath` controls such as `\displaybreak` rather than leaving accidental breaks, split overlong rows when needed, and correct layouts that leave excessive whitespace. Recompile and visually verify the affected pages before reporting the build complete.
 - For compile or editor-style issues, prefer texlab diagnostics, LaTeX Workshop output, and narrow source edits before making broader changes. Make narrow source edits that address the reported line, label, macro, or environment.
 - When a LaTeX build is needed and VS Code LaTeX Workshop tooling is available, trigger the build through LaTeX Workshop rather than invoking a raw LaTeX command directly.
-- Use LaTeX Workshop build commands as the default build path for this workspace so the PDF viewer open in VS Code refreshes. Prefer the extension's build/build-and-view workflow over shell commands such as `lualatex`, `pdflatex`, or `latexmk`. Use raw shell compilation only when LaTeX Workshop is unavailable, when a non-view diagnostic compile is explicitly needed, or when the user explicitly asks for it; in that case, say that the open PDF may not refresh.
+- Use LaTeX Workshop build commands as the default build path for this workspace so the PDF viewer open in VS Code refreshes. Prefer the extension's build/build-and-view workflow over shell commands such as `lualatex`, `pdflatex`, or `latexmk`. Use raw shell compilation only when LaTeX Workshop is unavailable, when a non-view diagnostic compile is explicitly needed, or when the user explicitly asks for it; in that case, direct all outputs into `build/` (for example `latexmk -outdir=build main.tex`), say that the open PDF may not refresh, and leave no build artifacts at the repository root.
 - If aux data, equation numbering, or the open PDF preview is stale, refresh through LaTeX Workshop from `main.tex` before relying on rendered numbers.
 
 ## Local research retrieval

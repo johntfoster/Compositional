@@ -19,6 +19,9 @@
     "validation"
   ],
   "properties": {
+    "$schema": {
+      "type": "string"
+    },
     "name": {
       "type": "string",
       "minLength": 1
@@ -138,6 +141,34 @@
         },
         "pass_fail": { "type": "string" },
         "reference_data": { "type": "string" }
+      }
+    },
+    "deck_assembly": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocks"],
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Ordered stable IDs from moose_app/input/verified_block_registry.yml.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "parameters": {
+          "type": "object",
+          "description": "MOOSE top-level substitutions written before canonical includes.",
+          "propertyNames": { "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+          "additionalProperties": {
+            "type": ["string", "number", "integer", "boolean"]
+          }
+        },
+        "scenario_includes": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Repository-local includes limited to scenario data outside protected object sections.",
+          "items": { "type": "string", "minLength": 1 }
+        }
       }
     },
     "open_questions": {

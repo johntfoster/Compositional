@@ -1,0 +1,122 @@
+{
+  "$schema": "../schemas/problem_spec.schema.json",
+  "name": "verified_q2_eg_mms_2d",
+  "track": "regression",
+  "physics_regime": "Two-dimensional finite-deformation Q2 solid mechanics coupled to EG pressure and tau fields.",
+  "manuscript_basis": [
+    {
+      "source": "eq:momentum_residual",
+      "role": "Reference solid momentum residual."
+    },
+    {
+      "source": "eq:reference_relative_mass_flux",
+      "role": "Reference Darcy flux used by the EG pressure residual."
+    },
+    {
+      "source": "eq:implementation_tau_solid_frame",
+      "role": "Fluxless tau evolution in the solid frame."
+    }
+  ],
+  "variables": [
+    {
+      "name": "ux",
+      "family": "LAGRANGE",
+      "order": "SECOND",
+      "meaning": "Solid displacement in the x direction."
+    },
+    {
+      "name": "uy",
+      "family": "LAGRANGE",
+      "order": "SECOND",
+      "meaning": "Solid displacement in the y direction."
+    },
+    {
+      "name": "p and p_enr",
+      "family": "LAGRANGE plus MONOMIAL",
+      "order": "FIRST plus CONSTANT",
+      "meaning": "EG pressure backbone and enrichment."
+    },
+    {
+      "name": "tau and tau_enr",
+      "family": "LAGRANGE plus MONOMIAL",
+      "order": "FIRST plus CONSTANT",
+      "meaning": "EG tau backbone and enrichment."
+    }
+  ],
+  "closures": [
+    {
+      "name": "darcy_pressure_flux",
+      "type": "flux-law",
+      "inputs": ["p", "p_enr", "solid deformation"],
+      "outputs": ["reference_pressure_flux"],
+      "manuscript_basis": "eq:reference_relative_mass_flux"
+    }
+  ],
+  "mesh": {
+    "dimension": 2,
+    "description": "Generated QUAD9 mesh on the unit square.",
+    "displaced_mesh": false
+  },
+  "boundary_conditions": [
+    "Manufactured displacement and weak EG pressure boundary data on all sides."
+  ],
+  "initial_conditions": [
+    "Exact displacement, pressure, and tau initial fields."
+  ],
+  "execution": {
+    "type": "transient Newton",
+    "solver_notes": "One time step with the verified transient Newton defaults.",
+    "time_step": 1.0,
+    "end_time": 1.0
+  },
+  "outputs": [
+    "CSV error norms and enrichment averages."
+  ],
+  "validation": {
+    "matrix_id": "q2_eg_hierarchy_mms",
+    "observables": [
+      "ux_l2",
+      "uy_l2",
+      "p_total_l2",
+      "tau_total_l2"
+    ],
+    "pass_fail": "The existing eg_q2_mms_2d CSVDiff regression passes."
+  },
+  "deck_assembly": {
+    "blocks": [
+      "common.solver_defaults",
+      "mesh.generated_2d_q2",
+      "fields.solid_q2_2d",
+      "fields.eg_pressure_tau",
+      "materials.solid_kinematics_2d",
+      "materials.eg_reconstruction",
+      "materials.darcy_pressure_flux",
+      "materials.solid_stress_eg_pressure",
+      "materials.eg_tau_evolution",
+      "operators.eg_pressure_diffusion",
+      "operators.eg_tau_fluxless",
+      "operators.solid_momentum_2d",
+      "executioner.transient_newton",
+      "outputs.csv"
+    ],
+    "parameters": {
+      "mesh_nx": 4,
+      "mesh_ny": 4,
+      "all_boundaries": "left right bottom top",
+      "eg_epsilon": -1.0,
+      "eg_sigma": 12.0,
+      "eg_tau_anchor": 1.0,
+      "eg_permeability": 1.0,
+      "eg_viscosity": 1.0,
+      "eg_fluid_density": 1.0,
+      "solid_shear_modulus": 4.0,
+      "solid_lame_lambda": 6.0,
+      "solid_biot": 0.4,
+      "solve_dt": 1.0,
+      "solve_steps": 1
+    },
+    "scenario_includes": [
+      "moose_app/input/scenarios/verified_q2_eg_mms_2d.i"
+    ]
+  }
+}

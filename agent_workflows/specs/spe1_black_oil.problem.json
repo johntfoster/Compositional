@@ -1,0 +1,274 @@
+{
+  "name": "SPE1 Case 1 three-dimensional black-oil benchmark",
+  "track": "benchmark",
+  "physics_regime": "Finite-deformation solid-reference four-phase mixture benchmark with one deformable solid matrix phase and water, oil, and gas fluid phases, converted explicitly to SI units from SPE1 Case 1.",
+  "manuscript_basis": [
+    {
+      "source": "eq:black_oil_storage_identifications",
+      "role": "Water, stock-tank oil, and stock-tank gas component storage through B_w, B_o, B_g, and R_s.",
+      "assumptions_added": [
+        "The official PVTW, PVDG, and PVTO tables define the benchmark fluid closure.",
+        "SPE1 Case 1 specifies DRSDT=0, so dissolved gas remains at its initialized R_s while injected gas accumulates as free gas."
+      ]
+    },
+    {
+      "source": "eq:black_oil_water_balance; eq:black_oil_oil_balance; eq:black_oil_gas_balance",
+      "role": "Three conserved stock-tank component equations."
+    },
+    {
+      "source": "eq:MC_admissible_conversion_component; eq:MC_phase_reference_transfer_work_recovery; eq:MC_generalized_transfer_phase_offset; eq:classical_phase_equilibrium_mu",
+      "role": "Retain the Bedford--Drumheller transfer potential tau and chemical-potential representation while specializing the storage and phase-equilibrium data to SPE1 black oil.",
+      "assumptions_added": [
+        "The thermodynamic reference gauge is stated explicitly and cannot be inferred from PVT tables alone.",
+        "The equilibrium phase-appearance limit must be recovered from equality of the gas-component potentials; any finite nonequilibrium transfer resistance is an untuned model extension and receives a separate sensitivity study."
+      ]
+    },
+    {
+      "source": "eq:black_oil_darcy_flux",
+      "role": "Phase Darcy flux with tabulated relative permeability, pressure-dependent viscosity, heterogeneous layer permeability, and gravity."
+    },
+    {
+      "source": "eq:black_oil_capillary_pressure_closures",
+      "role": "Water and gas pressure reconstruction from oil pressure; the SPE1 tables set both capillary curves to zero."
+    },
+    {
+      "source": "eq:solid_reference_solid_component_balance; eq:solid_reference_fluid_component_balance; eq:solid_reference_overall_momentum; eq:solid_reference_effective_piola_stress",
+      "role": "Finite-deformation solid and fluid component storage, solid-reference fluxes, deformable-skeleton momentum, and pressure-stress coupling.",
+      "assumptions_added": [
+        "The phase registry contains matrix, water, oil, and gas.",
+        "Solid displacement and the solid-reference Jacobian are solved rather than prescribed as J=1."
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "ux uy uz",
+      "family": "LAGRANGE",
+      "order": "SECOND",
+      "meaning": "Q2 continuous-Galerkin displacement of the deformable solid skeleton.",
+      "units": "m"
+    },
+    {
+      "name": "oil_pressure",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "P1 continuous backbone of the enriched-Galerkin oil reference pressure.",
+      "units": "Pa"
+    },
+    {
+      "name": "oil_pressure_enrichment",
+      "family": "MONOMIAL",
+      "order": "CONSTANT",
+      "meaning": "P0 enrichment of the oil reference pressure; the constitutive and flux operators consume the reconstructed total pressure.",
+      "units": "Pa"
+    },
+    {
+      "name": "tau",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "P1 continuous backbone of the Bedford--Drumheller transfer potential evolved by the manuscript transfer-work equation.",
+      "units": "J/kg"
+    },
+    {
+      "name": "tau_enrichment",
+      "family": "MONOMIAL",
+      "order": "CONSTANT",
+      "meaning": "P0 enrichment of tau; all transfer-work and conversion objects consume the reconstructed P1+P0 field.",
+      "units": "J/kg"
+    },
+    {
+      "name": "water_saturation",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "Continuous-Galerkin water saturation used by the parent black-oil CG/EG architecture.",
+      "units": "1"
+    },
+    {
+      "name": "gas_saturation",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "Continuous-Galerkin gas saturation used by the parent black-oil CG/EG architecture.",
+      "units": "1"
+    },
+    {
+      "name": "solution_gas_oil_ratio",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "Continuous-Galerkin dissolved solution gas-oil ratio retained at its initialized value by the DRSDT=0 history equation.",
+      "units": "standard m3/stock-tank m3"
+    }
+  ],
+  "closures": [
+    {
+      "name": "spe1_nonequilibrium_thermodynamic_embedding",
+      "type": "eos",
+      "inputs": [
+        "reconstructed tau",
+        "oil pressure",
+        "water saturation",
+        "gas saturation",
+        "solution gas-oil ratio",
+        "temperature",
+        "PVTW",
+        "PVDG",
+        "PVTO",
+        "DENSITY"
+      ],
+      "outputs": [
+        "phase/component chemical potentials with an explicit reference gauge",
+        "gas-component phase-transfer potential difference",
+        "tau evolution and phase-reference transfer-work levels",
+        "phase-transfer affinity and equilibrium/complementarity residual",
+        "conversion-insertion momentum contribution",
+        "mechanismwise dissipation"
+      ],
+      "manuscript_basis": "eq:MC_admissible_conversion_component; eq:MC_phase_reference_transfer_work_recovery; eq:MC_generalized_conversion_affinity_relation; eq:classical_phase_equilibrium_mu",
+      "acceptance_rule": "A phase-transforming black-oil residual without active tau and chemical-potential dependencies is only a diagnostic reduction and cannot satisfy production acceptance."
+    },
+    {
+      "name": "spe1_black_oil_pvt",
+      "type": "eos",
+      "inputs": [
+        "oil_pressure",
+        "water_saturation",
+        "gas_saturation",
+        "solution_gas_oil_ratio",
+        "PVTW",
+        "PVDG",
+        "PVTO",
+        "DENSITY"
+      ],
+      "outputs": [
+        "B_w, B_o, B_g, and saturated R_s",
+        "water, oil, and gas viscosities",
+        "phase densities and component fractions",
+        "reference component storage rates"
+      ],
+      "manuscript_basis": "eq:black_oil_storage_identifications"
+    },
+    {
+      "name": "spe1_saturation_functions",
+      "type": "flux-law",
+      "inputs": [
+        "water_saturation",
+        "gas_saturation",
+        "SWOF",
+        "SGOF"
+      ],
+      "outputs": [
+        "water, oil, and gas relative permeability",
+        "water-oil and gas-oil capillary pressure"
+      ],
+      "manuscript_basis": "eq:black_oil_darcy_flux; eq:black_oil_capillary_pressure_closures"
+    },
+    {
+      "name": "spe1_phase_fluxes",
+      "type": "flux-law",
+      "inputs": [
+        "phase pressure",
+        "phase density",
+        "phase viscosity",
+        "phase relative permeability",
+        "PERMX, PERMY, PERMZ",
+        "gravity"
+      ],
+      "outputs": [
+        "water, oil, and gas solid-reference relative mass fluxes",
+        "water, oil, and gas component reference fluxes",
+        "CG/EG weak flux contributions driven by the reconstructed P1+P0 pressure and finite-deformation solid-reference pull-back"
+      ],
+      "manuscript_basis": "eq:black_oil_darcy_flux; eq:black_oil_water_balance; eq:black_oil_oil_balance; eq:black_oil_gas_balance"
+    },
+    {
+      "name": "finite_deformation_mixture_mechanics",
+      "type": "other",
+      "inputs": [
+        "Q2 solid displacement",
+        "solid constitutive response",
+        "reconstructed total fluid pressure",
+        "phase and component state",
+        "solid and fluid mass/volume constraints"
+      ],
+      "outputs": [
+        "F, J, inverse deformation gradient",
+        "effective and total Piola stress",
+        "coupled solid-reference momentum residual",
+        "solid mass and phase-volume closure residuals"
+      ],
+      "manuscript_basis": "eq:solid_reference_solid_component_balance; eq:solid_reference_fluid_component_balance; eq:solid_reference_effective_piola_stress; eq:solid_reference_overall_momentum"
+    },
+    {
+      "name": "spe1_wells",
+      "type": "constraint",
+      "inputs": [
+        "WELSPECS",
+        "COMPDAT",
+        "WCONPROD",
+        "WCONINJE",
+        "well-block pressure and phase mobilities"
+      ],
+      "outputs": [
+        "gas injection component source",
+        "produced component sinks",
+        "well BHP and phase rates",
+        "active rate or BHP control"
+      ]
+    }
+  ],
+  "mesh": {
+    "dimension": 3,
+    "description": "Three-dimensional Q2/EG finite-element representation of the official SPE1 10 x 10 x 3 Cartesian geometry converted to SI. The compatible element policy and mapping of layers, completions, and report blocks must be documented and mesh-converged; it must not be described as the official 300-cell discretization unless it is exactly that discretization.",
+    "displaced_mesh": true
+  },
+  "boundary_conditions": [
+    "No-flow component flux on every external reservoir boundary.",
+    "Internal INJ completion at (1,1,1) with gas-rate control and 9014 psia maximum BHP.",
+    "Internal PROD completion at (10,10,3) with 20000 STB/day maximum oil rate and 1000 psia minimum BHP.",
+    "Mechanically admissible external data and minimal rigid-body constraints for the deformable skeleton, traced to the finite-deformation momentum weak form and documented as a benchmark modeling choice."
+  ],
+  "initial_conditions": [
+    "EQUIL datum pressure is 4800 psia at 8400 ft.",
+    "Water-oil contact is 8450 ft and gas-oil contact is 8300 ft with zero tabulated capillary pressure.",
+    "Initial dissolved gas-oil ratio is 1.270 Mscf/STB throughout 8300-8450 ft.",
+    "The initial solid displacement is zero; subsequent solid deformation and J are solved from the coupled mixture equations."
+  ],
+  "execution": {
+    "type": "Fully coupled transient finite-deformation solid-reference Newton solve with adaptive step cuts at well-control and phase-appearance events.",
+    "solver_notes": "Use Q2 continuous-Galerkin displacement, P1+P0 enriched-Galerkin reconstructed pressure with its required facet and weak boundary terms, the parent continuous black-oil state fields, field scaling, a coupled block preconditioner, and the official monthly TSTEP sequence. Cell-centered finite volume and imposed J=1 are diagnostic reductions only and cannot satisfy this specification.",
+    "time_step": 86400.0,
+    "end_time": 315360000.0
+  },
+  "outputs": [
+    "Field oil production rate and gas-oil ratio.",
+    "Injector and producer block pressures and well BHP.",
+    "Gas saturation at the nine official report blocks.",
+    "Injector/producer oil, water, and gas rates and cumulative volumes.",
+    "Per-step water, oil, and gas component global-balance defects.",
+    "Tau backbone, enrichment, reconstructed field, and evolution residual.",
+    "Phase/component chemical potentials, gas-transfer affinity, and phase-equilibrium residual.",
+    "Onsager or phase-transfer dissipation and conversion-insertion momentum contribution.",
+    "Pressure and saturation restart snapshots."
+  ],
+  "validation": {
+    "matrix_id": "spe1_black_oil",
+    "observables": [
+      "FOPR",
+      "FGOR",
+      "BPR at (1,1,1) and (10,10,3)",
+      "BGSAT at the nine official blocks",
+      "WBHP and phase rates for INJ and PROD",
+      "component cumulative-balance defects"
+    ],
+    "pass_fail": "Acceptance requires the coupled finite-deformation CG/EG implementation with active reconstructed tau, chemical-potential and transfer-affinity closures, thermodynamic identities, nonnegative mechanismwise dissipation, conversion-insertion momentum accounting, AD/PETSc Jacobian, solid and fluid component balances, phase-volume closure, momentum balance, and mesh/time-step convergence gates to pass with zero required skips. OPM rate, pressure, saturation, and cumulative differences are reported as comparison metrics without post-hoc tuning; an FV, imposed-J, or phase-transforming black-oil-only algebraic reduction cannot satisfy acceptance.",
+    "reference_data": "validation/reference_data/opm_spe_manifest.yml entry spe1_case1"
+  },
+  "open_questions": [
+    "Construct and document a thermodynamic extension of the SPE1 PVT tables that supplies chemical-potential differences and their derivatives while reproducing the tabulated formation-volume factors and saturated Rs curve; SPE1 does not provide absolute chemical-potential reference data.",
+    "Treat finite phase-transfer/Onsager resistance as an explicitly declared nonequilibrium extension with sensitivity analysis because SPE1 supplies no kinetic coefficient; do not tune it to OPM output.",
+    "Replace the fixed-skeleton/FV benchmark path with a genuine coupled four-phase finite-deformation Q2/EG solve and quantify its comparison to the pinned OPM reference.",
+    "Resolve and document the mechanically admissible SPE1 skeleton boundary conditions and constitutive data without tuning to OPM outputs.",
+    "Resolve a verified Q2/EG mesh policy that preserves the official layer, completion, and report-block mapping and perform spatial convergence.",
+    "Extend the verified one-cell FV well controller to aggregate pressure and rate over multiple completion cells.",
+    "Generate a pinned OPM reference summary for the exact manifest commit."
+  ]
+}

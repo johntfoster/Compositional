@@ -10,7 +10,7 @@ component label \(s\), mass fraction \(\eta_s^s=1\), and common skeleton
 trajectory.  Its solid-phase kinematic split is
 \(\mbf F=\mbf A_s\bar{\mbf F}_s\).  The superscript is retained because the
 reaction bookkeeping still needs the phase/component pair \((s,s)\) in
-\(\nu_{s (m)}^s\), \(\mu_s^s\), and \(\dot c_s^s\).
+\(\nu_{s (m)}^s\), \(\mu_s^s\), and \(\phasedot c_s^s\).
 
 The Coleman--Noll calculation is applied on the reduced constitutive state space.
 It is not a second derivation of the constrained equations of motion.  Constraints
@@ -27,7 +27,7 @@ therefore restricted to the tangent space of the mass-fraction constraint,
 \begin{equation}
 	\sum_\alpha\eta_f^\alpha=1,
 	\qquad
-	\sum_\alpha\dot\eta_f^\alpha=0,
+	\sum_\alpha\phasedot\eta_f^\alpha=0,
 	\qquad
 	f\in\mc F .
 	\label{eq:CN_mass_fraction_tangent_constraint}
@@ -38,7 +38,7 @@ For the solid phases, the corresponding specialization is the point constraint
 \begin{equation}
 	\eta_s^s=1,
 	\qquad
-	\dot\eta_s^s=0,
+	\phasedot\eta_s^s=0,
 	\qquad
 	s\in\mc S .
 	\label{eq:CN_solid_composition_projected_restriction}
@@ -108,42 +108,42 @@ The dependent elastic arguments are
 \end{equation}
 % AGENT-LOCK-END
 In the collection below the independent mechanical process rates are
-\(\dot{\bar{\mbf F}}_s^e\), \(\dot{\bar{\mbf F}}_s^p\),
-\(\dot{\mbf A}_s^e\), and \(\dot{\mbf A}_s^p\) for each \(s\in\mc S\).  The
+\(\phasedot{\bar{\mbf F}}_s^e\), \(\phasedot{\bar{\mbf F}}_s^p\),
+\(\phasedot{\mbf A}_s^e\), and \(\phasedot{\mbf A}_s^p\) for each \(s\in\mc S\).  The
 stress-free factors
 \(\bar{\mbf F}_s^\theta=\bar{\mbf F}_s^\theta(\theta)\) and
 \(\mbf A_s^\theta=\mbf A_s^\theta(\theta)\) are prescribed constitutively.
-The total rates \(\dot{\bar{\mbf F}}_s\) and \(\dot{\mbf A}_s\) are
+The total rates \(\phasedot{\bar{\mbf F}}_s\) and \(\phasedot{\mbf A}_s\) are
 reconstructed from these rates and from the stress-free thermal rates; they are
 not independent Coleman--Noll rates.
 
 Following from \eqref{eq:solid_true_mass_conservation} the density rate for a one-component solid phase is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\frac{\dot{\bar\rho}_s}{\bar\rho_s}
+	\frac{\phasedot{\bar\rho}_s}{\bar\rho_s}
 	=-\operatorname{tr}
 	\left[
-		\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
+		\phasedot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
 		+\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc X_s}
-		\dot\theta
+		\phasedot\theta
 		(\bar{\mbf F}_s^\theta)^{-1}
 		\right],
 	\qquad
 	\operatorname{tr}\left[
-		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+		\phasedot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
 		\right]=0,
 	\qquad
 	s\in\mc S .
 	\label{eq:CN_solid_density_rate_drumheller}
 \end{equation}
 % AGENT-LOCK-END
-Thus \(\dot{\bar\rho}_s\) is not an independent solid rate. The plastic terms  vanish because the plastic deformation is isochoric.
+Thus \(\phasedot{\bar\rho}_s\) is not an independent solid rate. The plastic terms  vanish because the plastic deformation is isochoric.
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation*}
 	\det\bar{\mbf F}_s^p=1,
 	\qquad
 	\operatorname{tr}\left[
-		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+		\phasedot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
 		\right]=0,
 	\qquad
 	s\in\mc S .
@@ -153,11 +153,11 @@ Thus \(\dot{\bar\rho}_s\) is not an independent solid rate. The plastic terms  v
 The fluid-phase free-energy rates entering the entropy inequality are
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\sum_{f\in\mc F}\rho_f\dot\psi_f
+	\sum_{f\in\mc F}\rho_f\phasedot\psi_f
 	 & =\sum_{f\in\mc F}\rho_f\left(
-	\left.\p{\psi_f}{\bar\rho_f}\heldfixed{\mc X_f}\dot{\bar\rho}_f
-	+\sum_\beta\left.\p{\psi_f}{\eta_f^\beta}\heldfixed{\mc X_f}\dot\eta_f^\beta
-	+\left.\p{\psi_f}{\theta}\heldfixed{\mc X_f}\dot\theta
+	\left.\p{\psi_f}{\bar\rho_f}\heldfixed{\mc X_f}\phasedot{\bar\rho}_f
+	+\sum_\beta\left.\p{\psi_f}{\eta_f^\beta}\heldfixed{\mc X_f}\phasedot\eta_f^\beta
+	+\left.\p{\psi_f}{\theta}\heldfixed{\mc X_f}\phasedot\theta
 	\right).
 	\label{eq:CN_fluid_free_energy_rate}
 \end{align}
@@ -165,24 +165,24 @@ The fluid-phase free-energy rates entering the entropy inequality are
 For the solid phases, the one-component restriction gives
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\sum_{s\in\mc S}\rho_s\dot{\psi}_s
+	\sum_{s\in\mc S}\rho_s\phasedot{\psi}_s
 	={} & \sum_{s\in\mc S}\rho_s \left[
 		\left.\p{\psi_s}{\bar{\mbf F}_s^e}\heldfixed{\mc X_s}
-		:\dot{\bar{\mbf F}}_s^e
+		:\phasedot{\bar{\mbf F}}_s^e
 		+\left.\p{\psi_s}{\mbf A_s^e}\heldfixed{\mc X_s}
-		:\dot{\mbf A}_s^e
+		:\phasedot{\mbf A}_s^e
 		\right.
 	\notag                              \\
 	    & \left.
 		+\left.\p{\psi_s}{\bar\rho_s}\heldfixed{\mc X_s}
-		\dot{\bar\rho}_s
-		+\left.\p{\psi_s}{\theta}\heldfixed{\mc X_s}\dot\theta
+		\phasedot{\bar\rho}_s
+		+\left.\p{\psi_s}{\theta}\heldfixed{\mc X_s}\phasedot\theta
 		\right].
 	\label{eq:CN_total_helmholtz_density}
 \end{align}
 % AGENT-LOCK-END
 Substitution of \eqref{eq:CN_solid_density_rate_drumheller} supplies the
-\(\dot{\bar{\mbf F}}_s^e\) and \(\dot\theta\) coefficients used below.
+\(\phasedot{\bar{\mbf F}}_s^e\) and \(\phasedot\theta\) coefficients used below.
 
 The fluid-phase Helmholtz energies are phase EOS potentials using the
 fluid-state variables in \eqref{eq:CN_state_set_collection}.  No elastic stress power is assigned to the fluid phases, so
@@ -207,10 +207,10 @@ phases,
 	\psi_\gamma
 	=\phi\gamma\left(\left\{S_f\right\}_{f\in\mc F},\theta\right),
 	\qquad
-	\dot\psi_\gamma
-	=\sum_{f\in\mc F}\gamma_f\dot\phi_f
+	\phasedot\psi_\gamma
+	=\sum_{f\in\mc F}\gamma_f\phasedot\phi_f
 	+\phi
-	\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\dot\theta,
+	\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\phasedot\theta,
 	\label{eq:CN_interfacial_helmholtz_rate}
 \end{equation}
 % AGENT-LOCK-END
@@ -224,21 +224,21 @@ entropy per current volume is
 The phase energy balance is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	\rho_\xi\dot e_\xi
-	+\sum_\alpha\dot c_\xi^\alpha e_\xi
+	\rho_\xi\phasedot e_\xi
+	+\sum_\alpha\phasedot c_\xi^\alpha e_\xi
 	= & \; \bs\sigma_\xi':\mbf L_\xi
-	+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
-	+\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
-	+\sum_\alpha\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
+	+\phi_\xi\bar p_\xi\frac{\phasedot{\bar\rho}_\xi}{\bar\rho_\xi}
+	+\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}\phasedot\phi_\xi
+	+\sum_\alpha\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}\phasedot\eta_\xi^\alpha
 	\notag                                         \\
-	  & -\sum_\alpha L_\xi^\alpha\dot c_\xi^\alpha
+	  & -\sum_\alpha L_\xi^\alpha\phasedot c_\xi^\alpha
 	-\nabla_{\mbf x}\cdot\mbf q_\xi
 	+\rho_\xi r_\xi+\rho_\xi e_\xi^{\rm int}.
 	\label{eq:CN_energy_balance}
 \end{align}
 % AGENT-LOCK-END
 For a one-component solid phase, the term
-\((\pi_s^s/\eta_s^s)\dot\eta_s^s\) vanishes because \(\dot\eta_s^s=0\).
+\((\pi_s^s/\eta_s^s)\phasedot\eta_s^s\) vanishes because \(\phasedot\eta_s^s=0\).
 
 For the common solid skeleton, the mechanical power in
 \eqref{eq:CN_energy_balance} must be decomposed with the same phase-specific
@@ -247,8 +247,8 @@ kinematic split used in the constitutive law.  With
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\mbf L_s
-	=\dot{\mbf A}_s\mbf A_s^{-1}
-	+\mbf A_s\dot{\bar{\mbf F}}_s
+	=\phasedot{\mbf A}_s\mbf A_s^{-1}
+	+\mbf A_s\phasedot{\bar{\mbf F}}_s
 	\bar{\mbf F}_s^{-1}\mbf A_s^{-1}.
 	\label{eq:CN_F_split_for_power}
 \end{equation}
@@ -262,32 +262,32 @@ Using
 	={} &
 	\sum_{s\in\mc S}\operatorname{tr}\left[
 		(\bs\sigma_s')^T
-		\dot{\mbf A}_s^e(\mbf A_s^e)^{-1}\right]
+		\phasedot{\mbf A}_s^e(\mbf A_s^e)^{-1}\right]
 	\notag                                         \\
 	    & +\sum_{s\in\mc S}\operatorname{tr}\left[
 		(\mbf A_s^e)^{-1}
 		(\bs\sigma_s')^T
 		\mbf A_s^e
-		\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}\right]
+		\phasedot{\mbf A}_s^p(\mbf A_s^p)^{-1}\right]
 	\notag                                         \\
 	    & +\sum_{s\in\mc S}\operatorname{tr}\left[
 		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}
 		(\bs\sigma_s')^T
 		\mbf A_s^e\mbf A_s^p
 		\left.\p{\mbf A_s^\theta}{\theta}\heldfixed{\mc X_s}
-		(\mbf A_s^\theta)^{-1}\right]\dot\theta
+		(\mbf A_s^\theta)^{-1}\right]\phasedot\theta
 	\notag                                         \\
 	    & +\sum_{s\in\mc S}\operatorname{tr}\left[
 	\mbf A_s^{-1}
 	(\bs\sigma_s')^T
 	\mbf A_s
-	\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}\right]
+	\phasedot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}\right]
 	\notag                                         \\
 	    & +\sum_{s\in\mc S}\operatorname{tr}\left[
 	(\bar{\mbf F}_s^e)^{-1}\mbf A_s^{-1}
 	(\bs\sigma_s')^T
 	\mbf A_s\bar{\mbf F}_s^e
-	\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}\right]
+	\phasedot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}\right]
 	\notag                                         \\
 	    & +\sum_{s\in\mc S}\operatorname{tr}\left[
 	(\bar{\mbf F}_s^p)^{-1}(\bar{\mbf F}_s^e)^{-1}
@@ -295,7 +295,7 @@ Using
 	(\bs\sigma_s')^T
 	\mbf A_s\bar{\mbf F}_s^e\bar{\mbf F}_s^p
 	\left.\p{\bar{\mbf F}_s^\theta}{\theta}\heldfixed{\mc X_s}
-	(\bar{\mbf F}_s^\theta)^{-1}\right]\dot\theta .
+	(\bar{\mbf F}_s^\theta)^{-1}\right]\phasedot\theta .
 	\label{eq:CN_stress_power_split}
 \end{align}
 % AGENT-LOCK-END
@@ -305,7 +305,7 @@ The entropy inequality is
 \begin{align}
 	0\le
 	 & \sum_\xi\left[
-		\rho_\xi\dot{\mathfrak{s}}_\xi+\sum_\alpha\dot c_\xi^\alpha \mathfrak{s}_\xi
+		\rho_\xi\phasedot{\mathfrak{s}}_\xi+\sum_\alpha\phasedot c_\xi^\alpha \mathfrak{s}_\xi
 		+\nabla_{\mbf x}\cdot\left(\frac{\mbf q_\xi}{\theta}\right)
 		-\frac{\rho_\xi r_\xi}{\theta}\right].
 	\label{eq:CN_entropy_inequality}
@@ -315,10 +315,10 @@ Using \eqref{eq:CN_energy_balance} to eliminate \(\rho_\xi r_\xi\), and then
 using the Legendre relations \eqref{eq:CN_fluid_legendre_relation} and
 \eqref{eq:CN_solid_component_legendre_relation}, gives the reduced entropy
 inequality.  We also add the identically vanishing fluid composition-normalization
-rate \(\Pi_\xi\sum_\alpha\dot\eta_\xi^\alpha\) and the
-volume-fraction-constraint rate \(\lambda\sum_\xi\dot\phi_\xi\).  For a
+rate \(\Pi_\xi\sum_\alpha\phasedot\eta_\xi^\alpha\) and the
+volume-fraction-constraint rate \(\lambda\sum_\xi\phasedot\phi_\xi\).  For a
 one-component solid, the corresponding rate is identically zero because
-\(\dot\eta_s^s=0\):
+\(\phasedot\eta_s^s=0\):
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	0\le
@@ -326,24 +326,24 @@ one-component solid, the corresponding rate is identically zero because
 	\begin{aligned}[t]
 		 & \frac{1}{\theta}\left(
 		\bs\sigma_\xi':\mbf L_\xi
-		+\phi_\xi\bar p_\xi\frac{\dot{\bar\rho}_\xi}{\bar\rho_\xi}
-		+\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}\dot\phi_\xi
-		+\sum_\alpha\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}\dot\eta_\xi^\alpha
+		+\phi_\xi\bar p_\xi\frac{\phasedot{\bar\rho}_\xi}{\bar\rho_\xi}
+		+\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}\phasedot\phi_\xi
+		+\sum_\alpha\frac{\pi_\xi^\alpha}{\eta_\xi^\alpha}\phasedot\eta_\xi^\alpha
 		\right.                                                   \\
 		 & \left.
-		+\Pi_\xi\sum_\alpha\dot\eta_\xi^\alpha
-		-\rho_\xi\left(\dot\psi_\xi+\mathfrak{s}_\xi\dot\theta\right)
-		-\sum_\alpha\dot c_\xi^\alpha
+		+\Pi_\xi\sum_\alpha\phasedot\eta_\xi^\alpha
+		-\rho_\xi\left(\phasedot\psi_\xi+\mathfrak{s}_\xi\phasedot\theta\right)
+		-\sum_\alpha\phasedot c_\xi^\alpha
 		\left(\psi_\xi+L_\xi^\alpha\right)
 		+\rho_\xi e_\xi^{\rm int}\right)                          \\
 		 & -\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta^2}
 	\end{aligned}
 	\notag                     \\
 	 & +\frac{1}{\theta}\left(
-	\lambda\sum_\xi\dot\phi_\xi
-	-\sum_{f\in\mc F}\gamma_f\dot\phi_f
-	-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\dot\theta
-	+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\dot\theta
+	\lambda\sum_\xi\phasedot\phi_\xi
+	-\sum_{f\in\mc F}\gamma_f\phasedot\phi_f
+	-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\phasedot\theta
+	+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}\phasedot\theta
 	\right).
 	\label{eq:CN_reduced_entropy_inequality}
 \end{align}
@@ -364,7 +364,7 @@ solid--fluid contribution:
 		\left.\p{\psi_s}{\mbf A_s^e}\heldfixed{\mc X_s}
 		\right)^T
 		\right)
-		\dot{\mbf A}_s^e(\mbf A_s^e)^{-1}
+		\phasedot{\mbf A}_s^e(\mbf A_s^e)^{-1}
 		\right]
 	\notag                                                                      \\
 	       & +
@@ -386,7 +386,7 @@ solid--fluid contribution:
 	-\phi_s\bar p_s
 	\right)\mbf I
 	\right)
-	\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
+	\phasedot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}
 	\right]
 	\notag                                                                      \\
 	       & +
@@ -394,7 +394,7 @@ solid--fluid contribution:
 		(\mbf A_s^e)^{-1}
 		(\bs\sigma_s')^T
 		\mbf A_s^e
-		\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}
+		\phasedot{\mbf A}_s^p(\mbf A_s^p)^{-1}
 		\right]
 	\notag                                                                      \\
 	       & +
@@ -402,7 +402,7 @@ solid--fluid contribution:
 	(\bar{\mbf F}_s^e)^{-1}\mbf A_s^{-1}
 	(\bs\sigma_s')^T
 	\mbf A_s\bar{\mbf F}_s^e
-	\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+	\phasedot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
 	\right]
 	\notag                                                                      \\
 	       & +
@@ -432,28 +432,28 @@ solid--fluid contribution:
 	       & \left.
 	-\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}
 	+\phi\left.\p{\gamma}{\theta}\right\vert_{\left\{S_f\right\}_{f\in\mc F}}
-	\right]\dot\theta
+	\right]\phasedot\theta
 	\notag                                                                      \\
 	       & +\sum_{f\in\mc F}\left[
 		\frac{\phi_f \bar p_f}{\bar\rho_f}
 		-\rho_f
 		\left.\p{\psi_f}{\bar\rho_f}\heldfixed{\mc X_f}
-		\right]\dot{\bar\rho}_f
+		\right]\phasedot{\bar\rho}_f
 	-\sum_{f\in\mc F}\rho_f\sum_\beta
 	\left.\p{\psi_f}{\eta_f^\beta}\heldfixed{\mc X_f}
-	\dot\eta_f^\beta
+	\phasedot\eta_f^\beta
 	\notag                                                                      \\
 	       & +\sum_{f\in\mc F}\sum_\beta\left(\frac{\pi_f^\beta}{\eta_f^\beta}
-	+\Pi_f\right)\dot\eta_f^\beta
+	+\Pi_f\right)\phasedot\eta_f^\beta
 	+\sum_\xi\left(
 	\lambda+\sum_\alpha\frac{\pi_\xi^\alpha}{\phi_\xi}
-	\right)\dot\phi_\xi
-	-\sum_{f\in\mc F}\gamma_f\dot\phi_f
+	\right)\phasedot\phi_\xi
+	-\sum_{f\in\mc F}\gamma_f\phasedot\phi_f
 	\notag                                                                      \\
 	       & -\sum_m\left(
 	\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha
 	\left(\psi_\xi+L_\xi^\alpha\right)
-	\right)\dot r_{(m)}
+	\right) r_{(m)}
 	\notag                                                                      \\
 	       & +\sum_\xi\rho_\xi e_\xi^{\rm int}
 	-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta}
@@ -488,7 +488,7 @@ The elastic true-deformation coefficient for each solid phase gives
 \end{align}
 % AGENT-LOCK-END
 The tensor on the left is the stress power conjugate to
-\(\dot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}\).  Thus, defining the intrinsic pressure of the one-component solid phase by
+\(\phasedot{\bar{\mbf F}}_s^e(\bar{\mbf F}_s^e)^{-1}\).  Thus, defining the intrinsic pressure of the one-component solid phase by
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	\bar p_s
@@ -571,7 +571,7 @@ At this point the pressure identification
 density-power term from the true-deformation contribution.  Since the solid
 phases have \(\eta_s^s=1\) and their stress-free maps depend on temperature
 only, no additional reversible solid-volume-fraction derivative remains.  For
-each solid phase volume fraction, the coefficient of \(\dot\phi_s\) gives
+each solid phase volume fraction, the coefficient of \(\phasedot\phi_s\) gives
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
 	0=
@@ -634,17 +634,17 @@ The solid entropy relation is phase-level because each mineral phase may have
 its own stress-free true-deformation and distension rates.
 
 \subsubsection{Generalized forces and mechanism affinities}
-Finally, using \(\dot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}\), the
+Finally, using \(\phasedot c_\xi^\alpha=\sum_m\nu_{\xi (m)}^\alpha r_{(m)}\), the
 source term in \eqref{eq:CN_solid_collected_entropy} becomes
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
-	 & -\sum_\xi\sum_\alpha \dot c_\xi^\alpha
+	 & -\sum_\xi\sum_\alpha \phasedot c_\xi^\alpha
 	\left(\psi_\xi+L_\xi^\alpha\right) \notag \\
 	 & \qquad =
 	-\sum_m\left[
 		\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha
 		\left(\psi_\xi+L_\xi^\alpha\right)
-		\right]\dot r_{(m)} .
+		\right] r_{(m)} .
 	\label{eq:CN_helmholtz_source_projection}
 \end{align}
 % AGENT-LOCK-END
@@ -661,11 +661,11 @@ Then \(\psi_\xi+L_\xi^\alpha=\mu_\xi^\alpha\) for every
 phase/component source.  The source projection is
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	-\sum_\xi\sum_\alpha \dot c_\xi^\alpha\mu_\xi^\alpha
+	-\sum_\xi\sum_\alpha \phasedot c_\xi^\alpha\mu_\xi^\alpha
 	=
 	-\sum_m\left(
 	\sum_\xi\sum_\alpha\nu_{\xi (m)}^\alpha\mu_\xi^\alpha
-	\right)\dot r_{(m)} .
+	\right) r_{(m)} .
 	\label{eq:CN_mu_source_projection}
 \end{equation}
 % AGENT-LOCK-END
@@ -735,12 +735,12 @@ written as
 \begin{equation}
 	\begin{aligned}
 		0\le{}\; &
-		\sum_m\mc A_{(m)}\dot r_{(m)}
+		\sum_m\mc A_{(m)} r_{(m)}
 		+\sum_{s\in\mc S}\bs\sigma_s':
-		\mbf A_s^e\dot{\mbf A}_s^p
+		\mbf A_s^e\phasedot{\mbf A}_s^p
 		(\mbf A_s^p)^{-1}(\mbf A_s^e)^{-1}                  \\
 		         & +\sum_{s\in\mc S}\operatorname{tr}\left[
-			\mbf S_s'\dot{\bar{\mbf F}}_s^p
+			\mbf S_s'\phasedot{\bar{\mbf F}}_s^p
 			(\bar{\mbf F}_s^p)^{-1}\right]
 		+\sum_\xi\rho_\xi e_\xi^{\rm int}
 		-\sum_\xi\frac{\mbf q_\xi\cdot\nabla_{\mbf x}\theta}{\theta} .
@@ -748,20 +748,20 @@ written as
 	\label{eq:CN_residual_dissipation}
 \end{equation}
 % AGENT-LOCK-END
-Admissible reaction kinetics must make \(\sum_m\mc A_{(m)}\dot r_{(m)}\ge 0\),
+Admissible reaction kinetics must make \(\sum_m\mc A_{(m)} r_{(m)}\ge 0\),
 for example through a closure
-\(\dot r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\bs\Lambda)\) with
-\(\mc A_{(m)}\dot r_{(m)}\ge 0\) for each independent mechanism.  Following the
+\( r_{(m)}=\mc K_{(m)}(\mc A_{(m)},\bs\Lambda)\) with
+\(\mc A_{(m)} r_{(m)}\ge 0\) for each independent mechanism.  Following the
 same sufficient construction used by Drumheller~\cite{drumheller2000}, one may
 choose generic uncoupled flow rules
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{subequations}
 	\label{eq:CN_generic_plastic_flow_rules}
 	\begin{align}
-		\dot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
+		\phasedot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
 		 & =\Lambda_{\mbf F_s}(\mc X_s)(\mbf S_s')^T,
 		\label{eq:CN_generic_plastic_deformation_flow_rule}            \\
-		\dot{\mbf A}_s^p(\mbf A_s^p)^{-1}
+		\phasedot{\mbf A}_s^p(\mbf A_s^p)^{-1}
 		 & =\Lambda_{\mbf A_s}(\mc X_s)
 		(\mbf A_s^e)^T
 		\bs\sigma_s'

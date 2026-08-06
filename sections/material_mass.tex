@@ -139,18 +139,19 @@ velocity $\mbf v_\zeta$ of phase $\zeta$ is
 \end{equation}
 % AGENT-LOCK-END
 %
-Here, $\nabla_{\mbf x}$ is the spatial gradient operator.  The heavy-dot
+Here, $\nabla_{\mbf x}$ is the spatial gradient operator.  The dot
 shorthand
-$\phasedot{\square}_\xi = D_\xi \square_\xi/Dt$ denotes the material time
-derivative following phase $\xi$.  Taking the material time derivative of
+$\dot{\square}_\xi = D_\xi \square_\xi/Dt$ denotes the material time
+derivative following phase $\xi$; the heavy dot
+$\phasedot{\square}=D_{\mc S}\square/Dt$ follows the solid skeleton.  Taking the material time derivative of
 \eqref{eq:material_mass_2} following phase $\xi$ and using the identity
-$\phasedot{J}_\xi = J_\xi \nabla_{\mbf x}\cdot\mbf v_\xi$ gives
+$\dot{J}_\xi = J_\xi \nabla_{\mbf x}\cdot\mbf v_\xi$ gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{align}
 	\frac{D_\xi \rho_\xi^\alpha}{Dt}
 	+ \rho_\xi^\alpha \nabla_\mbf{x}\cdot\mbf{v}_\xi
-	 & = \frac{\phasedot{\mc C}^\alpha_\xi}{J_\xi} .
+	 & = \frac{\dot{\mc C}^\alpha_\xi}{J_\xi} .
 	\label{eq:component_material_mass}
 \end{align}
 % AGENT-LOCK-END
@@ -159,7 +160,7 @@ The rate of component mass addition per current mixture volume is defined by
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\phasedot{c}^\al_\xi(\mbf{x},t) \equiv \frac{\phasedot{\mc C}^\al_\xi}{J_\xi}.
+	\dot{c}^\al_\xi(\mbf{x},t) \equiv \frac{\dot{\mc C}^\al_\xi}{J_\xi}.
 	\label{eq:current_conversion_rate_definition}
 \end{equation}
 % AGENT-LOCK-END
@@ -171,7 +172,7 @@ balance for phase $\xi$,
 \begin{align}
 	\frac{\partial \rho_\xi^\alpha}{\partial t}
 	+ \nabla_\mbf{x}\cdot\left(\rho_\xi^\alpha\mbf{v}_\xi\right)
-	= \phasedot{c}^\alpha_\xi .
+	= \dot{c}^\alpha_\xi .
 	\label{eq:component_spatial_mass}
 \end{align}
 % AGENT-LOCK-END
@@ -233,15 +234,15 @@ component mass balance,
 \begin{align}
 	\frac{\partial}{\partial t}\left(\sum_\xi \phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
 	+ \nabla_\mbf{x}\cdot\left( \sum_\xi \phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
-	= \sum_\xi \phasedot{c}^\alpha_\xi .
+	= \sum_\xi \dot{c}^\alpha_\xi .
 	\label{eq:spatial_mass_2}
 \end{align}
 % AGENT-LOCK-END
 %
-Let \(\dot r_{(m)}\) be the current progress rate of internal mechanism
+Let \(r_{(m)}\) be the current progress rate of internal mechanism
 \((m)\).  Its mass-based stoichiometric coefficient for component \(\alpha\) in
 phase \(\xi\) is \(\nu_{\xi (m)}^\alpha\).  The product
-\(\nu_{\xi (m)}^\alpha\dot r_{(m)}\) is therefore the component mass-production
+\(\nu_{\xi (m)}^\alpha r_{(m)}\) is therefore the component mass-production
 rate per unit current mixture volume.  Equivalently, a molar progress rate may
 be used if \(\nu_{\xi (m)}^\alpha\) is the signed molar stoichiometric
 coefficient multiplied by component molar mass.  Before unresolved relative transport is
@@ -249,7 +250,7 @@ introduced, this rate is generated only by conversion, so that
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\phasedot{c}_\xi^\alpha = \sum_m \nu_{\xi (m)}^\alpha \dot{r}_{(m)} .
+	\dot{c}_\xi^\alpha = \sum_m \nu_{\xi (m)}^\alpha r_{(m)} .
 	\label{eq:unified_stoich_current}
 \end{equation}
 % AGENT-LOCK-END
@@ -265,7 +266,7 @@ and summing over $\al$ gives the overall mass balance
 \begin{align}
 	\frac{\partial}{\partial t}\left(\sum_\xi \sum_\al \phi_\xi \bar\rho_\xi \eta^\al_\xi\right)
 	+ \nabla_\mbf{x}\cdot\left( \sum_\xi \sum_\al \phi_\xi \bar\rho_\xi \eta^\al_\xi \mbf{v}_\xi\right)
-	 & = \sum_m \sum_\xi \sum_\al \nu^\alpha_{\xi (m)} \dot{r}_{(m)},
+	 & = \sum_m \sum_\xi \sum_\al \nu^\alpha_{\xi (m)} r_{(m)},
 	\label{eq:spatial_mass_3}
 \end{align}
 % AGENT-LOCK-END
@@ -381,7 +382,7 @@ and writing the result in divergence form gives
 	\widehat{\mbf v}_\xi^\alpha
 	\right)
 	=
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}.
+	\sum_m\nu_{\xi (m)}^\alpha r_{(m)}.
 	\label{eq:local_component_balance_before_averaging}
 \end{equation}
 %
@@ -440,7 +441,7 @@ motion relative to the phase.  The averaged component balance is consequently
 	\mbf j_{\xi,{\rm diff}}^\alpha
 	\right)
 	 & =
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}.
+	\sum_m\nu_{\xi (m)}^\alpha r_{(m)}.
 	\label{eq:averaged_component_spatial_mass}
 \end{align}
 %
@@ -450,12 +451,12 @@ increment \(\mc C_\xi^\alpha\) is the component mass added to a phase-attached
 region per unit phase reference volume by both conversion mechanisms and relative transport.
 Multiplication of \eqref{eq:averaged_component_spatial_mass} by \(J_\xi\),
 together with
-\(\phasedot{J}_\xi=J_\xi\nabla_{\mbf x}\cdot\mbf v_\xi\), gives
+\(\dot{J}_\xi=J_\xi\nabla_{\mbf x}\cdot\mbf v_\xi\), gives
 %
 \begin{align}
 	\frac{D_\xi}{Dt}\left(J_\xi\rho_\xi^\alpha\right)
 	={} &
-	J_\xi\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
+	J_\xi\sum_m\nu_{\xi (m)}^\alpha r_{(m)}
 	-
 	J_\xi\nabla_{\mbf x}\cdot
 	\left(
@@ -468,12 +469,12 @@ together with
 %
 Comparing \eqref{eq:averaged_component_reference_rate} with the material-balance
 structure in \eqref{eq:material_mass_2} and its rate form
-\eqref{eq:component_material_mass} identifies \(\phasedot{\mc C}_\xi^\alpha\) as
+\eqref{eq:component_material_mass} identifies \(\dot{\mc C}_\xi^\alpha\) as
 %
 \begin{equation}
-	\phasedot{\mc C}_\xi^\alpha
+	\dot{\mc C}_\xi^\alpha
 	=
-	J_\xi\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)}
+	J_\xi\sum_m\nu_{\xi (m)}^\alpha r_{(m)}
 	-
 	J_\xi\nabla_{\mbf x}\cdot
 	\left(
@@ -621,7 +622,7 @@ component balance,
 	\right)
 	 & =
 	\sum_\xi\sum_m
-	\nu_{\xi (m)}^\alpha\dot r_{(m)}.
+	\nu_{\xi (m)}^\alpha r_{(m)}.
 	\label{eq:averaged_global_component_balance}
 \end{align}
 %
@@ -635,7 +636,7 @@ mass balance and
 %
 \begin{equation}
 	\sum_\xi\sum_\alpha
-	\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
+	\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
 	=
 	0.
 	\label{eq:material_increment_insertion_constraint}

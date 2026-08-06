@@ -8,9 +8,17 @@ Use after modifying repository artifacts.
 - Search for stale labels, references, old notation, and duplicated local
   equations.
 - If equation labels, numbering, citations, or display layout changed, compile
-  twice from `main.tex`, preferably through LaTeX Workshop.
+  twice from `main.tex`, preferably through LaTeX Workshop, directing all
+  outputs into `build/` (for example `latexmk -outdir=build main.tex`) and
+  leaving no build artifacts at the repository root.
 - Inspect warnings relevant to the edited area: undefined refs, citation
   failures, overfull boxes, and display-layout regressions.
+- Scan edited prose for negative positioning (`but ... do not`, `does not
+  present`, `has not`, `unlike`, `rather than`, `not merely`, `not ad hoc`,
+  and `not a`). Rewrite rhetorical uses as positive statements of what the
+  cited work contributes and what the manuscript derives. Preserve negation
+  required by mathematics, physical assumptions, precise distinctions, and
+  scientifically necessary limitations.
 - For summary tables, compare rows against the governing equations rather than
   against nearby prose only.
 

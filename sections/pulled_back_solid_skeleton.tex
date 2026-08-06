@@ -71,7 +71,7 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 	\frac{1}{\rho_f}
 	\left(
 		\phi_f^2\mu_f^{\mathrm{visc}}\bs\kappa_f^{-1}
-		+\sum_\alpha\phasedot{c}_f^\alpha\mbf I
+		+\sum_\alpha\dot{c}_f^\alpha\mbf I
 	\right)\mbf w_f
 		= & \;
 		\rho_f\left(\mbf g-\mbf a_f\right)
@@ -87,7 +87,7 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 	\left(
 		\phi_f\mbf E\otimes\mbf d_f
 	\right)
-		+\sum_\alpha\phasedot{c}_f^\alpha
+		+\sum_\alpha\dot{c}_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_{\mc S}\right),
 	\qquad
 	f\in\mc F,
@@ -96,7 +96,7 @@ Substituting \eqref{eq:relative_flux_velocity_reconstruction} and
 %
 By the component mass balance and the separate zero-sum closure for the
 component-relative fluxes, the scalar
-\(\sum_\alpha\phasedot{c}_f^\alpha\) is the net phase-mass source due to
+\(\sum_\alpha\dot{c}_f^\alpha\) is the net phase-mass source due to
 conversion.  It is a source coefficient in the phase momentum balance, not a
 transport mobility or an independent contribution to dissipation.  The
 component-relative transport itself is closed through
@@ -111,7 +111,7 @@ tensor by
 	=
 	\left(
 		\phi_f^2\mu_f^{\mathrm{visc}}\bs\kappa_f^{-1}
-		+\sum_\alpha\phasedot{c}_f^\alpha\mbf I
+		+\sum_\alpha\dot{c}_f^\alpha\mbf I
 	\right)^{-1},
 	\qquad
 	f\in\mc F .
@@ -133,7 +133,7 @@ the eigenvalues of
 %
 \begin{equation}
 	\frac{\phi_f^2\mu_f^{\mathrm{visc}}}{\kappa_{f,i}}
-	+\sum_\alpha\phasedot{c}_f^\alpha
+	+\sum_\alpha\dot{c}_f^\alpha
 	\ne 0
 	\qquad\text{for every eigenvalue }\kappa_{f,i},
 	\qquad
@@ -148,7 +148,7 @@ condition
 \begin{equation}
 	\phi_f^2\mu_f^{\mathrm{visc}}\mbf z\cdot\bs\kappa_f^{-1}\mbf z
 	+
-	\left(\sum_\alpha\phasedot{c}_f^\alpha\right)
+	\left(\sum_\alpha\dot{c}_f^\alpha\right)
 	\mbf z\cdot\mbf z
 	>0,
 	\qquad
@@ -168,7 +168,7 @@ eigenvalues of \(\bs\kappa_f\), respectively, the positive-resistance
 condition is equivalently
 %
 \begin{equation}
-	\sum_\alpha\phasedot{c}_f^\alpha
+	\sum_\alpha\dot{c}_f^\alpha
 	>
 	-\frac{\phi_f^2\mu_f^{\mathrm{visc}}}{\kappa_{f,\max}},
 	\qquad
@@ -182,15 +182,15 @@ Within this positive-definite regime, the spectral condition number is
 	\operatorname{cond}_2
 	\left(
 		\phi_f^2\mu_f^{\mathrm{visc}}\bs\kappa_f^{-1}
-		+\sum_\alpha\phasedot{c}_f^\alpha\mbf I
+		+\sum_\alpha\dot{c}_f^\alpha\mbf I
 	\right)
 	=
 	\frac{
 		\phi_f^2\mu_f^{\mathrm{visc}}/\kappa_{f,\min}
-		+\sum_\alpha\phasedot{c}_f^\alpha
+		+\sum_\alpha\dot{c}_f^\alpha
 	}{
 		\phi_f^2\mu_f^{\mathrm{visc}}/\kappa_{f,\max}
-		+\sum_\alpha\phasedot{c}_f^\alpha
+		+\sum_\alpha\dot{c}_f^\alpha
 	},
 	\qquad
 	f\in\mc F .
@@ -200,7 +200,7 @@ Within this positive-definite regime, the spectral condition number is
 Thus quantitative conditioning requires the denominator to remain bounded away
 from zero, not merely positive.
 For an aqueous reaction that removes fluid mass on a time scale \(t_{\rm rxn}\),
-\(\sum_\alpha\phasedot{c}_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The singular threshold
+\(\sum_\alpha\dot{c}_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The singular threshold
 at the first loss of positive definiteness is
 %
 \begin{equation}
@@ -246,7 +246,7 @@ The resulting relative mass flux is
 		\left(
 			\phi_f\mbf E\otimes\mbf d_f
 		\right)
-		+\sum_\alpha\phasedot{c}_f^\alpha
+		+\sum_\alpha\dot{c}_f^\alpha
 		\left(
 			\nabla_{\mbf x}\tau-\mbf v_{\mc S}
 		\right)
@@ -278,7 +278,7 @@ replaces the interaction-energy allocation in
 
 The neutral, conversion-free, negligible-inertia specialization
 \(\omega_f^+=0\), \(\mbf E\otimes\mbf d_f=\mbf0\),
-\(\phasedot{c}_f^\alpha=0\), and \(\mbf a_f=\mbf0\) reduces
+\(\dot{c}_f^\alpha=0\), and \(\mbf a_f=\mbf0\) reduces
 \eqref{eq:generalized_fluid_darcy_mass_flux} to
 %
 \begin{equation}
@@ -355,7 +355,7 @@ The flux assembled in the reference component balances is then
 	\notag \\
 	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
 	\left.
-	+\sum_\alpha\phasedot{c}_f^\alpha
+	+\sum_\alpha\dot{c}_f^\alpha
 	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_{\mc S}\right)
 	\right],
 	\qquad
@@ -408,7 +408,7 @@ term on the solid trajectory gives
 	\right)
 	\right]
 	=
-	J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)},
+	J\sum_m\nu_{f (m)}^\alpha r_{(m)},
 	\qquad
 	f\in\mc F .
 	\label{eq:solid_reference_fluid_component_balance}
@@ -436,7 +436,7 @@ dispersion remain admissible, giving
 		\right]
 		\\
 		& {}=
-		J\sum_m\nu_{s (m)}^\alpha\dot r_{(m)},
+			J\sum_m\nu_{s (m)}^\alpha r_{(m)},
 		\qquad
 		s\in\mc S .
 	\end{aligned}
@@ -499,7 +499,7 @@ divergence and multiplying the remaining spatial source terms by \(J\).  Using
 	\nabla_{\mbf X}S_f
 	\notag \\
 	&\;
-	+J\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
+	+J\sum_\xi\sum_\alpha\dot{c}_\xi^\alpha
 	\left(
 		\mbf F^{-T}\nabla_{\mbf X}\tau-\mbf v_\xi
 	\right).
@@ -569,7 +569,7 @@ from
 	\nabla_{\mbf X}S_f
 	\notag \\
 	&\;
-	+J\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha
+	+J\sum_\xi\sum_\alpha\dot{c}_\xi^\alpha
 	\left(
 		\mbf F^{-T}\nabla_{\mbf X}\tau-\mbf v_\xi
 	\right).
@@ -595,7 +595,7 @@ The fluid component balances on the same solid trajectory are
 	\right)
 	\right]
 	=
-	J\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} ,
+	J\sum_m\nu_{f (m)}^\alpha r_{(m)} ,
 	\qquad f\in\mc F ,
 	\label{eq:reservoir_simulation_fluid_component_summary}
 \end{equation}
@@ -638,7 +638,7 @@ The corresponding admissible reference flux is
 	\notag \\
 	& \phantom{\;\rho_f\widetilde{\mbf K}_f}
 	\left.
-	+\sum_\alpha\phasedot{c}_f^\alpha
+	+\sum_\alpha\dot{c}_f^\alpha
 	\left(\nabla_{\mbf X}\tau-\mbf F^T\mbf v_{\mc S}\right)
 	\right],
 	\qquad

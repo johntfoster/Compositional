@@ -1,0 +1,181 @@
+{
+  "$schema": "../schemas/problem_spec.schema.json",
+  "name": "SPE2 axisymmetric three-phase coning candidate",
+  "track": "exploratory",
+  "physics_regime": "Candidate finite-deformation solid-reference four-phase mixture realization of SPE2, with one deformable matrix phase and water, oil, and gas fluid phases on the published radial-vertical geometry.",
+  "manuscript_basis": [
+    {
+      "source": "eq:black_oil_storage_identifications; eq:black_oil_water_balance; eq:black_oil_oil_balance; eq:black_oil_gas_balance",
+      "role": "Conserve stock-tank water, oil, and gas with the published PVTW, PVTO, and PVDG data."
+    },
+    {
+      "source": "eq:solid_reference_solid_component_balance; eq:solid_reference_fluid_component_balance; eq:solid_reference_overall_momentum; eq:solid_reference_effective_piola_stress",
+      "role": "Solve solid constituent storage, finite-deformation axisymmetric skeleton kinematics and momentum, and the pulled-back component fluxes.",
+      "assumptions_added": [
+        "The paper supplies rock compressibility but no shear response; any shear modulus used by the candidate must be reported as an untuned mechanical specialization.",
+        "The external mechanical support and reference prestress are benchmark modeling choices and must be reported."
+      ]
+    },
+    {
+      "source": "eq:black_oil_darcy_flux; eq:black_oil_capillary_pressure_closures; eq:fluid_pressure_difference_primitive_potential; eq:MC_dynamic_capillary_onsager_relation",
+      "role": "Use anisotropic layer permeability, gravity, Stone-II mobility, and the stored-capillary/electrical/saturation-force phase-pressure identity.",
+      "assumptions_added": [
+        "The official electrical specialization is neutral.",
+        "SPE2 supplies no dynamic-capillary resistance, so the official saturation Onsager matrix is zero."
+      ]
+    },
+    {
+      "source": "eq:MC_admissible_conversion_component; eq:MC_phase_reference_transfer_work_recovery; eq:MC_generalized_conversion_affinity_relation; eq:classical_phase_equilibrium_mu",
+      "role": "Retain tau, dissolved/free-gas chemical potentials, gas phase conversion, transfer work, and nonnegative conversion dissipation."
+    }
+  ],
+  "variables": [
+    {
+      "name": "ux uy",
+      "family": "LAGRANGE",
+      "order": "SECOND",
+      "meaning": "Radial and axial Q2 continuous-Galerkin displacement of the deformable solid skeleton.",
+      "units": "m"
+    },
+    {
+      "name": "oil_pressure oil_pressure_enrichment",
+      "family": "LAGRANGE + MONOMIAL",
+      "order": "FIRST + CONSTANT",
+      "meaning": "P1+P0 enriched-Galerkin reconstructed oil pressure.",
+      "units": "Pa"
+    },
+    {
+      "name": "water_saturation water_saturation_enrichment",
+      "family": "BERNSTEIN + MONOMIAL",
+      "order": "SECOND + CONSTANT",
+      "meaning": "P2+P0 reconstructed physical water saturation with entropy-viscosity stabilization.",
+      "units": "1"
+    },
+    {
+      "name": "gas_saturation gas_saturation_enrichment",
+      "family": "BERNSTEIN + MONOMIAL",
+      "order": "SECOND + CONSTANT",
+      "meaning": "P2+P0 reconstructed physical gas saturation with entropy-viscosity stabilization.",
+      "units": "1"
+    },
+    {
+      "name": "solution_gas_oil_ratio",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "Continuous parent solution-gas ratio consumed by the black-oil phase closure.",
+      "units": "standard m3/stock-tank m3"
+    },
+    {
+      "name": "water_oil_pressure_difference gas_oil_pressure_difference",
+      "family": "LAGRANGE",
+      "order": "SECOND",
+      "meaning": "P2 projections of the water/oil and gas/oil stored, electrical, and dissipative pressure identities.",
+      "units": "Pa"
+    },
+    {
+      "name": "tau tau_enrichment",
+      "family": "LAGRANGE + MONOMIAL",
+      "order": "FIRST + CONSTANT",
+      "meaning": "P1+P0 Bedford--Drumheller transfer potential.",
+      "units": "J/kg"
+    },
+    {
+      "name": "gas_phase_transformation_rate",
+      "family": "MONOMIAL",
+      "order": "SECOND",
+      "meaning": "Element-local dissolved-gas/free-gas conversion rate.",
+      "units": "kg/(m3 s)"
+    },
+    {
+      "name": "fluid_temperature solid_temperature",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "Two solved temperature fields retaining the complete energy hierarchy in the official isothermal specialization.",
+      "units": "K"
+    },
+    {
+      "name": "matrix_reference_component_storage",
+      "family": "MONOMIAL",
+      "order": "CONSTANT",
+      "meaning": "Layer-discontinuous solid constituent storage on the reference configuration.",
+      "units": "kg/m3"
+    }
+  ],
+  "closures": [
+    {
+      "name": "spe2_black_oil_pvt_and_stone_ii",
+      "type": "eos",
+      "inputs": ["reconstructed oil pressure", "water saturation", "gas saturation", "solution-gas ratio", "PVTW", "PVDG", "PVTO", "SWOF", "SGOF"],
+      "outputs": ["phase densities and viscosities", "component storage and rates", "Stone-II phase mobilities", "phase-appearance state"],
+      "manuscript_basis": "eq:black_oil_storage_identifications; eq:black_oil_darcy_flux"
+    },
+    {
+      "name": "spe2_phase_pressure_identity",
+      "type": "constraint",
+      "inputs": ["stored capillary pressure", "neutral electrical enthalpy", "zero official saturation Onsager force"],
+      "outputs": ["water/oil and gas/oil pressure differences", "actual phase-pressure gradients"],
+      "manuscript_basis": "eq:fluid_pressure_difference_primitive_potential; eq:MC_dynamic_capillary_onsager_relation"
+    },
+    {
+      "name": "spe2_phase_transforming_darcy_flux",
+      "type": "flux-law",
+      "inputs": ["anisotropic layer permeability", "actual phase-pressure gradients", "gravity", "relative permeability", "viscosity", "tau", "phase conversion", "solid velocity"],
+      "outputs": ["finite-deformation water, oil, and gas reference relative mass fluxes"],
+      "manuscript_basis": "eq:black_oil_darcy_flux; eq:el_mom_f_dynamic_capillary"
+    },
+    {
+      "name": "spe2_rate_bhp_control",
+      "type": "constraint",
+      "inputs": ["two published completions", "four-interval oil-rate schedule", "3000 psia minimum datum BHP"],
+      "outputs": ["completion component sources", "shared oil rate", "datum BHP", "rate/BHP complementarity"]
+    },
+    {
+      "name": "finite_deformation_axisymmetric_mixture_mechanics",
+      "type": "other",
+      "inputs": ["Q2 radial and axial displacement", "solid storage", "reconstructed pressure", "phase state", "mechanical specialization"],
+      "outputs": ["complete radial/axial/hoop F and J", "total first Piola stress", "axisymmetric momentum residual", "phase-volume closure"],
+      "manuscript_basis": "eq:solid_reference_solid_component_balance; eq:solid_reference_overall_momentum; eq:solid_reference_effective_piola_stress"
+    }
+  ],
+  "mesh": {
+    "dimension": 2,
+    "description": "Exact 10 by 15 radial-vertical SPE2 topology represented by 150 QUAD9 elements in RZ coordinates, spanning 0.25 to 2050 ft radius and 9000 to 9359 ft depth, with completion blocks 107 and 108.",
+    "displaced_mesh": true
+  },
+  "boundary_conditions": [
+    "No-flow component and thermal flux on all external reservoir boundaries.",
+    "Axisymmetric radial and axial mechanics with minimal rigid-body support and explicitly reported external traction assumptions.",
+    "Internal producer completions in radial cell 1, layers 7 and 8, under scheduled oil-rate control until the 3000 psia datum-BHP limit activates."
+  ],
+  "initial_conditions": [
+    "Oil pressure is 3600 psia at the 9035 ft gas-oil contact.",
+    "The water-oil contact is 9209 ft and the gas-oil contact is 9035 ft, with the tabulated capillary-pressure functions.",
+    "Initial phase state is hydrostatic and capillary-equilibrated from the published contacts and PVT tables.",
+    "Initial displacement is zero and subsequent J is solved.",
+    "Fluid and solid temperatures start at one common reported isothermal datum."
+  ],
+  "execution": {
+    "type": "Candidate fully coupled transient finite-deformation solid-reference Newton solve",
+    "solver_notes": "Exercise Q2 axisymmetric mechanics, P1+P0 pressure and tau, P2+P0 saturations, explicit phase-pressure closure rows, DG facet and weak-boundary operators, active phase conversion, two energy equations, two-completion AD rate aggregation, and rate/BHP complementarity. A solve=false, fixed-skeleton, finite-volume, or cached-output path cannot satisfy any coupled gate.",
+    "time_step": 86400.0,
+    "end_time": 77760000.0
+  },
+  "outputs": [
+    "Initial oil, water, and gas in place",
+    "Oil rate, water cut, GOR, datum BHP, and layer-7 drawdown histories",
+    "Component and solid mass-balance histories",
+    "Phase-volume, saturation, J, mechanics, tau/mu, dissipation, and two-temperature energy diagnostics",
+    "Pressure and saturation field snapshots plus nonlinear/timestep performance metrics"
+  ],
+  "validation": {
+    "matrix_id": "spe2_three_phase_coning_candidate",
+    "observables": ["initial fluids in place", "oil rate", "water cut", "GOR", "datum BHP", "p(1,7)-BHP", "component balances", "minimum J", "minimum saturation", "conversion dissipation"],
+    "pass_fail": "All candidate static and coupled gates in validation/reference_data/spe2_candidate_gates.yml pass. This is promotion-quality candidate evidence only; production acceptance additionally requires verified registry blocks, a protected assembly manifest, the full 900-day run, and convergence/reference-comparison evidence.",
+    "reference_data": "validation/reference_data/spe2_primary_tables.yml"
+  },
+  "open_questions": [
+    "All eleven SPE2 reusable fragments remain candidate blocks and therefore cannot enter a production deck assembled from protected verified payloads.",
+    "The primary paper does not prescribe a solid shear response, mechanical boundary tractions, or caloric parameters; the candidate must record and test each specialization.",
+    "A hydrostatic/capillary initialization solve and its initial-fluids-in-place comparison remain required before advancing the 900-day schedule."
+  ]
+}

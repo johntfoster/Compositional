@@ -16,7 +16,7 @@ Exploitation of the entropy inequality then requires nonnegative dissipation
 \cite{doi2011onsager,wang2021onsager}.  This is the continuum counterpart of
 using virtual work for coordinate changes and virtual power for process rates
 \cite{germain1973virtualpower,gurtin2010continua}.  The saturation force is held
-fixed during the coordinate variation and paired with \(\dot S_f\) during the
+fixed during the coordinate variation and paired with \(\phasedot S_f\) during the
 Onsager variation, so the two statements supply complementary coordinate and
 constitutive equations.
 
@@ -95,7 +95,7 @@ The energies, virtual work, and four constraints are defined together by
 	C_4      & = \int_{\mc B}\tau
 	\left(
 	\sum_\xi\sum_\alpha
-	\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
+	\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
 	\right)\dv .
 	\label{eq:C4_def}
 \end{align}
@@ -179,8 +179,8 @@ normalization.
 Constraint \(C_4\) enforces zero net material insertion over all phases and
 components.  Writing the rate of component mass addition per current mixture
 volume as
-\(\phasedot{c}_\xi^\alpha=\phasedot{\mc C}_\xi^\alpha/J_\xi\), this constraint imposes
-\(\sum_\xi\sum_\alpha\phasedot{c}_\xi^\alpha=0\).  Internal conversion satisfies the
+\(\dot{c}_\xi^\alpha=\dot{\mc C}_\xi^\alpha/J_\xi\), this constraint imposes
+\(\sum_\xi\sum_\alpha\dot{c}_\xi^\alpha=0\).  Internal conversion satisfies the
 constraint through stoichiometric mass conservation, while relative component
 transport satisfies it phase by phase through
 \eqref{eq:averaged_relative_flux_sum}.
@@ -264,12 +264,12 @@ The variation of kinetic energy using \eqref{eq:bd128_mod} is then
 \end{equation}
 % AGENT-LOCK-END
 %
-Since $\delta\mbf{v}_\xi = \delta\phasedot{\mbf{x}}_\xi$ and $\delta\mbf{x}_\xi\vert_{t_1} = \delta\mbf{x}_\xi\vert_{t_2} = \mbf{0}$, integration by parts in time gives
+Since $\delta\mbf{v}_\xi = \delta\dot{\mbf{x}}_\xi$ and $\delta\mbf{x}_\xi\vert_{t_1} = \delta\mbf{x}_\xi\vert_{t_2} = \mbf{0}$, integration by parts in time gives
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{equation}
 	\int_{t_1}^{t_2} \delta T \dt
-	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left[-\rho_\xi\,\mbf{a}_\xi - \sum_\al \phasedot{c}_\xi^\alpha \mbf{v}_\xi \right] \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}  \dv \dt.
+	= \int_{t_1}^{t_2} \sum_\xi \int_{\mc{B}} \left[-\rho_\xi\,\mbf{a}_\xi - \sum_\al \dot{c}_\xi^\alpha \mbf{v}_\xi \right] \cdot \delta\mbf{x}_\xi + \frac{1}{2} \mbf{v}_\xi \cdot \mbf{v}_\xi \sum_\al \frac{\delta \mc{C}_\xi^\alpha}{J_\xi}  \dv \dt.
 	\label{eq:deltaT_app}
 \end{equation}
 % AGENT-LOCK-END
@@ -497,7 +497,8 @@ conjugate interfacial coefficient remains \(\gamma_f\).
 At fixed \(\mbf h\), the stored capillary contribution remains algebraic at the
 current saturations and fluid temperature.  Evolution of \(\mbf h\) makes that
 contribution depend on the drainage--imbibition path.  Setting \(N_h=0\)
-recovers the single-valued equilibrium closure.
+recovers the single-valued equilibrium closure, where \(N_h\) is the number of
+continuous capillary-history variables.
 
 Dynamic capillarity is introduced through the generalized saturation force in
 \eqref{eq:W_def} while leaving the stored potential
@@ -769,7 +770,7 @@ the total insertion-rate constraint.  Varying
 	\delta\tau
 	\left[
 		\sum_\xi\sum_\alpha
-		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
+		\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
 		\right]\dv\dt
 	\notag  \\
 	    & +
@@ -778,7 +779,7 @@ the total insertion-rate constraint.  Varying
 		-\frac{D_\xi\tau}{Dt}
 		\frac{\delta\mc C_\xi^\alpha}{J_\xi}
 		+
-		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
+		\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
 		\nabla_{\mbf x}\tau\cdot\delta\mbf x_\xi
 		\right]\dv\dt
 	+
@@ -818,7 +819,7 @@ including those from \(\delta C_4\):
 			+ \nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 			-\lambda\nabla_{\mbf{x}}\phi_\xi
 			-\sum_\alpha\nabla_{\mbf{x}}\pi_\xi^\alpha
-			+\sum_\alpha\phasedot{c}_\xi^\alpha
+			+\sum_\alpha\dot{c}_\xi^\alpha
 			\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right)
 		\right]\cdot\delta\mbf{x}_{\xi} \,\dv            \\
 		 & + \sum_{f\in\mc F}\int_{\mc B}
@@ -943,11 +944,9 @@ phase-volume-fraction variation \(\delta\phi_\xi\) gives
 %
 This relation is used to simplify the phase momentum equations below and, for
 fluid phases, to eliminate the volume-constraint multiplier in favor of phase
-pressure and interfacial terms.  The fluid-phase variation also contains the
-primitive capillary potential.
-
-Returning to the fluid-phase volume-fraction variation, its coefficient in
-\eqref{eq:collected_full} contains both the primitive interfacial potential
+pressure and interfacial terms.  For a fluid phase the variation also carries
+the primitive capillary potential, so its coefficient in
+\eqref{eq:collected_full} contains the interfacial potential
 \(\gamma_f\), the electric enthalpy \(\omega_f^+\), and the generalized
 saturation force.  The corresponding Euler--Lagrange equation is
 %
@@ -964,16 +963,22 @@ Using \eqref{eq:phase_pressure_storage} and
 \eqref{eq:phase_pressure_all} gives
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{equation}
-	\lambda+\bar p_f-\gamma_f-\omega_f^+
-	-\mc L_f^{\rm sat}
-	+\sum_{g\in\mc F}S_g\mc L_g^{\rm sat}=0,
-	\qquad\hbox{or}\qquad
-	\bar p_f-\omega_f^+-\gamma_f
-	=\mc L_f^{\rm sat}
-	-\sum_{g\in\mc F}S_g\mc L_g^{\rm sat}-\lambda .
+\begin{subequations}
 	\label{eq:fluid_pressure_primitive_potential_relation}
-\end{equation}
+	\begin{equation}
+		\lambda+\bar p_f-\gamma_f-\omega_f^+
+		-\mc L_f^{\rm sat}
+		+\sum_{g\in\mc F}S_g\mc L_g^{\rm sat}=0,
+		\label{eq:fluid_pressure_primitive_potential_relation_a}
+	\end{equation}
+	or
+	\begin{equation}
+		\bar p_f-\omega_f^+-\gamma_f
+		=\mc L_f^{\rm sat}
+		-\sum_{g\in\mc F}S_g\mc L_g^{\rm sat}-\lambda .
+		\label{eq:fluid_pressure_primitive_potential_relation_b}
+	\end{equation}
+\end{subequations}
 % AGENT-LOCK-END
 %
 Consequently the coordinate stationarity identifies the generalized-force
@@ -1197,7 +1202,7 @@ The phase-motion variation \(\delta\mbf x_\xi\), after substitution of
 	\nabla_{\mbf{x}}\cdot\bs\sigma_{\xi}^{\prime+} + \rho_{\xi}\mbf{g} + \mbf{b}_{\xi}
 	+ \phi_{\xi} \nabla_{\mbf{x}}\lambda
 	-\nabla_{\mbf x}\left(\phi_\xi\omega_\xi^+\right)
-	+\sum_\alpha\phasedot{c}_\xi^\alpha
+	+\sum_\alpha\dot{c}_\xi^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right),
 	\label{eq:el_momentum_uniform}
 \end{equation}
@@ -1238,7 +1243,7 @@ gives the intermediate form
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
 \begin{equation}
-	\rho_f\mbf a_f = \nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+} + \rho_f\mbf g + \mbf b_f -\lambda\nabla_{\mbf x}\phi_f -\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha +\gamma_f\nabla_{\mbf x}\phi_f+\sum_\alpha\phasedot{c}_f^\alpha\left(\nabla_{\mbf x}\tau-\mbf v_f\right).
+	\rho_f\mbf a_f = \nabla_{\mbf x}\cdot\bs\sigma_f^{\prime+} + \rho_f\mbf g + \mbf b_f -\lambda\nabla_{\mbf x}\phi_f -\sum_\alpha\nabla_{\mbf x}\pi_f^\alpha +\gamma_f\nabla_{\mbf x}\phi_f+\sum_\alpha\dot{c}_f^\alpha\left(\nabla_{\mbf x}\tau-\mbf v_f\right).
 	\label{eq:el_mom_f_start}
 \end{equation}
 % AGENT-LOCK-END
@@ -1267,7 +1272,7 @@ Maxwell contribution against the explicit electric-enthalpy
 volume-fraction force.  The fluid momentum balance is therefore
 %
 % AGENT-LOCK-BEGIN equation-lock: do not edit unless explicitly unlocked by user
-\begin{align}
+\begin{empheq}[box=\fbox]{align}
 	\rho_f\mbf{a}_f
 	& = \nabla_{\mbf x}\cdot
 	\left(
@@ -1279,18 +1284,17 @@ volume-fraction force.  The fluid momentum balance is therefore
 	\bar p_E+\gamma_f
 	\right)
 	+ \rho_f\mbf{g} + \mbf{b}_f
-	+\sum_\alpha\phasedot{c}_f^\alpha
+	+\sum_\alpha\dot{c}_f^\alpha
 	\left(\nabla_{\mbf x}\tau-\mbf v_f\right),
 	\qquad f\in\mc F .
 	\label{eq:el_mom_f_simplified}
-\end{align}
+\end{empheq}
 % AGENT-LOCK-END
 %
-When the saturation-work term in \eqref{eq:W_def} is active, its variation
-contributes the dissipative pressure lag in addition to the stored capillary
-and electrical terms.  Thus, the pressure-gradient term in the phase balance
-contains the actual phase pressure, \(\bar p_f-\omega_f^+\), rather than only
-the stored capillary pressure:
+When the saturation-work term in \eqref{eq:W_def} is active, its variation adds
+the dissipative pressure-lag force to the stored and electrical contributions.
+The resulting balance uses the actual
+phase-pressure gradient,
 %
 \begin{empheq}[box=\fbox]{align}
 	\rho_f\mbf a_f
@@ -1307,7 +1311,7 @@ the stored capillary pressure:
 	+\rho_f\mbf g+\mbf b_f
 	\notag\\
 	&+
-	\sum_\alpha\phasedot{c}_f^\alpha
+	\sum_\alpha\dot{c}_f^\alpha
 	\left(
 	\nabla_{\mbf x}\tau-\mbf v_f
 	\right),
@@ -1328,7 +1332,7 @@ leaky-dielectric and electrowetting theories
 \cite{melcher1969electrohydrodynamics,yamamoto2015contact_angle_saturation}.
 
 Under the neutral, conversion-free specialization
-\(\omega_f^+=0\) and \(\phasedot{c}_f^\alpha=0\),
+\(\omega_f^+=0\) and \(\dot{c}_f^\alpha=0\),
 \eqref{eq:el_mom_f_dynamic_capillary} reduces to the standard
 pressure-gradient form,
 %
@@ -1414,7 +1418,7 @@ chemical-potential interpretation is derived later by the Coleman--Noll
 procedure.  The state variables that enter the coefficients are held fixed
 during this minimization.  For each active phase,
 select one active reference component \(N\).  The independent process rates are
-the \(|\mc F|-1\) saturation rates, \(\dot r_{(m)}\),
+the \(|\mc F|-1\) saturation rates and the external progress rates \(r_{(m)}\),
 \(\mbf j_{\xi,{\rm disp}}^\alpha\), and
 \(\mbf j_{\xi,{\rm diff}}^\alpha\) for \(\alpha\ne N\).  The reference-component
 fluxes are reconstructed separately for dispersion and diffusion by
@@ -1430,7 +1434,7 @@ fluxes are reconstructed separately for dispersion and diffusion by
 %
 Thus every admissible flux variation satisfies the same zero-sum condition.
 Choose one active reference fluid phase \(f_\star\) and write
-\(\dot S_{f_\star}=-\sum_{f\ne f_\star}\dot S_f\).  The remaining saturation
+\(\phasedot S_{f_\star}=-\sum_{f\ne f_\star}\phasedot S_f\).  The remaining saturation
 rates are independent.
 The held-fixed current configuration and constitutive state include
 \(\mbf F_\xi\), \(\bar\rho_\xi\), \(\eta_\xi^\alpha\), \(\phi_\xi\),
@@ -1451,7 +1455,7 @@ potential.  Keeping the neutral and electric parts separate also preserves
 invariance under the additive gauge of \(\varphi\) at nonuniform temperature.
 
 The accumulation rate
-\(\phasedot{\mc C}_\xi^\alpha/J_\xi\) is not an additional independent
+\(\dot{\mc C}_\xi^\alpha/J_\xi\) is not an additional independent
 Onsager rate.  It is eliminated before stationarity by using
 \eqref{eq:reference_conversion_accumulation_rate} and
 \eqref{eq:onsager_reference_flux_reconstruction}.  For \(\xi\in\mc G\), the
@@ -1468,7 +1472,7 @@ gauge-invariant identity
 		\frac{
 			\psi_\xi+L_\xi^\alpha
 		}{\theta_{\mc G}}
-		\frac{\phasedot{\mc C}_\xi^\alpha}{J_\xi}
+		\frac{\dot{\mc C}_\xi^\alpha}{J_\xi}
 		-
 		\frac{1}{\theta_{\mc G}}
 		\sum_\alpha z_\xi^\alpha
@@ -1486,7 +1490,7 @@ gauge-invariant identity
 		\psi_\xi+L_\xi^\alpha
 		\right)
 		\nu_{\xi (m)}^\alpha
-		\right)\dot r_{(m)}
+		\right)r_{(m)}
 		\\
 		 & -
 		\sum_{\alpha\ne N}
@@ -1540,12 +1544,12 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 	\frac{1}{2}\int_{\mc B}
 	\frac{\phi}{\theta_{\mc F}}
 	\sum_{f\ne f_\star}\sum_{g\ne f_\star}
-	\mc T_{fg}\dot S_f\dot S_g\dv
+	\mc T_{fg}\phasedot S_f\phasedot S_g\dv
 	\notag    \\
 	    & -
 	\int_{\mc B}
 	\frac{\phi}{\theta_{\mc F}}
-	\sum_{f\in\mc F}\mc L_f^{\rm sat}\dot S_f\dv
+	\sum_{f\in\mc F}\mc L_f^{\rm sat}\phasedot S_f\dv
 	\notag    \\
 	    & +
 	\int_{\mc B}
@@ -1558,7 +1562,7 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 		\psi_\xi+L_\xi^\alpha
 		\right)
 		\nu_{\xi (m)}^\alpha
-		\right]\dot r_{(m)}\dv
+		\right]r_{(m)}\dv
 	\notag    \\
 	    & -
 	\int_{\mc B}
@@ -1620,7 +1624,7 @@ potential is
 	\Phi_{\rm rt}
 	={} &
 	\frac{1}{2}\int_{\mc B}
-	\sum_m\frac{\dot r_{(m)}^2}{K_{(m)}}\dv
+	\sum_m\frac{r_{(m)}^2}{K_{(m)}}\dv
 	\notag  \\
 	    & +
 	\frac{1}{2}\int_{\mc B}
@@ -1667,8 +1671,8 @@ Varying
 	\delta\Phi_{\rm rt}
 	={} &
 	\int_{\mc B}\sum_m
-	\frac{\dot r_{(m)}}{K_{(m)}}\,
-	\delta\dot r_{(m)}\dv
+	\frac{r_{(m)}}{K_{(m)}}\,
+	\delta r_{(m)}\dv
 	\notag  \\
 	    & +
 	\int_{\mc B}
@@ -1712,7 +1716,7 @@ The corresponding first variation of the linear thermodynamic-rate part of
 		\right)
 		\nu_{\xi (m)}^\alpha
 		\right]
-	\delta\dot r_{(m)}\dv
+		\delta r_{(m)}\dv
 	\notag                         \\
 	    & +
 	\int_{\mc B}
@@ -1823,16 +1827,16 @@ condition is
 	\frac{\phi}{\theta_{\mc F}}
 	\sum_{f\ne f_\star}
 	\left[
-		\sum_{g\ne f_\star}\mc T_{fg}\dot S_g
+		\sum_{g\ne f_\star}\mc T_{fg}\phasedot S_g
 		-\left(
 		\mc L_f^{\rm sat}-\mc L_{f_\star}^{\rm sat}
 		\right)
-	\right]\delta\dot S_f\dv
+	\right]\delta\phasedot S_f\dv
 	\notag \displaybreak[1] \\
 	    & +
 	\int_{\mc B}\sum_m
 	\left[
-		\frac{\dot r_{(m)}}{K_{(m)}}
+		\frac{r_{(m)}}{K_{(m)}}
 		+
 		\sum_{\mc G\in\{\mc F,\mc S\}}
 		\frac{1}{\theta_{\mc G}}
@@ -1841,7 +1845,7 @@ condition is
 		\psi_\xi+L_\xi^\alpha
 		\right)
 		\nu_{\xi (m)}^\alpha
-		\right]\delta\dot r_{(m)}\dv
+		\right]\delta r_{(m)}\dv
 	\notag \displaybreak[1] \\
 	    & +
 	\int_{\mc B}
@@ -1910,7 +1914,7 @@ multiplier variation.  The mechanism-rate and independent-flux variations
 give, for \(\xi\in\mc G\) and \(\alpha\ne N\),
 %
 \begin{align}
-	\frac{\dot r_{(m)}}{K_{(m)}}
+		 \frac{r_{(m)}}{K_{(m)}}
 	 & =
 	-\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
@@ -1979,7 +1983,7 @@ temperature-weighted sum, rather than the affinity divided by an
 assigned reaction temperature, drives the rate:
 %
 \begin{equation}
-	\frac{\dot r_{(m)}}{K_{(m)}}
+	     \frac{r_{(m)}}{K_{(m)}}
 	=
 	-\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
@@ -1994,7 +1998,7 @@ assigned reaction temperature, drives the rate:
 The resulting near-equilibrium rate laws are
 %
 \begin{align}
-	\dot r_{(m)}
+	     r_{(m)}
 	 & =
 	K_{(m)}
 	\left[
@@ -2078,7 +2082,7 @@ admissibility requires the resistance conditions
 	\begin{align}
 		&\mc L_f^{\rm sat}-\mc L_{f_\star}^{\rm sat}
 		=
-		\sum_{g\ne f_\star}\mc T_{fg}\dot S_g,
+		\sum_{g\ne f_\star}\mc T_{fg}\phasedot S_g,
 		\qquad
 		f\ne f_\star,
 		\label{eq:MC_dynamic_capillary_force_rate_relation}\\

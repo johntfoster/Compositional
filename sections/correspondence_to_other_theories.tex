@@ -29,7 +29,7 @@ component balance \eqref{eq:averaged_global_component_balance}.  The result is
 	\mbf j_{f,{\rm diff}}^\alpha
 	\right]
 	\right)
-	=\sum_{f\in\mc F}\sum_m\nu_{f (m)}^\alpha\dot r_{(m)} .
+	=\sum_{f\in\mc F}\sum_m\nu_{f (m)}^\alpha r_{(m)} .
 	\label{eq:classical_total_mass_component_balance}
 \end{equation}
 %
@@ -72,7 +72,7 @@ For a neutral specialization, choose a reference phase \(f_\star\) and set
 		&=
 		\bar p_{\rm ref}+p_{c,f}
 		+
-		\sum_{g\ne f_\star}\mc T_{fg}\dot S_g,
+		\sum_{g\ne f_\star}\mc T_{fg}\phasedot S_g,
 		\qquad f\ne f_\star, \\
 		p_{c,f}
 		&=
@@ -126,7 +126,7 @@ Here \(\mc G_f\) is the specific Gibbs energy supplied by the EOS or flash
 model.  The quantity \(p_{c,f}\) is the stored, history-dependent capillary
 offset from the reference phase; in a potential-based model it is the
 appropriate difference of the \(\gamma_f\).  The separate term containing
-\(\mc T_{fg}\dot S_g\) follows by eliminating the generalized saturation force
+\(\mc T_{fg}\phasedot S_g\) follows by eliminating the generalized saturation force
 between \eqref{eq:fluid_pressure_difference_primitive_potential} and
 \eqref{eq:MC_dynamic_capillary_onsager_relation}.  It is the dynamic pressure
 lag.  Setting \(\mc T=\mbf0\)
@@ -224,7 +224,7 @@ Substituting these closures into
 	\right)
 		\right]
 		=
-		\sum_{f\in\mc F}\sum_m\nu_{f (m)}^\alpha\dot r_{(m)},
+			  \sum_{f\in\mc F}\sum_m\nu_{f (m)}^\alpha r_{(m)},
 		\qquad
 		\alpha\ne N.
 	\label{eq:classical_compositional_fickian_balance}
@@ -367,10 +367,10 @@ to \eqref{eq:MC_reaction_energy_coupled_admissibility}.  When
 vanishes, the uncoupled law reduces to
 %
 \begin{equation}
-	\dot r_{(m)}
+	r_{(m)}
 	=
 	\frac{K_{(m)}}{\theta}\mc A_{(m)},
-	\qquad \mc A_{(m)}\dot r_{(m)}\ge 0 .
+	\qquad \mc A_{(m)}r_{(m)}\ge 0 .
 	\label{eq:classical_kinetic_affinity_closure}
 \end{equation}
 %
@@ -384,12 +384,12 @@ retain the additional term shown in
 The momentum equations contain the material-insertion contribution
 %
 	\begin{equation}
-		\sum_\alpha\sum_\xi\phasedot{c}_\xi^\alpha
+		\sum_\alpha\sum_\xi\dot{c}_\xi^\alpha
 		\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right).
 		\label{eq:conversion_momentum_interpretation}
 	\end{equation}
 %
-Here \(\phasedot{c}_\xi^\alpha\) is the full component material-addition rate;
+Here \(\dot{c}_\xi^\alpha\) is the full component material-addition rate;
 \eqref{eq:reference_conversion_accumulation_rate} separates conversion from
 transport relative to the phase.  Diffusion and dispersion are driven by the gauge-invariant
 nonisothermal combination of neutral-potential and electric forces and closed
@@ -498,11 +498,11 @@ gas--oil relations
 \begin{equation}
 	\bar p_w
 	=
-	\bar p_o-p_{cow}(S_w,\mbf h)+\mc T_{ow}\dot S_w,
+	\bar p_o-p_{cow}(S_w,\mbf h)+\mc T_{ow}\phasedot S_w,
 	\qquad
 	\bar p_g
 	=
-	\bar p_o+p_{cgo}(S_g,\mbf h)+\mc T_{go}\dot S_g,
+	\bar p_o+p_{cgo}(S_g,\mbf h)+\mc T_{go}\phasedot S_g,
 	\qquad
 	\mc T_{ow},\mc T_{go}\ge0 .
 	\label{eq:black_oil_capillary_pressure_closures}
@@ -651,7 +651,7 @@ component transfer.
 
 The classical Biot poromechanics specialization has one solid skeleton phase
 and one fluid pore phase, \(\mc S=\{s\}\) and \(\mc F=\{f\}\), with
-\(\dot r_{(m)}=0\), \(\omega_\xi^+=0\), \(\mbf d=\mbf0\), and
+\(r_{(m)}=0\), \(\omega_\xi^+=0\), \(\mbf d=\mbf0\), and
 \(\gamma=0\) because no fluid--fluid interface remains.  The equivalent
 pressure relation \eqref{eq:equivalent_pore_pressure_capillary_relation} then
 gives the unique fluid pressure,
@@ -662,7 +662,7 @@ gives the unique fluid pressure,
 nonlinear coefficient in \eqref{eq:MC_phase_biot_coefficient} is the
 Biot coefficient of the single skeleton.
 
-Under \(\dot r_{(m)}=0\), the overall momentum balance
+Under \(r_{(m)}=0\), the overall momentum balance
 \eqref{eq:MC_overall_momentum_nonlinear_biot} becomes
 %
 \begin{equation}

@@ -41,7 +41,7 @@ belong to any phase; components treated as electrically neutral have
 Thus every free-charge contribution is carried by a component mass measure.
 The charge density \(\varrho\) is the field-source coefficient in the
 electrical virtual work, Gauss' law, and the bulk field-source power
-\(-\varrho\dot\varphi\).  In particular, representing fixed charge as a solid
+\(-\varrho\phasedot\varphi\).  In particular, representing fixed charge as a solid
 component ties charge storage, deformation, reaction, and ion exchange to the
 same material measures used for mass.
 
@@ -69,7 +69,7 @@ For constant \(z_\xi^\alpha\), its material rate gives
 	\right)
 	&=
 	\frac{
-	z_\xi^\alpha\phasedot{\mc C}_\xi^\alpha
+	z_\xi^\alpha\dot{\mc C}_\xi^\alpha
 	}{J_\xi}.
 	\label{eq:component_charge_material_rate}
 \end{align}
@@ -97,7 +97,7 @@ each charged component,
 	\right]
 	&=
 	z_\xi^\alpha
-	\sum_m\nu_{\xi (m)}^\alpha\dot r_{(m)} .
+	\sum_m\nu_{\xi (m)}^\alpha r_{(m)} .
 	\label{eq:component_charge_balance}
 \end{align}
 %
@@ -133,7 +133,7 @@ Summing \eqref{eq:component_charge_balance} over phases and components gives
 	\sum_\xi\sum_\alpha
 	z_\xi^\alpha\nu_{\xi (m)}^\alpha
 	\right)
-	\dot r_{(m)} .
+	r_{(m)} .
 	\label{eq:mixture_charge_balance_with_sources}
 \end{align}
 %
