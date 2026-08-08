@@ -16,7 +16,7 @@ Exploitation of the entropy inequality then requires nonnegative dissipation
 \cite{doi2011onsager,wang2021onsager}.  This is the continuum counterpart of
 using virtual work for coordinate changes and virtual power for process rates
 \cite{germain1973virtualpower,gurtin2010continua}.  The saturation force is held
-fixed during the coordinate variation and paired with the saturation rates during the
+fixed during the coordinate variation and paired with \(\phasedot S_f\) during the
 Onsager variation, so the two statements supply complementary coordinate and
 constitutive equations.
 
@@ -67,8 +67,6 @@ The energies, virtual work, and four constraints are defined together by
 	\label{eq:T_def}                                                                                                                                                                                               \\
 	U        & = \sum_{\xi}\int_{\mc{B}} \rho_{\xi}\,\psi_{\xi}(\mbf{F}_{\xi}, \bar\rho_{\xi}, \{\eta^\al_{\xi}\},\theta_\xi)\dv
 	+ \int_{\mc{B}} \phi\,\gamma\left(\left\{S_f\right\}_{f\in\mc F},\mbf h,\theta_{\mc F}\right) \dv
-	\notag                                                                                                                                                                                                                                                                                                                                 \\
-	         & \quad
 	+\sum_\xi\int_{\mc B}
 	\phi_\xi
 	\omega_\xi^+(\mbf E,\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta_\xi)
@@ -1135,7 +1133,7 @@ componentwise as
 The first term in \eqref{eq:Pi_componentwise} is the mixing contribution to
 composition stationarity.  The second term is the composition derivative of
 the phase electric enthalpy.  Coleman--Noll later combines these storage
-derivatives into the neutral component potential.  If \(\omega_\xi^+\) includes
+derivatives into the component potential.  If \(\omega_\xi^+\) includes
 composition-dependent dielectric or electrical-double-layer free energy, this
 derivative contains the corresponding electrostatic or double-layer
 contribution
@@ -1463,9 +1461,9 @@ fixed.  Saturation redistribution, reactions, and relative component transport
 are closed separately by an Onsager principle: at a fixed current
 thermodynamic state, the process rates for the immediate response are chosen by
 stationarity of an entropy-rate functional containing a dissipation potential
-and the linear thermodynamic rate~\cite{doi2011onsager,wang2021onsager}.  The Onsager
-statement is local in time and selects near-equilibrium rates at the current
-thermodynamic state.  The entropy-rate form displayed here remains valid when
+and the linear thermodynamic rate~\cite{doi2011onsager,wang2021onsager}.  This
+statement is local in time and selects near-equilibrium rates.  The entropy-rate
+form displayed here remains valid when
 \(\theta_{\mc F}\ne\theta_{\mc S}\).  Its coefficients are retained in the
 specific generalized transfer-work form delivered by the reversible variation; their
 chemical-potential interpretation is derived later by the Coleman--Noll
@@ -1505,8 +1503,8 @@ variables entering the potentials or mobilities.
 
 The phase free energy \(\psi_\xi\), specific generalized transfer-work potentials
 \(L_\xi^\alpha\), generalized saturation forces \(\mc L_f^{\rm sat}\), and
-electric potential \(\varphi\) are fixed state
-coefficients during rate stationarity, not rate-constraint multipliers.  The
+electric potential \(\varphi\) enter as fixed state
+coefficients during rate stationarity.  The
 absolute conversion coefficient is
 \(\psi_\xi+L_\xi^\alpha+z_\xi^\alpha\varphi\).  Relative transport depends only
 on the within-phase neutral difference
@@ -1516,9 +1514,8 @@ chemical-potential difference and will then introduce the electrochemical
 potential.  Keeping the neutral and electric parts separate also preserves
 invariance under the additive gauge of \(\varphi\) at nonuniform temperature.
 
-The accumulation rate
-\(\dot{\mc C}_\xi^\alpha/J_\xi\) is not an additional independent
-Onsager rate.  It is eliminated before stationarity by using
+The dependent accumulation rate
+\(\dot{\mc C}_\xi^\alpha/J_\xi\) is eliminated before stationarity using
 \eqref{eq:reference_conversion_accumulation_rate} and
 \eqref{eq:onsager_reference_flux_reconstruction}.  For \(\xi\in\mc G\), the
 resulting neutral thermodynamic rate is combined with the direct work of the
@@ -1579,18 +1576,23 @@ gauge-invariant identity
 	\label{eq:component_thermodynamic_rate_reduction}
 \end{equation}
 %
-The component-rate coefficient is the neutral transfer coefficient
-\((\psi_\xi+L_\xi^\alpha)/\theta_{\mc G}\).  Its within-phase differences are
-\(L_\xi^\alpha-L_\xi^N\), while the direct electrical work supplies
-the field-force term.  For a mechanism that conserves charge separately within
-each thermal subsystem, its neutral stoichiometric sum may instead be written
-with the later electrochemical coefficients; the added electrical sum is then
-identically zero.  Charge transfer between the thermal subsystems requires a
-mechanismwise reaction--energy admissibility condition, with this same neutral
-reaction coefficient; the two rates may be Onsager-coupled.  Because the
-electrical transport term uses \(\mbf E\), not \(\varphi\) or a
-potential-energy flux, both sides of
-\eqref{eq:component_thermodynamic_rate_reduction} are gauge invariant.
+The coefficient of each reaction rate in
+\eqref{eq:component_thermodynamic_rate_reduction} is the neutral transfer
+coefficient \((\psi_\xi+L_\xi^\alpha)/\theta_{\mc G}\), which contains only
+the phase free energy and the transfer-work potential.  Within a phase,
+transport is driven by the potential differences \(L_\xi^\alpha-L_\xi^N\),
+while the electric field enters separately through the direct electrical work.
+For a mechanism that conserves charge separately within each thermal
+subsystem, its stoichiometric sum of neutral coefficients may instead be
+written with the electrochemical potentials introduced later, because the
+added electric terms cancel identically under that mechanism's charge
+conservation.  A mechanism that transfers net charge between the fluid and
+solid subsystems must satisfy the reaction-energy admissibility condition,
+evaluated mechanism by mechanism with the same neutral reaction coefficient,
+and its reaction rate and reaction-energy transfer may be Onsager-coupled.
+Both sides of \eqref{eq:component_thermodynamic_rate_reduction} are gauge
+invariant: the electrical transport term depends on the electric field
+\(\mbf E\), so adding a constant to \(\varphi\) leaves every term unchanged.
 
 After the dependent accumulation rate has been eliminated, the Onsager
 entropy-rate functional contains the saturation, reaction, and
@@ -1649,7 +1651,7 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 	    & +
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
-	\int_{\Gamma_{\mu,\xi}^{\alpha}}
+	\int_{\Gamma_{\bar{\mc M}_\xi^\alpha}}
 	\overline{\mc M}_\xi^\alpha
 	\left(
 	\mbf j_{\xi,{\rm disp}}^\alpha
@@ -1663,7 +1665,7 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 \end{align}
 %
 The added surface term is the work of a prescribed external component
-reservoir on \(\Gamma_{\mu,\xi}^{\alpha}\).  Here
+reservoir on \(\Gamma_{\bar{\mc M}_\xi^\alpha}\).  Here
 \(\overline{\mc M}_\xi^\alpha\) is the prescribed temperature-weighted neutral
 potential difference; the electrical boundary datum is provided independently
 by the electric-field problem.  The reservoir term
@@ -1716,174 +1718,40 @@ relative-flux coordinates; their inverses are taken in the same
 \(N-1\)-dimensional component space.  The reference flux is then reconstructed
 by \eqref{eq:onsager_reference_flux_reconstruction}.  The resistance
 coefficients \(\mc T_{fg}\) govern dynamic capillary redistribution; they have
-units of pressure times time, must be symmetric
-(\(\mc T_{fg}=\mc T_{gf}\)), and must form a positive-semidefinite matrix for
-thermodynamic admissibility.  The adopted quadratic
-potential is block diagonal in saturation, reaction, diffusion, and dispersion rates.  For
+units of pressure times time and are symmetric
+(\(\mc T_{fg}=\mc T_{gf}\)).  Their admissibility is verified against the
+entropy inequality in Section~\ref{sec:constitutive_models_entropy_inequality}.
+The adopted quadratic
+potential is block diagonal in saturation, reaction, dispersion, and diffusion rates.  For
 a charged mechanism that transfers net charge between the thermal subsystems,
 the neutral reaction force remains unchanged; the reaction and
 interphase-energy rates may instead be included in one gauge-invariant Onsager
 block satisfying the mechanismwise dissipation condition derived later.  A
 block-diagonal choice is also admissible when the reaction-energy term is
 closed separately.
-Varying
-\(\Phi_{\mc{R}}\) gives
-%
-\begin{align}
-	\delta\Phi_{\mc{R}}
-	={} &
-	\int_{\mc B}
-	\frac{\phi}{\theta_{\mc F}}
-	\sum_{f\ne f_\star}\sum_{g\ne f_\star}
-	\mc T_{fg}\phasedot S_g\,
-	\delta\phasedot S_f\dv
-	\notag  \\
-	    & +
-	\int_{\mc B}\sum_m
-	\frac{r_{(m)}}{K_{(m)}}\,
-	\delta r_{(m)}\dv
-	\notag  \\
-	    & +
-	\int_{\mc B}
-	\sum_{\mc G\in\{\mc F,\mc S\}}
-	\frac{1}{\theta_{\mc G}}
-	\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
-	\left[
-		\sum_{\beta\ne N}
-		\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
-		\mbf j_{\xi,{\rm disp}}^\beta
-		\right]\cdot
-	\delta\mbf j_{\xi,{\rm disp}}^\alpha\dv
-	\notag  \\
-	    & +
-	\int_{\mc B}
-	\sum_{\mc G\in\{\mc F,\mc S\}}
-	\frac{1}{\theta_{\mc G}}
-	\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
-	\left[
-		\sum_{\beta\ne N}
-		\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
-		\mbf j_{\xi,{\rm diff}}^\beta
-		\right]\cdot
-	\delta\mbf j_{\xi,{\rm diff}}^\alpha\dv.
-	\label{eq:reaction_transport_dissipation_variation}
-\end{align}
-%
-The corresponding first variation of the linear thermodynamic-rate part of
-\(\mc R\), with the current state and potentials held fixed, is
-%
-\begin{align}
-	\delta\left(\mc R-\Phi_{\mc{R}}\right)
-	={} &
-	\int_{\mc B}\sum_m
-	\left[
-		\sum_{\mc G\in\{\mc F,\mc S\}}
-		\frac{1}{\theta_{\mc G}}
-		\sum_{\xi\in\mc G}\sum_\alpha
-		\left(
-		\psi_\xi+L_\xi^\alpha
-		\right)
-		\nu_{\xi (m)}^\alpha
-		\right]
-		\delta r_{(m)}\dv
-	\notag                         \\
-	    & +
-	\int_{\mc B}
-	\sum_{\mc G\in\{\mc F,\mc S\}}
-	\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
-	\left[
-		\nabla_{\mbf x}
-		\left(
-		\frac{
-			L_\xi^\alpha-L_\xi^N
-		}{\theta_{\mc G}}
-		\right)
-		+
-		\frac{
-			z_\xi^\alpha-z_\xi^N
-		}{\theta_{\mc G}}
-		\nabla_{\mbf x}\varphi
-		\right]\cdot
-	\left(
-	\delta\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\delta\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)\dv
-	\notag                         \\
-	    & + \text{boundary terms}.
-	\label{eq:onsager_thermodynamic_rate_variation}
-\end{align}
-%
-On \(\Gamma_{m,\xi}^{\alpha}\), prescribing the normal total component flux at
-fixed phase velocity gives
+The transport boundary data enter the stationarity through the normal
+relative-flux variation.  On \(\Gamma_{m,\xi}^{\alpha}\), the normal total
+component flux is prescribed, so the relative-flux variation is tangential,
 \((\delta\mbf j_{\xi,{\rm disp}}^\alpha+
 \delta\mbf j_{\xi,{\rm diff}}^\alpha)\cdot\mbf n=0\).  On the complementary
-\(\Gamma_{\mu,\xi}^{\alpha}\), the boundary part of the variation, including
-the reservoir term in \eqref{eq:onsager_stationarity}, is
-%
-\begin{align}
-	\left.
-	\delta\left(\mc R-\Phi_{\mc{R}}\right)
-	\right\vert_{\Gamma_\mu}
-	={} &
-	-\sum_{\mc G\in\{\mc F,\mc S\}}
-	\sum_{\xi\in\mc G}
-	\sum_{\alpha\ne N}
-	\int_{\Gamma_{\mu,\xi}^{\alpha}}
-	\left[
-		\frac{L_\xi^\alpha-L_\xi^N}{\theta_{\mc G}}
-		-
-		\overline{\mc M}_\xi^\alpha
-		\right]
-	\notag             \\
-	    & \qquad\qquad
-	{}\times
-	\left(
-	\delta\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\delta\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)\cdot\mbf n\,{\rm d}a .
-	\label{eq:onsager_component_boundary_term}
-\end{align}
-%
-Arbitrary normal relative-flux variations on this boundary therefore recover
-the prescribed difference in temperature-weighted neutral potentials.  The
-electric-potential or electric-displacement datum is supplied independently by
-the electrostatic boundary-value problem.
-
-For each independent component, complementary boundary portions therefore
-prescribe either the normal total component mass flux
-%
-\begin{equation}
-	\left(
-	\rho_\xi^\alpha\mbf v_\xi
-	+
-	\mbf j_{\xi,{\rm disp}}^\alpha
-	+
-	\mbf j_{\xi,{\rm diff}}^\alpha
-	\right)\cdot\mbf n
-	=
-	\bar m_{\xi}^{\alpha,{\rm out}}
-	\qquad
-	\text{on }\Gamma_{m,\xi}^\alpha,
-	\label{eq:normal_total_component_mass_flux}
-\end{equation}
-%
-or the temperature-weighted neutral-potential difference
-\((L_\xi^\alpha-L_\xi^N)/\theta_{\mc G}\) on the complementary
-boundary, together with the independent electrical boundary datum.
-The no-flux condition sets
-\(\bar m_{\xi}^{\alpha,{\rm out}}=0\).  Reference-component relative fluxes are
-reconstructed from
-\eqref{eq:onsager_reference_flux_reconstruction}; prescribed relative-flux data
-must consequently satisfy the same zero-sum restriction.
+\(\Gamma_{\bar{\mc M}_\xi^\alpha}\), the temperature-weighted component-potential
+difference is prescribed and the normal relative-flux variation is free; its
+boundary contribution is retained in the collected condition below.  For each
+independent component, these complementary portions prescribe either the
+normal total component flux in
+\eqref{eq:component_normal_flux_boundary_data} or the temperature-weighted
+component-potential difference \((L_\xi^\alpha-L_\xi^N)/\theta_{\mc G}\), with the
+electric boundary datum supplied by the electrostatic boundary-value problem.
+Reference-component relative fluxes are reconstructed from
+\eqref{eq:onsager_reference_flux_reconstruction}, so prescribed relative-flux
+data must satisfy the same zero-sum restriction.
 
 \subsubsection{Collected Onsager variation}
 \label{sec:collected_onsager_variation}
 
-The Onsager variations can now be collected in the same way as the
-Hamilton--d'Alembert variations above.  The rate-dependent stationarity
-condition is
+Collecting the variation of \(\mc R\) over the saturation, reaction, and
+relative-transport coordinates gives the rate-dependent stationarity
+condition
 %
 \begin{align}
 	0 = \delta\mc R
@@ -1967,113 +1835,53 @@ condition is
 	\delta\mbf j_{\xi,{\rm diff}}^\alpha\dv
 	\notag                  \\
 	    & +
-	\text{boundary terms}.
+	\sum_{\mc G\in\{\mc F,\mc S\}}
+	\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
+	\int_{\Gamma_{\bar{\mc M}_\xi^\alpha}}
+	\left[
+		\overline{\mc M}_\xi^\alpha
+		-
+		\frac{L_\xi^\alpha-L_\xi^N}{\theta_{\mc G}}
+		\right]
+	\left(
+	\delta\mbf j_{\xi,{\rm disp}}^\alpha
+	+
+	\delta\mbf j_{\xi,{\rm diff}}^\alpha
+	\right)\cdot\mbf n\,{\rm d}a .
 	\label{eq:collected_onsager_variation}
 \end{align}
 %
+Stationarity with arbitrary normal relative-flux variation on
+\(\Gamma_{\bar{\mc M}_\xi^\alpha}\) therefore recovers the prescribed
+temperature-weighted component-potential difference,
+\(\overline{\mc M}_\xi^\alpha=(L_\xi^\alpha-L_\xi^N)/\theta_{\mc G}\).
 The component-rate balance is the conservation law
-\eqref{eq:reference_conversion_accumulation_rate}, which was used to eliminate
-the dependent accumulation rate before
-\eqref{eq:onsager_stationarity}; it is not regenerated by an additional
-multiplier variation.  The mechanism-rate and independent-flux variations
-give, for \(\xi\in\mc G\) and \(\alpha\ne N\),
-%
-\begin{align}
-		 \frac{r_{(m)}}{K_{(m)}}
-	 & =
-	-\sum_{\mc G\in\{\mc F,\mc S\}}
-	\frac{1}{\theta_{\mc G}}
-	\sum_{\xi\in\mc G}\sum_\alpha
-	\left(
-	\psi_\xi+L_\xi^\alpha
-	\right)
-	\nu_{\xi (m)}^\alpha,
-	\label{eq:el_conversion_affinity}
-	\\
-	\sum_{\beta\ne N}
-	\left(\mbf D_{\xi,{\rm disp}}^{-1}\right)^{\alpha\beta}
-	\mbf j_{\xi,{\rm disp}}^\beta
-	 & =
-	-\theta_{\mc G}
-	\nabla_{\mbf x}
-	\left(
-	\frac{
-		L_\xi^\alpha-L_\xi^N
-	}{\theta_{\mc G}}
-	\right)
-	\notag   \\
-	 & \quad
-	-
-	\left(
-	z_\xi^\alpha-z_\xi^N
-	\right)
-	\nabla_{\mbf x}\varphi,
-	\label{eq:hamilton_dispersion_force_balance}
-	\\
-	\sum_{\beta\ne N}
-	\left(\mbf D_{\xi,{\rm diff}}^{-1}\right)^{\alpha\beta}
-	\mbf j_{\xi,{\rm diff}}^\beta
-	 & =
-	-\theta_{\mc G}
-	\nabla_{\mbf x}
-	\left(
-	\frac{
-		L_\xi^\alpha-L_\xi^N
-	}{\theta_{\mc G}}
-	\right)
-	\notag   \\
-	 & \quad
-	-
-	\left(
-	z_\xi^\alpha-z_\xi^N
-	\right)
-	\nabla_{\mbf x}\varphi.
-	\label{eq:hamilton_diffusion_force_balance}
-\end{align}
-%
-These equations give the force balances for the \(N-1\) independent
-relative-component fluxes.  The transport power is unchanged by a common shift
-of all \(L_\xi^\alpha\) in a phase or by an additive electric gauge.
-Coleman--Noll will identify the associated chemical potentials and reaction
-affinity and will show how the transfer-work contribution enters it.  The uncoupled
-reaction equations displayed here use the explicitly gauge-invariant neutral
-sum for every mechanism.  When a charged mechanism conserves charge separately
-within each thermal subsystem, the electrochemical and neutral stoichiometric
-sums in each subsystem are identical.  When it transfers
-charge between subsystems, the neutral form is required and any coupling to
-reaction-energy transfer must satisfy the mechanismwise dissipation condition
-derived with the residual inequality.  Away from local thermal
-equilibrium, its
-temperature-weighted sum, rather than the affinity divided by an
-assigned reaction temperature, drives the rate:
-%
-\begin{equation}
-	     \frac{r_{(m)}}{K_{(m)}}
-	=
-	-\sum_{\mc G\in\{\mc F,\mc S\}}
-	\frac{1}{\theta_{\mc G}}
-	\sum_{\xi\in\mc G}\sum_\alpha
-	\left(
-	\psi_\xi+L_\xi^\alpha
-	\right)
-	\nu_{\xi (m)}^\alpha .
-	\label{eq:onsager_affinity_constitutive_relation}
-\end{equation}
-%
-The resulting near-equilibrium rate laws are
+\eqref{eq:reference_conversion_accumulation_rate}, which eliminated the
+dependent accumulation rate before \eqref{eq:onsager_stationarity}; the
+stationarity condition therefore contains only the independent mechanism-rate
+and flux variations.  Setting each independent variation to zero and inverting
+the resistances gives the near-equilibrium rate laws.  The transport power is
+unchanged by a common shift of all \(L_\xi^\alpha\) in a phase or by an additive
+electric gauge.  Coleman--Noll will identify the associated chemical potentials
+and reaction affinity and will show how the transfer-work contribution enters
+it.  Away from local thermal equilibrium, the temperature-weighted sum, with
+each thermal subsystem weighted by its own temperature, drives the reaction
+rate:
 %
 \begin{align}
 	     r_{(m)}
 	 & =
-	K_{(m)}
+	-K_{(m)}
 	\left[
-		-\sum_{\mc G\in\{\mc F,\mc S\}}
+		\left(
+		\sum_{\mc G\in\{\mc F,\mc S\}}
 		\frac{1}{\theta_{\mc G}}
 		\sum_{\xi\in\mc G}\sum_\beta
 		\left(
 		\psi_\xi+L_\xi^\beta
 		\right)
 		\nu_{\xi (m)}^\beta
+		\right)
 		\right],
 	\label{eq:onsager_reaction_rate_variational}
 	\\
@@ -2139,8 +1947,7 @@ The \(|\mc F|-1\) independent saturation rates are varied at fixed current
 state.  Their contribution is the
 first line of the global stationarity statement
 \eqref{eq:collected_onsager_variation}.  Stationarity gives the force--rate
-relation, and entropy-inequality
-admissibility requires the resistance conditions
+relation
 %
 \begin{subequations}
 	\label{eq:MC_dynamic_capillary_onsager_relation}
@@ -2149,15 +1956,8 @@ admissibility requires the resistance conditions
 		=
 		\sum_{g\ne f_\star}\mc T_{fg}\phasedot S_g,
 		\qquad
-		f\ne f_\star,
-		\label{eq:MC_dynamic_capillary_force_rate_relation}\\
-		&\mc T_{fg}=\mc T_{gf},
-		\qquad
-		\sum_{f\ne f_\star}\sum_{g\ne f_\star}
-		y_f\mc T_{fg}y_g\ge0
-		\quad
-		\text{for all real }\{y_f\}_{f\ne f_\star}.
-		\label{eq:MC_dynamic_capillary_resistance_admissibility}
+		f\ne f_\star.
+		\label{eq:MC_dynamic_capillary_force_rate_relation}
 	\end{align}
 \end{subequations}
 %
@@ -2169,6 +1969,7 @@ during the Onsager rate variation.  The force on the left of
 coefficients used in the d'Alembert work
 \eqref{eq:W_def}.  Equation
 \eqref{eq:fluid_pressure_difference_primitive_potential} identifies it with the
-corresponding pressure-force difference.  The residual entropy inequality later
-requires the positive-semidefinite resistance that gives nonnegative
-saturation-redistribution dissipation.
+corresponding pressure-force difference.  The entropy inequality in
+Section~\ref{sec:constitutive_models_entropy_inequality} determines the
+admissibility conditions on the resistance and verifies that the adopted
+resistance renders saturation redistribution dissipative.

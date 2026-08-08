@@ -5,28 +5,27 @@
 \label{sec:constitutive_models_entropy_inequality}
 
 Section~\ref{sec:virtual_power_derivation} supplies the coordinate and field
-balances together with the Onsager rate statements.  This section completes
-the porous-medium constitutive theory for stress,
-pressure, reaction, transport, and plastic response.  It first defines the
-common solid motion, the fluid and solid thermal subsystems, the constitutive
-state variables, and the stored energies.
-The entropy inequality then gives the reversible stress and pressure relations
-and restricts the dissipative laws.  The electroquasistatic
+balances and the Onsager rate statements.  This section completes the
+porous-medium constitutive theory for stress, pressure, reaction, transport,
+and plastic response.  It first defines the common solid motion, the fluid and
+solid thermal subsystems, the constitutive state variables, and the stored
+energies.  The entropy inequality then supplies the reversible stress and
+pressure relations and restricts the dissipative laws.  The electroquasistatic
 approximation has already been imposed; electromagnetic-wave dynamics are
 outside the model.
 
-Cauchy stresses are tension-positive and enter momentum balance through
+Cauchy stress is tension-positive, so the momentum balance uses
 \(+\nabla_{\mbf x}\cdot\bs\sigma\).  Thermodynamic phase pressures, capillary
 pressures, and the equivalent pore pressure are positive in compression and
-therefore enter total stress with a negative spherical contribution.  A single
-prime denotes material stress at fixed intrinsic density, a double prime the
-fixed-pressure Biot stress, and a superscript \(+\) the electrical stress
-contribution.  These conventions will be used when the Coleman--Noll
-coefficients are identified below.
+therefore enter the total stress as negative spherical contributions, opposite
+to the tension-positive stress.  A single prime marks the material stress at
+fixed intrinsic density, a double prime the fixed-pressure Biot stress, and a
+superscript \(+\) the electrical stress contribution.  The Coleman--Noll
+analysis below uses these conventions throughout.
 
-Every phase may contain multiple components.  In particular, each
-\(s\in\mc S\) is a load-bearing multicomponent solid with mass fractions
-\(\eta_s^\alpha\), while all solid phases share the skeleton trajectory
+Every phase may contain multiple components.  Each solid phase \(s\in\mc S\)
+is a load-bearing multicomponent solid with mass fractions \(\eta_s^\alpha\),
+and all solid phases share the skeleton trajectory
 \begin{equation}
 	\mbf x=\bs\chi(\mbf X,t),
 	\qquad
@@ -36,12 +35,12 @@ Every phase may contain multiple components.  In particular, each
 	\label{eq:common_solid_skeleton_motion}
 \end{equation}
 Adsorbed species, host minerals, hydrate cages, bound water, and hydrate guest
-molecules therefore move with the same skeleton.  Their distinct mechanical
-effects enter through the solid composition dependence of the free energy,
+molecules move with this common skeleton motion.  Their distinct mechanical
+effects enter through the composition dependence of the free energy,
 stress-free swelling, thermal expansion, elastic moduli, and plastic flow.
 
-The thermal specialization distinguishes an equilibrated mobile-fluid
-subsystem from the solid skeleton,
+The thermal model distinguishes an equilibrated mobile-fluid subsystem from
+the solid skeleton,
 %
 \begin{equation}
 	\theta_\xi
@@ -53,17 +52,17 @@ subsystem from the solid skeleton,
 	\label{eq:MC_two_temperature_specialization}
 \end{equation}
 %
-Thus all mobile phases share \(\theta_{\mc F}\), and all load-bearing solid
-phases share \(\theta_{\mc S}\).  Heat exchange between these subsystems is
-retained, so either temperature may be larger.  Multiphase geothermal models
-use the same fluid/rock temperature grouping \cite{faraz2021boiling}, whereas
-constituent mixture theory also permits a separate temperature for every phase
-\cite{drumheller2000,hanyga2004thermal}.  The local-thermal-equilibrium limit is
-\(\theta_{\mc F}=\theta_{\mc S}\).
+All mobile phases share \(\theta_{\mc F}\), and all load-bearing solid phases
+share \(\theta_{\mc S}\).  Heat exchange between the subsystems is retained,
+so either temperature may be larger.  Multiphase geothermal models use the
+same fluid/rock temperature grouping \cite{faraz2021boiling}, whereas
+constituent mixture theory permits a separate temperature for every phase
+\cite{drumheller2000,hanyga2004thermal}.  Local thermal equilibrium is the
+limit \(\theta_{\mc F}=\theta_{\mc S}\).
 
-All constitutive rates are compared in the frame moving with the solid
-skeleton.  For a spatial state field \(\Gamma\), define the skeleton velocity
-and the ordinary-dot rate by
+Constitutive rates are evaluated in the frame moving with the solid skeleton.
+For a spatial state field \(\Gamma\), define the skeleton velocity and the
+skeleton-following (heavy-dot) rate by
 %
 \begin{equation}
 	\mbf v_{\mc S}
@@ -82,18 +81,15 @@ and the ordinary-dot rate by
 	\label{eq:MC_skeleton_rate_convention}
 \end{equation}
 %
-This convention applies to
-\(\theta_{\mc F}\), \(\theta_{\mc S}\), every \(\phi_\xi\),
-\(\bar\rho_\xi\), \(\eta_\xi^\alpha\), and the phase thermodynamic
-potentials, and to the solid kinematic fields and internal variables
-\(\mbf A_s\) and \(\bar{\mbf F}_s\).  The normal dot instead marks a rate
-following phase \(\xi\), including the component-insertion
-rates \(\dot{\mc C}_\xi^\alpha\) and
-\(\dot{c}_\xi^\alpha\).  Because all solid phases share the skeleton
-trajectory, \(D_s/Dt=D_{\mc S}/Dt\), whereas mobile phases retain their phase
-velocities.  For any phase-attributed spatial field
-\(\Gamma_\xi\), the phase-following and skeleton-following rates are related
-exactly by
+The heavy dot applies to \(\theta_{\mc F}\), \(\theta_{\mc S}\), each
+\(\phi_\xi\), \(\bar\rho_\xi\), \(\eta_\xi^\alpha\), the phase thermodynamic
+potentials, and the solid kinematic fields and internal variables \(\mbf A_s\)
+and \(\bar{\mbf F}_s\).  The ordinary dot marks a rate following phase
+\(\xi\), as in the component-insertion rates \(\dot{\mc C}_\xi^\alpha\) and
+\(\dot c_\xi^\alpha\).  Because all solid phases share the skeleton trajectory,
+\(D_s/Dt=D_{\mc S}/Dt\), while mobile phases retain their own phase velocities.
+For any phase field \(\Gamma_\xi\), the phase-following and skeleton-following
+rates are related by
 %
 \begin{equation}
 	\dot{\Gamma}_\xi
@@ -106,19 +102,17 @@ exactly by
 	\label{eq:MC_phase_skeleton_transport_identity}
 \end{equation}
 %
-The difference \(\mbf v_\xi-\mbf v_{\mc S}\) therefore measures bulk phase
-motion relative to the skeleton; it is not a molecular-diffusion velocity.
-This solid-observer convention is used in thermodynamic formulations of
-multicomponent multiphase poroelastic flow
+Thus \(\mbf v_\xi-\mbf v_{\mc S}\) is the bulk velocity of phase \(\xi\)
+relative to the skeleton, while the relative component fluxes describe the
+motion of components within the phase.  This solid-observer convention appears
+in thermodynamic formulations of multicomponent multiphase poroelastic flow
 \cite[eq.~(2)]{seguin2019multicomponent} and is consistent with the
 solid-observed saturation rate used by Hassanizadeh and Gray
 \cite[eq.~(35)]{hassanizadeh1993thermodynamic}.
 
-Summing the component balance
-\eqref{eq:averaged_component_spatial_mass} over \(\alpha\), using the
-zero-sum relative component flux
-\eqref{eq:averaged_relative_flux_sum}, and changing from the Eulerian observer
-to the skeleton observer gives the phase mass balance
+Summing \eqref{eq:averaged_component_spatial_mass} over \(\alpha\), using the
+zero-sum relative component flux \eqref{eq:averaged_relative_flux_sum}, and
+rewriting in the skeleton frame gives the phase mass balance
 %
 \begin{equation}
 	\phasedot\rho_\xi
@@ -137,8 +131,12 @@ to the skeleton observer gives the phase mass balance
 	\label{eq:MC_skeleton_phase_mass_balance}
 \end{equation}
 %
-Consequently, any phase-specific quantity \(\Gamma_\xi\) satisfies the exact
-conservative transport identity
+For any phase-specific quantity \(\Gamma_\xi\), expand
+\(\partial_t(\rho_\xi\Gamma_\xi)+\nabla_{\mbf x}\cdot(\rho_\xi\Gamma_\xi\mbf v_\xi)\)
+by product rules, substitute
+\eqref{eq:MC_skeleton_phase_mass_balance}, and then use
+\eqref{eq:MC_phase_skeleton_transport_identity}.  This gives the conservative
+transport identity
 %
 \begin{align}
 	\frac{\partial}{\partial t}
@@ -187,11 +185,14 @@ conservative transport identity
 	\label{eq:MC_skeleton_conservative_transport_identity}
 \end{align}
 %
-The divergence in
-\eqref{eq:MC_skeleton_conservative_transport_identity} is transport through a
-control surface moving with the skeleton.  It vanishes for a solid phase, but
-not for a mobile phase merely because its storage rate is written with an
-ordinary dot.
+The source term \(\Gamma_\xi\sum_\alpha\dot c_\xi^\alpha\) is the
+mass-transfer source from \eqref{eq:MC_skeleton_phase_mass_balance}, scaled by
+\(\Gamma_\xi\).  The divergence term in
+\eqref{eq:MC_skeleton_conservative_transport_identity} measures transport
+through a control surface moving with the skeleton.  For a solid phase,
+\(\mbf v_\xi=\mbf v_{\mc S}\), so this relative-transport contribution is
+zero.  For a mobile phase, \(\mbf v_\xi\neq\mbf v_{\mc S}\), so the term is
+generally nonzero.
 
 In the same observer frame, the rate of the pointwise volume-fraction
 constraint is
@@ -209,17 +210,23 @@ constraint is
 	\label{eq:MC_skeleton_volume_fraction_rates}
 \end{equation}
 %
-Individual volume fractions may change, but their rates must sum to zero.  The
-mechanism rate \(r_{(m)}\) is a local process rate shared by every phase
-participating in mechanism \((m)\).  The electric potential is one Eulerian
-field for the whole mixture.  By contrast, \(D_\xi\tau/Dt\) is phase-following
-because the same transfer multiplier \(\tau\) is evaluated along each phase
-trajectory in the component-insertion relation.
+Each volume fraction may change, but the rates must sum to zero.  The
+skeleton-following rates above apply to phase-indexed fields, whereas several
+fields in the formulation are shared by the mixture as a whole and take a
+single value.  The mechanism rate \(r_{(m)}\) is one local process rate common
+to all phases participating in mechanism \((m)\).  The electric potential
+\(\varphi\) is one Eulerian field for the mixture.  The transfer multiplier
+\(\tau\) is likewise one scalar field shared by all phases, and its material
+rate \(D_\xi\tau/Dt\) is evaluated along the phase trajectory in the
+component-insertion relation.
 
 \subsection{Solid kinematics and state variables}
 \label{sec:MC_solid_kinematics}
 
-Extending Drumheller's distension/true-deformation split for reacting mixtures
+The Coleman--Noll procedure in \sref{MC_coleman_noll_procedure} requires the
+solid kinematic fields, their rate relations, and the constitutive state
+arguments.  This subsection defines each.  Extending Drumheller's
+distension/true-deformation split for reacting mixtures
 \cite{drumheller2000} and its porous-media form in Foster et
 al.~\cite{foster2026reactingporous}, the solid kinematic split is
 phase-specific but uses the common skeleton deformation,
@@ -282,12 +289,17 @@ include temperature and solid-composition effects,
 	\label{eq:MC_solid_stress_free_maps}
 \end{equation}
 %
-The stress-free maps represent adsorption swelling, desorption shrinkage,
+The stress-free maps capture composition- and temperature-driven changes of
+the stress-free state, including adsorption swelling and shrinkage,
 hydrate-cage volume changes, and composition-dependent thermal expansion.
 A shared \(\theta_{\mc S}\) remains compatible with phase-specific thermal
 expansion: each phase retains its own functions \(\mbf A_s^0\) and
 \(\bar{\mbf F}_s^0\), and therefore its own derivative with respect to
 \(\theta_{\mc S}\).
+A plastic internal state vector \(\mbf p_s\) per solid phase augments these
+plastic internal variables; its evolution
+\eqref{eq:MC_generic_plastic_state_evolution} carries hardening, softening,
+and rate dependence in the plastic closures of \sref{MC_plastic_flow_closures}.
 Thermo-poroelastic models make the same physical distinction by assigning pore
 volume, fluid, and grain thermal expansions separately
 \cite{palciauskas1982thermally,ghabezloo2009stress,ghabezloo2011micromechanics}.
@@ -327,69 +339,11 @@ The dependent elastic arguments are
 \end{equation}
 %
 
-The solid component partial densities and mass fractions are
-%
-\begin{equation}
-	\rho_s^\alpha
-	=
-	\rho_s\eta_s^\alpha
-	=
-	\phi_s\bar\rho_s\eta_s^\alpha,
-	\qquad
-	\sum_\alpha\eta_s^\alpha=1,
-	\qquad
-	\sum_\alpha\phasedot\eta_s^\alpha=0,
-	\qquad
-	s\in\mc S .
-	\label{eq:MC_solid_component_partial_density}
-\end{equation}
-%
-When component intrinsic densities \(\bar\rho_s^\alpha\) and component solid
-volume fractions \(\phi_s^\alpha\) are useful, they satisfy
-%
-\begin{subequations}
-	\label{eq:MC_solid_density_mixture_rules}
-	\begin{align}
-		\bar\rho_s
-		 & =
-		\sum_\alpha
-		\phi_s^\alpha\bar\rho_s^\alpha,
-		\qquad
-		s\in\mc S,
-		\label{eq:MC_solid_intrinsic_density_rule} \\
-		\eta_s^\alpha
-		 & =
-		\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\bar\rho_s},
-		\qquad
-		s\in\mc S,
-		\label{eq:MC_solid_mass_fraction_rule}
-	\end{align}
-	\begin{equation}
-		\phi_s^\alpha
-		=
-		\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha},
-		\qquad
-		\sum_\alpha\phi_s^\alpha=1,
-		\qquad
-		s\in\mc S .
-		\label{eq:MC_solid_component_volume_fraction_rule}
-	\end{equation}
-\end{subequations}
-%
-
-The component material balances use the component material increment,
-%
-\begin{equation}
-	J\phi_s\bar\rho_s\eta_s^\alpha
-	=
-	\phi_{s0}\bar\rho_{s0}\eta_{s0}^\alpha
-	+\mc C_s^\alpha,
-	\qquad
-	s\in\mc S .
-	\label{eq:MC_solid_component_material_mass}
-\end{equation}
-%
-Summing over components gives
+The solid distension rate \(\phasedot a_s/a_s\) enters the Coleman--Noll
+dissipation.  The solid-phase mass-balance relations supply this rate.
+Summing the component material measure
+\eqref{eq:augmented_component_material_measure} over \(\alpha\) for the solid
+phase gives
 %
 \begin{equation}
 	J\phi_s\bar\rho_s
@@ -422,7 +376,10 @@ With true local conservation in the solid material,
 	\label{eq:MC_solid_distension_mass_relation}
 \end{equation}
 %
-The rate form follows from \(J=a_s\bar J_s\),
+The rate form follows by taking the natural logarithm of \(J=a_s\bar J_s\)
+and applying the solid-following material derivative, using the kinematic
+identity \(\phasedot J/J=\nabla_{\mbf x}\cdot\mbf v_{\mc S}\) and true
+mass conservation \eqref{eq:MC_solid_true_mass_conservation},
 %
 \begin{empheq}[box=\fbox]{equation}
 	\frac{\phasedot{a}_s}{a_s}
@@ -434,7 +391,8 @@ The rate form follows from \(J=a_s\bar J_s\),
 	\label{eq:MC_solid_distension_evolution}
 \end{empheq}
 %
-The nonelectrical state sets used in the constitutive derivatives are
+The entropy inequality is exploited with all other constitutive arguments
+held fixed.  The nonelectrical state sets are
 %
 \begin{equation}
 	\mc X_s
@@ -515,7 +473,7 @@ set are held fixed:
 \end{align}
 %
 
-The generic fluid and multicomponent solid Helmholtz energies are
+The Helmholtz free energies that supply the stored-energy terms are
 %
 \begin{equation}
 	\begin{alignedat}{2}
@@ -550,25 +508,12 @@ Electrical storage is represented by the phase electric-enthalpy densities
 energy has a different normalization: \(\gamma\) is measured per current fluid
 volume and contributes \(\phi\gamma\) to the mixture.  All phases experience
 the same electric field, but each phase may have a different dielectric
-response.  Define the phase and mixture electric displacements by
-%
-\begin{equation}
-	\mbf d_\xi
-	=
-	-\left.
-	\p{\omega_\xi^+}{\mbf E}
-	\right\vert_{\bar\rho_\xi,\{\eta_\xi^\alpha\},\theta_\xi},
-	\qquad
-	\mbf d
-	=
-	\sum_\xi\phi_\xi\mbf d_\xi .
-	\label{eq:MC_electric_displacement_definitions}
-\end{equation}
-%
-The electric field \(\mbf E\) is the electrical state variable, and
-\(\mbf d_\xi\) is obtained by differentiating the phase electric enthalpy.  The
-minus sign is the defining sign of the electric-enthalpy representation
-\cite{dorfmann2017nonlinear_electroelasticity}.
+response.  The phase and mixture electric displacements \(\mbf d_\xi\) and
+\(\mbf d\) are defined in \eqref{eq:electric_field_definitions} with the
+minus sign characteristic of the electric-enthalpy representation
+\cite{dorfmann2017nonlinear_electroelasticity}.  As stated there, \(\mbf E\)
+is the electrical state variable and \(\mbf d_\xi\) is obtained by
+differentiating \(\omega_\xi^+\).
 
 For a fluid phase,
 \(\omega_f^+=\omega_f^+(\mbf E,\bar\rho_f,\{\eta_f^\alpha\},\theta_{\mc F})\).
@@ -604,8 +549,8 @@ The phase Maxwell stress \(\bs\sigma_\xi^{+}\), defined in
 balance through the total reversible stress
 \(\bs\sigma_\xi^{\prime+}\).  The density, composition, and temperature
 derivatives of \(\omega^{+}_{\xi}\) enter the corresponding coefficients in the
-entropy inequality.  Keeping these roles separate prevents Maxwell mechanical
-power from being counted twice.
+entropy inequality.  This separation assigns each electrical power contribution
+to a single governing equation.
 
 The derivation first allows a general composition-dependent phase Helmholtz
 energy \(\psi_\xi\).  The later additive specialization in
@@ -625,15 +570,16 @@ force--rate products must be nonnegative
 The three variational or thermodynamic steps used in the manuscript have
 different purposes.  Hamilton--d'Alembert stationarity supplies the phase
 coordinate equations and multiplier relations, including any d'Alembert work
-specified for a dissipative force.  Coleman--Noll then determines which
+specified for a dissipative force.  The Onsager construction then supplies
+near-equilibrium choices for saturation redistribution, reaction, and
+relative-transport kinetics.  Finally, Coleman--Noll determines which
 constitutive stresses, pressures, entropies, and force--rate products are
-compatible with the entropy inequality.  Finally, the Onsager construction
-supplies near-equilibrium choices for saturation redistribution, reaction, and
-relative-transport kinetics.  Relations obtained independently from the stored
-energy variation and the entropy inequality must agree because both use the
-same energies and constraints.
+compatible with the entropy inequality, and therefore which of the Onsager
+dissipative laws are admissible.  Relations obtained independently from the
+stored energy variation and the entropy inequality must agree because both use
+the same energies and constraints.
 
-The Coleman--Noll exploitation uses the absolute neutral component potential
+The Coleman--Noll exploitation uses the absolute component potential
 defined by the constituent-mass derivative of the phase material and electric
 enthalpy storage at fixed phase volume fraction,
 %
@@ -891,27 +837,30 @@ corresponding conservative storage rates gives
 	\end{align}
 \end{subequations}
 %
-Thus \(L_\xi^\alpha\) is a specific generalized transfer-work potential, and
-\(-L_\xi^\alpha\dot c_\xi^\alpha\) is the corresponding transfer-work
-rate rather than source-carried energy.  A non-equilibrium source state would
-require
-additional source energy and entropy data and a corresponding entropy-production
-restriction; it is outside the adopted closure.  Equivalently, setting
-\(\Gamma_\xi=e_\xi\) in
+% Agreeing with source-carried internal energy \(e_\xi\) and entropy
+\(\mathfrak{s}_\xi\), the d'Alembert conversion power
+\eqref{eq:W_def} uses \(\psi_\xi+L_\xi^\alpha\), where \(\psi_\xi\) is the
+recipient-phase Helmholtz storage and \(L_\xi^\alpha\) is the specific
+generalized transfer-work potential; \(-L_\xi^\alpha\dot c_\xi^\alpha\) is
+the corresponding transfer-work rate.  A non-equilibrium source state would
+require additional source energy and entropy data and a corresponding
+entropy-production restriction; it is outside the adopted closure.
+Equivalently, setting \(\Gamma_\xi=e_\xi\) in
 \eqref{eq:MC_skeleton_conservative_transport_identity} produces the
 phase-following storage
-\(\rho_\xi\dot e_\xi+
-e_\xi\sum_\alpha\dot c_\xi^\alpha\).  Thus the present convention
-transports internal energy, rather than enthalpy, with bulk phase mass; pressure
-and other constraint powers remain explicit on the right-hand side.  Let
+\(\rho_\xi\dot e_\xi+e_\xi\sum_\alpha\dot c_\xi^\alpha\).  The present
+convention therefore transports internal energy, together with pressure and
+other constraint powers kept explicit on the right-hand side, with bulk phase
+mass.  Let
 \(\mbf L_\xi=\nabla_{\mbf x}\mbf v_\xi\) be the phase velocity gradient,
 \(\mbf q_\xi\) the total nonadvective material-energy flux assigned to phase
 \(\xi\), \(\rho_\xi r_\xi\) the external heat supply, and
 \(\rho_\xi e_\xi^{\rm int}\) the internal-energy supply from the other phases,
 all per unit current mixture volume where appropriate.  Thus
 \(\mbf q_\xi\) collects the gauge-invariant nonadvective material-energy
-transport that remains after bulk phase convection has been separated; it is
-not restricted a priori to a purely conductive contribution.  A charged
+transport that remains after bulk phase convection has been separated; it
+accommodates conduction, interdiffusion energy transport, and any other
+nonadvective contribution.  A charged
 component flux relative to its phase also receives the electrical work
 \(z_\xi^\alpha\mbf j_\xi^\alpha\cdot\mbf E\).  This work is written directly
 in terms of the electric field so that both the energy balance and the
@@ -987,7 +936,8 @@ source work in \eqref{eq:W_def}, and the divergence gives the electrical
 boundary power.  In particular, its flux is
 \(\phasedot\varphi\bar q\) on \(\Gamma_q\).  Equation
 \eqref{eq:MC_electrostatic_power_identity} is an entropy-free field-power
-	identity, not a third thermal balance.  It is applied globally before either
+identity that separates the shared electric-potential-rate work from the two
+thermal-subsystem balances.  It is applied globally before either
 	thermal-subsystem balance is divided by its temperature.  Here \(\varrho\) is
 	the material-carried charge density defined by
 \eqref{eq:mixture_charge_density_definition}.
@@ -1106,19 +1056,22 @@ power, while the shared electric-potential-rate term is carried by
 	\label{eq:MC_energy_balance}
 \end{equation}
 %
-Here \(\delta_{\mc G\mc F}\) includes the interfacial storage term only in the
-fluid balance, and \(e_\xi=\psi_\xi+\theta_\xi\mathfrak{s}_\xi\).  By
+Here \(\delta_{\mc G\mc F}\) is the Kronecker selector,
+\(\delta_{\mc G\mc F}=1\) when \(\mc G=\mc F\) and zero otherwise, so the
+interfacial storage term enters only the fluid balance.  The symbol \(\delta\)
+is also used for variational displacements; the \(\mc G\mc F\) subscript always
+distinguishes the selector.  Also
+\(e_\xi=\psi_\xi+\theta_\xi\mathfrak{s}_\xi\).  By
 \eqref{eq:MC_skeleton_conservative_transport_identity}, the first three terms
-in each phase contribution are exactly
-\(\rho_\xi\dot e_\xi+
-e_\xi\sum_\alpha\dot c_\xi^\alpha\); no mass-source energy has been
-omitted or counted twice.  The material-plus-field first law consists of the
+in each phase contribution simplify to
+\(\rho_\xi\dot e_\xi+e_\xi\sum_\alpha\dot c_\xi^\alpha\); the source-carried
+energy convention is exact.  The material-plus-field first law consists of the
 two instances of \eqref{eq:MC_energy_balance}, the phase kinetic-energy
 balances obtained from momentum balance, and the global field-power identity
-\eqref{eq:MC_electrostatic_power_identity}.  This construction avoids an
-arbitrary allocation of the common power
-\(\mbf d\cdot\nabla_{\mbf x}\phasedot\varphi\) and its source
-\(-\varrho\phasedot\varphi\) between subsystems at different temperatures.
+\eqref{eq:MC_electrostatic_power_identity}.  The field-power identity carries
+the shared power \(\mbf d\cdot\nabla_{\mbf x}\phasedot\varphi\) and its source
+\(-\varrho\phasedot\varphi\) outside the thermal balances, so each subsystem
+balance uses only its own temperature.
 The electrical transport term in \eqref{eq:MC_energy_balance} is the work of
 the electric field on component charge transported relative to phase
 \(\xi\).  It is not a potential-energy flux.  Both
@@ -1264,20 +1217,26 @@ equation~(16), gives
 \end{equation}
 %
 Equations \eqref{eq:MC_single_phase_energy_limit} and
-\eqref{eq:MC_montanaro_electric_enthalpy_limit} differ only in where electrical
-energy and power are placed.  Reference~\cite{montanaro2015thermo_electroelasticity}
-keeps polarization work in the material balance.  The present formulation
-combines material and field storage, includes Maxwell stress in the mechanical
-power, and displays the free-charge source and electrical boundary flux
-explicitly.  Using \eqref{eq:MC_electrostatic_power_identity} converts between
-the material and field-power descriptions.  Polarization is therefore not an
-additional state variable here.  If an SI vacuum-field split is desired,
-\(\mbf P=\mbf d-\varepsilon_0\mbf E\).  The displacement \(\mbf d\) is retained
-because Gauss' law relates it directly to free charge, while the dependence of
-\(\omega_\xi^+\) on density, saturation, composition, and temperature already
-represents the effective dielectric response of the porous medium.  An
-independent polarization evolution law would be required only for relaxation,
-hysteresis, ferroelectricity, or other additional dielectric physics.
+\eqref{eq:MC_montanaro_electric_enthalpy_limit} are equivalent descriptions of
+the same single-phase thermo-electroelastic energy balance.
+Reference~\cite{montanaro2015thermo_electroelasticity} writes the polarization
+work \(-\mbf P\cdot\phasedot{\mbf E}^{M}\) on the right-hand side and treats
+polarization as a state variable.  The present formulation instead uses the
+total electric displacement \(\mbf d\), which Gauss' law relates directly to
+free charge, and the electric enthalpy \(\omega_\xi^+\), whose dependence on
+density, saturation, composition, and temperature represents the effective
+dielectric response of the porous medium.  The Maxwell stress enters the
+mechanical power through \(\bs\sigma_\xi^{\prime+}\), and the free-charge
+source and electrical boundary flux appear explicitly on the right-hand side
+of \eqref{eq:MC_single_phase_energy_limit}.  The field-power identity
+\eqref{eq:MC_electrostatic_power_identity} converts between the two accounting
+conventions: it relates the polarization-work term
+\(-\mbf P\cdot\phasedot{\mbf E}\) used by Montanaro to the free-charge and
+boundary-flux terms displayed here.  Polarization is therefore recovered
+constitutively from \(\mbf P=\mbf d-\varepsilon_0\mbf E\) and is not an
+additional state variable.  An independent polarization evolution law would be
+required only for relaxation, hysteresis, ferroelectricity, or other
+additional dielectric physics.
 
 The solid stress power is decomposed by
 \(\mbf F=\mbf A_s\bar{\mbf F}_s\),
@@ -1406,7 +1365,7 @@ Using \eqref{eq:MC_solid_kinematic_splits}, the solid stress power is
 The local entropy inequality is written in the same skeleton frame as the
 subsystem energy balances.  Its entropy flux contains entropy convected through
 the skeleton control surface, entropy transported by the gauge-invariant
-material-energy flux, and the neutral-chemical-potential-weighted contribution
+material-energy flux, and the chemical-potential-weighted contribution
 of component-relative transport.  Electrical work on the relative charge flux
 enters through the gauge-invariant volume power in
 \eqref{eq:MC_energy_balance}, not through a potential-dependent entropy flux.
@@ -1638,13 +1597,11 @@ Helmholtz-energy and temperature gradients are generated together when a
 phase-following thermodynamic rate is expressed in the skeleton frame.  Indeed,
 \eqref{eq:MC_phase_skeleton_transport_identity} gives the exact identity
 %
-\begin{align}
-	&-\frac{\rho_\xi}{\theta_{\mc G}}
+\begin{equation}
+	-\frac{\rho_\xi}{\theta_{\mc G}}
 	\left(
 		\phasedot\psi_\xi+\mathfrak{s}_\xi\phasedot\theta_{\mc G}
 	\right)
-	\notag \\
-	&\quad
 	-\frac{\rho_\xi}{\theta_{\mc G}}
 	\left(
 		\mbf v_\xi-\mbf v_{\mc S}
@@ -1662,7 +1619,7 @@ phase-following thermodynamic rate is expressed in the skeleton frame.  Indeed,
 		\mathfrak{s}_\xi\dot{\theta}_{\mc G}
 	\right).
 	\label{eq:MC_phase_rate_free_energy_transport_identity}
-\end{align}
+\end{equation}
 %
 Consequently, the second term on the left is not an additional constitutive
 force conjugate to bulk phase velocity.  Separating it from the first term is
@@ -1715,14 +1672,16 @@ while the direct relative-current work in \eqref{eq:MC_energy_balance} supplies
 the electric-field part of the transport force.  A charge-rate projection
 derived with the source terms below records the equivalent potential-charge
 accounting separately.
-No boundary divergence is discarded.
+The divergence terms are retained in the strong form and contribute the
+corresponding boundary fluxes in the integrated statement.
 Collecting the volume-fraction, capillary-history, composition, temperature,
 reaction, and transport rates gives one inequality organized into five labelled
 blocks.  The first block contains the elastic, distension, volume-fraction, and
 capillary-history rates.  Each subsequent display continues the
 right-hand side of the first, so its leading sign belongs to the same sum.  All
 five blocks therefore form the single inequality
-\eqref{eq:MC_collected_entropy}.
+\eqref{eq:MC_collected_entropy}. \\
+
 %
 \begin{subequations}
 \label{eq:MC_collected_entropy}
@@ -2151,8 +2110,9 @@ observer-conversion terms.}
 %
 
 Equation~\eqref{eq:MC_collected_entropy} is an audit expansion in
-skeleton-rate coordinates, not yet a termwise division into reversible and
-residual mechanisms.  In particular, the first term on the left of
+skeleton-rate coordinates that groups the collected entropy into the mechanism
+blocks below; the reversible--residual division is applied after the observer
+reassembly.  In particular, the first term on the left of
 \eqref{eq:MC_phase_rate_free_energy_transport_identity} has been distributed
 among the density, composition, temperature, and solid-kinematic coefficients
 in \eqref{eq:MC_collected_entropy_elastic_distension}--%
@@ -2186,8 +2146,6 @@ and sum over the phases:
 	+
 	\mathfrak{s}_\xi\dot{\theta}_{\mc G}
 	\right)
-	\notag \\
-	&\qquad\quad
 	+\sum_{\mc G\in\{\mc F,\mc S\}}
 	\frac{1}{\theta_{\mc G}}
 	\sum_{\xi\in\mc G}
@@ -2204,14 +2162,15 @@ The final positive sum in
 \eqref{eq:MC_collected_observer_correction_reassembly} cancels the negative
 skeleton-rate free-energy contribution that was expanded into the preceding
 blocks of \eqref{eq:MC_collected_entropy}.  This is an algebraic
-reassembly of the complete collected inequality; it is not a condition that
-sets either contribution to zero.  What remains from the pair is the
+reassembly of the complete collected inequality; both contributions remain
+in the entropy inequality through their phase-following replacement in the
+second line.  What remains from the pair is the
 phase-following rate in the second line.  For a mobile fluid phase its
 constitutive chain rule is
 %
-\begin{align}
+\begin{equation}
 	\dot{\psi}_f
-	={}&
+	=
 	\left.
 	\p{\psi_f}{\bar\rho_f}
 	\right\vert_{\mc X_f}
@@ -2222,8 +2181,7 @@ constitutive chain rule is
 	\p{\psi_f}{\eta_f^\beta}
 	\right\vert_{\mc X_f}
 	\dot{\eta}_f^\beta
-	\notag \\
-	&+
+	+
 	\left.
 	\p{\psi_f}{\theta_{\mc F}}
 	\right\vert_{\mc X_f}
@@ -2231,7 +2189,7 @@ constitutive chain rule is
 	\qquad
 	f\in\mc F.
 	\label{eq:MC_fluid_phase_following_free_energy_chain_rule}
-\end{align}
+\end{equation}
 %
 For every solid phase,
 \(\mbf v_s=\mbf v_{\mc S}\), so the phase-following and skeleton-following
@@ -2249,52 +2207,6 @@ the reversible constitutive restrictions.  Reaction rates, component-relative
 fluxes, plastic rates, interphase energy exchange, and heat flux remain as
 dissipative force--rate products.  The resulting residual is treated in
 the subsequent source-and-closure subsection.
-
-\begin{table}[ht]
-	\centering
-	\caption{Audit map from the collected entropy blocks to their downstream
-		constitutive roles.}
-	\label{tab:MC_collected_entropy_blocks}
-	\begin{tabular}{
-		>{\raggedright\arraybackslash}p{0.25\textwidth}
-		>{\raggedright\arraybackslash}p{0.31\textwidth}
-		>{\raggedright\arraybackslash}p{0.32\textwidth}}
-		\hline
-		Block & Independent rates or processes & Downstream result \\
-		\hline
-		Elastic, distension, and volume fraction
-		\eqref{eq:MC_collected_entropy_elastic_distension}
-		      & Elastic true deformation, elastic distension, and constrained phase
-			volume fractions
-			      & Material stress, distension force, and volume-fraction restrictions
-			\\
-		Density and composition
-		\eqref{eq:MC_collected_entropy_density_composition}
-		      & Intrinsic density and the \(N-1\) independent composition directions
-			      & Phase pressures and independent composition relations
-			\\
-		Temperature
-		\eqref{eq:MC_collected_entropy_temperature}
-		      & Independent fluid- and solid-subsystem temperature rates
-			      & Subsystem entropy definitions
-		\\
-		Reaction and relative transport
-		\eqref{eq:MC_collected_entropy_reaction_transport}
-		      & Mechanism rates and phase-relative component fluxes
-		      & Temperature-weighted conversion power, traditional affinity, and
-		gauge-invariant chemical and electric transport forces
-		\\
-		Residual dissipation
-		\eqref{eq:MC_collected_entropy_residual}
-		      & Plastic rates, interphase energy exchange, heat flux, and the
-		intermediate skeleton-to-phase observer correction
-			      & Residual inequality and admissible closures after the explicit
-			observer reassembly
-		\\
-		\hline
-	\end{tabular}
-\end{table}
-\FloatBarrier
 
 \subsection{Reversible restrictions}
 \label{sec:MC_reversible_restrictions}
@@ -2717,6 +2629,28 @@ interfacial entropy belongs to the fluid subsystem because
 \subsection{Sources, residual dissipation, and closures}
 \label{sec:MC_residual_dissipation}
 
+The reversible restrictions of \sref{MC_reversible_restrictions} settle the
+reversible stress, pressure, and energy relations.  This subsection assembles
+what remains.  It first converts the component-supply terms into the
+thermodynamic potentials and forces that appear in the source projection: the
+within-phase transfer-work potential \(L_\xi^\alpha\), the conversion
+affinity, and the relative-transport force
+(\sref{MC_component_supply_forces}).  Substituting the reversible restrictions
+and these forces into the collected entropy inequality then leaves the residual
+dissipation inequality (\sref{MC_residual_inequality}).  The remaining
+subsubsections close each dissipative mechanism admitted by that inequality:
+dynamic pressure lag and capillary history
+(\sref{MC_capillary_history_closure}), reaction and relative transport
+(\sref{MC_reaction_transport_closures}), plastic flow
+(\sref{MC_plastic_flow_closures}), interphase mechanical interaction
+(\sref{MC_interphase_mechanical_interaction}), and thermal exchange and
+conduction (\sref{MC_thermal_exchange_conduction}).  The mechanism index
+\((m)\) covers chemical reaction, phase transformation, sorption or
+desorption, and ion exchange; ``conversion'' is the generic term for any such
+local process.  Three reference choices recur: the reference component \(N\),
+the phase transfer-work potentials \(L_\xi^N\), and the solid transfer
+reference \(s_\star\), each introduced where first needed.
+
 \subsubsection{Component supply and thermodynamic forces}
 \label{sec:MC_component_supply_forces}
 
@@ -2726,72 +2660,6 @@ component transport relative to phase \(\xi\).  Its variational coefficient
 transfer-work potential
 \(L_\xi^\alpha\), while the entropy inequality contains the combination
 \(\psi_\xi+L_\xi^\alpha\) multiplying the component-supply rate.
-
-Multiplying the complete component-rate balance by
-\(\varphi z_\xi^\alpha/\theta_{\mc G}\), applying the product rule to the
-relative charge flux, and summing gives the temperature-weighted charge-rate
-identity
-%
-\begin{align}
-	0
-	={} &
-	\sum_{\mc G\in\{\mc F,\mc S\}}
-	\sum_{\xi\in\mc G}\sum_\alpha
-	\left\{
-		\frac{\varphi z_\xi^\alpha}{\theta_{\mc G}}
-		\left[
-		\dot{c}_\xi^\alpha
-		-
-				\sum_m\nu_{\xi (m)}^\alpha r_{(m)}
-		\right]
-		\right.
-	\notag \\
-	& \left.
-		\qquad
-		+
-		\frac{1}{\theta_{\mc G}}
-		\nabla_{\mbf x}\cdot
-		\left[
-			\varphi z_\xi^\alpha
-			\left(
-		\mbf j_{\xi,{\rm disp}}^\alpha
-		+
-		\mbf j_{\xi,{\rm diff}}^\alpha
-			\right)
-		\right]
-		\right.
-	\notag \\
-	& \left.
-		\qquad
-		-
-		\frac{z_\xi^\alpha}{\theta_{\mc G}}
-		\left(
-			\mbf j_{\xi,{\rm disp}}^\alpha
-			+
-			\mbf j_{\xi,{\rm diff}}^\alpha
-		\right)\cdot
-		\nabla_{\mbf x}\varphi
-	\right\}.
-	\label{eq:MC_charge_rate_entropy_projection}
-\end{align}
-%
-Equation \eqref{eq:MC_charge_rate_entropy_projection} is gauge invariant as a
-whole.  Under \(\varphi\mapsto\varphi+c_\varphi(t)\), its change is
-\(c_\varphi(t)/\theta_{\mc G}\) times the complete charge-weighted component
-balance and therefore vanishes.  Its divergence and electric-field terms must
-not be separated and inserted individually into the first law.  The adopted
-energy representation instead uses the direct, gauge-invariant
-relative-current work already present in \eqref{eq:MC_energy_balance}.
-Consequently the charge-rate
-identity is an alternative accounting check, not an additional dissipative
-term.  The reaction coefficient retained below is the neutral coefficient
-\(\psi_\xi+L_\xi^\alpha\) for every mechanism.  When charge is conserved
-separately within each thermal subsystem, its temperature-weighted
-stoichiometric sum may instead be written with electrochemical coefficients
-because the added electrical sum is zero.  For charge
-transfer between subsystems, the neutral form is required by gauge invariance;
-its physical reaction-energy transfer may be coupled subject to the
-mechanismwise dissipation condition derived with the closures below.
 
 The stress-free maps of a solid phase vary with composition, and
 \eqref{eq:MC_solid_elastic_arguments} gives
@@ -2860,10 +2728,10 @@ relations convert the implicit elastic derivatives into the two stress-power
 terms in \eqref{eq:MC_solid_composition_projection}, so the same cancellation
 applies.
 
-The single transfer potential does not require the absolute identification
-\(L_\xi^\alpha=\mu_\xi^\alpha-\psi_\xi\) in every phase.  Subtracting the
+Only the within-phase differences of the single specific generalized
+transfer-work potential are fixed at this stage.  Subtracting the
 reference-component form of \eqref{eq:el_conversion_component} from its
-component-\(\alpha\) form gives instead
+component-\(\alpha\) form gives
 %
 \begin{empheq}[box=\fbox]{align}
 	L_\xi^\alpha-L_\xi^N
@@ -2881,10 +2749,10 @@ component-\(\alpha\) form gives instead
 	\label{eq:MC_transfer_work_component_difference}
 \end{empheq}
 %
-The second equality follows by subtracting the constituent derivatives
-\eqref{eq:MC_absolute_neutral_component_potential}; their common density and
-normalization terms cancel, leaving exactly the neutral chemical-potential
-difference supplied by the composition restrictions
+The second equality subtracts the constituent derivatives
+\eqref{eq:MC_absolute_neutral_component_potential}; the common density and
+normalization terms cancel and leave the chemical-potential difference
+supplied by the composition restrictions
 \eqref{eq:MC_fluid_composition_projection} and
 \eqref{eq:MC_solid_composition_projection}.  Consequently,
 %
@@ -2905,8 +2773,8 @@ The generalized transfer potentials therefore retain the usual within-phase
 electrochemical-potential differences even though their absolute values need
 not equal the electrochemical potentials away from phase equilibrium.  At
 nonuniform temperature the transport force uses the equivalent gauge-invariant
-split into a neutral-potential thermal gradient and the electric field, derived
-below.
+split into a component-potential thermal gradient and the electric field, derived
+with the relative-transport force below.
 
 Equations \eqref{eq:el_conversion_component} and
 \eqref{eq:MC_neutral_component_euler_identity} also identify the common
@@ -2946,18 +2814,9 @@ the explicit algebraic recovery
 	\label{eq:MC_transfer_work_full_recovery}
 \end{empheq}
 %
-Equation \eqref{eq:MC_transfer_work_full_recovery} determines
-\(L_\xi^\alpha\) rather than introducing it as an independent constitutive
-function.  The phase free-energy model supplies \(\psi_\xi\) and
-\(\hat\mu_\xi^\alpha\), while the transfer-potential equation determines the
-component-independent offset
-\(D_\xi\tau/Dt-\mbf v_\xi\cdot\mbf v_\xi/2\).  Imposing
-\(L_\xi^\alpha=\hat\mu_\xi^\alpha-\psi_\xi\) in every phase would set every
-phase-common level to zero and would require
-\(D_\xi\tau/Dt=\mbf v_\xi\cdot\mbf v_\xi/2\) along every distinct phase
-trajectory.  That stronger specialization is admissible at reversible
-equilibrium but would overconstrain one shared \(\tau\) for general relative
-motion.
+The phase free-energy model supplies \(\psi_\xi\) and \(\hat\mu_\xi^\alpha\),
+and the transfer-potential equation determines the component-independent offset
+\(D_\xi\tau/Dt-\mbf v_\xi\cdot\mbf v_\xi/2\).
 
 To make the retained-\(\tau\) system square, choose one solid phase
 \(s_\star\) as the transfer reference.  All solid phases follow the skeleton,
@@ -2998,16 +2857,14 @@ equation
 	\label{eq:MC_admissible_conversion_component}
 \end{align}
 %
-Equation \eqref{eq:MC_admissible_conversion_component} governs the skeleton
-material derivative of \(\tau\); it does not identify \(\tau\) itself with the
-skeleton kinetic energy.  For a stationary skeleton,
-\(D_{\mc S}\tau/Dt=0\), so \(\tau\) retains its initial value along each
-skeleton trajectory.  Appendix~\ref{sec:technical_setting} states the
-corresponding additive normalization of its initial value.
-The second equality follows from
+Equation \eqref{eq:MC_admissible_conversion_component} evolves \(\tau\) by
+integration along each skeleton trajectory; for a stationary skeleton
+\(D_{\mc S}\tau/Dt=0\) and \(\tau\) retains its initial value.
+Appendix~\ref{sec:technical_setting} states the corresponding additive
+normalization of that initial value.  The second equality follows from
 \eqref{eq:MC_neutral_component_euler_identity}; the expanded first line records
 the thermodynamic normalization used by the general phase equations.
-Once \(\tau\) is known, the remaining \(P-1\) phase-reference coefficients are
+Once \(\tau\) is known, the remaining \(P-1\) phase transfer-work potentials are
 recovered algebraically from
 %
 \begin{equation}
@@ -3028,9 +2885,9 @@ recovered algebraically from
 Equation \eqref{eq:MC_transfer_work_full_recovery}, or equivalently
 \eqref{eq:MC_transfer_work_component_difference}, then reconstructs every
 \(L_\xi^\alpha\) with \(\alpha\ne N\).  Thus one scalar evolution
-determines \(\tau\), \(P-1\) algebraic equations determine the non-reference
-phase levels, and the component-difference restrictions introduce no
-additional primary fields.
+determines \(\tau\), \(P-1\) algebraic equations determine the remaining phase
+transfer-work potentials, and the component-difference restrictions introduce
+no additional primary fields.
 
 Substituting the component material-rate identity
 \eqref{eq:reference_conversion_accumulation_rate} into the
@@ -3117,47 +2974,10 @@ term from its traditional affinity.  Electrical effects nevertheless remain in
 the constitutive state dependence of \(\hat\mu_\xi^\alpha\), in the field force
 on charged transport, and in electrochemical phase equilibrium.
 
-Substituting \eqref{eq:MC_generalized_transfer_phase_offset} into the
-generalized stoichiometric coefficient and using
+Substituting the phase offset
+\eqref{eq:MC_generalized_transfer_phase_offset} into the generalized
+stoichiometric sum and using the affinity definition
 \eqref{eq:MC_affinity_projection} gives
-%
-\begin{align*}
-	-
-	\sum_\xi\sum_\alpha
-	\left(
-		\psi_\xi+L_\xi^\alpha+z_\xi^\alpha\varphi
-	\right)
-	\nu_{\xi (m)}^\alpha
-	&=
-	-
-	\sum_\xi\sum_\alpha
-	\mu_\xi^\alpha
-	\nu_{\xi (m)}^\alpha
-	-
-	\sum_\xi
-	\left(
-		\frac{D_\xi\tau}{Dt}
-		-
-		\frac{1}{2}
-		\mbf v_\xi\cdot\mbf v_\xi
-	\right)
-	\sum_\alpha\nu_{\xi (m)}^\alpha
-	\\
-	&=
-	\mc A_{(m)}
-	-
-	\sum_\xi
-	\left(
-		\frac{D_\xi\tau}{Dt}
-		-
-		\frac{1}{2}
-		\mbf v_\xi\cdot\mbf v_\xi
-	\right)
-	\sum_\alpha\nu_{\xi (m)}^\alpha
-	.
-\end{align*}
-%
-Solving this identity for the traditional affinity gives
 %
 \begin{equation}
 	\mc A_{(m)}
@@ -3181,25 +3001,24 @@ Solving this identity for the traditional affinity gives
 \end{equation}
 %
 Equation \eqref{eq:MC_generalized_conversion_affinity_relation} is an identity
-between two representations of the conversion driving force, not an
-equilibrium condition.  If the transfer-work term vanishes, it reduces to the
-usual generalized-coefficient representation of \(\mc A_{(m)}\); it does not
-imply \(\mc A_{(m)}=0\).  Only a separate thermodynamic-equilibrium condition
-sets \(\mc A_{(m)}=0\).  The transfer-work term is associated with net mass
-insertion into a phase.  It vanishes for a chemical reaction that conserves
-mass separately within every phase and also at full reversible equilibrium.
-It remains for phase-change, dissolution, precipitation, and pore-filling
-mechanisms that move net mass between phases.
+that expresses the conversion driving force in two equivalent representations.
+When the transfer-work term vanishes, the identity reduces to the usual
+generalized-coefficient representation of \(\mc A_{(m)}\), whose value is
+fixed separately by the thermodynamic-equilibrium condition.  The
+transfer-work term is associated with net mass insertion into a phase; it
+vanishes for a chemical reaction that conserves mass separately within every
+phase and at full reversible equilibrium, and it contributes for
+phase-change, dissolution, precipitation, and pore-filling mechanisms that
+move net mass between phases.
 
 For a mechanism confined to one thermal subsystem, the conversion contribution
 in \eqref{eq:MC_helmholtz_source_projection} equals
 \(\mc A_{(m)}r_{(m)}/\theta_{\mc G}\) when the mechanism conserves mass
-separately within every participating phase.  A phase-changing mechanism
+separately within every participating phase; a phase-changing mechanism
 retains the transfer-work term in
 \eqref{eq:MC_generalized_conversion_affinity_relation}.  A fluid--solid
-mechanism additionally contains generalized transfer-potential contributions
-evaluated at two different temperatures.  No single reaction temperature is
-assigned; its contribution is retained in the temperature-weighted form
+mechanism spans two different temperatures, so its contribution is written as
+the temperature-weighted sum
 %
 \begin{equation}
 	-
@@ -3214,16 +3033,73 @@ assigned; its contribution is retained in the temperature-weighted form
 	\label{eq:MC_temperature_weighted_reaction_power}
 \end{equation}
 %
-This neutral reaction contribution is gauge invariant for every mechanism.
-When the stoichiometry conserves charge separately within each thermal
-subsystem, the corresponding electrochemical sum is identical.  If a
-mechanism transfers net charge between the fluid and solid subsystems, inserting
-the electric-potential level separately into the two temperature-weighted sums
-would make the result gauge dependent.  Its physical reaction-energy transfer
-therefore remains a separate contribution and may be coupled to the neutral
-reaction force through the admissibility condition below.  This coupling is
-local to the bulk representative volume and does not introduce a sharp
-interface.
+This neutral reaction contribution is gauge invariant for every mechanism;
+the charge-rate identity below records the corresponding gauge accounting.
+When a mechanism transfers net charge between the fluid and solid subsystems,
+the reaction-energy transfer is carried as a separate contribution, a local
+bulk representative-volume effect, and is coupled to the neutral reaction
+force through the mechanismwise admissibility condition of
+\sref{MC_reaction_transport_closures}.
+
+Multiplying the complete component-rate balance by
+\(\varphi z_\xi^\alpha/\theta_{\mc G}\), applying the product rule to the
+relative charge flux, and summing gives the temperature-weighted charge-rate
+identity
+%
+\begin{align}
+	0
+	={} &
+	\sum_{\mc G\in\{\mc F,\mc S\}}
+	\sum_{\xi\in\mc G}\sum_\alpha
+	\left\{
+		\frac{\varphi z_\xi^\alpha}{\theta_{\mc G}}
+		\left[
+		\dot{c}_\xi^\alpha
+		-
+		\sum_m\nu_{\xi (m)}^\alpha r_{(m)}
+		\right]
+		\right.
+	\notag \\
+	& \left.
+		\qquad
+		+
+		\frac{1}{\theta_{\mc G}}
+		\nabla_{\mbf x}\cdot
+		\left[
+			\varphi z_\xi^\alpha
+			\left(
+			\mbf j_{\xi,{\rm disp}}^\alpha
+			+
+			\mbf j_{\xi,{\rm diff}}^\alpha
+			\right)
+		\right]
+		-
+		\frac{z_\xi^\alpha}{\theta_{\mc G}}
+		\left(
+			\mbf j_{\xi,{\rm disp}}^\alpha
+			+
+			\mbf j_{\xi,{\rm diff}}^\alpha
+		\right)\cdot
+		\nabla_{\mbf x}\varphi
+	\right\}.
+	\label{eq:MC_charge_rate_entropy_projection}
+\end{align}
+%
+Equation \eqref{eq:MC_charge_rate_entropy_projection} is gauge invariant as a
+whole.  Under \(\varphi\mapsto\varphi+c_\varphi(t)\), its change is
+\(c_\varphi(t)/\theta_{\mc G}\) times the complete charge-weighted component
+balance and therefore vanishes.  The energy representation retains the direct,
+gauge-invariant relative-current work of \eqref{eq:MC_energy_balance}, so the
+divergence and electric-field pieces of the identity enter the first law only
+through that combined work.  The charge-rate identity therefore serves as an
+alternative accounting check, and the reaction coefficient is the neutral
+coefficient \(\psi_\xi+L_\xi^\alpha\) for every mechanism.  When charge is
+conserved separately within each thermal subsystem, the temperature-weighted
+stoichiometric sum may equivalently be written with electrochemical
+coefficients, because the added electrical sum vanishes.  For charge transfer
+between subsystems, gauge invariance requires the neutral form; its physical
+reaction-energy transfer is coupled through the mechanismwise admissibility
+condition of \sref{MC_reaction_transport_closures}.
 
 In the local-thermal-equilibrium limit,
 \(\theta_{\mc F}=\theta_{\mc S}=\theta\), total charge conservation permits the
@@ -3272,20 +3148,20 @@ Thus chemical conversion and interphase energy exchange remain distinct
 contributions to the two-temperature entropy inequality, as in Drumheller's
 constituent formulation \cite[eq.~(88)]{drumheller2000}.  Their closures may be
 uncoupled or Onsager-coupled, subject to the combined dissipation inequality
-and the interaction-energy conservation condition below.
+and the interaction-energy conservation condition of
+\sref{MC_interphase_mechanical_interaction}.
 
 The remaining part of
 \eqref{eq:MC_helmholtz_source_projection} is the power of component transport
 relative to a phase.  Select the same reference component \(N\) used in the
-Onsager calculation.  The separate zero-sum convention
+Onsager calculation; the separate zero-sum convention
 \eqref{eq:separate_relative_flux_sum_closure} converts the full component sum
-to \(N-1\) independent potential differences.  The first divergence below is
-the neutral component-relative term already present in the entropy flux
-\eqref{eq:MC_entropy_inequality}.  The second term is the transport part of
-\eqref{eq:MC_helmholtz_source_projection}.  The third is the direct
-relative-current work in \eqref{eq:MC_energy_balance}.  The product rule
-cancels the neutral flux divergence pointwise and leaves the electric-field
-work unchanged:
+to \(N-1\) independent potential differences.  Combining the component-relative
+term already present in the entropy flux \eqref{eq:MC_entropy_inequality}, the
+transport part of \eqref{eq:MC_helmholtz_source_projection}, and the direct
+relative-current work in \eqref{eq:MC_energy_balance}, the product rule cancels
+the neutral flux divergence pointwise and leaves the electric-field work
+unchanged:
 %
 \begin{equation}
 	\begin{aligned}
@@ -3352,7 +3228,9 @@ work unchanged:
 	\label{eq:relative_transport_product_rule}
 \end{equation}
 %
-Thus no boundary divergence is discarded during localization.  The local
+The divergence terms are retained in the strong form and contribute the
+corresponding boundary fluxes in the integrated statement, while the product
+rule reduces the volume part to the local production density.  The local
 entropy production from relative transport is
 %
 \begin{equation}
@@ -3382,56 +3260,23 @@ entropy production from relative transport is
 After the zero-sum reduction, the first part is the standard neutral
 molecular-diffusion force in nonisothermal mixture thermodynamics
 \cite{bothe2015continuum,bothe2023diffusion_fluxes}; the second is the electric
-force per temperature.  Because it contains \(\nabla_{\mbf x}\varphi=-\mbf E\)
-rather than \(\varphi\nabla_{\mbf x}(1/\theta_{\mc G})\), the complete force is
-invariant under \(\varphi\mapsto\varphi+c_\varphi(t)\).  The present theory
-adopts the same force for mechanical dispersion as a constitutive analogy to
-the molecular-diffusion force.  At uniform local temperature, the two parts
-combine into
-\(\nabla_{\mbf x}(\mu_\xi^\alpha-\mu_\xi^N)/\theta_{\mc G}\).
+force per temperature.  The complete force uses \(\nabla_{\mbf x}\varphi=-\mbf E\)
+rather than the gauge-dependent combination
+\(\varphi\nabla_{\mbf x}(1/\theta_{\mc G})\), so it is invariant under
+\(\varphi\mapsto\varphi+c_\varphi(t)\).  The present theory adopts the same
+force for mechanical dispersion as a constitutive analogy to the
+molecular-diffusion force.  At uniform local temperature, the two parts combine
+into \(\nabla_{\mbf x}(\mu_\xi^\alpha-\mu_\xi^N)/\theta_{\mc G}\).
 The observer and gauge rules collected in
-Appendix~\ref{sec:technical_setting} give the direct transformation check
-%
-\begin{align}
-	&
-	\nabla_{\mbf x^\star}
-	\left(
-		\frac{
-			(\hat\mu_\xi^\alpha)^\star-(\hat\mu_\xi^N)^\star
-		}{\theta_{\mc G}^\star}
-	\right)
-	+
-	\frac{
-		z_\xi^\alpha-z_\xi^N
-	}{\theta_{\mc G}^\star}
-	\nabla_{\mbf x^\star}\varphi^\star
-	\notag \\
-	&\qquad =
-	\mbf Q
-	\left[
-		\nabla_{\mbf x}
-		\left(
-			\frac{
-				\hat\mu_\xi^\alpha-\hat\mu_\xi^N
-			}{\theta_{\mc G}}
-		\right)
-		+
-		\frac{
-			z_\xi^\alpha-z_\xi^N
-		}{\theta_{\mc G}}
-		\nabla_{\mbf x}\varphi
-	\right].
-	\label{eq:MC_transport_force_gauge_objectivity}
-\end{align}
-%
-The additive function \(c_\varphi(t)\) has no spatial gradient, so it does not
-enter either side.
+Appendix~\ref{sec:technical_setting} confirm that the force is equivariant
+under the Euclidean observer transformation and invariant under
+\(\varphi\mapsto\varphi+c_\varphi(t)\), since \(c_\varphi(t)\) carries no
+spatial gradient.
 
 \subsubsection{Residual inequality}
 \label{sec:MC_residual_inequality}
 
-Plastic flow is driven by the material stress \(\bs\sigma_s'\), not by the
-Maxwell stress counted in the field energy.  Mapping \(\bs\sigma_s'\) through
+Plastic flow is driven by the material stress \(\bs\sigma_s'\).  Mapping \(\bs\sigma_s'\) through
 the current distension and elastic true-deformation factors gives the stress
 conjugate to the true-plastic rate.  Because true-plastic flow is isochoric, only
 the deviatoric part performs plastic work.  Define that driving stress by
@@ -3478,9 +3323,10 @@ powers derived in \eqref{eq:MC_temperature_weighted_reaction_power} and
 \eqref{eq:MC_relative_transport_power}.  Gauss' law was already used in the
 global field-power identity \eqref{eq:MC_electrostatic_power_identity}.  The
 component charge balance constrains the admissible rates and is recorded by
-\eqref{eq:MC_charge_rate_entropy_projection}, but its potential-dependent
-terms are not inserted separately.  Charge accumulation and the field rate
-therefore do not remain as independent dissipative terms.
+\eqref{eq:MC_charge_rate_entropy_projection}; its potential-dependent terms
+are accounted through that balance and the field-power identity, so charge
+accumulation and the field rate enter the residual only through the admissible
+rates.
 
 The bulk-translation term is removed from the residual only through the
 ordering displayed in
@@ -3492,20 +3338,21 @@ free-energy contribution recovered from
 is the phase-following rate, whose fluid chain rule is
 \eqref{eq:MC_fluid_phase_following_free_energy_chain_rule}.  The reversible
 relations from \sref{MC_reversible_restrictions} are then substituted into this
-reassembled form.  No term in
-\eqref{eq:MC_collected_entropy_residual} is set to zero by itself, and no
-phase-momentum multiplier is invoked to delete it.
+reassembled form.  Every term in
+\eqref{eq:MC_collected_entropy_residual} is carried through the reassembly and
+settled by those reversible restrictions; the identity itself supplies the
+bulk-translation elimination.
 
-This change of rate coordinates does not remove a physical phase force.
-Pressure, capillary, Maxwell, body-force, inertia, and conversion-insertion
-powers remain in the phase momentum equations, while the observer correction
-does not enter a second time as an independent constitutive force.  In
-particular, the reassembly does not impose
+This change of rate coordinates preserves the physical phase forces:
+pressure, capillary, Maxwell, body-force, inertia, and conversion-insertion
+powers remain in the phase momentum equations.  The observer correction
+enters once, through the phase-following rate, and the reassembly absorbs the
+coefficient
 \(\nabla_{\mbf x}\psi_\xi+
-\mathfrak{s}_\xi\nabla_{\mbf x}\theta_{\mc G}=\mbf0\).
-The remaining bulk-translation constitutive mechanism is interphase mechanical
-interaction, whose dissipated power is converted to the internal-energy
-supplies below.  What remains is the residual dissipation inequality
+\mathfrak{s}_\xi\nabla_{\mbf x}\theta_{\mc G}\)
+into that rate.  The remaining bulk-translation constitutive mechanism is
+interphase mechanical interaction, whose dissipated power is converted to the
+internal-energy supplies below.  What remains is the residual dissipation inequality
 %
 \begin{align}
 		0\le{}\; &
@@ -3591,17 +3438,15 @@ supplies below.  What remains is the residual dissipation inequality
 %
 Equation~\eqref{eq:MC_residual_dissipation} retains the saturation pressure-lag
 and capillary-history force--rate products together with the other dissipative
-mechanisms.  It
-contains no standalone
-Helmholtz-energy-gradient force on the bulk phase velocity.  The bulk velocity
-is determined by phase momentum balance together with the interphase drag law,
-so pressure, capillarity, electrostatics, gravity, inertia, and conversion may
-all drive a moving phase.  Chemical-potential differences continue to drive
-component-relative diffusion and dispersion through
-\eqref{eq:MC_relative_transport_power}; they are not removed or absorbed into
-the bulk drag.  Thermo-osmotic or other cross effects may be added through an
-explicit positive-semidefinite coupled closure, but they are additional
-constitutive physics rather than the observer-conversion term in
+mechanisms.  The bulk velocity is set by the phase momentum balance together
+with the interphase drag law; pressure, capillarity, electrostatics, gravity,
+inertia, and conversion all drive a moving phase through those balances, and
+the residual inequality carries only the dissipative mechanisms listed.
+Chemical-potential differences drive component-relative diffusion and
+dispersion through \eqref{eq:MC_relative_transport_power} and remain distinct
+from the bulk drag force.  Thermo-osmotic or other cross effects enter through
+an explicit positive-semidefinite coupled closure, separate from the
+observer-conversion term in
 \eqref{eq:MC_phase_rate_free_energy_transport_identity}.
 
 \subsubsection{Dynamic pressure lag and capillary-history closures}
@@ -3628,6 +3473,19 @@ saturation term in \eqref{eq:MC_residual_dissipation} gives
 	\label{eq:MC_dynamic_capillary_dissipation}
 \end{align}
 %
+The nonnegativity holds for every saturation-rate vector when the resistance
+is symmetric and positive semidefinite:
+%
+\begin{equation}
+	\mc T_{fg}=\mc T_{gf},
+	\qquad
+	\sum_{f\ne f_\star}\sum_{g\ne f_\star}
+	y_f\mc T_{fg}y_g\ge0
+	\quad
+	\text{for all real }\{y_f\}_{f\ne f_\star}.
+	\label{eq:MC_dynamic_capillary_resistance_admissibility}
+\end{equation}
+%
 For two fluid phases, take \(f_\star=w\) and write
 \(\mc T_{nw}\equiv\mc T_{nn}\).  Equations
 \eqref{eq:pc_def} and
@@ -3653,8 +3511,8 @@ electrocapillary relation obtained from
 \eqref{eq:fluid_pressure_difference_primitive_potential}.  Imposing electrical
 neutrality as well gives
 \eqref{eq:wetting_nonwetting_capillary_pressure_recovery}.  This closure adds
-rate dependence to the dissipative pressure response without adding
-\(\phasedot S_f\) to the stored interfacial energy.
+rate dependence to the dissipative pressure response while the stored
+interfacial energy retains only its saturation and history dependence.
 The thermodynamic distinction between the phase-pressure difference and stored
 capillary pressure, followed by a linear saturation-rate closure, is developed
 by Hassanizadeh and Gray and Hassanizadeh, Celia, and Dahle
@@ -3729,20 +3587,19 @@ mixture energy mechanism by mechanism:
 For a mechanism confined to one thermal subsystem, the reaction-associated
 allocation may be set to zero because the source-carried terms already enter
 that subsystem balance.  For a mechanism spanning the two thermal subsystems,
-\eqref{eq:MC_reaction_energy_allocation_subsystems} is a constitutive allocation
-of latent or reaction heat, not a third energy balance.
+\eqref{eq:MC_reaction_energy_allocation_subsystems} constitutively allocates
+the latent or reaction heat between the two subsystem balances.
 
-Inequality \eqref{eq:MC_residual_dissipation} is the admissibility condition;
-it does not prescribe a unique kinetic law.  The quadratic Onsager potential in
+Inequality \eqref{eq:MC_residual_dissipation} is the admissibility condition
+restricting the admissible kinetic laws.  The quadratic Onsager potential in
 \sref{onsager_reaction_transport} supplies the following uncoupled
 near-equilibrium choice for any mechanism:
 %
 \begin{equation}
 	r_{(m)}
 	=
-	K_{(m)}
+	-K_{(m)}
 	\left[
-		-
 		\sum_{\mc G\in\{\mc F,\mc S\}}
 		\frac{1}{\theta_{\mc G}}
 		\sum_{\xi\in\mc G}\sum_\alpha
@@ -3851,7 +3708,7 @@ Dreyer, Guhlke, and M{\"u}ller write the chemical-potential gradient and
 electric force separately; under isothermal electrostatics their force combines
 into the electrochemical-potential difference used here
 \cite{dreyer2018bulk_surface_electrothermodynamics}.  The nonisothermal closure
-keeps those two parts separate: the neutral potential is divided by
+keeps those two parts separate: the absolute component potential is divided by
 \(\theta_{\mc G}\) before differentiation, whereas the electric force is
 \((z_\xi^\alpha-z_\xi^N)\nabla_{\mbf x}\varphi\).  This ordering is required
 for electric-gauge invariance.
@@ -3917,8 +3774,8 @@ The final row reconstructs the reference-component flux and enforces the
 separate zero-sum specialization
 \eqref{eq:separate_relative_flux_sum_closure}.  The reduced mobilities and
 their inverses act only on the \(N-1\) independent component coordinates.
-Consequently the laws use neutral-potential differences and the electric field
-and are invariant under both a common phasewise neutral-potential shift and
+Consequently the laws use component-potential differences and the electric field
+and are invariant under both a common phasewise component-potential shift and
 \(\varphi\mapsto\varphi+c_\varphi(t)\).  At uniform temperature they reduce to
 the familiar electrochemical-potential-gradient form.
 Substitution of
@@ -3990,10 +3847,9 @@ of \eqref{eq:MC_residual_dissipation} gives
 %
 Thus the reaction and relative-transport terms are dissipative when each
 \(\mbf D_{\xi,k}\) is symmetric positive definite on the \(N-1\) independent
-component coordinates.  Diffusion and dispersion may use
-different mobilities, but both are driven here by the same
-gauge-invariant nonisothermal chemical and electric force; the neutral limit is
-obtained by setting \(z_\xi^\alpha=0\).  Dispersion may depend on resolved flow
+component coordinates.  Diffusion and dispersion may use different mobilities
+under the same gauge-invariant nonisothermal force; the neutral limit follows by
+setting \(z_\xi^\alpha=0\).  Dispersion may depend on resolved flow
 and pore geometry~\cite{plumb1988dispersion,gray2009tcat_transport}.  Reaction,
 diffusion, and dispersion may also be cross-coupled, provided their combined
 force--rate form remains nonnegative~\cite{doi2011onsager,wang2021onsager}.
@@ -4006,33 +3862,42 @@ block must satisfy
 
 The two plastic powers in \eqref{eq:MC_residual_dissipation} admit the following
 uncoupled associated closures, analogous to Drumheller's sufficient
-construction~\cite{drumheller2000}:
+construction~\cite{drumheller2000}.  A plastic internal state vector
+\(\mbf p_s\) per solid phase carries hardening, softening, and rate
+dependence through the flow-rule mobilities:
 %
 \begin{subequations}
 	\label{eq:MC_generic_plastic_flow_rules}
 	\begin{align}
 		\phasedot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
 		 & =
-		\Lambda_{\bar{\mbf F}_s}(\mc X_s)
+		\Lambda_{\bar{\mbf F}_s}(\mc X_s,\mbf p_s)
 		(\mbf S_s)^T,
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_generic_plastic_deformation_flow_rule}            \\
 		\phasedot{\mbf A}_s^p(\mbf A_s^p)^{-1}
 		 & =
-		\Lambda_{\mbf A_s}(\mc X_s)
+		\Lambda_{\mbf A_s}(\mc X_s,\mbf p_s)
 		(\mbf A_s^e)^T
 		\bs\sigma_s'
 		(\mbf A_s^e)^{-T},
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_generic_plastic_distension_flow_rule}             \\
-		\Lambda_{\bar{\mbf F}_s}(\mc X_s)
+		\phasedot{\mbf p}_s
+		 & =
+		\mbf g_s
+		(\mc X_s,\mbf p_s,\mbf S_s,\bs\sigma_s'),
+		\qquad
+		s\in\mc S,
+		\label{eq:MC_generic_plastic_state_evolution} \\
+		\Lambda_{\bar{\mbf F}_s}(\mc X_s,\mbf p_s)
 		 & \ge0,
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_generic_plastic_deformation_mobility_nonnegative} \\
-		\Lambda_{\mbf A_s}(\mc X_s)
+		\Lambda_{\mbf A_s}(\mc X_s,\mbf p_s)
 		 & \ge0,
 		\qquad
 		s\in\mc S .
@@ -4042,12 +3907,12 @@ construction~\cite{drumheller2000}:
 %
 Because \(\operatorname{tr}\mbf S_s=0\), the first closure preserves
 isochoric true-plastic flow.  The nonnegative scalar mobilities make both
-plastic powers nonnegative separately.  Their dependence on the state set
-\(\mc X_s\) permits composition-dependent mobilities.  Hardening, softening,
-and other history dependence require additional internal variables and
-evolution equations beyond the state set in \eqref{eq:MC_state_sets}.
-Component-resolved mobilities are given in the later additive specialization.
-Coupled or non-associated
+plastic powers nonnegative separately.  The mobilities depend on the
+equilibrium state set \(\mc X_s\) and the plastic internal state vector
+\(\mbf p_s\), whose evolution
+\eqref{eq:MC_generic_plastic_state_evolution} carries hardening, softening,
+and rate dependence inside the plastic closure.  Component-resolved mobilities
+are given in the later additive specialization.  Coupled or non-associated
 plastic deformation--distension laws may replace
 \eqref{eq:MC_generic_plastic_flow_rules}, but their combined conjugate power in
 \eqref{eq:MC_residual_dissipation} must remain nonnegative.
@@ -4100,40 +3965,30 @@ conduction, its sufficient thermodynamic admissibility condition is
 	\label{eq:MC_mechanical_interaction_admissibility}
 \end{equation}
 %
-The cited mixture theories support different parts of this construction and
-should not be read as printing
-\eqref{eq:MC_mechanical_interaction_admissibility} verbatim.  Drumheller and
-Bedford's two-temperature inequality couples interaction-energy transfer to
-relative mechanical power
-\cite[eq.~(4.8)]{drumheller1980thermomechanical}; together with their total
-energy balance, this is the antecedent for requiring
-\eqref{eq:MC_interaction_energy_conservation} and temperature-weighted
-interaction heating simultaneously.  Gray's general porous-medium inequalities
-contain solid-relative velocities paired with combined interaction and
-thermodynamic forces
-\cite[eqs.~(33), (37), (44), and (47)]{gray1999thermodynamics}; after the
-constitutive reductions, Gray's slow-flow example uses the pressure-gradient
-phase momentum equation rather than a separate Helmholtz-gradient restriction
-\cite[eq.~(77)]{gray1999thermodynamics}.
-
-Seguin and Walkington provide the closest common-temperature analogue.  Their
-unreduced inequality contains a relative-velocity bracket
-\cite[eq.~(15)]{seguin2019multicomponent}; the elastic-force and thermodynamic
-identities in their equations (33) and (35) remove its reversible part, leaving
-only the viscous relative-force product in their equation (32).  Their equations
-(37), (40), and (41) then give a pressure-driven force balance, a positive drag
-law, and Darcy flow, respectively
-\cite[eqs.~(32), (33), (35), (37), (40), and (41)]{seguin2019multicomponent}.
-Bothe and Dreyer's equations (88)--(93) make a related combined-force
-rearrangement for constituent diffusion in a common-temperature miscible fluid
-\cite[eqs.~(88)--(93)]{bothe2015continuum}.  That last comparison concerns
-constituent diffusion and Gibbs--Duhem reduction, not porous-phase Darcy flow.
+The cited mixture theories support complementary parts of this construction,
+which \eqref{eq:MC_mechanical_interaction_admissibility} assembles.  Drumheller
+and Bedford's two-temperature inequality couples interaction-energy transfer to
+relative mechanical power, and together with their total energy balance it is
+the basis for requiring \eqref{eq:MC_interaction_energy_conservation} and
+temperature-weighted interaction heating simultaneously
+\cite[eq.~(4.8)]{drumheller1980thermomechanical}.  Gray's porous-medium
+inequalities pair solid-relative velocities with combined interaction and
+thermodynamic forces, and his slow-flow example closes the phase momentum
+through the pressure-gradient equation
+\cite[eqs.~(33), (37), (44), (47), and (77)]{gray1999thermodynamics}.  Seguin
+and Walkington provide the closest common-temperature analogue, whose
+reduction yields a pressure-driven force balance, a drag law, and Darcy flow
+\cite[eqs.~(15), (32), (33), (35), (37), (40), and (41)]{seguin2019multicomponent}.
+Bothe and Dreyer make a related combined-force rearrangement for constituent
+diffusion in a common-temperature miscible fluid, a comparison that concerns
+diffusion and Gibbs--Duhem reduction
+\cite[eqs.~(88)--(93)]{bothe2015continuum}.
 
 Equation~\eqref{eq:MC_mechanical_interaction_admissibility} and the
 energy-conservation identity \eqref{eq:MC_interaction_energy_conservation} must
 hold simultaneously.  A more general Onsager model may couple mechanical
-interaction heating to heat transfer or reaction; then nonnegativity is required
-only of the coupled block rather than of each mechanism separately.
+interaction heating to heat transfer or reaction; then nonnegativity of the
+coupled block is the operative requirement.
 
 In a general multiphase closure, the momentum supply may be written as the sum
 of antisymmetric pairwise forces,
@@ -4194,9 +4049,9 @@ fluid and aggregate solid momentum supplies are prescribed by
 \end{subequations}
 %
 Equation~\eqref{eq:MC_fluid_skeleton_interaction_force} is a purely dissipative
-drag law.  Reversible pressure, capillary, Maxwell, body-force, inertia, and
-conversion-insertion terms remain in the phase momentum balance and are not
-duplicated inside \(\mbf b_f\).  Here
+drag law; the reversible pressure, capillary, Maxwell, body-force, inertia,
+and conversion-insertion terms remain in the phase momentum balance, and
+\(\mbf b_f\) carries only the dissipative drag.  Here
 \(\mbf y\cdot\mbf k_{f\mc S}^{-1}\mbf y>0\) for every
 \(\mbf y\ne\mbf 0\).  Because all solid phases have velocity
 \(\mbf v_{\mc S}\), \eqref{eq:MC_aggregate_solid_interaction_force} is
@@ -4318,10 +4173,10 @@ transfer, but \eqref{eq:MC_interphase_exchange_law}--
 Ordinary heat exchange transfers internal energy between the fluid and solid
 thermal subsystems even when there is no phase-relative motion.  It is distinct
 from the drag-generated heating above and from the reaction-associated energy
-exchange required by a charged cross-subsystem mechanism.  The latter remains
-paired with \(r_{(m)}\) in the coupled closure described after
-\eqref{eq:MC_onsager_reaction_rate}; it is not included in the heat-transfer
-coefficient below.
+exchange required by a charged cross-subsystem mechanism.  The reaction-associated
+exchange remains paired with \(r_{(m)}\) in the coupled closure described after
+\eqref{eq:MC_onsager_reaction_rate}; the heat-transfer coefficient below
+accounts for ordinary heat exchange.
 
 A sufficient bulk fluid--solid heat-exchange law is
 %
@@ -5295,8 +5150,39 @@ constitutive quantity governed by
 \eqref{eq:MC_phase_pressure_specific_volume}--\eqref{eq:MC_overall_momentum_nonlinear_biot}.
 
 Introduce component potentials \(\psi_s^\alpha\), intrinsic densities
-\(\bar\rho_s^\alpha\), and pressures \(\bar p_s^\alpha\).  The additive phase
-energy is
+\(\bar\rho_s^\alpha\), and pressures \(\bar p_s^\alpha\).  The component
+intrinsic densities and component solid volume fractions satisfy
+%
+\begin{subequations}
+	\label{eq:MC_solid_density_mixture_rules}
+	\begin{align}
+		\bar\rho_s
+		 & =
+		\sum_\alpha
+		\phi_s^\alpha\bar\rho_s^\alpha,
+		\qquad
+		s\in\mc S,
+		\label{eq:MC_solid_intrinsic_density_rule} \\
+		\eta_s^\alpha
+		 & =
+		\frac{\phi_s^\alpha\bar\rho_s^\alpha}{\bar\rho_s},
+		\qquad
+		s\in\mc S,
+		\label{eq:MC_solid_mass_fraction_rule}
+	\end{align}
+	\begin{equation}
+		\phi_s^\alpha
+		=
+		\frac{\eta_s^\alpha\bar\rho_s}{\bar\rho_s^\alpha},
+		\qquad
+		\sum_\alpha\phi_s^\alpha=1,
+		\qquad
+		s\in\mc S .
+		\label{eq:MC_solid_component_volume_fraction_rule}
+	\end{equation}
+\end{subequations}
+%
+The additive phase energy is
 %
 \begin{equation}
 	\psi_s
@@ -6100,6 +5986,9 @@ between thermal subsystems retains the scalar neutral-force kinetic row.  Its
 reaction-energy transfer may be Onsager-coupled subject to
 \eqref{eq:MC_reaction_energy_coupled_admissibility}; the displayed rate count is
 unchanged unless a chosen closure introduces additional internal variables.
+The plastic internal state vector \(\mbf p_s\) with evolution
+\eqref{eq:MC_generic_plastic_state_evolution} is one such addition,
+contributing additional components per solid phase to the count.
 
 Both relative-flux families, the phase heat fluxes, the nonzero pairwise
 interaction forces in the general extension, and the independent fluid--solid
