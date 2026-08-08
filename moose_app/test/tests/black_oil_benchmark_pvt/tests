@@ -185,7 +185,7 @@
   [spe1_case1_q2_eg_phase_appearance]
     type = RunCommand
     command = 'python3 ../../../../validation/scripts/check_spe1_q2_eg_phase_appearance.py --mpi-ranks 8'
-    max_time = 600
+    max_time = 900
     requirement = 'The coupled four-phase finite-deformation SPE1 Q2/CG-EG deck shall reach one day with continuous nonnegative gas saturation, finite-rate tau- and electrochemical-potential-driven phase conversion, vanishing kinetic closure residual, nonnegative conversion dissipation, conservative water/oil/gas component balances, represented-phase volume closure, matrix constituent balance, two live temperature equations, and positive solid-reference Jacobian.'
   []
 

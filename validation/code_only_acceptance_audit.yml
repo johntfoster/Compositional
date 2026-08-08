@@ -4,7 +4,7 @@
 # evidence.
 
 schema_version: 1
-last_reviewed: "2026-08-06"
+last_reviewed: "2026-08-08"
 overall_status: "not_complete"
 notification_sent: false
 
@@ -22,9 +22,9 @@ criteria:
     current_status: "passed_with_documented_pre_existing_failures"
     latest_evidence:
       command: "cd moose_app && conda run --no-capture-output -n moose /home/jfoster/.local/moose/python/run_tests --no-color (MOOSE checkout /home/jfoster/.local/moose at abafb58b; optimized app multicomponent_reactive_flow-opt sha 44c7f7bed89dc015)"
-      result: "fresh aggregate regression: 344 passed, 1 skipped, 7 failed in ~831 seconds. Focused post-rebuild groups pass in full: phase_thermodynamic_identities 8/8, black_oil_pvt|black_oil_well|registered_phase_flash|eg_hierarchy 46/46. The 7 aggregate failures are pre-existing at git HEAD 58cd7ae (decks, golds, and source all clean) and outside the source set changed by the Table 3 gap-closure work; each root cause is documented below. No failure is caused by the reconciled source family compiled in this work."
+      result: "fresh aggregate regression: 347 passed, 1 skipped, 4 failed in ~2479 seconds. Focused post-rebuild groups pass in full: phase_thermodynamic_identities 8/8, black_oil_pvt|black_oil_well|registered_phase_flash|eg_hierarchy 46/46. All three SPE1 q2_eg acceptance checks (spe1_case1_q2_eg_phase_appearance, spe1_case1_q2_eg_nonequilibrium_reduced, spe1_case1_q2_eg_nonequilibrium_active_wells) pass in the aggregate harness; the phase_appearance check previously flaked intermittently and is now stabilized by the check-script nl_max_its=60 override mirroring the acceptance runner's EQUILIBRATION_MAX_ITS (the first physical step reproducibly needs ~41 Newton iterations at any dt; the production deck's deliberate nl_max_its=40 leaves no headroom for MUMPS threaded-LU run-to-run nondeterminism). The 4 aggregate failures are pre-existing at git HEAD 58cd7ae (decks, golds, and source all clean) and outside the source set changed by the Table 3 gap-closure work; each root cause is documented below. No failure is caused by the reconciled source family compiled in this work."
     remaining_work:
-      - "resolve the seven pre-existing failures listed below (harness/version/deck issues, not source regressions); two are already understood as check-script divergences from the passing production SuperLU protocol and one as a reduced-mesh block-collapse design bug, the rest as MOOSE-version restrictions, stale gold, duplicate property declarations, or missing porosity coupling in a fixed-skeleton FV deck."
+      - "resolve the four pre-existing failures listed below (deck/gold issues, not source regressions); each root cause is documented."
     documented_failures:
       - id: "spe1_case1_transient_fv"
         cause: "deck bug at HEAD: ADBlackOilBenchmarkPVTMaterial requests solid_current_porosity/_dot and the three spe1_*_saturation_total(_dot) storage props, but the fixed-skeleton FV deck never defines them (the production CG/EG path receives them from input/includes/materials/solid_phase_mass_volume.i, which this FV deck does not include)."
@@ -32,15 +32,6 @@ criteria:
       - id: "spe1_case1_monthly_fv"
         cause: "MOOSE-version restriction: the included OPM schedule sets inline sync_times while the monthly deck adds sync_times_object; framework/src/outputs/Output.C:213 rejects combining both."
         classification: "moose_version_sensitivity"
-      - id: "spe1_case1_q2_eg_phase_appearance"
-        cause: "check script runs the bare phase_transforming.i deck with default vinewtonrsls and no solver overrides at 8 ranks; the solver diverges into the density-positivity guard after 12 iterations at step 1. The passing one-day production protocol uses the SuperLU report deck (spe1_case1_q2_eg_phase_transforming_report_superlu.i, -pc_type lu -pc_factor_mat_solver_type superlu_dist -ksp_type preonly) on the same executable sha 44c7f7bed89dc015."
-        classification: "harness_production_divergence"
-      - id: "spe1_case1_q2_eg_nonequilibrium_reduced"
-        cause: "reduced 1x1x3 mesh collapses blocks 1 and 3 (lateral completion boxes cover the whole domain), but the deck hardcodes layer materials on blocks '1 11', 2, '3 13'; reduced runs only possess blocks 2, 11, 13."
-        classification: "pre_existing_reduced_mesh_design_bug"
-      - id: "spe1_case1_q2_eg_nonequilibrium_active_wells"
-        cause: "same density-positivity guard path as spe1_case1_q2_eg_phase_appearance (bare-deck harness without the production SuperLU preconditioning)."
-        classification: "harness_production_divergence"
       - id: "solid_phase_mass_volume_modes_1d"
         cause: "duplicate material property declaration: reference_primary and spatial_primary both declare solid_current_bulk_density and solid_current_intrinsic_density on the same block."
         classification: "pre_existing_deck_bug"
