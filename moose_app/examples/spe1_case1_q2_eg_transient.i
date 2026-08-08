@@ -35,7 +35,6 @@ spe1_use_pressure_dependent_rock_porosity = false
   [oil_pressure_enrichment]
     family = MONOMIAL
     order = CONSTANT
-    initial_condition = 0
     scaling = 1e-7
   []
   [solution_gas_oil_ratio]
@@ -193,7 +192,6 @@ spe1_use_pressure_dependent_rock_porosity = false
 []
 
 [Problem]
-  allow_initial_conditions_with_restart = true
 []
 
 [ICs]
@@ -207,6 +205,11 @@ spe1_use_pressure_dependent_rock_porosity = false
     # in-layer stress imbalance that drives a spurious O(100 m) initial
     # momentum residual.
     function = initial_pressure_vertex
+  []
+  [oil_pressure_enrichment]
+    type = ConstantIC
+    variable = oil_pressure_enrichment
+    value = 0
   []
   [solution_gas_oil_ratio]
     type = ConstantIC
