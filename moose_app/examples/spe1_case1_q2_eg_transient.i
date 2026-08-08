@@ -73,9 +73,14 @@ spe1_use_pressure_dependent_rock_porosity = false
     # The manuscript kinetic closure is local and contains no rate gradient.
     # An element-local quadratic field resolves mu/tau without imposing an
     # artificial interelement continuity constraint on the conversion rate.
+    # The closure residual is satisfied to O(1e-12) at the physical solution;
+    # an O(1e8) row scaling inflates that satisfied residual above the
+    # nl_abs_tol = 1e-8 convergence gate and forces the Newton solve to grind
+    # to max_its.  Keep the row unscaled (identity) so the closure residual is
+    # measured in its physical units.
     family = MONOMIAL
     order = SECOND
-    scaling = 1e8
+    scaling = 1
   []
   [fluid_temperature]
     family = LAGRANGE
@@ -137,6 +142,38 @@ spe1_use_pressure_dependent_rock_porosity = false
     x = '2540.508 2548.128 2560.32'
     y = '32972876.15288512 33019779.87273818 33094835.007206395'
   []
+  [initial_pressure_vertex]
+    type = PiecewiseLinear
+    axis = z
+    # P1 vertex-layer version of initial_oil_pressure for the diagonal
+    # reference prestress.  The initial_oil_pressure breakpoints sit at the
+    # P2 mid-edge levels, so that clamped piecewise-linear function does not
+    # cancel the P1 vertex-interpolated reconstructed pressure inside the top
+    # and bottom layers (leaving an O(10 kPa) residual horizontal stress).
+    # Breakpoints here coincide with the P1 vertex layers, so the diagonal
+    # prestress equals the P1 pressure field pointwise at F=I and total
+    # P_xx = P_yy = 0 at the IC, consistent with the zz comment below.
+    x = '2537.46 2543.556 2552.7 2567.94'
+    y = '32972876.15288512 32991637.64082712 33047925.54816376 33094835.007206395'
+  []
+  [geostatic_prestress_zz]
+    type = PiecewiseLinear
+    axis = z
+    # In-situ stress initialization.  The SPE1 pore-pressure profile alone
+    # balances only the fluid-weight share of the mixture body force; the
+    # conserved solid overburden (rho_mix*g ~ 20168.7 Pa/m at the IC, with
+    # rho_mix = phi_s*rho_s + phi*(S_w*rho_w + S_o*rho_o + S_g*rho_g)) must be
+    # carried by the skeleton reference stress so that total P_zz at F=I is
+    # -rho_mix*g*(z - z_top) with a traction-free top at z = 2537.46.  This
+    # equals initial_oil_pressure - 20168.7*(z - 2537.46) at every depth.
+    # NOTE: breakpoints must coincide with the P1 vertex layers (the layer
+    # boundaries) so that the piecewise-linear prestress cancels the P1
+    # vertex-interpolated reconstructed pressure exactly.  Breakpoints at the
+    # P2 mid-edge levels made the clamped end segments inconsistent with the
+    # P1 pressure interpolation near the top and bottom layers.
+    x = '2537.46 2543.556 2552.7 2567.94'
+    y = '32972876.15288512 32868689.245626 32740554.560164 32480093.031206'
+  []
   [zero]
     type = ParsedFunction
     expression = '0'
@@ -156,13 +193,20 @@ spe1_use_pressure_dependent_rock_porosity = false
 []
 
 [Problem]
+  allow_initial_conditions_with_restart = true
 []
 
 [ICs]
   [oil_pressure]
     type = FunctionIC
     variable = oil_pressure
-    function = initial_oil_pressure
+    # Vertex-layer profile: the reconstructed pressure must equal the P1
+    # vertex-interpolated diagonal prestress reference pointwise so that the
+    # total stress is exactly the geostatic profile -rho_mix*g*(z - z_top) at
+    # F=I.  The mid-edge-clamped initial_oil_pressure leaves an O(10 kPa)
+    # in-layer stress imbalance that drives a spurious O(100 m) initial
+    # momentum residual.
+    function = initial_pressure_vertex
   []
   [solution_gas_oil_ratio]
     type = ConstantIC
@@ -230,9 +274,12 @@ spe1_use_pressure_dependent_rock_porosity = false
   [matrix_reference_prestress]
     type = ADGenericFunctionRankTwoTensor
     # The SPE1 pressure profile defines a loaded reference state.  At F=I,
-    # this prestress cancels the initial Biot pressure contribution exactly;
+    # the diagonal cancels the initial Biot pressure contribution exactly,
+    # and the zz component adds the geostatic skeleton overburden
+    # -rho_mix*g*(z - z_top) so the reference configuration is a true in-situ
+    # equilibrium (total P_zz = -rho_mix*g*(z - z_top), traction-free top);
     # subsequent pressure/deformation increments remain fully coupled.
-    tensor_functions = 'initial_oil_pressure zero zero zero initial_oil_pressure zero zero zero initial_oil_pressure'
+    tensor_functions = 'initial_pressure_vertex zero zero zero initial_pressure_vertex zero zero zero geostatic_prestress_zz'
     tensor_name = matrix_reference_prestress
   []
   [oil_pressure_reconstruction]
@@ -1068,7 +1115,12 @@ spe1_use_pressure_dependent_rock_porosity = false
   [matrix_bottom_normal_support]
     type = DirichletBC
     variable = uz
-    boundary = bottom
+    # The deep horizontal face (z = 2567.94, exodus 'front') carries the
+    # mixture weight.  The CartesianMeshGenerator name 'bottom' resolves to
+    # the y = 0 vertical side wall, which would leave the geostatic column
+    # unsupported at the base and produce a spurious O(100 m) initial
+    # momentum residual on the deep face.
+    boundary = front
     value = 0
   []
 []
@@ -1406,7 +1458,7 @@ spe1_use_pressure_dependent_rock_porosity = false
   [equilibrated_oil_pressure_deviation_l2]
     type = ADMaterialScalarL2Error
     property = spe1_oil_pressure_total
-    function = initial_oil_pressure
+    function = initial_pressure_vertex
   []
   [equilibrated_solution_gas_oil_ratio_deviation_l2]
     type = ElementL2Error
