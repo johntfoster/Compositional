@@ -78,24 +78,80 @@
     },
     {
       "name": "water_saturation",
-      "family": "LAGRANGE",
-      "order": "FIRST",
-      "meaning": "Continuous-Galerkin water saturation used by the parent black-oil CG/EG architecture.",
+      "family": "BERNSTEIN",
+      "order": "SECOND",
+      "meaning": "P2 continuous water-saturation backbone of the higher-order CG/EG saturation architecture; the constitutive and flux operators consume the physically reconstructed saturation.",
+      "units": "1"
+    },
+    {
+      "name": "water_saturation_enrichment",
+      "family": "MONOMIAL",
+      "order": "CONSTANT",
+      "meaning": "P0 enrichment of water saturation; reconstruction supplies the physical saturation field consumed by closure and flux operators.",
       "units": "1"
     },
     {
       "name": "gas_saturation",
-      "family": "LAGRANGE",
-      "order": "FIRST",
-      "meaning": "Continuous-Galerkin gas saturation used by the parent black-oil CG/EG architecture.",
+      "family": "BERNSTEIN",
+      "order": "SECOND",
+      "meaning": "P2 Bernstein gas-saturation backbone with coefficient-bounded nonnegative reconstruction for exact phase disappearance.",
+      "units": "1"
+    },
+    {
+      "name": "gas_saturation_enrichment",
+      "family": "MONOMIAL",
+      "order": "CONSTANT",
+      "meaning": "P0 enrichment of gas saturation under identity reconstruction for exact phase disappearance.",
       "units": "1"
     },
     {
       "name": "solution_gas_oil_ratio",
       "family": "LAGRANGE",
       "order": "FIRST",
-      "meaning": "Continuous-Galerkin dissolved solution gas-oil ratio retained at its initialized value by the DRSDT=0 history equation.",
+      "meaning": "P1 continuous dissolved solution gas-oil ratio retained at its initialized value by the DRSDT=0 history equation.",
       "units": "standard m3/stock-tank m3"
+    },
+    {
+      "name": "gas_phase_transformation_rate",
+      "family": "MONOMIAL",
+      "order": "SECOND",
+      "meaning": "Element-local P2 monomial gas phase-transformation-rate field resolving the local mu/tau kinetic closure without imposing interelement continuity.",
+      "units": "kg/(m3 s)"
+    },
+    {
+      "name": "fluid_temperature",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "P1 continuous fluid temperature solved by the fluid energy balance with storage, heat flux, interphase exchange, and generalized transfer work.",
+      "units": "K"
+    },
+    {
+      "name": "solid_temperature",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "P1 continuous solid temperature solved by the solid energy balance with storage, heat flux, stress power, and generalized transfer work.",
+      "units": "K"
+    },
+    {
+      "name": "matrix_reference_component_storage",
+      "family": "LAGRANGE",
+      "order": "FIRST",
+      "meaning": "P1 continuous conserved solid-reference component storage for the deformable solid matrix phase.",
+      "units": "kg/m3"
+    },
+    {
+      "name": "injector_bhp_scalar",
+      "family": "SCALAR",
+      "order": "FIRST",
+      "meaning": "Scalar injector bottom-hole pressure control variable active under well control during the active-history stage.",
+      "units": "Pa"
+    },
+    {
+      "name": "producer_bhp_scalar",
+      "family": "SCALAR",
+      "order": "FIRST",
+      "meaning": "Scalar producer bottom-hole pressure control variable active under well control during the active-history stage.",
+      "units": "Pa"
     }
   ],
   "closures": [
@@ -265,7 +321,7 @@
   "open_questions": [
     "Construct and document a thermodynamic extension of the SPE1 PVT tables that supplies chemical-potential differences and their derivatives while reproducing the tabulated formation-volume factors and saturated Rs curve; SPE1 does not provide absolute chemical-potential reference data.",
     "Treat finite phase-transfer/Onsager resistance as an explicitly declared nonequilibrium extension with sensitivity analysis because SPE1 supplies no kinetic coefficient; do not tune it to OPM output.",
-    "Replace the fixed-skeleton/FV benchmark path with a genuine coupled four-phase finite-deformation Q2/EG solve and quantify its comparison to the pinned OPM reference.",
+    "The coupled four-phase finite-deformation Q2/EG solve is the production path and passes its one-day thermodynamic, momentum, energy, closure, conservation, and solver-event gates with reproducible provenance; the remaining comparison is to run that production deck through the same saved OPM times and report pressure, saturation, GOR, rate, and cumulative-volume errors at each matched time, including the official long horizon.",
     "Resolve and document the mechanically admissible SPE1 skeleton boundary conditions and constitutive data without tuning to OPM outputs.",
     "Resolve a verified Q2/EG mesh policy that preserves the official layer, completion, and report-block mapping and perform spatial convergence.",
     "Extend the verified one-cell FV well controller to aggregate pressure and rate over multiple completion cells.",
