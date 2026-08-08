@@ -192,6 +192,12 @@ spe1_use_pressure_dependent_rock_porosity = false
 []
 
 [Problem]
+  # The scalar well-control variables (injector_bhp_scalar, producer_bhp_scalar)
+  # are inactive during equilibration and absent from its checkpoint, so the
+  # production restart must be allowed to initialize them from their ICs.  The
+  # field ICs that would otherwise overwrite restored checkpoint state are all
+  # declared in [ICs] and are deactivated on restart commands via ICs/inactive.
+  allow_initial_conditions_with_restart = true
 []
 
 [ICs]
