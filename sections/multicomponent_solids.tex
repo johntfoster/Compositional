@@ -3864,7 +3864,10 @@ The two plastic powers in \eqref{eq:MC_residual_dissipation} admit the following
 uncoupled associated closures, analogous to Drumheller's sufficient
 construction~\cite{drumheller2000}.  A plastic internal state vector
 \(\mbf p_s\) per solid phase carries hardening, softening, and rate
-dependence through the flow-rule mobilities:
+dependence through the flow-rule mobilities; because the state set \(\mc X_s\)
+contains the composition \(\{\eta_s^\alpha\}\), these are single phase-level
+laws acting on the phase mixture as a whole rather than on individual
+components:
 %
 \begin{subequations}
 	\label{eq:MC_generic_plastic_flow_rules}
@@ -4542,6 +4545,18 @@ Define the phase and intrinsic specific volumes
 	s\in\mc S .
 	\label{eq:MC_phase_specific_volumes}
 \end{equation}
+%
+In the pressure reduction below, the reference partial density is normalized
+by the current solid volume fraction, \(\rho_{s0}=\phi_s\bar\rho_{s0}\),
+equivalently \(v_{s0}=\bar v_{s0}/\phi_s\), so that the intrinsic
+specific-volume measure converts to the partial phase stress through the
+phase volume fraction.  The mass-balance reference
+\(\phi_{s0}\bar\rho_{s0}\) of \eqref{eq:MC_solid_phase_material_mass} differs
+by the ratio \(\phi_{s0}/\phi_s\).  That ratio equals the distension
+\(a_s\) only in the absence of mass exchange: the distension relation
+\eqref{eq:MC_solid_distension_mass_relation},
+\(a_s\phi_s\bar\rho_{s0}=\phi_{s0}\bar\rho_{s0}+\mc C_s\), reduces to
+\(a_s=\phi_{s0}/\phi_s\) only when the solid source \(\mc C_s\) vanishes.
 %
 The solid volume-fraction restriction relates \(\bar p_E\) to the solid phase
 pressure and electric enthalpy.  In terms of intrinsic specific volume,
@@ -5273,10 +5288,14 @@ specialization; through
 shares to
 \(\pi_s^\alpha/\phi_s=\phi_s^\alpha\bar p_s\).
 
+The phase plastic law is a single composition-dependent function of the solid
+phase: because the state set \(\mc X_s\) contains the composition
+\(\{\eta_s^\alpha\}\), the same mobility functions act on the phase mixture as
+a whole rather than assigning separate yield laws to individual components.
 Only phase plastic rates appear in the residual inequality, so the components
 do not have independent plastic kinematics.  Composition can nevertheless
 change the common phase rates through component contributions to their
-mobilities.  One sufficient form is
+mobilities.  One sufficient additive form is
 %
 \begin{subequations}
 	\label{eq:MC_component_resolved_plastic_flow_rules}
@@ -5497,7 +5516,12 @@ The component nonlinear Biot contribution is therefore
 	\label{eq:MC_additive_component_biot}
 \end{empheq}
 %
-The component Legendre transforms give the stress contributions
+The component coefficients \(B_s^\alpha\) are partial-weighted: with the
+convention \(v_{s0}=\bar v_{s0}/\phi_s\), they supply the partial component
+pressure corrections that sum to the partial phase correction
+\(\phi_s(1-\bar B_s)\bar p_E\), distinct from the intrinsic phase coefficient
+\(\bar B_s\) of \eqref{eq:MC_phase_biot_coefficient}.  The component
+Legendre transforms give the stress contributions
 %
 \begin{equation}
 	\bs\sigma_s^{\prime\alpha}
@@ -5562,7 +5586,8 @@ Summing over components gives the general additive mixture rule
 The product relation follows by comparing the summed component stress with the
 phase stress form \eqref{eq:MC_phase_biot_split}.  With
 \eqref{eq:MC_additive_equivalent_pressure_average}, the quotient recovers the
-volume-fraction-weighted coefficient \(1-\phi_s(1-\bar B_s)\).  Identification
+volume-fraction-weighted partial phase coefficient
+\(1-\phi_s(1-\bar B_s)\).  Identification
 of that combination with the intrinsic fixed-\(\bar p_E\) derivative in
 \eqref{eq:MC_phase_biot_coefficient} requires the component equations of state
 and their pressure-redistribution path to reproduce the phase derivative
@@ -5643,7 +5668,9 @@ variables, and conversion sources.
 
 The phase Biot coefficient and stress split remain valid without component
 sums, as do the phase and overall momentum balances.  With one solid and one
-fluid phase, the overall coefficient is simply \(B=B_s\).
+fluid phase, the overall coefficient is simply \(B=B_s\), where \(B_s\) is the
+partial-weighted phase coefficient \(1-\phi_s(1-\bar B_s)\) built from the
+intrinsic coefficient \eqref{eq:MC_phase_biot_coefficient}.
 
 \subsection{Scalar distension simplifications}
 \label{sec:MC_scalar_distension_simplifications}
