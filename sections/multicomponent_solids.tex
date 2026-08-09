@@ -4659,18 +4659,18 @@ fixed,
 	\label{eq:MC_phase_specific_volume_deformation_chain_rule}
 \end{align}
 %
-The Legendre identity recovers the original single-prime Piola stress by
-differentiating the transformed potential at fixed \(\bar p_E\).  The
-double-prime Piola stress is instead the derivative of the untransformed
-electrothermodynamic phase potential
+The Legendre identity recovers the original single-prime intrinsic Piola
+stress by differentiating the transformed potential at fixed \(\bar p_E\).  The
+double-prime intrinsic Piola stress is instead the derivative of the
+untransformed electrothermodynamic phase potential
 \(\psi_s+\omega_s^+\bar v_s\) along a fixed-\(\bar p_E\) path.  Accordingly,
 %
 \begin{subequations}
 	\label{eq:MC_phase_pk_stresses}
 	\begin{align}
-		\mbf P_s'
+		\bar{\mbf P}_s'
 		 & =
-		\rho_{s0}
+		\bar\rho_{s0}
 		\left.
 		\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}
 		\right\vert_{\bar p_E,\mbf A_s^e,\theta_{\mc S},
@@ -4678,13 +4678,13 @@ electrothermodynamic phase potential
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_phase_single_prime_pk_stress} \\
-		\rho_{s0}
+		\bar\rho_{s0}
 		\left.
 		\p{\widetilde\psi_s}{\bar{\mbf F}_s^e}
 		\right\vert_{\bar p_E,\mbf A_s^e,\theta_{\mc S},
 			\{\eta_s^\alpha\},\mbf E}
 		 & =
-		\rho_{s0}
+		\bar\rho_{s0}
 		\left.
 		\p{\psi_s}{\bar{\mbf F}_s^e}
 		\right\vert_{\bar v_s,\mbf A_s^e,\{\eta_s^\alpha\},
@@ -4692,9 +4692,9 @@ electrothermodynamic phase potential
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_phase_legendre_pk_identity}   \\
-		\mbf P_s^{\prime\prime}
+		\bar{\mbf P}_s^{\prime\prime}
 		 & =
-		\rho_{s0}
+		\bar\rho_{s0}
 		\left.
 		\p{
 			\left(
@@ -4712,11 +4712,11 @@ electrothermodynamic phase potential
 Differentiating the Legendre transform at fixed \(\bar p_E\) gives
 %
 \begin{equation}
-	\mbf P_s'
+	\bar{\mbf P}_s'
 	=
-	\mbf P_s^{\prime\prime}
+	\bar{\mbf P}_s^{\prime\prime}
 	+
-	\bar p_E\rho_{s0}
+	\bar p_E\bar\rho_{s0}
 	\left.
 	\p{\bar v_s}{\bar{\mbf F}_s^e}
 	\right\vert_{\bar p_E,\theta_{\mc S},\{\eta_s^\alpha\},\mbf E},
@@ -4729,11 +4729,11 @@ Using the specific-volume chain rule, define the phase nonlinear Biot
 coefficient by
 %
 \begin{empheq}[box=\fbox]{equation}
-	B_s
+	\bar B_s
 	\equiv
 	1
 	-
-	\frac{a_s}{v_{s0}}
+	\frac{a_s}{\bar v_{s0}}
 	\left.
 	\p{\bar v_s}{J}
 	\right\vert_{\bar p_E,\theta_{\mc S},\{\eta_s^\alpha\},\mbf E},
@@ -4742,19 +4742,19 @@ coefficient by
 	\label{eq:MC_phase_biot_coefficient}
 \end{empheq}
 %
-The coefficient \(B_s\) measures how the true solid volume of phase \(s\)
-changes with the common skeleton volume at the current reacted state.  The
-factor \(a_s\) carries the current allocation of skeleton volume to that phase,
-including packing and stress-free volume change.  If the distension split is
-suppressed, \(B_s\) reduces to the nonlinear Biot coefficient of
-\cite{foster2025}.  The phase Piola stresses are related by
+The intrinsic coefficient \(\bar B_s\) measures how the true solid volume of
+phase \(s\) changes with the common skeleton volume at the current reacted
+state.  The factor \(a_s\) carries the current allocation of skeleton volume to
+that phase, including packing and stress-free volume change.  If the distension
+split is suppressed, \(\bar B_s\) reduces to the nonlinear Biot coefficient of
+\cite{foster2025}.  The intrinsic phase Piola stresses are related by
 %
 \begin{equation}
-	\mbf P_s'
+	\bar{\mbf P}_s'
 	=
-	\mbf P_s^{\prime\prime}
+	\bar{\mbf P}_s^{\prime\prime}
 	+
-	\left(1-B_s\right)
+	\left(1-\bar B_s\right)
 	\bar p_E
 	\bar J_s
 	(\bar{\mbf F}_s^e)^{-T},
@@ -4763,16 +4763,17 @@ suppressed, \(B_s\) reduces to the nonlinear Biot coefficient of
 	\label{eq:MC_phase_pk_biot_split}
 \end{equation}
 %
-Pushing these stresses to the current configuration and applying the
-distension map from \eqref{eq:MC_solid_stress_definition} converts the pressure
-correction into a Cauchy stress.  Therefore
+Pushing the intrinsic stresses to the current configuration, converting to the
+partial phase stress by multiplying by the phase volume fraction, and applying
+the distension map from \eqref{eq:MC_solid_stress_definition} converts the
+pressure correction into a partial Cauchy stress.  Therefore
 %
 \begin{empheq}[box=\fbox]{equation}
 	\bs\sigma_s'
 	=
 	\bs\sigma_s^{\prime\prime}
 	+
-	\left(1-B_s\right)\bar p_E\mbf I,
+	\phi_s\left(1-\bar B_s\right)\bar p_E\mbf I,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_phase_biot_split}
@@ -4780,7 +4781,7 @@ correction into a Cauchy stress.  Therefore
 %
 This relation holds for a general composition-dependent phase energy.  The
 optional common-pressure specialization in
-\sref{MC_additive_component_specialization} later decomposes \(B_s\) and
+\sref{MC_additive_component_specialization} later decomposes \(\bar B_s\) and
 \(\bs\sigma_s^{\prime\prime}\) into component contributions only under its
 stated component-EOS path.
 
@@ -4812,7 +4813,7 @@ Substituting the phase stress split into the solid momentum balance gives
 		\left[
 			\bs\sigma_s^{\prime\prime}
 			+
-			\left(1-B_s\right)\bar p_E\mbf I
+			\phi_s\left(1-\bar B_s\right)\bar p_E\mbf I
 			+
 			\bs\sigma_s^+
 			\right]
@@ -4847,7 +4848,7 @@ as
 	\sum_{s\in\mc S}\bs\sigma_s^{\prime\prime}
 	+
 	\sum_{s\in\mc S}
-	\left(1-B_s\right)\bar p_E\mbf I,
+	\phi_s\left(1-\bar B_s\right)\bar p_E\mbf I,
 	\label{eq:MC_solid_biot_rollup_expanded}   \\
 	\bs\sigma^{\prime\prime}
 	 & \equiv
@@ -4856,17 +4857,17 @@ as
 	\Aboxed{
 		B
 	 & =
-		1-\sum_{s\in\mc S}\left(1-B_s\right)
+		1-\sum_{s\in\mc S}\phi_s\left(1-\bar B_s\right)
 	}
 	.
 	\label{eq:MC_solid_biot_rollup_coefficient}
 \end{align}
 %
-Because the phase Piola stresses are all measured per unit skeleton reference
+Because the phase partial stresses are all measured per unit current skeleton
 volume, their pressure corrections add directly.  The aggregate coefficient is
 therefore the combination in
 \eqref{eq:MC_solid_biot_rollup_coefficient}; in the single-solid limit it
-reduces to \(B=B_s\).
+reduces to \(B=1-\phi_s\left(1-\bar B_s\right)\).
 
 After summing the solid phase balances, the Biot-pressure and electrical parts in
 \eqref{eq:MC_solid_phase_momentum_biot} can be rewritten using
@@ -4878,7 +4879,7 @@ After summing the solid phase balances, the Biot-pressure and electrical parts i
 		\left[
 			\nabla_{\mbf x}\cdot
 			\left(
-			\left(1-B_s\right)\bar p_E\mbf I
+			\phi_s\left(1-\bar B_s\right)\bar p_E\mbf I
 			+\bs\sigma_s^+
 			\right)
 			-\phi_s\nabla_{\mbf x}\bar p_E
@@ -4989,7 +4990,7 @@ Adding the solid and fluid pressure terms and using
 		\left\{
 		\nabla_{\mbf x}\cdot
 		\left[
-			\left(1-B_s\right)\bar p_E\mbf I
+			\phi_s\left(1-\bar B_s\right)\bar p_E\mbf I
 			+\bs\sigma_s^+
 			\right]
 		-\phi_s\nabla_{\mbf x}\bar p_E
@@ -5530,7 +5531,7 @@ Summing over components gives the general additive mixture rule
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_additive_general_biot_stress_sum} \\
-		(1-B_s)\bar p_E
+		\phi_s(1-\bar B_s)\bar p_E
 		 & =
 		\sum_\alpha
 		(1-B_s^\alpha)\bar p_{E,s}^\alpha,
@@ -5559,10 +5560,13 @@ Summing over components gives the general additive mixture rule
 \end{subequations}
 %
 The product relation follows by comparing the summed component stress with the
-phase stress form \eqref{eq:MC_phase_biot_split}.  Identification of this
-coefficient with the fixed-\(\bar p_E\) derivative in
+phase stress form \eqref{eq:MC_phase_biot_split}.  With
+\eqref{eq:MC_additive_equivalent_pressure_average}, the quotient recovers the
+volume-fraction-weighted coefficient \(1-\phi_s(1-\bar B_s)\).  Identification
+of that combination with the intrinsic fixed-\(\bar p_E\) derivative in
 \eqref{eq:MC_phase_biot_coefficient} requires the component equations of state
-and their pressure-redistribution path to reproduce that phase derivative.
+and their pressure-redistribution path to reproduce the phase derivative
+through \eqref{eq:MC_additive_biot_pressure_mixture_rule}.
 The additive decomposition alone supplies the pressure-weighted stress rule;
 it does not select that redistribution path.
 
@@ -5722,7 +5726,7 @@ restriction on the phase double-prime trace,
 	\p{\psi_s}{a_s^e}
 	\right\vert_{\mc X_s}
 	a_s^e
-	-\left(1-B_s\right)\bar p_E,
+	-\phi_s\left(1-\bar B_s\right)\bar p_E,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_scalar_double_prime_distension_trace}
@@ -5829,7 +5833,7 @@ and the single-prime trace follows from the Biot stress split,
 	a_s^e
 	=
 	K_s^\star\ln J
-	+\left(1-B_s\right)\bar p_E,
+	+\phi_s\left(1-\bar B_s\right)\bar p_E,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_component_cn_trace_satisfied}
@@ -6109,7 +6113,7 @@ For a single-component solid phase, the normalization fixes
 composition-normalization multiplier is retained.  Equation
 \eqref{eq:MC_additive_component_biot} then gives
 \(B_s^s=B_s\).  For one solid phase,
-\eqref{eq:MC_solid_biot_rollup_coefficient} gives \(B=B_s\), and the
-common-skeleton momentum equation is
+\eqref{eq:MC_solid_biot_rollup_coefficient} gives
+\(B=1-\phi_s(1-\bar B_s)\), and the common-skeleton momentum equation is
 \eqref{eq:MC_overall_momentum_nonlinear_biot}.
 \FloatBarrier
