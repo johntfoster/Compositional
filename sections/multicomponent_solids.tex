@@ -4546,18 +4546,6 @@ Define the phase and intrinsic specific volumes
 	\label{eq:MC_phase_specific_volumes}
 \end{equation}
 %
-In the pressure reduction below, the reference partial density is normalized
-by the current solid volume fraction, \(\rho_{s0}=\phi_s\bar\rho_{s0}\),
-equivalently \(v_{s0}=\bar v_{s0}/\phi_s\), so that the intrinsic
-specific-volume measure converts to the partial phase stress through the
-phase volume fraction.  The mass-balance reference
-\(\phi_{s0}\bar\rho_{s0}\) of \eqref{eq:MC_solid_phase_material_mass} differs
-by the ratio \(\phi_{s0}/\phi_s\).  That ratio equals the distension
-\(a_s\) only in the absence of mass exchange: the distension relation
-\eqref{eq:MC_solid_distension_mass_relation},
-\(a_s\phi_s\bar\rho_{s0}=\phi_{s0}\bar\rho_{s0}+\mc C_s\), reduces to
-\(a_s=\phi_{s0}/\phi_s\) only when the solid source \(\mc C_s\) vanishes.
-%
 The solid volume-fraction restriction relates \(\bar p_E\) to the solid phase
 pressure and electric enthalpy.  In terms of intrinsic specific volume,
 %
@@ -4588,12 +4576,12 @@ Here \(\bar v_s=1/\bar\rho_s\), so
 Equation~\eqref{eq:MC_phase_pressure_specific_volume} identifies the partial
 derivative with respect to \(\bar v_s\), with the other state variables fixed,
 as \(-\bar p_E\).  Consequently, the corresponding term in the total
-differential is \(-\bar p_E\,d\bar v_s\).  Adding
+differential is \(-\bar p_E\,{\rm d}\bar v_s\).  Adding
 \(\bar p_E\bar v_s\) cancels this term:
 %
 \begin{align}
 	\left.
-	d\left(
+	{\rm d}\left(
 	\psi_s+\omega_s^+\bar v_s
 	\right)
 	\right\vert_{
@@ -4601,10 +4589,10 @@ differential is \(-\bar p_E\,d\bar v_s\).  Adding
 		\{\eta_s^\alpha\},\theta_{\mc S},\mbf E
 	}
 	&=
-	-\bar p_E\,d\bar v_s,
+	-\bar p_E\,{\rm d}\bar v_s,
 	\notag \\
 	\left.
-	d\left(
+	{\rm d}\left(
 	\psi_s+\omega_s^+\bar v_s+\bar p_E\bar v_s
 	\right)
 	\right\vert_{
@@ -4612,7 +4600,7 @@ differential is \(-\bar p_E\,d\bar v_s\).  Adding
 		\{\eta_s^\alpha\},\theta_{\mc S},\mbf E
 	}
 	&=
-	\bar v_s\,d\bar p_E,
+	\bar v_s\,{\rm d}\bar p_E,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_phase_legendre_differential_cancellation}
@@ -4778,10 +4766,59 @@ split is suppressed, \(\bar B_s\) reduces to the nonlinear Biot coefficient of
 	\label{eq:MC_phase_pk_biot_split}
 \end{equation}
 %
-Pushing the intrinsic stresses to the current configuration, converting to the
-partial phase stress by multiplying by the phase volume fraction, and applying
-the distension map from \eqref{eq:MC_solid_stress_definition} converts the
-pressure correction into a partial Cauchy stress.  Therefore
+The intrinsic Cauchy stresses follow from the intrinsic Piola stresses by the
+push-forward through the true volume ratio \(\bar J_s\), using
+\(\bar\rho_{s0}=\bar J_s\bar\rho_s\) from
+\eqref{eq:MC_solid_true_mass_conservation} and the distension map,
+%
+\begin{subequations}
+	\label{eq:MC_intrinsic_cauchy_stress_maps}
+	\begin{align}
+		\bar{\bs\sigma}_s'
+		 & =
+		\frac{1}{\bar J_s}
+		\mbf A_s^{-T}
+		\bar{\mbf P}_s'
+		(\bar{\mbf F}_s^e)^T
+		\mbf A_s^T,
+		\qquad
+		s\in\mc S,
+		\label{eq:MC_intrinsic_cauchy_push_forward} \\
+		\bar{\bs\sigma}_s^{\prime\prime}
+		 & =
+		\frac{1}{\bar J_s}
+		\mbf A_s^{-T}
+		\bar{\mbf P}_s^{\prime\prime}
+		(\bar{\mbf F}_s^e)^T
+		\mbf A_s^T,
+		\qquad
+		s\in\mc S .
+		\label{eq:MC_intrinsic_double_prime_cauchy_push_forward}
+	\end{align}
+\end{subequations}
+%
+The partial phase Cauchy stress weights the intrinsic stress by the phase
+volume fraction,
+%
+\begin{equation}
+	\bs\sigma_s'
+	=
+	\phi_s\bar{\bs\sigma}_s',
+	\qquad
+	\bs\sigma_s^{\prime\prime}
+	=
+	\phi_s\bar{\bs\sigma}_s^{\prime\prime},
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_partial_cauchy_volume_fraction}
+\end{equation}
+%
+Pushing the split \eqref{eq:MC_phase_pk_biot_split} to the current
+configuration through the intrinsic push-forward
+\eqref{eq:MC_intrinsic_cauchy_push_forward} and weighting the intrinsic stress
+by the phase volume fraction through \eqref{eq:MC_partial_cauchy_volume_fraction}
+converts the pressure correction into a partial Cauchy stress, consistent with
+\eqref{eq:MC_solid_stress_definition}.  Therefore
 %
 \begin{empheq}[box=\fbox]{equation}
 	\bs\sigma_s'
@@ -4795,10 +4832,11 @@ pressure correction into a partial Cauchy stress.  Therefore
 \end{empheq}
 %
 This relation holds for a general composition-dependent phase energy.  The
-optional common-pressure specialization in
+additive component specialization in
 \sref{MC_additive_component_specialization} later decomposes \(\bar B_s\) and
-\(\bs\sigma_s^{\prime\prime}\) into component contributions only under its
-stated component-EOS path.
+\(\bs\sigma_s^{\prime\prime}\) into component contributions that roll up to
+\eqref{eq:MC_phase_biot_coefficient}; reproducing the fixed-\(\bar p_E\)
+derivative requires the component pressure-redistribution path stated there.
 
 \subsection{Solid phase and overall momentum after the Biot transform}
 \label{sec:MC_phase_overall_momentum_biot}
@@ -5115,7 +5153,7 @@ The corresponding overall natural traction is
 	=
 	\bar{\mbf t}
 	\qquad
-	\text{on }\Gamma_t .
+	\text{on }\Gamma_{\bar{\mbf t}} .
 	\label{eq:overall_natural_traction}
 \end{equation}
 %
@@ -5126,25 +5164,27 @@ modify \eqref{eq:overall_natural_traction} unless an additional external-surface
 model is introduced.
 
 The term proportional to
-\(\left.\partial\gamma/\partial\theta_{\mc F}\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}\)
+\(\partial\gamma/\partial\theta_{\mc F}\)
 is the interfacial Gibbs--Duhem thermal contribution generated by the bulk
 free-energy aggregation.  Indeed,
-\(-\left.\partial\gamma/\partial\theta_{\mc F}\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}\)
+\(-\partial\gamma/\partial\theta_{\mc F}\)
 is the interfacial entropy per current fluid volume, so the sign agrees with
 the bulk Gibbs--Duhem identity
 \cite[eq.~(59)]{bothe2015continuum}.  The contribution is therefore a bulk
-thermocapillary analogue, not a separately postulated sharp-interface
-Marangoni traction.  The latter has the tangential form
-\(\nabla_s\sigma\) and requires an interfacial normal, surface projector, and
-surface momentum balance
-\cite{jasnow1996thermocapillary,guo2015thermocapillary}; none of those
-geometric fields belongs to the present averaged state set.  The bulk term
-vanishes in the isothermal limit or when the interfacial potential has no
-explicit temperature dependence.  The capillary-history-gradient term records
-spatial variation of the drainage--imbibition state and vanishes when
-\(\mbf h\) is spatially uniform or \(\gamma\) is independent of it.
-The dynamic pressure-lag term vanishes when \(\mc T=\mbf0\) or when the
-saturation field is spatially uniform.
+thermocapillary analogue of the sharp-interface Marangoni traction.  In the
+sharp-interface description the Marangoni traction acts tangentially with the
+form \(\nabla_s\sigma\) and uses an interfacial normal, a surface projector,
+and a surface momentum balance
+\cite{jasnow1996thermocapillary,guo2015thermocapillary}.  The averaged
+description expresses the same physical effect through the bulk interfacial
+potential \(\gamma\) and the state variables \(\theta_{\mc F}\), \(\mbf h\),
+and \(\{S_f\}_{f\in\mc F}\), so the traction follows directly from the averaged
+state set.  The bulk term vanishes in the isothermal limit or when the
+interfacial potential has no explicit temperature dependence.  The
+capillary-history-gradient term records spatial variation of the
+drainage--imbibition state and vanishes when \(\mbf h\) is spatially uniform
+or \(\gamma\) is independent of it.  The dynamic pressure-lag term vanishes
+when \(\mc T=\mbf0\) or when the saturation field is spatially uniform.
 
 \subsection{Additive solid component specialization}
 \label{sec:MC_additive_component_specialization}
@@ -5225,16 +5265,16 @@ Then the pressure average, stress, and distension restrictions become
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_additive_pressure_average} \\
-		\bs\sigma_s'
+		\bar{\bs\sigma}_s'
 		 & =
 		\sum_\alpha
-		\bs\sigma_s^{\prime\alpha},
+		\bar{\bs\sigma}_s^{\prime\alpha},
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_additive_stress_sum}         \\
-		\bs\sigma_s^{\prime\alpha}
+		\bar{\bs\sigma}_s^{\prime\alpha}
 		 & =
-		\rho_s^\alpha
+		\phi_s^\alpha\bar\rho_s^\alpha
 		\mbf A_s^{-T}
 		\left(
 		\left.
@@ -5246,9 +5286,9 @@ Then the pressure average, stress, and distension restrictions become
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_additive_component_stress}   \\
-		\bs\sigma_s'
+		\bar{\bs\sigma}_s'
 		 & =
-		\rho_s
+		\bar\rho_s
 		\sum_\alpha
 		\eta_s^\alpha
 		\left.
@@ -5260,6 +5300,11 @@ Then the pressure average, stress, and distension restrictions become
 		\label{eq:MC_additive_distension_force}
 	\end{align}
 \end{subequations}
+%
+The corresponding partial phase stress is
+\(\boldsymbol\sigma_s'=\phi_s\bar{\boldsymbol\sigma}_s'\), relating the
+intrinsic additive stresses to the momentum-balance stress
+\eqref{eq:MC_solid_stress_definition}.
 %
 The storage multipliers provide the same component pressures.  Since
 \(\sum_\alpha\pi_s^\alpha/\phi_s=\bar p_s\), the additive model assigns
@@ -5281,12 +5326,7 @@ component \(\alpha\) the pressure share
 Summing over components recovers the phase pressure.  Thus
 \(\pi_s^\alpha\) and \(\phi_s^\alpha\) determine
 \(\bar p_s^\alpha\) without introducing another pressure closure in the general
-additive energy representation.  The common-pressure path used for the optional
-component Biot decomposition below is an additional mechanical equilibrium
-specialization; through
-\eqref{eq:additive_component_pressure_multiplier_identity}, it restricts the
-shares to
-\(\pi_s^\alpha/\phi_s=\phi_s^\alpha\bar p_s\).
+additive energy representation.
 
 The phase plastic law is a single composition-dependent function of the solid
 phase: because the state set \(\mc X_s\) contains the composition
@@ -5422,7 +5462,7 @@ are
 %
 \begin{align}
 	\left.
-	d\left(
+	{\rm d}\left(
 	\psi_s^\alpha+\omega_s^{\alpha+}\bar v_s^\alpha
 	\right)
 	\right\vert_{
@@ -5430,10 +5470,10 @@ are
 		\{\eta_s^\beta\},\theta_{\mc S},\mbf E
 	}
 	&=
-	-\bar p_{E,s}^\alpha\,d\bar v_s^\alpha,
+	-\bar p_{E,s}^\alpha\,{\rm d}\bar v_s^\alpha,
 	\notag \\
 	\left.
-	d\left(
+	{\rm d}\left(
 	\psi_s^\alpha
 	+\omega_s^{\alpha+}\bar v_s^\alpha
 	+\bar p_{E,s}^\alpha\bar v_s^\alpha
@@ -5443,7 +5483,7 @@ are
 		\{\eta_s^\beta\},\theta_{\mc S},\mbf E
 	}
 	&=
-	\bar v_s^\alpha\,d\bar p_{E,s}^\alpha,
+	\bar v_s^\alpha\,{\rm d}\bar p_{E,s}^\alpha,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_additive_component_legendre_differential}
@@ -5500,11 +5540,11 @@ specific-volume derivative then satisfies
 The component nonlinear Biot contribution is therefore
 %
 \begin{empheq}[box=\fbox]{equation}
-	B_s^\alpha
+	\bar B_s^\alpha
 	\equiv
 	1
 	-
-	\frac{a_s\eta_s^\alpha}{v_{s0}}
+	\frac{a_s\eta_s^\alpha}{\bar v_{s0}}
 	\left.
 	\p{\bar v_s^\alpha}{J}
 	\right\vert_{
@@ -5516,19 +5556,18 @@ The component nonlinear Biot contribution is therefore
 	\label{eq:MC_additive_component_biot}
 \end{empheq}
 %
-The component coefficients \(B_s^\alpha\) are partial-weighted: with the
-convention \(v_{s0}=\bar v_{s0}/\phi_s\), they supply the partial component
-pressure corrections that sum to the partial phase correction
-\(\phi_s(1-\bar B_s)\bar p_E\), distinct from the intrinsic phase coefficient
-\(\bar B_s\) of \eqref{eq:MC_phase_biot_coefficient}.  The component
-Legendre transforms give the stress contributions
+The component coefficients \(\bar B_s^\alpha\) are intrinsic; by the
+specific-volume path identity they roll up to the intrinsic phase coefficient
+\(\bar B_s\) of \eqref{eq:MC_phase_biot_coefficient}, and the phase volume
+fraction enters only when the intrinsic stresses are converted to the partial
+phase stress.  The component Legendre transforms give the stress contributions
 %
 \begin{equation}
-	\bs\sigma_s^{\prime\alpha}
+	\bar{\bs\sigma}_s^{\prime\alpha}
 	=
-	\bs\sigma_s^{\prime\prime\alpha}
+	\bar{\bs\sigma}_s^{\prime\prime\alpha}
 	+
-	(1-B_s^\alpha)\bar p_{E,s}^\alpha\mbf I,
+	(1-\bar B_s^\alpha)\bar p_{E,s}^\alpha\mbf I,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_additive_component_biot_split}
@@ -5539,38 +5578,38 @@ Summing over components gives the general additive mixture rule
 \begin{subequations}
 	\label{eq:MC_additive_biot_mixture_rule}
 	\begin{align}
-		\bs\sigma_s^{\prime\prime}
+		\bar{\bs\sigma}_s^{\prime\prime}
 		 & =
 		\sum_\alpha
-		\bs\sigma_s^{\prime\prime\alpha},
+		\bar{\bs\sigma}_s^{\prime\prime\alpha},
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_additive_double_prime_sum} \\
-		\bs\sigma_s'
+		\bar{\bs\sigma}_s'
 		 & =
-		\bs\sigma_s^{\prime\prime}
+		\bar{\bs\sigma}_s^{\prime\prime}
 		+
 		\sum_\alpha
-		(1-B_s^\alpha)\bar p_{E,s}^\alpha\mbf I,
+		(1-\bar B_s^\alpha)\bar p_{E,s}^\alpha\mbf I,
 		\qquad
 		s\in\mc S,
 		\label{eq:MC_additive_general_biot_stress_sum} \\
-		\phi_s(1-\bar B_s)\bar p_E
+		(1-\bar B_s)\bar p_E
 		 & =
 		\sum_\alpha
-		(1-B_s^\alpha)\bar p_{E,s}^\alpha,
+		(1-\bar B_s^\alpha)\bar p_{E,s}^\alpha,
 		\qquad
 		s\in\mc S .
 		\label{eq:MC_additive_biot_pressure_mixture_rule}
 	\end{align}
 	\begin{empheq}[box=\fbox]{equation}
-		B_s
+		\bar B_s
 		=
 		1
 		-
 		\frac{
 			\displaystyle\sum_\alpha
-			(1-B_s^\alpha)\bar p_{E,s}^\alpha
+			(1-\bar B_s^\alpha)\bar p_{E,s}^\alpha
 		}{
 			\displaystyle\sum_\alpha
 			\phi_s^\alpha\bar p_{E,s}^\alpha
@@ -5584,11 +5623,10 @@ Summing over components gives the general additive mixture rule
 \end{subequations}
 %
 The product relation follows by comparing the summed component stress with the
-phase stress form \eqref{eq:MC_phase_biot_split}.  With
+intrinsic phase stress form.  With
 \eqref{eq:MC_additive_equivalent_pressure_average}, the quotient recovers the
-volume-fraction-weighted partial phase coefficient
-\(1-\phi_s(1-\bar B_s)\).  Identification
-of that combination with the intrinsic fixed-\(\bar p_E\) derivative in
+intrinsic phase coefficient \(\bar B_s\).  Identification of this coefficient
+with the fixed-\(\bar p_E\) derivative in
 \eqref{eq:MC_phase_biot_coefficient} requires the component equations of state
 and their pressure-redistribution path to reproduce the phase derivative
 through \eqref{eq:MC_additive_biot_pressure_mixture_rule}.
@@ -5597,16 +5635,16 @@ it does not select that redistribution path.
 
 The product relation
 \eqref{eq:MC_additive_biot_pressure_mixture_rule} remains well defined when
-\(\bar p_E=0\); the quotient form then cannot identify \(B_s\) from the
+\(\bar p_E=0\); the quotient form then cannot identify \(\bar B_s\) from the
 pressure correction.  If all component equivalent pressures are equal to
 \(\bar p_E\), the general rule reduces to
 %
 \begin{equation}
-	B_s
+	\bar B_s
 	=
 	1
 	-\sum_\alpha
-	(1-B_s^\alpha),
+	(1-\bar B_s^\alpha),
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_additive_common_equivalent_pressure_limit}
@@ -5652,11 +5690,11 @@ the composition restriction disappears, and the additive rules reduce to
 \begin{equation}
 	\bar p_s^s=\bar p_s,
 	\qquad
-	\bs\sigma_s^{\prime s}=\bs\sigma_s',
+	\bar{\bs\sigma}_s^{\prime s}=\bar{\bs\sigma}_s',
 	\qquad
-	\bs\sigma_s^{\prime\prime s}=\bs\sigma_s^{\prime\prime},
+	\bar{\bs\sigma}_s^{\prime\prime s}=\bar{\bs\sigma}_s^{\prime\prime},
 	\qquad
-	B_s^s=B_s,
+	\bar B_s^s=\bar B_s,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_single_component_reductions}
@@ -5666,11 +5704,12 @@ The one-component limit removes only the independent composition rate.  The
 phase still retains its stress-free thermal maps, plastic and distension
 variables, and conversion sources.
 
-The phase Biot coefficient and stress split remain valid without component
-sums, as do the phase and overall momentum balances.  With one solid and one
-fluid phase, the overall coefficient is simply \(B=B_s\), where \(B_s\) is the
-partial-weighted phase coefficient \(1-\phi_s(1-\bar B_s)\) built from the
-intrinsic coefficient \eqref{eq:MC_phase_biot_coefficient}.
+The intrinsic phase Biot coefficient and stress split remain valid without
+component sums, as do the phase and overall momentum balances.  With one solid
+and one fluid phase, the overall coefficient reduces to
+\(B=1-\phi_s(1-\bar B_s)\) through
+\eqref{eq:MC_solid_biot_rollup_coefficient}, built from the intrinsic
+coefficient \eqref{eq:MC_phase_biot_coefficient}.
 
 \subsection{Scalar distension simplifications}
 \label{sec:MC_scalar_distension_simplifications}
@@ -6139,7 +6178,7 @@ For a single-component solid phase, the normalization fixes
 \(\eta_s^s=1\); no solid composition coordinate or
 composition-normalization multiplier is retained.  Equation
 \eqref{eq:MC_additive_component_biot} then gives
-\(B_s^s=B_s\).  For one solid phase,
+\(\bar B_s^s=\bar B_s\).  For one solid phase,
 \eqref{eq:MC_solid_biot_rollup_coefficient} gives
 \(B=1-\phi_s(1-\bar B_s)\), and the common-skeleton momentum equation is
 \eqref{eq:MC_overall_momentum_nonlinear_biot}.

@@ -657,10 +657,30 @@ pressure relation \eqref{eq:equivalent_pore_pressure_capillary_relation} then
 gives the unique fluid pressure,
 \(\bar p_E=\bar p_f\).  The solid pressure relation
 \eqref{eq:MC_phase_equivalent_pressure} also gives
-\(\bar p_s=\bar p_E\).  In this limit
-limit \eqref{eq:MC_solid_biot_rollup_coefficient} reduces to
+\(\bar p_s=\bar p_E\).  In this limit,
+\eqref{eq:MC_solid_biot_rollup_coefficient} reduces to
 \(B=1-\phi_s(1-\bar B_s)\), the volume-fraction-weighted combination of the
-intrinsic coefficient in \eqref{eq:MC_phase_biot_coefficient}.
+intrinsic coefficient in \eqref{eq:MC_phase_biot_coefficient}.  With
+\(r_{(m)}=0\) the accumulated solid mass vanishes, \(C_s=0\), so the
+distension--mass relation \eqref{eq:MC_solid_distension_mass_relation} gives
+\(a_s\phi_s=\phi_{s0}\); combining this with \(v_{s0}=\bar v_{s0}/\phi_{s0}\)
+from \eqref{eq:MC_phase_specific_volumes} resolves the aggregate coefficient
+to the reference specific-volume form,
+%
+\begin{equation}
+	B
+	=
+	1
+	-
+	\frac{1}{v_{s0}}
+	\left.
+	\p{\bar v_s}{J}
+	\right\vert_{\bar p_f,\theta_{\mc S}},
+	\label{eq:biot_limit_specific_volume_coefficient}
+\end{equation}
+%
+the single-solid reduction of the intrinsic coefficient in
+\eqref{eq:MC_phase_biot_coefficient}.
 
 Under \(r_{(m)}=0\), the overall momentum balance
 \eqref{eq:MC_overall_momentum_nonlinear_biot} becomes
