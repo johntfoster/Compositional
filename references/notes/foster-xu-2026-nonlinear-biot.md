@@ -33,7 +33,7 @@
 
 ## Manuscript Connections
 
-- Related TeX locations: `sections/variational_derivation.tex`, `sections/coleman_noll.tex`
+- Related TeX locations: `sections/virtual_power_derivation.tex`, `sections/multicomponent_solids.tex`
 - Possible citation location: nonlinear Biot coefficient discussion, finite-deformation poromechanics comparison, or correspondence to other theories.
 
 ## Open Questions

@@ -32,7 +32,7 @@
 
 ## Manuscript Connections
 
-- Related TeX location: `sections/coleman_noll.tex`
+- Related TeX location: `sections/multicomponent_solids.tex`
 - Possible citation location: Coleman--Noll comparison, poroelastic correspondence, or Biot-coefficient discussion.
 
 ## Open Questions
