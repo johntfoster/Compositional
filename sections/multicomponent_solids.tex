@@ -2633,7 +2633,7 @@ The reversible restrictions of \sref{MC_reversible_restrictions} settle the
 reversible stress, pressure, and energy relations.  This subsection assembles
 what remains.  It first converts the component-supply terms into the
 thermodynamic potentials and forces that appear in the source projection: the
-within-phase transfer-work potential \(L_\xi^\alpha\), the conversion
+within-phase specific generalized transfer-work potential \(L_\xi^\alpha\), the conversion
 affinity, and the relative-transport force
 (\sref{MC_component_supply_forces}).  Substituting the reversible restrictions
 and these forces into the collected entropy inequality then leaves the residual
@@ -2648,7 +2648,7 @@ conduction (\sref{MC_thermal_exchange_conduction}).  The mechanism index
 \((m)\) covers chemical reaction, phase transformation, sorption or
 desorption, and ion exchange; ``conversion'' is the generic term for any such
 local process.  Three reference choices recur: the reference component \(N\),
-the phase transfer-work potentials \(L_\xi^N\), and the solid transfer
+the phase specific generalized transfer-work potentials \(L_\xi^N\), and the solid transfer
 reference \(s_\star\), each introduced where first needed.
 
 \subsubsection{Component supply and thermodynamic forces}
@@ -2831,7 +2831,7 @@ so \(D_{s_\star}/Dt=D_{\mc S}/Dt\).  The normalization
 	\label{eq:MC_transfer_work_reference_normalization}
 \end{equation}
 %
-fixes the common additive level of the specific transfer-work potentials.  The
+fixes the common additive level of the specific generalized transfer-work potentials.  The
 reference-component form
 of \eqref{eq:el_conversion_component} then supplies the single evolution
 equation
@@ -2864,7 +2864,7 @@ Appendix~\ref{sec:technical_setting} states the corresponding additive
 normalization of that initial value.  The second equality follows from
 \eqref{eq:MC_neutral_component_euler_identity}; the expanded first line records
 the thermodynamic normalization used by the general phase equations.
-Once \(\tau\) is known, the remaining \(P-1\) phase transfer-work potentials are
+Once \(\tau\) is known, the remaining \(P-1\) phase specific generalized transfer-work potentials are
 recovered algebraically from
 %
 \begin{equation}
@@ -2886,7 +2886,7 @@ Equation \eqref{eq:MC_transfer_work_full_recovery}, or equivalently
 \eqref{eq:MC_transfer_work_component_difference}, then reconstructs every
 \(L_\xi^\alpha\) with \(\alpha\ne N\).  Thus one scalar evolution
 determines \(\tau\), \(P-1\) algebraic equations determine the remaining phase
-transfer-work potentials, and the component-difference restrictions introduce
+specific generalized transfer-work potentials, and the component-difference restrictions introduce
 no additional primary fields.
 
 Substituting the component material-rate identity
@@ -5984,11 +5984,11 @@ restrictions.
 
 The normalization
 \eqref{eq:MC_transfer_work_reference_normalization} fixes the reference-solid
-value of the specific transfer-work potential.  One equation
+value of the specific generalized transfer-work potential.  One equation
 \eqref{eq:MC_admissible_conversion_component} evolves the shared transfer
 potential \(\tau\), and the \(P-1\) equations
 \eqref{eq:MC_phase_reference_transfer_work_recovery} determine the
-transfer-work potentials \(L_\xi^N\) of the remaining phases.  The component
+specific generalized transfer-work potentials \(L_\xi^N\) of the remaining phases.  The component
 differences
 \eqref{eq:MC_transfer_work_component_difference}, equivalently the full
 recovery \eqref{eq:MC_transfer_work_full_recovery}, reconstruct
@@ -6052,7 +6052,7 @@ the optional closure introduces no additional pointwise unknown family.
 		Capillary-history variables \(\mbf h\)                                                          & \(N_h\)                                                                \\
 		Volume-fraction multiplier \(\lambda\)                                                          & \(1\)                                                                  \\
 		Transfer potential \(\tau\)                                                                     & \(1\)                                                                  \\
-		Non-reference specific transfer-work potentials \(L_\xi^N\), \(\xi\ne s_\star\)               & \(P-1\)                                                                \\
+		Non-reference specific generalized transfer-work potentials \(L_\xi^N\), \(\xi\ne s_\star\)               & \(P-1\)                                                                \\
 		Dispersion and diffusion component-flux vectors                                                 & \(2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\)                 \\
 		Nonzero pairwise phase-interaction force vectors \(\mbf b_{\zeta\xi}\)                          & \(\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)\)                       \\
 		Phase nonadvective energy-flux vectors \(\mbf q_\xi\)                                          & \(dP\)                                                                 \\
@@ -6100,7 +6100,7 @@ Table~\ref{tab:MC_equation_block_count}.
 		Dynamic pressure-lag relations \eqref{eq:MC_dynamic_capillary_onsager_relation}                                                 & \(P_{\mc F}-1\)                                                        \\
 		Capillary-history evolution laws satisfying \eqref{eq:MC_capillary_history_admissibility}                                             & \(N_h\)                                                                \\
 		Reference-component evolution of \(\tau\) from \eqref{eq:MC_admissible_conversion_component}                                           & \(1\)                                                                  \\
-		Non-reference specific transfer-work-potential recovery \eqref{eq:MC_phase_reference_transfer_work_recovery}                           & \(P-1\)                                                                \\
+		Non-reference specific generalized transfer-work-potential recovery \eqref{eq:MC_phase_reference_transfer_work_recovery}                           & \(P-1\)                                                                \\
 		Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                                & \(P_{\mc S}\)                                                          \\
 		Kinetic laws for \(r_{(m)}\), for example \eqref{eq:MC_onsager_reaction_rate}                                                      & \(N_{(m)}\)                                                            \\
 		Plastic deformation law \eqref{eq:MC_generic_plastic_deformation_flow_rule} for \(\bar{\mbf F}_s^p\) and scalar plastic-distension law \eqref{eq:MC_scalar_plastic_distension_flow_rule} for \(a_s^p\) & \((d^2+1)P_{\mc S}\)                                                      \\
