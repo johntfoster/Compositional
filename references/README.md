@@ -17,7 +17,7 @@ manuscript.
 4. Ingest the PDF with the local Codex research store:
 
    ```bash
-   python3 /home/john/.codex/skills/latex-research-ingest/scripts/research_store.py ingest . references/pdfs/*.pdf
+   python3 $HOME/.codex/skills/latex-research-ingest/scripts/research_store.py ingest . references/pdfs/*.pdf
    ```
 
 5. Keep generated retrieval files in `.codex-research/`; they are local cache
@@ -31,7 +31,7 @@ against the source PDF, extracted text, or a note before changing the manuscript
 Retrieve local context with:
 
 ```bash
-python3 /home/john/.codex/skills/latex-research-ingest/scripts/research_store.py retrieve . "intrinsic density"
+python3 $HOME/.codex/skills/latex-research-ingest/scripts/research_store.py retrieve . "intrinsic density"
 ```
 
 Good prompts:

@@ -2,93 +2,118 @@
 \section{Conclusions and outlook}
 \label{sec:conclusions}
 
-This paper developed a nonequilibrium finite-deformation theory for
-multicomponent, multiphase porous media with reactions, phase transformations,
-two thermal subsystems, and electrostatics.  Its principal result is a
-traceable division of the model into
-conservation laws, reversible constraints, thermodynamic restrictions, and
-dissipative closures.
+We developed a nonequilibrium, finite-deformation theory for
+multicomponent, multiphase porous media with reactions, phase
+transformations, two thermal subsystems, and electrostatics.  The central
+contribution is a traceable division of the model into conservation laws,
+reversible constraints, thermodynamic restrictions, and dissipative closures.
 The constrained Hamilton--d'Alembert statement produces the phase-coordinate,
 momentum, storage, composition, transfer-potential, and electrostatic
-relations, including the d'Alembert work of the saturation resistance when that
-branch is active.  The Coleman--Noll procedure identifies the material stresses,
-phase pressures, entropies, generalized component-transfer forces,
-traditional electrochemical affinities, gauge-invariant nonisothermal
-chemical and electric transport forces, capillary-history dissipation, and
-residual dissipation.  Onsager
-stationarity provides admissible near-equilibrium choices for dynamic
-saturation redistribution, reaction, diffusion, and dispersion.  Agreement of
-the independently derived reversible relations supplies an internal check on
-the construction.
+relations, including the d'Alembert work of the saturation resistance when
+that branch is active.  The Coleman--Noll procedure identifies the material
+stresses, phase pressures, entropies, generalized component-transfer forces,
+electrochemical affinities, gauge-invariant nonisothermal transport forces,
+capillary-history dissipation, and residual dissipation.  Onsager stationarity
+provides admissible near-equilibrium choices for dynamic saturation
+redistribution, reaction, diffusion, and dispersion.  The independently
+derived reversible relations agree, which supplies an internal check on the
+construction.
 
-The derivation yields six specific advances.  First,
-converted mass enters the phase momentum production explicitly, and the same
-balance gives a generalized Darcy law whose forces and resistance retain the
-conversion-insertion contribution.  Second, the fixed-pressure nonlinear Biot
-construction is extended to multiple solid phases and evaluated at the current
-reacted state, including composition, distension, stress-free deformation, and
-internal variables.  Third, the two-temperature electrical formulation yields
-gauge-invariant electrochemical transport and reaction forces by separating
-the temperature-weighted component-potential gradient from the electric field.
-Fourth, the constrained interfacial energy and capillary-history state give the
-stored drainage--imbibition-dependent pressure jump, and the history evolution
-enters the residual dissipation explicitly.  An optional positive-semidefinite
-resistance adds a pressure lag proportional to the skeleton-following saturation
-rate without adding that rate to the stored energy.  The phase electrical
-enthalpy difference supplies a separate correction to the same actual pressure
-jump, while the electrical potential also generates dielectric pressure,
-Maxwell stress, and the equivalent pore pressure.  Fifth, the
-generalized composition-stationarity conditions
-recover electrochemical equilibrium while determining off-equilibrium
-phase-reference values of the specific transfer-work potentials; the conversion
-force consequently
-contains an explicit phase-transfer-work correction to the traditional
-affinity.  Sixth, the phase/component balance structure embeds reactive-solid
-kinematics in an open porous medium, so pore-filling mass changes phase volume,
-distension, stress-free deformation, elasticity, and plastic flow while
-remaining coupled to mobile-phase transport.
+The derivation yields seven specific advances.
 
-The common charge-rate and electrostatic-power identities couple electrical
-body force and source power without double counting.  The same phase
-electric-enthalpy family supplies the electrocapillary and momentum relations,
-and the component material measures control both conversion momentum and solid
-compositional evolution.  Writing the energy and entropy balances in a skeleton
-observer retains bulk phase transport relative to the solid and exposes its
-joint admissibility condition with mechanical interaction-energy exchange.
+\begin{enumerate}
+\item \textbf{Conversion in phase momentum and Darcy transport.}  Converted
+mass enters the phase momentum production explicitly, and the same balance
+gives a generalized Darcy law whose forces and resistance retain the
+conversion-insertion contribution.
+\item \textbf{Fixed-pressure nonlinear Biot construction for multiple solid
+phases.}  The construction extends to several solid phases and is evaluated
+at the current reacted state, including composition, distension, stress-free
+deformation, and internal variables, so the effective-stress structure
+survives reactions and phase change.
+\item \textbf{Gauge-invariant electrochemical forces.}  The two-temperature
+electrical formulation separates the temperature-weighted
+component-potential gradient from the electric field, which yields
+gauge-invariant electrochemical transport and reaction forces.
+\item \textbf{Stored capillary energy and dynamic pressure lag.}  The
+constrained interfacial energy and capillary-history state give the stored
+drainage--imbibition-dependent pressure jump, and the history evolution
+enters the residual dissipation explicitly.  An optional
+positive-semidefinite resistance adds a pressure lag proportional to the
+skeleton-following saturation rate without adding that rate to the stored
+energy; the phase electrical enthalpy difference supplies a separate
+correction to the same pressure jump, and the electric potential generates
+dielectric pressure, Maxwell stress, and the equivalent pore pressure.
+\item \textbf{Composition stationarity with a transfer-work correction.}  The
+generalized composition-stationarity conditions recover electrochemical
+equilibrium while fixing off-equilibrium phase-reference values of the
+specific transfer-work potentials; the conversion force consequently carries
+an explicit phase-transfer-work correction to the traditional affinity.
+\item \textbf{Reactive-solid kinematics in an open porous medium.}  The
+phase/component balance structure embeds reactive-solid kinematics, so
+pore-filling mass changes phase volume, distension, stress-free deformation,
+elasticity, and plastic flow while remaining coupled to mobile-phase
+transport.
+\item \textbf{Plastic driving stress and the Biot transform.}  The
+construction fixes the stress measure that drives plastic flow: plastic work
+is performed by the true-plastic driving stress \(\mbf S_s\), the deviatoric
+intrinsic phase stress mapped through the elastic true-deformation and
+distension factors, while the momentum balance is written with the
+fixed-pressure skeleton stress \(\bs\sigma^{\prime\prime}\); the nonlinear
+Biot transform relates the two stresses.  The distinction between the
+work-conjugate driving stress and the balance stress, which classical
+effective-stress plasticity leaves implicit
+\cite{bishop1959principle,borja2006mechanical}, is thereby made explicit, and
+non-associativity enters through the dissipation-based criterion of
+hyperplasticity \cite{houlsby2006principles}.  The associated closures presented
+are admissible by construction, and the same conjugate structure permits
+thermodynamically consistent non-associated deformation--distension laws
+formulated through \(\mbf S_s\) and the distension map \(\mbf A_s\),
+provided the combined conjugate power in the residual dissipation remains
+nonnegative.
+\end{enumerate}
 
-The reductions provide checks on the general equations.  Under their stated
+The construction is internally consistent.  The common charge-rate and
+electrostatic-power identities couple electrical body force and source power
+without double counting.  The same phase electric-enthalpy family supplies
+the electrocapillary and momentum relations, and the component material
+measures control both conversion momentum and solid compositional evolution.
+Writing the energy and entropy balances in a skeleton observer retains bulk
+phase transport relative to the solid and exposes its joint admissibility
+condition with mechanical interaction-energy exchange.
+
+The specialized reductions check the general equations.  Under their stated
 assumptions, the theory recovers the standard mass-based compositional
-balance, Fick--Onsager transport in \(N-1\) independent composition directions,
-black-oil conservation equations and Darcy fluxes, a
+balance, Fick--Onsager transport in \(N-1\) independent composition
+directions, black-oil conservation equations and Darcy fluxes, a
 Nernst--Planck--Darcy system, and the finite-deformation and linearized
 single-solid/single-fluid Biot equations.  The neutral one-fluid limit removes
-the electrocapillary and interfacial terms, while the local-thermal-equilibrium
-limit recovers the usual affinity power for phasewise mass-conserving chemistry
-or vanishing transfer-work offsets.  These recoveries identify which
-thermodynamic structure is retained when the full model is specialized.
+the electrocapillary and interfacial terms, and the local-thermal-equilibrium
+limit recovers the usual affinity power for phasewise mass-conserving
+chemistry or vanishing transfer-work offsets.  These recoveries identify the
+thermodynamic structure retained when the full model is specialized.
 
 Several limitations delimit the present result.  The theory applies while the
 participating phases and components remain present; phase appearance and
 disappearance require separate switching conditions.  Capillary hysteresis is
 represented by continuous internal variables and material-specific
-loading--unloading rules.  The dynamic pressure lag is represented by an
-optional near-equilibrium saturation-rate resistance; calibration determines
-whether this branch is active for a particular reservoir transient.
-Independent interfacial-area evolution requires a further state variable and
-kinetic equation.  The
-electrical state is
-electroquasistatic and isotropic and excludes permanent polarization,
-directional dielectric structure, relaxation, and wave dynamics.  Inserted
-mass carries recipient-phase energy and entropy under a local-equilibrium
-source convention.  Reactions spanning the two thermal subsystems use the
-gauge-invariant neutral temperature-weighted reaction force; their physical
-reaction-energy transfer may be Onsager-coupled under the stated mechanismwise
-dissipation condition.  The quadratic closures shown here are
-limited to near-equilibrium response.  The finite-deformation Biot storage
-tangent used in the classical comparison is an
-additional integrable storage assumption, not a consequence of the general
-phase energy.  Constitutive calibration, well-posedness, discretization, and
-benchmark validation remain outside the present derivation.
+loading--unloading rules.  The dynamic pressure lag is an optional
+near-equilibrium saturation-rate resistance whose calibration determines
+whether the branch is active for a given reservoir transient.  Independent
+interfacial-area evolution requires a further state variable and kinetic
+equation.  The electrical state is electroquasistatic and isotropic and
+excludes permanent polarization, directional dielectric structure,
+relaxation, and wave dynamics.  Inserted mass carries recipient-phase energy
+and entropy under a local-equilibrium source convention.  Reactions spanning
+the two thermal subsystems use the gauge-invariant neutral
+temperature-weighted reaction force; their physical reaction-energy transfer
+may be Onsager-coupled under the stated mechanismwise dissipation condition.
+The quadratic closures shown here are limited to near-equilibrium response.
+The finite-deformation Biot storage tangent used in the classical comparison
+is an additional integrable storage assumption introduced independently of
+the general phase energy.  Constitutive calibration, well-posedness,
+discretization, and benchmark validation remain outside the present
+derivation.
 
 Implementation should proceed with equation-level traceability.  A
 solid-reference discretization can first verify neutral-isothermal component

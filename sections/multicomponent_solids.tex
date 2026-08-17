@@ -3308,6 +3308,20 @@ Drumheller's deviatoric true-plastic driving stress through the phase distension
 map
 \cite[eqs.~(108)--(112)]{drumheller2000}.
 
+The driving stress is fixed by the plastic power itself, so it is the stress
+work-conjugate to the true-plastic rate.  Classical effective-stress
+plasticity writes the yield and flow rules in the isotropic effective stress
+\(\bs\sigma_{\rm eff}=\bs\sigma-\bar p_f\mbf I\) of Terzaghi and Bishop
+\cite{bishop1959principle}, and finite-strain poro-plastic formulations with a
+multiplicative decomposition use an effective solid stress in the same sense
+\cite{armero1999formulation,borja1995mathematical};
+Borja~\cite{borja2006mechanical} examined the mechanical energy and effective
+stress of saturated and unsaturated continua and clarified the work-conjugate
+stress in that setting.  The nonlinear Biot transform
+\eqref{eq:MC_phase_pk_biot_split} then fixes the relation of \(\mbf S_s\) to
+the fixed-pressure skeleton stress \(\bs\sigma_s^{\prime\prime}\) that enters
+the momentum balance.
+
 Applying the reversible pressure, stress, distension, composition, entropy,
 and common pore-volume relations from
 \sref{MC_reversible_restrictions} removes their rate coefficients from
@@ -3914,11 +3928,26 @@ plastic powers nonnegative separately.  The mobilities depend on the
 equilibrium state set \(\mc X_s\) and the plastic internal state vector
 \(\mbf p_s\), whose evolution
 \eqref{eq:MC_generic_plastic_state_evolution} carries hardening, softening,
-and rate dependence inside the plastic closure.  Component-resolved mobilities
-are given in the later additive specialization.  Coupled or non-associated
+and rate dependence inside the plastic closure.  The additive specialization
+retains these single phase-level laws.  Coupled or non-associated
 plastic deformation--distension laws may replace
 \eqref{eq:MC_generic_plastic_flow_rules}, but their combined conjugate power in
 \eqref{eq:MC_residual_dissipation} must remain nonnegative.
+
+Classical rate-independent plasticity derives the associated flow rule from
+the yield function and maximum plastic dissipation \cite{hill1998mtp}, and
+frictional or dilatant geomaterials are usually assigned a separate plastic
+potential to reproduce the observed volume change.  The hyperplastic
+formulation shows that such a rule remains thermodynamically consistent when
+the dissipation function is written in the stress space conjugate to the
+plastic rate: the flow rule is then associated in that space, and any
+non-associativity in the nominal stress follows from the transformation
+between the conjugate driving stress and the balance stress
+\cite{houlsby2006principles,collins1997application}.  The criterion adopted
+here is the same: a coupled or non-associated plastic deformation--distension
+law is admissible when its combined conjugate power in
+\eqref{eq:MC_residual_dissipation} remains nonnegative, with \(\mbf S_s\) as
+the conjugate driving stress.
 
 \subsubsection{Interphase mechanical interaction}
 \label{sec:MC_interphase_mechanical_interaction}
@@ -5172,9 +5201,10 @@ is the interfacial entropy per current fluid volume, so the sign agrees with
 the bulk Gibbs--Duhem identity
 \cite[eq.~(59)]{bothe2015continuum}.  The contribution is therefore a bulk
 thermocapillary analogue of the sharp-interface Marangoni traction.  In the
-sharp-interface description the Marangoni traction acts tangentially with the
-form \(\nabla_s\sigma\) and uses an interfacial normal, a surface projector,
-and a surface momentum balance
+sharp-interface description the Marangoni traction is the tangential surface
+force arising from gradients of surface tension along the interface; it is
+obtained from a surface momentum balance using the interfacial normal and
+surface projector
 \cite{jasnow1996thermocapillary,guo2015thermocapillary}.  The averaged
 description expresses the same physical effect through the bulk interfacial
 potential \(\gamma\) and the state variables \(\theta_{\mc F}\), \(\mbf h\),
@@ -5193,10 +5223,11 @@ The general phase energy need not be additive.  An additive representation is
 useful, however, when components share one solid motion but their stored-energy
 contributions can be distinguished.  Examples include adsorbates and bound
 water in a mineral framework, lattice substitutions or defects, and guest
-occupancy in hydrate cages.  All components still use the same solid velocity,
-\(\bar{\mbf F}_s^e\), and \(\mbf A_s^e\); the split applies only to the stored
-energy.  Each component potential may depend on the full composition, so the
-model can retain nonideal interactions.  When no meaningful component-energy
+occupancy in hydrate cages.  The components share the solid velocity \(\mbf v_s\)
+and the phase-level elastic measures, the true deformation \(\bar{\mbf F}_s^e\)
+and the distension \(\mbf A_s^e\); the split applies only to the stored energy.
+Each component potential may depend on the full composition, so the model can
+retain nonideal interactions.  When no meaningful component-energy
 split exists, the general phase energy
 \eqref{eq:MC_solid_general_free_energy} remains the appropriate model.
 The component decomposition below retains the phase electric enthalpy
@@ -5328,57 +5359,43 @@ Summing over components recovers the phase pressure.  Thus
 \(\bar p_s^\alpha\) without introducing another pressure closure in the general
 additive energy representation.
 
-The phase plastic law is a single composition-dependent function of the solid
-phase: because the state set \(\mc X_s\) contains the composition
-\(\{\eta_s^\alpha\}\), the same mobility functions act on the phase mixture as
-a whole rather than assigning separate yield laws to individual components.
-Only phase plastic rates appear in the residual inequality, so the components
-do not have independent plastic kinematics.  Composition can nevertheless
-change the common phase rates through component contributions to their
-mobilities.  One sufficient additive form is
+The additive split of the stored energy does not extend to the plastic
+closure.  The phase plastic law remains a single composition-dependent
+function of the solid phase: one mobility \(\Lambda_{\bar{\mbf F}_s}\) and one
+\(\Lambda_{\mbf A_s}\) act on the phase plastic rates, and the composition
+\(\{\eta_s^\alpha\}\) enters through the state set \(\mc X_s\).  Thus absorbed
+water, adsorbed species, or guest molecules modify the plastic response of the
+phase as a whole through the composition dependence of the common mobilities;
+the components share the single phase plastic deformation and its flow rule.
+The additive specialization therefore retains the phase-level closure of
+\eqref{eq:MC_generic_plastic_flow_rules},
 %
 \begin{subequations}
-	\label{eq:MC_component_resolved_plastic_flow_rules}
+	\label{eq:MC_additive_plastic_flow_rules}
 	\begin{align}
 		\phasedot{\bar{\mbf F}}_s^p(\bar{\mbf F}_s^p)^{-1}
 		 & =
-		\left(
-		\sum_\alpha
-		\Lambda_{\bar{\mbf F}_s}^\alpha(\mc X_s)
-		\right)
+		\Lambda_{\bar{\mbf F}_s}(\mc X_s,\mbf p_s)
 		(\mbf S_s)^T,
 		\qquad
 		s\in\mc S,
-		\label{eq:MC_component_true_plastic_flow_rule}       \\
+		\label{eq:MC_additive_plastic_deformation_flow_rule} \\
 		\phasedot{\mbf A}_s^p(\mbf A_s^p)^{-1}
 		 & =
-		\left(
-		\sum_\alpha
-		\Lambda_{\mbf A_s}^\alpha(\mc X_s)
-		\right)
+		\Lambda_{\mbf A_s}(\mc X_s,\mbf p_s)
 		(\mbf A_s^e)^T
 		\bs\sigma_s'
 		(\mbf A_s^e)^{-T},
 		\qquad
-		s\in\mc S,
-		\label{eq:MC_component_distension_plastic_flow_rule} \\
-		\sum_\alpha
-		\Lambda_{\bar{\mbf F}_s}^\alpha(\mc X_s)
-		 & \ge0,
-		\qquad
-		\sum_\alpha
-		\Lambda_{\mbf A_s}^\alpha(\mc X_s)
-		\ge0,
-		\qquad
 		s\in\mc S .
-		\label{eq:MC_component_plastic_mobilities}
+		\label{eq:MC_additive_plastic_distension_flow_rule}
 	\end{align}
 \end{subequations}
 %
-The component mobilities sum to the mobility of the common solid plastic rate.
-Nonnegative component mobilities make each contribution dissipative.  More
-general composition-dependent flow directions are admissible provided their
-combined plastic power remains nonnegative.
+The mobilities are nonnegative as in
+\eqref{eq:MC_generic_plastic_deformation_mobility_nonnegative}--\eqref{eq:MC_generic_plastic_distension_mobility_nonnegative},
+so each plastic power is separately dissipative, and the internal-state
+evolution follows \eqref{eq:MC_generic_plastic_state_evolution}.
 
 \subsubsection{General additive component Biot decomposition}
 \label{sec:MC_component_biot_derivation}
@@ -5607,13 +5624,9 @@ Summing over components gives the general additive mixture rule
 		=
 		1
 		-
-		\frac{
-			\displaystyle\sum_\alpha
-			(1-\bar B_s^\alpha)\bar p_{E,s}^\alpha
-		}{
-			\displaystyle\sum_\alpha
-			\phi_s^\alpha\bar p_{E,s}^\alpha
-		},
+		\frac{1}{\bar p_E}
+		\sum_\alpha
+		(1-\bar B_s^\alpha)\bar p_{E,s}^\alpha,
 		\qquad
 		\bar p_E\ne0,
 		\qquad
@@ -5633,84 +5646,6 @@ through \eqref{eq:MC_additive_biot_pressure_mixture_rule}.
 The additive decomposition alone supplies the pressure-weighted stress rule;
 it does not select that redistribution path.
 
-The product relation
-\eqref{eq:MC_additive_biot_pressure_mixture_rule} remains well defined when
-\(\bar p_E=0\); the quotient form then cannot identify \(\bar B_s\) from the
-pressure correction.  If all component equivalent pressures are equal to
-\(\bar p_E\), the general rule reduces to
-%
-\begin{equation}
-	\bar B_s
-	=
-	1
-	-\sum_\alpha
-	(1-\bar B_s^\alpha),
-	\qquad
-	s\in\mc S .
-	\label{eq:MC_additive_common_equivalent_pressure_limit}
-\end{equation}
-%
-Equality of all mechanical component pressures gives this reduction only when
-the component electrical enthalpy densities are also equal.  The general
-pressure-weighted rule therefore applies directly to components whose
-multiplier-derived pressures or electrical responses differ.
-
-\subsection{Single-component solid specialization}
-\label{sec:MC_single_component_rollup}
-
-For a single-component solid phase, set
-%
-\begin{equation}
-	\eta_s^s=1,
-	\qquad
-	\phasedot\eta_s^s=0,
-	\qquad
-	\phi_s^s=1,
-	\qquad
-	\bar\rho_s^s=\bar\rho_s,
-	\qquad
-	s\in\mc S .
-	\label{eq:MC_single_component_constraints}
-\end{equation}
-%
-The phase free energy then has no composition argument,
-%
-\begin{equation}
-	\psi_s
-	=
-	\psi_s(
-	\bar{\mbf F}_s^e,\mbf A_s^e,\bar\rho_s,\theta_{\mc S}),
-	\qquad
-	s\in\mc S,
-	\label{eq:MC_single_component_free_energy}
-\end{equation}
-%
-the composition restriction disappears, and the additive rules reduce to
-%
-\begin{equation}
-	\bar p_s^s=\bar p_s,
-	\qquad
-	\bar{\bs\sigma}_s^{\prime s}=\bar{\bs\sigma}_s',
-	\qquad
-	\bar{\bs\sigma}_s^{\prime\prime s}=\bar{\bs\sigma}_s^{\prime\prime},
-	\qquad
-	\bar B_s^s=\bar B_s,
-	\qquad
-	s\in\mc S .
-	\label{eq:MC_single_component_reductions}
-\end{equation}
-%
-The one-component limit removes only the independent composition rate.  The
-phase still retains its stress-free thermal maps, plastic and distension
-variables, and conversion sources.
-
-The intrinsic phase Biot coefficient and stress split remain valid without
-component sums, as do the phase and overall momentum balances.  With one solid
-and one fluid phase, the overall coefficient reduces to
-\(B=1-\phi_s(1-\bar B_s)\) through
-\eqref{eq:MC_solid_biot_rollup_coefficient}, built from the intrinsic
-coefficient \eqref{eq:MC_phase_biot_coefficient}.
-
 \subsection{Scalar distension simplifications}
 \label{sec:MC_scalar_distension_simplifications}
 
@@ -5719,9 +5654,11 @@ specialization retains volumetric accommodation but excludes anisotropic pore
 collapse and fabric evolution,
 %
 \begin{equation}
-	\mbf A_s^\bullet=(a_s^\bullet)^{1/3}\mbf I,
+	\mbf A_s^e=(a_s^e)^{1/3}\mbf I,
 	\qquad
-	\bullet\in\{e,p,0\},
+	\mbf A_s^p=(a_s^p)^{1/3}\mbf I,
+	\qquad
+	\mbf A_s^0=(a_s^0)^{1/3}\mbf I,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_scalar_distension_factors}
@@ -5821,7 +5758,7 @@ from \eqref{eq:MC_generic_plastic_distension_mobility_nonnegative} is
 \begin{equation}
 	\frac{\phasedot a_s^p}{a_s^p}
 	=
-	\Lambda_{\mbf A_s}(\mc X_s)
+	\Lambda_{\mbf A_s}(\mc X_s,\mbf p_s)
 	\frac{1}{3}\operatorname{tr}\left(
 	\bs\sigma_s'
 	\right),
@@ -5841,7 +5778,8 @@ with the material mean stress as its conjugate force.
 
 Crystallization affects momentum only through constitutive ingredients already
 present in the theory: the solid free energy, the precipitation kinetics, and
-the reaction affinity.  In the scalar setting, the volumetric kinematics are
+the reaction affinity.  This subsection specializes these ingredients to the
+scalar setting, in which the volumetric kinematics are
 %
 \begin{equation}
 	\ln J=\ln a_s+\ln\bar J_s,
@@ -5850,9 +5788,9 @@ the reaction affinity.  In the scalar setting, the volumetric kinematics are
 	\label{eq:MC_crystallization_volumetric_split}
 \end{equation}
 %
-The scalar stress restriction depends on the total volumetric strain
-\(\ln J=\ln a_s+\ln\bar J_s\).  A simple transformed volumetric energy with
-tangent bulk modulus \(K_s^\star\) is
+The scalar stress restriction depends on this total volumetric strain, so a
+simple transformed volumetric energy with skeleton bulk modulus
+\(K_s^\star\) is
 %
 \begin{equation}
 	\widetilde W_{{\rm vol},s}
@@ -5931,17 +5869,19 @@ offset vanishes.
 
 If a classical crystallization pressure
 \(\bar p_{\text{xtal},s_{(m)}}\) is prescribed, it closes the affinity through
-the sign convention stated at the beginning of this section.  Cauchy stress is
+the sign convention stated at the beginning of this section: Cauchy stress is
 tension-positive, so the positive compressive mean pressure acting on the
 forming solid is
-\(-\operatorname{tr}(\bs\sigma_{s_{(m)}}')/3\).  Creating a unit mass of solid
-against that compression costs its specific volume times this mechanical
-pressure.  The displayed pressure-work form uses a mass-based progress variable
-normalized by
-\(\sum_\alpha\nu_{s_{(m)} (m)}^\alpha=1\).  For another positive solid mass
-yield, the right-hand side is multiplied by that yield; for a molar progress
-basis, \(\bar v_{s_{(m)}}\) is replaced by the corresponding molar volume.  The
-net chemical-minus-mechanical driving force is therefore
+\(-\operatorname{tr}(\bs\sigma_{s_{(m)}}')/3\).  Forming a unit mass of solid
+against that compression requires mechanical work equal to the specific volume
+times this compressive mean pressure.  The displayed pressure-work term uses a
+mass-based progress variable whose stoichiometric coefficients are normalized
+by
+\(\sum_\alpha\nu_{s_{(m)} (m)}^\alpha=1\).  For a solid mass yield different
+from unity, the pressure-work term is multiplied by that yield; on a molar
+progress basis, the specific volume \(\bar v_{s_{(m)}}\) is replaced by the
+corresponding molar volume.  The net chemical-minus-mechanical driving force
+is therefore
 %
 \begin{equation}
 	\mc A_{(m)}
@@ -5962,12 +5902,13 @@ net chemical-minus-mechanical driving force is therefore
 	\label{eq:MC_crystallization_affinity_volumetric}
 \end{equation}
 %
-For example, using the classical supersaturation relation
-\(\bar p_{\text{xtal},s_{(m)}}=R\theta_{\mc F}\ln\Omega_{(m)}/V_{s_{(m)}}\),
-where the fluid temperature is used because supersaturation and the
-fluid--solid precipitation mechanism are evaluated in the mobile subsystem,
-\(R\) is the gas constant, \(\Omega_{(m)}\) is the supersaturation ratio, and
-\(V_{s_{(m)}}\) is the molar volume of the precipitating solid, gives
+For example, the classical supersaturation relation
+\(\bar p_{\text{xtal},s_{(m)}}=R\theta_{\mc F}\ln\Omega_{(m)}/V_{s_{(m)}}\)
+expresses the crystallization pressure in terms of the gas constant \(R\), the
+supersaturation ratio \(\Omega_{(m)}\), and the molar volume \(V_{s_{(m)}}\)
+of the precipitating solid.  The fluid temperature \(\theta_{\mc F}\) is used
+because supersaturation and the fluid--solid precipitation mechanism are
+evaluated in the mobile subsystem.  Substituting this relation gives
 %
 \begin{equation}
 	\mc A_{(m)}
@@ -6029,25 +5970,27 @@ fully implicit active-phase formulation under the closures stated below.  These
 counts are not a complete boundary-value-problem specification.  One mass
 fraction per phase and one phase volume fraction are reconstructed from
 \eqref{eq:el_eta_constraint} and \eqref{eq:volume_fraction_constraint}.
-The composition-normalization multipliers \(\Pi_\xi\) are not primary unknowns:
-subtracting the component stationarity equations eliminates them through
-\eqref{eq:pi_difference_system}.  The storage multipliers
-\(\pi_\xi^\alpha\) are then evaluated from that difference system and the
-phase-sum relation \eqref{eq:phase_pressure_storage}.  Phase pressures and
+Subtracting the component stationarity equations eliminates the
+composition-normalization multipliers \(\Pi_\xi\) through
+\eqref{eq:pi_difference_system}, and the storage multipliers
+\(\pi_\xi^\alpha\) then follow from that difference system and the phase-sum
+relation \eqref{eq:phase_pressure_storage}.  Phase pressures and
 electrochemical potentials are likewise evaluated from the constitutive
-restrictions.  The normalization
+restrictions.
+
+The normalization
 \eqref{eq:MC_transfer_work_reference_normalization} fixes the reference-solid
 value of the specific transfer-work potential.  One equation
-\eqref{eq:MC_admissible_conversion_component} then evolves the shared transfer
-potential \(\tau\), while the \(P-1\) equations
-\eqref{eq:MC_phase_reference_transfer_work_recovery} determine the specific
+\eqref{eq:MC_admissible_conversion_component} evolves the shared transfer
+potential \(\tau\), and the \(P-1\) equations
+\eqref{eq:MC_phase_reference_transfer_work_recovery} determine the
 transfer-work potentials \(L_\xi^N\) of the remaining phases.  The component
 differences
 \eqref{eq:MC_transfer_work_component_difference}, equivalently the full
 recovery \eqref{eq:MC_transfer_work_full_recovery}, reconstruct
 \(L_\xi^\alpha\), \(\alpha\ne N\), as algebraically recovered variational
-coefficients rather than additional primary fields or freely prescribed
-constitutive functions.
+coefficients rather than primary fields or freely prescribed constitutive
+functions.
 
 Initial and boundary data, potential gauges, pure-Neumann compatibility
 conditions, and switching conditions for phase or component appearance are not
@@ -6178,8 +6121,10 @@ For a single-component solid phase, the normalization fixes
 \(\eta_s^s=1\); no solid composition coordinate or
 composition-normalization multiplier is retained.  Equation
 \eqref{eq:MC_additive_component_biot} then gives
-\(\bar B_s^s=\bar B_s\).  For one solid phase,
-\eqref{eq:MC_solid_biot_rollup_coefficient} gives
+\(\bar B_s^s=\bar B_s\).  The one-component limit removes only the
+independent composition rate: the phase retains its stress-free thermal maps,
+plastic and distension variables, and conversion sources.  For one solid
+phase, \eqref{eq:MC_solid_biot_rollup_coefficient} gives
 \(B=1-\phi_s(1-\bar B_s)\), and the common-skeleton momentum equation is
 \eqref{eq:MC_overall_momentum_nonlinear_biot}.
 \FloatBarrier

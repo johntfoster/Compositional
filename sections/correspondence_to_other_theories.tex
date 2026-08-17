@@ -37,12 +37,17 @@ This is the usual mass-based component balance per unit current mixture volume,
 with mechanical dispersion and molecular diffusion retained explicitly.
 Setting both relative fluxes to zero recovers the advective
 component-balance structure of classical compositional reservoir simulation
-\cite{balhoff2022multiphase}.  To keep the relative fluxes,
-classical compositional simulation must supply the chemical potentials
-algebraically; \eqref{eq:MC_admissible_conversion_component} evolves the
-separate transfer potential \(\tau\), and
-\eqref{eq:MC_phase_reference_transfer_work_recovery} supplies the remaining
-phase-reference values of the specific transfer-work potentials.  Taking
+\cite{balhoff2022multiphase}.  To keep the relative fluxes, classical compositional simulation must supply
+the chemical potentials algebraically; it has no separate transfer-potential
+field to evolve.  The present theory instead evolves a single transfer
+potential \(\tau\) through
+\eqref{eq:MC_admissible_conversion_component} and recovers the remaining
+phase-reference values of the specific transfer-work potentials through
+\eqref{eq:MC_phase_reference_transfer_work_recovery}.  For the stationary
+skeleton of classical reservoir simulation, that evolution gives
+\(D_{\mc S}\tau/Dt=0\), so \(\tau\) remains at its normalized initial value
+and introduces no new evolving field in the classical compositional balance.
+Taking
 \(\mbf v_{\mc S}=\mbf 0\) in \eqref{eq:standard_darcy_mass_flux_limit} and using
 $\bs\kappa_f=\kappa_{rf}\bs\kappa$ gives the Darcy law in the manuscript
 notation,
@@ -232,44 +237,14 @@ Substituting these closures into
 %
 This is the standard reservoir compositional-flow form: storage is written in
 terms of porosity, saturation, phase density, and phase composition; transport is
-the phase Darcy flux multiplied by the component mass fraction; the stored
-capillary offsets, their history state, and any dynamic lag reconstruct phase
-pressures from the chosen reference pressure
-\(\bar p_{\rm ref}\); and the EOS or flash closure supplies densities,
-viscosities, equilibrium compositions, and the chemical-potential/composition
-tangent that converts the entropy-admissible \(D\nabla\mu\) flux into the usual
-Fickian composition-gradient form.  The reference-component balance follows
-from the summed mass balance, the \(N-1\) displayed component balances, the
-zero-sum relative-flux condition, and mechanism mass conservation; it is not an
-additional independent equation.
-The phase-labelled stoichiometric coefficients also represent a pure phase
-transformation as the special case in which the component label is unchanged and
-the two nonzero entries satisfy $\nu_{\xi (m)}^\alpha=-1$ and
-$\nu_{\zeta (m)}^\alpha=+1$; after summing over phases, its contribution to the
-total component source vanishes, but it still changes the phase saturations and
-phase compositions.
-
-The compositional-flow pressure reconstruction has three distinct parts.  The
-interfacial Helmholtz energy \eqref{eq:interfacial_energy_density} gives the
-stored capillary contribution at the saturations defined by
-\eqref{eq:fluid_saturation_definitions}.  The phase electrical enthalpies give
-the correction in
-\eqref{eq:wetting_nonwetting_capillary_pressure_recovery}, and
-\eqref{eq:MC_dynamic_capillary_onsager_relation} adds the dissipative pressure
-lag proportional to the skeleton-following saturation rates.  The evolution
-laws constrained by
-\eqref{eq:MC_capillary_history_admissibility} select the drainage, imbibition,
-and scanning path.  A neutral
-compositional implementation
-typically chooses one reference pressure and reconstructs the other phase
-pressures from these stored, electrical, and dynamic contributions before
-evaluating the Darcy fluxes.  The relation
-\(\bar p_f=\bar p_E+\gamma_f+\omega_f^+\) is recovered when the dynamic lag
-vanishes.  For two phases, the complete pressure difference is
-\eqref{eq:MC_two_phase_dynamic_capillary_pressure}; the neutral zero-lag limit
-is the usual algebraic capillary-pressure closure.  The pressure offsets combine
-with the Maxwell-stress and phase-volume electrical forces according to
-\eqref{eq:MC_fluid_pressure_gradient_rollup}.
+the phase Darcy flux multiplied by the component mass fraction; and the EOS or
+flash closure supplies densities, viscosities, equilibrium compositions, and
+the chemical-potential/composition tangent that converts the
+entropy-admissible \(D\nabla\mu\) flux into the usual Fickian
+composition-gradient form.  The reference-component balance follows from the
+summed mass balance, the \(N-1\) displayed balances, the zero-sum relative-flux
+condition, and mechanism mass conservation, so it is not an additional
+independent equation.
 
 The usual within-phase composition constraint is also recovered:
 %
@@ -321,14 +296,11 @@ electrochemical-potential equality for a charged component.  For a neutral
 component, or when the same specific charge is transferred between phases at
 the same electric potential, the electrical contribution cancels and this
 reduces to the chemical-potential, or fugacity-equality, condition used in
-isothermal flash calculations.  Away from phase equilibrium, only the
-within-phase differences are fixed to electrochemical-potential differences by
-\eqref{eq:MC_generalized_transfer_potential_difference}; the \(P-1\)
-phase-reference levels are recovered from
-\eqref{eq:MC_phase_reference_transfer_work_recovery}.  The single
-first-order equation \eqref{eq:MC_admissible_conversion_component} evolves the
-Bedford--Drumheller transfer potential \(\tau\) from its prescribed initial
-datum.
+isothermal flash calculations.  Away from phase equilibrium this
+identification fails: only the within-phase transfer-potential differences
+are fixed to electrochemical-potential differences, and the absolute levels
+are governed by the transfer-work structure of
+\sref{MC_component_supply_forces}.
 
 The traditional affinity remains the stoichiometric sum of the
 electrochemical potentials,
@@ -380,39 +352,6 @@ convention for phasewise mass-conserving chemistry without assigning a separate
 temperature to a cross-subsystem mechanism.  General phase-changing mechanisms
 retain the additional term shown in
 \eqref{eq:MC_generalized_conversion_affinity_relation}.
-
-The momentum equations contain the material-insertion contribution
-%
-	\begin{equation}
-		\sum_\alpha\sum_\xi\dot{c}_\xi^\alpha
-		\left(\nabla_{\mbf x}\tau-\mbf v_\xi\right).
-		\label{eq:conversion_momentum_interpretation}
-	\end{equation}
-%
-Here \(\dot{c}_\xi^\alpha\) is the full component material-addition rate;
-\eqref{eq:reference_conversion_accumulation_rate} separates conversion from
-transport relative to the phase.  Diffusion and dispersion are driven by the gauge-invariant
-nonisothermal combination of component-potential and electric forces and closed
-by the force equations
-\eqref{eq:MC_onsager_dispersion_stationarity} and
-\eqref{eq:MC_onsager_diffusion_stationarity}.  In a Darcy reduction, these
-contributions are incorporated into the phase-flux closure.
-
-The remaining multipliers enforce familiar constraints.  The multiplier
-\(\lambda\) fills the available volume with the represented phases,
-\(\Pi_\xi\) makes the mass fractions sum to one, and \(\pi_\xi^\alpha\)
-enforces the component storage relation.  The transfer multiplier \(\tau\) is
-the Bedford--Drumheller kinematic potential associated with accumulated
-material insertion.  The generalized coefficients
-\(\psi_\xi+L_\xi^\alpha+z_\xi^\alpha\varphi\) appear in the variational
-conversion power, whereas the traditional affinity is the stoichiometric sum
-of \(\mu_\xi^\alpha\).  Relative-transport closures use the
-gauge-invariant nonisothermal split of the component-potential difference and
-the electric field.  Conversion contributes to phase momentum through
-\(\nabla_{\mbf x}\tau\).  Diffusion and dispersion enter the same material
-measure, but their rates are closed by chemical and electric driving forces.
-Varying the phase Jacobian on phase-attached regions produces the
-material-insertion momentum term.
 
 \subsection{Black-oil limit}
 \label{sec:black_oil_limit}
@@ -577,9 +516,9 @@ With \(\mbf v_{\mc S}=\mbf0\), the reaction-free form of
 %
 \begin{subequations}
 	\label{eq:nernst_planck_darcy_limit}
-	\begin{align}
+	\begin{gather}
 		\phi_f\mbf v_f
-		&=
+		=
 		-\frac{\bs\kappa_f}{\mu_f^{\mathrm{visc}}}
 		\left[
 			\nabla_{\mbf x}\bar p_f
@@ -594,7 +533,7 @@ With \(\mbf v_{\mc S}=\mbf0\), the reaction-free form of
 		\label{eq:nernst_planck_darcy_velocity}
 		\\
 		\frac{\partial\rho_f^\alpha}{\partial t}
-		&+
+		+
 		\nabla_{\mbf x}\cdot
 		\left[
 			\rho_f^\alpha\mbf v_f
@@ -619,14 +558,14 @@ With \(\mbf v_{\mc S}=\mbf0\), the reaction-free form of
 		\left(
 			\phi_f\mbf d_f
 		\right)
-		&=
+		=
 		\sum_\alpha z_f^\alpha\rho_f^\alpha,
 		\qquad
 		\mbf E=-\nabla_{\mbf x}\varphi,
 		\qquad
 		f\in\mc F .
 		\label{eq:nernst_planck_darcy_gauss_law}
-	\end{align}
+	\end{gather}
 \end{subequations}
 %
 The second equation is the thermodynamic Nernst--Planck law: an ideal-dilute
@@ -680,7 +619,11 @@ to the reference specific-volume form,
 \end{equation}
 %
 the single-solid reduction of the intrinsic coefficient in
-\eqref{eq:MC_phase_biot_coefficient}.
+\eqref{eq:MC_phase_biot_coefficient}.  In this single-solid, single-fluid
+specialization, \eqref{eq:biot_limit_specific_volume_coefficient} is
+equivalent to the fixed-pressure nonlinear Biot coefficient that Foster and Xu
+derive directly for a binary solid--fluid mixture
+\cite{foster2025}.
 
 Under \(r_{(m)}=0\), the overall momentum balance
 \eqref{eq:MC_overall_momentum_nonlinear_biot} becomes
@@ -837,8 +780,7 @@ fluid bulk modulus, then
 For comparison with the classical Biot storage equation, we supplement the
 phase energy with a finite-deformation extension of the standard small-strain
 porosity tangent summarized by
-\cite{coussy2004poromechanics,detournay1993fundamentals}.  In this extension,
-\(B\) plays the role of the usual Biot coefficient \(\alpha\).  We also assume
+\cite{coussy2004poromechanics,detournay1993fundamentals}.  We also assume
 homogeneous solid grains, so the unjacketed moduli coincide and uniform
 unjacketed loading does not change porosity.  Using the same \(B\) in the stress and pore-volume
 tangents is an additional reciprocity and storage assumption.  Over a finite
@@ -915,12 +857,6 @@ The fluid--skeleton interaction closure gives, in the current configuration,
 	\label{eq:biot_limit_darcy_law}
 \end{equation}
 %
-Equations \eqref{eq:biot_limit_reference_momentum} and
-\eqref{eq:biot_limit_pressure_storage_balance} are the finite-deformation
-momentum and fluid-storage equations of the single-fluid Biot specialization.
-The pressure-driven Darcy law \eqref{eq:biot_limit_darcy_law} closes the
-relative fluid transport without an additional Helmholtz-gradient restriction.
-
 The familiar small-strain Biot equations follow by linearizing these
 solid-reference equations about \(\mbf F=\mbf I\) and \(J=1\), using a linear
 elastic law for \(\bs\sigma^{\prime\prime}\), and substituting the Darcy flux
@@ -973,3 +909,16 @@ storage relation
 B\,\partial_t(\nabla_{\mbf x}\cdot\mbf u)=0\).
 The classical Biot system is therefore the single-solid, single-fluid,
 no-conversion, linearized limit of the variational mixture model.
+
+Equations \eqref{eq:biot_limit_reference_momentum} and
+\eqref{eq:biot_limit_pressure_storage_balance} are the finite-deformation
+momentum and fluid-storage equations of the single-fluid Biot specialization,
+with the fluid-storage balance written in the neutral, no-capillary form of
+the reference relative mass flux \(\mbf W_f\) defined in
+\eqref{eq:reference_relative_mass_flux}.  Sun, Ostien, and Salinger present
+this pair of equations in final form in their stabilized
+assumed-deformation-gradient poromechanical formulation
+\cite{sun2013stabilized}; the linearized system
+\eqref{eq:linear_biot_limit} is the small-strain reduction of the same pair,
+in the classical consolidation form of Biot
+\cite{biot1941general,biotwillis1957}.
