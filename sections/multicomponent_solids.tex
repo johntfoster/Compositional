@@ -3935,6 +3935,18 @@ plastic deformation--distension laws may replace
 \eqref{eq:MC_generic_plastic_flow_rules}, but their combined conjugate power in
 \eqref{eq:MC_residual_dissipation} must remain nonnegative.
 
+Associated flow is understood with respect to the driving stress of each
+mechanism: the plastic rate is normal to the yield surface written in that
+driving stress.  The true-plastic rate is therefore associated with a yield
+surface in the deviatoric driving stress \(\mbf S_s\), while the distension
+rate is associated with a yield surface in the \(\mbf A_s^e\)-transformed
+intrinsic stress \((\mbf A_s^e)^T\bs\sigma_s'(\mbf A_s^e)^{-T}\).  Because the
+distension decomposition introduces a second, distinct driving stress, both
+mechanisms can be associated in their own stress spaces, and the apparent
+non-associativity of single-surface effective-stress models, which in
+frictional and dilatant materials is concentrated in the volumetric part of
+the flow, is absorbed into the separate distension yield surface.
+
 Classical rate-independent plasticity derives the associated flow rule from
 the yield function and maximum plastic dissipation \cite{hill1998mtp}, and
 frictional or dilatant geomaterials are usually assigned a separate plastic
@@ -3947,8 +3959,8 @@ between the conjugate driving stress and the balance stress
 \cite{houlsby2006principles,collins1997application}.  The criterion adopted
 here is the same: a coupled or non-associated plastic deformation--distension
 law is admissible when its combined conjugate power in
-\eqref{eq:MC_residual_dissipation} remains nonnegative, with \(\mbf S_s\) as
-the conjugate driving stress.
+\eqref{eq:MC_residual_dissipation} remains nonnegative, with the deviatoric
+and distension driving stresses as the conjugate pair.
 
 \subsubsection{Interphase mechanical interaction}
 \label{sec:MC_interphase_mechanical_interaction}
