@@ -54,6 +54,13 @@ INITIAL_TEMPERATURE = 333.15
 TEMPERATURE_TOLERANCE = 1.0e-8
 EXPECTED_END_TIME = 86400.0
 
+# Reduced (1 x 1 lateral) harness timeouts.  The DRSDT gate runs a lagged
+# active-set Picard outer loop whose transition steps perform up to
+# fixed_point_max_its inner Newton solves, so the reduced budget is higher
+# than the bare kinetic row's historical 300 s.
+REDUCED_TIMEOUT_SECONDS = 600
+FULL_TIMEOUT_SECONDS = 7200
+
 DOMAIN_LENGTH = 3048.0
 
 
@@ -97,42 +104,58 @@ def reduced_material_overrides() -> tuple[str, ...]:
         "Materials/inactive_well_sources/block=11 2 13",
     )
 
-ACTIVE_WELL_POSTPROCESSORS = (
-    "matrix_component_balance_l2 phase_volume_constraint_l2 "
-    "phase_transform_kinetic_residual_l2 minimum_phase_transform_dissipation "
-    "tau_evolution_residual_l2 phase_transform_affinity_identity_l2 "
-    "phase_transform_generalized_force_identity_l2 phase_transform_power_identity_l2 "
-    "matrix_momentum_x_scaled_weak_residual_linf "
-    "matrix_momentum_y_scaled_weak_residual_linf "
-    "matrix_momentum_z_scaled_weak_residual_linf "
-    "fluid_energy_scaled_weak_residual_linf solid_energy_scaled_weak_residual_linf "
-    "average_solid_reference_jacobian minimum_solid_reference_jacobian "
-    "matrix_component_storage_rate_integral average_oil_pressure "
-    "average_water_saturation average_gas_saturation minimum_gas_saturation "
-    "maximum_gas_saturation average_solution_gas_oil_ratio average_tau "
-    "average_reconstructed_tau average_phase_transform_dissolved_mu "
-    "average_phase_transform_free_mu average_phase_transform_affinity "
-    "average_phase_transform_generalized_force "
-    "average_gas_phase_transformation_rate average_fluid_temperature "
-    "average_solid_temperature water_storage_rate_integral "
-    "oil_storage_rate_integral gas_storage_rate_integral water_source_integral "
-    "oil_source_integral gas_source_integral water_global_balance "
-    "oil_global_balance gas_global_balance injector_gas_surface_rate "
-    "injector_cell_pressure producer_cell_pressure injector_water_surface_rate "
-    "injector_oil_surface_rate producer_oil_surface_rate "
-    "producer_water_surface_rate producer_gas_surface_rate field_gas_oil_ratio "
-    "injected_gas_surface_rate injected_gas_surface_volume "
-    "produced_oil_surface_volume produced_gas_surface_volume "
-    "produced_water_surface_volume injector_gas_surface_productivity "
-    "producer_oil_surface_productivity injector_bhp producer_bhp"
-)
-ACTIVE_WELL_OVERRIDES = (
-    "Variables/inactive=",
-    "Materials/inactive=",
-    "Materials/inactive_well_sources/block=1 2 3",
-    "ScalarKernels/active=injector_control producer_control",
-    f"Postprocessors/active={ACTIVE_WELL_POSTPROCESSORS}",
-)
+def active_well_postprocessors(drsdt_closure: bool) -> str:
+    """Active-wells postprocessor list for the selected phase-transfer closure."""
+    phase_closure = (
+        "phase_transform_solution_gas_constraint_l2"
+        if drsdt_closure
+        else "phase_transform_kinetic_residual_l2"
+    )
+    # The DRSDT=0 gate monitors the direct equilibrium phase-appearance residual
+    # (gas_appearance_equilibrium_residual_l2) directly; the bare solution-gas
+    # constraint residual is a non-gated monitor.  Both must be in the active
+    # list so the verifier's DRSDT gate column is written to the CSV.
+    gate_closure = " gas_appearance_equilibrium_residual_l2" if drsdt_closure else ""
+    return (
+        "matrix_component_balance_l2 phase_volume_constraint_l2 "
+        f"{phase_closure}{gate_closure} minimum_phase_transform_dissipation "
+        "tau_evolution_residual_l2 phase_transform_affinity_identity_l2 "
+        "phase_transform_generalized_force_identity_l2 phase_transform_power_identity_l2 "
+        "matrix_momentum_x_scaled_weak_residual_linf "
+        "matrix_momentum_y_scaled_weak_residual_linf "
+        "matrix_momentum_z_scaled_weak_residual_linf "
+        "fluid_energy_scaled_weak_residual_linf solid_energy_scaled_weak_residual_linf "
+        "average_solid_reference_jacobian minimum_solid_reference_jacobian "
+        "matrix_component_storage_rate_integral average_oil_pressure "
+        "average_water_saturation average_gas_saturation minimum_gas_saturation "
+        "maximum_gas_saturation average_solution_gas_oil_ratio average_tau "
+        "average_reconstructed_tau average_phase_transform_dissolved_mu "
+        "average_phase_transform_free_mu average_phase_transform_affinity "
+        "average_phase_transform_generalized_force "
+        "average_gas_phase_transformation_rate average_fluid_temperature "
+        "average_solid_temperature water_storage_rate_integral "
+        "oil_storage_rate_integral gas_storage_rate_integral water_source_integral "
+        "oil_source_integral gas_source_integral water_global_balance "
+        "oil_global_balance gas_global_balance injector_gas_surface_rate "
+        "injector_cell_pressure producer_cell_pressure injector_water_surface_rate "
+        "injector_oil_surface_rate producer_oil_surface_rate "
+        "producer_water_surface_rate producer_gas_surface_rate field_gas_oil_ratio "
+        "injected_gas_surface_rate injected_gas_surface_volume "
+        "produced_oil_surface_volume produced_gas_surface_volume "
+        "produced_water_surface_volume injector_gas_surface_productivity "
+        "producer_oil_surface_productivity injector_bhp producer_bhp "
+        "gas_active_set_mismatch_integral"
+    )
+def active_well_overrides(drsdt_closure: bool) -> tuple[str, ...]:
+    """Active-wells override tuple for the selected phase-transfer closure."""
+    return (
+        "Variables/inactive=",
+        "ICs/inactive=",
+        "Materials/inactive=",
+        "Materials/inactive_well_sources/block=1 2 3",
+        "ScalarKernels/active=injector_control producer_control",
+        f"Postprocessors/active={active_well_postprocessors(drsdt_closure)}",
+    )
 INJECTOR_TARGET_RATE = 32.774128
 PRODUCER_TARGET_OIL_RATE = 0.03680261456666667
 WELL_RATE_RELATIVE_TOLERANCE = 1.0e-4
@@ -244,6 +267,33 @@ def main() -> int:
         help="Override the nominal timestep without changing the production deck.",
     )
     parser.add_argument(
+        "--phase-transfer-mobility",
+        type=float,
+        help=(
+            "Override the oil--gas transfer mobility for a separately labeled "
+            "sensitivity diagnostic."
+        ),
+    )
+    parser.add_argument(
+        "--phase-transform-chemical-stiffness",
+        type=float,
+        help=(
+            "Override the synthetic phase-transform free-energy curvature for a "
+            "separately labeled sensitivity diagnostic."
+        ),
+    )
+    parser.add_argument(
+        "--drsdt-closure",
+        action="store_true",
+        help=(
+            "Select the rate-independent DRSDT=0 history closure for the "
+            "phase-transfer rate by deactivating the finite-rate kinetic row. "
+            "The gate then monitors the direct equilibrium phase-appearance "
+            "residual (gas_appearance_equilibrium_residual_l2) in place of the "
+            "kinetic residual."
+        ),
+    )
+    parser.add_argument(
         "--artifacts-dir",
         type=Path,
         help=(
@@ -258,8 +308,48 @@ def main() -> int:
         parser.error("--lateral-cells must be positive")
     if args.dt_seconds is not None and args.dt_seconds <= 0.0:
         parser.error("--dt-seconds must be positive")
+    if args.phase_transfer_mobility is not None and args.phase_transfer_mobility <= 0.0:
+        parser.error("--phase-transfer-mobility must be positive")
+    if (
+        args.phase_transform_chemical_stiffness is not None
+        and args.phase_transform_chemical_stiffness <= 0.0
+    ):
+        parser.error("--phase-transform-chemical-stiffness must be positive")
     lateral_cells = 1 if args.reduced else (args.lateral_cells or 10)
     mesh_variant = f"{lateral_cells}x{lateral_cells}x3_cells_{6 * lateral_cells**2 * 3}_tet10"
+    # The DRSDT=0 closure replaces the finite-rate kinetic row; the governing
+    # residual for the phase-transfer rate becomes the rate-independent direct
+    # equilibrium constraint A_(m) = 0 on the active phase set with the
+    # phase-transfer rate r_(m) as the multiplier returned by the component
+    # balance.  Active cells drive the DRSDT-capped stability gap to zero;
+    # inactive cells drive r itself to zero.  Swap the monitored postprocessor
+    # and its limit accordingly so the gate asserts the selected formulation.
+    # The bare solution-gas-constraint residual is intentionally NOT gated in
+    # DRSDT mode: it is nonzero on undersaturated branches (gap > 0), where the
+    # equilibrium constraint correctly holds r = 0.
+    phase_closure_postprocessor = (
+        "gas_appearance_equilibrium_residual_l2"
+        if args.drsdt_closure
+        else "phase_transform_kinetic_residual_l2"
+    )
+    phase_closure_limit = 1.0e-7
+    absolute_limits = dict(ABSOLUTE_LIMITS)
+    absolute_limits[phase_closure_postprocessor] = phase_closure_limit
+    absolute_limits.pop(
+        "phase_transform_solution_gas_constraint_l2"
+        if not args.drsdt_closure
+        else "phase_transform_kinetic_residual_l2",
+        None,
+    )
+    parameter_overrides = {
+        name: value
+        for name, value in {
+            "phase_transfer_mobility": args.phase_transfer_mobility,
+            "phase_transform_chemical_stiffness": args.phase_transform_chemical_stiffness,
+            "drsdt_closure": args.drsdt_closure,
+        }.items()
+        if value is not None and value is not False
+    }
     if not APP.exists():
         raise SystemExit(f"missing optimized executable: {APP}")
     if args.artifacts_dir:
@@ -289,6 +379,7 @@ def main() -> int:
                 "benchmark": "SPE1 Case 1",
                 "status": "running",
                 "provenance": provenance["before"],
+                "parameter_overrides": parameter_overrides,
             },
         )
         command = [
@@ -297,6 +388,60 @@ def main() -> int:
             str(DECK),
             f"Outputs/file_base={output_base}",
         ]
+        if args.drsdt_closure:
+            # The production deck defaults to the finite-rate kinetic row.
+            # Selecting the DRSDT=0 closure deactivates that row; the
+            # rate-independent direct equilibrium constraint A_(m) = 0 then
+            # governs the same element-local phase-transfer rate unknown.
+            command.append("Kernels/inactive=gas_phase_transformation_closure")
+            # Lagged active-set (Picard) closure, standard in reservoir
+            # simulation.  The [spe1_pvt] material freezes the phase-appearance
+            # branch at the previous fixed-point state (see
+            # active_set_flag_variable / active_set_flag_enrichment_variable in
+            # the deck), so the active set cannot flip inside the inner Newton
+            # solve and stall the Jacobian at the gas-front transition.  The
+            # FixedPointSolve outer loop below refreshes the flag between
+            # Picard iterations and converges when the active-set mismatch
+            # integral (gas_active_set_mismatch_integral) falls below
+            # custom_abs_tol.  disable_fixed_point_residual_norm_check skips
+            # the main-app residual-norm checks, which are meaningless without
+            # MultiApps.  Backtracking (bt) line search breaks the default
+            # RSLS/L2 period-2/4 residual cycle at the step-2 gas-front
+            # active-set transition.
+            command.append("Executioner/line_search=bt")
+            command.append("Executioner/fixed_point_algorithm=picard")
+            # Two outer solves refresh a stale flag once; three leaves one
+            # headroom iteration before a timestep cutback.
+            command.append("Executioner/fixed_point_max_its=3")
+            command.append("Executioner/disable_fixed_point_residual_norm_check=true")
+            command.append("Executioner/custom_pp=gas_active_set_mismatch_integral")
+            # With direct_pp_value=true the convergence object tests
+            # |mismatch - 0| < custom_abs_tol (the mismatch is a strict 0/1
+            # volume integral, so any remaining mismatched cell is O(cell
+            # volume) and cleanly exceeds 1e-6).  The difference-based default
+            # would instead compare against the previous timestep's mismatch,
+            # which never relaxes when a flag transition occurs.
+            command.append("Executioner/direct_pp_value=true")
+            command.append("Executioner/custom_abs_tol=1e-6")
+            # Keep the production deck's strict nl_abs_tol=1e-8 for the inner
+            # solve.  Relaxing it (e.g. to 1e-6) stops the coupled Newton
+            # before the gas component balance closes: a reduced run then
+            # violates gas_global_balance by ~1.3e3 kg/s while the lagged
+            # active-set gate still reads converged.  The DRSDT gate quantity
+            # (gas_appearance_equilibrium_residual_l2) is enforced separately
+            # by custom_abs_tol above.
+            # The injected gas splits between the dissolved (R_s) and free-gas
+            # rows according to the undersaturation gap in
+            # ADBlackOilPeacemanWellMaterial (see
+            # saturated_solution_gas_oil_ratio_name).  This partition keeps the
+            # injector's hard mass source from stalling the frozen-inactive
+            # free-gas rows of the first DRSDT solve and is scoped to this gate
+            # so the finite-rate kinetic acceptance path keeps its baseline
+            # behavior.
+            command.append(
+                "Materials/injector/saturated_solution_gas_oil_ratio_name="
+                "benchmark_black_oil_saturated_solution_gas_oil_ratio"
+            )
         # The first physical step from the initial condition must complete the
         # quadratic-Bernstein/saturation active-set transition, which
         # reproducibly needs ~41 Newton iterations regardless of dt.  The
@@ -314,12 +459,22 @@ def main() -> int:
         if lateral_cells == 1:
             command.extend(reduced_material_overrides())
         if args.active_wells:
-            command.extend(ACTIVE_WELL_OVERRIDES)
+            command.extend(active_well_overrides(args.drsdt_closure))
         if args.dt_seconds is not None:
             command.append(f"Executioner/dt={args.dt_seconds:.17g}")
             command.append(
                 "Executioner/num_steps="
                 f"{2 * math.ceil(EXPECTED_END_TIME / args.dt_seconds) + 4}"
+            )
+        if args.phase_transfer_mobility is not None:
+            command.append(
+                "Materials/spe1_phase_transfer/kinetic_mobilities="
+                f"{args.phase_transfer_mobility:.17g}"
+            )
+        if args.phase_transform_chemical_stiffness is not None:
+            command.append(
+                "Materials/spe1_phase_transform_mu/chemical_stiffness="
+                f"{args.phase_transform_chemical_stiffness:.17g}"
             )
         if lateral_cells == 1 and args.active_wells:
             command.append("Materials/inactive_well_sources/block=2")
@@ -341,7 +496,9 @@ def main() -> int:
                     start_new_session=True,
                 )
                 try:
-                    returncode = process.wait(timeout=300 if lateral_cells == 1 else 7200)
+                    returncode = process.wait(
+                        timeout=REDUCED_TIMEOUT_SECONDS if lateral_cells == 1 else FULL_TIMEOUT_SECONDS
+                    )
                 except (subprocess.TimeoutExpired, KeyboardInterrupt):
                     os.killpg(process.pid, signal.SIGTERM)
                     try:
@@ -360,8 +517,11 @@ def main() -> int:
                     "benchmark": "SPE1 Case 1",
                     "status": "fail",
                     "failure_kind": "solver_timeout",
-                    "timeout_seconds": 300 if lateral_cells == 1 else 7200,
+                    "timeout_seconds": (
+                        REDUCED_TIMEOUT_SECONDS if lateral_cells == 1 else FULL_TIMEOUT_SECONDS
+                    ),
                     "provenance": provenance,
+                    "parameter_overrides": parameter_overrides,
                 },
             )
             output = log_path.read_text(encoding="utf-8", errors="replace")
@@ -379,6 +539,7 @@ def main() -> int:
                     "status": "fail",
                     "failure_kind": "provenance_changed_during_run",
                     "provenance": provenance,
+                    "parameter_overrides": parameter_overrides,
                 },
             )
             raise SystemExit(
@@ -394,6 +555,7 @@ def main() -> int:
                     "failure_kind": "solver_nonzero_exit",
                     "returncode": returncode,
                     "provenance": provenance,
+                    "parameter_overrides": parameter_overrides,
                 },
             )
             output = log_path.read_text(encoding="utf-8", errors="replace")
@@ -414,7 +576,7 @@ def main() -> int:
     lowered_log = log_text.lower()
     solver_events = {
         "rejected_or_nonconverged_step_count": (
-            lowered_log.count("solve did not converge")
+            lowered_log.count("nonlinear solve did not converge")
             + lowered_log.count("rejecting time step")
             + lowered_log.count("solve failed, cutting timestep")
         ),
@@ -423,7 +585,7 @@ def main() -> int:
             re.search(r"(?<![a-z])nan(?![a-z])|\binfinite\b", lowered_log)
         ),
     }
-    required = tuple(ABSOLUTE_LIMITS) + (
+    required = tuple(absolute_limits) + (
         "time",
         "minimum_gas_saturation",
         "maximum_gas_saturation",
@@ -458,7 +620,7 @@ def main() -> int:
     for name in required:
         if not math.isfinite(final[name]):
             failures.append(f"{name} is not finite")
-    for name, limit in ABSOLUTE_LIMITS.items():
+    for name, limit in absolute_limits.items():
         if math.isfinite(final[name]) and abs(final[name]) > limit:
             failures.append(f"abs({name})={abs(final[name]):.6e} > {limit:.1e}")
     if abs(final["time"] - EXPECTED_END_TIME) > 1.0e-8:
@@ -527,7 +689,8 @@ def main() -> int:
                     "failures": failures,
                     "solver_events": solver_events,
                     "provenance": provenance["before"],
-                    "limits": ABSOLUTE_LIMITS,
+                    "parameter_overrides": parameter_overrides,
+                    "limits": absolute_limits,
                     "final": final,
                 },
             )
@@ -543,7 +706,8 @@ def main() -> int:
             "mpi_ranks": args.mpi_ranks,
             "status": "pass",
             "provenance": provenance["before"],
-            "limits": ABSOLUTE_LIMITS,
+            "parameter_overrides": parameter_overrides,
+            "limits": absolute_limits,
             "solver_events": solver_events,
             "final": final,
         }
@@ -553,9 +717,10 @@ def main() -> int:
         "spe1_q2_eg_phase_appearance"
         + f"_{lateral_cells}x{lateral_cells}x3"
         + ("_active_wells" if args.active_wells else "")
+        + ("_drsdt" if args.drsdt_closure else "")
         + ": "
         f"minimum_Sg={final['minimum_gas_saturation']:.6e}, "
-        f"kinetic_l2={final['phase_transform_kinetic_residual_l2']:.6e}, "
+        f"{phase_closure_postprocessor}={final[phase_closure_postprocessor]:.6e}, "
         f"minimum_dissipation={final['minimum_phase_transform_dissipation']:.6e}, "
         f"gas_balance={final['gas_global_balance']:.6e}, "
         f"Tf={final['average_fluid_temperature']:.6e}, "

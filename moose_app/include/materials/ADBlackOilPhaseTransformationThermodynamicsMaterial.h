@@ -40,6 +40,9 @@ protected:
   const Real _dissolved_specific_charge;
   const Real _free_specific_charge;
   const ADVariableValue * _electric_potential;
+  const ADMaterialProperty<Real> * _phase_active;
+  const Real _active_tol;
+  const bool _deactivate_on_nonpositive_mass;
 
   ADMaterialProperty<Real> & _normalized_gap;
   ADMaterialProperty<Real> & _attainable_dissolved_gas_mass_fraction;

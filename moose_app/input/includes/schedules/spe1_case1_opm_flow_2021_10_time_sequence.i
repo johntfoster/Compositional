@@ -3,7 +3,7 @@
 # intervals use OPM's accepted nonlinear step subdivision; subsequent report
 # intervals each use one official SPE1 TSTEP increment.
 [Executioner]
-  line_search := l2
+  line_search := bt
   end_time := 315360000
   # IterationAdaptiveDT takes verified substeps between the official report
   # boundaries.  The generous cap is a guard, not a requested step count.

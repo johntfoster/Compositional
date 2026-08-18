@@ -408,7 +408,7 @@ maps:
       - "moose_app/test/tests/black_oil_pvt/tests contract RunException cases"
 
   - id: spe_black_oil_benchmark_pvt
-    status: coupled_q2_cg_eg_phase_appearance_verification_in_progress
+    status: coupled_q2_cg_eg_drsdt_zero_history_repair_required
     source:
       theory_manuscript:
         labels:
@@ -457,18 +457,26 @@ maps:
       - "PVTO stores saturated branch data and flattened pressure-dependent undersaturated branches indexed by R_s"
       - "S_g is complementary to R_s^sat(p_o)-R_s when equilibrium solution-gas transfer is enabled"
       - "SPE1 Case 1 uses DRSDT=0 and the irreversible undersaturated history branch, which permits exsolution while preventing redissolution above the history cap"
+      - "DRSDT=0 supplies a black-oil upper bound on solution-gas-ratio increase; the finite-deformation specialization must separately declare the irreversible history state or nonsmooth dissipation potential that supplies the corresponding thermodynamic closure"
       - "the parent continuous closure for dissolved solution gas remains P1, while the independently bounded P2 Bernstein gas-saturation row and its P0 enrichment provide exact phase disappearance"
       - "the element-local P2 monomial transformation-rate row implements the local mu/tau kinetic closure without imposing artificial interelement continuity"
+      - "the retained coupled production fields violate the elementwise DRSDT=0 history audit because the PVT history residual is not a governing production row; any repair must preserve total-gas conservation, use compatible P1/P2/P0 spaces, and re-establish conversion momentum and energy evidence"
+      - "the isolated irreversible_solution_gas_history_1d regression validates the PVT history material only; it does not supply the coupled total-gas, free-gas phase, or production-space verification required for benchmark acceptance"
+      - "the reduced spe1_drsdt_zero_coupled_partition_1d regression supplies a square P1 dissolved-gas/free-gas/transfer-rate partition with a governing history row; its multiplier-like transfer-rate block requires coupled preconditioning and its conversion momentum, energy, dissipation, and P2/P0 extensions remain production-design work"
+      - "the production-space spe1_drsdt_zero_coupled_partition_eg_1d regression couples the governing history row to P1 dissolved gas and transfer rate and P2 Bernstein plus P0 free gas through the production reaction-network source interface; its nonzero partition rate at zero affinity identifies a constrained-equilibrium limit that requires an explicit irreversible history state or nonsmooth dissipation potential and an admissibility condition on the full tau-corrected conversion force before production momentum, energy, and dissipation evidence can be claimed"
       - "the production benchmark uses only the Q2/CG-EG residual path; the official-grid fixed-skeleton FV runs are separately labeled numerical diagnostics and provide no production acceptance evidence"
       - "the compatible Q2/EG mapping of the official 300-cell grid remains part of the documented benchmark discretization"
       - "each SPE1 well has one completion cell; multi-completion pressure and rate aggregation remain required for later benchmarks"
     tests:
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_initial_pvt_1d.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/gas_appearance_complementarity_solve_1d.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_drsdt_zero_coupled_partition_1d.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_drsdt_zero_coupled_partition_eg_1d.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_transient_storage_rates_1d.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_transient_flux_well_1d.i"
       - "moose_app/examples/spe1_case1_q2_eg_transient.i"
       - "validation/scripts/check_spe1_q2_eg_phase_appearance.py"
+      - "validation/scripts/audit_spe1_solution_gas_history.py"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_schedule_10_year.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/tests"
 
@@ -552,7 +560,7 @@ maps:
       - "moose_app/test/tests/black_oil_capillary/tests invalid-coordinate RunException case"
 
   - id: generalized_saturation_force_phase_pressure_closure
-    status: absolute_identity_and_momentum_stitch_drafted_compiled_verification_pending
+    status: absolute_identity_and_momentum_stitch_compiled_and_runtime_verified
     source:
       theory_manuscript:
         labels:
@@ -605,7 +613,7 @@ maps:
       - "stored surface-energy, electrical-enthalpy, and generalized-force terms remain separate selectable inputs"
       - "the saturation-weighted generalized-force gauge cancels from phase-pressure differences and from the equivalent-pressure identity"
       - "the scalar phase-momentum potential is p_f-omega_f^+=p_E+gamma_f+L_f^sat-sum_g S_g L_g^sat; electric enthalpy cancels from this gradient and anisotropic electrical momentum remains in the separate Maxwell-stress term"
-      - "the current source and test decks are statically validated but remain uncompiled after the guarded build request was rejected by the approval-service external-command limit"
+      - "the source family compiled into the optimized shared library at MOOSE commit abafb58b67a6037c6723ffeb19647c84484466da (AD size 128, patch series exact) and the drafted decks pass"
     tests:
       - "moose_app/test/tests/saturation_onsager_force/saturation_onsager_force_1d.i"
       - "moose_app/test/tests/saturation_onsager_force_gradient/saturation_onsager_force_gradient_1d.i"
@@ -613,9 +621,9 @@ maps:
       - "moose_app/test/tests/black_oil_capillary_force/phase_pressure_difference_all_terms_1d.i"
       - "moose_app/test/tests/saturation_onsager_force/tests nonsymmetric and indefinite matrix rejection cases"
       - "moose_app/test/tests/energy_atomic/capillary_history_onsager_1d.i"
-      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_1d.i (compiled verification pending)"
-      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_2d.i (compiled verification pending)"
-      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_3d.i (compiled verification pending)"
+      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_1d.i (compiled and runtime verified, 8/8 passing with AD Jacobian and four guards)"
+      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_2d.i (compiled and runtime verified, 8/8 passing with AD Jacobian and four guards)"
+      - "moose_app/test/tests/phase_thermodynamic_identities/phase_pressure_momentum_stitch_3d.i (compiled and runtime verified, 8/8 passing with AD Jacobian and four guards)"
       - "moose_app/input/templates/phase_thermodynamic_identities.i.template"
 
   - id: black_oil_three_phase_relative_permeability
@@ -794,10 +802,9 @@ maps:
           - "eq:MC_generic_plastic_distension_flow_rule"
           - "eq:MC_generic_plastic_deformation_mobility_nonnegative"
           - "eq:MC_generic_plastic_distension_mobility_nonnegative"
-          - "eq:MC_component_resolved_plastic_flow_rules"
-          - "eq:MC_component_true_plastic_flow_rule"
-          - "eq:MC_component_distension_plastic_flow_rule"
-          - "eq:MC_component_plastic_mobilities"
+          - "eq:MC_additive_plastic_flow_rules"
+          - "eq:MC_additive_plastic_deformation_flow_rule"
+          - "eq:MC_additive_plastic_distension_flow_rule"
           - "eq:MC_scalar_plastic_distension_power"
           - "eq:MC_scalar_plastic_distension_flow_rule"
         sections:
@@ -806,7 +813,7 @@ maps:
         labels: []
         sections:
           - "sections/scope.tex"
-    role: "associated true-plastic deformation plus tensor or scalar plastic-distension closures with component-resolved mobility sums"
+    role: "associated true-plastic deformation plus tensor or scalar plastic-distension closures with single phase-level mobilities"
     moose_plan:
       variables:
         - "row-major components of the phase true-plastic deformation tensor"
@@ -827,7 +834,7 @@ maps:
       boundary_conditions: []
     assumptions_to_record:
       - "the associated closure uses the exact mapped deviatoric driving stress defined by the manuscript"
-      - "component-resolved mobilities are optional nonnegative contributions summed into the common phase plastic rates"
+      - "a single phase-level mobility per solid phase carries the plastic rates; composition enters through the state set"
       - "true-plastic deformation is isochoric and scalar plastic distension carries the hydrostatic inelastic rate"
       - "the exact discrete isochoric option retains all tensor rate rows and uses a shared multiplier with det(Fbar_p)=1; uncoupled backward Euler is identified only as a rate-consistent option"
       - "generic tensor plastic distension uses A_e in its mapped force, while total A appears in the distinct true-plastic driving-stress map"
@@ -953,7 +960,6 @@ maps:
           - "eq:MC_generalized_transfer_potential_difference"
           - "eq:MC_transfer_work_reference_normalization"
           - "eq:MC_helmholtz_source_projection"
-          - "eq:onsager_affinity_constitutive_relation"
           - "eq:onsager_reaction_rate_variational"
           - "eq:MC_onsager_reaction_rate"
           - "eq:MC_transfer_work_component_difference"

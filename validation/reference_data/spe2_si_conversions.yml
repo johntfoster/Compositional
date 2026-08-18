@@ -1,0 +1,21 @@
+schema_version: 1
+benchmark: "SPE2 three-phase coning study"
+source_data: "validation/reference_data/spe2_primary_tables.yml"
+conversion_constants:
+  foot_to_metre: 0.3048
+  psi_to_pascal: 6894.757293168
+  millidarcy_to_square_metre: 9.869233e-16
+  pound_mass_per_cubic_foot_to_kg_per_cubic_metre: 16.01846337396014
+  centipoise_to_pascal_second: 0.001
+  stock_tank_barrel_to_cubic_metre: 0.158987294928
+  day_to_second: 86400.0
+  scf_per_stb_to_dimensionless_volume_ratio: 0.17810760667903525
+  rb_per_mscf_to_dimensionless_volume_ratio: 0.005614583333333333
+relations:
+  gas_fvf: "B_g[m3/sm3] = B_g[RB/Mscf] * 5.614583333333333 / 1000"
+  gas_density: "rho_g = rho_g_surface / B_g"
+  saturated_oil_density: "rho_o = (rho_o_surface + rho_g_surface * R_s) / B_o"
+  water_density: "rho_w = rho_w_surface / B_w"
+  undersaturated_oil_fvf: "B_o(p,R_s) = B_o(p_b,R_s) exp[-c_o (p-p_b)]"
+  radial_volume: "V = pi (r_outer^2-r_inner^2) h"
+verification_script: "validation/scripts/check_spe2_primary_tables.py"

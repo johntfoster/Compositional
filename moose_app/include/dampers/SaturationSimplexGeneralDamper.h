@@ -3,8 +3,10 @@
 #include "GeneralDamper.h"
 
 /**
- * Limit Newton updates so the sum of two reconstructed CG/EG saturations
- * remains below its upper bound at the element quadrature points.
+ * Limit Newton updates so two reconstructed CG/EG saturations remain
+ * nonnegative and their sum remains below its upper bound.  Matching
+ * Bernstein coefficients make these coefficientwise conditions sufficient
+ * throughout each element.
  */
 class SaturationSimplexGeneralDamper : public GeneralDamper
 {

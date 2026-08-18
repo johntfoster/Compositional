@@ -10,7 +10,8 @@ ADAssociatedPlasticFlowMaterial::validParams()
   InputParameters params = Material::validParams();
   params.addClassDescription(
       "Implements the manuscript mapped deviatoric driving stress, associated true-plastic "
-      "flow, scalar plastic-distension flow, component-mobility sums, and dissipation audits.");
+      "flow, scalar plastic-distension flow, single phase-level mobilities, and dissipation "
+      "audits.");
   params.addRequiredParam<MaterialPropertyName>("material_stress_name",
                                                  "Material stress sigma-prime.");
   params.addRequiredParam<MaterialPropertyName>("elastic_true_deformation_name",
@@ -22,19 +23,21 @@ ADAssociatedPlasticFlowMaterial::validParams()
   params.addRangeCheckedParam<Real>("plastic_deformation_mobility",
                                     0.0,
                                     "plastic_deformation_mobility>=0",
-                                    "Constant Lambda_Fbar; replaced by component properties.");
+                                    "Constant phase Lambda_Fbar; a state-dependent single "
+                                    "phase mobility property may replace it.");
   params.addRangeCheckedParam<Real>("plastic_distension_mobility",
                                     0.0,
                                     "plastic_distension_mobility>=0",
-                                    "Constant Lambda_A; replaced by component properties.");
-  params.addParam<std::vector<MaterialPropertyName>>(
-      "plastic_deformation_mobility_names",
-      {},
-      "Optional nonnegative component-resolved Lambda_Fbar properties that are summed.");
-  params.addParam<std::vector<MaterialPropertyName>>(
-      "plastic_distension_mobility_names",
-      {},
-      "Optional nonnegative component-resolved Lambda_A properties that are summed.");
+                                    "Constant phase Lambda_A; a state-dependent single "
+                                    "phase mobility property may replace it.");
+  params.addParam<MaterialPropertyName>(
+      "plastic_deformation_mobility_property",
+      "",
+      "Optional state-dependent single phase Lambda_Fbar that replaces the constant.");
+  params.addParam<MaterialPropertyName>(
+      "plastic_distension_mobility_property",
+      "",
+      "Optional state-dependent single phase Lambda_A that replaces the constant.");
   params.addParam<MaterialPropertyName>("driving_stress_name",
                                         "true_plastic_driving_stress",
                                         "Mapped deviatoric S_s output.");
@@ -77,6 +80,16 @@ ADAssociatedPlasticFlowMaterial::ADAssociatedPlasticFlowMaterial(
         getADMaterialProperty<RankTwoTensor>("elastic_distension_tensor_name")),
     _plastic_deformation_mobility(getParam<Real>("plastic_deformation_mobility")),
     _plastic_distension_mobility(getParam<Real>("plastic_distension_mobility")),
+    _plastic_deformation_mobility_property(
+        getParam<MaterialPropertyName>("plastic_deformation_mobility_property").empty()
+            ? nullptr
+            : &getADMaterialProperty<Real>(
+                  getParam<MaterialPropertyName>("plastic_deformation_mobility_property"))),
+    _plastic_distension_mobility_property(
+        getParam<MaterialPropertyName>("plastic_distension_mobility_property").empty()
+            ? nullptr
+            : &getADMaterialProperty<Real>(
+                  getParam<MaterialPropertyName>("plastic_distension_mobility_property"))),
     _driving_stress(
         declareADProperty<RankTwoTensor>(getParam<MaterialPropertyName>("driving_stress_name"))),
     _plastic_deformation_log_rate(declareADProperty<RankTwoTensor>(
@@ -96,47 +109,34 @@ ADAssociatedPlasticFlowMaterial::ADAssociatedPlasticFlowMaterial(
     _driving_stress_trace(
         declareADProperty<Real>(getParam<MaterialPropertyName>("driving_stress_trace_name")))
 {
-  const auto deformation_names =
-      getParam<std::vector<MaterialPropertyName>>("plastic_deformation_mobility_names");
-  const auto distension_names =
-      getParam<std::vector<MaterialPropertyName>>("plastic_distension_mobility_names");
-  if (!deformation_names.empty() && isParamSetByUser("plastic_deformation_mobility"))
-    paramError("plastic_deformation_mobility_names",
-               "Choose a constant phase mobility or component mobility properties.");
-  if (!distension_names.empty() && isParamSetByUser("plastic_distension_mobility"))
-    paramError("plastic_distension_mobility_names",
-               "Choose a constant phase mobility or component mobility properties.");
-  for (const auto & name : deformation_names)
-    _plastic_deformation_mobilities.push_back(&getADMaterialProperty<Real>(name));
-  for (const auto & name : distension_names)
-    _plastic_distension_mobilities.push_back(&getADMaterialProperty<Real>(name));
+  if (_plastic_deformation_mobility_property && isParamSetByUser("plastic_deformation_mobility"))
+    paramError("plastic_deformation_mobility_property",
+               "Provide a phase mobility as a constant or as a single property, not both.");
+  if (_plastic_distension_mobility_property && isParamSetByUser("plastic_distension_mobility"))
+    paramError("plastic_distension_mobility_property",
+               "Provide a phase mobility as a constant or as a single property, not both.");
 }
 
 ADReal
 ADAssociatedPlasticFlowMaterial::mobility(
-    const std::vector<const ADMaterialProperty<Real> *> & properties,
+    const ADMaterialProperty<Real> * property,
     const Real constant,
     const char * label) const
 {
-  if (properties.empty())
+  if (!property)
     return constant;
-  ADReal sum = 0.0;
-  for (const auto * property : properties)
-  {
-    if (MetaPhysicL::raw_value((*property)[_qp]) < 0.0)
-      mooseError(name(), ": ", label, " component mobility must remain nonnegative.");
-    sum += (*property)[_qp];
-  }
-  return sum;
+  if (MetaPhysicL::raw_value((*property)[_qp]) < 0.0)
+    mooseError(name(), ": ", label, " phase mobility must remain nonnegative.");
+  return (*property)[_qp];
 }
 
 void
 ADAssociatedPlasticFlowMaterial::computeQpProperties()
 {
-  const ADReal lambda_f = mobility(_plastic_deformation_mobilities,
+  const ADReal lambda_f = mobility(_plastic_deformation_mobility_property,
                                    _plastic_deformation_mobility,
                                    "plastic-deformation");
-  const ADReal lambda_a = mobility(_plastic_distension_mobilities,
+  const ADReal lambda_a = mobility(_plastic_distension_mobility_property,
                                    _plastic_distension_mobility,
                                    "plastic-distension");
   const ADRankTwoTensor identity(ADRankTwoTensor::initIdentity);

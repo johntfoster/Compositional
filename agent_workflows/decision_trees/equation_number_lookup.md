@@ -25,7 +25,7 @@ number, including bare numbers in manuscript context.
 The existing resolver can be used from the repository root:
 
 ```bash
-python3 /home/john/.codex/skills/takeme/scripts/takeme_resolve.py --repo . --target "<number>"
+python3 agent_environment/skills/takeme/scripts/takeme_resolve.py --repo . --target "<number>"
 ```
 
 ## Failure Modes

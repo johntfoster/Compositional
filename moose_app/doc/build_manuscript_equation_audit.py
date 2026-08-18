@@ -49,11 +49,6 @@ RUNTIME_LABELS = {
     "eq:solid_reference_fluid_component_balance",
     "eq:solid_reference_solid_component_balance",
     "eq:solid_reference_overall_momentum",
-    "eq:reservoir_simulation_overall_momentum_summary",
-    "eq:reservoir_simulation_fluid_component_summary",
-    "eq:reservoir_simulation_velocity_flux_summary",
-    "eq:reservoir_simulation_reference_flux_summary",
-    "eq:reservoir_simulation_capillary_summary",
 }
 
 CONSTITUTIVE_LABELS = {
@@ -69,7 +64,6 @@ CONSTITUTIVE_LABELS = {
     "eq:Pi_componentwise",
     "eq:pi_difference_system",
     "eq:el_conversion_component",
-    "eq:onsager_affinity_constitutive_relation",
     "eq:onsager_reaction_rate_variational",
     "eq:onsager_dispersion_mobility_balance",
     "eq:onsager_diffusion_mobility_balance",
@@ -139,11 +133,6 @@ EQUIVALENT_LABELS = {
     "eq:neutral_conversion_free_fluid_momentum_balance": "eq:el_mom_f_simplified",
     "eq:gauss_law": "eq:MC_electrostatic_power_identity",
     "eq:MC_solid_phase_momentum_biot": "eq:MC_overall_momentum_nonlinear_biot",
-    "eq:reservoir_simulation_overall_momentum_summary": "eq:MC_overall_momentum_nonlinear_biot",
-    "eq:reservoir_simulation_fluid_component_summary": "eq:solid_reference_fluid_component_balance",
-    "eq:reservoir_simulation_velocity_flux_summary": "eq:generalized_fluid_darcy_mass_flux",
-    "eq:reservoir_simulation_reference_flux_summary": "eq:reference_relative_mass_flux",
-    "eq:reservoir_simulation_capillary_summary": "eq:el_mom_f_dynamic_capillary",
 }
 
 DERIVED_RUNTIME_CONSTRAINTS = {
@@ -293,8 +282,6 @@ def classification(record: dict[str, Any]) -> tuple[str, str]:
         "kinetic_energy_variation_before_time_integration",
         "component_thermodynamic_rate_reduction",
         "collected_full",
-        "hamilton_dispersion_force_balance",
-        "hamilton_diffusion_force_balance",
         "MC_fluid_phase_following_free_energy_chain_rule",
     }:
         return "derivation_only", "derivation intermediate"

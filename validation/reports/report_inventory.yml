@@ -1,0 +1,101 @@
+schema_version: 1
+acceptance_rule: >-
+  A benchmark is not verified until its report documents active/inactive
+  physics, exact deck and artifacts, quantitative gates, convergence, and
+  like-for-like reference plots over the required official horizon.
+report_contract:
+  version: 2
+  required_headings:
+    - "Verdict"
+    - "Active and inactive physics"
+    - "Deck provenance and CG/EG spaces"
+    - "Reproduction commands and artifacts"
+    - "Quantitative gates"
+    - "Convergence, robustness, and performance"
+    - "Official reference comparison"
+    - "Plots and source-data provenance"
+    - "Remaining blockers"
+  evidence_states: [run_evidence, candidate_evidence, none, deferred]
+  status_markers_by_evidence:
+    run_evidence:
+      deck_status: preserved
+      command_status: preserved
+      source_data_status: present
+    candidate_evidence:
+      deck_status: candidate_only
+      command_status: candidate-static-only
+      source_data_status: missing
+    none:
+      deck_status: missing
+      command_status: missing
+      source_data_status: missing
+    deferred:
+      deck_status: deferred
+      command_status: deferred
+      source_data_status: deferred
+  rules:
+    - "Every required section must contain benchmark-specific content."
+    - "Only run_evidence reports may link generated local plots."
+    - "A planned command, gate, comparison, or plot must be labeled missing or pending."
+    - "SPE6 remains deferred and may not be counted as a failed or passing run."
+reports:
+  - benchmark_id: spe1
+    path: validation/reports/spe1_case1.md
+    status: verified_one_day_full_mesh_all_nonequilibrium_mass_momentum_energy_gates_spatial_timestep_saturation_order_convergence_official_long_schedule_pending_drsdt_reduced_acceptance_blocked_on_reworked_deck
+    evidence_state: run_evidence
+    official_horizon_status: pending
+  - benchmark_id: spe2
+    path: validation/reports/spe2.md
+    status: pending
+    evidence_state: candidate_evidence
+    official_horizon_status: pending
+  - benchmark_id: spe3
+    path: validation/reports/spe3.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending
+  - benchmark_id: spe4
+    path: validation/reports/spe4.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending
+  - benchmark_id: spe5
+    path: validation/reports/spe5.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending
+  - benchmark_id: spe6
+    path: validation/reports/spe6.md
+    status: deferred_by_user_fracture_dual_porosity_scope
+    evidence_state: deferred
+    official_horizon_status: deferred
+  - benchmark_id: spe7
+    path: validation/reports/spe7.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending
+  - benchmark_id: spe8
+    path: validation/reports/spe8.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending
+  - benchmark_id: spe9
+    path: validation/reports/spe9.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending
+  - benchmark_id: spe10_model1
+    path: validation/reports/spe10_model1.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending
+  - benchmark_id: spe10_model2
+    path: validation/reports/spe10_model2.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending
+  - benchmark_id: spe11
+    path: validation/reports/spe11.md
+    status: pending
+    evidence_state: none
+    official_horizon_status: pending

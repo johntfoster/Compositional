@@ -12,7 +12,7 @@ public:
 protected:
   void computeQpProperties() override;
 
-  ADReal mobility(const std::vector<const ADMaterialProperty<Real> *> & properties,
+  ADReal mobility(const ADMaterialProperty<Real> * property,
                   Real constant,
                   const char * label) const;
 
@@ -22,8 +22,8 @@ protected:
   const ADMaterialProperty<RankTwoTensor> & _elastic_distension_tensor;
   const Real _plastic_deformation_mobility;
   const Real _plastic_distension_mobility;
-  std::vector<const ADMaterialProperty<Real> *> _plastic_deformation_mobilities;
-  std::vector<const ADMaterialProperty<Real> *> _plastic_distension_mobilities;
+  const ADMaterialProperty<Real> * _plastic_deformation_mobility_property;
+  const ADMaterialProperty<Real> * _plastic_distension_mobility_property;
   ADMaterialProperty<RankTwoTensor> & _driving_stress;
   ADMaterialProperty<RankTwoTensor> & _plastic_deformation_log_rate;
   ADMaterialProperty<RankTwoTensor> & _plastic_distension_log_rate;

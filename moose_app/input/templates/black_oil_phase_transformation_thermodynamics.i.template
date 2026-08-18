@@ -25,6 +25,9 @@
     electric_potential = @OPTIONAL_ELECTRIC_POTENTIAL@
     dissolved_specific_charge = @DISSOLVED_SPECIFIC_CHARGE@
     free_specific_charge = @FREE_SPECIFIC_CHARGE@
+    phase_active_name = @OPTIONAL_PHASE_ACTIVE_NAME@
+    active_tol = @ACTIVE_TOL@
+    deactivate_on_nonpositive_mass = @DEACTIVATE_ON_NONPOSITIVE_MASS@
     property_prefix = @MECHANISM@
   []
 []

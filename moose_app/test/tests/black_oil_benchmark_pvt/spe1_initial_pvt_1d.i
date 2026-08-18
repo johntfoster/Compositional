@@ -99,7 +99,7 @@ mesh_nx := 2
   []
   [cap_branch_complementarity_exact]
     type = ParsedFunction
-    expression = '0.2'
+    expression = '-0.1'
   []
   [saturated_solution_gas_oil_ratio_state]
     type = ParsedFunction

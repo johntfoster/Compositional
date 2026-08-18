@@ -2,14 +2,14 @@
   design = 'sections/multicomponent_solids.tex'
   issues = ''
 
-  [constitutive_component_mobility_sum]
+  [constitutive_phase_mobility]
     type = CSVDiff
     input = associated_plastic_flow_constitutive_1d.i
     cli_args = 'Outputs/file_base=associated_plastic_flow_constitutive_1d'
     csvdiff = associated_plastic_flow_constitutive_1d.csv
     abs_zero = 1e-12
     rel_err = 1e-11
-    requirement = 'The application shall implement the manuscript mapped deviatoric driving stress, component-resolved mobility sums, associated true-plastic and scalar plastic-distension rates, isochoric trace, and nonnegative dissipation identities.'
+    requirement = 'The application shall implement the manuscript mapped deviatoric driving stress, single phase-level mobility, associated true-plastic and scalar plastic-distension rates, isochoric trace, and nonnegative dissipation identities.'
   []
 
   [coupled_evolution]
@@ -29,7 +29,7 @@
     csvdiff = associated_plastic_flow_tensor_evolution_3d.csv
     abs_zero = 1e-11
     rel_err = 1e-10
-    requirement = 'A solved three-dimensional system shall retain composition-dependent AD mobility sums, evolve the generic tensor plastic-distension law, and enforce det(Fbar_p)=1 with a shared multiplier while retaining all nine constrained component-rate rows.'
+    requirement = 'A solved three-dimensional system shall retain a composition-dependent AD phase mobility, evolve the generic tensor plastic-distension law, and enforce det(Fbar_p)=1 with a shared multiplier while retaining all nine constrained component-rate rows.'
   []
 
   [tensor_distension_and_exact_isochoric_constraint_3d_jacobian]
@@ -37,7 +37,7 @@
     input = associated_plastic_flow_tensor_evolution_3d.i
     ratio_tol = 1e-7
     difference_tol = 1e-6
-    requirement = 'The solved tensor plastic-deformation/distension system and exact determinant constraint shall retain AD derivatives through state-dependent component mobilities.'
+    requirement = 'The solved tensor plastic-deformation/distension system and exact determinant constraint shall retain AD derivatives through a state-dependent phase mobility.'
   []
 
   [plastic_distension_action_modes_1d]
@@ -65,7 +65,7 @@
     csvdiff = associated_plastic_flow_kinematic_hierarchy_mms_2d.csv
     abs_zero = 1e-10
     rel_err = 1e-10
-    requirement = 'A genuinely tensorial QUAD9/Q2 two-dimensional hierarchy shall reconstruct total, plastic, and elastic distension/true-deformation maps, use state-dependent component mobility in the associated flow law, evolve all tensor plastic variables through independently selectable residuals, enforce det(Fbar_p)=1, and audit nonnegative dissipation.'
+    requirement = 'A genuinely tensorial QUAD9/Q2 two-dimensional hierarchy shall reconstruct total, plastic, and elastic distension/true-deformation maps, use a state-dependent phase mobility in the associated flow law, evolve all tensor plastic variables through independently selectable residuals, enforce det(Fbar_p)=1, and audit nonnegative dissipation.'
   []
 
   [plastic_kinematic_hierarchy_jacobian_2d]
@@ -74,15 +74,15 @@
     cli_args = 'Outputs/file_base=associated_plastic_flow_kinematic_hierarchy_jacobian_2d'
     ratio_tol = 2e-6
     difference_tol = 1e-5
-    requirement = 'The complete 2D plastic kinematic/constitutive hierarchy shall retain AD derivatives through displacement kinematics, tensor inverses, component mobility, all plastic evolution rows, and the determinant constraint.'
+    requirement = 'The complete 2D plastic kinematic/constitutive hierarchy shall retain AD derivatives through displacement kinematics, tensor inverses, phase mobility, all plastic evolution rows, and the determinant constraint.'
   []
 
-  [negative_component_mobility_rejected]
+  [negative_phase_mobility_rejected]
     type = RunException
     input = associated_plastic_flow_constitutive_1d.i
-    cli_args = "Materials/component_mobilities/prop_values='-0.05 0.15 0.1 0.2'"
-    expect_err = 'plastic-deformation component mobility must remain nonnegative'
-    requirement = 'The component-resolved plastic-flow specialization shall reject negative constituent mobilities.'
+    cli_args = "Materials/mobilities/prop_values='-0.05 0.3'"
+    expect_err = 'plastic-deformation phase mobility must remain nonnegative'
+    requirement = 'The associated plastic-flow material shall reject a negative state-dependent phase mobility.'
   []
 
   [nonpositive_tensor_distension_rejected]

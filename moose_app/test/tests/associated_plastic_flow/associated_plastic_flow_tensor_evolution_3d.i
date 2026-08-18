@@ -142,27 +142,17 @@
 []
 
 [Materials]
-  [lambda_F_0]
+  [lambda_F]
     type = ADParsedMaterial
-    property_name = lambda_F_0
+    property_name = lambda_F
     coupled_variables = c
-    expression = '0.05+0.1*c'
+    expression = '0.075+0.1*c'
   []
-  [lambda_F_1]
-    type = ADGenericConstantMaterial
-    prop_names = lambda_F_1
-    prop_values = 0.025
-  []
-  [lambda_A_0]
+  [lambda_A]
     type = ADParsedMaterial
-    property_name = lambda_A_0
+    property_name = lambda_A
     coupled_variables = c
-    expression = '0.02+0.02*c'
-  []
-  [lambda_A_1]
-    type = ADGenericConstantMaterial
-    prop_names = lambda_A_1
-    prop_values = 0.075
+    expression = '0.095+0.02*c'
   []
   [material_stress]
     type = ADGenericConstantRankTwoTensor
@@ -190,8 +180,8 @@
     elastic_true_deformation_name = Fbar_e
     distension_tensor_name = A
     elastic_distension_tensor_name = A_e
-    plastic_deformation_mobility_names = 'lambda_F_0 lambda_F_1'
-    plastic_distension_mobility_names = 'lambda_A_0 lambda_A_1'
+    plastic_deformation_mobility_property = lambda_F
+    plastic_distension_mobility_property = lambda_A
   []
   [c_residual]
     type = ADParsedMaterial

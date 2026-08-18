@@ -302,8 +302,8 @@
     elastic_true_deformation_name = Fbar_e
     distension_tensor_name = A
     elastic_distension_tensor_name = A_e
-    plastic_deformation_mobility_names = lambda_F
-    plastic_distension_mobility_names = lambda_A
+    plastic_deformation_mobility_property = lambda_F
+    plastic_distension_mobility_property = lambda_A
   []
   [Fp_determinant]
     type = ADParsedMaterial

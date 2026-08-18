@@ -5,19 +5,19 @@
   [phase_pressure_momentum_stitch_1d]
     type = RunApp
     input = phase_pressure_momentum_stitch_1d.i
-    requirement = 'A one-dimensional material and momentum-stitch fixture shall enforce the absolute saturation-force gauge, volume-fraction Euler-Lagrange identities, actual phase-pressure reconstruction, force-rate closure, equivalent-pressure identity, and nonnegative saturation entropy production. This fixture is not a solved Q2/EG acceptance test.'
+    requirement = 'A one-dimensional material and momentum-stitch fixture shall enforce the absolute saturation-force gauge, volume-fraction Euler-Lagrange identities, actual phase-pressure reconstruction, force-rate closure, equivalent-pressure identity, and nonnegative saturation entropy production, and shall converge a solved phase-velocity field against the analytic reference. This fixture is a solved material/momentum stitch, not a full coupled production acceptance test.'
   []
 
   [phase_pressure_momentum_stitch_2d]
     type = RunApp
     input = phase_pressure_momentum_stitch_2d.i
-    requirement = 'A two-dimensional material and momentum-stitch fixture shall exercise the full product-rule gradient and single phase-momentum insertion. This fixture is not a solved Q2/EG acceptance test.'
+    requirement = 'A two-dimensional material and momentum-stitch fixture shall exercise the full product-rule gradient and single phase-momentum insertion and shall converge a solved phase-velocity field against the analytic reference. This fixture is a solved material/momentum stitch, not a full coupled production acceptance test.'
   []
 
   [phase_pressure_momentum_stitch_3d]
     type = RunApp
     input = phase_pressure_momentum_stitch_3d.i
-    requirement = 'A three-dimensional material and momentum-stitch fixture shall exercise the full product-rule gradient and single phase-momentum insertion in every component. This fixture is not a solved Q2/EG acceptance test.'
+    requirement = 'A three-dimensional material and momentum-stitch fixture shall exercise the full product-rule gradient and single phase-momentum insertion in every component and shall converge a solved phase-velocity field against the analytic reference. This fixture is a solved material/momentum stitch, not a full coupled production acceptance test.'
   []
 
   [phase_pressure_momentum_stitch_jacobian]

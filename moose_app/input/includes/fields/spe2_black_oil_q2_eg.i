@@ -65,9 +65,14 @@
   []
   [gas_phase_transformation_rate]
     # The mu/tau kinetic closure is local and has no rate-gradient term.
+    # The closure residual is satisfied to O(1e-12) at the physical solution;
+    # an O(1e8) row scaling inflates that satisfied residual above the
+    # nl_abs_tol convergence gate and forces the Newton solve to grind to
+    # max_its.  Keep the row unscaled so the closure residual is measured in
+    # its physical units (same fix as spe1_case1_q2_eg_transient.i).
     family = MONOMIAL
     order = SECOND
-    scaling = 1e8
+    scaling = 1
   []
   [fluid_temperature]
     family = LAGRANGE

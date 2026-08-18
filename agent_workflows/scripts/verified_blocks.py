@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CATALOG = ROOT / "moose_app/input/fragment_catalog.yml"
 DEFAULT_REGISTRY = ROOT / "moose_app/input/verified_block_registry.yml"
 DEFAULT_SCHEMA = ROOT / "agent_workflows/schemas/problem_spec.schema.json"
-LOCKED_ROOT_RELATIVE = Path(".codex/verified-input-blocks")
+LOCKED_ROOT_RELATIVE = Path("agent_environment/verified-input-blocks")
 DEFAULT_LOCKED_ROOT = ROOT / LOCKED_ROOT_RELATIVE
 
 OBJECT_SECTIONS = {

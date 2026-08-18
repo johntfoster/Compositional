@@ -1,0 +1,1731 @@
+# Machine-readable manufactured-solution inventory for the MOOSE implementation.
+# This file records executable evidence and acceptance gaps; generated outputs
+# remain in moose_app/test/tests/**/gold or outside the repository.
+
+schema_version: 1
+last_reviewed: "2026-08-04"
+dimension_policy:
+  one_dimensional: "Required for scalar, vector-component, and balance residual paths."
+  two_dimensional: "Required when Grad/Div, tensor pull-backs, phase-history kinematics, transport forces, or mechanics are dimensionally applicable."
+  three_dimensional: "Required when the governing equation and MOOSE object support three active spatial components."
+  material_only: "Material-only algebraic checks may be dimension-independent, but 1D/2D/3D decks are still required when the material consumes solid-reference kinematics."
+  affine_patch_limit: "Affine patch tests are accepted only for constant-gradient mechanics and kinematics checks; nonlinear coupled mechanics MMS requires non-affine fields and analytic forcing."
+
+global_acceptance_status: "verified"
+global_acceptance_blockers: []
+global_verification_evidence:
+  command: "tools/run_moose_tests -j2 --no-color --re 'black_oil_pvt|black_oil_well|registered_phase_flash|eg_hierarchy'"
+  result: "45 passed, 0 skipped, 0 failed: black_oil_pvt 11, black_oil_well 14, registered_phase_flash 13, eg_hierarchy 7"
+
+hierarchy_migration_evidence:
+  - group: "eg_hierarchy"
+    status: "verified"
+    focused_result: "7 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re eg_hierarchy"
+    q2_eg_compliance: "the nontrivial 1D and 2D poromechanics MMS cases solve EDGE3/QUAD9 Q2 displacement and P1+P0 EG pressure with mutual AD coupling through P = P_double_prime - B p_E J F_inverse_transpose and the direct summed Eq. (32) storage rate; the 1D/2D/3D hierarchy and convergence leaves retain the established Q2/EG spaces."
+  - group: "reaction_tau"
+    status: "verified"
+    focused_result: "12 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re reaction_tau"
+    q2_eg_compliance: "the drained, undrained, and moving-front 1D reaction cells use EDGE3/Q2 displacement and reconstructed P1+P0 EG pressure. The quantitative 2D and 3D reaction/source leaves use QUAD9 and active-policy TET10 Q2 prescribed solid displacement, respectively, with reconstructed P1+P0 EG pressure and nonzero Darcy reference-component flux in every active spatial direction. The moving-front leaf couples total stress, the direct summed Eq. (32) storage rate, J-weighted reaction-network production, and a nonzero Darcy reference-component flux for a translating composition/reaction profile. Tau evolution/material-derivative decks use P1+P0 EG tau with tau_total material consumption; the reaction-network source deck is a material-only diagnostic exception, and the reaction-only closed box solves only the summed Eq. (32) component variables because displacement, pressure, and tau are not coupled in that reduction."
+  - group: "phase_history_kinematics"
+    status: "verified"
+    focused_result: "9 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re phase_history_kinematics"
+    q2_eg_compliance: "prescribed solid displacements use Q2 AuxVariables and reusable solid-kinematics fragments; MONOMIAL CONSTANT fields are elementwise phase-history diagnostics."
+  - group: "ideal_mixture_eos"
+    status: "verified"
+    focused_result: "6 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re ideal_mixture_eos"
+    q2_eg_compliance: "EOS-Darcy balance decks use Q2 solid displacements and P1+P0 EG pressure drivers consumed by EOS and Darcy materials; pure EOS decks remain material-only diagnostic reductions."
+  - group: "user_helmholtz_eos"
+    status: "verified"
+    focused_result: "3 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j1 --re user_helmholtz_eos"
+    q2_eg_compliance: "the coupled 1D and genuinely 2D acceptance leaves use EDGE3/Q2 and QUAD9/Q2 prescribed displacement, respectively, with reconstructed P1+P0 EG pressure, two reconstructed P1+P0 EG neutral component potentials, and reconstructed P1+P0 EG temperature. ADHelmholtzEOSClosureMaterial closes the pressure and neutral potentials, the pressure drives Darcy flux, both neutral-potential gradients drive component extra fluxes, and two direct summed Eq. (32) variables solve the solid-reference component residuals. The 2D leaf verifies nonzero x/y fluxes and all four faces. The original EOS derivative deck remains a material-only diagnostic."
+  - group: "reference_component_balance"
+    status: "verified"
+    focused_result: "7 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re reference_component_balance"
+    q2_eg_compliance: "transport decks use Q2 solid displacements; Darcy/storage decks use P1+P0 EG pressure drivers consumed by Darcy materials; storage output is a MONOMIAL CONSTANT diagnostic."
+  - group: "charged_nonisothermal_transport"
+    status: "verified"
+    focused_result: "7 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re charged_nonisothermal_transport"
+    q2_eg_compliance: "component-balance decks use Q2 solid displacements and reusable solid-kinematics fragments. The nonlinear-coefficient acceptance leaf uses non-affine EDGE3/Q2 prescribed displacement and P1+P0 EG reconstructed neutral-potential, electric-potential, and temperature drivers consumed through AD gradient properties. The two-independent-component Onsager leaf uses EDGE3/Q2 prescribed displacement, two distinct P1+P0 EG reconstructed neutral potentials plus reconstructed electric-potential and temperature drivers, and solves both direct summed Eq. (32) component variables; no MONOMIAL field substitutes for a required primary or driver."
+  - group: "two_phase_constant_k_split"
+    status: "verified"
+    focused_result: "9 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re two_phase_constant_k_split"
+    q2_eg_compliance: "split and split-balance decks use Q2 solid displacements; flux-balance decks use named P1+P0 EG pressure0/pressure1 drivers consumed by Darcy materials; split outputs are MONOMIAL CONSTANT diagnostics."
+  - group: "phase_momentum_models"
+    status: "verified"
+    focused_result: "16 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re phase_momentum_models"
+    q2_eg_compliance: "full momentum decks use Q2 solid displacements and P1+P0 EG pressure-potential/capillary drivers; relative-flux reductions are solve=false material diagnostics using Q2/EG driver fragments."
+  - group: "reference_solid_mechanics"
+    status: "verified"
+    focused_result: "6 passed, 0 skipped, 0 failed"
+    command: "tools/run_moose_tests -j$(nproc) --re reference_solid_mechanics"
+    q2_eg_compliance: "non-affine mechanics decks use Q2 displacement and reconstructed P1+P0 EG equivalent pressure; the 3D acceptance deck uses the active TET10 policy."
+  - group: "registered_phase_component_flux"
+    status: "verified"
+    focused_result: "Full registered_phase_flash group 13 passed, 0 skipped, 0 failed, including 1D/2D/3D classical compositional CSVDiff and quantitative checkers"
+    command: "tools/run_moose_tests -j$(nproc) --re registered_phase_flash"
+    q2_eg_compliance: "The solved 1D/2D/3D component balances and classical compositional acceptance leaves use Q2 prescribed solid displacement and reconstructed P1+P0 EG oil/gas pressure pairs. The 3D classical leaf uses active-policy TET10, two active mobile phases, registered equilibrium-flash compositions, production Darcy and registered component assembly, and two independently solved direct summed Eq. (32) component variables with nonzero x/y/z fluxes and all six faces."
+    three_dimensional_observed_errors: "component_flux_x_l2=1.334550083904e-15, component_flux_y_l2=1.1708953065835e-15, component_flux_z_l2=1.2660593653455e-15, component_l2=3.7238012298709e-17, storage0_l2=6.1833062299243e-17"
+
+diagnostic_auxvariable_exceptions:
+  - "MONOMIAL CONSTANT AuxVariables used only for material-property output, split/flash diagnostics, flux components, and scalar residual diagnostics remain valid diagnostic fields."
+  - "A coupled acceptance deck cannot use a MONOMIAL CONSTANT diagnostic field as a substitute for a required Q2 displacement primary or P1+P0 EG pressure/tau field."
+
+cases:
+  - id: solid_distension_evolution_mms
+    status: "verified_1d_2d_3d_axisymmetric"
+    physics_blocks: ["solid distension evolution", "finite-deformation solid-reference kinematics"]
+    governing_equations: ["eq:MC_solid_distension_evolution"]
+    analytic_or_reference_formula: "a=1+0.2t and rhobar=2+0.5t. Cartesian affine Q2 maps use F=diag(1+0.1t), diag(1+0.1t,1-0.04t), and diag(1+0.1t,1-0.04t,1+0.03t). The RZ annulus uses radial and circumferential stretches 1+0.1t and axial stretch 1-0.05t."
+    norms: [{name: "a_l2"}, {name: "rho_l2"}, {name: "solid_jacobian_l2"}, {name: "displacement_l2"}]
+    tolerance:
+      csvdiff_abs_zero: 1.0e-11
+      coupled_petsc_jacobian: true
+    dimensions:
+      - dimension: "1d_q2"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/solid_distension_evolution/solid_distension_evolution_mms_1d.i"
+        observed_errors: {a_l2: 4.6591169115407e-16, rho_l2: 3.1401849173676e-16, solid_jacobian_l2: 2.3452320852368e-15}
+      - dimension: "2d_q2"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/solid_distension_evolution/solid_distension_evolution_mms_2d.i"
+        observed_errors: {a_l2: 0.0, rho_l2: 0.0, solid_jacobian_l2: 0.0}
+      - dimension: "3d_tet10_q2"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/solid_distension_evolution/solid_distension_evolution_mms_3d.i"
+        observed_errors: {a_l2: 1.2932970510614e-12, rho_l2: 2.9906926686316e-16, solid_jacobian_l2: 2.7237038961138e-12}
+      - dimension: "axisymmetric_rz_q2"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/solid_distension_evolution/solid_distension_evolution_mms_rz.i"
+        observed_errors: {a_l2: 4.2248217112807e-16, rho_l2: 7.488496814056e-16, solid_jacobian_l2: 7.1226128443938e-16}
+    acceptance_gap: false
+
+  - id: solid_component_distension_hierarchy_mms
+    status: "verified_1d_2d_3d_axisymmetric_stitch"
+    physics_blocks: ["solid-reference solid component balance", "solid distension evolution", "finite-deformation solid-reference kinematics"]
+    governing_equations: ["eq:solid_reference_solid_component_balance", "eq:MC_solid_distension_mass_relation", "eq:MC_solid_distension_evolution"]
+    analytic_or_reference_formula: "The conserved storage is q_s=J phi_s rhobar_s=0.7+0.03t, the current-volume source is c_s=0.03/J_exact, rhobar_s=2+0.1t, and a_s=J_exact rhobar_s/2. The material reconstructs phi_s=q_s/(J rhobar_s), while the coupled residuals solve qdot_s-J c_s=0 and the finite-deformation distension rate."
+    norms: [{name: "storage_l2"}, {name: "solid_fraction_l2"}, {name: "component_balance_l2"}, {name: "distension_mass_relation_l2"}, {name: "J_l2"}, {name: "a_l2"}]
+    tolerance:
+      csvdiff_abs_zero: 1.0e-11
+      coupled_petsc_jacobian: true
+    dimensions:
+      - dimension: "1d_q2"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/solid_component_distension_hierarchy/solid_component_distension_hierarchy_1d.i"
+        observed_errors: {component_balance_l2: 2.2152684915666e-14, distension_mass_relation_l2: 3.179659518911e-13, J_l2: 4.6152265432487e-13}
+      - dimension: "2d_q2"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/solid_component_distension_hierarchy/solid_component_distension_hierarchy_2d.i"
+        observed_errors: {component_balance_l2: 1.3326502186252e-13, distension_mass_relation_l2: 1.9454203539313e-12, J_l2: 2.7890775197184e-12}
+      - dimension: "3d_tet10_q2"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/solid_component_distension_hierarchy/solid_component_distension_hierarchy_3d.i"
+        observed_errors: {component_balance_l2: 4.1220133025417e-12, distension_mass_relation_l2: 2.0078776091077e-12, J_l2: 2.8140237968365e-12}
+      - dimension: "axisymmetric_rz_q2"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/solid_component_distension_hierarchy/solid_component_distension_hierarchy_rz.i"
+        observed_errors: {component_balance_l2: 1.0277300115613e-16, distension_mass_relation_l2: 1.7150501466133e-15, J_l2: 2.6762870416613e-15}
+    acceptance_gap: false
+
+  - id: two_temperature_energy_all_terms_cg_eg_mms
+    status: "verified_1d_2d_3d_full_hierarchy"
+    physics_blocks: ["fluid subsystem energy", "solid subsystem energy", "conservative fluid-solid heat exchange", "CG/EG facet and weak-boundary operators"]
+    governing_equations: ["eq:MC_energy_balance", "eq:MC_heat_flux_law", "eq:MC_fluid_solid_heat_exchange_law", "eq:MC_fluid_solid_heat_exchange_positive"]
+    analytic_or_reference_formula: "The fluid and solid reconstructed temperatures are distinct time-dependent quadratics with nonzero gradients in every active spatial direction. Each row contains storage, a separately selected relative internal-energy flux, Fourier/cross flux, nonzero phase stress power, conversion work, relative-current electric work, manufactured external heat, and equal/opposite state-dependent exchange h_FS(theta_S-theta_F), with h_FS=1+0.01 theta_F."
+    norms: [{name: "theta_f_total_l2"}, {name: "theta_s_total_l2"}, {name: "fluid_local_energy_residual_l2"}, {name: "solid_local_energy_residual_l2"}, {name: "exchange_cancellation_l2"}, {name: "minimum_exchange_entropy_production"}]
+    tolerance:
+      csvdiff_abs_zero: 1.0e-8
+      coupled_petsc_jacobian_2d: true
+      coupled_petsc_jacobian_3d: true
+    focused_result: "5 passed, 0 skipped, 0 failed in 12.7 s"
+    dimensions:
+      - dimension: "1d_edge3_p2_p0_eg"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/inter_subsystem_heat_exchange/two_temperature_energy_all_terms_mms_1d.i"
+        observed_errors: {theta_f_total_l2: 0.0, theta_s_total_l2: 4.5435243344255e-14, fluid_local_energy_residual_l2: 5.1917124627315e-13, solid_local_energy_residual_l2: 4.3572583500944e-12, exchange_cancellation_l2: 0.0, minimum_exchange_entropy_production: 3.5433002314819e-2}
+      - dimension: "2d_quad9_p2_p0_eg"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/inter_subsystem_heat_exchange/two_temperature_energy_all_terms_mms_2d.i"
+        observed_errors: {theta_f_total_l2: 3.4376911876464e-14, theta_s_total_l2: 4.084047164692e-14, fluid_local_energy_residual_l2: 4.4772572593094e-12, solid_local_energy_residual_l2: 5.6835385846752e-12, exchange_cancellation_l2: 0.0, minimum_exchange_entropy_production: 3.4933510515507e-2}
+      - dimension: "3d_tet10_p2_p0_eg"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/inter_subsystem_heat_exchange/two_temperature_energy_all_terms_mms_3d.i"
+        observed_errors: {theta_f_total_l2: 6.5737770039007e-14, theta_s_total_l2: 6.9972858154692e-14, fluid_local_energy_residual_l2: 3.6993556094429e-12, solid_local_energy_residual_l2: 7.364198022472e-12, exchange_cancellation_l2: 0.0, minimum_exchange_entropy_production: 3.4948528756938e-2}
+    selectable_template: "moose_app/input/templates/two_temperature_energy_hierarchy.i.template"
+    acceptance_gap: false
+
+  - id: q2_eg_hierarchy_mms
+    physics_blocks:
+      - "Q2 reference-solid mechanics"
+      - "enriched-Galerkin pressure"
+      - "enriched-Galerkin tau"
+      - "input include hierarchy"
+    governing_equations:
+      - "eq:MC_overall_momentum_nonlinear_biot"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:reference_relative_mass_flux"
+      - "eq:MC_phase_reference_transfer_work_recovery"
+      - "eq:momentum_residual"
+    analytic_or_reference_formula: "Included 1D/2D/3D leaves prove assembled Q2 displacement, EG pressure, EG tau, and total-field material consumption. Separate convergence leaves use sinusoidal pressure solved with P1+P0 EG diffusion, sinusoidal fluxless tau, and pressure-decoupled finite-deformation mechanics. The coupled 1D poromechanics leaf uses u_x=(0.04+0.01t)x(1-x) and p=1+0.2x+0.1t. The coupled 2D leaf uses u_x=(0.04+0.01t)x(1-x), u_y=(0.03+0.015t)y(1-y), and p=1+0.2x+0.15y+0.05xy+0.1t on QUAD9. The coupled 3D TET10 leaf adds u_z=(0.02+0.012t)z(1-z) and uses p=1+0.2x+0.15y+0.1z+0.1t. All three use P=P_double_prime-B p J F_inverse_transpose, fluid intrinsic density=2+0.5p, standard Darcy reference flux, J-weighted source, and the direct storage rate d[J phi_f fluid_intrinsic_density eta_f_alpha]/dt with phi_f=0.25 and eta_f_alpha=1."
+    norms:
+      - name: "ux_l2"
+      - name: "uy_l2"
+      - name: "uz_l2"
+      - name: "ux_h1_semi"
+      - name: "uy_h1_semi"
+      - name: "uz_h1_semi"
+      - name: "p_total_l2"
+      - name: "p_material_l2"
+      - name: "p_gradient_l2"
+      - name: "tau_total_l2"
+      - name: "tau_material_l2"
+      - name: "tau_gradient_l2"
+      - name: "tau_enrichment_l2"
+      - name: "tau_enrichment_average"
+      - name: "summed_reference_component_storage_l2"
+      - name: "summed_reference_component_balance_residual_l2"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-11
+      convergence_script: "validation/scripts/check_q2_eg_hierarchy_convergence.py"
+      pressure_l2_min_rate: 1.85
+      pressure_gradient_min_rate: 0.95
+      tau_l2_min_rate: "1.95 in 1D, 1.90 in 2D, 1.85 in 3D"
+      tau_gradient_min_rate: "0.95 in 1D/2D, 0.90 in 3D"
+      mechanics_l2_min_rate: "2.95 in 1D/2D, 2.90 in 3D"
+      mechanics_h1_min_rate: 1.95
+      anchored_tau_enrichment_l2_max: 1.0e-10
+      anchored_tau_enrichment_average_abs_max: 1.0e-10
+      coupled_poromechanics_scripts:
+        - "validation/scripts/check_coupled_q2_eg_poro_mms_1d.py"
+        - "validation/scripts/check_coupled_q2_eg_poro_mms_2d.py"
+        - "validation/scripts/check_coupled_q2_eg_poro_mms_3d.py"
+      coupled_poromechanics_norm_max: 1.0e-10
+    dimensions:
+      - dimension: "1d_q2_eg"
+        status: "verified"
+        input_deck: "moose_app/test/tests/eg_hierarchy/eg_q2_mms_1d.i"
+        observed_errors:
+          p_total_l2: 1.2382401034996e-02
+          tau_total_l2: 3.7729437576947e-15
+          ux_l2: 5.2592652774114e-05
+      - dimension: "1d_coupled_poromechanics"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_1d.i"
+        observed_errors:
+          ux_l2: 2.565958e-14
+          ux_h1_semi: 6.496273e-13
+          p_material_l2: 3.467757e-15
+          p_gradient_l2: 1.983924e-14
+          p_enrichment_l2: 3.143066e-15
+          summed_reference_component_storage_l2: 4.159289e-13
+      - dimension: "2d_q2_eg"
+        status: "verified"
+        input_deck: "moose_app/test/tests/eg_hierarchy/eg_q2_mms_2d.i"
+        observed_errors:
+          p_total_l2: 3.6676550906407e-02
+          tau_total_l2: 1.4297040419762e-15
+          ux_l2: 3.7324952062882e-05
+          uy_l2: 3.6254360952343e-05
+      - dimension: "2d_coupled_poromechanics"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_2d.i"
+        observed_errors:
+          ux_l2: 3.567014e-12
+          ux_h1_semi: 5.541733e-11
+          uy_l2: 2.099616e-12
+          uy_h1_semi: 3.263387e-11
+          p_material_l2: 5.617577e-13
+          p_gradient_l2: 1.083866e-12
+          p_enrichment_l2: 3.669820e-13
+          summed_reference_component_storage_l2: 4.105974e-11
+          summed_reference_component_balance_residual_l2: 4.383549e-11
+      - dimension: "3d_q2_eg"
+        status: "verified"
+        input_deck: "moose_app/test/tests/eg_hierarchy/eg_q2_mms_3d.i"
+        observed_errors:
+          p_total_l2: 1.2021528987292e-01
+          tau_total_l2: 7.9258971951316e-15
+          ux_l2: 1.1068592366529e-04
+          uy_l2: 1.1066956646512e-04
+          uz_l2: 1.1065619196730e-04
+      - dimension: "3d_coupled_poromechanics"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_3d.i"
+        observed_errors:
+          ux_l2: 8.290929e-13
+          ux_h1_semi: 2.115951e-11
+          uy_l2: 5.423713e-13
+          uy_h1_semi: 1.412566e-11
+          uz_l2: 3.020649e-13
+          uz_h1_semi: 8.600638e-12
+          p_material_l2: 5.176241e-14
+          p_gradient_l2: 1.069063e-12
+          p_enrichment_l2: 1.064211e-13
+          summed_reference_component_storage_l2: 6.720734e-12
+          summed_reference_component_balance_residual_l2: 7.171978e-12
+      - dimension: "convergence"
+        status: "verified"
+        input_deck: "validation/scripts/check_q2_eg_hierarchy_convergence.py"
+        observed_errors:
+          pressure_l2_rates_1d: "1.9233455814857192 1.9649962534878953 1.9833855781246936"
+          pressure_gradient_rates_1d: "0.9977944493601018 0.999463813536827 0.9998677973498985"
+          pressure_l2_rates_2d: "1.8520250950627626 1.9301083605168239"
+          pressure_gradient_rates_2d: "0.9915803899509545 0.9978432775843264"
+          pressure_l2_rates_3d: "1.8641929122312608 1.9272301065861637"
+          pressure_gradient_rates_3d: "0.965936099528585 0.9845171260752934"
+          tau_l2_rates_1d: "1.9961357465879233 1.9990342598619135 1.999758585164086"
+          tau_gradient_rates_1d: "0.9976812418797645 0.9994205430024514 0.999855150290632"
+          tau_l2_rates_2d: "1.9506451692192703 1.987644754721795"
+          tau_gradient_rates_2d: "1.0155319081458358 1.0044374331793013"
+          tau_l2_rates_3d: "1.870297360330464 1.9358530046263804"
+          tau_gradient_rates_3d: "0.9216789981214552 0.9612560949206648"
+          mechanics_l2_rates_1d_ux: "2.9897782852374375 2.9974360883234556 2.9993584879939355"
+          mechanics_h1_rates_1d_ux: "1.9917199996983725 1.9979333137209208 1.9994835404224234"
+          mechanics_l2_rates_2d_ux: "2.951869355406555 2.98674507493642 2.996551612803496"
+          mechanics_l2_rates_2d_uy: "2.9516730425772 2.9867495000908644 2.9965529308600494"
+          mechanics_h1_rates_2d_ux: "1.967260491476991 1.9917442042883426 1.9979315045911217"
+          mechanics_h1_rates_2d_uy: "1.9671689455104528 1.9917351777497656 1.9979290670388243"
+          mechanics_l2_rates_3d_ux: "2.9603230340749507 2.9661763966173846"
+          mechanics_l2_rates_3d_uy: "2.9601275645019762 2.965686334462574"
+          mechanics_l2_rates_3d_uz: "2.959771900825688 2.964790501429206"
+          mechanics_h1_rates_3d_ux: "1.9902860369448994 1.9971164076530201"
+          mechanics_h1_rates_3d_uy: "1.9894055124027783 1.9961968939442998"
+          mechanics_h1_rates_3d_uz: "1.9878154510731674 1.9945304756628024"
+          tau_null_anchored_enrichment_l2: "2.034931e-17 3.319883e-17"
+          tau_null_unanchored_enrichment_l2: "2.500000e-01 9.176424e-15"
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE"
+      pressure: "P1 LAGRANGE backbone plus P0 MONOMIAL enrichment; materials consume p + p_enr"
+      tau: "P1 LAGRANGE backbone plus P0 MONOMIAL enrichment; materials consume tau + tau_enr; fluxless P0 anchor removes null mode"
+      three_dimensional_mesh_policy: "TET10 for routine coupled Q2/EG decks; HEX27 rejected for this build by moose_app/input/fragment_catalog.yml"
+    acceptance_gap: false
+
+  - id: reference_component_balance_mms
+    physics_blocks:
+      - "solid-reference transport"
+      - "component storage time derivative"
+      - "pulled-back flux divergence"
+    governing_equations:
+      - "eq:reference_relative_mass_flux"
+      - "eq:solid_reference_flux_divergence"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    analytic_or_reference_formula: "Manufactured component storage, reference component flux, and J-weighted current source with exact Dirichlet boundary data; natural-flux variant prescribes the outward reference phase flux on the boundary."
+    norms:
+      - name: "component_l2"
+        definition: "MOOSE ElementL2Error against the exact component storage solution."
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_component_balance/reference_component_balance_1d.i"
+        observed_errors:
+          component_l2: 8.9003252571989e-03
+      - dimension: "1d_natural_flux"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_component_balance/reference_component_balance_1d_natural_flux.i"
+        observed_errors:
+          component_l2: 8.9432179353440e-03
+      - dimension: "2d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_component_balance/reference_component_balance_2d.i"
+        observed_errors:
+          component_l2: 2.1693362738662e-02
+      - dimension: "3d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_component_balance/reference_component_balance_3d.i"
+        observed_errors:
+          component_l2: 5.6779856759705e-02
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE prescribed displacement AuxVariables with reusable solid-kinematics fragments"
+      diagnostic_auxvariables: "none beyond elementwise storage/flux outputs in related Darcy decks"
+    acceptance_gap: false
+
+  - id: darcy_storage_flux_mms
+    physics_blocks:
+      - "solid-reference transport"
+      - "Darcy relative-flux closure"
+      - "component storage closure"
+    governing_equations:
+      - "eq:component_partial_density_representation"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:reference_relative_mass_flux"
+      - "eq:pulled_back_modified_permeability"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    analytic_or_reference_formula: "1D pressure p = sin(pi x), W = -Grad_X p, storage = 0.5, source = pi^2 sin(pi x); 2D and 3D use nonzero linear pressure fields with zero flux divergence and exact constant storage."
+    norms:
+      - name: "component_l2"
+        definition: "ElementL2Error against the exact component storage solution."
+      - name: "storage_closure_l2"
+        definition: "ElementL2Error between material storage and analytic storage."
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_component_balance/darcy_storage_flux_1d.i"
+        observed_errors:
+          component_l2: 1.1619938256922e-04
+          storage_closure_l2: 0.0
+      - dimension: "2d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_component_balance/darcy_storage_flux_2d.i"
+        observed_errors:
+          component_l2: 0.0
+          storage_closure_l2: 0.0
+      - dimension: "3d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_component_balance/darcy_storage_flux_3d.i"
+        observed_errors:
+          component_l2: 6.2063353831182e-17
+          storage_closure_l2: 7.6011774306101e-17
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE prescribed displacement AuxVariables with reusable solid-kinematics fragments"
+      pressure: "P1 LAGRANGE backbone plus P0 MONOMIAL enrichment; Darcy material consumes pressure + pressure_enr"
+      diagnostic_auxvariables: "storage_from_material remains MONOMIAL CONSTANT material-property output"
+    acceptance_gap: false
+
+  - id: user_helmholtz_eos_material_mms
+    physics_blocks:
+      - "thermodynamics"
+      - "AD-derived EOS derivatives"
+      - "solid-reference component storage and transport"
+    governing_equations:
+      - "eq:component_partial_density_representation"
+      - "eq:MC_absolute_neutral_component_potential"
+      - "eq:MC_fluid_legendre_relation"
+      - "eq:MC_neutral_component_euler_identity"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+      - "eq:implementation_eos_chemical_potential"
+      - "eq:implementation_eos_pressure"
+      - "eq:implementation_eos_entropy"
+    analytic_or_reference_formula: "The material-only diagnostic evaluates a user Helmholtz density A(rho0,rho1,T), its pressure, chemical potentials, entropy density, intrinsic density, bulk density, and selected Hessian entries against closed-form derivatives. The 1D coupled leaf uses rho0=1+0.1x+0.05t, rho1=2rho0, T=1+x+0.2t, u_x=0.1x, phi_o=0.25, and A=rho0(2+3T)+rho1(5+4T)-(7+2T). The genuinely 2D companion uses rho0=1+0.1x+0.2y+0.05t, rho1=2rho0, T=1+x+(288/121)y+0.2t, u=(0.1x,0.2y), J=1.32, and the same Helmholtz form. The EOS gives p=9+2x+(576/121)y+0.4t, mu0=5+3x+(864/121)y+0.6t, and mu1=9+4x+(1152/121)y+0.8t. Reconstructed P1+P0 EG pressure drives an EOS-density Darcy flux, and both reconstructed neutral-potential gradients drive component extra fluxes in x and y. The two solved variables are written directly as sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component, reducing to J phi_o rho0 and J phi_o rho1. The 2D storage-rate, net-outward-flux, and J-weighted-source integrals are (0.0165,-0.24,-0.2235) and (0.033,-0.48,-0.447)."
+    norms:
+      - name: "helmholtz_and_derivative_l2_errors"
+        definition: "ElementL2Error values for A, first derivatives, and representative second derivatives."
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+      coupled_q2_eg_checker: "validation/scripts/check_user_helmholtz_q2_eg_balance_1d.py"
+      coupled_q2_eg_2d_checker: "validation/scripts/check_user_helmholtz_q2_eg_balance_2d.py"
+      coupled_q2_eg_all_errors_max: 1.0e-10
+    dimensions:
+      - dimension: "material_1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/user_helmholtz_eos/user_helmholtz_eos_1d.i"
+        observed_errors:
+          max_reported_l2: 1.7763568394003e-15
+      - dimension: "coupled_1d_q2_eg"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/user_helmholtz_eos/user_helmholtz_q2_eg_balance_1d.i"
+        check_script: "validation/scripts/check_user_helmholtz_q2_eg_balance_1d.py"
+        observed_errors:
+          maximum_required_error: 6.266022e-14
+          maximum_integral_error: 1.500189e-14
+          direct_summed_eq32_component_0_global_balance: -7.153999614928e-15
+          direct_summed_eq32_component_1_global_balance: -1.519617764956e-14
+      - dimension: "coupled_2d_q2_eg"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/user_helmholtz_eos/user_helmholtz_q2_eg_balance_2d.i"
+        check_script: "validation/scripts/check_user_helmholtz_q2_eg_balance_2d.py"
+        observed_errors:
+          maximum_required_error: 3.519964e-12
+          maximum_integral_error: 2.999823e-13
+          direct_summed_eq32_component_0_global_balance: -2.822742040109e-14
+          direct_summed_eq32_component_1_global_balance: -4.135580766729e-14
+          focused_group: "3 passed, 0 skipped, 0 failed"
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "EDGE3 and QUAD9 SECOND-order LAGRANGE prescribed displacement with reusable solid-reference kinematics"
+      pressure_and_thermodynamic_drivers: "P1 LAGRANGE backbone plus P0 MONOMIAL enrichment; EOS closure residuals determine total pressure and both total neutral component potentials, while Darcy and component transport consume their reconstructed gradients"
+      component_variables: "two solved direct summed Eq. (32) variables; no A or M_a^0 shorthand"
+    acceptance_gap: false
+
+  - id: ideal_mixture_eos_material_mms
+    physics_blocks:
+      - "thermodynamics"
+      - "component storage"
+      - "solid-reference kinematics"
+      - "Darcy transport"
+      - "solid-reference component balance"
+    governing_equations:
+      - "eq:component_partial_density_representation"
+      - "eq:MC_absolute_neutral_component_potential"
+      - "eq:MC_fluid_legendre_relation"
+      - "eq:MC_neutral_component_euler_identity"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:reference_relative_mass_flux"
+      - "eq:solid_reference_fluid_component_balance"
+    analytic_or_reference_formula: "Material leaves use the constant non-reference state p = 2.5. The coupled 1D leaf uses EDGE3/Q2 ux = 0.1 X, reconstructed P1+P0 EG p = 2.5 + 1e-5 X + 0.2 t, rhobar = 2 exp[0.1(p-1)], phi_f = 0.4, eta = (0.25,0.75), direct summed Eq. (32) variables sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component, backward-Euler manufactured storage rates, W_f = -rhobar k J F^{-1}F^{-T} Grad_X p, and matching J-weighted sources."
+    norms:
+      - name: "density_l2"
+      - name: "storage0_l2"
+      - name: "storage1_l2"
+      - name: "mu0_l2"
+      - name: "mu1_l2"
+      - name: "mass_fraction_sum_l2"
+      - name: "pressure_identity_l2"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+      coupled_q2_eg_checker: "validation/scripts/check_ideal_mixture_q2_eg_balance_1d.py"
+      coupled_q2_eg_all_errors_max: 1.0e-10
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/ideal_mixture_eos/ideal_mixture_eos_1d.i"
+        observed_errors:
+          max_reported_l2: 2.5121479338940e-15
+      - dimension: "2d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/ideal_mixture_eos/ideal_mixture_eos_2d.i"
+        observed_errors:
+          max_reported_l2: 2.5121479338940e-15
+      - dimension: "3d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/ideal_mixture_eos/ideal_mixture_eos_3d.i"
+        observed_errors:
+          max_reported_l2: 2.5121479338940e-15
+      - dimension: "coupled_1d_q2_eg"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/ideal_mixture_eos/ideal_mixture_q2_eg_balance_1d.i"
+        check_script: "validation/scripts/check_ideal_mixture_q2_eg_balance_1d.py"
+        observed_errors:
+          maximum_required_error: 1.528727e-13
+          maximum_integral_error: 1.076693e-15
+          direct_summed_eq32_component_0_global_balance: 3.599551212652e-16
+          direct_summed_eq32_component_1_global_balance: 1.073793831630e-15
+          focused_group: "7 passed, 0 skipped, 0 failed"
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "EDGE3 SECOND-order LAGRANGE prescribed displacement with reusable solid-reference kinematics"
+      pressure_and_neutral_drivers: "solved P1 LAGRANGE backbones plus P0 MONOMIAL enrichments; production ideal-mixture EOS consumes reconstructed pressure, and EOS closure residuals determine both reconstructed absolute neutral component potentials"
+      diagnostic_fields: "MONOMIAL fields are restricted to rate/source integration diagnostics and do not substitute for any Q2/EG driver"
+      component_variables: "two solved direct summed Eq. (32) variables named sum_xi_J_phi_xi_fluid_intrinsic_density_xi_eta_xi_component_0 and sum_xi_J_phi_xi_fluid_intrinsic_density_xi_eta_xi_component_1; no A or M_a^0 shorthand"
+    acceptance_gap: false
+
+  - id: eos_darcy_balance_mms
+    physics_blocks:
+      - "thermodynamics"
+      - "Darcy transport"
+      - "solid-reference component balance"
+    governing_equations:
+      - "eq:component_partial_density_representation"
+      - "eq:MC_absolute_neutral_component_potential"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:reference_relative_mass_flux"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    analytic_or_reference_formula: "p = x, p = x + y, and p = x + y + z in 1D/2D/3D; rhobar = 2 exp(0.2 p), constant temperature, constant porosity, constant component mass fraction, storage = 0.25 exp(0.2 p), Darcy flux from EOS density, and analytic sources -0.05 exp(0.2 x), -0.1 exp(0.2(x+y)), and -0.15 exp(0.2(x+y+z))."
+    norms:
+      - name: "component_l2"
+      - name: "storage0_l2"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/ideal_mixture_eos/eos_darcy_balance_1d.i"
+        observed_errors:
+          component_l2: 9.2402711406972e-06
+          storage0_l2: 1.6004513934177e-03
+      - dimension: "2d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/ideal_mixture_eos/eos_darcy_balance_2d.i"
+        observed_errors:
+          component_l2: 5.6922868980597e-05
+          storage0_l2: 4.1826344422744e-03
+      - dimension: "3d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/ideal_mixture_eos/eos_darcy_balance_3d.i"
+        observed_errors:
+          component_l2: 3.4912858609529e-04
+          storage0_l2: 7.3838172338160e-03
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE prescribed displacement AuxVariables with reusable solid-kinematics fragments"
+      pressure: "P1 LAGRANGE backbone plus P0 MONOMIAL enrichment; EOS and Darcy materials consume pressure + pressure_enr"
+      diagnostic_auxvariables: "EOS/storage material outputs remain MONOMIAL CONSTANT diagnostics where declared"
+    acceptance_gap: false
+
+  - id: charged_nonisothermal_transport_mms
+    physics_blocks:
+      - "charged transport"
+      - "thermal transport force"
+      - "solid-reference component balance"
+      - "stationary solid-reference thermal energy balance"
+    governing_equations:
+      - "eq:MC_energy_balance"
+      - "eq:MC_transport_force_gauge_objectivity"
+      - "eq:MC_relative_transport_closures"
+      - "eq:reference_relative_mass_flux"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    analytic_or_reference_formula: "Linear P1+P0 EG reconstructed neutral potential, gauge-shifted electric potential, and temperature feed f_alpha = Grad(mu_neutral_alpha) + z_alpha Grad(phi) + c_T Grad(theta). The nonlinear 1D leaf uses L_alpha(X) = 0.5 + 0.2(1.5+X)^2 and exact Div_X(W_alpha) = -2.85 - 1.9X. The genuinely 2D leaf uses theta = 1.5+X+2Y, L_alpha=0.5+0.2 theta^2, f_alpha=(2,4), w_alpha=(-2L_alpha,-4L_alpha), F=1.1I, W_alpha=(-2.2L_alpha,-4.4L_alpha), and Div_X(W_alpha)=-4.4 theta. The genuinely 3D TET10 leaf uses theta=1.5+X+2Y+3Z, f_alpha=(2,4,6), F=1.1I, J=1.331, W_alpha=1.21 w_alpha, and Div_X(W_alpha)=-13.552 theta. The 1D two-component Onsager leaf uses f_0=1.25, f_1=-1, L=(2,0.5;0.5,1.5), w_0=-2, w_1=0.875, det(L)=2.75, and sum_i f_i dot (-w_i)=3.375. The genuinely 2D two-component Onsager leaf uses f_0=(1.25,0.5), f_1=(-1,4.5), the same symmetric positive-definite matrix, w_0=(-2,-3.25), w_1=(0.875,-7), F=1.1I, W_0=(-2.2,-3.575), W_1=(0.9625,-7.7), and sum_i f_i dot (-w_i)=36.5. The genuinely 3D TET10 two-component Onsager leaf uses f_0=(1.25,0.5,-0.75), f_1=(-1,4.5,2), w_0=(-2,-3.25,0.5), w_1=(0.875,-7,-2.625), F=1.1I, J=1.331, W_0=(-2.42,-3.9325,0.605), W_1=(1.05875,-8.47,-3.17625), det(L)=2.75, and sum_i f_i dot (-w_i)=42.125. The stationary 1D energy leaf uses u=0.1X^2, theta=1.5+X, k=J(2+theta), q=Q=-(3.5+X), Div_X(Q)=-1, J times direct electric work 9.5+1.9X, and J rho r=-10.5-1.9X, giving -Div_X(Q)+J electric_work+J rho r=0 locally and globally."
+    norms:
+      - name: "component_l2"
+      - name: "transport_force_component_l2"
+      - name: "current_component_flux_l2"
+      - name: "reference_component_flux_l2"
+      - name: "charge_flux_l2"
+      - name: "electric_field_work_l2"
+      - name: "nonlinear_mobility_l2"
+      - name: "reference_component_source_l2"
+      - name: "direct_reference_component_balance"
+      - name: "left_right_bottom_top_reference_component_flux_integrals"
+      - name: "back_front_reference_component_flux_integrals"
+      - name: "nonzero_xyz_component_integrals"
+      - name: "two_component_onsager_flux_l2"
+      - name: "onsager_reciprocity_and_positive_definite_determinant_l2"
+      - name: "onsager_dissipation_l2"
+      - name: "direct_summed_reference_component_0_and_1_balance_l2"
+      - name: "stationary_reference_energy_balance_l2"
+      - name: "reference_heat_flux_divergence_electric_work_and_heat_supply_integrals"
+      - name: "electric_potential_gauge_shift_invariance"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+      quantitative_checker: 1.0e-10
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_flux_1d.i"
+        observed_errors:
+          max_reported_l2: 0.0
+      - dimension: "2d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_flux_2d.i"
+        observed_errors:
+          max_reported_l2: 6.7276217519310e-15
+      - dimension: "3d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_flux_3d.i"
+        observed_errors:
+          max_reported_l2: 3.1125870256501e-15
+      - dimension: "1d_nonlinear_coefficient"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_nonlinear_flux_1d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_1d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_1d.py"
+        observed_errors:
+          max_reported_error: 3.7080784212314e-14
+          direct_reference_component_balance: -8.8817841970013e-16
+          summed_reference_component_storage_l2: 0.0
+          mobility_l2: 2.5438405243138e-16
+          reference_component_source_l2: 5.9787339602818e-16
+          net_outward_reference_component_flux_error: 0.0
+          reference_component_source_integral_error: 0.0
+      - dimension: "2d_nonlinear_coefficient"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_nonlinear_flux_2d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_2d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_2d.py"
+        observed_errors:
+          max_reported_error: 3.3750779948605e-14
+          max_face_or_integral_error: 3.3040237212845e-13
+          direct_reference_component_balance: -3.3750779948605e-14
+          component_balance_l2: 0.0
+          mobility_l2: 3.9240194685985e-16
+          current_flux_x_l2: 4.1747792151855e-15
+          current_flux_y_l2: 6.8673363371968e-15
+          reference_flux_x_l2: 4.4022776057754e-15
+          reference_flux_y_l2: 7.2365701027272e-15
+          charge_flux_x_l2: 8.3495584303710e-15
+          charge_flux_y_l2: 1.3734672674394e-14
+          reference_component_source_l2: 2.2344510012673e-15
+          left_reference_component_flux_x: -3.9966666666667
+          right_reference_component_flux_x: -6.6366666666667
+          bottom_reference_component_flux_y: -5.7933333333333
+          top_reference_component_flux_y: -16.353333333333
+          net_outward_reference_component_flux: -13.2
+          reference_component_source_integral: -13.2
+      - dimension: "3d_nonlinear_coefficient"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_nonlinear_flux_3d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_3d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_3d.py"
+        observed_errors:
+          max_reported_error: 5.705521e-13
+          max_component_or_face_integral_error: 3.339551e-13
+          net_outward_reference_component_flux: -60.984
+          reference_component_source_integral: -60.984
+      - dimension: "1d_two_component_onsager_matrix"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_onsager_matrix_1d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_1d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_1d.py"
+        observed_errors:
+          max_reported_error: 4.520667e-15
+          transport_force_0_l2: 8.455207e-16
+          transport_force_1_l2: 6.473657e-16
+          current_component_0_flux_l2: 1.404333e-15
+          current_component_1_flux_l2: 5.551115e-16
+          reference_component_0_flux_l2: 1.404333e-15
+          reference_component_1_flux_l2: 5.551115e-16
+          onsager_reciprocity_l2: 0.0
+          onsager_positive_definite_determinant_l2: 0.0
+          onsager_dissipation_l2: 4.520667e-15
+          onsager_dissipation_average: 3.375
+          direct_summed_reference_component_0_global_balance: 0.0
+          direct_summed_reference_component_1_global_balance: 0.0
+      - dimension: "2d_two_component_onsager_matrix"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_onsager_matrix_2d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_2d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_2d.py"
+        observed_errors:
+          max_reported_error: 3.3809162244357e-14
+          max_face_or_value_error: 0.0
+          transport_force_0_l2: 1.1105699151272e-15
+          transport_force_1_l2: 2.3668850885148e-15
+          current_component_0_flux_l2: 2.3956776148459e-15
+          current_component_1_flux_l2: 3.5965700157904e-15
+          reference_component_0_flux_l2: 2.6760750933428e-15
+          reference_component_1_flux_l2: 4.1772602355050e-15
+          onsager_reciprocity_l2: 0.0
+          onsager_positive_definite_determinant_l2: 0.0
+          onsager_dissipation_l2: 3.3809162244357e-14
+          onsager_dissipation_average: 36.5
+          left_right_reference_component_0_flux_x: -2.2
+          bottom_top_reference_component_0_flux_y: -3.575
+          left_right_reference_component_1_flux_x: 0.9625
+          bottom_top_reference_component_1_flux_y: -7.7
+          direct_summed_reference_component_0_global_balance: -3.1086244689504e-15
+          direct_summed_reference_component_1_global_balance: -7.1054273576010e-15
+      - dimension: "3d_two_component_onsager_matrix"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_onsager_matrix_3d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_3d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_onsager_matrix_mms_3d.py"
+        observed_errors:
+          max_reported_error: 4.108165e-14
+          max_face_or_value_error: 1.001865e-12
+          onsager_reciprocity_l2: 0.0
+          onsager_positive_definite_determinant_l2: 0.0
+          onsager_dissipation_average: 42.125
+          left_right_reference_component_0_flux_x: -2.42
+          bottom_top_reference_component_0_flux_y: -3.9325
+          back_front_reference_component_0_flux_z: 0.605
+          left_right_reference_component_1_flux_x: 1.05875
+          bottom_top_reference_component_1_flux_y: -8.47
+          back_front_reference_component_1_flux_z: -3.17625
+          direct_summed_reference_component_0_global_balance: -1.998401e-14
+          direct_summed_reference_component_1_global_balance: -3.774758e-14
+      - dimension: "1d_stationary_energy_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_energy_balance_1d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_energy_balance_mms_1d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_1d.py"
+        observed_errors:
+          max_reported_error: 1.662223e-14
+          reference_heat_flux_divergence_integral: -1.0
+          reference_electric_work_integral: 10.45
+          reference_heat_supply_integral: -11.45
+          left_reference_heat_flux_x: -3.5
+          right_reference_heat_flux_x: -4.5
+          direct_global_energy_balance: 0.0
+          electric_potential_gauge_shift: 100.0
+      - dimension: "2d_stationary_energy_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_energy_balance_2d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_energy_balance_mms_2d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_2d.py"
+        observed_errors:
+          max_field_material_or_balance_error: 1.332268e-14
+          max_face_or_integral_error: 0.0
+          max_electric_potential_gauge_shift_error: 6.280370e-16
+          reference_heat_flux_divergence_integral: -6.05
+          reference_electric_work_integral: -2.42
+          reference_heat_supply_integral: -3.63
+          left_reference_heat_flux_x: -5.445
+          right_reference_heat_flux_x: -6.655
+          bottom_reference_heat_flux_y: -9.68
+          top_reference_heat_flux_y: -14.52
+          direct_global_energy_balance: 1.332268e-14
+          electric_potential_gauge_shift: 100.0
+      - dimension: "3d_stationary_energy_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/charged_nonisothermal_transport/charged_nonisothermal_energy_balance_3d.i"
+        check_script: "validation/scripts/check_charged_nonisothermal_energy_balance_mms_3d.py"
+        command: "python3 validation/scripts/check_charged_nonisothermal_energy_balance_mms_3d.py"
+        observed_errors:
+          max_field_material_or_balance_error: 2.700062e-13
+          max_face_or_integral_error: 0.0
+          max_electric_potential_gauge_shift_error: 8.243924e-15
+          reference_heat_flux_divergence_integral: -20.4974
+          reference_electric_work_integral: 13.31
+          reference_heat_supply_integral: -33.8074
+          left_reference_heat_flux_x: -8.7846
+          right_reference_heat_flux_x: -10.2487
+          bottom_reference_heat_flux_y: -16.1051
+          top_reference_heat_flux_y: -21.9615
+          back_reference_heat_flux_z: -21.9615
+          front_reference_heat_flux_z: -35.1384
+          direct_global_energy_balance: -2.700062e-13
+          electric_potential_gauge_shift: 100.0
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE prescribed displacement AuxVariables with reusable solid-kinematics fragments"
+      transport_drivers: "The nonlinear 1D, 2D, and 3D leaves use P1 LAGRANGE backbones plus P0 MONOMIAL enrichments and ADEGReconstructedScalarMaterial total gradients for neutral potential, electric potential, and temperature. The two-component 1D, 2D, and 3D leaves reconstruct distinct neutral_potential_0 and neutral_potential_1 forces plus electric potential and temperature with the same P1+P0 EG pattern. The stationary 1D, 2D, and 3D energy leaves use the same P1+P0 reconstruction for temperature, neutral potential, and gauge-shifted electric potential and pull q to Q=J F^{-1}q."
+      diagnostic_auxvariables: "transport force, current flux, reference flux, charge flux, electric work, and source outputs use element-local MONOMIAL diagnostic fields; the nonlinear transport and stationary 2D/3D energy leaves use exact polynomial orders to check every active spatial component independently"
+    acceptance_gap: false
+
+  - id: restricted_two_phase_constant_k_split_mms
+    physics_blocks:
+      - "phase split"
+      - "phase appearance/disappearance"
+      - "component storage closure"
+    governing_equations:
+      - "eq:mass_fraction_constraint"
+      - "eq:phase_volume_fraction"
+      - "eq:volume_fraction_constraint"
+      - "eq:component_partial_density_representation"
+      - "eq:classical_compositional_closure_set"
+      - "eq:classical_phase_equilibrium_mu"
+      - "eq:implementation_component_density_partition"
+      - "eq:implementation_volume_partition"
+      - "eq:implementation_mass_fraction_partition"
+      - "eq:implementation_phase_material_storage"
+    analytic_or_reference_formula: "Two components, two phases, phi = 0.3, phase densities 4 and 1, z = (0.5,0.5), K = (2,0.5), beta = 0.5, S0 = 0.2, S1 = 0.8, phi0 = 0.06, phi1 = 0.24, x0 = 1/3, y0 = 2/3; endpoint cases clamp one phase inactive."
+    norms:
+      - name: "split_and_constraint_l2_errors"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_1d.i"
+        observed_errors:
+          max_reported_l2: 2.7755575615629e-17
+      - dimension: "2d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_2d.i"
+        observed_errors:
+          max_reported_l2: 2.7755575615629e-17
+      - dimension: "3d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_3d.i"
+        observed_errors:
+          max_reported_l2: 2.7755575615629e-17
+      - dimension: "1d_endpoint_phase0"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_phase0_appears_1d.i"
+      - dimension: "1d_endpoint_phase1"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_phase1_appears_1d.i"
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE prescribed displacement AuxVariables with reusable solid-kinematics fragments"
+      diagnostic_auxvariables: "split, saturation, composition, storage, and residual outputs remain MONOMIAL CONSTANT diagnostics"
+    acceptance_gap: false
+
+  - id: two_phase_split_balance_mms
+    physics_blocks:
+      - "phase split"
+      - "component balance"
+      - "phase-specific flux assembly"
+    governing_equations:
+      - "eq:component_partial_density_representation"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+      - "eq:implementation_phase_material_storage"
+    analytic_or_reference_formula: "Constant split-derived total reference component storage 0.24 with zero source; nonzero flux cases have x0 = 1/3 and y0 = 2/3. The component-0 reference flux is -8/3 in 1D, (-8/3,-2/3) in 2D, and (-8/3,-2/3,-10/3) in 3D."
+    norms:
+      - name: "component_l2"
+      - name: "split_storage_l2"
+      - name: "component_flux_x_l2"
+      - name: "component_flux_y_l2"
+      - name: "component_flux_z_l2"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_balance_1d.i"
+        observed_errors:
+          component_l2: 0.0
+          split_storage_l2: 2.2662332591842e-17
+      - dimension: "1d_flux"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_flux_balance_1d.i"
+        observed_errors:
+          component_flux_x_l2: 5.4389598220421e-16
+      - dimension: "2d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_flux_balance_2d.i"
+        observed_errors:
+          component_flux_x_l2: 7.8678884242805e-16
+          component_flux_y_l2: 6.4312063811385e-16
+          component_l2: 1.3877787807814e-17
+          split_storage_l2: 2.2662332591842e-17
+      - dimension: "3d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/two_phase_constant_k_split/two_phase_split_flux_balance_3d.i"
+        observed_errors:
+          component_flux_x_l2: 6.4258803293916e-16
+          component_flux_y_l2: 5.3172033611293e-16
+          component_flux_z_l2: 8.2336343155639e-16
+          component_l2: 4.0460356557118e-17
+          split_storage_l2: 4.3610271956070e-17
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE prescribed displacement AuxVariables with reusable solid-kinematics fragments"
+      pressure: "flux-balance decks use P1 LAGRANGE backbone plus P0 MONOMIAL enrichment for pressure0 and pressure1; Darcy materials consume pressure_i + pressure_i_enr"
+      diagnostic_auxvariables: "split storage and component-flux outputs remain MONOMIAL CONSTANT diagnostics"
+    acceptance_gap: false
+
+  - id: phase_history_kinematics_mms
+    physics_blocks:
+      - "mobile phase kinematics"
+      - "material derivative on solid frame"
+      - "active/inactive policy"
+    governing_equations:
+      - "eq:reference_relative_mass_flux"
+      - "eq:implementation_phase_velocity_reconstruction"
+      - "eq:fluid_material_derivative_on_solid_frame"
+      - "eq:implementation_phase_velocity_gradient"
+      - "eq:implementation_phase_deformation_gradient_history"
+      - "eq:implementation_phase_jacobian_history"
+      - "eq:implementation_phase_deformation_gradient_residual"
+      - "eq:implementation_phase_jacobian_residual"
+    analytic_or_reference_formula: "Homogeneous velocity-gradient matrix exponentials for F_a and exp(integral tr(l_a) dt) for J_a; relative-advection cases use c_o = W_o/(J rho_o) = (1), (1,2), and (1,2,3) in 1D/2D/3D with analytic F00 forcing; inactive cases set c_g = 0 and l_g = 0 despite nonzero W_g and Grad_X(v_g)."
+    norms:
+      - name: "F_component_l2"
+      - name: "J_l2"
+      - name: "J_minus_detF"
+      - name: "c_component_l2"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/oil_phase_history_extension_1d.i"
+        observed_errors:
+          max_reported_l2: 4.6787552569201e-06
+      - dimension: "2d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/gas_phase_history_shear_2d.i"
+      - dimension: "3d"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/water_phase_history_diagonal_3d.i"
+      - dimension: "1d_relative_advection"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/oil_phase_history_relative_advection_1d.i"
+      - dimension: "2d_relative_advection"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/oil_phase_history_relative_advection_2d.i"
+        observed_errors:
+          Fo00_l2: 2.7662667149845e-14
+          co_x_l2: 0.0
+          co_y_l2: 0.0
+      - dimension: "3d_relative_advection"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/oil_phase_history_relative_advection_3d.i"
+        observed_errors:
+          Fo00_l2: 1.0722241468100e-15
+          co_x_l2: 0.0
+          co_y_l2: 0.0
+          co_z_l2: 0.0
+      - dimension: "1d_inactive_policy"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/gas_phase_history_inactive_policy_1d.i"
+      - dimension: "2d_inactive_policy"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/gas_phase_history_inactive_policy_2d.i"
+        observed_errors:
+          Fg00_l2: 0.0
+          Jg_l2: 0.0
+          cg_x_l2: 0.0
+          cg_y_l2: 0.0
+          det_Fg_l2: 0.0
+          jg_det_residual_l2: 0.0
+      - dimension: "3d_inactive_policy"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_history_kinematics/gas_phase_history_inactive_policy_3d.i"
+        observed_errors:
+          Fg00_l2: 1.2412670766236e-16
+          Jg_l2: 1.2412670766236e-16
+          cg_x_l2: 0.0
+          cg_y_l2: 0.0
+          cg_z_l2: 0.0
+          det_Fg_l2: 1.5700924586838e-16
+          jg_det_residual_l2: 5.5511151231258e-17
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE prescribed displacement AuxVariables with reusable solid-kinematics fragments"
+      three_dimensional_mesh_policy: "TET10"
+      diagnostic_auxvariables: "phase-history tensor components, convective velocities, determinants, and residual diagnostics remain MONOMIAL CONSTANT only where they are material outputs"
+    acceptance_gap: false
+
+  - id: selectable_phase_momentum_models_mms
+    physics_blocks:
+      - "per-phase momentum"
+      - "relative-flux reduction"
+      - "acceleration and capillary switches"
+    governing_equations:
+      - "eq:el_mom_f_simplified"
+      - "eq:generalized_fluid_darcy_mass_flux"
+      - "eq:reference_relative_mass_flux"
+      - "eq:implementation_full_phase_momentum_residual"
+    analytic_or_reference_formula: "Full oil momentum uses v_i = t X_i with material acceleration X_i(1+t^2), pressure force 0.5, optional capillary force 1, and drag t X_i in 1D/2D/3D. Base relative brine flux components are -3 in every active spatial direction; 1D switch checks give -9 with acceleration or capillarity and -15 with both switches."
+    norms:
+      - name: "velocity_l2"
+      - name: "flux_l2"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    dimensions:
+      - dimension: "1d_full"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_momentum_models/full_phase_momentum_1d.i"
+        observed_errors:
+          max_velocity_l2: 4.4127889763761e-14
+      - dimension: "1d_relative_flux"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_1d.i"
+        observed_errors:
+          flux_l2: 0.0
+      - dimension: "2d_full"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_momentum_models/full_phase_momentum_2d.i"
+        observed_errors:
+          vx_l2: 1.3558917312082e-13
+          vy_l2: 1.6907196940566e-13
+      - dimension: "2d_full_capillary"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_momentum_models/full_phase_momentum_2d.i with include_capillary_pressure=true"
+        observed_errors:
+          vx_l2: 1.3559372890511e-13
+          vy_l2: 1.6907806959271e-13
+      - dimension: "3d_full"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_momentum_models/full_phase_momentum_3d.i"
+        observed_errors:
+          vx_l2: 9.8921717691250e-15
+          vy_l2: 1.0422864505171e-14
+          vz_l2: 1.1105490729189e-14
+      - dimension: "3d_full_capillary"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_momentum_models/full_phase_momentum_3d.i with include_capillary_pressure=true"
+        observed_errors:
+          vx_l2: 9.8887366192253e-15
+          vy_l2: 1.0428633517873e-14
+          vz_l2: 1.1104024143575e-14
+      - dimension: "2d_relative_flux"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_2d.i"
+        observed_errors:
+          flux_x_l2: 0.0
+          flux_y_l2: 0.0
+      - dimension: "3d_relative_flux"
+        status: "verified"
+        input_deck: "moose_app/test/tests/phase_momentum_models/relative_flux_reduction_3d.i"
+        observed_errors:
+          flux_x_l2: 0.0
+          flux_y_l2: 0.0
+          flux_z_l2: 0.0
+    architecture_compliance:
+      uses_include_hierarchy: true
+      solid_displacement: "SECOND-order LAGRANGE prescribed displacement AuxVariables with reusable solid-kinematics fragments"
+      pressure: "full momentum uses P1+P0 EG pressure_potential and capillary_pressure drivers; relative-flux reductions use P1+P0 EG pressure/capillary drivers"
+      diagnostic_auxvariables: "relative-flux W component outputs remain MONOMIAL CONSTANT diagnostics in solve=false reduction decks"
+    acceptance_gap: false
+
+  - id: reference_solid_mechanics_mms
+    physics_blocks:
+      - "reference-solid mechanics"
+      - "finite-deformation stress"
+      - "Biot pressure pull-back"
+    governing_equations:
+      - "eq:MC_overall_momentum_nonlinear_biot"
+      - "eq:overall_natural_traction"
+      - "eq:momentum_residual"
+    analytic_or_reference_formula: "Affine displacement fields with constant finite-deformation Neo-Hookean effective stress and total Piola stress P'' - B p_E J F^{-T}; zero reference body force; 1D right-boundary traction supplied exactly. Non-affine MMS cases use diagonal quadratic displacement fields, spatially varying equivalent pressure, diagonal F, and analytic b_0 = -Div_X(P'' - B p_E J F^{-T})."
+    norms:
+      - name: "ux_l2"
+      - name: "uy_l2"
+      - name: "uz_l2"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    q2_eg_compliance:
+      one_dimensional_non_affine: "EDGE3 mesh with solved SECOND-order LAGRANGE displacement and a prescribed P1+P0 EG equivalent-pressure pair consumed through its reconstructed total material property"
+      two_dimensional_non_affine: "QUAD9 mesh with solved SECOND-order LAGRANGE displacements and a prescribed P1+P0 EG equivalent-pressure pair consumed through its reconstructed total material property"
+      three_dimensional_non_affine: "TET10 mesh with solved SECOND-order LAGRANGE displacements and a prescribed P1+P0 EG equivalent-pressure pair consumed through its reconstructed total material property"
+    dimensions:
+      - dimension: "1d_affine_traction"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_1d_traction.i"
+        observed_errors:
+          ux_l2: 5.2041704279304e-18
+      - dimension: "2d_affine_patch"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_2d_patch.i"
+        observed_errors:
+          ux_l2: 1.9873754096202e-18
+          uy_l2: 1.8566467579446e-18
+      - dimension: "3d_affine_patch"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_3d_patch.i"
+        observed_errors:
+          ux_l2: 2.0399142143509e-18
+          uy_l2: 1.1358481270731e-18
+          uz_l2: 1.2314169531725e-18
+      - dimension: "1d_non_affine_coupled"
+        status: "verified_q2_eg"
+        input_deck: "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_1d_nonaffine.i"
+        observed_errors:
+          ux_l2: 1.0854646573284e-15
+      - dimension: "2d_non_affine_coupled"
+        status: "verified_q2_eg"
+        input_deck: "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_2d_nonaffine.i"
+        observed_errors:
+          ux_l2: 1.7664534612674e-14
+          uy_l2: 4.2240280931456e-15
+      - dimension: "3d_non_affine_coupled"
+        status: "verified_q2_eg"
+        input_deck: "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_3d_nonaffine.i"
+        observed_errors:
+          ux_l2: 1.1250151888783e-14
+          uy_l2: 5.4773804766292e-15
+          uz_l2: 3.6281582279385e-15
+    acceptance_gap: false
+
+  - id: reaction_tau_mms
+    physics_blocks:
+      - "reaction network"
+      - "phase transfer"
+      - "tau material derivative"
+      - "tau evolution"
+      - "undrained reference-component balance"
+      - "finite-deformation solid mechanics"
+    governing_equations:
+      - "eq:MC_admissible_conversion_component"
+      - "eq:MC_phase_reference_transfer_work_recovery"
+      - "eq:MC_transfer_work_full_recovery"
+      - "eq:MC_affinity_projection"
+      - "eq:MC_generalized_conversion_affinity_relation"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:MC_overall_momentum_nonlinear_biot"
+      - "eq:momentum_residual"
+    analytic_or_reference_formula: "Two registered reaction mechanisms have closed-form stoichiometric sources, affinities, tau-transfer corrections, generalized conversion coefficients, and reaction powers. The reaction-only closed box uses a rate of 0.4, J = 1, zero reference flux, oil stoichiometric mass sum -1, and gas stoichiometric mass sum +1, giving sum_xi J rho_xi^component0 = 2 - 0.4 t, sum_xi J rho_xi^component1 = 1 + 0.4 t, and conserved total mass 3. The 1D drained cell uses Q2 u_x = 0, reconstructed EG p = 1 + 0.2 x + 0.1 t, fluid intrinsic density = 2 + 0.5 p, porosity 0.25, eta_f_component0 = 1, and permeability 0.3. Thus the direct summed Eq. (32) storage is J phi_f fluid_intrinsic_density eta_f_component0, its rate is 0.0125, the J-weighted stoichiometric source is 0.0065, the net outward reference flux is -0.006, and their global balance is zero. The 2D QUAD9/Q2-EG leaf uses u_x=u_y=0 and p=1+0.2x+0.15y+0.1t. Its direct sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component0 storage rate is 0.0125, its multidirectional Darcy flux has divergence -0.009375, and its J-weighted registered source is 0.003125, giving exact global conservation. Tau MMS uses tau = x + 3t, W_o = (2,0,0), J = 1, rho_o = 4, and v_o = 0.25 in 1D; tau = x + 2y + 3t, W_o = (2,4,0), and v_o = (0.25,0.5) in 2D; tau = x + 2y + 3z + 4t, W_o = (2,4,6), and v_o = (0.25,0.5,0.75) in 3D."
+    norms:
+      - name: "phase_source_average_error"
+      - name: "reference_source_average_error"
+      - name: "tau_l2"
+      - name: "tau_material_derivative_l2"
+      - name: "tau_evolution_residual_l2"
+      - name: "summed_reference_component_l2"
+      - name: "closed_box_total_mass"
+      - name: "stoichiometric_source_sum"
+      - name: "mechanism_stoichiometric_mass_sum"
+      - name: "drained_cell_global_balance"
+      - name: "two_dimensional_reaction_source_field_flux_errors_and_global_balance"
+      - name: "undrained_cell_primary_mechanics_storage_source_errors"
+      - name: "undrained_cell_boundary_reference_component_fluxes"
+      - name: "undrained_cell_global_balance"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+      undrained_cell_csvdiff_abs_zero: 1.0e-10
+      two_dimensional_reaction_source_max_error_and_balance: 1.0e-10
+    dimensions:
+      - dimension: "1d_reaction_network"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reaction_tau/reaction_network_sources_1d.i"
+        observed_errors:
+          max_reported_l2: 0.0
+      - dimension: "1d_tau_evolution"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reaction_tau/tau_evolution_material_derivative_1d.i"
+        observed_errors:
+          tau_evolution_residual_l2: 3.6821932062951e-16
+          tau_l2: 5.0876810486276e-16
+          max_material_derivative_l2: 1.9420971147417e-15
+      - dimension: "2d_tau_evolution"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reaction_tau/tau_evolution_material_derivative_2d.i"
+        observed_errors:
+          tau_evolution_residual_l2: 5.1578592747834e-16
+          tau_l2: 1.1009322920451e-15
+          tau_material_derivative_l2: 1.0741085019148e-14
+          tau_convective_term_l2: 1.0711718550473e-14
+          tau_transfer_offset_l2: 1.0751280640826e-14
+          tau_velocity_square_l2: 2.4478116858134e-17
+      - dimension: "3d_tau_evolution"
+        status: "verified"
+        input_deck: "moose_app/test/tests/reaction_tau/tau_evolution_material_derivative_3d.i"
+        observed_errors:
+          tau_evolution_residual_l2: 1.8145439738194e-15
+          tau_l2: 2.6918615905656e-15
+          tau_material_derivative_l2: 1.8662317370977e-14
+          tau_convective_term_l2: 1.8676182147969e-14
+          tau_transfer_offset_l2: 1.8593501330118e-14
+          tau_velocity_square_l2: 2.5438405243138e-16
+      - dimension: "reaction_only_closed_box"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/reaction_tau/reaction_only_closed_box.i"
+        verification_command: "tools/run_moose_tests -j$(nproc) --re reaction_tau"
+        observed_errors:
+          max_summed_reference_component_l2: 3.5108334685767e-16
+          closed_box_total_mass_error: 0.0
+          stoichiometric_source_sum_error: 0.0
+          mechanism_stoichiometric_mass_sum_error: 0.0
+      - dimension: "drained_reaction_cell"
+        status: "verified_q2_eg"
+        required: true
+        input_deck: "moose_app/test/tests/reaction_tau/drained_reaction_cell_1d.i"
+        verification_command: "tools/run_moose_tests -j$(nproc) --re drained_reaction_cell_1d"
+        observed_errors:
+          ux_l2: 0.0
+          p_total_l2: 5.5511151231258e-17
+          p_total_gradient_l2: 8.6176480930456e-16
+          p_enrichment_l2: 6.9472386455547e-17
+          summed_reference_component_storage_l2: 7.8504622934189e-17
+          summed_reference_component_storage_rate_l2: 1.0541211030737e-16
+          summed_reference_component_source_l2: 6.8570966183139e-19
+          summed_reference_component_global_balance: 5.98479599212e-17
+      - dimension: "2d_reaction_source"
+        status: "verified_q2_eg"
+        required: true
+        input_deck: "moose_app/test/tests/reaction_tau/drained_reaction_source_mms_2d.i"
+        verification_command: "cd moose_app && agent_environment/skills/setup-moose-conda/scripts/moose_conda_env.sh run -- python3 validation/scripts/check_drained_reaction_source_mms_2d.py"
+        analytic_or_reference_formula: "On QUAD9, prescribed Q2 u_x=u_y=0 gives J=1. Reconstructed P1+P0 EG pressure is p=1+0.2x+0.15y+0.1t, fluid_intrinsic_density=2+0.5p, phi_f=0.25, and eta_f_component0=1. The direct Eq. (32) variable sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component0 has rate 0.0125. With permeability 0.3, the nonzero Darcy reference-component flux has x/y components -0.06 fluid_intrinsic_density and -0.045 fluid_intrinsic_density, net outward flux -0.009375, and the registered reaction network supplies the J-weighted source 0.003125."
+        observed_errors:
+          ux_l2: 0.0
+          uy_l2: 0.0
+          p_total_l2: 1.1443916996306e-16
+          p_total_gradient_l2: 6.7346603619128e-16
+          p_enrichment_l2: 3.8245824914694e-17
+          summed_reference_component_storage_l2: 1.1775693440128e-16
+          summed_reference_component_storage_rate_l2: 6.9321143283716e-17
+          summed_reference_component_source_l2: 2.4243497590305e-19
+          summed_reference_component_flux_x_l2: 3.1155556357914e-16
+          summed_reference_component_flux_y_l2: 3.971797049681e-16
+          summed_reference_component_global_balance: 3.8294020732188e-16
+      - dimension: "3d_reaction_source"
+        status: "verified_q2_eg"
+        required: true
+        input_deck: "moose_app/test/tests/reaction_tau/drained_reaction_source_mms_3d.i"
+        verification_command: "cd moose_app && agent_environment/skills/setup-moose-conda/scripts/moose_conda_env.sh run -- python3 validation/scripts/check_drained_reaction_source_mms_3d.py"
+        analytic_or_reference_formula: "On active-policy TET10, prescribed Q2 u_x=u_y=u_z=0 gives J=1. Reconstructed P1+P0 EG pressure is p=1+0.2x+0.15y+0.1z+0.1t, fluid_intrinsic_density=2+0.5p, phi_f=0.25, and eta_f_component0=1. The direct Eq. (32) variable sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component0 has rate 0.0125. With permeability 0.3, the nonzero Darcy reference-component flux has x/y/z components -0.06 fluid_intrinsic_density, -0.045 fluid_intrinsic_density, and -0.03 fluid_intrinsic_density. Their divergence and net outward flux are -0.010875, so the registered reaction network supplies the J-weighted source 0.001625 and global storage plus outward flux minus source is zero."
+        observed_errors:
+          ux_l2: 0.0
+          uy_l2: 0.0
+          uz_l2: 0.0
+          p_total_l2: 1.6795372552817e-16
+          p_total_gradient_l2: 6.5250204063988e-16
+          p_enrichment_l2: 7.8775694928995e-17
+          summed_reference_component_storage_l2: 4.2930767045486e-16
+          summed_reference_component_storage_rate_l2: 5.7085373963189e-17
+          summed_reference_component_source_l2: 4.336808689942e-19
+          summed_reference_component_flux_x_l2: 3.2272695339999e-16
+          summed_reference_component_flux_y_l2: 3.0377124795755e-16
+          summed_reference_component_flux_z_l2: 2.8888667289862e-16
+          summed_reference_component_global_balance: 1.7546727959505e-15
+          maximum_quantitative_checker_error: 1.9984014443252818e-15
+      - dimension: "undrained_reaction_cell"
+        status: "verified_q2_eg"
+        required: true
+        input_deck: "moose_app/test/tests/reaction_tau/undrained_reaction_mechanics_cell_1d.i"
+        verification_command: "tools/run_moose_tests -j1 --re undrained_reaction_mechanics_cell_1d"
+        analytic_or_reference_formula: "u_x=(0.04+0.01t)x, p=1+0.1t, J=1.04+0.01t, fluid intrinsic density=2.5+0.05t, and the direct summed Eq. (32) storage is J*0.25*fluid_intrinsic_density*1. The current reaction rate equals the exact storage rate divided by J, so ADReactionNetworkMaterial produces the required J-weighted reference source. The spatially uniform reconstructed pressure gives zero Darcy reference-component flux on both boundaries. The right traction is the exact value of P_double_prime-0.25*p*J*F_inverse_transpose, so pressure and displacement remain coupled through the solved momentum equation."
+        observed_errors:
+          ux_l2: 2.8906529102607e-17
+          ux_h1_semi: 9.0309347987569e-17
+          p_total_l2: 2.2204460492503e-16
+          p_total_gradient_l2: 0.0
+          solid_reference_jacobian_l2: 1.1702778228589e-16
+          reaction_rate_l2: 0.0
+          summed_reference_component_storage_l2: 1.4031138184751e-16
+          summed_reference_component_storage_rate_l2: 6.477382507412e-16
+          summed_reference_component_source_l2: 3.6341893296725e-18
+          left_reference_component_flux: 0.0
+          right_reference_component_flux: 0.0
+          net_outward_reference_component_flux: 0.0
+          summed_reference_component_global_balance: 4.1633363423443e-17
+      - dimension: "coupled_reaction_mechanics_front"
+        status: "verified_q2_eg"
+        required: true
+        input_deck: "moose_app/test/tests/reaction_tau/coupled_reaction_mechanics_front_1d.i"
+        verification_command: "tools/run_moose_tests -j1 --re coupled_reaction_mechanics_front_1d"
+        analytic_or_reference_formula: "The translating manufactured front uses u_x=(0.04+0.01t)x, reconstructed p=1+0.2x+0.1t, J=1.04+0.01t, fluid intrinsic density=2.5+0.1x+0.05t, and eta_fluid_component0=0.55+0.2x-0.06t. The direct summed Eq. (32) storage is sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component0 = 0.25*J*fluid_intrinsic_density*eta_fluid_component0. Its analytic time derivative plus Div_X[-0.06*fluid_intrinsic_density*eta_fluid_component0/J] defines J times the registered-network reaction rate. Momentum uses P=P_double_prime-0.25*p*J*F_inverse_transpose, reference body force 0.05, and the exact right traction."
+        observed_errors:
+          ux_l2: 2.4585557631087e-17
+          ux_h1_semi: 9.0588449166616e-17
+          p_total_l2: 1.6958936828759e-16
+          p_total_gradient_l2: 8.6176480930456e-16
+          p_enrichment_l2: 4.4344035326533e-17
+          solid_reference_jacobian_l2: 1.1702778228589e-16
+          total_first_piola_xx_average_error: 4.9960036108132e-16
+          fluid_component_mass_fraction_l2: 4.1375569220788e-17
+          reaction_rate_l2: 5.6359976551527e-18
+          reaction_front_gradient_h1_semi: 1.670769163697e-16
+          summed_reference_component_storage_l2: 7.1365360938091e-17
+          summed_reference_component_storage_rate_l2: 5.0721086657226e-16
+          summed_reference_component_source_l2: 1.0662240138585e-17
+          summed_reference_component_flux_x_l2: 4.1711833897005e-16
+          summed_reference_component_global_balance: 5.759281940243e-16
+    acceptance_gap: false
+
+  - id: registered_phase_flash_transport_mms
+    physics_blocks:
+      - "registered N-phase flash"
+      - "component transport across registered phases"
+      - "phase appearance/disappearance"
+    governing_equations:
+      - "eq:implementation_eos_chemical_potential"
+      - "eq:implementation_eos_pressure"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    analytic_or_reference_formula: "Registered oil/gas/water flash material checks EOS-derived pressures and chemical potentials, active/inactive residual suppression, volume Newton residuals, and registered phase component-flux assembly. The classical 1D compositional reduction uses u_x=0.1x, J=1.1, phi_oil=0.2, phi_gas=0.1, fluid_intrinsic_density_oil=fluid_intrinsic_density_gas=3, eta_oil=(0.7+0.1x,0.3-0.1x), eta_gas=(0.2+0.05x,0.8-0.05x), and a reconstructed P1+P0 EG pressure p=2+x. Both phase Darcy reference mass fluxes are -0.6. Thus the direct sums sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component are 0.528+0.0825x and 0.462-0.0825x, while the registered component fluxes are -0.54-0.09x and -0.66+0.09x with matching J-weighted sources -0.09 and 0.09."
+    norms:
+      - name: "flash_state_l2"
+      - name: "volume_constraint_l2"
+      - name: "component_flux_l2"
+      - name: "component_l2"
+    tolerance:
+      csvdiff_abs_zero: 1.0e-12
+    dimensions:
+      - dimension: "1d_flash"
+        status: "verified"
+        input_deck: "moose_app/test/tests/registered_phase_flash/registered_three_phase_flash_1d.i"
+      - dimension: "1d_volume_newton"
+        status: "verified"
+        input_deck: "moose_app/test/tests/registered_phase_flash/registered_phase_flash_volume_newton_1d.i"
+      - dimension: "1d_component_flux_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/registered_phase_flash/registered_phase_component_flux_1d.i"
+      - dimension: "1d_classical_compositional_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_1d.i"
+        check_script: "validation/scripts/check_classical_compositional_q2_eg_mms_1d.py"
+        gold_csv: "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_1d.csv"
+        verification_command: "tools/run_moose_tests -j2 --re registered_phase_flash"
+        observed_errors:
+          maximum_required_error: 2.359224e-15
+          maximum_integral_error: 1.998401e-15
+          direct_summed_eq32_component0_global_balance: 2.3592239273285e-15
+          direct_summed_eq32_component1_global_balance: 1.9706458687097e-15
+          component0_net_outward_reference_flux: -0.09
+          component1_net_outward_reference_flux: 0.09
+          focused_group: "9 passed, 0 skipped, 0 failed"
+      - dimension: "2d_classical_compositional_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_2d.i"
+        check_script: "validation/scripts/check_classical_compositional_q2_eg_mms_2d.py"
+        gold_csv: "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_2d.csv"
+        verification_command: "tools/run_moose_tests -j2 --no-color --re registered_phase_flash"
+        analytic_or_reference_formula: "On [0,1]^2, u=(0.1x,0.2y), F=diag(1.1,1.2), J=1.32, and the reconstructed P1+P0 EG phase pressure is p=2+x+y. Production Darcy assembly gives W_oil=W_gas=(-0.72,-0.605). With s=0.72x+0.605y, eta_oil=(0.7+0.1s,0.3-0.1s), eta_gas=(0.2+0.05s,0.8-0.05s), and fluid_intrinsic_density_oil=fluid_intrinsic_density_gas=3. The two variables are the explicit direct sums sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component. Their registered component flux divergences and matching J-weighted sources are -0.13266375 and 0.13266375."
+        observed_errors:
+          maximum_required_error: 2.414735e-15
+          maximum_integral_error: 0.0
+          direct_summed_eq32_component0_global_balance: -2.4147350785597e-15
+          direct_summed_eq32_component1_global_balance: -2.1371793224034e-15
+          component0_net_outward_reference_flux: -0.13266375
+          component1_net_outward_reference_flux: 0.13266375
+          component0_right_reference_flux: -0.75843
+          component0_top_reference_flux: -0.63207375
+          focused_group: "11 passed, 0 skipped, 0 failed"
+      - dimension: "3d_classical_compositional_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_3d.i"
+        check_script: "validation/scripts/check_classical_compositional_q2_eg_mms_3d.py"
+        gold_csv: "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_3d.csv"
+        verification_command: "tools/run_moose_tests -j2 --no-color --re registered_phase_flash"
+        analytic_or_reference_formula: "On [0,1]^3, u=(0.1x,0.2y,0.3z), F=diag(1.1,1.2,1.3), J=1.716, and reconstructed p=2+x+y+z. Production Darcy assembly gives W_oil=W_gas=(-0.936,-0.7865,-0.670153846153846). With s=0.936x+0.7865y+0.670153846153846z and the registered oil/gas compositions, the two variables are the explicit direct sums sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component. Their matching net-outward fluxes and J-weighted sources are -0.291567664127219 and 0.291567664127219."
+        observed_errors:
+          maximum_required_error: 2.220446e-15
+          maximum_integral_error: 3.802514e-15
+          direct_summed_eq32_component0_global_balance: -2.220446049250e-15
+          direct_summed_eq32_component1_global_balance: -1.998401444325e-15
+          component0_net_outward_reference_flux: -0.2915676641272
+          component1_net_outward_reference_flux: 0.2915676641272
+          component0_right_reference_flux: -1.0760715
+          component0_top_reference_flux: -0.8953803375
+          component0_front_reference_flux: -0.7570798881657
+          focused_group: "13 passed, 0 skipped, 0 failed"
+      - dimension: "2d_component_flux_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/registered_phase_flash/registered_phase_component_flux_2d.i"
+        architecture: "QUAD9 Q2 prescribed solid displacement with P1+P0 EG-like registered oil/gas/water pressure drivers consumed by the Darcy phase-flux materials"
+        observed_errors:
+          component_flux_x_l2: 6.9776435129712e-16
+          component_flux_y_l2: 1.1467453797716e-15
+          component_l2: 2.7755575615629e-17
+          storage0_l2: 5.5511151231258e-17
+      - dimension: "3d_component_flux_balance"
+        status: "verified"
+        input_deck: "moose_app/test/tests/registered_phase_flash/registered_phase_component_flux_3d.i"
+        architecture: "TET10 Q2 prescribed solid displacement with P1+P0 EG-like registered oil/gas/water pressure drivers consumed by the Darcy phase-flux materials, plus material-property consumption of each reconstructed total pressure"
+        observed_errors:
+          component_flux_x_l2: 1.334550083904e-15
+          component_flux_y_l2: 1.1708953065835e-15
+          component_flux_z_l2: 1.2660593653455e-15
+          component_l2: 3.7238012298709e-17
+          storage0_l2: 6.1833062299243e-17
+      - dimension: "2d_flash_with_phase_appearance"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/registered_phase_flash/registered_three_phase_flash_appearance_2d.i"
+        observed_errors:
+          storage0_l2: 5.5511151231258e-17
+          storage1_l2: 1.1102230246252e-16
+          oil_saturation_l2: 1.1102230246252e-16
+          gas_saturation_l2: 5.5511151231258e-17
+          water_saturation_l2: 1.9626155733547e-17
+          water_active_l2: 0.0
+          volume_residual_l2: 5.5511151231258e-17
+          water_fraction_residual_l2: 0.0
+          water_mu0_residual_l2: 0.0
+          water_mu1_residual_l2: 0.0
+          water_pressure_residual_l2: 0.0
+          overall_z0_residual_l2: 3.9252311467094e-17
+      - dimension: "3d_flash_with_phase_appearance"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/registered_phase_flash/registered_three_phase_flash_appearance_3d.i"
+        observed_errors:
+          storage0_l2: 1.2062947687413e-16
+          storage1_l2: 2.4125895374826e-16
+          oil_saturation_l2: 9.7912467432537e-17
+          gas_saturation_l2: 4.8956233716268e-17
+          water_saturation_l2: 9.251858538543e-18
+          water_active_l2: 0.0
+          volume_residual_l2: 5.8513891142945e-17
+          water_fraction_residual_l2: 1.0467283057892e-16
+          water_mu0_residual_l2: 0.0
+          water_mu1_residual_l2: 0.0
+          water_pressure_residual_l2: 0.0
+          overall_z0_residual_l2: 3.9252311467094e-17
+    architecture_compliance:
+      appearance_decks: "material-only solve=false diagnostics with identity solid-reference kinematics and MONOMIAL CONSTANT flash/residual outputs"
+      coupled_acceptance: "The appearance decks are material diagnostics; the solved 1D/2D/3D classical compositional leaves supply the coupled quantitative Q2/EG acceptance evidence."
+      component_flux_balance: "the 1D, 2D, and 3D solved component-flux balances use Q2 prescribed solid displacement, P1+P0 EG-like oil/gas/water pressure drivers, and reconstructed-total-pressure material outputs through the reusable include hierarchy"
+    acceptance_gap: false
+
+  - id: black_oil_and_compositional_reductions_mms
+    physics_blocks:
+      - "black-oil reduction"
+      - "classical compositional-flow reduction"
+      - "reservoir well/source coupling"
+    governing_equations:
+      - "correspondence_to_other_theories: black-oil-style specialization"
+      - "correspondence_to_other_theories: classical compositional-flow limit"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:fluid_component_residual"
+    analytic_or_reference_formula: "The verified 1D, 2D, and 3D black-oil storage slices use p=150+10t, S_w=0.2+0.02t, S_g=0.3-0.01t, phi=0.2, zero Q2 solid displacement, and the tabular laws B_w=1.05+0.01t, B_o=1.3+0.02t, B_g=0.015+0.001t, and R_s=75+5t. Analytic sources are the direct time derivatives of sum_phase J phi_phase fluid_intrinsic_density_phase eta_phase_water, sum_phase J phi_phase fluid_intrinsic_density_phase eta_phase_oil, and sum_phase J phi_phase fluid_intrinsic_density_phase eta_phase_gas, with J supplied by EDGE3/Q2, QUAD9/Q2, or active-policy TET10/Q2 solid-reference kinematics and p supplied to PVT as the reconstructed P1+P0 EG total. The verified 1D spatial-flux leaf uses u_x=0.1x, p_o=2+x, S_w=0.2+0.1x, S_g=0.2+0.05x, phi=0.25, constant B and viscosity tables, R_s=0, linear capillary laws p_w=1.1+0.8x and p_g=2.9+1.15x, and linear relative permeabilities k_rw=0.28+0.04x, k_ro=0.5, and k_rg=0.34+0.01x. The phase Darcy laws and registered phase-to-component assembly give W_water=-(0.0448+0.0064x)/1.1, W_oil=-0.15/1.1, and W_gas=-(0.0391+0.00115x)/1.1. The verified genuinely 2D leaf uses u=(0.1x,0.2y), J=1.32, p_o=2+x+2y, S_w=0.2+0.05x+0.04y, S_g=0.2+0.03x+0.02y, p_w=1.1+0.9x+1.92y, p_g=2.9+1.09x+2.06y, k_rw=0.28+0.02x+0.016y, k_ro=0.5, and k_rg=0.34+0.006x+0.004y. With J F^-1 F^-T=diag(1.2/1.1,1.1/1.2), each phase/component flux has nonzero x and y components; analytic divergences -9.559272727273e-3, 0, and -1.468787878788e-3 are supplied directly as J-weighted water/oil/gas sources in the three summed Eq. (32) balances. The verified genuinely 3D leaf uses u=(0.1x,0.2y,0.3z), J=1.716, p_o=2+x+2y+3z, S_w=0.2+0.05x+0.04y+0.03z, and S_g=0.2+0.03x+0.02y+0.01z. With J F^-1 F^-T=diag(1.56/1.1,1.43/1.2,1.32/1.3), all phase/component fluxes have nonzero x, y, and z components; analytic divergences -1.959160839161e-2, 0, and -2.524747319347e-3 are the J-weighted sources in the three direct summed Eq. (32) balances. The verified 1D production-well leaf uses u_x=0.1x, J=1.1, phi=0.25, final p=2, S_w=S_g=0.2, B_w/B_o/B_g=1.2/1.4/0.6, R_s=1.4, k_rw/k_ro/k_rg=0.2/0.3/0.4, well index 0.01, and BHP=1. Its direct sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component water/oil/gas storage rates and production-well sources are -3.333333333333e-3, -6.428571428571e-3, and -9.666666666667e-3. Classical compositional formulas are verified by the registered-phase Q2/EG 1D/2D/3D leaves."
+    well_source_2d_analytic: "The genuinely 2D production-well companion uses a 2 by 3 QUAD9 reference domain, u=(0.1x,0.2y), J=1.32, completion_reference_volume=6, dt=7.2, final p=2, S_w=S_g=0.2, and the same production PVT, relative-permeability, well-index, and BHP values as the 1D leaf. The direct sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component storage rates equal the matching component well sources per reference area, while integration over the analytic completion area recovers total water/oil/gas sources -3.333333333333e-3, -6.428571428571e-3, and -9.666666666667e-3; integral J is 7.92."
+    well_source_3d_analytic: "The genuinely 3D production-well companion uses a 2 by 3 by 4 active-policy TET10/Q2 reference domain, u=(0.1x,0.2y,0.3z), J=1.716, completion_reference_volume=24, dt=37.44, final p=2, S_w=S_g=0.2, and the same production PVT, relative-permeability, well-index, and BHP values as the lower-dimensional leaves. The direct sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component storage rates equal the matching component well sources per reference volume, while integration over the analytic completion volume recovers total water/oil/gas sources -3.333333333333e-3, -6.428571428571e-3, and -9.666666666667e-3; integral J is 41.184."
+    norms:
+      - name: "pressure_l2"
+      - name: "saturation_l2"
+      - name: "component_storage_l2"
+      - name: "field_rate_error"
+    tolerance:
+      black_oil_1d: "all pressure/saturation/component storage-rate L2 errors <= 1e-10"
+      black_oil_2d: "all pressure/enrichment/saturation/J/component storage-rate L2 errors <= 1e-10"
+      black_oil_3d: "all pressure/enrichment/saturation/J/component storage-rate L2 errors <= 1e-10"
+      black_oil_spatial_flux_1d: "all field/storage/capillary/relative-permeability/flux/source/global-balance errors and all six boundary-face flux integral errors <= 1e-10"
+      black_oil_spatial_flux_2d: "all field/storage/capillary/relative-permeability/x-y phase and component flux/source/global-balance errors and all twelve boundary-face flux integral errors <= 1e-10"
+      black_oil_spatial_flux_3d: "all field/storage/capillary/relative-permeability/x-y-z phase and component flux/source/global-balance errors and all eighteen boundary-face flux integral errors <= 1e-10"
+      black_oil_well_source_1d: "all field/direct summed Eq. (32) storage/storage-rate/well-source/global-balance and reservoir/surface-rate/BHP errors <= 1e-10"
+      black_oil_well_source_2d: "all Q2 displacement/P1+P0 EG pressure, J, direct summed Eq. (32) storage/storage-rate/well-source/global-balance, reservoir/surface-rate, BHP/control, completion-area, and analytic-integral errors <= 1e-10"
+      black_oil_well_source_3d: "all active-policy TET10/Q2 displacement/P1+P0 EG pressure, J, direct summed Eq. (32) storage/storage-rate/well-source/global-balance, reservoir/surface-rate, BHP/control, completion-volume, and analytic-integral errors <= 1e-10"
+      classical_compositional_1d: "all EDGE3/Q2 displacement, reconstructed P1+P0 EG pressure, J, flash fraction/composition/equilibrium closure, direct summed Eq. (32) storage, phase/component flux, source, boundary-integral, and independent global-balance errors <= 1e-10"
+      classical_compositional_2d: "all QUAD9/Q2 displacement, reconstructed P1+P0 EG pressure, J, flash fraction/composition/equilibrium closure, direct summed Eq. (32) storage, x-y phase/component flux, all-four-face integrals, source, and independent global-balance errors <= 1e-10"
+      classical_compositional_3d: "all active-policy TET10/Q2 displacement, reconstructed P1+P0 EG pressure, J, flash fraction/composition/equilibrium closure, direct summed Eq. (32) storage, x-y-z phase/component flux, all-six-face integrals, source, and independent global-balance errors <= 1e-10"
+    dimensions:
+      - dimension: "1d"
+        status: "black_oil_storage_spatial_flux_well_source_and_classical_compositional_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_pvt/black_oil_three_component_storage_balance_1d.i"
+        observed_errors:
+          pressure_l2: 2.0097183471152e-13
+          pressure_enrichment_l2: 4.4576654921601e-19
+          water_saturation_l2: 4.3885418357209e-17
+          gas_saturation_l2: 1.6653345369377e-16
+          water_component_storage_rate_l2: 0.0
+          oil_component_storage_rate_l2: 0.0
+          gas_component_storage_rate_l2: 0.0
+          solid_reference_jacobian_l2: 0.0
+      - dimension: "1d_classical_compositional"
+        status: "classical_compositional_q2_eg_reduction_verified"
+        required: true
+        input_deck: "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_1d.i"
+        check_script: "validation/scripts/check_classical_compositional_q2_eg_mms_1d.py"
+        gold_csv: "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_1d.csv"
+        verification_command: "tools/run_moose_tests -j2 --re registered_phase_flash"
+        analytic_or_reference_formula: "With u_x=0.1x, J=1.1, phi_oil=0.2, phi_gas=0.1, fluid_intrinsic_density_oil=fluid_intrinsic_density_gas=3, eta_oil=(0.7+0.1x,0.3-0.1x), eta_gas=(0.2+0.05x,0.8-0.05x), and both phase reference mass fluxes -0.6, the direct sums sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component are 0.528+0.0825x and 0.462-0.0825x. Registered assembly gives component reference fluxes -0.54-0.09x and -0.66+0.09x and J-weighted sources -0.09 and 0.09."
+        observed_errors:
+          maximum_required_error: 2.359224e-15
+          maximum_integral_error: 1.998401e-15
+          direct_summed_eq32_component0_global_balance: 2.3592239273285e-15
+          direct_summed_eq32_component1_global_balance: 1.9706458687097e-15
+          component0_net_outward_reference_flux: -0.09
+          component1_net_outward_reference_flux: 0.09
+          focused_group: "9 passed, 0 skipped, 0 failed"
+      - dimension: "2d_classical_compositional"
+        status: "classical_compositional_q2_eg_reduction_verified"
+        required: true
+        input_deck: "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_2d.i"
+        check_script: "validation/scripts/check_classical_compositional_q2_eg_mms_2d.py"
+        gold_csv: "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_2d.csv"
+        verification_command: "tools/run_moose_tests -j2 --no-color --re registered_phase_flash"
+        analytic_or_reference_formula: "With u=(0.1x,0.2y), J=1.32, reconstructed p=2+x+y, s=0.72x+0.605y, eta_oil=(0.7+0.1s,0.3-0.1s), eta_gas=(0.2+0.05s,0.8-0.05s), and W_oil=W_gas=(-0.72,-0.605), the two conserved variables remain the explicit direct sums sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component. Registered assembly gives matching net-outward flux and J-weighted source integrals -0.13266375 and 0.13266375."
+        observed_errors:
+          maximum_required_error: 2.414735e-15
+          maximum_integral_error: 0.0
+          direct_summed_eq32_component0_global_balance: -2.4147350785597e-15
+          direct_summed_eq32_component1_global_balance: -2.1371793224034e-15
+          component0_net_outward_reference_flux: -0.13266375
+          component1_net_outward_reference_flux: 0.13266375
+          component0_right_reference_flux: -0.75843
+          component0_top_reference_flux: -0.63207375
+          focused_group: "11 passed, 0 skipped, 0 failed"
+      - dimension: "3d_classical_compositional"
+        status: "classical_compositional_q2_eg_reduction_verified"
+        required: true
+        input_deck: "moose_app/test/tests/registered_phase_flash/classical_compositional_q2_eg_mms_3d.i"
+        check_script: "validation/scripts/check_classical_compositional_q2_eg_mms_3d.py"
+        gold_csv: "moose_app/test/tests/registered_phase_flash/gold/classical_compositional_q2_eg_mms_3d.csv"
+        verification_command: "tools/run_moose_tests -j2 --no-color --re registered_phase_flash"
+        analytic_or_reference_formula: "With u=(0.1x,0.2y,0.3z), J=1.716, reconstructed p=2+x+y+z, s=0.936x+0.7865y+0.670153846153846z, and W_oil=W_gas=(-0.936,-0.7865,-0.670153846153846), the two conserved variables are explicit direct sums sum_xi J phi_xi fluid_intrinsic_density_xi eta_xi_component. Registered assembly gives matching net-outward flux and J-weighted source integrals -0.291567664127219 and 0.291567664127219."
+        observed_errors:
+          maximum_required_error: 2.220446e-15
+          maximum_integral_error: 3.802514e-15
+          direct_summed_eq32_component0_global_balance: -2.220446049250e-15
+          direct_summed_eq32_component1_global_balance: -1.998401444325e-15
+          component0_right_reference_flux: -1.0760715
+          component0_top_reference_flux: -0.8953803375
+          component0_front_reference_flux: -0.7570798881657
+          focused_group: "13 passed, 0 skipped, 0 failed"
+      - dimension: "1d_spatial_flux"
+        status: "black_oil_spatial_flux_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_pvt/black_oil_three_component_spatial_flux_balance_1d.i"
+        check_script: "validation/scripts/check_black_oil_three_component_spatial_flux_balance_1d.py"
+        verification_command: "tools/run_moose_tests -j1 --re black_oil_three_component_spatial_flux_balance_1d"
+        observed_errors:
+          maximum_required_error: 4.965068e-16
+          maximum_face_integral_error: 3.635980e-15
+          water_reference_component_flux_x_l2: 2.954128e-17
+          oil_reference_component_flux_x_l2: 0.0
+          gas_reference_component_flux_x_l2: 2.403703e-17
+          direct_summed_eq32_water_component_global_balance: 3.469447e-18
+          direct_summed_eq32_oil_component_global_balance: 0.0
+          direct_summed_eq32_gas_component_global_balance: -5.637851e-18
+          water_net_outward_reference_component_flux: -5.818181818182e-3
+          gas_net_outward_reference_component_flux: -1.045454545455e-3
+      - dimension: "1d_well_source"
+        status: "black_oil_q2_eg_production_well_source_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_well/q2_eg_three_component_well_source_balance_1d.i"
+        check_script: "validation/scripts/check_black_oil_q2_eg_well_source_balance_1d.py"
+        verification_command: "tools/run_moose_tests -j2 --re black_oil_well"
+        observed_errors:
+          maximum_required_error: 1.713248e-12
+          maximum_integral_error: 1.383268e-14
+          water_well_source_integral: -3.333333333338e-3
+          stock_tank_oil_well_source_integral: -6.428571428580e-3
+          stock_tank_gas_well_source_integral: -9.666666666680e-3
+          focused_group: "12 passed, 0 skipped, 0 failed"
+      - dimension: "2d_spatial_flux"
+        status: "black_oil_spatial_flux_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_pvt/black_oil_three_component_spatial_flux_balance_2d.i"
+        check_script: "validation/scripts/check_black_oil_three_component_spatial_flux_balance_2d.py"
+        verification_command: "tools/run_moose_tests -j$(nproc) --re black_oil_pvt"
+        observed_errors:
+          maximum_required_error: 5.900916e-16
+          maximum_face_integral_error: 3.635980e-15
+          water_reference_component_flux_x_l2: 7.296157e-17
+          water_reference_component_flux_y_l2: 9.788514e-17
+          oil_reference_component_flux_x_l2: 7.850462e-17
+          oil_reference_component_flux_y_l2: 1.563947e-16
+          gas_reference_component_flux_x_l2: 7.605135e-17
+          gas_reference_component_flux_y_l2: 7.202759e-17
+          direct_summed_eq32_water_component_global_balance: -1.214306433184e-16
+          direct_summed_eq32_oil_component_global_balance: -4.996003610813e-16
+          direct_summed_eq32_gas_component_global_balance: -1.628471663073e-16
+          water_net_outward_reference_component_flux: -9.559272727273e-3
+          gas_net_outward_reference_component_flux: -1.468787878788e-3
+      - dimension: "2d_well_source"
+        status: "black_oil_q2_eg_production_well_source_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_well/q2_eg_three_component_well_source_balance_2d.i"
+        check_script: "validation/scripts/check_black_oil_q2_eg_well_source_balance_2d.py"
+        verification_command: "tools/run_moose_tests -j2 --re black_oil_well"
+        observed_errors:
+          maximum_required_error: 1.114623e-13
+          maximum_integral_error: 5.290907e-16
+          reference_domain_area: 6.0
+          solid_reference_jacobian_integral: 7.92
+          water_well_source_integral: -3.333333333333e-3
+          stock_tank_oil_well_source_integral: -6.428571428571e-3
+          stock_tank_gas_well_source_integral: -9.666666666667e-3
+          focused_group: "13 passed, 0 skipped, 0 failed"
+      - dimension: "3d_spatial_flux"
+        status: "black_oil_spatial_flux_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_pvt/black_oil_three_component_spatial_flux_balance_3d.i"
+        check_script: "validation/scripts/check_black_oil_three_component_spatial_flux_balance_3d.py"
+        verification_command: "tools/run_moose_tests -j$(nproc) --re black_oil_pvt"
+        observed_errors:
+          maximum_required_error: 9.992007e-16
+          maximum_face_integral_error: 3.858025e-15
+          water_reference_component_flux_x_l2: 2.633561e-16
+          water_reference_component_flux_y_l2: 2.532590e-16
+          water_reference_component_flux_z_l2: 2.827590e-16
+          oil_reference_component_flux_x_l2: 3.256780e-16
+          oil_reference_component_flux_y_l2: 4.145850e-16
+          oil_reference_component_flux_z_l2: 5.595165e-16
+          gas_reference_component_flux_x_l2: 1.834515e-16
+          gas_reference_component_flux_y_l2: 1.711529e-16
+          gas_reference_component_flux_z_l2: 1.595669e-16
+          direct_summed_eq32_water_component_global_balance: -6.938893903907e-17
+          direct_summed_eq32_oil_component_global_balance: -9.992007221626e-16
+          direct_summed_eq32_gas_component_global_balance: 4.163336342344e-17
+          water_net_outward_reference_component_flux: -1.959160839161e-2
+          gas_net_outward_reference_component_flux: -2.524747319347e-3
+      - dimension: "3d_well_source"
+        status: "black_oil_q2_eg_production_well_source_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_well/q2_eg_three_component_well_source_balance_3d.i"
+        check_script: "validation/scripts/check_black_oil_q2_eg_well_source_balance_3d.py"
+        gold_csv: "moose_app/test/tests/black_oil_well/gold/q2_eg_three_component_well_source_balance_3d.csv"
+        verification_command: "tools/run_moose_tests -j2 --re black_oil_well"
+        observed_errors:
+          maximum_required_error: 1.926805e-15
+          maximum_integral_error: 3.339343e-17
+          reference_domain_volume: 24.0
+          solid_reference_jacobian_integral: 41.184
+          water_well_source_integral: -3.333333333333e-3
+          stock_tank_oil_well_source_integral: -6.428571428571e-3
+          stock_tank_gas_well_source_integral: -9.666666666667e-3
+          focused_group: "14 passed, 0 skipped, 0 failed"
+      - dimension: "2d"
+        status: "black_oil_storage_spatial_flux_well_source_and_classical_compositional_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_pvt/black_oil_three_component_storage_balance_2d.i"
+        check_script: "validation/scripts/check_black_oil_three_component_storage_balance_2d.py"
+        verification_command: "python3 validation/scripts/check_black_oil_three_component_storage_balance_2d.py"
+        observed_errors:
+          pressure_l2: 2.0764388176818e-13
+          pressure_enrichment_l2: 3.3454723020424e-16
+          water_saturation_l2: 2.6874220530933e-17
+          gas_saturation_l2: 2.3876248941964e-16
+          water_component_storage_rate_l2: 0.0
+          oil_component_storage_rate_l2: 0.0
+          gas_component_storage_rate_l2: 0.0
+          solid_reference_jacobian_l2: 0.0
+      - dimension: "3d"
+        status: "black_oil_storage_spatial_flux_well_source_and_classical_compositional_verified"
+        required: true
+        input_deck: "moose_app/test/tests/black_oil_pvt/black_oil_three_component_storage_balance_3d.i"
+        verification_command: "tools/run_moose_tests -j16 --re black_oil_pvt"
+        observed_errors:
+          pressure_l2: 2.5916174936096e-12
+          pressure_enrichment_l2: 1.4038894920175e-13
+          water_saturation_l2: 4.9737237718842e-16
+          gas_saturation_l2: 2.4981653138052e-15
+          water_component_storage_rate_l2: 0.0
+          oil_component_storage_rate_l2: 0.0
+          gas_component_storage_rate_l2: 0.0
+          solid_reference_jacobian_l2: 0.0
+    acceptance_gap: false
+
+  - id: poromechanics_limit_mms
+    status: "verified_1d_2d_3d"
+    physics_blocks:
+      - "coupled mechanics"
+      - "fluid pressure/storage"
+      - "solid-reference pull-back"
+    governing_equations:
+      - "eq:MC_overall_momentum_nonlinear_biot"
+      - "eq:solid_reference_fluid_component_balance"
+      - "eq:momentum_residual"
+    analytic_or_reference_formula: "The verified 1D case uses u_x=(0.04+0.01t)x(1-x) and p=1+0.2x+0.1t. The verified 2D case uses u_x=(0.04+0.01t)x(1-x), u_y=(0.03+0.015t)y(1-y), and p=1+0.2x+0.15y+0.05xy+0.1t. The verified 3D TET10 case uses those x/y displacement components, u_z=(0.02+0.012t)z(1-z), and p=1+0.2x+0.15y+0.1z+0.1t. All use fluid intrinsic density=2+0.5p, constant phi_f=0.25 and eta_f_alpha=1, analytic finite-deformation body forcing for P=P_double_prime-B p J F_inverse_transpose, standard Darcy reference flux, analytic current-volume component source, and the direct AD product rate d[J phi_f fluid_intrinsic_density eta_f_alpha]/dt."
+    norms:
+      - name: "ux_l2"
+      - name: "uy_l2"
+      - name: "uz_l2"
+      - name: "pressure_or_storage_l2"
+    tolerance:
+      quantitative_scripts:
+        - "validation/scripts/check_coupled_q2_eg_poro_mms_1d.py"
+        - "validation/scripts/check_coupled_q2_eg_poro_mms_2d.py"
+        - "validation/scripts/check_coupled_q2_eg_poro_mms_3d.py"
+      all_reported_norms_max: 1.0e-10
+    dimensions:
+      - dimension: "1d"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_1d.i"
+        observed_errors:
+          ux_l2: 2.565958e-14
+          ux_h1_semi: 6.496273e-13
+          pressure_l2: 3.467757e-15
+          pressure_gradient_l2: 1.983924e-14
+          pressure_enrichment_l2: 3.143066e-15
+          summed_reference_component_storage_l2: 4.159289e-13
+      - dimension: "2d"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_2d.i"
+        observed_errors:
+          ux_l2: 3.567014e-12
+          ux_h1_semi: 5.541733e-11
+          uy_l2: 2.099616e-12
+          uy_h1_semi: 3.263387e-11
+          pressure_l2: 5.617577e-13
+          pressure_gradient_l2: 1.083866e-12
+          pressure_enrichment_l2: 3.669820e-13
+          summed_reference_component_storage_l2: 4.105974e-11
+          summed_reference_component_balance_residual_l2: 4.383549e-11
+      - dimension: "3d"
+        status: "verified"
+        required: true
+        input_deck: "moose_app/test/tests/eg_hierarchy/coupled_q2_eg_poro_mms_3d.i"
+        observed_errors:
+          ux_l2: 8.290929e-13
+          ux_h1_semi: 2.115951e-11
+          uy_l2: 5.423713e-13
+          uy_h1_semi: 1.412566e-11
+          uz_l2: 3.020649e-13
+          uz_h1_semi: 8.600638e-12
+          pressure_l2: 5.176241e-14
+          pressure_gradient_l2: 1.069063e-12
+          pressure_enrichment_l2: 1.064211e-13
+          summed_reference_component_storage_l2: 6.720734e-12
+          summed_reference_component_balance_residual_l2: 7.171978e-12
+    acceptance_gap: false

@@ -170,7 +170,7 @@ entries:
       - "indefinite permeability rejection"
     pass_fail: "The existing CSVDiff references require every scalar and anisotropic diagnostic to match the analytic values at 1e-11 relative or 1e-12 absolute tolerance. RunException cases require the positive-resistance and permeability-definiteness guards. These focused groups were not rerun while another agent owned the serialized MOOSE test queue."
     verification_commands:
-      - "cd moose_app && ~/.local/moose/python/run_tests -j1 --re 'conversion_corrected_darcy|phase_transforming_darcy|anisotropic_phase_transforming_darcy'"
+      - "tools/run_moose_tests -j1 --re 'conversion_corrected_darcy|phase_transforming_darcy|anisotropic_phase_transforming_darcy'"
     notes: "The modular templates are moose_app/input/templates/phase_transforming_darcy.i and moose_app/input/templates/anisotropic_phase_transforming_pressure_gradient.i.template. The scalar full-force material makes capillary or dynamic-lag pressure, electrical force, gravity, acceleration, and conversion insertion independently selectable."
 
   - id: input_registered_n_phase_eos
@@ -338,7 +338,7 @@ entries:
       - "separate electrical phase-fraction, constituent-density, and temperature rate coefficients"
     pass_fail: "The durable CSVDiff reference requires every analytic error to be zero or roundoff at abs_zero=1e-12. This case was not rerun while another agent owned the serialized MOOSE test queue."
     verification_commands:
-      - "cd moose_app && ~/.local/moose/python/run_tests -j1 --re helmholtz_electric_enthalpy_eos"
+      - "tools/run_moose_tests -j1 --re helmholtz_electric_enthalpy_eos"
 
   - id: ideal_mixture_eos_material_mms
     status: passing_regression
@@ -476,7 +476,7 @@ entries:
       - "signed local and global stationary energy-balance residuals and electric-potential gauge-shift invariance"
     pass_fail: "The focused charged_nonisothermal_transport group passed 15/15, 0 skipped, 0 failed. The stationary 3D energy checker has maximum field/material/balance error 2.700062e-13, maximum face/integral error zero, maximum +100 electric-potential gauge-shift difference 8.243924e-15, nonzero six-face heat-flux integrals -8.7846, -10.2487, -16.1051, -21.9615, -21.9615, and -35.1384, Div_X(Q)/electric-work/heat-supply integrals -20.4974/13.31/-33.8074, and direct global balance -2.700062e-13 at tolerance 1e-10. The stationary 1D/2D energy and all constant-coefficient, nonlinear, and Onsager leaves retain their quantitative passing results."
     verification_commands:
-      - "cd moose_app && ~/.local/moose/scripts/run_tests -j$(nproc) --re charged_nonisothermal_transport"
+      - "tools/run_moose_tests -j$(nproc) --re charged_nonisothermal_transport"
       - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_1d.py"
       - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_2d.py"
       - "python3 validation/scripts/check_charged_nonisothermal_nonlinear_flux_mms_3d.py"
@@ -556,7 +556,7 @@ entries:
       - "failure guards for nonreciprocity, indefiniteness, nonpositive temperature, negative h_FS, and ambiguous coefficient mode"
     pass_fail: "The separately focused full-energy hierarchy passed 5/5 with zero skips and failures. Each dimensional strong-residual norm must remain below 1e-8, cancellation must remain at roundoff, entropy production must remain positive, and both multidimensional Jacobian checks must pass."
     verification_commands:
-      - "cd moose_app && ~/.local/moose/scripts/run_tests -j1 --re 'multicomponent_onsager_flux|inter_subsystem_heat_exchange'"
+      - "tools/run_moose_tests -j1 --re 'multicomponent_onsager_flux|inter_subsystem_heat_exchange'"
     notes: "Constant tensor blocks are constructed and audited once, leaving O((N-1)^2 d^2) tensor-force work per quadrature point; state-dependent blocks retain the O(((N-1)d)^3) positive-definiteness audit per quadrature point. Molecular diffusion and unresolved dispersion remain separate selectable template families. The material outputs current-volume component fluxes, so production balance assembly must apply J F^{-1} before using the reference-flux kernel."
 
   - id: restricted_two_phase_constant_k_split_mms
@@ -802,7 +802,7 @@ entries:
     notes: "The current slices provide pressure-tabulated AD PVT/storage/storage rates and phase viscosities, coupled 1D, 2D, and 3D Q2-solid/P1+P0-EG-pressure water/oil/gas storage-balance solves, integrated 1D, genuinely 2D, and genuinely 3D water/oil/gas spatial-flux and production-well/source solves, fixed-history static and dynamic capillary pressure reconstruction, and default ECLIPSE/OPM three-phase tabulated relative permeability with constant intrinsic permeability. Darcy mobility accepts either constant or AD material viscosity. The 3D storage and well/source leaves use the active TET10 policy. The fluxless manufactured storage problem anchors the P0 enrichment; the spatial-flux leaves use the EG oil-pressure interior-facet and weak-boundary operators. Capillary/relative-permeability history evolution, endpoint scaling, separate benchmark PVT grids and PVTO branches, and the classical compositional reductions are verified separately by the registered-phase Q2/EG 1D/2D/3D leaves."
 
   - id: saturation_onsager_phase_pressure_closure
-    status: existing_relative_closure_passing_absolute_identity_and_momentum_stitch_compiled_verification_pending
+    status: absolute_identity_and_momentum_stitch_compiled_and_runtime_verified
     target_phenomenon: "Absolute and relative generalized saturation forces, dissipation, actual phase-pressure and equivalent-pressure identities, solid Legendre identities, and the unique phase-momentum pressure potential"
     manuscript_reduction:
       - "eq:fluid_volume_fraction_el_relation"
@@ -856,11 +856,11 @@ entries:
       - "stored, electrical, dynamic, and reconstructed phase-pressure-difference terms"
       - "absolute phase-volume and pressure-identity residuals, force-rate residuals, and explicit gauge residual"
       - "actual-pressure gradients, p_f-omega_f^+ momentum gradients, and phase-velocity errors in 1D/2D/3D"
-    pass_fail: "Existing constant- and state-dependent relative-force evidence remains passing. Revised acceptance additionally requires a clean optimized build; zero analytic identity and dimensional stitch errors within declared tolerances; exact electric-enthalpy cancellation from the scalar momentum potential; passing AD Jacobian and gauge/saturation/temperature/list guards; tiny-scale symmetric and zero Onsager matrices accepted; tiny materially nonsymmetric matrices rejected; and nonnegative entropy production. These revised tests are drafted but cannot be claimed passing until compiled execution is available."
-    notes: "Force differences are gauge invariant, while the phase-volume equations require exposed absolute forces and an explicit deck-selected common gauge. The revised source, template, test inventory, include resolution, and protected-block validator pass static checks. Compiled verification is pending because the guarded build request was rejected by the approval-service external-command limit."
+    pass_fail: "Existing constant- and state-dependent relative-force evidence remains passing. Revised acceptance additionally requires a clean optimized build; zero analytic identity and dimensional stitch errors within declared tolerances; exact electric-enthalpy cancellation from the scalar momentum potential; passing AD Jacobian and gauge/saturation/temperature/list guards; tiny-scale symmetric and zero Onsager matrices accepted; tiny materially nonsymmetric matrices rejected; and nonnegative entropy production."
+    notes: "Force differences are gauge invariant, while the phase-volume equations require exposed absolute forces and an explicit deck-selected common gauge. The guarded optimized build passed at MOOSE commit abafb58b67a6037c6723ffeb19647c84484466da (AD size 128, patch series exact). phase_thermodynamic_identities passes 8/8 (1D/2D/3D Q2/P1+P0-EG stitches converge to residual ~1e-15 with equivalent-pressure, identity, Euler-Lagrange, force-rate, entropy, power, and solid-equivalent-pressure L2 errors at machine zero, solved phase-velocity fields matching analytic functions to ~1e-16, full 3-component product-rule gradient checks exact to 7.73e-15 in 3D; the 1D/2D gradient columns carry fixed transverse-reference offsets sqrt(2)/1.0 that lower-dimensional meshes cannot represent, not reconstruction error; AD/PETSc Jacobian passes, and four guards fire) and saturation_onsager_force|saturation_onsager_force_gradient|saturation_entropy_viscosity pass 17/17 (genuinely relative tolerance, zero-matrix admission, tiny-scale symmetric acceptance, tiny nonsymmetric rejection, PSD, state-dependent Jacobian, product-rule gradient, and positive-entropy checks)."
 
   - id: spe1_black_oil
-    status: current_conserved_reference_storage_p2_bernstein_local_p2_rate_reduced_and_full_active_history_pass
+    status: numerical_pilot_passes_configured_gates_drsdt_zero_history_blocked_reduced_drsdt_acceptance_fails_on_reworked_deck
     target_phenomenon: "Official SPE1 Case 1 three-dimensional black-oil gas injection and production"
     manuscript_reduction:
       - "eq:black_oil_storage_identifications"
@@ -926,6 +926,8 @@ entries:
       - "validation/scripts/generate_spe1_initial_state.py"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_initial_pvt_1d.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/gas_appearance_complementarity_solve_1d.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_drsdt_zero_coupled_partition_1d.i"
+      - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_drsdt_zero_coupled_partition_eg_1d.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_component_flux_assembly_1d.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_transient_storage_rates_1d.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_transient_flux_well_1d.i"
@@ -938,9 +940,12 @@ entries:
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_case1_q2_eg_initialization_check.i"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_case1_transient_3d.i"
       - "validation/scripts/check_spe1_q2_eg_phase_appearance.py"
+      - "validation/scripts/check_spe1_physical_scope.py"
+      - "validation/scripts/audit_spe1_solution_gas_history.py"
+      - "validation/scripts/run_spe1_phase_transforming_acceptance.py"
       - "validation/reference_data/spe1_case1_opm_flow_2021_10.csv"
       - "moose_app/test/tests/black_oil_benchmark_pvt/spe1_schedule_10_year.i"
-    reference_result: "The provenance-locked conserved-solid-reference-storage formulation passes every endpoint and accepted-timestep gate on the one-day 18-element reduced and 1800-element active-well meshes. The full endpoint has reconstructed-tau evolution L2 1.689056e-10, kinetic L2 3.605350e-9, exact affinity and force-rate-power identities, generalized-force identity L2 1.726557e-20, maximum scaled momentum weak residual 1.772543e-11, maximum scaled subsystem-energy weak residual 1.799860e-14, minimum dissipation -4.815904e-14, gas-balance defect 3.552714e-14 kg/s, and minimum J 0.999296. The largest full-history water, oil, and gas balance defects are 1.2722e-10, 1.31086e-8, and 2.90949e-8 kg/s. Superseded and failed development evidence remains preserved without tolerance changes. The fixed-skeleton FV/OPM path retains diagnostic-only status."
+    reference_result: "The provenance-locked conserved-solid-reference-storage formulation passes every configured endpoint and accepted-timestep gate on the one-day 18-element reduced and 1800-element active-well meshes. The full endpoint has reconstructed-tau evolution L2 1.689056e-10, kinetic L2 3.605350e-9, exact affinity and force-rate-power identities, generalized-force identity L2 1.726557e-20, maximum scaled momentum weak residual 1.772543e-11, maximum scaled subsystem-energy weak residual 1.799860e-14, minimum dissipation -4.815904e-14, gas-balance defect 3.552714e-14 kg/s, and minimum J 0.999296. The largest full-history water, oil, and gas balance defects are 1.2722e-10, 1.31086e-8, and 2.90949e-8 kg/s. The retained 1800-element production fields fail the added elementwise DRSDT=0 audit: the sampled R_s reaches 226.421940893 above the initialized 226.196660482 and increases locally between accepted steps. Superseded and failed development evidence remains preserved without tolerance changes. The fixed-skeleton FV/OPM path retains diagnostic-only status."
     expected_outputs:
       - "field oil rate and gas-oil ratio"
       - "injector and producer block pressure and BHP"
@@ -950,8 +955,8 @@ entries:
       - "tau evolution, reconstruction, and phase-transfer offsets"
       - "phase/component chemical potentials and gas-transfer affinity"
       - "mechanismwise dissipation and conversion-insertion momentum contribution"
-    pass_fail: "The one-day production solve and the 18-, 288-, 1152-, and 1800-element history audits pass every thermodynamic, momentum, energy, closure, conservation, and solver-event gate. The retained 72-element datum fails only the unchanged tau gate with a peak gate fraction of 1.373. Clean 3 h, 1.5 h, and 0.75 h levels pass 8, 16, and 32 accepted steps with zero rejections; average pressure, maximum gas saturation, produced gas volume, and producer BHP show observed timestep orders 1.40, 1.28, 1.03, and 0.97. The nominal 6 h level is a failed uniform-step robustness datum because it rejects the final step and cuts back to 3 h. OPM differences are reported without tuning and have no threshold that can substitute for the theory gates."
-    notes: "The executable CG/EG slice contains tau backbone/enrichment, black-oil electrochemical potentials, reconstructed current phase velocities, tau material derivatives, tau-corrected affinity, directional phase availability, finite-rate conversion, dissolved/free gas source/storage split, nonnegative dissipation diagnostics, conversion insertion in all three overall-momentum rows, two solved temperature equations with storage, heat flux, interphase exchange, and full generalized conversion-transfer work, and active injector/producer scalar rate-BHP controls. SPE1 supplies no absolute chemical-potential reference data, phase-transfer resistance, or thermal calibration; the input deck declares these closures and the report identifies their gauge and calibration scope. Spatial, timestep, and isolated P1/P2 saturation-order convergence are recorded in validation/results/spe1_case1/convergence_summary_v1.json and the benchmark report. A direct boundary-flux decomposition of global energy and the official long-horizon comparison remain pending. The fixed-skeleton cell-centered FV path remains diagnostic only."
+    pass_fail: "The one-day production solve and the 18-, 288-, 1152-, and 1800-element history audits pass every configured thermodynamic, momentum, energy, closure, conservation, and solver-event gate. The elementwise DRSDT=0 audit fails on the retained full-mesh stage-0 and production fields, so physical SPE1 acceptance is blocked pending a production equation-set repair. The retained 72-element datum fails only the unchanged tau gate with a peak gate fraction of 1.373. Clean 3 h, 1.5 h, and 0.75 h levels pass 8, 16, and 32 accepted steps with zero rejections; average pressure, maximum gas saturation, produced gas volume, and producer BHP show observed timestep orders 1.40, 1.28, 1.03, and 0.97. The nominal 6 h level is a failed uniform-step robustness datum because it rejects the final step and cuts back to 3 h. OPM differences are reported without tuning and have no threshold that can substitute for the theory gates."
+    notes: "The executable CG/EG slice contains tau backbone/enrichment, black-oil electrochemical potentials, reconstructed current phase velocities, tau material derivatives, tau-corrected affinity, directional phase availability, finite-rate conversion, dissolved/free gas source/storage split, nonnegative dissipation diagnostics, conversion insertion in all three overall-momentum rows, two solved temperature equations with storage, heat flux, interphase exchange, and full generalized conversion-transfer work, and active injector/producer scalar rate-BHP controls. The PVT material exposes the DRSDT=0 attainable-ratio and history residuals, but the production residual set has not yet coupled them as governing equations; the added audit prevents the resulting local redissolution from being accepted. The production-space reduced partition uses P1 dissolved gas and transfer rate with P2 Bernstein plus P0 free gas and satisfies its storage and AD-Jacobian checks. Its nonzero constrained rate at zero chemical affinity requires an explicit irreversible history state or nonsmooth dissipation potential and an admissibility condition on the tau-corrected generalized force before production momentum, energy, and dissipation evidence can be claimed. SPE1 supplies no absolute chemical-potential reference data, phase-transfer resistance, or thermal calibration; the input deck declares these closures and the report identifies their gauge and calibration scope. Each runner artifact records the resolved PVT and OPM sources plus the uncalibrated transfer, thermal, skeleton, and boundary specializations in physical_scope_audit.json. Spatial, timestep, and isolated P1/P2 saturation-order convergence are recorded in validation/results/spe1_case1/convergence_summary_v1.json and the benchmark report. A direct boundary-flux decomposition of global energy and the official long-horizon comparison remain pending. The fixed-skeleton cell-centered FV path remains diagnostic only."
 
   - id: reference_solid_mechanics_mms
     status: passing_regression
@@ -1086,7 +1091,6 @@ entries:
       - "eq:MC_generalized_transfer_potential_difference"
       - "eq:MC_transfer_work_reference_normalization"
       - "eq:MC_helmholtz_source_projection"
-      - "eq:onsager_affinity_constitutive_relation"
       - "eq:onsager_reaction_rate_variational"
       - "eq:MC_onsager_reaction_rate"
       - "eq:MC_reaction_energy_allocation"
@@ -1124,7 +1128,7 @@ entries:
       - "PETSc AD Jacobian and nonpositive-temperature or indefinite-matrix rejection"
     pass_fail: "The durable test specifications require analytic values at 1e-12 absolute and relative tolerance, PETSc Jacobian ratios and differences at 1e-7, rejection of nonpositive temperatures, and rejection of an indefinite Onsager block. These cases were not rerun while another agent owned the serialized MOOSE test queue."
     verification_commands:
-      - "cd moose_app && ~/.local/moose/python/run_tests -j1 --re 'temperature_weighted_reaction|reaction_energy_onsager'"
+      - "tools/run_moose_tests -j1 --re 'temperature_weighted_reaction|reaction_energy_onsager'"
     notes: "The selectable template inserts the same physical reaction-energy transfer property into the fluid and solid reference-energy balances with scales +1 and -1, enforcing mechanismwise mixture-energy conservation."
 
   - id: poromechanics_limit_smoke
@@ -1198,11 +1202,11 @@ entries:
       - "eq:true_plastic_driving_stress_definition"
       - "eq:MC_solid_isochoric_plastic_flow"
       - "eq:MC_generic_plastic_flow_rules"
-      - "eq:MC_component_resolved_plastic_flow_rules"
+      - "eq:MC_additive_plastic_flow_rules"
       - "eq:MC_scalar_plastic_distension_flow_rule"
-    configuration: "Nontrivial mapped constitutive audit, a genuinely tensorial QUAD9/Q2 two-dimensional manufactured solution through the complete solid kinematic factorization, and a solved three-dimensional transient tensor update with component-resolved AD mobilities, all nine true-plastic component rows, one shared isochoric multiplier, generic tensor plastic distension, and the selectable scalar specialization."
+    configuration: "Nontrivial mapped constitutive audit, a genuinely tensorial QUAD9/Q2 two-dimensional manufactured solution through the complete solid kinematic factorization, and a solved three-dimensional transient tensor update with single phase-level AD mobilities, all nine true-plastic component rows, one shared isochoric multiplier, generic tensor plastic distension, and the selectable scalar specialization."
     variables:
-      - "component mobility state"
+      - "phase mobility state"
       - "nine true-plastic deformation components and one isochoric multiplier"
       - "nine tensor plastic-distension components"
       - "scalar plastic distension"

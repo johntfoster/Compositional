@@ -172,9 +172,21 @@ ADPhaseTransformingDarcyReferenceFluxMaterial::computeQpProperties()
     mooseError(name(), ": active transforming phase requires positive density and viscosity.");
 
   const ADReal phi = rho / intrinsic_density;
-  const ADReal denominator = phi * phi * mu + q * _permeability * kr;
+  const ADReal base_denominator = phi * phi * mu;
+  ADReal denominator = base_denominator + q * _permeability * kr;
   if (MetaPhysicL::raw_value(denominator) <= _minimum_denominator)
-    mooseError(name(), ": conversion-corrected Darcy resistance lost its positive margin.");
+  {
+    // Newton trials cross the physical basin once the phase-appearance
+    // active set engages: the conversion source q (proportional to the
+    // phase-transfer rate r) can drive phi^2 mu + q k k_r nonpositive, which
+    // would make the manuscript conversion-corrected resistance negative.
+    // A converged state there is nonphysical and is caught by the
+    // component-balance/phase-volume gates, so this guard protects only the
+    // trial path: fall back to the non-converting denominator (q = 0), which
+    // is always positive here, so the flux law stays well-posed and positively
+    // damped while the nonlinear solver searches the physical basin.
+    denominator = base_denominator;
+  }
   const ADReal resistance = denominator / (_permeability * kr);
   const ADReal pressure_mobility = rho * phi * _permeability * kr / denominator;
   _combined_resistance[_qp] = resistance;

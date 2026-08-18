@@ -3,7 +3,7 @@ hash_algorithm: sha256
 canonicalization: exact_bytes
 catalog: moose_app/input/fragment_catalog.yml
 include_root: moose_app/input/includes
-locked_root: .codex/verified-input-blocks
+locked_root: agent_environment/verified-input-blocks
 protected_sections:
 - AuxKernels
 - DGKernels
@@ -317,7 +317,7 @@ blocks:
   version: 0.1.0-candidate
   status: candidate
   path: fields/spe2_black_oil_q2_eg.i
-  sha256: 72d39af2cfe625bff93afd6d7df2540a111ed2e1f91be2310dfe161e28932df6
+  sha256: 96e370b10a30fbea55fb4d8193abc6aaa2dcfdd041691892d616ff046ca0a063
   objects:
   - id: fields.spe2_black_oil_q2_eg::Variables/ux
     section: Variables
@@ -401,61 +401,61 @@ blocks:
     section: Variables
     name: gas_phase_transformation_rate
     start_line: 66
-    end_line: 71
-    sha256: c1f84fe434b4648de60b8a4ba52b11dd62c76f71c50ca24998ef007eaf3889b9
+    end_line: 76
+    sha256: acb1471cd25c02ce25b6217b9aa65cc2b3b667d331b465e9c92eff8b39dffbc4
   - id: fields.spe2_black_oil_q2_eg::Variables/fluid_temperature
     section: Variables
     name: fluid_temperature
-    start_line: 72
-    end_line: 76
+    start_line: 77
+    end_line: 81
     sha256: 5573bbbf55ff26c1f17ea066f99ee239c338030cd43e7a55b8fbf736cd74ef65
   - id: fields.spe2_black_oil_q2_eg::Variables/solid_temperature
     section: Variables
     name: solid_temperature
-    start_line: 77
-    end_line: 81
+    start_line: 82
+    end_line: 86
     sha256: 0c575ae44471ed6d2886ec1e690f9448e41b75457fd76949baa326d4dc9d8eb8
   - id: fields.spe2_black_oil_q2_eg::Variables/matrix_reference_component_storage
     section: Variables
     name: matrix_reference_component_storage
-    start_line: 82
-    end_line: 88
+    start_line: 87
+    end_line: 93
     sha256: 600debaa561abe4cd67416ecfccb841149398c9e407a698010d3bcdc57283f21
   - id: fields.spe2_black_oil_q2_eg::Variables/producer_bhp_scalar
     section: Variables
     name: producer_bhp_scalar
-    start_line: 89
-    end_line: 94
+    start_line: 94
+    end_line: 99
     sha256: 503928bfa38de9189f50fbf0c779818baceabbedc68815e2355afe87b411ad6d
   - id: fields.spe2_black_oil_q2_eg::AuxVariables/water_saturation_bound
     section: AuxVariables
     name: water_saturation_bound
-    start_line: 98
-    end_line: 101
+    start_line: 103
+    end_line: 106
     sha256: 2e953f466fa375d07f118022242ae48596c234f7397c992c77e4b3a88c9000cb
   - id: fields.spe2_black_oil_q2_eg::AuxVariables/water_saturation_enrichment_bound
     section: AuxVariables
     name: water_saturation_enrichment_bound
-    start_line: 102
-    end_line: 105
+    start_line: 107
+    end_line: 110
     sha256: 60f26fd53e328f277835ae036b4b19572e6fff8ad7f05c44b623d03c6fa0412c
   - id: fields.spe2_black_oil_q2_eg::AuxVariables/gas_saturation_bound
     section: AuxVariables
     name: gas_saturation_bound
-    start_line: 106
-    end_line: 109
+    start_line: 111
+    end_line: 114
     sha256: cb0d01feadcac621688752611926e9d4030f780fc151c5a57a9f25c40f79c7ac
   - id: fields.spe2_black_oil_q2_eg::AuxVariables/gas_saturation_enrichment_bound
     section: AuxVariables
     name: gas_saturation_enrichment_bound
-    start_line: 110
-    end_line: 113
+    start_line: 115
+    end_line: 118
     sha256: c196d0a7abe37b76fcd160f690c989927ebee12915e3ab8dbd6516de5d0f7586
   - id: fields.spe2_black_oil_q2_eg::AuxVariables/phase_transform_dissipation
     section: AuxVariables
     name: phase_transform_dissipation
-    start_line: 114
-    end_line: 117
+    start_line: 119
+    end_line: 122
     sha256: 42fd445664ce06bacb73db082b2343d362a648c82724e07eae97ea5230aa5c79
   dimension: 2
   provides:
@@ -1447,20 +1447,20 @@ blocks:
   version: 0.1.0-candidate
   status: candidate
   path: materials/spe1_case1_black_oil_pvt.i
-  sha256: a021095a843d56242cf6f3c95132f28e41f7d6b7c33ce5bf9d34e769ff749d3a
+  sha256: ab25ec2e20a60995692b14252dd10771225e338a0ead47d0018a398a72480d1c
   objects:
   - id: materials.spe1_case1_black_oil_pvt::Materials/spe1_pvt
     section: Materials
     name: spe1_pvt
     start_line: 3
-    end_line: 49
-    sha256: 13c6b6908740e51783f45ef989b9d11fa9e7927c84409a503ebdcba312df2d99
+    end_line: 56
+    sha256: 184ea2babbf9ae314793cd9e9099cf205c63601247cb21582c4d0aa56a5bea53
     type: ADBlackOilBenchmarkPVTMaterial
   - id: materials.spe1_case1_black_oil_pvt::Materials/spe1_relative_permeability
     section: Materials
     name: spe1_relative_permeability
-    start_line: 51
-    end_line: 61
+    start_line: 58
+    end_line: 68
     sha256: 4469c6b563d0f1e4c9b8693a462c22b6bcf68e0816ec15815cd2197d9fa8a682
     type: ADBlackOilRelativePermeabilityMaterial
   dimension: 3
@@ -2241,7 +2241,7 @@ blocks:
   version: 0.1.0-candidate
   status: candidate
   path: schedules/spe1_case1_opm_flow_2021_10_time_sequence.i
-  sha256: 030b43b54f4fac358d1c8b2af97bafe362fccb159ab5b623f1a93a996160f0ce
+  sha256: 6013df442bcc53fb25da5fa71408c36cf696746d8914be61835996183db9ce56
   objects: []
   dimension: 3
   provides:

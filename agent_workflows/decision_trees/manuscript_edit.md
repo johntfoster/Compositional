@@ -30,7 +30,8 @@ If the edit changes notation, first make an impact map:
 ## Edit Rules
 
 - Preserve existing manuscript notation unless the request explicitly changes it.
-- Prefer unnumbered helper identities unless the result will be referenced later.
+- Follow `AGENTS.md`: number and descriptively label every displayed identity
+  introduced by an agent unless the author explicitly requests otherwise.
 - Do not introduce new helper symbols such as `L`, `R`, `Q`, or `C` without user
   approval.
 - Keep displayed equations grammatical: punctuation belongs to the sentence.

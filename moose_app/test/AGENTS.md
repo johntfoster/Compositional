@@ -6,7 +6,7 @@ These instructions apply to verification work below `moose_app/test/`.
   `../input/verified_block_registry.yml` before changing a test deck that uses
   reusable input fragments.
 - Test success does not itself lock a fragment. Record the exact durable test
-  file and selector, obtain John's explicit authorization, and use the
+  file and selector, obtain the author's explicit authorization, and use the
   `verified-block-promotion` skill.
 - Do not edit a verified input fragment while repairing a test. Diagnose the
   candidate implementation, scenario-local data, solver configuration, or an

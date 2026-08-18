@@ -1,0 +1,575 @@
+# Machine-readable SPE Comparative Solution Project inventory for the simulator
+# validation scope. This file records public provenance, required physics,
+# reference observables, tolerances, and current implementation status.
+
+schema_version: 1
+last_reviewed: "2026-08-05"
+scope_rule: "Every official SPE Comparative Solution Project whose required physics intersects the promised simulator scope is in scope: black-oil, compositional, multiphase, miscible, thermal/reactive, fracture, well, gridding/upscaling, CO2 storage, and coupled mechanics where an official SPE CSP exists."
+global_acceptance_status: "inventory_complete_spe1_one_day_full_active_history_and_controlled_convergence_pass_long_schedule_and_remaining_benchmarks_pending"
+global_acceptance_blockers:
+  - "All future SPE benchmark decks must use the include hierarchy in moose_app/input and the required Q2 displacement plus EG pressure/tau primary spaces for coupled production simulations."
+  - "SPE1 has a separate fixed-skeleton finite-volume diagnostic through day 151 using the official SI geometry, PVT/saturation tables, layer properties, completion cells, fixed DRSDT=0 dissolved-gas history, phase/component fluxes, shared scalar well controls, and three component balances. It does not satisfy production-theory acceptance."
+  - "SPE1 acceptance requires a coupled four-phase finite-deformation solid-reference solve with Q2 displacement, P1+P0 enriched-Galerkin pressure/tau, higher-order CG/EG saturation where the phase remains nondegenerate, positivity-controlled CG/EG saturation for exact phase disappearance, and a resolved phase-transformation-rate field, including mechanics, solid mass, phase-volume closure, nonequilibrium phase transformation, and two live temperature equations; no OPM threshold substitutes for those theory gates."
+  - "Other in-scope families still require flexible grids, compositional phase behavior, thermal energy, miscibility mixing, and CO2-brine property packages."
+  - "Dual-porosity and fracture-only benchmark work is explicitly deferred for the current implementation pass."
+  - "Published/reference quantities are recorded below. The fixed-skeleton FV diagnostic is quantified through day 151; the finite-deformation CG/EG production comparison is pending and must report discrepancies without tuning to OPM."
+  - "The fixed-skeleton FV diagnostic also completes the full 3650-day schedule on the pinned OPM internal time boundaries. Its conservation closes, but small negative gas saturation and 2.12/3.61 percent oil-rate/GOR plus 0.527/0.713 percent cumulative-oil/gas discrepancies keep the long-horizon comparison open."
+
+provenance_sources:
+  - id: "spe_2001_csp_home"
+    type: "official_public_webpage"
+    url: "https://www.spe.org/web/csp/"
+    evidence: "SPE describes the 2001 CSP as the latest in the prior series and states that CSPs provide benchmark datasets for comparing simulators or algorithms."
+  - id: "spe_2001_model2"
+    type: "official_public_webpage"
+    url: "https://www.spe.org/web/csp/datasets/set02.htm"
+    evidence: "Official SPE10 model-2 page gives geometry, 60 x 220 x 85 fine grid, rock/fluid data, well locations, reporting targets, and downloadable files."
+  - id: "spe11_home"
+    type: "official_public_webpage"
+    url: "https://www.spe.org/csp/spe11"
+    evidence: "SPE11 page identifies 11A, 11B, and 11C, data DOI 10.18419/DARUS-4750, and analysis scripts at Simulation-Benchmarks/11thSPE-CSP."
+  - id: "opm_data"
+    type: "public_open_benchmark_deck_mirror"
+    url: "https://github.com/OPM/opm-data"
+    evidence: "Public decks are available for SPE1, SPE3, SPE5, SPE9, SPE10 model 1, and SPE10 model 2."
+  - id: "opm_material"
+    type: "public_open_reference_implementation"
+    url: "https://github.com/OPM/opm-material"
+    evidence: "EclDefaultMaterial.hpp defines the default saturation-weighted three-phase oil relative-permeability blend and its near-connate regularization used when no Stone model is selected."
+  - id: "spe10_paper"
+    type: "public_paper_metadata"
+    url: "https://doi.org/10.2118/66599-MS"
+    evidence: "Christie and Blunt describe SPE10 as two upscaling problems: a small 2D gas-injection case and a 3D waterflood through a 1.1-million-cell geological model."
+  - id: "spe11_problem_definition"
+    type: "public_paper_metadata"
+    url: "https://doi.org/10.2118/218015-PA"
+    evidence: "Problem definition for SPE11 CO2 storage benchmark."
+
+problem_families:
+  - id: "spe1"
+    official_name: "First SPE Comparative Solution Project"
+    canonical_title: "Comparison of Solutions to a Three-Dimensional Black-Oil Reservoir Simulation Problem"
+    paper:
+      authors: "Aziz S. Odeh"
+      year: 1981
+      identifiers:
+        - "SPE-9723"
+    public_specification_sources:
+      - source_id: "opm_data"
+        path: "spe1/SPE1CASE1.DATA; spe1/SPE1CASE2.DATA"
+      - url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/first.pdf"
+    in_scope_reason: "Exercises three-dimensional black-oil depletion/gas-injection physics, gas-oil PVT, wells, and reservoir reporting, which are explicitly required by the black-oil and multiphase validation scope."
+    required_features:
+      - "3D black-oil mass conservation"
+      - "oil/gas/water phase behavior with solution gas and vaporized oil assumptions as specified by the case"
+      - "tabulated PVT and relative permeability"
+      - "reservoir wells with rate and bottom-hole-pressure constraints"
+      - "field and well summary reporting"
+    reference_quantities:
+      - "field oil/gas/water rates and cumulative production/injection"
+      - "well bottom-hole pressure and phase rates"
+      - "block pressure and saturation snapshots where specified"
+    tolerance:
+      status: "current_conserved_reference_storage_p2_bernstein_local_rate_reduced_and_full_active_history_pass"
+      rule: "Use published or OPM-deck reference summaries for comparison. Production acceptance is determined by theory traceability, AD/Jacobian consistency, balances, closure, and mesh/time-step convergence; OPM discrepancies are reported without post-hoc tuning."
+    current_implementation_status: "conserved_reference_storage_q2_cg_eg_p2_bernstein_local_rate_tau_mu_full_transfer_work_conversion_momentum_two_temperature_reduced_and_full_active_history_pass"
+    observed_errors:
+      coupled_q2_eg_initialization_day1:
+        mesh: "1800 TET10 elements mapped from the 10 x 10 x 3 physical cells"
+        nonlinear_iterations: 19
+        final_nonlinear_residual: 9.227500e-10
+        average_solid_reference_jacobian: 1.010810
+        matrix_component_storage_rate_integral: 8.620422e-16
+        matrix_component_balance_l2: 4.213679e-08
+        phase_volume_constraint_l2: 9.569270e-13
+        water_global_balance_absolute: 4.987300e-13
+        oil_global_balance_absolute: 1.635314e-11
+        gas_global_balance_absolute: 2.167155e-13
+        minimum_gas_saturation: -7.164486e-02
+        qualification: "This is a genuine wells-inactive finite-deformation Q2/EG initialization milestone. The negative gas saturation and inactive completion controls prevent production acceptance and OPM comparison."
+      current_p2_bernstein_coarse_active_day1:
+        mesh: "72 TET10 elements mapped from a 2 x 2 x 3 physical mesh"
+        status: "fail"
+        phase_transform_kinetic_residual_l2: 1.2041420930653e-07
+        phase_transform_kinetic_residual_limit: 1.0e-07
+        minimum_gas_saturation: 0.0
+        minimum_phase_transform_dissipation: -1.1811536494273e-13
+        gas_global_balance: 6.821210263297e-12
+        minimum_solid_reference_jacobian: 1.0007347095436
+        qualification: "This superseded continuous-rate-field run reached one day with matching deck/input/executable provenance but is retained only as a failed coarse-grid convergence datum because the kinetic gate was exceeded; the production deck now uses an element-local P2 monomial rate."
+      current_local_rate_p2_bernstein_reduced_active_day1:
+        mesh: "18 TET10 elements mapped from a 1 x 1 x 3 physical mesh"
+        status: "pass_all_thermodynamic_momentum_energy_and_conservation_history_gates"
+        solid_primary: "conserved solid-reference component storage with reconstructed current porosity"
+        maximum_history_matrix_component_balance_l2: 0.0
+        maximum_history_phase_volume_constraint_l2: 0.0
+        phase_transform_kinetic_residual_l2: 4.6080640670174e-08
+        minimum_gas_saturation: 0.0
+        minimum_phase_transform_dissipation: -2.3504123798311e-14
+        gas_global_balance: -8.6401996668428e-12
+        reconstructed_tau_evolution_l2: 7.7595454442833e-08
+        maximum_scaled_momentum_weak_residual: 8.2632167774078e-10
+        maximum_scaled_subsystem_energy_weak_residual: 7.7871290847566e-12
+        minimum_solid_reference_jacobian: 1.000729867255
+      current_local_rate_p2_bernstein_full_active_day1:
+        mesh: "1800 TET10 elements mapped from the official 10 x 10 x 3 physical cells"
+        solid_primary: "conserved solid-reference component storage with reconstructed current porosity"
+        endpoint_status: "pass"
+        history_status: "pass_all_thermodynamic_momentum_energy_and_conservation_history_gates"
+        phase_transform_kinetic_residual_l2: 3.6053504716347e-09
+        minimum_gas_saturation: 0.0
+        minimum_phase_transform_dissipation: -4.8159040675685e-14
+        gas_global_balance: -3.5527136788005e-14
+        reconstructed_tau_evolution_l2: 1.6890555521062e-10
+        generalized_force_identity_l2: 1.7265566394585e-20
+        maximum_scaled_momentum_weak_residual: 1.7725432233107e-11
+        maximum_scaled_subsystem_energy_weak_residual: 1.7998600810071e-14
+        minimum_solid_reference_jacobian: 0.99929615790438
+        maximum_history_matrix_component_balance_l2: 0.0
+        maximum_history_phase_volume_constraint_l2: 0.0
+        maximum_history_gas_global_balance_absolute: 2.90949e-08
+        matrix_component_balance_l2_limit: 1.0e-06
+        qualification: "All thermodynamic, conversion-momentum, subsystem-energy, closure, conservation, and solver-event endpoint and accepted-timestep gates pass with unchanged resolved-input, executable, verifier, and core-patch provenance. Controlled spatial, timestep, and saturation-order convergence is recorded separately. The official long-horizon comparison remains pending."
+      controlled_cg_eg_convergence_day1:
+        result: "validation/results/spe1_case1/convergence_summary_v1.json"
+        spatial_tet10_elements: [18, 72, 288, 1152, 1800]
+        spatial_status: [pass, fail_tau_gate, pass, pass, pass]
+        peak_tau_gate_fraction: [0.7759545, 1.3728453, 0.0778400, 0.00830535, 0.00616065]
+        clean_timestep_hours: [3.0, 1.5, 0.75]
+        accepted_timesteps: [8, 16, 32]
+        rejected_steps: [0, 0, 0]
+        observed_timestep_orders:
+          average_oil_pressure: 1.3960
+          maximum_gas_saturation: 1.2818
+          produced_gas_surface_volume: 1.0261
+          producer_bhp: 0.9743
+        failed_uniform_timestep_hours: 6.0
+        failed_uniform_timestep_reason: "one rejected final step followed by cutback to 3 h"
+        saturation_basis_result: "validation/results/spe1_case1/saturation_basis_convergence_v1.json"
+        p2_to_p1_l2_ratio_at_nx_32: 0.01121508
+      current_local_rate_p2_bernstein_full_inactive_day1:
+        mesh: "1800 TET10 elements mapped from the official 10 x 10 x 3 physical cells"
+        solid_primary: "conserved solid-reference component storage with reconstructed current porosity"
+        endpoint_status: "pass"
+        history_status: "pass_all_eight_accepted_timestep_gates"
+        phase_transform_kinetic_residual_l2: 5.4178760664667e-12
+        minimum_gas_saturation: 3.203931723547e-10
+        minimum_phase_transform_dissipation: -7.4485488338172e-21
+        gas_global_balance: 6.1170307100872e-13
+        minimum_solid_reference_jacobian: 0.99999235611458
+        maximum_history_matrix_component_balance_l2: 0.0
+        maximum_history_phase_volume_constraint_l2: 0.0
+        qualification: "The no-well companion passes every endpoint and history gate with unchanged resolved-input, executable, verifier, and core-patch provenance."
+      one_day_global_balance_absolute:
+        water: 1.7854946898298e-13
+        oil: 2.7000623958884e-13
+        gas: 1.2789769243682e-13
+      fifth_report_day151_global_balance_absolute:
+        elapsed_time_seconds: 13046400
+        water: 1.5219480194298e-14
+        oil: 1.7763568394003e-14
+        gas: 3.5527136788005e-15
+        minimum_gas_saturation: -5.7378775584296e-17
+        injector_bhp_pa: 44003381.596187
+        producer_bhp_pa: 16331741.255382
+        injected_gas_surface_rate_m3_per_s: 32.774128001807
+        produced_oil_surface_rate_m3_per_s: 0.036802613849555
+        injector_rate_control_absolute_error_m3_per_s: 1.8070025471493e-09
+        producer_rate_control_absolute_error_m3_per_s: 7.1711166172992e-10
+      day31_day59_day90_day120_day151_opm_max_relative_errors:
+        field_oil_rate: 1.95856284e-08
+        field_gor: 4.96641266e-03
+        injector_cell_pressure: 6.52415022e-03
+        producer_cell_pressure: 4.61268951e-03
+        injector_bhp: 1.53866151e-02
+        producer_bhp: 9.19692536e-03
+        injector_gas_rate: 5.54579310e-11
+        producer_oil_rate: 1.95856284e-08
+        producer_gas_rate: 4.96635551e-03
+        produced_oil_volume: 7.12811151e-09
+        produced_gas_volume: 4.35612541e-03
+      full_day3650_fixed_skeleton_fv_diagnostic:
+        completed_report_rows: 120
+        maximum_water_global_balance_absolute: 8.7516618980167e-14
+        maximum_oil_global_balance_absolute: 9.4928509497549e-12
+        maximum_gas_global_balance_absolute: 3.2691627183112e-11
+        minimum_gas_saturation: -3.4080670979843e-07
+        maximum_oil_rate_relative_error: 2.12096811e-02
+        maximum_gor_relative_error: 3.60760522e-02
+        maximum_cumulative_oil_relative_error: 5.26821517e-03
+        maximum_cumulative_gas_relative_error: 7.12760340e-03
+        qualification: "Complete diagnostic run; long-horizon OPM and nonnegative-saturation gates fail, so this is not an accepted regression."
+      qualification: "Except for the explicitly named coupled_q2_eg and current_p2_bernstein entries, the day/report error values above belong to the fixed-skeleton, cell-centered FV diagnostic and have no production-acceptance role."
+    acceptance_blocker: true
+    implementation_spec: "agent_workflows/specs/spe1_black_oil.problem.json"
+
+  - id: "spe2"
+    official_name: "Second SPE Comparative Solution Project"
+    canonical_title: "Second Comparative Solution Project: A Three-Phase Coning Study"
+    paper:
+      authors: "H. G. Weinstein, J. E. Chappelear, and J. S. Nolen"
+      year: 1986
+      identifiers:
+        - "SPE-10489-PA"
+    public_specification_sources:
+      - url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/second.pdf"
+      - url: "https://onepetro.org/JPT/article/38/03/345/73787/Second-Comparative-Solution-Project-A-Three-Phase"
+    in_scope_reason: "Exercises radial-grid three-phase black-oil coning, water and gas coning, gas repressuring, and well controls, all relevant to multiphase black-oil claims."
+    required_features:
+      - "radial or equivalent near-well grid support"
+      - "three-phase black-oil flow"
+      - "gravity segregation and coning"
+      - "single-well controls and rate changes"
+      - "well productivity and pressure reporting"
+    reference_quantities:
+      - "oil, gas, and water production rates"
+      - "bottom-hole pressure"
+      - "near-well saturation/coning behavior"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use published tables/curves digitized or official deck references; require <= 2 percent relative error for pressures and cumulative phase volumes after grid-aligned reproduction, with curve-shape metrics recorded for coning fronts."
+    current_implementation_status: "candidate_geometry_pvt_phase_pressure_well_control_and_initial_state_evidence_coupled_deck_pending"
+    candidate_evidence:
+      report: "validation/reports/spe2.md"
+      problem_spec: "agent_workflows/specs/spe2_black_oil_coning_candidate.problem.json"
+      gate_contract: "validation/reference_data/spe2_candidate_gates.yml"
+      required_candidate_fragment_count: 11
+      exact_candidate_digest_audit: "pass"
+      hydrostatic_capillary_initial_state: "pass_inside_published_participant_fluid_in_place_envelopes"
+      coupled_900_day_status: "pending"
+      production_claim_allowed: false
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe3"
+    official_name: "Third SPE Comparative Solution Project"
+    canonical_title: "Third SPE Comparative Solution Project: Gas Cycling of Retrograde Condensate Reservoirs"
+    paper:
+      authors: "D. E. Kenyon and G. A. Behie"
+      year: 1987
+      identifiers:
+        - "SPE-12278-PA"
+    public_specification_sources:
+      - source_id: "opm_data"
+        path: "spe3/SPE3CASE1.DATA; spe3/SPE3CASE2.DATA"
+      - url: "https://onepetro.org/JPT/article/39/08/981/73577/Third-SPE-Comparative-Solution-Project-Gas-Cycling"
+      - url: "https://www.osti.gov/biblio/5263353"
+    in_scope_reason: "Directly targets compositional retrograde-condensate phase behavior, gas cycling, phase appearance/disappearance, EOS/K-value choices, and production/injection forecasts."
+    required_features:
+      - "multicomponent compositional EOS or equivalent K-value flash"
+      - "retrograde condensate liquid dropout and revaporization"
+      - "gas cycling injection and sales gas handling"
+      - "well constraints and field/well summaries"
+      - "phase appearance/disappearance with robust Newton coupling"
+    reference_quantities:
+      - "surface oil/condensate and gas rates"
+      - "cumulative condensate and gas recovery"
+      - "reservoir pressure"
+      - "condensate saturation near producer"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use the official case definitions and published participant envelope; require MOOSE output inside the selected reference simulator envelope and <= 5 percent relative error against the chosen authoritative reference time series."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe4"
+    official_name: "Fourth SPE Comparative Solution Project"
+    canonical_title: "Fourth SPE Comparative Solution Project: Comparison of Steam Injection Simulators"
+    paper:
+      authors: "K. Aziz, A. B. Ramesh, and P. T. Woo"
+      year: 1987
+      identifiers:
+        - "SPE-13510-PA"
+    public_specification_sources:
+      - url: "https://onepetro.org/JPT/article/39/12/1576/75182/Fourth-SPE-Comparative-Solution-Project-Comparison"
+      - url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/fourth.pdf"
+    in_scope_reason: "Exercises thermal multiphase flow and steam injection, which are in the nonisothermal and thermal/reactive promised scope."
+    required_features:
+      - "energy balance with advective and conductive heat transport"
+      - "steam/water/oil phase behavior"
+      - "temperature-dependent properties"
+      - "latent heat and steam quality"
+      - "thermal wells and injection controls"
+    reference_quantities:
+      - "temperature fronts"
+      - "steam zone evolution"
+      - "oil, water, and steam production/injection rates"
+      - "cumulative recovery and heat injection"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use official problem results; require <= 5 percent relative error for energy and cumulative phase quantities and documented agreement of temperature-front locations within one grid cell or published comparison tolerance."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe5"
+    official_name: "Fifth SPE Comparative Solution Project"
+    canonical_title: "Fifth Comparative Solution Project: Evaluation of Miscible Flood Simulators"
+    paper:
+      authors: "J. E. Killough and C. A. Kossack"
+      year: 1987
+      identifiers:
+        - "SPE-16000-MS"
+    public_specification_sources:
+      - source_id: "opm_data"
+        path: "spe5/SPE5CASE1.DATA"
+      - url: "https://onepetro.org/spersc/proceedings/87RS/87RS/SPE-16000-MS/67534"
+      - url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/fifth.pdf"
+    in_scope_reason: "Exercises miscible compositional flooding, WAG-style multiphase transport, mixing rules, and compositional/black-oil special reductions."
+    required_features:
+      - "four-component miscible flood or fully compositional model"
+      - "mixing parameter or EOS-based miscibility"
+      - "phase relative permeability under miscible transition"
+      - "injection/production wells"
+      - "component production reporting"
+    reference_quantities:
+      - "oil recovery"
+      - "gas/solvent production"
+      - "component breakthrough times"
+      - "field pressure and well rates"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use official published or OPM reference summaries; require <= 5 percent relative error in oil recovery and component cumulative production with breakthrough-time errors reported in days."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe6"
+    official_name: "Sixth SPE Comparative Solution Project"
+    canonical_title: "Sixth SPE Comparative Solution Project: Dual-Porosity Simulators"
+    paper:
+      authors: "A. Firoozabadi and L. K. Thomas"
+      year: 1990
+      identifiers:
+        - "SPE-18741-PA"
+    public_specification_sources:
+      - url: "https://onepetro.org/JPT/article/42/06/710/168464/Sixth-SPE-Comparative-Solution-Project-Dual"
+      - url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/sixth.pdf"
+    in_scope_reason: "Exercises multiphase flow in fractured reservoirs and matrix-fracture transfer, a required extension when the simulator claims general porous multicomponent multiphase transport."
+    required_features:
+      - "dual-porosity or dual-continuum storage"
+      - "matrix-fracture exchange"
+      - "multiphase capillary/gravity transfer"
+      - "depletion, gas injection, and water injection cases"
+      - "fracture and matrix reporting"
+    reference_quantities:
+      - "matrix/fracture pressures and saturations"
+      - "production and injection rates"
+      - "cumulative phase recovery"
+      - "matrix-fracture transfer totals"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use official published curves/tables; require <= 5 percent relative error for cumulative phase production and matrix-fracture transfer totals after matching the published grid and time schedule."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe7"
+    official_name: "Seventh SPE Comparative Solution Project"
+    canonical_title: "Seventh SPE Comparative Solution Project: Modelling of Horizontal Wells in Reservoir Simulation"
+    paper:
+      authors: "L. Nghiem, D. A. Collins, and R. Sharma"
+      year: 1991
+      identifiers:
+        - "SPE-21221-MS"
+    public_specification_sources:
+      - url: "https://onepetro.org/spersc/proceedings/91RSS/All-91RSS/SPE-21221-MS/62639"
+      - url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/seventh.pdf"
+    in_scope_reason: "Exercises horizontal well inflow, wellbore pressure-drop modeling, and two-phase coning/recovery behavior needed for practical black-oil and compositional benchmark claims."
+    required_features:
+      - "horizontal well trajectory/completion representation"
+      - "well index or resolved wellbore model"
+      - "pressure drop along wellbore"
+      - "two- or three-phase reservoir flow"
+      - "rate/BHP constraints and well reporting"
+    reference_quantities:
+      - "well oil, gas, and water rates"
+      - "bottom-hole and segment pressures"
+      - "oil recovery"
+      - "water/gas breakthrough"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use official published comparison data; require <= 2 percent relative error for well pressures and <= 5 percent for cumulative phase production, with segment-pressure discrepancies reported separately."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe8"
+    official_name: "Eighth SPE Comparative Solution Project"
+    canonical_title: "Eighth SPE Comparative Solution Project: Gridding Techniques in Reservoir Simulation"
+    paper:
+      authors: "P. Quandalle"
+      year: 1993
+      identifiers:
+        - "SPE-25263-MS"
+    public_specification_sources:
+      - url: "https://onepetro.org/spersc/proceedings/93RSS/93RSS/SPE-25263-MS/62706"
+      - url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/eighth.pdf"
+    in_scope_reason: "Exercises flexible gridding and reservoir discretization behavior; this simulator uses FE meshes and must prove equivalent reservoir-grid behavior for the promised benchmark surface."
+    required_features:
+      - "flexible or locally refined grids"
+      - "fault/geometry-aware transmissibility or FE flux integration"
+      - "black-oil multiphase flow"
+      - "well controls on non-Cartesian grids"
+      - "grid-convergence and reporting comparisons"
+    reference_quantities:
+      - "field rates and cumulative production"
+      - "well pressures and rates"
+      - "grid-dependent pressure/saturation snapshots"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use official participant data and compare selected FE meshes against published reference curves; require trends within published envelope and <= 5 percent relative error in cumulative production for the selected reference grid."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe9"
+    official_name: "Ninth SPE Comparative Solution Project"
+    canonical_title: "Ninth SPE Comparative Solution Project: A Reexamination of Black-Oil Simulation"
+    paper:
+      authors: "J. E. Killough"
+      year: 1995
+      identifiers:
+        - "SPE-29110-MS"
+    public_specification_sources:
+      - source_id: "opm_data"
+        path: "spe9/SPE9.DATA"
+      - url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/ninth.pdf"
+      - url: "https://www.osti.gov/biblio/153064"
+    in_scope_reason: "Required by the prompt and central to heterogeneous 3D black-oil simulator validation."
+    required_features:
+      - "9000-cell heterogeneous black-oil model"
+      - "three-phase relative permeability and capillary/PVT tables"
+      - "water injection and multiple producers"
+      - "well controls and field summary reporting"
+      - "robust nonlinear multiphase solve"
+    reference_quantities:
+      - "field oil, water, and gas rates"
+      - "field cumulative oil/water/gas"
+      - "well BHP and phase rates"
+      - "pressure/saturation snapshots"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use OPM deck plus published SPE9 data as reproducible reference; require <= 2 percent relative error for field pressures and cumulative volumes and <= 5 percent for instantaneous phase rates at report times."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe10_model1"
+    official_name: "Tenth SPE Comparative Solution Project, Model 1"
+    canonical_title: "SPE10 small 2D vertical gas-injection upscaling problem"
+    paper:
+      authors: "M. A. Christie and M. J. Blunt"
+      year: 2001
+      identifiers:
+        - "SPE-66599-MS"
+    public_specification_sources:
+      - source_id: "spe_2001_csp_home"
+      - source_id: "opm_data"
+        path: "spe10model1/SPE10_MODEL1.DATA"
+      - source_id: "spe10_paper"
+    in_scope_reason: "Required by the prompt through SPE10 and exercises 2D multiphase gas-injection/upscaling behavior."
+    required_features:
+      - "2D vertical cross-section model"
+      - "oil/gas flow"
+      - "fine-grid and upscaled-grid comparisons"
+      - "relative permeability and PVT tables"
+      - "well injection/production controls"
+    reference_quantities:
+      - "gas/oil production rates"
+      - "cumulative production"
+      - "pressure and saturation snapshots"
+      - "fine-grid versus upscaled solution metrics"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use official SPE10 model-1 fine-grid solution or selected published reference; require <= 5 percent relative error in cumulative production and pressure/saturation snapshot norms recorded per grid."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe10_model2"
+    official_name: "Tenth SPE Comparative Solution Project, Model 2"
+    canonical_title: "SPE10 3D waterflood through a 1.1-million-cell geostatistical model"
+    paper:
+      authors: "M. A. Christie and M. J. Blunt"
+      year: 2001
+      identifiers:
+        - "SPE-66599-MS"
+    public_specification_sources:
+      - source_id: "spe_2001_model2"
+      - source_id: "opm_data"
+        path: "spe10model2/SPE10_MODEL2.DATA"
+      - source_id: "spe10_paper"
+    in_scope_reason: "Required by the prompt and central to large heterogeneous black-oil waterflood and upscaling validation."
+    required_features:
+      - "60 x 220 x 85 fine Cartesian grid with 1,122,000 cells"
+      - "dead-oil waterflood PVT and relative permeability tables"
+      - "central injector and four producers"
+      - "large heterogeneous permeability/porosity import"
+      - "field and well reporting"
+      - "optional upscaled-grid comparison"
+    reference_quantities:
+      - "field average pressure"
+      - "field oil/water rates and cumulative volumes"
+      - "well injection pressure"
+      - "producer rates"
+      - "water breakthrough and saturation snapshots"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use official SPE10 reporting tables and OPM data; require <= 2 percent relative error for field pressure/cumulative volumes, <= 5 percent for instantaneous rates, and state the grid used for any upscaled comparison."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+  - id: "spe11"
+    official_name: "Eleventh SPE Comparative Solution Project"
+    canonical_title: "SPE11 CO2 storage benchmark"
+    paper:
+      authors: "J. M. Nordbotten, M. A. Ferno, B. Flemisch, A. R. Kovscek, and K.-A. Lie"
+      year: 2024
+      identifiers:
+        - "SPE-218015-PA"
+        - "data DOI 10.18419/DARUS-4750"
+    subcases:
+      - id: "spe11a"
+        description: "controlled laboratory-scale 2D case"
+      - id: "spe11b"
+        description: "vertical 2D field-scale transect"
+      - id: "spe11c"
+        description: "full 3D field-scale model"
+    public_specification_sources:
+      - source_id: "spe11_home"
+      - source_id: "spe11_problem_definition"
+      - url: "https://github.com/Simulation-Benchmarks/11thSPE-CSP"
+      - url: "https://doi.org/10.18419/DARUS-4750"
+    in_scope_reason: "Exercises modern multiphase CO2-brine compositional, nonisothermal, dissolution, capillary, and heterogeneous storage physics; this overlaps charged/nonisothermal and compositional claims even though a full energy and CO2-brine package is not yet implemented."
+    required_features:
+      - "CO2-H2O phase partitioning"
+      - "pure-phase CO2 and H2O properties"
+      - "mixture properties"
+      - "capillary pressure and relative permeability"
+      - "thermal effects where enabled"
+      - "dissolution-driven convection"
+      - "2D and 3D heterogeneous geological models"
+      - "public sparse/dense data comparison workflow"
+    reference_quantities:
+      - "SPE11 sparse data metrics"
+      - "dense pressure, saturation, composition, and temperature snapshots"
+      - "CO2 plume location and dissolved/trapped/free CO2 masses"
+      - "global distance metrics from official analysis scripts"
+    tolerance:
+      status: "defined_for_future_implementation"
+      rule: "Use official Simulation-Benchmarks/11thSPE-CSP analysis scripts and data DOI; require reported distance metrics within the accepted participant reference envelope for each subcase and all required sparse-data quantities passing the official checker."
+    current_implementation_status: "not_implemented"
+    observed_errors: null
+    acceptance_blocker: true
+
+coupled_mechanics_official_problem_audit:
+  status: "no_numbered_spe_csp_mechanics_case_identified_in_public_spe1_through_spe11_sources"
+  audited_scope:
+    - "SPE1 through SPE11"
+    - "official SPE CSP pages"
+    - "public paper metadata listed above"
+  implication: "The code-only mechanics acceptance burden remains in MMS and non-SPE poromechanics validation unless the repository adds or identifies an official SPE mechanics CSP."
+  not_a_completion_excuse: true

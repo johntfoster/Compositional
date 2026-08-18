@@ -9,7 +9,7 @@ paper-level equation mapping, update `implementation_paper/equation_to_moose_map
 ## Governing Reference Configuration
 
 Finite-element mechanics work should be written on the reference configuration
-of the solid skeleton unless John explicitly changes that decision. Weak forms,
+of the solid skeleton unless the author explicitly changes that decision. Weak forms,
 stress measures, mixture mass terms, reaction/source terms, and thermodynamic
 forces should be pulled back consistently before kernels are designed.
 

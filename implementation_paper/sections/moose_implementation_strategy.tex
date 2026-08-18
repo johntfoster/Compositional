@@ -23,7 +23,7 @@ validated residual path on the solid reference configuration.
 		Phase advection material & \(\mbf v_f\) and \(D_f(\cdot)/Dt\) from \(\mbf W_f\) & Eq.~\eqref{eq:fluid_material_derivative_on_solid_frame} \\
 		Thermodynamics material & \(\bar p_f\), \(\hat\mu_\xi^\alpha\), \(\mu_\xi^\alpha\), \(\psi_\xi\), \(\bar p_E\), \(B\), \(\pi_\xi^\alpha\), \(\Pi_\xi\), \(\lambda\) & flux, momentum, algebraic constraints \\
 		Reaction material & \(\dot r_{(m)}\), \(\dot c_\xi^\alpha\), traditional affinities, generalized conversion coefficients & source and conversion terms \\
-		Reference flux material & \(\mbf W_f\), \(\widetilde{\mbf K}_f\) & Eq.~\eqref{eq:fluid_component_residual} \\
+		Reference flux material & \(\mbf W_f\), \(\widetilde{\bs\Lambda}_f\) & Eq.~\eqref{eq:fluid_component_residual} \\
 		Stress material & \(\mbf P^{\prime\prime}\), pressure stress split & Eq.~\eqref{eq:momentum_residual} \\
 		Component kernels & storage, flux, source residuals & Eq.~\eqref{eq:fluid_component_residual} \\
 		Solid kernels & solid storage and conversion residuals & Eq.~\eqref{eq:solid_component_residual} \\
@@ -99,13 +99,53 @@ the residuals.
 \subsection{Discretization defaults}
 \label{sec:discretization_defaults}
 
-The first finite-element discretization should use continuous Lagrange elements
-with a mixed order sufficient to avoid locking or pressure oscillations in the
-poroelastic limit.  A conservative starting point is quadratic displacement and
-linear scalar variables, matching the Taylor--Hood pattern already used in the
-three-phase implementation.  Stabilization should be introduced only after a
-specific failure mode is identified and tied to a documented weak-form
-approximation.
+The production discretization combines a continuous-Lagrange base space with a
+piecewise-constant enrichment, the enriched-Galerkin (EG) pattern used by
+Lee and Wheeler for two-phase flow with capillary pressure \cite{lee2018eg_twophase}.
+The conforming base gives the favorable conditioning and straightforward
+coupling of continuous finite elements, while the constant enrichment row
+supplies the elementwise mass and volume balance that a pure continuous
+discretization distributes across shared degrees of freedom: testing the
+storage and flux residuals against the constant enrichment function recovers
+the elementwise balance in the same manner as a lowest-order
+discontinuous-Galerkin scheme.  For the SPE1 benchmark the solid
+displacement field uses a quadratic Lagrange base without enrichment, the
+oil-pressure and transfer-potential fields use a linear Lagrange base with a
+constant enrichment and a reconstructed total pressure or total
+transfer potential, and the water- and gas-saturation fields use a quadratic
+Bernstein base with a constant enrichment and a reconstructed saturation
+\cite{lee2018eg_twophase}.
+
+Saturations are enriched for the same reasons as pressures: the constant
+enrichment row gives local conservation, and the reconstruction of the physical
+saturation from the base and enrichment degrees of freedom permits pointwise
+control of the field.  The quadratic Bernstein base functions are nonnegative
+and form a partition of unity, so independent lower bounds on each base
+coefficient and on the enrichment, enforced by a variational inequality, yield
+a reconstructed saturation that is pointwise nonnegative.  This construction
+permits exact phase disappearance: where the gas phase is absent, the
+independently bounded Bernstein coefficient row and its enrichment drive the
+reconstructed gas saturation to zero, and the saturation fields remain within
+the physically admissible range through the coefficient bounds and the
+sum constraint on the reconstructed saturations.  The high-order saturation
+backbones require stabilization at advancing fronts, and following the
+two-phase EG reference the saturation equations receive an entropy-viscosity
+stabilization that acts only where the entropy residual is active
+\cite{lee2018eg_twophase}.  The enriched reconstruction also feeds the
+interior-facet EG operators that connect the pressure, saturation, and
+transfer-potential fields across element boundaries.
+
+The SPE1 production path uses this Q2/CG--EG arrangement throughout:
+quadratic-Lagrange solid displacement; a linear oil-pressure backbone with a
+constant enrichment; quadratic Bernstein water- and gas-saturation backbones
+with constant enrichments and physical reconstructed saturations; and a linear
+transfer-potential backbone with a constant enrichment.  This matches the
+two-phase EG formulation of Lee and Wheeler, in which pressure and saturation
+are enriched together in the same EG space \cite{lee2018eg_twophase}.  The
+choices of Bernstein basis, independent coefficient bounds, and identity
+reconstruction for the gas saturation are documented in the production input
+deck and map to the traceability record in
+Section~\ref{sec:traceability_rules}.
 
 \subsection{Traceability rules}
 \label{sec:traceability_rules}

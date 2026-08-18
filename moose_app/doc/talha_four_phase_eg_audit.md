@@ -2,7 +2,7 @@
 
 Source inspected read-only: `https://github.com/s-tirmizi/ReactingMixtureMechanics2026`,
 branch `four_phase`, downloaded by GitHub API to
-`/tmp/ReactingMixtureMechanics2026-four_phase`.
+the legacy `ReactingMixtureMechanics2026-four_phase` comparison checkout.
 
 ## Applicable patterns
 

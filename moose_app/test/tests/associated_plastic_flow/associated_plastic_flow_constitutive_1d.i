@@ -76,10 +76,10 @@
 []
 
 [Materials]
-  [component_mobilities]
+  [mobilities]
     type = ADGenericConstantMaterial
-    prop_names = 'lambda_F_0 lambda_F_1 lambda_A_0 lambda_A_1'
-    prop_values = '0.05 0.15 0.1 0.2'
+    prop_names = 'lambda_F lambda_A'
+    prop_values = '0.2 0.3'
   []
   [material_stress]
     type = ADGenericConstantRankTwoTensor
@@ -107,8 +107,8 @@
     elastic_true_deformation_name = Fbar_e
     distension_tensor_name = A
     elastic_distension_tensor_name = A_e
-    plastic_deformation_mobility_names = 'lambda_F_0 lambda_F_1'
-    plastic_distension_mobility_names = 'lambda_A_0 lambda_A_1'
+    plastic_deformation_mobility_property = lambda_F
+    plastic_distension_mobility_property = lambda_A
   []
 []
 

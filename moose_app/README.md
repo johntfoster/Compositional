@@ -36,11 +36,8 @@ Current implemented scope:
 ## Build
 
 ```bash
-cd moose_app
-eval "$(~/miniconda3/bin/conda shell.bash hook)"
-conda activate moose
-export MOOSE_DIR=~/.local/moose
-make -j$(nproc)
+tools/agentctl provision moose
+agent_environment/skills/setup-moose-conda/scripts/moose_conda_env.sh run -- make -C moose_app -j1
 ```
 
 The expected executable name is `multicomponent_reactive_flow-opt`.

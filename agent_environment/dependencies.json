@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "harnesses": {
+    "claude": {"skills_dir": ".claude/skills"},
+    "codex": {"skills_dir": ".codex/skills"},
+    "copilot": {"skills_dir": ".github/skills"},
+    "grok-build": {"skills_dir": ".grok/skills"},
+    "opencode": {"skills_dir": ".opencode/skills"},
+    "pi": {"skills_dir": ".pi/skills"}
+  },
+  "routes": [
+    {
+      "all": ["equation"],
+      "skills": ["latex-equation-integrity-checker", "latex-equation-resolver"],
+      "profiles": ["manuscript"]
+    },
+    {
+      "any": ["input deck", "deck assembly", "assemble deck"],
+      "skills": ["deck-assembler", "deck-integrity-validator"],
+      "profiles": ["verified-decks"]
+    },
+    {
+      "any": ["promote verified", "verified block promotion"],
+      "skills": ["verified-block-promotion", "deck-integrity-validator"],
+      "profiles": ["verified-decks"]
+    },
+    {
+      "any": ["citation", "bibliography"],
+      "skills": ["latex-citation-verifier", "canonical-reference-finder"],
+      "profiles": ["research"]
+    },
+    {
+      "any": ["build moose", "run moose", "moose application", "moose test"],
+      "skills": ["setup-moose-conda", "moose-residual-traceability-planner"],
+      "profiles": ["moose"]
+    }
+  ],
+  "profiles": {
+    "manuscript": {
+      "description": "Source interpretation, equation resolution, notation, narrative, and table audits.",
+      "triggers": ["manuscript", "latex", "equation", "notation", "derivation", "summary table"],
+      "skills": ["latex-*", "manuscript-*", "reservoir-specialization-mapper"],
+      "checks": [{"argv": ["python3", "tools/check_dependency_profile.py", "manuscript"]}],
+      "provision": [{"argv": ["python3", "tools/provision_latex.py"]}]
+    },
+    "research": {
+      "description": "Local PDF extraction and scholarly-source verification.",
+      "triggers": ["research pdf", "literature review", "source paper", "citation", "bibliography"],
+      "skills": ["latex-research-ingest", "latex-citation-verifier", "canonical-reference-finder"],
+      "checks": [{"argv": ["python3", "tools/check_dependency_profile.py", "research"]}],
+      "provision": [
+        {"argv": ["python3", "tools/provision_python_profile.py", "research"]}
+      ]
+    },
+    "verified-decks": {
+      "description": "Verified input-block inventory, assembly, integrity, and promotion tooling.",
+      "triggers": ["input deck", "verified block", "deck assembly", "deck integrity", "fragment catalog"],
+      "skills": ["agent-deck-*", "deck-*", "verified-block-promotion"],
+      "checks": [{"argv": ["python3", "tools/check_dependency_profile.py", "verified-decks"]}],
+      "provision": [
+        {"argv": ["python3", "tools/provision_python_profile.py", "verified-decks"]}
+      ]
+    },
+    "moose": {
+      "description": "MOOSE framework checkout, Conda environment, application builds, runs, and tests.",
+      "triggers": ["moose", "kernel", "finite element", "simulation", "build application", "run tests"],
+      "skills": ["moose-*", "setup-moose-*"],
+      "checks": [{"argv": ["python3", "tools/check_dependency_profile.py", "moose"]}],
+      "provision": [
+        {"argv": ["agent_environment/skills/setup-moose-conda/scripts/moose_conda_env.sh", "setup"]}
+      ]
+    },
+    "publication": {
+      "description": "Manuscript-history extraction and public-release preparation.",
+      "triggers": ["extract manuscript", "manuscript repository", "submission release", "public history"],
+      "skills": [],
+      "checks": [{"argv": ["python3", "tools/check_dependency_profile.py", "publication"]}],
+      "provision": [
+        {"argv": ["python3", "tools/provision_python_profile.py", "publication"]}
+      ]
+    },
+    "vscode": {
+      "description": "Restore the repository's locked VS Code extension set.",
+      "triggers": ["vscode", "visual studio code", "editor extensions"],
+      "skills": [],
+      "checks": [{"argv": ["python3", "tools/vscode_extensions.py", "check"]}],
+      "provision": [{"argv": ["python3", "tools/vscode_extensions.py", "install"]}]
+    }
+  }
+}

@@ -1,9 +1,17 @@
 # Local/generated workflow state
+.agent-runtime/
 .codex-research/
+.codex/skills/
 .latex-edit-pi/
 .mechpi/
 .ragpi/
 rescan/
+.claude/skills/
+.github/skills/
+.github/agents/
+.grok/skills/
+.opencode/skills/
+.pi/skills/
 
 # LaTeX build outputs
 build/
@@ -19,7 +27,7 @@ main.pdf
 *.bak*
 indent.log
 
-# Compiled object files, libraries, and generated build/JIT products
+# MOOSE/libtool compilation objects and dependency files
 *.o
 *.obj
 *.lo
@@ -33,13 +41,39 @@ indent.log
 .libs/
 .jitcache/
 tmp_jit_*
-
-# Python bytecode caches
 __pycache__/
-*.pyc
-
-# Editor/backup leftovers
+*.py[cod]
 *.orig
+
+# MOOSE application build and test output
+moose_app/lib/
+moose_app/test/lib/
+moose_app/*-opt
+moose_app/*-dbg
+moose_app/*-devel
+moose_app/*-oprof
+moose_app/multicomponent_reactive_flow.yaml
+moose_app/ADRealMonolithic.h
+moose_app/*.csv
+moose_app/examples/*_out*.csv
+moose_app/test/tests/**/*.csv
+!moose_app/test/tests/**/gold/*.csv
+
+# Generated installation mirrors and validation-run artifacts
+/include/
+/share/
+validation/results/
+multicomponent-reactive-flow-tailscale.code-workspace
+
+# Local design explorations and externally retrieved source copies
+fennec_logo*.svg
+msnpd2.tex
+ignatova_shu.tar.gz
+ignatova_shu_src.tar.gz
+
+# Generated diagnostics and test-run state
+moose_app/jacobian_fresh.txt
+moose_app/.previous_test_results.json
 
 # Research PDFs are intentional source/context files.
 !references/pdfs/*.pdf

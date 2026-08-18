@@ -1,6 +1,6 @@
 # GENERATED FILE: assemble from verified blocks; do not add protected objects here.
 # problem_spec: agent_workflows/specs/verified_q2_eg_mms_2d.problem.json
-# registry_sha256: 6bfd6b4970a1e5df5710a450c1412ba3823ea474627285c25a7a2da63bbab2b3
+# registry_sha256: a8f3dabed29f1467223e1c1651e7ae6ef653797046d2499a47a52454289f4349
 
 mesh_nx := 4
 mesh_ny := 4
@@ -18,33 +18,33 @@ solve_dt := 1.0
 solve_steps := 1
 
 # verified-block: common.solver_defaults@1.0.0
-!include ../../../.codex/verified-input-blocks/common.solver_defaults/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/common.solver_defaults/1.0.0.i
 # verified-block: mesh.generated_2d_q2@1.0.0
-!include ../../../.codex/verified-input-blocks/mesh.generated_2d_q2/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/mesh.generated_2d_q2/1.0.0.i
 # verified-block: fields.solid_q2_2d@1.0.0
-!include ../../../.codex/verified-input-blocks/fields.solid_q2_2d/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/fields.solid_q2_2d/1.0.0.i
 # verified-block: fields.eg_pressure_tau@1.0.0
-!include ../../../.codex/verified-input-blocks/fields.eg_pressure_tau/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/fields.eg_pressure_tau/1.0.0.i
 # verified-block: materials.solid_kinematics_2d@1.0.0
-!include ../../../.codex/verified-input-blocks/materials.solid_kinematics_2d/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/materials.solid_kinematics_2d/1.0.0.i
 # verified-block: materials.eg_reconstruction@1.0.0
-!include ../../../.codex/verified-input-blocks/materials.eg_reconstruction/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/materials.eg_reconstruction/1.0.0.i
 # verified-block: materials.darcy_pressure_flux@1.0.0
-!include ../../../.codex/verified-input-blocks/materials.darcy_pressure_flux/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/materials.darcy_pressure_flux/1.0.0.i
 # verified-block: materials.solid_stress_eg_pressure@1.0.0
-!include ../../../.codex/verified-input-blocks/materials.solid_stress_eg_pressure/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/materials.solid_stress_eg_pressure/1.0.0.i
 # verified-block: materials.eg_tau_evolution@1.0.0
-!include ../../../.codex/verified-input-blocks/materials.eg_tau_evolution/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/materials.eg_tau_evolution/1.0.0.i
 # verified-block: operators.eg_pressure_diffusion@1.0.0
-!include ../../../.codex/verified-input-blocks/operators.eg_pressure_diffusion/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/operators.eg_pressure_diffusion/1.0.0.i
 # verified-block: operators.eg_tau_fluxless@1.0.0
-!include ../../../.codex/verified-input-blocks/operators.eg_tau_fluxless/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/operators.eg_tau_fluxless/1.0.0.i
 # verified-block: operators.solid_momentum_2d@1.0.0
-!include ../../../.codex/verified-input-blocks/operators.solid_momentum_2d/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/operators.solid_momentum_2d/1.0.0.i
 # verified-block: executioner.transient_newton@1.0.0
-!include ../../../.codex/verified-input-blocks/executioner.transient_newton/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/executioner.transient_newton/1.0.0.i
 # verified-block: outputs.csv@1.0.0
-!include ../../../.codex/verified-input-blocks/outputs.csv/1.0.0.i
+!include ../../../agent_environment/verified-input-blocks/outputs.csv/1.0.0.i
 
 # Scenario-local, non-protected objects.
 !include ../scenarios/verified_q2_eg_mms_2d.i

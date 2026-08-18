@@ -28,11 +28,12 @@ not replace `AGENTS.md`, `VISION.md`, `main.tex`, or `defs.tex`.
 | MOOSE kernel/material/action planning | Implementation traceability | `moose_app/doc/theory_traceability.yml` |
 | Validation case or benchmark design | Validation matrix | `validation/validation_matrix.yml` |
 | Input deck generation or run setup | Structured problem spec | `agent_workflows/schemas/problem_spec.schema.json` |
-| Input fragment or kernel accounting | Verified-block inventory | `.codex/skills/deck-block-inventory/SKILL.md` |
-| Promote or change a verified input fragment | Authorized block promotion | `.codex/skills/verified-block-promotion/SKILL.md` |
-| Assemble a regression, benchmark, or production deck | Verified deck assembly | `.codex/skills/deck-assembler/SKILL.md` |
-| Check a locked fragment or assembled deck | Integrity gate | `.codex/skills/deck-integrity-validator/SKILL.md` |
+| Input fragment or kernel accounting | Verified-block inventory | `agent_environment/skills/deck-block-inventory/SKILL.md` |
+| Promote or change a verified input fragment | Authorized block promotion | `agent_environment/skills/verified-block-promotion/SKILL.md` |
+| Assemble a regression, benchmark, or production deck | Verified deck assembly | `agent_environment/skills/deck-assembler/SKILL.md` |
+| Check a locked fragment or assembled deck | Integrity gate | `agent_environment/skills/deck-integrity-validator/SKILL.md` |
 | Failed MOOSE run | Layered failure triage | `agent_workflows/runbooks/moose_failure_triage.md` |
+| SPE1 Case 1 acceptance status, attempt records, or run decision | SPE1 acceptance status first | `agent_workflows/runbooks/spe1_acceptance_status.md` |
 
 ## Response Choice
 

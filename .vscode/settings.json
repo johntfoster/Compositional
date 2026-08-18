@@ -28,5 +28,42 @@
     }
   ],
   "latex-workshop.view.pdf.viewer": "tab",
-  "latex-workshop.synctex.afterBuild.enabled": true
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  "latex-workshop.formatting.latex": "latexindent",
+  "latex-workshop.formatting.latexindent.path": "latexindent",
+  "latex-workshop.formatting.latexindent.args": [
+    "-l=latexindent.yaml",
+    "-r",
+    "-c=build",
+    "%TMPFILE%"
+  ],
+  "latex-workshop.intellisense.citation.backend": "bibtex",
+  "latex-workshop.intellisense.package.enabled": true,
+  "files.autoSave": "off",
+  "editor.fontSize": 16,
+  "[latex]": {
+    "editor.defaultFormatter": "James-Yu.latex-workshop",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false,
+    "editor.wordWrap": "on"
+  },
+  "[tex]": {
+    "editor.defaultFormatter": "James-Yu.latex-workshop",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false,
+    "editor.wordWrap": "on"
+  },
+  "workbench.colorTheme": "Dark Modern",
+  "accessibility.voice.autoSynthesize": "on",
+  "terminal.integrated.defaultProfile.linux": "fish",
+  "terminal.integrated.profiles.linux": {
+    "fish": {
+      "path": "fish",
+      "args": [
+        "-l"
+      ]
+    }
+  }
 }

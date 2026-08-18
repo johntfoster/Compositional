@@ -8,7 +8,8 @@
       "role": "Water, stock-tank oil, and stock-tank gas component storage through B_w, B_o, B_g, and R_s.",
       "assumptions_added": [
         "The official PVTW, PVDG, and PVTO tables define the benchmark fluid closure.",
-        "SPE1 Case 1 specifies DRSDT=0, so dissolved gas remains at its initialized R_s while injected gas accumulates as free gas."
+        "SPE1 Case 1 specifies DRSDT=0, a zero upper bound on the rate at which dissolved R_s may increase; pressure-driven exsolution may reduce R_s while free gas cannot redissolve during subsequent pressure recovery.",
+        "DRSDT supplies a black-oil rate bound. The finite-deformation implementation requires a separately declared chemical-potential, transfer-work, and dissipation closure."
       ]
     },
     {
@@ -108,7 +109,7 @@
       "name": "solution_gas_oil_ratio",
       "family": "LAGRANGE",
       "order": "FIRST",
-      "meaning": "P1 continuous dissolved solution gas-oil ratio retained at its initialized value by the DRSDT=0 history equation.",
+      "meaning": "P1 continuous dissolved solution gas-oil ratio limited by the DRSDT=0 pressure-and-history relation.",
       "units": "standard m3/stock-tank m3"
     },
     {
@@ -321,7 +322,7 @@
   "open_questions": [
     "Construct and document a thermodynamic extension of the SPE1 PVT tables that supplies chemical-potential differences and their derivatives while reproducing the tabulated formation-volume factors and saturated Rs curve; SPE1 does not provide absolute chemical-potential reference data.",
     "Treat finite phase-transfer/Onsager resistance as an explicitly declared nonequilibrium extension with sensitivity analysis because SPE1 supplies no kinetic coefficient; do not tune it to OPM output.",
-    "The coupled four-phase finite-deformation Q2/EG solve is the production path and passes its one-day thermodynamic, momentum, energy, closure, conservation, and solver-event gates with reproducible provenance; the remaining comparison is to run that production deck through the same saved OPM times and report pressure, saturation, GOR, rate, and cumulative-volume errors at each matched time, including the official long horizon.",
+    "The coupled four-phase finite-deformation Q2/EG solve is the production path and passes its configured one-day thermodynamic, momentum, energy, closure, conservation, and solver-event gates with reproducible provenance; the retained fields fail the elementwise DRSDT=0 history audit. A reduced P1/P2-plus-P0 partition preserves the governing history row and the storage balances. Its nonzero transfer rate at zero chemical affinity requires an explicit irreversible history state or nonsmooth dissipation potential and an admissibility condition on the tau-corrected generalized force, followed by renewed momentum, energy, and dissipation evidence before comparison at the saved OPM times or the official long horizon.",
     "Resolve and document the mechanically admissible SPE1 skeleton boundary conditions and constitutive data without tuning to OPM outputs.",
     "Resolve a verified Q2/EG mesh policy that preserves the official layer, completion, and report-block mapping and perform spatial convergence.",
     "Extend the verified one-cell FV well controller to aggregate pressure and rate over multiple completion cells.",

@@ -1,5 +1,22 @@
 # AGENTS.md
 
+## Portable agent environment
+
+- Treat this file as the sole universal agent entry point. Do not duplicate its
+  rules in harness-specific instruction files.
+- Canonical skills live under `agent_environment/skills/`. At the first
+  relevant query, use `tools/agentctl route "<query>"` to select the smallest
+  applicable skill and dependency profile. Use `tools/agentctl activate` only
+  when the active harness requires installed skill copies, and pass
+  `--provision` only when the selected task needs that profile's dependencies.
+- Resolve every operational path from the repository root. Instructions,
+  skills, scripts, and executable configuration must use repository-relative
+  paths; never record a user home directory or machine-specific checkout path.
+- Keep generated environments, caches, harness adapters, build products, and
+  run output under ignored runtime locations. Commit only authoritative source,
+  documentation, instructions, schemas, templates, tests, and intentional
+  reference data.
+
 ## Active coordination notice: verified input blocks
 
 - Code-verification agents must re-read the verified input-block rules in the
@@ -28,7 +45,7 @@
 
 - Treat `main.tex` as the canonical root of the manuscript. Start from `main.tex`, follow its `\\input`, `\\include`, bibliography, macro, and package declarations, and interpret all included TeX in that root context.
 - Manuscript body files are organized under `sections/`, but they are not standalone documents. Interpret them only through the `main.tex` root context.
-- Store intentional research PDFs in `references/pdfs/` and human reading notes in `references/notes/`. Use the `latex-research-ingest` skill's local `.codex-research/` store for PDF ingestion and retrieval. Treat generated LaTeX, preview, and retrieval state as non-authoritative workflow artifacts.
+- Store intentional research PDFs in `references/pdfs/` and human reading notes in `references/notes/`. Use the `latex-research-ingest` skill's local `.agent-runtime/research/` store for PDF ingestion and retrieval. Treat generated LaTeX, preview, and retrieval state as non-authoritative workflow artifacts.
 - When answering questions about the paper, prefer exact evidence from `main.tex` and included TeX files over memory, generated PDFs, auxiliary files, notes, or ingested reference chunks.
 - Cite source locations as `file:line` whenever making claims about manuscript text, notation, assumptions, derivations, equation labels, or references.
 - Do not infer global notation from isolated snippets. Resolve definitions, labels, counters, macros, and theorem/equation environments through the `main.tex` compilation graph.
@@ -43,7 +60,7 @@
 - When a notation change affects a derivation, propagate it through state sets, chain-rule terms, thermodynamic forces, restrictions, and downstream prose instead of patching only the visible equation.
 - Separate kinematic fields from constitutive arguments before renaming symbols. Do not replace every occurrence of a symbol merely because one role changed.
 - When the user narrows an edit to a section, subsection, equation, or paragraph, keep edits strictly inside that scope unless the user explicitly expands it.
-- Number and descriptively label every displayed equation or identity introduced by an agent, including helper identities. Do not introduce unnumbered displayed mathematics unless John explicitly requests it.
+- Number and descriptively label every displayed equation or identity introduced by an agent, including helper identities. Do not introduce unnumbered displayed mathematics unless the author explicitly requests it.
 - For citation or external-paper equation claims, verify the cited equation in the source PDF before changing manuscript text.
 - After any edit to manuscript source, including `main.tex`, `defs.tex`, `sections/*.tex`, or `all.bib`, rebuild the manuscript from `main.tex` with the `latex-workshop-recompile` skill before reporting the edit complete.
 
@@ -60,20 +77,21 @@
 ## MOOSE implementation track
 
 - Before building or running `moose_app/`, use the repository-local
-  `setup-moose-conda` skill at `.codex/skills/setup-moose-conda/SKILL.md`. Run
+  `setup-moose-conda` skill at `agent_environment/skills/setup-moose-conda/SKILL.md`. Run
   its non-destructive diagnostic first; it documents the verified `moose`
-  Conda environment, durable MOOSE checkout, `/tmp/moose` compatibility link,
+  Conda environment, repository-local `.agent-runtime/moose` checkout link,
   explicit `conda run` invocation, conservative build command, and MPI sandbox
   escalation guidance. The coupled Q2/EG production element requires a
   128-entry MOOSE AD backing store, a matching installed
   `include/moose/ADRealMonolithic.h`, and runtime execution inside the same
   Conda environment. After changing AD size, move any existing
-  `moose_app/.jitcache` to a recoverable, uniquely named `/tmp` backup before
+  `moose_app/.jitcache` to a recoverable, uniquely named backup below
+  `.agent-runtime/backups/` before
   rerunning; stale JIT shared objects are ABI-incompatible. Do not replace a
   conflicting runtime path or install a new toolchain without user approval.
-- Treat the MOOSE checkout as pinned external source. Any intentional edit
-  under /home/jfoster/.local/moose must be stored as a numbered patch under
-  moose_app/patches/moose/, recorded with base commit, SHA-256, rationale,
+- Treat the MOOSE checkout at `.agent-runtime/moose` as pinned external source.
+  Any intentional framework edit must be stored as a numbered patch under
+  `moose_app/patches/moose/`, recorded with base commit, SHA-256, rationale,
   tests, and application state in series.yml, and assessed in
   moose_app/doc/moose_upstream_candidates.yml for an upstream pull request.
   Every series entry must list its exact affected files. The
@@ -82,7 +100,7 @@
   canonical `moose_app/cmake/build_opt.cmake` wrapper records MOOSE HEAD and
   status and runs that diagnostic before and after each build attempt.
 - Implementation work lives in `moose_app/`, a clean MOOSE application scaffold that is intentionally independent of the earlier three-phase/Talha app. Use the earlier app as technical memory and evidence for AD patterns, not as a source tree to copy.
-- The companion implementation-and-verification manuscript lives in `implementation_paper/`. Its finite-element equations should be written on the reference configuration of the solid skeleton unless John explicitly changes that decision.
+- The companion implementation-and-verification manuscript lives in `implementation_paper/`. Its finite-element equations should be written on the reference configuration of the solid skeleton unless the author explicitly changes that decision.
 - Keep MOOSE source, tests, examples, and documentation separate from LaTeX manuscript source. Do not put kernels or input decks under the theory manuscript `sections/` tree.
 - Preserve traceability from code to theory. New kernels, materials, actions, boundary conditions, and tests should cite the manuscript equation labels or section names they implement whenever the connection is non-obvious.
 - Start from the smallest useful kernel set. Prefer one validated residual path over broad scaffolding for many equations that are not yet tested.
@@ -96,12 +114,18 @@
 
 - Before editing application source, input decks, verification scripts, or
   manuscript source, and before building or running tests, check for
-  `/tmp/multicomponent_reactive_flow_spe_acceptance.lock`.  The SPE acceptance
+  `.agent-runtime/locks/spe_acceptance.lock`. The SPE acceptance
   runner creates this marker while it hashes and executes a provenance-critical
   benchmark.  While the recorded process is live, defer every edit, build, or
   test that could change the source tree, executable, runtime library, resolved
   deck, or manuscript; read-only inspection may continue.  A stale marker is
   moved to a uniquely named recoverable file by the next acceptance run.
+- For any SPE1 Case 1 acceptance question, status check, or run decision,
+  first read `agent_workflows/runbooks/spe1_acceptance_status.md`.  It is the
+  authoritative record of what has been tried, where the attempt records,
+  source, templates, and inputs live, the current acceptance state, and the
+  remaining work.  Update it whenever a SPE1 run outcome, deck, or gate set
+  changes.
 
 ### SPE verification model and discretization
 
@@ -156,7 +180,7 @@
 ## Agent-assisted simulator workflow
 
 - Build agent-facing simulator assets as explicit files: input-deck templates, parameter schemas, checklist prompts, validation scripts, run recipes, postprocessing recipes, and troubleshooting notes.
-- Treat `moose_app/input/verified_block_registry.yml` as the authority for reusable input-fragment status and exact content. Each `verified` fragment has a versioned protected payload under `.codex/verified-input-blocks/`; assembled decks consume that payload. The matching include-tree source is also locked so candidate development cannot diverge silently. Agents may include verified blocks, but they must not edit either copy, the registry digest, recorded object inventory, version, or verification evidence. An intentional change requires John’s explicit authorization, a higher semantic version, fresh mapped test evidence, and the `verified-block-promotion` skill. Run the `deck-integrity-validator` skill before accepting or running an assembled deck and after any edit under `moose_app/input/`.
+- Treat `moose_app/input/verified_block_registry.yml` as the authority for reusable input-fragment status and exact content. Each `verified` fragment has a versioned protected payload under `agent_environment/verified-input-blocks/`; assembled decks consume that payload. The matching include-tree source is also locked so candidate development cannot diverge silently. Agents may include verified blocks, but they must not edit either copy, the registry digest, recorded object inventory, version, or verification evidence. An intentional change requires the author's explicit authorization, a higher semantic version, fresh mapped test evidence, and the `verified-block-promotion` skill. Run the `deck-integrity-validator` skill before accepting or running an assembled deck and after any edit under `moose_app/input/`.
 - Use the repository-local `deck-block-inventory` skill to account for new input fragments and individual MOOSE objects. Candidate fragments remain editable, but their catalog and candidate registry records must be refreshed together. Use the `deck-assembler` skill for regression, benchmark, and production decks so protected kernels, DG kernels, materials, scalar kernels, auxiliary kernels, and user objects enter generated decks only through verified includes.
 - Generate MOOSE input decks from structured templates whenever possible. Avoid one-off freeform decks unless the task is exploratory and the uncertainty is clearly stated.
 - Before running a generated deck, validate required variables, kernels, materials, boundary conditions, units, mesh assumptions, executioner settings, outputs, and postprocessors against the selected template or schema.
@@ -192,15 +216,19 @@
 - The TeX language server `texlab` is available. Use direct LSP diagnostics, definitions, references, document symbols, hovers, renames, and code actions when precise LaTeX navigation or validation is needed.
 - Use the `latex-workshop-recompile` skill every time a manuscript build, rebuild, recompile, PDF refresh, aux refresh, or equation-number validation is needed.
 - After every manuscript compilation, inspect the rendered pages around displays that span or approach a page boundary. Choose semantically appropriate page-break locations, use local `amsmath` controls such as `\displaybreak` rather than leaving accidental breaks, split overlong rows when needed, and correct layouts that leave excessive whitespace. Recompile and visually verify the affected pages before reporting the build complete.
-- For compile or editor-style issues, prefer texlab diagnostics, LaTeX Workshop output, and narrow source edits before making broader changes. Make narrow source edits that address the reported line, label, macro, or environment.
-- When a LaTeX build is needed and VS Code LaTeX Workshop tooling is available, trigger the build through LaTeX Workshop rather than invoking a raw LaTeX command directly.
-- Use LaTeX Workshop build commands as the default build path for this workspace so the PDF viewer open in VS Code refreshes. Prefer the extension's build/build-and-view workflow over shell commands such as `lualatex`, `pdflatex`, or `latexmk`. Use raw shell compilation only when LaTeX Workshop is unavailable, when a non-view diagnostic compile is explicitly needed, or when the user explicitly asks for it; in that case, direct all outputs into `build/` (for example `latexmk -outdir=build main.tex`), say that the open PDF may not refresh, and leave no build artifacts at the repository root.
-- If aux data, equation numbering, or the open PDF preview is stale, refresh through LaTeX Workshop from `main.tex` before relying on rendered numbers.
+- For compile or editor-style issues, prefer texlab diagnostics, output from the
+  repository build recipe, and narrow source edits before broader changes.
+- When a harness exposes an editor build command, it may trigger that command so
+  an open preview refreshes. Otherwise run the shell-equivalent repository
+  recipe. Neither path is required for correctness; both must write only to
+  `build/`.
+- If auxiliary data or equation numbering is stale, rebuild from `main.tex`
+  before relying on rendered numbers.
 
 ## Local research retrieval
 
 Use the `latex-research-ingest` skill for research PDF ingestion and retrieval.
-It creates and queries `.codex-research/` without relying on chat-preview,
+It creates and queries `.agent-runtime/research/` without relying on chat-preview,
 rag-pi, or `.ragpi/`.
 
 - Prefer `references/pdfs/` for original PDFs and `references/notes/` for durable notes.

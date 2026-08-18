@@ -94,6 +94,11 @@
     prop_names = 'test_gamma0 test_gamma1 test_L0 test_L1 test_rate0 test_rate1 test_reference_gauge test_fluid_fraction test_temperature test_three test_minus_two test_solid_psi test_solid_omega test_solid_vbar'
     prop_values = '2 4 0 4 -1 1 0 0.6 300 3 -2 5 2 0.5'
   []
+  [onsager_temperature]
+    type = ADGenericConstantMaterial
+    prop_names = 'onsager_temperature_value'
+    prop_values = '300'
+  []
   [zero_gradients]
     type = ADGenericConstantVectorMaterial
     prop_names = 'test_gamma0_gradient test_gamma1_gradient test_L0_gradient test_L1_gradient'
@@ -159,7 +164,7 @@
     saturation_rate_names = test_rate1
     resistance_matrix = 4
     porosity_name = test_fluid_fraction
-    fluid_temperature_name = test_temperature
+    fluid_temperature_name = onsager_temperature_value
     property_prefix = test_saturation_onsager
   []
   [phase_thermodynamic_identities]

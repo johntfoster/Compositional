@@ -16,6 +16,13 @@ Planned contents:
 Do not place transient run output here. Durable workflow assets should point
 back to validated MOOSE examples and the equations they instantiate.
 
+Canonical skills live in `../agent_environment/skills/`. Use
+`../tools/agentctl route QUERY` to inspect routing and `activate HARNESS QUERY`
+to install only the skills needed for that request. Dependency profiles are
+provisioned only with an explicit `--provision` or `provision PROFILE`; verified
+deck tooling uses the `verified-decks` profile, while MOOSE setup uses the
+separate `moose` profile.
+
 ## Current Framework Assets
 
 - `decision_trees/request_router.md` -- first-pass routing for manuscript,
@@ -37,3 +44,6 @@ back to validated MOOSE examples and the equations they instantiate.
   repository-local deck-block skills.
 - `runbooks/moose_failure_triage.md` -- layered diagnosis path for failed
   generated or hand-written MOOSE runs.
+- `runbooks/spe1_acceptance_status.md` -- authoritative SPE1 Case 1 acceptance
+  status: what has been tried, where the attempt records/source/templates live,
+  current state, and remaining work.

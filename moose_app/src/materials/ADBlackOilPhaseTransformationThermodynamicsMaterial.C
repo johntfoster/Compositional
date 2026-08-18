@@ -49,6 +49,19 @@ ADBlackOilPhaseTransformationThermodynamicsMaterial::validParams()
   params.addCoupledVar("electric_potential", "Optional electrostatic potential varphi.");
   params.addParam<Real>("dissolved_specific_charge", 0.0, "Dissolved-gas specific charge.");
   params.addParam<Real>("free_specific_charge", 0.0, "Free-gas specific charge.");
+  params.addParam<MaterialPropertyName>(
+      "phase_active_name", "",
+      "Optional active-oil-phase indicator. When supplied, an inactive oil phase "
+      "reports a zero-driving-force phase-absent state instead of the Eq. (182) "
+      "projection.");
+  params.addRangeCheckedParam<Real>(
+      "active_tol", 1e-12, "active_tol>=0",
+      "Tolerance below which the oil phase is treated as inactive.");
+  params.addParam<bool>("deactivate_on_nonpositive_mass", false,
+                        "If true, nonpositive bulk oil density in a nonlinear trial "
+                        "state is treated as an inactive phase instead of raising an "
+                        "error. Converged-state admissibility must still be checked "
+                        "separately.");
   params.addParam<std::string>(
       "property_prefix", "black_oil_phase_transform", "Output-property prefix.");
   return params;
@@ -85,6 +98,11 @@ ADBlackOilPhaseTransformationThermodynamicsMaterial::
     _free_specific_charge(getParam<Real>("free_specific_charge")),
     _electric_potential(isCoupled("electric_potential") ? &adCoupledValue("electric_potential")
                                                         : nullptr),
+    _phase_active(getParam<MaterialPropertyName>("phase_active_name").empty()
+                      ? nullptr
+                      : &getADMaterialProperty<Real>("phase_active_name")),
+    _active_tol(getParam<Real>("active_tol")),
+    _deactivate_on_nonpositive_mass(getParam<bool>("deactivate_on_nonpositive_mass")),
     _normalized_gap(declareADProperty<Real>(
         getParam<std::string>("property_prefix") + "_normalized_undersaturation")),
     _attainable_dissolved_gas_mass_fraction(declareADProperty<Real>(
@@ -146,6 +164,51 @@ ADBlackOilPhaseTransformationThermodynamicsMaterial::computeQpProperties()
 {
   const ADReal eta_o = _oil_component_mass_fraction[_qp];
   const ADReal eta_g = _dissolved_gas_mass_fraction[_qp];
+
+  // Phase-absent guard.  At an interior EG face quadrature point a Newton trial
+  // can reconstruct a non-positive oil saturation, making the bulk oil density
+  // non-positive even though the oil phase is locally inactive.  Every
+  // consumer of the outputs below is gated by the phase availability: the
+  // reaction-network kinetic force is multiplied by the oil-phase availability,
+  // the transfer-work terms are multiplied by component sources that vanish,
+  // and the parsed identity residuals are diagnostics.  Mirror the
+  // ADPhaseTauMaterialDerivative deactivate_on_nonpositive_mass pattern and
+  // emit a benign zero-driving-force state instead of aborting.
+  const bool phase_absent =
+      (_phase_active &&
+       MetaPhysicL::raw_value((*_phase_active)[_qp]) <= _active_tol) ||
+      (_deactivate_on_nonpositive_mass &&
+       MetaPhysicL::raw_value(_oil_bulk_density[_qp]) <= _active_tol);
+  if (phase_absent)
+  {
+    _normalized_gap[_qp] = 0.0;
+    _attainable_dissolved_gas_mass_fraction[_qp] = 0.0;
+    _dissolved_gas_mass_fraction_gap[_qp] = 0.0;
+    _mass_fraction_rs_derivative[_qp] = 0.0;
+    _free_energy[_qp] = 0.0;
+    _oil_phase_specific_helmholtz[_qp] = _oil_reference_helmholtz;
+    _gas_phase_specific_helmholtz[_qp] =
+        _oil_reference_helmholtz + _gas_helmholtz_offset;
+    _oil_helmholtz_gas_mass_fraction_derivative[_qp] = 0.0;
+    _oil_component_specific_storage_work[_qp] = 0.0;
+    _dissolved_gas_specific_storage_work[_qp] = 0.0;
+    _free_gas_specific_storage_work[_qp] = 0.0;
+    _oil_component_neutral_mu[_qp] = _oil_reference_helmholtz;
+    _dissolved_neutral_mu[_qp] = _oil_reference_helmholtz;
+    _free_neutral_mu[_qp] = _oil_reference_helmholtz + _gas_helmholtz_offset;
+    _dissolved_electrochemical_mu[_qp] = _oil_reference_helmholtz;
+    _free_electrochemical_mu[_qp] =
+        _oil_reference_helmholtz + _gas_helmholtz_offset;
+    _chemical_affinity[_qp] = 0.0;
+    _mass_fraction_normalization_residual[_qp] = 0.0;
+    _oil_pressure_storage_residual[_qp] = 0.0;
+    _oil_composition_projection_residual[_qp] = 0.0;
+    _oil_gas_euler_residual[_qp] = 0.0;
+    _gas_pressure_storage_residual[_qp] = 0.0;
+    _gas_euler_residual[_qp] = 0.0;
+    return;
+  }
+
   if (MetaPhysicL::raw_value(eta_o) <= 0.0 || MetaPhysicL::raw_value(eta_g) <= 0.0)
     mooseError(name(), ": the active oil phase requires positive oil and dissolved-gas mass "
                        "fractions for the Eq. (182) projection.");

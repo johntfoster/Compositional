@@ -68,8 +68,11 @@
     reference_component_balance_residual_name = reference_primary_balance_residual
     phase_volume_constraint_residual_name = reference_primary_volume_residual
     current_solid_volume_fraction_name = reference_primary_solid_fraction
+    current_solid_bulk_density_name = reference_primary_solid_bulk_density
     current_fluid_volume_fraction_name = reference_primary_porosity
     current_fluid_volume_fraction_rate_name = reference_primary_porosity_rate
+    current_solid_intrinsic_density_name = reference_primary_solid_intrinsic_density
+    solid_distension_mass_relation_residual_name = reference_primary_distension_mass_residual
   []
   [spatial_primary]
     type = ADSolidPhaseMassVolumeMaterial
@@ -81,8 +84,11 @@
     reference_component_balance_residual_name = spatial_primary_balance_residual
     phase_volume_constraint_residual_name = spatial_primary_volume_residual
     current_solid_volume_fraction_name = spatial_primary_solid_fraction
+    current_solid_bulk_density_name = spatial_primary_solid_bulk_density
     current_fluid_volume_fraction_name = spatial_primary_porosity
     current_fluid_volume_fraction_rate_name = spatial_primary_porosity_rate
+    current_solid_intrinsic_density_name = spatial_primary_solid_intrinsic_density
+    solid_distension_mass_relation_residual_name = spatial_primary_distension_mass_residual
   []
 []
 

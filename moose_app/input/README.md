@@ -21,7 +21,7 @@ fragments.
 named MOOSE object within it. Candidate records may evolve during implementation
 and verification. A verified record binds the exact source bytes and semantic
 object inventory to a version, test evidence, promotion authorization, and a
-protected snapshot under `.codex/verified-input-blocks/`. The assembler reads
+protected snapshot under `agent_environment/verified-input-blocks/`. The assembler reads
 the protected snapshot. Verified fragments are assembly-only inputs; changes
 proceed through a new authorized version.
 

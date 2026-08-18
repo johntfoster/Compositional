@@ -39,6 +39,17 @@ ADBlackOilPeacemanWellMaterial::validParams()
   params.addRequiredParam<MaterialPropertyName>("gas_fvf_name", "Gas B_g property.");
   params.addRequiredParam<MaterialPropertyName>(
       "solution_gas_oil_ratio_name", "Dissolved gas-oil ratio R_s property.");
+  params.addParam<MaterialPropertyName>(
+      "saturated_solution_gas_oil_ratio_name", "",
+      "Optional saturated gas-oil ratio R_s^sat property. When supplied for a gas "
+      "injection completion, the injected free gas is partitioned between the dissolved "
+      "and free reference component sources according to the undersaturation gap "
+      "(R_s^sat - R_s) so a gas-injecting cell in undersaturated oil deposits gas into "
+      "the dissolved-gas balance instead of forcing it entirely into the free-gas rows.");
+  params.addParam<Real>(
+      "dissolution_transition_width", 0.5,
+      "Width of the undersaturation gap over which the injected-gas dissolution fraction "
+      "ramps from one (deeply undersaturated) to zero (at or below saturation).");
   params.addParam<bool>(
       "apply_datum_correction", false,
       "Convert the reported datum BHP to completion depth using a wellbore hydrostatic density.");
@@ -152,6 +163,11 @@ ADBlackOilPeacemanWellMaterial::ADBlackOilPeacemanWellMaterial(
     _oil_fvf(getADMaterialProperty<Real>("oil_fvf_name")),
     _gas_fvf(getADMaterialProperty<Real>("gas_fvf_name")),
     _solution_gas_oil_ratio(getADMaterialProperty<Real>("solution_gas_oil_ratio_name")),
+    _saturated_solution_gas_oil_ratio(
+        getParam<MaterialPropertyName>("saturated_solution_gas_oil_ratio_name").empty()
+            ? nullptr
+            : &getADMaterialProperty<Real>("saturated_solution_gas_oil_ratio_name")),
+    _dissolution_transition_width(getParam<Real>("dissolution_transition_width")),
     _well_index(getParam<Real>("well_index")),
     _control_mode(getParam<MooseEnum>("control_mode")),
     _injection_phase(getParam<MooseEnum>("injection_phase")),
@@ -190,6 +206,8 @@ ADBlackOilPeacemanWellMaterial::ADBlackOilPeacemanWellMaterial(
         getParam<std::string>("property_prefix") + "_oil_reference_component_source")),
     _free_gas_reference_component_source(declareADProperty<Real>(
         getParam<std::string>("property_prefix") + "_free_gas_reference_component_source")),
+    _dissolved_gas_reference_component_source(declareADProperty<Real>(
+        getParam<std::string>("property_prefix") + "_dissolved_gas_reference_component_source")),
     _gas_reference_component_source(declareADProperty<Real>(
         getParam<std::string>("property_prefix") + "_gas_reference_component_source")),
     _effective_bottom_hole_pressure(declareADProperty<Real>(
@@ -414,4 +432,33 @@ ADBlackOilPeacemanWellMaterial::computeQpProperties()
       -_gas_surface_density * _free_gas_surface_rate[_qp] / _completion_reference_volume;
   _gas_reference_component_source[_qp] =
       -_gas_surface_density * _gas_surface_rate[_qp] / _completion_reference_volume;
+  if (_injection_phase == "gas" && _saturated_solution_gas_oil_ratio)
+  {
+    // Gas injection into undersaturated oil partitions the injected free-gas source
+    // into a dissolved fraction (absorbed by the R_s row) and the residual free-gas
+    // fraction, so a gas-injecting completion in undersaturated oil deposits gas into
+    // the dissolved-gas balance rather than forcing it entirely into the free-gas rows.
+    // The fraction is a C1 smoothstep of the true undersaturation gap R_s^sat - R_s;
+    // it ramps from one for a deeply undersaturated state to zero at or below saturation.
+    const ADReal total_gas_source = _gas_reference_component_source[_qp];
+    const Real sat_minus_rs =
+        MetaPhysicL::raw_value((*_saturated_solution_gas_oil_ratio)[_qp]) -
+        MetaPhysicL::raw_value(_solution_gas_oil_ratio[_qp]);
+    Real dissolved_fraction;
+    if (sat_minus_rs >= 0.0)
+      dissolved_fraction = 1.0;
+    else if (sat_minus_rs <= -_dissolution_transition_width)
+      dissolved_fraction = 0.0;
+    else
+    {
+      const Real t = sat_minus_rs / _dissolution_transition_width + 1.0;
+      dissolved_fraction = t * t * (3.0 - 2.0 * t);
+    }
+    _dissolved_gas_reference_component_source[_qp] = dissolved_fraction * total_gas_source;
+    _free_gas_reference_component_source[_qp] =
+        total_gas_source - _dissolved_gas_reference_component_source[_qp];
+  }
+  else
+    _dissolved_gas_reference_component_source[_qp] =
+        _gas_reference_component_source[_qp] - _free_gas_reference_component_source[_qp];
 }

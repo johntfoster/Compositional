@@ -115,7 +115,7 @@ class VerifiedBlockTests(unittest.TestCase):
     def test_generated_assembly_uses_protected_snapshots(self) -> None:
         deck = ROOT / "moose_app/input/assemblies/verified_q2_eg_mms_2d.i"
         text = deck.read_text(encoding="utf-8")
-        self.assertIn(".codex/verified-input-blocks/", text)
+        self.assertIn("agent_environment/verified-input-blocks/", text)
         self.assertNotIn("!include ../includes/", text)
         manifest = deck.with_suffix(deck.suffix + ".manifest.yml")
         self.assertEqual(
@@ -141,7 +141,7 @@ class VerifiedBlockTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             include_root = root / "includes"
-            locked_root = root / ".codex/verified-input-blocks"
+            locked_root = root / "agent_environment/verified-input-blocks"
             source = include_root / "operators/example.i"
             locked = locked_root / "operators.example/1.0.0.i"
             evidence = root / "tests"
@@ -174,7 +174,7 @@ class VerifiedBlockTests(unittest.TestCase):
                             "schema_version": 1,
                             "hash_algorithm": "sha256",
                             "canonicalization": "exact_bytes",
-                            "locked_root": ".codex/verified-input-blocks",
+                            "locked_root": "agent_environment/verified-input-blocks",
                             "blocks": [
                                 {
                                     "id": "operators.example",

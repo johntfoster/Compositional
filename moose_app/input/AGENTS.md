@@ -4,10 +4,10 @@ These instructions apply to every file below `moose_app/input/`.
 
 - Read `verified_block_registry.yml` before editing a canonical include. A block
   with `status: verified` is locked and has a versioned protected payload under
-  `.codex/verified-input-blocks/`. Use that block only through assembly; do not
+  `agent_environment/verified-input-blocks/`. Use that block only through assembly; do not
   edit either payload, its include-tree source, digest, object inventory,
   version, or evidence.
-- Stop if a requested change touches a verified block. Obtain John's explicit
+- Stop if a requested change touches a verified block. Obtain the author's explicit
   authorization, run the mapped MOOSE tests, and use the repository-local
   `verified-block-promotion` skill to record a higher semantic version.
 - Candidate fragments may be edited during implementation and verification.

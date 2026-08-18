@@ -36,6 +36,8 @@ protected:
   const ADMaterialProperty<Real> & _oil_fvf;
   const ADMaterialProperty<Real> & _gas_fvf;
   const ADMaterialProperty<Real> & _solution_gas_oil_ratio;
+  const ADMaterialProperty<Real> * _saturated_solution_gas_oil_ratio;
+  const Real _dissolution_transition_width;
 
   const Real _well_index;
   const MooseEnum _control_mode;
@@ -66,6 +68,7 @@ protected:
   ADMaterialProperty<Real> & _water_reference_component_source;
   ADMaterialProperty<Real> & _oil_reference_component_source;
   ADMaterialProperty<Real> & _free_gas_reference_component_source;
+  ADMaterialProperty<Real> & _dissolved_gas_reference_component_source;
   ADMaterialProperty<Real> & _gas_reference_component_source;
   ADMaterialProperty<Real> & _effective_bottom_hole_pressure;
   ADMaterialProperty<Real> & _datum_bottom_hole_pressure;

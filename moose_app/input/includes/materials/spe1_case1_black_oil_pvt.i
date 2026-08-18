@@ -27,6 +27,13 @@
     maximum_solution_gas_oil_ratio = 226.19666048237477
     solution_gas_transition_width = 0.5
     enforce_nonincreasing_solution_gas = true
+    # Soften the oil/gas phase-activity flags with a C1 smoothstep ramp over
+    # [0, 1e-10].  Newton trials near phase appearance reconstruct saturations
+    # around the simplex floor (~5e-14); the ramp keeps every phase-active
+    # consumer on a continuous value there instead of toggling the legacy
+    # exact 0/1 branch at gas_active_tol = 1e-12, which caused the period-2
+    # solver cycle in the SPE1 production gate.
+    phase_active_band = 1e-10
     water_reference_pressure = 27700032.163167097
     water_reference_fvf = 1.038
     water_compressibility = 4.670215154912982e-10

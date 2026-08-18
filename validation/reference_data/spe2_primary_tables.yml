@@ -1,0 +1,161 @@
+schema_version: 1
+benchmark: "SPE2 three-phase coning study"
+source:
+  title: "Second Comparative Solution Project: A Three-Phase Coning Study"
+  authors: "H. G. Weinstein; J. E. Chappelear; J. S. Nolen"
+  publication: "Journal of Petroleum Technology, March 1986, pages 345-353"
+  identifier: "SPE-10489-PA"
+  url: "https://www.ipt.ntnu.no/~kleppe/pub/SPE-COMPARATIVE/papers/second.pdf"
+  retrieved_utc_date: "2026-08-05"
+  retrieved_pdf_sha256: "3deba0531864771c1267eaaf2d14410ac131fe4f1809dc20649e2732a1c786e4"
+  qualification: >-
+    The archive server's certificate was expired at retrieval. The known URL
+    listed in the repository inventory was fetched with certificate checking
+    disabled, then verified as an unencrypted nine-page PDF whose embedded
+    title and authors match the primary paper. Values below are transcribed
+    from Tables 2 through 5 and the statement of the problem.
+
+geometry_field_units:
+  radial_extent_ft: 2050.0
+  wellbore_radius_ft: 0.25
+  first_block_center_radius_ft: 0.84
+  number_of_radial_blocks: 10
+  radial_block_boundaries_ft: [0.25, 2.00, 4.32, 9.33, 20.17, 43.56, 94.11, 203.32, 439.24, 948.92, 2050.00]
+  number_of_vertical_layers: 15
+  dip_angle_degrees: 0.0
+  depth_to_top_ft: 9000.0
+  gas_oil_contact_depth_ft: 9035.0
+  oil_pressure_at_gas_oil_contact_psia: 3600.0
+  gas_oil_capillary_pressure_at_contact_psi: 0.0
+  water_oil_contact_depth_ft: 9209.0
+  water_oil_capillary_pressure_at_contact_psi: 0.0
+
+layer_table_field_units:
+  columns: [layer, thickness_ft, radial_permeability_md, vertical_permeability_md, porosity_at_3600_psi]
+  rows:
+    - [1, 20, 35.0, 3.5, 0.087]
+    - [2, 15, 47.5, 4.75, 0.097]
+    - [3, 26, 148.0, 14.8, 0.111]
+    - [4, 15, 202.0, 20.2, 0.160]
+    - [5, 16, 90.0, 9.0, 0.130]
+    - [6, 14, 418.5, 41.85, 0.170]
+    - [7, 8, 775.0, 77.5, 0.170]
+    - [8, 8, 60.0, 6.0, 0.080]
+    - [9, 18, 682.0, 68.2, 0.140]
+    - [10, 12, 472.0, 47.2, 0.130]
+    - [11, 19, 125.0, 12.5, 0.120]
+    - [12, 18, 300.0, 30.0, 0.105]
+    - [13, 20, 137.5, 13.75, 0.120]
+    - [14, 50, 191.0, 19.1, 0.116]
+    - [15, 100, 350.0, 35.0, 0.157]
+
+rock_and_fluid_constants_field_units:
+  pore_compressibility_per_psi: 4.0e-6
+  water_compressibility_per_psi: 3.0e-6
+  undersaturated_oil_compressibility_per_psi: 1.0e-5
+  undersaturated_oil_viscosity_compressibility_per_psi: 0.0
+  stock_tank_oil_density_lbm_per_ft3: 45.0
+  stock_tank_water_density_lbm_per_ft3: 63.02
+  standard_gas_density_lbm_per_ft3: 0.0702
+  water_base_pressure_psia: 14.7
+  water_fvf_at_base_pressure_rb_per_stb: 1.0142
+  water_density_at_base_pressure_lbm_per_ft3: 62.14
+
+well_and_schedule_field_units:
+  completed_cells_radial_layer: [[1, 7], [1, 8]]
+  completion_kh_md_ft: [6200.0, 480.0]
+  completion_skin: [0.0, 0.0]
+  minimum_bhfp_psia: 3000.0
+  pump_depth_ft: 9110.0
+  schedule:
+    - {start_day: 1.0, end_day: 10.0, oil_rate_stb_per_day: 1000.0}
+    - {start_day: 10.0, end_day: 50.0, oil_rate_stb_per_day: 100.0}
+    - {start_day: 50.0, end_day: 720.0, oil_rate_stb_per_day: 1000.0}
+    - {start_day: 720.0, end_day: 900.0, oil_rate_stb_per_day: 100.0}
+  control_rule: "Maintain scheduled oil rate until flowing BHP reaches 3000 psia."
+
+water_oil_saturation_functions_field_units:
+  columns: [water_saturation, water_relative_permeability, oil_relative_permeability, oil_minus_water_capillary_pressure_psi]
+  rows:
+    - [0.22, 0.0, 1.0, 7.0]
+    - [0.30, 0.07, 0.4000, 4.0]
+    - [0.40, 0.15, 0.1250, 3.0]
+    - [0.50, 0.24, 0.0649, 2.5]
+    - [0.60, 0.33, 0.0048, 2.0]
+    - [0.80, 0.65, 0.0, 1.0]
+    - [0.90, 0.83, 0.0, 0.5]
+    - [1.00, 1.00, 0.0, 0.0]
+
+gas_oil_saturation_functions_field_units:
+  columns: [gas_saturation, gas_relative_permeability, oil_relative_permeability, gas_minus_oil_capillary_pressure_psi]
+  rows:
+    - [0.00, 0.0, 1.00, 0.0]
+    - [0.04, 0.0, 0.60, 0.2]
+    - [0.10, 0.0220, 0.33, 0.5]
+    - [0.20, 0.1000, 0.10, 1.0]
+    - [0.30, 0.2400, 0.02, 1.5]
+    - [0.40, 0.3400, 0.00, 2.0]
+    - [0.50, 0.4200, 0.00, 2.5]
+    - [0.60, 0.5000, 0.00, 3.0]
+    - [0.70, 0.8125, 0.00, 3.5]
+    - [0.78, 1.0000, 0.00, 3.9]
+
+pvt_table_field_units:
+  columns:
+    - pressure_psia
+    - saturated_oil_fvf_rb_per_stb
+    - saturated_oil_density_lbm_per_ft3
+    - saturated_oil_viscosity_cp
+    - solution_gor_scf_per_stb
+    - water_fvf_rb_per_stb
+    - water_density_lbm_per_ft3
+    - water_viscosity_cp
+    - gas_fvf_rb_per_mscf
+    - gas_density_lbm_per_ft3
+    - gas_viscosity_cp
+  rows:
+    - [400, 1.0120, 46.497, 1.17, 165, 1.01303, 62.212, 0.96, 5.90, 2.119, 0.0130]
+    - [800, 1.0255, 48.100, 1.14, 335, 1.01182, 62.286, 0.96, 2.95, 4.238, 0.0135]
+    - [1200, 1.0380, 49.372, 1.11, 500, 1.01061, 62.360, 0.96, 1.96, 6.397, 0.0140]
+    - [1600, 1.0510, 50.726, 1.08, 665, 1.00940, 62.436, 0.96, 1.47, 8.506, 0.0145]
+    - [2000, 1.0630, 52.072, 1.06, 828, 1.00820, 62.510, 0.96, 1.18, 10.596, 0.0150]
+    - [2400, 1.0750, 53.318, 1.03, 985, 1.00700, 62.585, 0.96, 0.98, 12.758, 0.0155]
+    - [2800, 1.0870, 54.399, 1.00, 1130, 1.00580, 62.659, 0.96, 0.84, 14.885, 0.0160]
+    - [3200, 1.0985, 55.424, 0.98, 1270, 1.00460, 62.734, 0.96, 0.74, 16.896, 0.0165]
+    - [3600, 1.1100, 56.203, 0.95, 1390, 1.00341, 62.808, 0.96, 0.65, 19.236, 0.0170]
+    - [4000, 1.1200, 56.930, 0.94, 1500, 1.00222, 62.883, 0.96, 0.59, 21.192, 0.0175]
+    - [4400, 1.1300, 57.534, 0.92, 1600, 1.00103, 62.958, 0.96, 0.54, 23.154, 0.0180]
+    - [4800, 1.1400, 57.864, 0.91, 1676, 0.99985, 63.032, 0.96, 0.49, 25.517, 0.0185]
+    - [5200, 1.1480, 58.267, 0.90, 1750, 0.99866, 63.107, 0.96, 0.45, 27.785, 0.0190]
+    - [5600, 1.1550, 58.564, 0.89, 1810, 0.99749, 63.181, 0.96, 0.42, 29.769, 0.0195]
+
+three_phase_relative_permeability:
+  method: "Stone second method"
+  source_note: >-
+    The paper states that the Dietrich-Bondor modification is identical to
+    Stone's second method for this problem.
+
+required_reported_outputs:
+  - "initial fluids in place"
+  - "initial gas and water saturation profiles versus depth"
+  - "oil production rate versus time"
+  - "water cut versus time"
+  - "GOR versus time"
+  - "bottom-hole pressure versus time"
+  - "pressure drawdown p(1,7)-BHP versus time"
+  - "time on decline, timesteps, timestep cuts, nonlinear updates, and CPU time"
+
+participant_initial_fluids_in_place:
+  columns: [participant, oil_million_stb, water_million_stb, gas_billion_scf]
+  rows:
+    - [ARCO, 28.80, 74.03, 47.01]
+    - [Chevron, 28.88, 73.94, 47.13]
+    - [D_and_S, 29.11, 74.97, 47.11]
+    - [Franlab, 28.89, 73.93, 47.09]
+    - [Gulf, 29.29, 73.49, 47.63]
+    - [Harwell, 28.89, 73.96, 47.09]
+    - [Intercomp, 28.92, 73.93, 47.13]
+    - [McCord_Lewis, 28.68, 74.12, 46.98]
+    - [Nolen, 28.89, 73.96, 47.08]
+    - [SSC, 28.87, 74.03, 47.04]
+    - [Shell, 28.76, 74.08, 46.94]

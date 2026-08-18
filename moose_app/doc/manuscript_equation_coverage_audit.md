@@ -9,8 +9,10 @@ equation. The generator joins those records to the structured implementation
 and validation maps listed in the YAML file.
 
 The current graph contains 444 unique equation labels. It contains no
-fracture-labeled equation. `sections/coleman_noll.tex` is explicitly reported as
-a nonincluded source and does not contribute labels.
+fracture-labeled equation. The Coleman--Noll procedure lives in
+`sections/multicomponent_solids.tex`; the former standalone
+`sections/coleman_noll.tex` draft was removed and no longer contributes
+labels.
 
 The audit distinguishes equivalent formulations and derived constraints from
 independent residuals. The early and summary momentum forms are linked to the

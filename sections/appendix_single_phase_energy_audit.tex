@@ -1,0 +1,127 @@
+% !TeX root = ../main.tex
+\section{Term-by-term correspondence of the single-phase energy balances}
+\label{app:single_phase_energy_audit}
+
+This appendix verifies the correspondence between
+\eqref{eq:MC_single_phase_energy_limit} and
+\eqref{eq:MC_montanaro_electric_enthalpy_limit}.  Take the nonporous,
+single-phase specialization used to obtain
+\eqref{eq:MC_single_phase_energy_limit}, write
+\(\mbf E^{M}=\mbf E\), and identify the phase material derivative with the
+single-phase material derivative.  The field kinematics stated before
+\eqref{eq:MC_single_phase_energy_limit} give
+%
+\begin{equation}
+\mbf d\cdot\nabla_{\mbf x}\phasedot\varphi
+=
+-\mbf d\cdot\phasedot{\mbf E}
+-
+\left(
+\mbf E\otimes\mbf d
+\right):\mbf L.
+\label{eq:appendix_single_phase_field_rate_audit}
+\end{equation}
+%
+The electrical boundary and free-charge terms in
+\eqref{eq:MC_single_phase_energy_limit} satisfy
+\eqref{eq:MC_electrostatic_power_identity}; hence
+%
+\begin{equation}
+\nabla_{\mbf x}\cdot
+\left(
+\phasedot\varphi\,\mbf d
+\right)
+-
+\varrho\phasedot\varphi
+=
+\mbf d\cdot\nabla_{\mbf x}\phasedot\varphi.
+\label{eq:appendix_single_phase_charge_power_audit}
+\end{equation}
+%
+Substitution of
+\eqref{eq:appendix_single_phase_field_rate_audit} and
+\eqref{eq:appendix_single_phase_charge_power_audit} into
+\eqref{eq:MC_single_phase_energy_limit}, followed by
+\(\bs\sigma_\xi^+=\omega_\xi^+\mbf I+\mbf E\otimes\mbf d\) from
+\eqref{eq:vp_electrical_stress_definition}, gives
+%
+\begin{align}
+\rho_\xi\phasedot e_\xi
++\phasedot\omega_\xi^+
+&=
+\left(
+\bs\sigma_\xi'-\bar p_\xi\mbf I
+\right):\mbf L_\xi
+-\nabla_{\mbf x}\cdot\mbf q_\xi
+-\mbf d\cdot\phasedot{\mbf E}
++\rho_\xi r_\xi.
+\label{eq:appendix_single_phase_electric_enthalpy_audit}
+\end{align}
+%
+Here the two \(\omega_\xi^+\operatorname{tr}\mbf L_\xi\) terms cancel:
+one is part of the material-volume rate on the left of
+\eqref{eq:MC_single_phase_energy_limit}, and the other is the isotropic part
+of \(\bs\sigma_\xi^+\).  The dyadic Maxwell term cancels the second term on
+the right of \eqref{eq:appendix_single_phase_field_rate_audit}.  Thus the
+mechanical, electrical, heat-flux, and heat-supply terms have each been
+accounted for once.
+
+To compare with the polarization convention of
+\cite{montanaro2015thermo_electroelasticity}, separate the vacuum displacement
+from the material polarization according to
+%
+\begin{equation}
+\mbf d
+=
+\varepsilon_0\mbf E
++\mbf P,
+\qquad
+\bs\pi=\frac{\mbf P}{\rho_\xi},
+\qquad
+\rho_\xi
+\left(
+\varepsilon-\mbf E^{M}\cdot\bs\pi
+\right)
+=
+\rho_\xi e_\xi+\omega_\xi^+
++\frac{\varepsilon_0}{2}\mbf E\cdot\mbf E.
+\label{eq:appendix_single_phase_energy_partition_audit}
+\end{equation}
+%
+The last equality specifies the common energy partition: the current
+electric enthalpy contains the vacuum-field contribution
+\(-\varepsilon_0\mbf E\cdot\mbf E/2\), while the remaining electrical
+storage is the polarization work in the convention of
+\eqref{eq:MC_montanaro_electric_enthalpy_limit}.  Adding
+\(\varepsilon_0\mbf E\cdot\phasedot{\mbf E}\) to both sides of
+\eqref{eq:appendix_single_phase_electric_enthalpy_audit} and using
+\eqref{eq:appendix_single_phase_energy_partition_audit} yields
+%
+\begin{align}
+\rho_\xi
+\frac{D_\xi}{Dt}
+\left(
+\varepsilon-\mbf E^{M}\cdot\bs\pi
+\right)
+&=
+\underbrace{
+\left(
+\bs\sigma_\xi'-\bar p_\xi\mbf I
+\right)
+}_{\bs\tau}
+:\mbf L_\xi
+-\nabla_{\mbf x}\cdot\mbf q_\xi
+-\mbf P\cdot\phasedot{\mbf E}^{M}
++\rho_\xi r_\xi.
+\label{eq:appendix_single_phase_montanaro_recovery}
+\end{align}
+%
+Equation~\eqref{eq:appendix_single_phase_montanaro_recovery} is
+\eqref{eq:MC_montanaro_electric_enthalpy_limit} after the notational
+identifications \(\rho=\rho_\xi\), \(\mbf L=\mbf L_\xi\),
+\(\mbf q=\mbf q_\xi\), and \(r=r_\xi\).  The current formulation keeps
+the free-charge bulk power and electrical boundary flux visible until
+\eqref{eq:MC_electrostatic_power_identity} is applied; the polarization
+form instead combines them into the field-rate work.  The two balances are
+therefore equivalent under the stated single-phase specialization and common
+vacuum-field energy partition.

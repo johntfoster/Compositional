@@ -1,0 +1,52 @@
+schema_version: 1
+last_verified: "2026-08-04"
+repositories:
+  opm_data:
+    url: "https://github.com/OPM/opm-data.git"
+    commit: "eaa2261683a97027e057c2bc49612ad1c86390b3"
+  opm_material:
+    url: "https://github.com/OPM/opm-material.git"
+    commit: "fee2c2bc5bb96fcfb1ea3bbb25ffff79c4e3c718"
+artifacts:
+  spe1_case1_opm_flow_summary:
+    source_deck: "opm_data:spe1/SPE1CASE1.DATA"
+    simulator: "OPM Flow 2021.10-4ubuntu1"
+    simulator_package_sha256: "aebfc5c81dd16ca37ac2f5cc16ccb2318a84d0657304079fc9c1866eff328147"
+    path: "validation/reference_data/spe1_case1_opm_flow_2021_10.csv"
+    sha256: "d1ee0f90c3cf78406a88739ef2d1278ddcab8351f775434571f14e1adcb4289b"
+    report_steps: 120
+    end_time_days: 3650
+    extractor: "validation/scripts/extract_opm_spe1_summary.py"
+    role: "Machine-readable independent report-step reference for SPE1 Case 1."
+  spe1_case1:
+    repository: "opm_data"
+    path: "spe1/SPE1CASE1.DATA"
+    sha256: "e26f11a6438ecd97fc56ccd456a463c74680a912e3d9f71b33682bd7c0531b3f"
+    role: "Primary SPE1 Case 1 input, schedule, PVT, saturation functions, wells, and summary requests."
+    extractor: "validation/scripts/extract_eclipse_black_oil.py --validate-spe1-case1 (FIELD and SI PVT, saturation functions, Cartesian grid, rock, initialization, completions, controls, and schedule)"
+    initial_state_generator: "validation/scripts/generate_spe1_initial_state.py --validate"
+  spe1_case2:
+    repository: "opm_data"
+    path: "spe1/SPE1CASE2.DATA"
+    sha256: "29d9c02659031026ffbab9f62d6400642a61bf2bfaf8c0ac0c7b82f147f4bd29"
+    role: "SPE1 Case 2 comparison input."
+  spe9:
+    repository: "opm_data"
+    path: "spe9/SPE9.DATA"
+    sha256: "358bbc47699a857c939eab48700018e3deeeb8478c5c0bc85c1eb5842e361f45"
+    role: "Primary SPE9 schedule, PVT, saturation functions, wells, and summary requests."
+  spe9_grid:
+    repository: "opm_data"
+    path: "spe9/SPE9.GRDECL"
+    sha256: "20a5840737d9f8e67f4c0bb21a5aa53f1f956750339e171d81c624ab81415e31"
+    role: "SPE9 Cartesian grid and geometry include."
+  spe9_permeability:
+    repository: "opm_data"
+    path: "spe9/PERMVALUES.DATA"
+    sha256: "355dfe63d2ee7bd8f420701319a1dc55ff4a9c472700687dfb0551fa3b77e381"
+    role: "SPE9 heterogeneous permeability include."
+  opm_default_three_phase_relative_permeability:
+    repository: "opm_material"
+    path: "opm/material/fluidmatrixinteractions/EclDefaultMaterial.hpp"
+    sha256: "156f4d184ecff4e87e5937b1b92327ec7541e164751599535c5d4022ba0d43f0"
+    role: "Reference implementation for the default saturation-weighted three-phase oil relative-permeability blend."

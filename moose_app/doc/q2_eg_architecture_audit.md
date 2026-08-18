@@ -17,7 +17,7 @@ correction. It applies to simulator implementation and validation files only.
 - Before this milestone, the target app had no EG/DG kernels or EG weak
   boundary conditions.
 - Talha's four-phase app was inspected at
-  `/tmp/ReactingMixtureMechanics2026-four_phase`, including
+  the legacy `ReactingMixtureMechanics2026-four_phase` comparison checkout, including
   `input/mesh_study/entire_domain.i`, `OverallMassBalance*`,
   `TauEvolution*`, `EGDarcyFluxDG`, `EGTauFluxDG`, `EGSymmetryDG`,
   `EGPressurePenaltyBC`, and `EGTauPenaltyBC`.

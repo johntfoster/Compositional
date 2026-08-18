@@ -1,5 +1,5 @@
-# Constitutive closure.  Replace constants by component mobility property lists
-# to activate the manuscript additive composition-dependent specialization.
+# Constitutive closure.  Set the constant phase mobilities, or replace them by
+# single state-dependent phase mobility properties.
 [Materials]
   # Optional full solid-kinematic stitch. The stress-free maps are separate
   # material properties so thermal/composition laws can be selected upstream.
@@ -22,8 +22,11 @@
     elastic_true_deformation_name = <Fbar_e_s>
     distension_tensor_name = <A_s>
     elastic_distension_tensor_name = <A_e_s>
-    plastic_deformation_mobility_names = '<Lambda_F_component0> <Lambda_F_component1> ...'
-    plastic_distension_mobility_names = '<Lambda_A_component0> <Lambda_A_component1> ...'
+    plastic_deformation_mobility = <Lambda_Fbar>
+    plastic_distension_mobility = <Lambda_A>
+    # State-dependent single phase mobilities may replace the constants:
+    # plastic_deformation_mobility_property = <Lambda_Fbar_property>
+    # plastic_distension_mobility_property = <Lambda_A_property>
     driving_stress_name = <prefix>_S
     plastic_deformation_log_rate_name = <prefix>_Lp
     plastic_distension_log_rate_name = <prefix>_LAp

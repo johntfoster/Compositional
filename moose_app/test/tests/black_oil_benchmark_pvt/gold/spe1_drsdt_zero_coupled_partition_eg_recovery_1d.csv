@@ -1,0 +1,4 @@
+time,free_gas_phase_balance_integral,free_gas_phase_balance_l2,gas_phase_transformation_rate_average,gas_saturation_average,gas_saturation_enrichment_l2,gas_saturation_initial_l2,oil_pressure_average,phase_transfer_generalized_force_average,phase_transfer_reaction_power_average,phase_transform_affinity_average,phase_transform_power_average,solution_gas_history_l2,solution_gas_oil_ratio_average,total_gas_balance_integral,total_gas_balance_l2
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,-6.0137080500529e-17,1.9151570648324e-16,0.22989473684211,0.7859649122807,0.7859649122807,0,4200,1.1013412404282e-13,2.5319255464159e-14,1.1013412404282e-13,2.5319255464159e-14,0,1.2,4.1109332373408e-19,6.2377528775985e-17
+2,1.0793834961633e-17,1.2190881594121e-16,-0.090756703078451,0.47454485269778,0.47454485269779,0,4800,-1.9895196601283e-13,1.80562245063e-14,-1.9895196601283e-13,1.80562245063e-14,0,1.2,-2.4517425127139e-17,6.0491874614164e-17

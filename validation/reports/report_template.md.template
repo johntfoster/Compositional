@@ -1,0 +1,72 @@
+# @BENCHMARK_NAME@ verification report
+
+## Verdict
+
+Status: **@PASS_IN_PROGRESS_OR_FAIL@**
+
+State exactly what has been proved and what remains. Do not infer full
+benchmark agreement from a smoke test or initialization slice.
+
+## Active and inactive physics
+
+List every active mass, momentum, energy, phase-transformation, electrical,
+surface-energy, constitutive, well/source, and stabilization term. List
+deliberately inactive terms separately and cite the official datum or modeling
+decision that makes each inactive.
+
+## Deck provenance and CG/EG spaces
+
+`deck_status: @PRESERVED_CANDIDATE_ONLY_MISSING_OR_DEFERRED@`.
+
+- Official/reference source, revision, checksum, extractor, and conversion path:
+- Parent deck, exact hash, included fragments, and fragment status/digests:
+- Geometry, mesh, subdomains, and completion sets:
+- Primary variables and CG/EG polynomial spaces:
+- Initial/boundary conditions and schedule:
+- Nonlinear/linear solvers, bounds, scaling, timesteps, and tolerances:
+- Units and reference-configuration conventions:
+- Manuscript, MOOSE, executable, and recorded core-patch fingerprints:
+
+## Reproduction commands and artifacts
+
+`command_status: @PRESERVED_CANDIDATE_STATIC_ONLY_MISSING_OR_DEFERRED@`.
+
+Give exact commands. Link the preserved input command, solver log, CSV/field
+outputs, machine-readable gate summary, and plotting command. If no executable
+command exists, state `command_status: missing` and enumerate the required
+artifacts without inventing paths.
+
+## Quantitative gates
+
+Tabulate each metric, observed value, tolerance/reference, and result. Include
+component conservation, phase admissibility, thermodynamic dissipation,
+`tau`/chemical-potential kinetics for phase-transforming cases, temperature
+and energy, mechanics/Jacobian, well/control behavior, and discretization
+convergence. Label unmeasured values `status: pending`.
+
+## Convergence, robustness, and performance
+
+Record spatial, timestep, approximation-order, nonlinear-robustness, and
+performance/scaling protocols and results. Label every unexecuted study
+`status: pending`; never insert synthetic measurements.
+
+## Official reference comparison
+
+`official_horizon_status: @PASS_PENDING_FAILED_OR_DEFERRED@`.
+
+State the common variables, conversion formulas, interpolation/report times,
+error norms, tolerances, reference revision, and official horizon. A comparison
+over different physics or time interval is contextual, not like-for-like.
+
+## Plots and source-data provenance
+
+`source_data_status: @PRESENT_MISSING_OR_DEFERRED@`.
+
+Include primary fields/time histories, balance/admissibility histories,
+convergence plots, and reference-comparison plots with labeled units and gates.
+For every plot, identify the source CSV/field artifact and its provenance
+record. Pending reports must say that no plot or source artifact exists.
+
+## Remaining blockers
+
+List every open requirement needed to change the report status to `pass`.

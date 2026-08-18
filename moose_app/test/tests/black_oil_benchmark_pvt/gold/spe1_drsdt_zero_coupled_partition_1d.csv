@@ -1,0 +1,4 @@
+time,free_gas_phase_balance_l2,gas_phase_transformation_rate_average,gas_saturation_average,solution_gas_history_l2,solution_gas_oil_ratio_average,total_gas_balance_l2
+0,0,0,0,0,0,0
+1,1.1775693440128e-16,0.15830769230769,0.6025641025641,0,1.2,6.121042518128e-17
+2,2.7755575615629e-17,1.3877787807814e-17,0.6025641025641,0,1.2,0

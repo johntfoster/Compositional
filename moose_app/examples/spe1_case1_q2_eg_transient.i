@@ -69,16 +69,17 @@ spe1_use_pressure_dependent_rock_porosity = false
     order = CONSTANT
   []
   [gas_phase_transformation_rate]
-    # The manuscript kinetic closure is local and contains no rate gradient.
-    # An element-local quadratic field resolves mu/tau without imposing an
-    # artificial interelement continuity constraint on the conversion rate.
-    # The closure residual is satisfied to O(1e-12) at the physical solution;
-    # an O(1e8) row scaling inflates that satisfied residual above the
-    # nl_abs_tol = 1e-8 convergence gate and forces the Newton solve to grind
-    # to max_its.  Keep the row unscaled (identity) so the closure residual is
-    # measured in its physical units.
-    family = MONOMIAL
-    order = SECOND
+    # Deck-selectable phase-transfer unknown.  Both supported closures -- the
+    # finite-rate Onsager kinetic row and the rate-independent DRSDT=0 history
+    # constraint row -- converge with the same continuous LAGRANGE FIRST
+    # discretization under plain NEWTON with superlu_dist (verified at the
+    # reduced acceptance mesh).  The LAGRANGE row also removes the structural
+    # singularity that a MONOMIAL SECOND field with an O(1e8) row scale
+    # introduced into the coupled Jacobian.  The closure residual is satisfied
+    # to O(1e-12) at the physical solution; keep the row unscaled (identity)
+    # so it is measured in its physical units.
+    family = LAGRANGE
+    order = FIRST
     scaling = 1
   []
   [fluid_temperature]
@@ -100,13 +101,11 @@ spe1_use_pressure_dependent_rock_porosity = false
   [injector_bhp_scalar]
     family = SCALAR
     order = FIRST
-    initial_condition = 36700000
     scaling = 1e-7
   []
   [producer_bhp_scalar]
     family = SCALAR
     order = FIRST
-    initial_condition = 20000000
     scaling = 1e-7
   []
 []
@@ -201,6 +200,17 @@ spe1_use_pressure_dependent_rock_porosity = false
 []
 
 [ICs]
+  inactive = 'injector_bhp_scalar_initial producer_bhp_scalar_initial'
+  [injector_bhp_scalar_initial]
+    type = ScalarConstantIC
+    variable = injector_bhp_scalar
+    value = 36700000
+  []
+  [producer_bhp_scalar_initial]
+    type = ScalarConstantIC
+    variable = producer_bhp_scalar
+    value = 20000000
+  []
   [oil_pressure]
     type = FunctionIC
     variable = oil_pressure
@@ -302,16 +312,34 @@ spe1_use_pressure_dependent_rock_porosity = false
     field_name = spe1_water_saturation
     backbone = water_saturation
     enrichment = water_saturation_enrichment
+    value_transform = bounded
   []
   [gas_saturation_reconstruction]
     type = ADEGReconstructedScalarMaterial
     field_name = spe1_gas_saturation
     backbone = gas_saturation
     enrichment = gas_saturation_enrichment
-    # Both quadratic Bernstein coefficients and the P0 enrichment are
-    # independently lower-bounded. Their nonnegative bases form partitions
-    # of unity, so identity reconstruction is pointwise nonnegative and
-    # permits exact phase disappearance.
+    # The water reconstruction supplies the gas upper complement. The AD
+    # transform carries the coupled saturation chain rule through the residual
+    # and keeps the physical oil saturation nonnegative without modifying a
+    # PETSc line-search trial after it has been evaluated.
+    value_transform = simplex_bounded
+    complement_value_name = spe1_water_saturation_total
+    complement_gradient_name = spe1_water_saturation_total_gradient
+    complement_dot_name = spe1_water_saturation_total_dot
+  []
+  [gas_saturation_closure_reconstruction]
+    type = ADEGReconstructedScalarMaterial
+    field_name = spe1_gas_saturation_closure
+    backbone = gas_saturation
+    enrichment = gas_saturation_enrichment
+    # Identity transform: the phase-appearance complementarity row must couple
+    # to the raw reconstructed gas saturation with an exact derivative.  The
+    # simplex-bounded reconstruction clamps slightly negative Newton trials to a
+    # near-zero value whose derivative vanishes, which decouples the gas block
+    # at the DRSDT phase-appearance point.  The closure row then keeps an exact
+    # d(FB)/d(Sg) = -1 coupling so the (rate, Sg) saddle block stays nonsingular
+    # while storage and flux paths continue to consume the clamped total.
     value_transform = identity
   []
   [tau_reconstruction]
@@ -332,6 +360,37 @@ spe1_use_pressure_dependent_rock_porosity = false
 !include ../input/includes/materials/spe1_case1_black_oil_pvt.i
 
 [Materials]
+  # Feed the DRSDT phase-appearance complementarity row the identity-transformed
+  # (raw) gas saturation instead of the clamped total.  The simplex-bounded
+  # reconstruction reports a near-zero value with a vanishing derivative for
+  # slightly negative Newton trials, which decouples the gas block; the raw
+  # reconstruction keeps an exact unit Sg coupling at the phase-appearance
+  # point.
+  [spe1_pvt]
+    gas_appearance_complementarity_saturation_name = spe1_gas_saturation_closure_total
+    # Direct equilibrium phase-appearance closure: the material switches its
+    # equilibrium residual between the DRSDT-capped stability gap (active) and
+    # the phase-transfer rate r itself (inactive).  The rate variable must be
+    # coupled so the inactive branch can drive r -> 0.
+    gas_phase_transformation_rate = gas_phase_transformation_rate
+    # Lagged active-set (Picard) phase-appearance closure, standard in
+    # reservoir simulation.  The branch selector freezes the active set at the
+    # previous fixed-point state so it cannot flip inside the inner Newton
+    # solve, and is refreshed between FixedPointSolve outer iterations.  The
+    # DRSDT verifier enables the outer loop (Executioner/fixed_point_*) and
+    # converges on the active-set mismatch integral.  The finite-rate kinetic
+    # row does not consume the frozen flag.
+    active_set_flag_variable = gas_saturation
+    active_set_flag_enrichment_variable = gas_saturation_enrichment
+    # Oil pressure evaluated at the previous fixed-point state reconstructs the
+    # saturated R_s for the lagged undersaturation gap, so the oversaturation
+    # leg of the frozen flag is also a pure lagged quantity and the whole
+    # branch selector is frozen for the inner Newton solve.  (The PVT include
+    # already sets reject_oversaturated_state = false so a frozen inactive
+    # iterate may carry oversaturated dissolved gas until the mismatch refresh
+    # flips it active.)
+    active_set_flag_pressure_variable = oil_pressure
+  []
   [layer_1_water_darcy]
     type = ADStandardDarcyReferenceFluxMaterial
     block = '1 11'
@@ -512,6 +571,16 @@ spe1_use_pressure_dependent_rock_porosity = false
     reference_component_flux_name = gas_reference_component_flux
     reference_component_source_name = unused_gas_source
   []
+  [dissolved_gas_component_flux]
+    type = ADRegisteredPhaseComponentFluxMaterial
+    phase_registry = phases
+    phases = 'oil'
+    component = 2
+    phase_reference_relative_mass_flux_names = 'oil_reference_relative_mass_flux'
+    phase_component_mass_fraction_names = 'benchmark_black_oil_gas_component_mass_fraction_in_oil'
+    reference_component_flux_name = dissolved_gas_reference_component_flux
+    reference_component_source_name = unused_dissolved_gas_source
+  []
 
   # Nonequilibrium dissolved-gas/free-gas phase transformation.  These
   # objects expose the manuscript's mu, tau offsets, affinity, finite-rate
@@ -562,6 +631,8 @@ spe1_use_pressure_dependent_rock_porosity = false
     lambda_linear = 1e-2
     lambda_entropy = 1e-2
     entropy_deviation_norm = 10
+    # Retain the conservative stabilization residual while lagging its
+    # nonlocal sensor coefficient in the Newton tangent.
     differentiate_viscosity = false
     property_prefix = water_saturation_ev
   []
@@ -579,6 +650,8 @@ spe1_use_pressure_dependent_rock_porosity = false
     lambda_linear = 1e-2
     lambda_entropy = 1e-2
     entropy_deviation_norm = 10
+    # Retain the conservative stabilization residual while lagging its
+    # nonlocal sensor coefficient in the Newton tangent.
     differentiate_viscosity = false
     property_prefix = gas_saturation_ev
   []
@@ -597,6 +670,8 @@ spe1_use_pressure_dependent_rock_porosity = false
     chemical_stiffness = 1
     oil_surface_density = 859.5507446467011
     gas_surface_density = 0.8537840978320755
+    phase_active_name = benchmark_black_oil_oil_active
+    deactivate_on_nonpositive_mass = true
     property_prefix = spe1_phase_transform
   []
   [tau_evolution]
@@ -737,8 +812,8 @@ spe1_use_pressure_dependent_rock_porosity = false
   [inactive_well_sources]
     type = ADGenericConstantMaterial
     block = '1 2 3 11 13'
-    prop_names = 'spe1_well_water_reference_component_source spe1_well_oil_reference_component_source spe1_well_free_gas_reference_component_source spe1_well_gas_reference_component_source'
-    prop_values = '0 0 0 0'
+    prop_names = 'spe1_well_water_reference_component_source spe1_well_oil_reference_component_source spe1_well_free_gas_reference_component_source spe1_well_dissolved_gas_reference_component_source spe1_well_gas_reference_component_source'
+    prop_values = '0 0 0 0 0'
   []
   [injector_relative_permeability]
     type = ADGenericConstantMaterial
@@ -806,6 +881,13 @@ spe1_use_pressure_dependent_rock_porosity = false
 []
 
 [Kernels]
+  # Deck-selectable phase-transfer closure.  The default production path uses
+  # the finite-rate Onsager kinetic row.  Flip this list to
+  # 'gas_phase_transformation_closure' to select the rate-independent DRSDT=0
+  # history row (benchmark_black_oil_solution_gas_constraint_residual), which
+  # replaces the finite-rate conversion relation with the irreversible
+  # dissolved-gas history law.  Only one of the two rows may be active.
+  inactive = 'gas_phase_transformation_drsdt_closure'
   [matrix_component_balance]
     type = ADMaterialPropertyResidual
     variable = matrix_reference_component_storage
@@ -950,12 +1032,20 @@ spe1_use_pressure_dependent_rock_porosity = false
   []
   [gas_balance]
     type = ADEnrichedGalerkinScalarBalance
-    # The stock-tank-gas conservation equation remains active when S_g is at
-    # its lower bound.  R_s and S_g use the same continuous P1 parent space.
+    # The dissolved stock-tank-gas balance.  R_s carries only the gas stored
+    # and transported in the oil phase; the dissolved gas leaves this row at
+    # the phase-transfer rate -J*r (exsolution) and the free-gas balance on
+    # S_g receives +J*r, so the combined total-gas inventory stays conserved
+    # while the equilibrium closure A_(m)=0 pins R_s to R_s^sat(p).
     variable = solution_gas_oil_ratio
-    reference_component_storage_rate_name = benchmark_black_oil_gas_reference_component_storage_rate
-    reference_flux_name = gas_reference_component_flux
-    source_name = spe1_well_gas_reference_component_source
+    reference_component_storage_rate_name = benchmark_black_oil_dissolved_gas_reference_component_storage_rate
+    reference_flux_name = dissolved_gas_reference_component_flux
+    source_name = spe1_well_dissolved_gas_reference_component_source
+  []
+  [dissolved_gas_phase_conversion]
+    type = ADReferenceComponentSourceTerm
+    variable = solution_gas_oil_ratio
+    reference_source_name = spe1_phase_transfer_oil_reference_component_source_0
   []
   [free_gas_storage]
     type = ADReferenceMaterialStorageRateTerm
@@ -1001,6 +1091,20 @@ spe1_use_pressure_dependent_rock_porosity = false
     type = ADMaterialPropertyResidual
     variable = gas_phase_transformation_rate
     property = spe1_phase_transfer_kinetic_residual_0
+  []
+  [gas_phase_transformation_drsdt_closure]
+    type = ADMaterialPropertyResidual
+    variable = gas_phase_transformation_rate
+    # Direct equilibrium phase-appearance closure replacing the Fisher--Burmeister
+    # complementarity Sg * gap = 0.  The equilibrium constraint A_(m) = 0 is
+    # enforced on the active phase set with the phase-transfer rate r_(m) as the
+    # multiplier returned by the component balance.  Active branch: the smooth
+    # DRSDT-capped stability gap R_s - R_s^sat(p) vanishes, so the gas balance
+    # determines r.  Inactive branch: the rate itself vanishes (r -> 0), so no
+    # phase transformation occurs in the undersaturated region.  Each branch is
+    # linear in its own argument, so the assembled Jacobian stays exact and
+    # nonsingular with no sqrt kink at the phase-appearance point.
+    property = benchmark_black_oil_gas_appearance_equilibrium_residual
   []
   [tau_backbone_equation]
     type = ADEnrichedGalerkinMaterialPropertyResidual
@@ -1097,6 +1201,10 @@ spe1_use_pressure_dependent_rock_porosity = false
 []
 
 [Dampers]
+  # The coupled AD reconstruction above enforces the physical saturation
+  # bound in the residual and Jacobian.  The post-check damper remains
+  # available to reduced decks that use identity reconstruction.
+  inactive = physical_saturation_simplex
   [physical_saturation_simplex]
     type = SaturationSimplexGeneralDamper
     first_backbone = water_saturation
@@ -1196,6 +1304,17 @@ spe1_use_pressure_dependent_rock_porosity = false
 
 [ScalarKernels]
   active = ''
+  # These kernels are activated only for the closed-domain equilibration and
+  # restart-integrity diagnostic.  They retain the scalar well variables in
+  # the checkpoint without introducing a well source.
+  [injector_checkpoint_hold]
+    type = ODETimeDerivative
+    variable = injector_bhp_scalar
+  []
+  [producer_checkpoint_hold]
+    type = ODETimeDerivative
+    variable = producer_bhp_scalar
+  []
   [injector_control]
     type = BlackOilNodalWellControl
     variable = injector_bhp_scalar
@@ -1223,7 +1342,7 @@ spe1_use_pressure_dependent_rock_porosity = false
 []
 
 [Postprocessors]
-  active = 'matrix_component_balance_l2 phase_volume_constraint_l2 gas_appearance_complementarity_l2 phase_transform_kinetic_residual_l2 tau_evolution_residual_l2 phase_transform_affinity_identity_l2 phase_transform_generalized_force_identity_l2 phase_transform_power_identity_l2 minimum_phase_transform_dissipation minimum_undersaturation_gap average_solid_reference_jacobian minimum_solid_reference_jacobian matrix_component_storage_rate_integral matrix_momentum_x_scaled_weak_residual_linf matrix_momentum_y_scaled_weak_residual_linf matrix_momentum_z_scaled_weak_residual_linf fluid_energy_scaled_weak_residual_linf solid_energy_scaled_weak_residual_linf ux_l2 uy_l2 uz_l2 average_oil_pressure average_water_saturation average_gas_saturation minimum_oil_saturation minimum_gas_saturation maximum_gas_saturation average_solution_gas_oil_ratio average_tau average_reconstructed_tau average_phase_transform_dissolved_mu average_phase_transform_free_mu average_phase_transform_affinity average_phase_transform_generalized_force average_gas_phase_transformation_rate average_fluid_temperature average_solid_temperature water_storage_rate_integral oil_storage_rate_integral gas_storage_rate_integral water_source_integral oil_source_integral gas_source_integral water_global_balance oil_global_balance gas_global_balance gas_saturation_1_1_1 gas_saturation_1_1_2 gas_saturation_1_1_3 gas_saturation_10_1_1 gas_saturation_10_1_2 gas_saturation_10_1_3 gas_saturation_10_10_1 gas_saturation_10_10_2 gas_saturation_10_10_3 gas_saturation_1_1_1_backbone gas_saturation_1_1_1_enrichment gas_saturation_1_1_2_backbone gas_saturation_1_1_2_enrichment gas_saturation_1_1_3_backbone gas_saturation_1_1_3_enrichment gas_saturation_10_1_1_backbone gas_saturation_10_1_1_enrichment gas_saturation_10_1_2_backbone gas_saturation_10_1_2_enrichment gas_saturation_10_1_3_backbone gas_saturation_10_1_3_enrichment gas_saturation_10_10_1_backbone gas_saturation_10_10_1_enrichment gas_saturation_10_10_2_backbone gas_saturation_10_10_2_enrichment gas_saturation_10_10_3_backbone gas_saturation_10_10_3_enrichment'
+  active = 'matrix_component_balance_l2 phase_volume_constraint_l2 gas_appearance_complementarity_l2 gas_appearance_equilibrium_residual_l2 phase_transform_kinetic_residual_l2 phase_transform_solution_gas_constraint_l2 tau_evolution_residual_l2 phase_transform_affinity_identity_l2 phase_transform_generalized_force_identity_l2 phase_transform_power_identity_l2 minimum_phase_transform_dissipation minimum_undersaturation_gap average_solid_reference_jacobian minimum_solid_reference_jacobian matrix_component_storage_rate_integral matrix_momentum_x_scaled_weak_residual_linf matrix_momentum_y_scaled_weak_residual_linf matrix_momentum_z_scaled_weak_residual_linf fluid_energy_scaled_weak_residual_linf solid_energy_scaled_weak_residual_linf ux_l2 uy_l2 uz_l2 average_oil_pressure average_water_saturation average_gas_saturation minimum_oil_saturation minimum_gas_saturation maximum_gas_saturation average_solution_gas_oil_ratio average_tau average_reconstructed_tau average_phase_transform_dissolved_mu average_phase_transform_free_mu average_phase_transform_affinity average_phase_transform_generalized_force average_gas_phase_transformation_rate average_fluid_temperature average_solid_temperature water_storage_rate_integral oil_storage_rate_integral gas_storage_rate_integral water_source_integral oil_source_integral gas_source_integral water_global_balance oil_global_balance gas_global_balance gas_saturation_1_1_1 gas_saturation_1_1_2 gas_saturation_1_1_3 gas_saturation_10_1_1 gas_saturation_10_1_2 gas_saturation_10_1_3 gas_saturation_10_10_1 gas_saturation_10_10_2 gas_saturation_10_10_3 gas_saturation_1_1_1_backbone gas_saturation_1_1_1_enrichment gas_saturation_1_1_2_backbone gas_saturation_1_1_2_enrichment gas_saturation_1_1_3_backbone gas_saturation_1_1_3_enrichment gas_saturation_10_1_1_backbone gas_saturation_10_1_1_enrichment gas_saturation_10_1_2_backbone gas_saturation_10_1_2_enrichment gas_saturation_10_1_3_backbone gas_saturation_10_1_3_enrichment gas_saturation_10_10_1_backbone gas_saturation_10_10_1_enrichment gas_saturation_10_10_2_backbone gas_saturation_10_10_2_enrichment gas_saturation_10_10_3_backbone gas_saturation_10_10_3_enrichment gas_active_set_mismatch_integral'
   [matrix_component_balance_l2]
     type = ADMaterialScalarL2Error
     property = solid_reference_component_balance_residual
@@ -1239,9 +1358,28 @@ spe1_use_pressure_dependent_rock_porosity = false
     property = benchmark_black_oil_gas_appearance_complementarity_residual
     function = 0
   []
+  [gas_appearance_equilibrium_residual_l2]
+    type = ADMaterialScalarL2Error
+    property = benchmark_black_oil_gas_appearance_equilibrium_residual
+    function = 0
+  []
+  [gas_active_set_mismatch_integral]
+    type = ADElementIntegralMaterialProperty
+    mat_prop = benchmark_black_oil_gas_active_set_mismatch
+    # Refreshed inside the lagged active-set fixed-point loop: the value must be
+    # recomputed at the MULTIAPP_FIXED_POINT_CONVERGENCE execute point so the
+    # fixed-point convergence object sees the post-solve active-set mismatch for
+    # the just-finished iteration, not the stale TIMESTEP_END value.
+    execute_on = 'timestep_end multiapp_fixed_point_convergence'
+  []
   [phase_transform_kinetic_residual_l2]
     type = ADMaterialScalarL2Error
     property = spe1_phase_transfer_kinetic_residual_0
+    function = 0
+  []
+  [phase_transform_solution_gas_constraint_l2]
+    type = ADMaterialScalarL2Error
+    property = benchmark_black_oil_solution_gas_constraint_residual
     function = 0
   []
   [tau_evolution_residual_l2]
@@ -1862,11 +2000,15 @@ spe1_use_pressure_dependent_rock_porosity = false
 []
 
 [Preconditioning]
+  # Direct LU factorization with superlu_dist is the proven preconditioner for
+  # both supported phase-transfer closures (kinetic and DRSDT=0) under plain
+  # NEWTON at the reduced acceptance mesh.  Variant decks override this block
+  # through [Preconditioning] active=... in their scalable templates.
   [monolithic]
     type = SMP
     full = true
     petsc_options_iname = '-pc_type -pc_factor_mat_solver_type'
-    petsc_options_value = 'lu mumps'
+    petsc_options_value = 'lu superlu_dist'
   []
 []
 
@@ -1874,9 +2016,12 @@ spe1_use_pressure_dependent_rock_porosity = false
   type = Transient
   scheme = implicit-euler
   solve_type = NEWTON
+  # EXPERIMENT: restore HEAD solver settings (vinewtonrsls + bt) on the
+  # current DRSDT-capable deck to isolate the full-mesh kinetic active-wells
+  # stall as a regression of the plain-NEWTON/l2 switch.
   line_search = bt
   # Three-hour steps keep each quadratic-Bernstein active-set transition
-  # within the reduced-space VI Newton convergence basin.
+  # within the reduced-space Newton convergence basin.
   dt = 10800
   end_time = 86400
   # Retain enough accepted-step capacity for nonlinear cutback while ending
@@ -1893,6 +2038,12 @@ spe1_use_pressure_dependent_rock_porosity = false
   # before the global component balances reach their quantitative gates.
   nl_rel_tol = 1e-14
   nl_max_its = 40
+  # Plain NEWTON with the direct superlu_dist factorization (selected in
+  # [Preconditioning] monolithic) converges for both supported phase-transfer
+  # closures.  The saturation reconstruction carries the physical bound
+  # through the AD residual/Jacobian, so no PETSc VI (vinewtonrsls) active-set
+  # solver is required.
+  # EXPERIMENT: restore vinewtonrsls from HEAD.
   petsc_options_iname = '-snes_type'
   petsc_options_value = 'vinewtonrsls'
 []

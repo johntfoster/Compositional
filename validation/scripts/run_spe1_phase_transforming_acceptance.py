@@ -19,6 +19,7 @@ from pathlib import Path
 
 from spe1_energy_gates import energy_gate_limits
 
+ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_END_TIME = 86400.0
 INITIAL_TEMPERATURE = 333.15
 TEMPERATURE_TOLERANCE = 1.0e-8
@@ -40,29 +41,33 @@ SPE1_INITIAL_SOLUTION_GAS_OIL_RATIO = 226.19666048237477
 SPE1_INITIAL_WATER_SATURATION = 0.12
 SPE1_INITIAL_GAS_SATURATION = 0.0
 RESTART_EQUIVALENCE_DT_SECONDS = 2700.0
-# Equilibration-stage nonlinear solver capacity.  The production deck fixes
-# nl_max_its=40 for the dt=10800 production schedule, but the first physical
-# step from the initial condition must complete the active-set transition and
-# reproducibly needs ~41 Newton iterations at any dt.  Give the equilibration
-# command 60 so step 1 converges in one uninterrupted schedule; a cutback to
-# dt=1350 would also need 41 iterations and shifts the checkpoint times so the
-# 86400 s gate rows are never written.
+# Equilibration-stage nonlinear solver capacity.  The first physical full-mesh
+# step completed in 49 iterations in the checkpoint pilot.  The 60-iteration
+# limit preserves the requested schedule while leaving a small convergence
+# margin for this initialized active-set transition.
 EQUILIBRATION_MAX_ITS = 60
+# Main-phase nonlinear solver capacity for the official-schedule diagnostic.
+# It does not relax residual tolerances or permit a rejected step.  The limit
+# lets a replay distinguish a slow active-set iteration from an iteration cap
+# before declaring the required 675 s increment unacceptable.
+PRODUCTION_MAX_ITS = 120
 RESTART_INTEGRITY_RELATIVE_TOLERANCE = 5.0e-13
 RESTART_INTEGRITY_ABSOLUTE_TOLERANCE = 1.0e-12
 # ICs on fields that are restored from the equilibration checkpoint.  During a
 # checkpoint restart these would overwrite the restored fields (MOOSE applies
 # them at INITIAL), breaking state identity with the uninterrupted run.  They
-# are deactivated on restart commands via ICs/inactive.  The variable-level
-# initial_condition values on injector_bhp_scalar / producer_bhp_scalar are NOT
-# listed: those variables are inactive during equilibration, absent from the
-# checkpoint, and must be initialized by their ICs when the production run
-# re-activates them.
+# are deactivated on restart commands via ICs/inactive.  The scalar well
+# variables remain in the equilibration system, with their ICs, scalar kernels,
+# and well-source materials inactive.  The checkpoint therefore has the same
+# variable layout as the production restart, whose scalar ICs initialize the
+# well controls.
 RESTART_INACTIVE_ICS = (
     "oil_pressure oil_pressure_enrichment solution_gas_oil_ratio water_saturation "
     "gas_saturation tau gas_phase_transformation_rate fluid_temperature "
     "solid_temperature matrix_reference_component_storage"
 )
+SCALAR_WELL_INITIAL_CONDITIONS = "injector_bhp_scalar_initial producer_bhp_scalar_initial"
+SCALAR_WELL_CHECKPOINT_HOLD_KERNELS = "injector_checkpoint_hold producer_checkpoint_hold"
 
 ABSOLUTE_LIMITS = {
     "phase_volume_constraint_l2": 1.0e-8,
@@ -128,6 +133,11 @@ REPORT_OUTPUT_STEMS = (
     "nodal_mechanics",
     "nodal_temperature",
 )
+SECONDS_PER_DAY = 86400.0
+OPM_REFERENCE_PATH = "validation/reference_data/spe1_case1_opm_flow_2021_10.csv"
+OPM_COMPARISON_SCRIPT = "validation/scripts/compare_spe1_cg_eg_to_opm.py"
+PHYSICAL_SCOPE_AUDIT_SCRIPT = "validation/scripts/check_spe1_physical_scope.py"
+SOLUTION_GAS_HISTORY_AUDIT_SCRIPT = "validation/scripts/audit_spe1_solution_gas_history.py"
 
 
 def lateral_mesh_overrides(cells: int, include_well_parameters: bool = True) -> list[str]:
@@ -187,7 +197,9 @@ ACTIVE_WELL_POSTPROCESSORS = (
     "oil_storage_rate_integral gas_storage_rate_integral water_source_integral "
     "oil_source_integral gas_source_integral water_global_balance oil_global_balance "
     "gas_global_balance injector_gas_surface_rate injector_cell_pressure "
-    "producer_cell_pressure injector_water_surface_rate injector_oil_surface_rate "
+    "producer_cell_pressure gas_saturation_10_10_3 "
+    "gas_saturation_10_10_3_backbone gas_saturation_10_10_3_enrichment "
+    "injector_water_surface_rate injector_oil_surface_rate "
     "producer_oil_surface_rate producer_water_surface_rate producer_gas_surface_rate "
     "field_gas_oil_ratio injected_gas_surface_rate injected_gas_surface_volume "
     "produced_oil_surface_volume produced_gas_surface_volume produced_water_surface_volume "
@@ -232,7 +244,7 @@ EQUILIBRATION_MASS_METRICS = (
     "solid_reference_component_mass",
 )
 EQUILIBRATION_MASS_RELATIVE_TOLERANCE = 1.0e-8
-ACCEPTANCE_LOCK = Path("/tmp/multicomponent_reactive_flow_spe_acceptance.lock")
+ACCEPTANCE_LOCK = ROOT / ".agent-runtime/locks/spe_acceptance.lock"
 INCLUDE_PATTERN = re.compile(r"^\s*!include\s+(?:[\"']([^\"']+)[\"']|(\S+))")
 
 
@@ -256,6 +268,7 @@ def acquire_acceptance_lock(output_dir: Path) -> int:
         "output_dir": str(output_dir),
         "started_unix_seconds": time.time(),
     }
+    ACCEPTANCE_LOCK.parent.mkdir(parents=True, exist_ok=True)
     while True:
         try:
             descriptor = os.open(ACCEPTANCE_LOCK, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
@@ -360,6 +373,8 @@ def provenance(root: Path, deck: Path, verifier: Path) -> dict[str, object]:
     exe = root / "moose_app/multicomponent_reactive_flow-opt"
     app_lib = root / "moose_app/lib/libmulticomponent_reactive_flow-opt.so.0.0.0"
     test_lib = root / "moose_app/test/lib/libmulticomponent_reactive_flow_test-opt.so.0.0.0"
+    physical_scope_audit = root / PHYSICAL_SCOPE_AUDIT_SCRIPT
+    solution_gas_history_audit = root / SOLUTION_GAS_HISTORY_AUDIT_SCRIPT
     tracked_inputs = [
         root / "moose_app/examples",
         root / "moose_app/input",
@@ -380,6 +395,10 @@ def provenance(root: Path, deck: Path, verifier: Path) -> dict[str, object]:
         "application_library_sha256": sha256_file(app_lib),
         "verifier_path": str(verifier.relative_to(root)),
         "verifier_sha256": sha256_file(verifier),
+        "physical_scope_audit_path": str(physical_scope_audit.relative_to(root)),
+        "physical_scope_audit_sha256": sha256_file(physical_scope_audit),
+        "solution_gas_history_audit_path": str(solution_gas_history_audit.relative_to(root)),
+        "solution_gas_history_audit_sha256": sha256_file(solution_gas_history_audit),
         "input_and_source_tree_sha256": sha256_tree(root, tracked_inputs),
         "input_and_source_files_sha256": sha256_file_manifest(root, tracked_inputs),
         "manuscript_tree_sha256": sha256_tree(root, manuscript_inputs),
@@ -403,6 +422,10 @@ RUNTIME_PROVENANCE_KEYS = (
     "test_library_sha256",
     "verifier_path",
     "verifier_sha256",
+    "physical_scope_audit_path",
+    "physical_scope_audit_sha256",
+    "solution_gas_history_audit_path",
+    "solution_gas_history_audit_sha256",
     "manuscript_tree_sha256",
 )
 
@@ -416,6 +439,160 @@ def write_json(path: Path, value: object) -> None:
     temporary = path.with_suffix(path.suffix + ".tmp")
     temporary.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     temporary.replace(path)
+
+
+def opm_reference_days(reference_path: Path) -> set[float]:
+    """Return the report times supplied by the pinned OPM SPE1 reference."""
+    with reference_path.open(newline="", encoding="utf-8") as stream:
+        return {float(row["time_days"]) for row in csv.DictReader(stream)}
+
+
+def run_opm_comparison(
+    root: Path,
+    output_dir: Path,
+    result_csv: Path,
+    expected_end_time: float,
+) -> dict[str, object]:
+    """Generate a descriptive CG/EG-to-OPM comparison outside acceptance gates."""
+    reference_path = root / OPM_REFERENCE_PATH
+    comparison_script = root / OPM_COMPARISON_SCRIPT
+    end_day = expected_end_time / SECONDS_PER_DAY
+    comparison_csv = output_dir / "opm_comparison.csv"
+    summary_json = output_dir / "opm_comparison_summary.json"
+    figure_base = output_dir / "opm_comparison"
+    command = [
+        sys.executable,
+        str(comparison_script),
+        "--moose-csv",
+        str(result_csv),
+        "--opm-csv",
+        str(reference_path),
+        "--comparison-csv",
+        str(comparison_csv),
+        "--summary-json",
+        str(summary_json),
+        "--figure-base",
+        str(figure_base),
+        "--expected-end-day",
+        f"{end_day:.17g}",
+    ]
+    completed = subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
+    log_path = output_dir / "opm_comparison.log"
+    log_path.write_text(
+        "command: " + shlex.join(command) + "\n"
+        + "stdout:\n" + completed.stdout
+        + "\nstderr:\n" + completed.stderr,
+        encoding="utf-8",
+    )
+    return {
+        "requested": True,
+        "role": "physical-result comparison; not an acceptance gate",
+        "status": "generated" if completed.returncode == 0 else "error",
+        "returncode": completed.returncode,
+        "end_day": end_day,
+        "reference_path": OPM_REFERENCE_PATH,
+        "reference_sha256": sha256_file(reference_path),
+        "comparison_script": OPM_COMPARISON_SCRIPT,
+        "comparison_script_sha256": sha256_file(comparison_script),
+        "comparison_csv": str(comparison_csv),
+        "summary_json": str(summary_json),
+        "figure_png": str(figure_base.with_suffix(".png")),
+        "figure_svg": str(figure_base.with_suffix(".svg")),
+        "log": str(log_path),
+    }
+
+
+def run_physical_scope_audit(
+    root: Path, deck: Path, output_dir: Path
+) -> dict[str, object]:
+    """Record the physical scope of a deck before a provenance-critical run."""
+    audit_script = root / PHYSICAL_SCOPE_AUDIT_SCRIPT
+    output_path = output_dir / "physical_scope_audit.json"
+    command = [
+        sys.executable,
+        str(audit_script),
+        "--repository-root",
+        str(root),
+        "--deck",
+        str(deck),
+        "--output",
+        str(output_path),
+    ]
+    completed = subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
+    log_path = output_dir / "physical_scope_audit.log"
+    log_path.write_text(
+        "command: " + shlex.join(command) + "\n"
+        + "stdout:\n" + completed.stdout
+        + "\nstderr:\n" + completed.stderr,
+        encoding="utf-8",
+    )
+    if completed.returncode != 0:
+        raise RuntimeError(
+            "Physical-scope audit failed before SPE execution; see "
+            f"{log_path}"
+        )
+    if not output_path.is_file():
+        raise RuntimeError("Physical-scope audit returned success without an artifact")
+    audit = json.loads(output_path.read_text(encoding="utf-8"))
+    if audit.get("status") != "declared_with_unconstrained_specializations":
+        raise RuntimeError("Physical-scope audit returned an unrecognized declaration status")
+    return {
+        "status": audit["status"],
+        "role": audit["audit_role"],
+        "artifact": str(output_path),
+        "sha256": sha256_file(output_path),
+        "script": PHYSICAL_SCOPE_AUDIT_SCRIPT,
+        "script_sha256": sha256_file(audit_script),
+        "log": str(log_path),
+    }
+
+
+def run_solution_gas_history_audit(
+    root: Path, output_dir: Path, result_csv: Path, file_base: str
+) -> dict[str, object]:
+    """Audit local DRSDT=0 history without hiding field-level violations."""
+    audit_script = root / SOLUTION_GAS_HISTORY_AUDIT_SCRIPT
+    output_path = output_dir / f"{file_base}_solution_gas_history_audit.json"
+    command = [
+        sys.executable,
+        str(audit_script),
+        "--result-csv",
+        str(result_csv),
+        "--field-glob",
+        str(output_dir / f"{file_base}_physical_element_fields_*.csv"),
+        "--initial-rs",
+        f"{SPE1_INITIAL_SOLUTION_GAS_OIL_RATIO:.17g}",
+        "--output",
+        str(output_path),
+    ]
+    completed = subprocess.run(command, cwd=root, capture_output=True, text=True, check=False)
+    log_path = output_dir / f"{file_base}_solution_gas_history_audit.log"
+    log_path.write_text(
+        "command: " + shlex.join(command) + "\n"
+        + "stdout:\n" + completed.stdout
+        + "\nstderr:\n" + completed.stderr,
+        encoding="utf-8",
+    )
+    if completed.returncode not in (0, 1) or not output_path.is_file():
+        raise RuntimeError(
+            "Dissolved-gas history audit did not produce a valid result; see "
+            f"{log_path}"
+        )
+    audit = json.loads(output_path.read_text(encoding="utf-8"))
+    if audit.get("status") not in ("pass", "fail"):
+        raise RuntimeError("Dissolved-gas history audit returned an unrecognized status")
+    return {
+        "status": audit["status"],
+        "artifact": str(output_path),
+        "sha256": sha256_file(output_path),
+        "script": SOLUTION_GAS_HISTORY_AUDIT_SCRIPT,
+        "script_sha256": sha256_file(audit_script),
+        "failure_count": audit["failure_count"],
+        "maximum_solution_gas_oil_ratio": audit["maximum_solution_gas_oil_ratio"],
+        "maximum_initial_cap_excess": audit["maximum_initial_cap_excess"],
+        "maximum_stepwise_increase": audit["maximum_stepwise_increase"],
+        "log": str(log_path),
+    }
 
 
 def read_rows(csv_path: Path) -> tuple[list[dict[str, str]], dict[str, float]]:
@@ -515,7 +692,7 @@ def compare_restart_rows(
 def parse_solver_events(log: str) -> dict[str, object]:
     lowered = log.lower()
     rejected = (
-        lowered.count("solve did not converge")
+        lowered.count("nonlinear solve did not converge")
         + lowered.count("rejecting time step")
         + lowered.count("solve failed, cutting timestep")
     )
@@ -599,6 +776,14 @@ def main() -> int:
     parser.add_argument("--mpi-ranks", type=int, default=4)
     parser.add_argument("--dt-seconds", type=float, default=10800.0)
     parser.add_argument(
+        "--line-search",
+        choices=("basic", "l2", "bt", "cp"),
+        help=(
+            "Explicit PETSc line-search override recorded with the acceptance "
+            "command and verification summary."
+        ),
+    )
+    parser.add_argument(
         "--equilibration-dt-seconds",
         type=float,
         default=RESTART_EQUIVALENCE_DT_SECONDS,
@@ -609,6 +794,24 @@ def main() -> int:
         "--pilot-end-time-seconds",
         type=float,
         help="Stop an official-schedule diagnostic early and record the shorter horizon.",
+    )
+    parser.add_argument(
+        "--official-dtmax-seconds",
+        type=float,
+        default=10800.0,
+        help=(
+            "Cap the official-schedule adaptive timestep without changing any official "
+            "report boundary or constitutive setting; defaults to 10800 s."
+        ),
+    )
+    parser.add_argument(
+        "--production-checkpoint",
+        action="store_true",
+        help=(
+            "Write a production checkpoint at the requested pilot endpoint for a "
+            "restart-verified nonlinear diagnostic. This mode remains subject to every "
+            "acceptance gate and does not alter the schedule or solution."
+        ),
     )
     parser.add_argument("--lateral-cells", type=int, default=10)
     parser.add_argument("--inactive-wells", action="store_true")
@@ -626,6 +829,15 @@ def main() -> int:
         help="Preserve the deck timestepper and require the day-3650 horizon.",
     )
     parser.add_argument(
+        "--opm-comparison",
+        action="store_true",
+        help=(
+            "Generate a descriptive CG/EG-to-OPM artifact when the requested official "
+            "endpoint is a pinned OPM report day; comparison differences are never "
+            "acceptance gates."
+        ),
+    )
+    parser.add_argument(
         "--deck",
         help=(
             "Repository-relative SPE1 deck to run. By default, --official-schedule "
@@ -637,6 +849,8 @@ def main() -> int:
         parser.error("--lateral-cells must be positive")
     if args.equilibration_dt_seconds <= 0.0 or args.equilibration_steps < 1:
         parser.error("The stage-0 equilibration timestep and step count must be positive")
+    if args.official_dtmax_seconds is not None and args.official_dtmax_seconds <= 0.0:
+        parser.error("--official-dtmax-seconds must be positive")
     if not math.isclose(
         args.equilibration_dt_seconds,
         RESTART_EQUIVALENCE_DT_SECONDS,
@@ -659,9 +873,6 @@ def main() -> int:
     exe = root / "moose_app/multicomponent_reactive_flow-opt"
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
-    if not args.stage_only_diagnostic:
-        lock_descriptor = acquire_acceptance_lock(output_dir)
-        atexit.register(release_acceptance_lock, lock_descriptor)
     output_base = output_dir / "result"
     num_steps = args.num_steps
     if num_steps is None and not args.official_schedule:
@@ -673,6 +884,23 @@ def main() -> int:
     )
     if args.pilot_end_time_seconds is not None and not args.official_schedule:
         parser.error("--pilot-end-time-seconds requires --official-schedule")
+    if args.opm_comparison and not args.official_schedule:
+        parser.error("--opm-comparison requires --official-schedule")
+    if args.opm_comparison:
+        reference_path = root / OPM_REFERENCE_PATH
+        endpoint_day = expected_end_time / SECONDS_PER_DAY
+        if not any(
+            math.isclose(endpoint_day, day, rel_tol=0.0, abs_tol=1.0e-12)
+            for day in opm_reference_days(reference_path)
+        ):
+            parser.error(
+                "--opm-comparison requires an endpoint matching a pinned OPM report day; "
+                f"requested day {endpoint_day:g}"
+            )
+    physical_scope_audit = run_physical_scope_audit(root, deck, output_dir)
+    if not args.stage_only_diagnostic:
+        lock_descriptor = acquire_acceptance_lock(output_dir)
+        atexit.register(release_acceptance_lock, lock_descriptor)
 
     before = provenance(root, deck, verifier)
     initial_provenance = {
@@ -697,9 +925,11 @@ def main() -> int:
         ),
         "mpi_ranks": args.mpi_ranks,
         "dt_seconds": args.dt_seconds,
+        "official_dtmax_seconds": args.official_dtmax_seconds if args.official_schedule else None,
         "requested_num_steps": num_steps,
         "stage_0_equilibration_steps": args.equilibration_steps,
         "stage_0_equilibration_dt_seconds": args.equilibration_dt_seconds,
+        "physical_scope_audit": physical_scope_audit,
         "provenance": before,
     })
 
@@ -708,8 +938,9 @@ def main() -> int:
     uninterrupted_extra_end_time = (
         equilibration_end_time + RESTART_EQUIVALENCE_DT_SECONDS
     )
+    launch_prefix = ["mpiexec", "-n", str(args.mpi_ranks)] if args.mpi_ranks > 1 else []
     equilibration_command = [
-        "mpiexec", "-n", str(args.mpi_ranks), str(exe),
+        *launch_prefix, str(exe),
         "-i", str(deck),
         f"Outputs/file_base={equilibration_base}",
         "Outputs/checkpoint=true",
@@ -718,14 +949,28 @@ def main() -> int:
         f"Executioner/num_steps={args.equilibration_steps + 1}",
         # The first physical step from the initial condition must complete the
         # quadratic-Bernstein/saturation active-set transition, which
-        # reproducibly needs ~41 Newton iterations regardless of dt (2700 or
+        # reproducibly needs ~49 Newton iterations regardless of dt (2700 or
         # the 1350 retry).  The production deck's nl_max_its=40 is deliberate
         # for the dt=10800 production schedule and leaves no headroom here.
         # Give the equilibration stage 60 so step 1 converges without the
         # schedule-shifting cutback that drops the 86400 s checkpoint.
         f"Executioner/nl_max_its={EQUILIBRATION_MAX_ITS}",
         f"Postprocessors/active={EQUILIBRATION_POSTPROCESSORS}",
+        f"ICs/inactive={SCALAR_WELL_INITIAL_CONDITIONS}",
+        # Retain the scalar well degrees of freedom in the checkpoint.  Their
+        # scalar kernels and well-source materials are inactive in the deck,
+        # so this does not add a well source to the closed-domain stage.
+        "Variables/inactive=",
+        f"ScalarKernels/active={SCALAR_WELL_CHECKPOINT_HOLD_KERNELS}",
     ]
+    # The official-horizon deck carries an [Executioner]/[TimeStepper]
+    # IterationAdaptiveDT block whose computeInitialDT() returns its own dt
+    # (10800 s) and ignores Executioner/dt.  Disable that block so MOOSE
+    # auto-creates a default ConstantDT with dt = Executioner/dt (2700 s),
+    # exactly reproducing the passing one-day deck's fixed 32-step schedule
+    # and the 89100 s closed-equivalence step.
+    if args.official_schedule:
+        equilibration_command.append("Executioner/inactive=TimeStepper")
     equilibration_command.extend(
         initial_execution_overrides(RESTART_INTEGRITY_POSTPROCESSORS)
     )
@@ -738,18 +983,28 @@ def main() -> int:
     )
 
     command = [
-        "mpiexec", "-n", str(args.mpi_ranks), str(exe),
+        *launch_prefix, str(exe),
         "-i", str(deck),
         f"Outputs/file_base={output_base}",
     ]
     if args.official_schedule:
         if args.pilot_end_time_seconds is not None:
             command.append(f"Executioner/end_time={args.pilot_end_time_seconds}")
+        if args.official_dtmax_seconds is not None:
+            command.append(f"Executioner/dtmax={args.official_dtmax_seconds:.17g}")
+        # Give the main phase the same Newton headroom as the equilibration
+        # stage (see PRODUCTION_MAX_ITS) so gas-front phase-appearance steps
+        # converge instead of aborting at dtmin.
+        command.append(f"Executioner/nl_max_its={PRODUCTION_MAX_ITS}")
     else:
         command.extend([
             f"Executioner/dt={args.dt_seconds}",
             f"Executioner/num_steps={num_steps}",
         ])
+    if args.line_search is not None:
+        command.append(f"Executioner/line_search={args.line_search}")
+    if args.production_checkpoint:
+        command.append("Outputs/checkpoint=true")
     if args.lateral_cells != 10:
         command.extend(lateral_mesh_overrides(args.lateral_cells))
     command.extend([
@@ -784,6 +1039,7 @@ def main() -> int:
     equilibration_rows: list[dict[str, str]] = []
     equilibration_mass_changes: dict[str, dict[str, float]] = {}
     equilibration_cell_map_deviations: dict[str, dict[str, float]] = {}
+    equilibration_solution_gas_history_audit: dict[str, object] = {"status": "not_run"}
     if equilibration_completed.returncode != 0:
         failures.append({"metric": "stage_0_process_returncode",
                          "observed": equilibration_completed.returncode, "expected": 0})
@@ -855,6 +1111,24 @@ def main() -> int:
             failures.append({"metric": "stage_0_all_timestep_history_audit",
                              "observed": "fail", "expected": "pass"})
         try:
+            equilibration_solution_gas_history_audit = run_solution_gas_history_audit(
+                root, output_dir, equilibration_csv, "equilibration"
+            )
+            if equilibration_solution_gas_history_audit["status"] != "pass":
+                failures.append({
+                    "metric": "stage_0_drsdt_zero_solution_gas_history",
+                    "observed": "fail",
+                    "expected": "pass",
+                    "failure_count": equilibration_solution_gas_history_audit[
+                        "failure_count"
+                    ],
+                })
+        except (OSError, RuntimeError, ValueError) as error:
+            failures.append({
+                "metric": "stage_0_drsdt_zero_solution_gas_history",
+                "reason": str(error),
+            })
+        try:
             equilibration_cell_map_deviations = equilibration_cell_deviations(
                 output_dir, args.equilibration_steps
             )
@@ -873,7 +1147,7 @@ def main() -> int:
 
     restart_integrity_base = output_dir / "restart_integrity_checkpointed"
     restart_integrity_command = [
-        "mpiexec", "-n", str(args.mpi_ranks), str(exe),
+        *launch_prefix, str(exe),
         "-i", str(deck),
         f"Outputs/file_base={restart_integrity_base}",
         "Outputs/checkpoint=false",
@@ -885,8 +1159,19 @@ def main() -> int:
         f"Problem/restart_file_base={checkpoint_target}",
         f"Executioner/start_time={equilibration_end_time}",
         f"ICs/inactive={RESTART_INACTIVE_ICS}",
+        # Preserve the stage-0 variable layout.  The well kernels and source
+        # materials remain inactive for this closed-domain diagnostic.
+        "Variables/inactive=",
+        f"ScalarKernels/active={SCALAR_WELL_CHECKPOINT_HOLD_KERNELS}",
         f"Postprocessors/active={' '.join(RESTART_INTEGRITY_POSTPROCESSORS)}",
     ]
+    # The restart-integrity step must advance exactly one 2700 s step from the
+    # 86400 s checkpoint for equality with the uninterrupted equilibration row
+    # at 89100 s.  The official-horizon deck's IterationAdaptiveDT would
+    # instead take its own dt after restore, so disable it here too and rely
+    # on the ConstantDT fallback (dt = Executioner/dt) for the single step.
+    if args.official_schedule:
+        restart_integrity_command.append("Executioner/inactive=TimeStepper")
     restart_integrity_command.extend(
         initial_execution_overrides(RESTART_INTEGRITY_POSTPROCESSORS)
     )
@@ -1062,6 +1347,7 @@ def main() -> int:
             },
             "closed_domain_reference_mass_changes": equilibration_mass_changes,
             "official_cell_center_map_deviations": equilibration_cell_map_deviations,
+            "solution_gas_history_audit": equilibration_solution_gas_history_audit,
             "restart_integrity": {
                 "summary": str(output_dir / "restart_integrity_summary.json"),
                 "initial_state_status": restart_initial_comparison.get("status"),
@@ -1087,11 +1373,13 @@ def main() -> int:
             "uninterrupted_restart_integrity_extra_step": uninterrupted_extra_final,
             "closed_domain_reference_mass_changes": equilibration_mass_changes,
             "official_cell_center_map_deviations": equilibration_cell_map_deviations,
+            "solution_gas_history_audit": equilibration_solution_gas_history_audit,
             "restart_integrity": {
                 "summary": str(output_dir / "restart_integrity_summary.json"),
                 "initial_state_comparison": restart_initial_comparison,
                 "extra_step_comparison": restart_step_comparison,
             },
+            "physical_scope_audit": physical_scope_audit,
             "failures": failures,
             "solver_events": events,
             "runtime_unchanged_during_run": runtime_unchanged,
@@ -1139,7 +1427,14 @@ def main() -> int:
 
     final: dict[str, float] = {}
     accepted_nonzero_steps = 0
+    production_checkpoint: Path | None = None
     stage_1_initial_comparison: dict[str, object] = {"status": "not_run"}
+    opm_comparison: dict[str, object] = {
+        "requested": args.opm_comparison,
+        "role": "physical-result comparison; not an acceptance gate",
+        "status": "not_requested" if not args.opm_comparison else "not_run",
+    }
+    production_solution_gas_history_audit: dict[str, object] = {"status": "not_run"}
     csv_path = output_dir / "result.csv"
     if completed.returncode != 0:
         failures.append({"metric": "process_returncode", "observed": completed.returncode,
@@ -1169,6 +1464,17 @@ def main() -> int:
                 "drifted_metrics": stage_1_initial_comparison.get("drifted_metrics", []),
             })
         accepted_nonzero_steps = sum(float(row["time"]) > 0 for row in rows)
+        if args.production_checkpoint:
+            production_checkpoint = (
+                Path(f"{output_base}_cp") / f"{accepted_nonzero_steps:04d}"
+            )
+            if not checkpoint_base_exists(production_checkpoint):
+                failures.append({
+                    "metric": "production_checkpoint_exists",
+                    "observed": False,
+                    "expected": True,
+                    "checkpoint": str(production_checkpoint),
+                })
         if abs(final.get("time", -1.0) - expected_end_time) > 1.0e-8:
             failures.append({"metric": "final_time", "observed": final.get("time", -1.0),
                              "expected": expected_end_time})
@@ -1249,6 +1555,28 @@ def main() -> int:
         elif not history_audit_path.is_file():
             failures.append({"metric": "all_timestep_history_audit_output", "observed": False,
                              "expected": True})
+        try:
+            production_solution_gas_history_audit = run_solution_gas_history_audit(
+                root, output_dir, csv_path, "result"
+            )
+            if production_solution_gas_history_audit["status"] != "pass":
+                failures.append({
+                    "metric": "drsdt_zero_solution_gas_history",
+                    "observed": "fail",
+                    "expected": "pass",
+                    "failure_count": production_solution_gas_history_audit[
+                        "failure_count"
+                    ],
+                })
+        except (OSError, RuntimeError, ValueError) as error:
+            failures.append({
+                "metric": "drsdt_zero_solution_gas_history",
+                "reason": str(error),
+            })
+        if args.opm_comparison:
+            opm_comparison = run_opm_comparison(
+                root, output_dir, csv_path, expected_end_time
+            )
     elif completed.returncode == 0:
         failures.append({"metric": "result_csv_exists", "observed": False, "expected": True})
 
@@ -1312,6 +1640,8 @@ def main() -> int:
         "mpi_ranks": args.mpi_ranks,
         "lateral_cells": args.lateral_cells,
         "dt_seconds": args.dt_seconds,
+        "line_search": args.line_search,
+        "official_dtmax_seconds": args.official_dtmax_seconds if args.official_schedule else None,
         "timestep_mode": "deck_adaptive_official_schedule" if args.official_schedule
                          else "command_line_uniform",
         "expected_end_time": expected_end_time,
@@ -1337,6 +1667,19 @@ def main() -> int:
             "stage_0_to_stage_1_initial_identity": stage_1_initial_comparison,
         },
         "accepted_nonzero_timesteps": accepted_nonzero_steps,
+        "production_checkpoint": {
+            "requested": args.production_checkpoint,
+            "base": str(production_checkpoint) if production_checkpoint else None,
+            "exists": checkpoint_base_exists(production_checkpoint)
+            if production_checkpoint
+            else False,
+        },
+        "opm_comparison": opm_comparison,
+        "solution_gas_history_audit": {
+            "stage_0": equilibration_solution_gas_history_audit,
+            "production": production_solution_gas_history_audit,
+        },
+        "physical_scope_audit": physical_scope_audit,
         "final": final,
         "absolute_limits": ABSOLUTE_LIMITS,
         "energy_scale_aware_limits": energy_gate_limits(numeric_row(row) for row in rows),

@@ -1,0 +1,57 @@
+schema_version: 1
+benchmark: "SPE2 three-phase coning candidate"
+claim_level: candidate_only
+production_claim_allowed: false
+official_source: validation/reference_data/spe2_primary_tables.yml
+problem_spec: agent_workflows/specs/spe2_black_oil_coning_candidate.problem.json
+required_candidate_blocks:
+  - mesh.spe2_rz_q2_quad9
+  - fields.spe2_black_oil_q2_eg
+  - ics.spe2_layer_solid_storage
+  - materials.spe2_black_oil_pvt
+  - materials.spe2_layer_permeability
+  - materials.spe2_phase_pressure_closure
+  - operators.spe2_phase_pressure_closure
+  - fields.spe2_producer_control
+  - schedules.spe2_oil_rate_schedule
+  - materials.spe2_producer_well
+  - operators.spe2_producer_control
+static_evidence:
+  initial_state_generator: validation/scripts/generate_spe2_initial_state.py
+  required_tests:
+    - spe2_reference.spe2_primary_tables_and_si_conversions
+    - spe2_reference.spe2_hydrostatic_capillary_initial_state
+    - spe2_mesh.spe2_rz_q2_mesh_volume
+    - spe2_layer_permeability.spe2_layer_permeability_rz
+    - spe2_layer_porosity.spe2_layer_porosity_rz
+    - spe2_pvt.spe2_pvt_3600psi_1d
+    - black_oil_stone_ii.stone_ii_spe2_table_1d
+    - spe2_phase_pressure_closure.spe2_phase_pressure_closure_2d
+    - spe2_producer_control.spe2_producer_control_rz
+    - spe2_producer_control.spe2_producer_control_rz_jacobian
+coupled_evidence:
+  deck: moose_app/examples/spe2_q2_eg_phase_transforming.i
+  forbidden_reductions: ["solve = false", "fixed skeleton", "finite volume", "cached reference fields"]
+  required_end_time_s: 77760000.0
+  gates:
+    component_relative_balance_max: 1.0e-6
+    solid_relative_balance_max: 1.0e-8
+    phase_volume_constraint_l2_max: 1.0e-8
+    phase_pressure_force_identity_l2_max: 1.0e-10
+    dynamic_pressure_lag_source_l2_max: 1.0e-12
+    mechanics_scaled_weak_residual_linf_max: 1.0e-8
+    energy_scaled_weak_residual_linf_max: 1.0e-8
+    minimum_solid_reference_jacobian: 0.5
+    minimum_water_saturation: -1.0e-10
+    minimum_gas_saturation: -1.0e-10
+    minimum_oil_saturation: -1.0e-10
+    minimum_conversion_dissipation: -1.0e-10
+    minimum_saturation_onsager_dissipation: -1.0e-12
+    maximum_temperature_deviation_K: 1.0e-8
+    well_complementarity_linf_max: 1.0e-8
+  required_report_times_days: [1, 10, 50, 100, 200, 300, 400, 500, 600, 700, 720, 800, 900]
+promotion_requirements:
+  - "The author explicitly authorizes promotion."
+  - "Each reusable fragment receives fresh mapped evidence and a higher semantic version through verified-block-promotion."
+  - "deck-integrity-validator accepts the protected assembly and resolved include tree."
+  - "The 900-day coupled run, mesh/time convergence study, and report/plot bundle pass without skips."

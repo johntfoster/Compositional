@@ -2,6 +2,90 @@
 
 Date: 2026-08-05
 
+## Current status: 2026-08-18
+
+This audit retains the implementation milestones that follow.  The current
+benchmark status, complete artifact links, attempt record, and remaining work
+are maintained in `validation/reports/spe1_case1.md` and
+`agent_workflows/runbooks/spe1_acceptance_status.md`.  The status runbook is
+the coordination point for SPE1 acceptance decisions.
+
+As of 2026-08-18 the reduced `DRSDT=0` acceptance fails on the reworked
+2026-08-17 deck (inner-Newton residual floor `4.481544e-07`,
+`DIVERGED_MAX_IT` at step 1); the pre-rewrite PASS artifacts in
+The legacy temporary `drsdt_gate_artifacts{,_v2}` sets are not valid for the current deck. The
+milestones below describe the implementation path that produced the gate.
+
+The provenance-locked full-mesh CG/EG official-schedule pilot reaches 86,400 s
+with the L2 line search, the complete stage-0 equilibration and restart checks,
+eight accepted production steps, and zero configured solver-event or
+governing-equation gate failures.  It crosses the early gas-appearance
+transition during its second production step.  The added elementwise
+`DRSDT=0` audit finds dissolved-gas redissolution in the retained stage-0 and
+production fields, so the kinetic-path pilot is numerical evidence rather than
+physical SPE1 acceptance.
+
+The rate-independent `DRSDT=0` phase-appearance gate has since been implemented
+as the production default for the phase-appearance verifier
+(`validation/scripts/check_spe1_q2_eg_phase_appearance.py --drsdt-closure`).
+It selects the deck's rate-independent dissolved-gas history row in place of
+the finite-rate Onsager row and drives the phase-appearance branch with a
+lagged active-set (Picard) outer loop whose convergence object is the
+`gas_active_set_mismatch_integral` postprocessor.  The reduced 1x1x3 gate
+passes all eight 10,800 s production steps with `CONVERGED_PP` on the first
+fixed-point iteration and a zero active-set mismatch integral.
+
+The reduced DRSDT gate also required a well-material dissolution partition in
+`ADBlackOilPeacemanWellMaterial`.  When the optional
+`saturated_solution_gas_oil_ratio_name` property is supplied for a gas
+injection completion, the injected gas source splits into a dissolved fraction
+(absorbed by the R_s row) and the residual free-gas fraction according to a C1
+smoothstep of the undersaturation gap `R_s^sat - R_s`.  Without this partition,
+every mole of injected gas entered the frozen-inactive free-gas rows of the
+first DRSDT solve, producing an infeasible flat residual floor.  The partition
+is scoped to the DRSDT gate through the verifier's command overrides; the
+finite-rate kinetic acceptance path leaves the well material's baseline
+partition (`dissolved = total - free`) untouched.
+
+The current unknowns and rows make this a model and discretization change.  The
+P1 solution-gas field, P2-plus-P0 gas-saturation field, and local P2 conversion
+rate currently receive total-gas conservation, free-gas phase balance, and a
+finite-rate kinetic closure.  The history relation cannot be appended to those
+three rows.  A replacement must retain total-gas conservation and establish a
+compatible phase-partition and conversion-source treatment for the momentum
+and energy equations, with new reduced and coupled evidence.
+
+The remaining physical interpretation requires separate evidence for the
+synthetic phase-transfer free-energy curvature and kinetic mobility, the
+finite-deformation skeleton constitutive and boundary specialization, and the
+isothermal energy scope.  The day-31 runner can create a provenance-recorded
+CG/EG-to-OPM comparison artifact after the dissolved-gas history gate passes;
+that comparison reports physical differences without changing the
+governing-equation acceptance criteria.
+
+### Day-31 production run recipe
+
+After an authorized allocation is available, run the first pinned OPM report
+day from the repository root with a new, empty artifact directory:
+
+```bash
+agent_environment/skills/setup-moose-conda/scripts/moose_conda_env.sh run -- \
+  python validation/scripts/run_spe1_phase_transforming_acceptance.py \
+  validation/results/spe1_case1/<new-day31-artifact> \
+  --official-schedule \
+  --pilot-end-time-seconds 2678400 \
+  --line-search l2 \
+  --opm-comparison \
+  --mpi-ranks 8
+```
+
+The `l2` override retains the converged full-mesh pilot nonlinear method
+without changing the governing model, discretization, time-step policy, or
+acceptance gates.  The runner acquires the acceptance lock, records input and
+output provenance, and produces the OPM comparison as a physical-result
+artifact outside the governing acceptance decision.  This recipe does not
+itself authorize or start the external allocation.
+
 ## Controlling model
 
 Production acceptance is the four-phase matrix/water/oil/gas model in
@@ -37,6 +121,39 @@ for temperature-dependent calorimetry or transferring the energy scale to a
 different fluid system.  Such applications require a calibrated compositional
 or caloric Helmholtz model while retaining the same projection and
 transfer-work interfaces.
+
+## Injected-gas dissolution partition in the well material
+
+`ADBlackOilPeacemanWellMaterial` computes the well's reference component
+sources from the surface rates.  For a gas-injecting completion, the gas source
+appears both in the free-gas row (via `*_free_gas_reference_component_source`)
+and, through the black-oil identification, in the dissolved-gas balance.  In
+the baseline production material the injected stock-tank gas enters the
+free-gas rows only when the oil cannot absorb it; the dissolved and free split
+is `dissolved = total - free`.
+
+The rate-independent `DRSDT=0` solve freezes the phase-appearance branch
+inside the inner Newton iteration, so a gas injector into undersaturated oil
+dumps the entire hard source into the frozen-inactive free-gas rows with no
+dissolution sink.  This produced an infeasible flat residual floor at
+`2.42e-2` on the first 10,800 s step.  The material therefore accepts an
+optional `saturated_solution_gas_oil_ratio_name` (a `MaterialPropertyName`
+that defaults to `""`) and a `dissolution_transition_width` (default `0.5`).
+When the property is present and the completion injects gas, the injected gas
+source is partitioned
+
+- `dissolved = frac * total`,
+- `free = total - dissolved`,
+
+where `frac` is a C1 smoothstep of the true undersaturation gap
+`R_s^sat - R_s`: one for `R_s^sat >= R_s`, zero for
+`R_s^sat <= R_s - width`, and the monotone `t^2 (3 - 2t)` ramp in between.
+The total gas source and the scalar-control `gas_surface_rate` are unchanged,
+so `free + dissolved = total` exactly and the well-control feedback is
+unaffected.  The partition is exercised only by the DRSDT phase-appearance
+gate, which sets the property through the verifier's command overrides; the
+finite-rate kinetic acceptance path and all well-material unit tests keep the
+baseline partition.
 
 ## Stage-0 equilibrium gate
 

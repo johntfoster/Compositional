@@ -6,7 +6,12 @@
 []
 
 [Materials]
-  active = 'reference_kinematics reference_inverse reference_jacobian_inverse oil_pressure_reconstruction spe1_pvt spe1_relative_permeability zero_component_fraction inactive_well_sources injector_zero_relative_permeability injector_gas_relative_permeability injector producer spe1_permeability_high spe1_permeability_low spe1_permeability_middle'
+  active = 'reference_kinematics reference_inverse reference_jacobian_inverse fixed_skeleton_porosity oil_pressure_reconstruction water_saturation_reconstruction gas_saturation_reconstruction spe1_pvt spe1_relative_permeability zero_component_fraction inactive_well_sources injector_zero_relative_permeability injector_gas_relative_permeability injector producer spe1_permeability_high spe1_permeability_low spe1_permeability_middle'
+  [fixed_skeleton_porosity]
+    type = ADGenericConstantMaterial
+    prop_names = 'solid_current_porosity solid_current_porosity_dot'
+    prop_values = '0.3 0'
+  []
   [injector_zero_relative_permeability]
     type = ADGenericConstantMaterial
     block = 11

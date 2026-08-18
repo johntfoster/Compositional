@@ -5,8 +5,6 @@
 #include "SystemBase.h"
 
 #include "libmesh/dof_map.h"
-#include "libmesh/fe_base.h"
-#include "libmesh/quadrature_gauss.h"
 #include "libmesh/system.h"
 
 #include <algorithm>
@@ -19,8 +17,8 @@ SaturationSimplexGeneralDamper::validParams()
 {
   InputParameters params = GeneralDamper::validParams();
   params.addClassDescription(
-      "Limits Newton updates so the sum of two continuous-backbone plus P0-enrichment "
-      "saturations remains below its upper bound at the element quadrature points.");
+      "Limits Newton updates so two continuous-Bernstein-backbone plus P0-enrichment "
+      "saturations remain nonnegative and their sum stays below its upper bound.");
   params.addRequiredParam<NonlinearVariableName>("first_backbone", "First continuous backbone.");
   params.addRequiredParam<NonlinearVariableName>("second_backbone", "Second continuous backbone.");
   params.addRequiredParam<NonlinearVariableName>("first_enrichment", "First P0 enrichment.");
@@ -64,14 +62,6 @@ SaturationSimplexGeneralDamper::computeDamping(const NumericVector<Number> & sol
   if (first_fe_type != second_fe_type)
     mooseError(name(), ": saturation backbones must use matching finite-element spaces.");
 
-  const auto mesh_dimension = _sys.mesh().getMesh().mesh_dimension();
-  auto fe = libMesh::FEBase::build(mesh_dimension, first_fe_type);
-  // Fifth-order Gauss sampling covers the material quadrature used by the
-  // coupled P2 saturation residuals and detects interior extrema missed by
-  // the finite-element type's lower default rule.
-  libMesh::QGauss quadrature(mesh_dimension, FIFTH);
-  fe->attach_quadrature_rule(&quadrature);
-  const auto & phi = fe->get_phi();
   std::vector<dof_id_type> first_backbone_dofs;
   std::vector<dof_id_type> second_backbone_dofs;
   std::vector<dof_id_type> first_enrichment_dofs;
@@ -84,43 +74,54 @@ SaturationSimplexGeneralDamper::computeDamping(const NumericVector<Number> & sol
     dof_map.dof_indices(elem, first_enrichment_dofs, _first_enrichment_number);
     dof_map.dof_indices(elem, second_enrichment_dofs, _second_enrichment_number);
 
-    fe->reinit(elem);
-    if (first_backbone_dofs.size() != second_backbone_dofs.size() ||
-        first_backbone_dofs.size() != phi.size())
+    if (first_backbone_dofs.size() != second_backbone_dofs.size())
       mooseError(name(), ": saturation backbone degrees of freedom do not match their basis.");
     if (first_enrichment_dofs.size() != 1 || second_enrichment_dofs.size() != 1)
       mooseError(name(), ": each saturation enrichment must have one P0 coefficient per element.");
 
-    for (unsigned int qp = 0; qp < quadrature.n_points(); ++qp)
+    const auto retain_upper_bound = [this, &damping](const Real candidate,
+                                                     const Real old,
+                                                     const Real step,
+                                                     const Real bound)
     {
-      const auto first_enrichment = first_enrichment_dofs[0];
-      const auto second_enrichment = second_enrichment_dofs[0];
-      Real first_candidate = solution(first_enrichment);
-      Real second_candidate = solution(second_enrichment);
-      Real first_update = update(first_enrichment);
-      Real second_update = update(second_enrichment);
-      for (MooseIndex(first_backbone_dofs) i = 0; i < first_backbone_dofs.size(); ++i)
-      {
-        first_candidate += phi[i][qp] * solution(first_backbone_dofs[i]);
-        second_candidate += phi[i][qp] * solution(second_backbone_dofs[i]);
-        first_update += phi[i][qp] * update(first_backbone_dofs[i]);
-        second_update += phi[i][qp] * update(second_backbone_dofs[i]);
-      }
+      if (candidate <= bound || old > bound || std::abs(step) <= 1.0e-30)
+        return;
 
-      const auto retain_upper_bound = [this, &damping](const Real candidate,
-                                                       const Real old,
-                                                       const Real step,
-                                                       const Real bound)
-      {
-        if (candidate <= bound || old > bound || std::abs(step) <= 1.0e-30)
-          return;
+      const Real boundary_damping = (old - bound) / step;
+      damping = std::min(
+          damping, _fraction_to_boundary * std::clamp(boundary_damping, 0.0, 1.0));
+    };
+    const auto retain_lower_bound = [this, &damping](const Real candidate,
+                                                     const Real old,
+                                                     const Real step,
+                                                     const Real bound)
+    {
+      if (candidate >= bound || old < bound || std::abs(step) <= 1.0e-30)
+        return;
 
-        const Real boundary_damping = (old - bound) / step;
-        damping = std::min(
-            damping, _fraction_to_boundary * std::clamp(boundary_damping, 0.0, 1.0));
-      };
+      const Real boundary_damping = (old - bound) / step;
+      damping = std::min(
+          damping, _fraction_to_boundary * std::clamp(boundary_damping, 0.0, 1.0));
+    };
+    const auto first_enrichment = first_enrichment_dofs[0];
+    const auto second_enrichment = second_enrichment_dofs[0];
+    for (MooseIndex(first_backbone_dofs) i = 0; i < first_backbone_dofs.size(); ++i)
+    {
+      const Real first_candidate =
+          solution(first_backbone_dofs[i]) + solution(first_enrichment);
+      const Real second_candidate =
+          solution(second_backbone_dofs[i]) + solution(second_enrichment);
+      const Real first_update = update(first_backbone_dofs[i]) + update(first_enrichment);
+      const Real second_update = update(second_backbone_dofs[i]) + update(second_enrichment);
 
-      // MOOSE uses new = old - damping * update.
+      // MOOSE uses new = old - damping * update.  Bernstein basis functions
+      // are nonnegative and sum to one, so coefficientwise limits preserve
+      // the reconstructed fields throughout the element.
+      retain_lower_bound(first_candidate, first_candidate + first_update, first_update, 0.0);
+      retain_lower_bound(second_candidate,
+                         second_candidate + second_update,
+                         second_update,
+                         0.0);
       retain_upper_bound(first_candidate + second_candidate,
                          first_candidate + second_candidate + first_update + second_update,
                          first_update + second_update,

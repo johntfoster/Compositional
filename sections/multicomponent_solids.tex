@@ -567,7 +567,7 @@ remaining independent reversible rates must vanish and the residual
 force--rate products must be nonnegative
 \cite{coleman1974thermodynamics}.
 
-The three variational or thermodynamic steps used here have
+The three variational or thermodynamic steps used in the manuscript have
 different purposes.  Hamilton--d'Alembert stationarity supplies the phase
 coordinate equations and multiplier relations, including any d'Alembert work
 specified for a dissipative force.  The Onsager construction then supplies
@@ -2633,7 +2633,7 @@ The reversible restrictions of \sref{MC_reversible_restrictions} settle the
 reversible stress, pressure, and energy relations.  This subsection assembles
 what remains.  It first converts the component-supply terms into the
 thermodynamic potentials and forces that appear in the source projection: the
-within-phase specific generalized transfer-work potential \(L_\xi^\alpha\), the conversion
+within-phase transfer-work potential \(L_\xi^\alpha\), the conversion
 affinity, and the relative-transport force
 (\sref{MC_component_supply_forces}).  Substituting the reversible restrictions
 and these forces into the collected entropy inequality then leaves the residual
@@ -2648,7 +2648,7 @@ conduction (\sref{MC_thermal_exchange_conduction}).  The mechanism index
 \((m)\) covers chemical reaction, phase transformation, sorption or
 desorption, and ion exchange; ``conversion'' is the generic term for any such
 local process.  Three reference choices recur: the reference component \(N\),
-the phase specific generalized transfer-work potentials \(L_\xi^N\), and the solid transfer
+the phase transfer-work potentials \(L_\xi^N\), and the solid transfer
 reference \(s_\star\), each introduced where first needed.
 
 \subsubsection{Component supply and thermodynamic forces}
@@ -2831,7 +2831,7 @@ so \(D_{s_\star}/Dt=D_{\mc S}/Dt\).  The normalization
 	\label{eq:MC_transfer_work_reference_normalization}
 \end{equation}
 %
-fixes the common additive level of the specific generalized transfer-work potentials.  The
+fixes the common additive level of the specific transfer-work potentials.  The
 reference-component form
 of \eqref{eq:el_conversion_component} then supplies the single evolution
 equation
@@ -2864,7 +2864,7 @@ Appendix~\ref{sec:technical_setting} states the corresponding additive
 normalization of that initial value.  The second equality follows from
 \eqref{eq:MC_neutral_component_euler_identity}; the expanded first line records
 the thermodynamic normalization used by the general phase equations.
-Once \(\tau\) is known, the remaining \(P-1\) phase specific generalized transfer-work potentials are
+Once \(\tau\) is known, the remaining \(P-1\) phase transfer-work potentials are
 recovered algebraically from
 %
 \begin{equation}
@@ -2886,7 +2886,7 @@ Equation \eqref{eq:MC_transfer_work_full_recovery}, or equivalently
 \eqref{eq:MC_transfer_work_component_difference}, then reconstructs every
 \(L_\xi^\alpha\) with \(\alpha\ne N\).  Thus one scalar evolution
 determines \(\tau\), \(P-1\) algebraic equations determine the remaining phase
-specific generalized transfer-work potentials, and the component-difference restrictions introduce
+transfer-work potentials, and the component-difference restrictions introduce
 no additional primary fields.
 
 Substituting the component material-rate identity
@@ -3307,21 +3307,6 @@ Equation~\eqref{eq:true_plastic_driving_stress_definition} extends
 Drumheller's deviatoric true-plastic driving stress through the phase distension
 map
 \cite[eqs.~(108)--(112)]{drumheller2000}.
-
-The driving stress is fixed by the plastic power itself, so it is the stress
-work-conjugate to the true-plastic rate.  Classical effective-stress
-plasticity writes the yield and flow rules in the isotropic effective stress
-\(\bs\sigma_{\rm eff}=\bs\sigma-\bar p_f\mbf I\) of Terzaghi and Bishop
-\cite{bishop1959principle}, and finite-strain poro-plastic formulations with a
-multiplicative decomposition use an effective solid stress in the same sense,
-with Armero stating the yield criterion in the Biot effective Kirchhoff
-stress \cite{armero1999formulation,borja1995mathematical}.
-Borja~\cite{borja2006mechanical} derived the power-conjugate effective stress
-of saturated and unsaturated continua from the first and second laws of
-thermodynamics.  The nonlinear Biot transform
-\eqref{eq:MC_phase_pk_biot_split} then fixes the relation of \(\mbf S_s\) to
-the fixed-pressure skeleton stress \(\bs\sigma_s^{\prime\prime}\) that enters
-the momentum balance.
 
 Applying the reversible pressure, stress, distension, composition, entropy,
 and common pore-volume relations from
@@ -3929,29 +3914,11 @@ plastic powers nonnegative separately.  The mobilities depend on the
 equilibrium state set \(\mc X_s\) and the plastic internal state vector
 \(\mbf p_s\), whose evolution
 \eqref{eq:MC_generic_plastic_state_evolution} carries hardening, softening,
-and rate dependence inside the plastic closure.  Coupled or non-associated
+and rate dependence inside the plastic closure.  The additive specialization
+retains these single phase-level laws.  Coupled or non-associated
 plastic deformation--distension laws may replace
 \eqref{eq:MC_generic_plastic_flow_rules}, but their combined conjugate power in
 \eqref{eq:MC_residual_dissipation} must remain nonnegative.
-
-Associated flow is defined with respect to the driving stress of each
-mechanism: the plastic rate is normal to the yield surface written in that
-driving stress.  The true-plastic rate is therefore associated with a yield
-surface in the deviatoric driving stress \(\mbf S_s\), and the distension
-rate with a yield surface in the \(\mbf A_s^e\)-transformed intrinsic stress
-\((\mbf A_s^e)^T\bs\sigma_s'(\mbf A_s^e)^{-T}\).  Classical rate-independent
-plasticity derives the associated rule from the yield function and maximum
-plastic dissipation \cite{hill1998mtp}, while frictional or dilatant
-geomaterials usually require a separate plastic potential to reproduce the
-observed volume change; the hyperplastic formulation shows that such a rule
-remains thermodynamically consistent when the dissipation function is written
-in the stress space conjugate to the plastic rate
-\cite{houlsby2006principles,collins1997application}.  The distension
-decomposition supplies the second, distinct driving stress, so both
-mechanisms can be associated in their own stress spaces; the apparent
-non-associativity of single-surface effective-stress models, which in
-frictional and dilatant materials is concentrated in the volumetric part of
-the flow, is absorbed into the separate distension yield surface.
 
 \subsubsection{Interphase mechanical interaction}
 \label{sec:MC_interphase_mechanical_interaction}
@@ -5984,11 +5951,11 @@ restrictions.
 
 The normalization
 \eqref{eq:MC_transfer_work_reference_normalization} fixes the reference-solid
-value of the specific generalized transfer-work potential.  One equation
+value of the specific transfer-work potential.  One equation
 \eqref{eq:MC_admissible_conversion_component} evolves the shared transfer
 potential \(\tau\), and the \(P-1\) equations
 \eqref{eq:MC_phase_reference_transfer_work_recovery} determine the
-specific generalized transfer-work potentials \(L_\xi^N\) of the remaining phases.  The component
+transfer-work potentials \(L_\xi^N\) of the remaining phases.  The component
 differences
 \eqref{eq:MC_transfer_work_component_difference}, equivalently the full
 recovery \eqref{eq:MC_transfer_work_full_recovery}, reconstruct
@@ -6052,7 +6019,7 @@ the optional closure introduces no additional pointwise unknown family.
 		Capillary-history variables \(\mbf h\)                                                          & \(N_h\)                                                                \\
 		Volume-fraction multiplier \(\lambda\)                                                          & \(1\)                                                                  \\
 		Transfer potential \(\tau\)                                                                     & \(1\)                                                                  \\
-		Non-reference specific generalized transfer-work potentials \(L_\xi^N\), \(\xi\ne s_\star\)               & \(P-1\)                                                                \\
+		Non-reference specific transfer-work potentials \(L_\xi^N\), \(\xi\ne s_\star\)               & \(P-1\)                                                                \\
 		Dispersion and diffusion component-flux vectors                                                 & \(2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\)                 \\
 		Nonzero pairwise phase-interaction force vectors \(\mbf b_{\zeta\xi}\)                          & \(\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)\)                       \\
 		Phase nonadvective energy-flux vectors \(\mbf q_\xi\)                                          & \(dP\)                                                                 \\
@@ -6100,7 +6067,7 @@ Table~\ref{tab:MC_equation_block_count}.
 		Dynamic pressure-lag relations \eqref{eq:MC_dynamic_capillary_onsager_relation}                                                 & \(P_{\mc F}-1\)                                                        \\
 		Capillary-history evolution laws satisfying \eqref{eq:MC_capillary_history_admissibility}                                             & \(N_h\)                                                                \\
 		Reference-component evolution of \(\tau\) from \eqref{eq:MC_admissible_conversion_component}                                           & \(1\)                                                                  \\
-		Non-reference specific generalized transfer-work-potential recovery \eqref{eq:MC_phase_reference_transfer_work_recovery}                           & \(P-1\)                                                                \\
+		Non-reference specific transfer-work-potential recovery \eqref{eq:MC_phase_reference_transfer_work_recovery}                           & \(P-1\)                                                                \\
 		Solid distension evolution laws \eqref{eq:MC_solid_distension_evolution}                                                                & \(P_{\mc S}\)                                                          \\
 		Kinetic laws for \(r_{(m)}\), for example \eqref{eq:MC_onsager_reaction_rate}                                                      & \(N_{(m)}\)                                                            \\
 		Plastic deformation law \eqref{eq:MC_generic_plastic_deformation_flow_rule} for \(\bar{\mbf F}_s^p\) and scalar plastic-distension law \eqref{eq:MC_scalar_plastic_distension_flow_rule} for \(a_s^p\) & \((d^2+1)P_{\mc S}\)                                                      \\
