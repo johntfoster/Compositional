@@ -225,9 +225,43 @@ relations gives the total composition derivative
 %
 Adding the explicit electric-enthalpy composition derivative and subtracting
 the component-\(N\) equation from the component-\(\beta\) equation reproduces
-\eqref{eq:MC_solid_composition_projection}.  Therefore the full solid
-composition coefficient differs from
-\(\pi_s^\beta/\eta_s^\beta\) only by a component-independent multiplier.
-The weighted cancellation in
-\eqref{eq:appendix_weighted_composition_stationarity} is consequently
-unchanged, proving \eqref{eq:MC_neutral_component_euler_identity} for solids.
+\eqref{eq:MC_solid_composition_projection}.  Thus the complete solid
+composition coefficient has component-dependent part
+\(\pi_s^\beta/\eta_s^\beta\); its remaining part is common to every component.
+Because \(\sum_\beta\eta_s^\beta=1\), that common part cancels between the
+component-\(\alpha\) coefficient and its mass-fraction-weighted sum in the
+constituent-mass chain rule.  Combining this cancellation with the density
+contribution gives
+%
+\begin{align}
+	\hat\mu_s^\alpha
+	={}&
+	\psi_s
+	+
+	\frac{1}{\rho_s}
+	\sum_\beta\pi_s^\beta
+	+
+	\frac{1}{\rho_s}
+	\left(
+		\frac{\pi_s^\alpha}{\eta_s^\alpha}
+		-
+		\sum_\beta\pi_s^\beta
+	\right)
+	\notag\\
+	={}&
+	\psi_s
+	+
+	\frac{\pi_s^\alpha}
+	{\rho_s\eta_s^\alpha}
+	=
+	\psi_s
+	+
+	\frac{\pi_s^\alpha}
+	{\phi_s\bar\rho_s\eta_s^\alpha},
+	\qquad
+	s\in\mc S .
+	\label{eq:appendix_solid_weighted_composition_cancellation}
+\end{align}
+%
+This is the solid form of
+\eqref{eq:MC_neutral_component_euler_identity}.

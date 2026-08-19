@@ -294,10 +294,14 @@ overall mixture statement of mass conservation.
 \subsection{Averaged component transport and the extended material balance}
 \label{sec:averaged_component_transport_extension}
 
-The phase-level material theory assigns one resolved motion \(\mbf v_\xi\) to
-each phase.  The component motion inside a representative current volume is
-averaged to expose transport not resolved by that phase motion, following the
-standard volume-averaging decomposition for porous-medium species
+The phase construction above applies at both the local and resolved scales.
+For the local description used in this averaging step, each component is
+treated as a one-component phase and traced by its own motion.  The resolved
+phase \(\xi\) groups the selected one-component phases, and its mass-averaged
+component velocity defines their common upscaled phase trajectory.  Averaging
+the component motion inside a representative current volume exposes transport
+not resolved by that phase trajectory, following the standard volume-averaging
+decomposition for porous-medium species
 transport~\cite{plumb1988dispersion,gray2009tcat_transport}.  A hat denotes a
 local, unaveraged quantity inside the averaging volume, whereas angle brackets
 denote its volume average.  Thus
@@ -367,8 +371,10 @@ material derivative following component \(\alpha\) is the extension
 	\label{eq:averaged_component_material_derivative}
 \end{equation}
 %
-Applying this derivative to the unaveraged, hatted form of
-\eqref{eq:material_mass_2}, using the unaveraged component identity
+At the local scale, the hatted material identity and Jacobian are the
+componentwise forms of \eqref{eq:material_mass_2} and
+\eqref{eq:phase_jacobian_definition}.  Applying this derivative to the hatted
+material identity and using the associated kinematic identity
 \(\widehat D_\xi^\alpha\widehat J_\xi^\alpha/Dt
 =\widehat J_\xi^\alpha\nabla_{\mbf x}\cdot\widehat{\mbf v}_\xi^\alpha\),
 and writing the result in divergence form gives
@@ -386,8 +392,10 @@ and writing the result in divergence form gives
 	\label{eq:local_component_balance_before_averaging}
 \end{equation}
 %
-The progress rates on the right are resolved current-volume rates.  Averaging
-is therefore needed only on the storage and transport terms.  Substitution of
+The progress rates on the right are resolved current-volume rates taken to be
+uniform over the averaging volume.  They are therefore unchanged by averaging,
+which introduces fluctuation contributions through the storage and transport
+terms.  Substitution of
 \eqref{eq:averaged_component_density_split} and
 \eqref{eq:averaged_component_velocity_split} into
 \eqref{eq:local_component_balance_before_averaging} produces two relative fluxes,

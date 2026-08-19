@@ -244,11 +244,11 @@ coefficients rather than additional stored energies.  Material-carried charge
 is obtained by weighting each component mass by \(z_\xi^\alpha\).
 
 The boundary is partitioned into \(\Gamma_\varphi\), where \(\varphi\) is
-prescribed, and \(\Gamma_q\), where
+prescribed, and \(\Gamma_{\bar q}\), where
 \(\mbf d\cdot\mbf n=\bar q\).  This electric-displacement datum is distinct from
 normal material-current data.  For a pure electric-displacement
 boundary problem,
-\(\Gamma_q=\partial\mc B\), solvability and its fixed-domain rate require
+\(\Gamma_{\bar q}=\partial\mc B\), solvability and its fixed-domain rate require
 %
 \begin{subequations}
 	\label{eq:electrical_pure_neumann_compatibility}
@@ -302,13 +302,13 @@ for the skeleton-trajectory evolution
 potentials \(L_\xi^N\) of the non-reference phases are then recovered from
 \eqref{eq:MC_phase_reference_transfer_work_recovery}, rather than prescribing
 additional initial data for \(\tau\) along every phase trajectory.  The
-transfer potential's time-independent additive constant may be fixed, for
-example, by
+reference state used here takes the transfer potential to be initially
+uniform.  Its time-independent additive constant is fixed by choosing
 %
 \begin{equation}
-	\tau(\mbf x,0)=\tau_0(\mbf x),
+	\tau(\mbf x,0)=0,
 	\qquad
-	\int_{\mc B}\tau_0\,\dv=0 .
+	\mbf x\in\mc B .
 	\label{eq:transfer_potential_initial_gauge}
 \end{equation}
 %
@@ -324,7 +324,7 @@ traction \eqref{eq:overall_natural_traction}.  For every independent component
 \(\alpha\ne N\) in phase \(\xi\in\mc G\), transport data use complementary
 normal-flux and component-potential portions.  The electric-potential or
 electric-displacement datum is supplied independently on
-\(\Gamma_\varphi\) or \(\Gamma_q\):
+\(\Gamma_\varphi\) or \(\Gamma_{\bar q}\):
 %
 \begin{subequations}
 	\label{eq:component_boundary_data}

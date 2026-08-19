@@ -471,16 +471,16 @@ reservoir closure when those compatibility conditions are not imposed.
 
 The electrostatic single-fluid specialization recovers the
 Nernst--Planck--Darcy system.  Take one isothermal fluid phase in a fixed solid
-	frame, set the reaction and phase-transformation rates and mechanical-dispersion
-	fluxes to zero, and neglect inertia, gravity, and capillarity.  Let \(\phi_f\)
-be constant, take a linear isotropic dielectric response
-\(\mbf d_f=\epsilon_f\mbf E\) with constant \(\epsilon_f\), set fixed solid
-charge and the solid electrical displacement to zero, and assign all free
-charge to the fluid components.  A background solid dielectric contribution
-could instead be folded into a specified effective \(\epsilon_f\), but is not
-retained independently in this limit.  Gauss' law then gives
+frame with two ionic components \(i\in\{1,2\}\) and a neutral solvent reference
+component \(N\).  Set the reaction and phase-transformation rates and
+mechanical-dispersion fluxes to zero, and neglect inertia, gravity, and
+capillarity.  Let \(\phi_f\) be constant, take a linear isotropic dielectric
+response \(\mbf d_f=\epsilon_f\mbf E\) with constant \(\epsilon_f\), set fixed
+solid charge and the solid electrical displacement to zero, and assign all free
+charge to the ionic components.  A background solid dielectric contribution
+may be included in a specified effective \(\epsilon_f\).  Gauss' law then gives
 \(\nabla_{\mbf x}\cdot(\phi_f\mbf d_f)
-=\sum_\alpha z_f^\alpha\rho_f^\alpha\).  Because
+=\sum_{i=1}^2 z_f^i\rho_f^i\).  Because
 \(\nabla_{\mbf x}\times\mbf E=\mbf0\), the electrical and pressure forces in
 \eqref{eq:generalized_fluid_darcy_mass_flux} reduce according to
 %
@@ -568,16 +568,64 @@ With \(\mbf v_{\mc S}=\mbf0\), the reaction-free form of
 	\end{gather}
 \end{subequations}
 %
-The second equation is the thermodynamic Nernst--Planck law: an ideal-dilute
-choice of \(\hat\mu_f^\alpha\) separates its force into concentration-diffusion
-and electromigration terms.  The reference-component flux is reconstructed by
-\eqref{eq:MC_relative_transport_closures}, and its balance follows from the
-total mass balance and the \(N-1\) displayed component balances.  If the
-coefficients are nondimensionalized,
-\(\phi_f=1\), and the two ionic components have opposite valences and equal
-diagonal diffusivities, \eqref{eq:nernst_planck_darcy_limit} has the standard
-form studied by Ignatova and Shu
-\cite[eqs.~(1.1)--(1.5)]{ignatova2021charged_fluids}.
+For the neutral solvent reference, set \(z_f^N=0\).  After
+nondimensionalization, adopt constant solvent activity and the ideal-dilute
+component-potential differences and reduced mobility
+%
+\begin{align}
+	\hat\mu_f^i-\hat\mu_f^N
+	&=
+	\hat\mu_f^{\circ i}+\ln\rho_f^i,
+	\qquad
+	i\in\{1,2\},
+	\notag\\
+	\mbf D_{f,{\rm diff}}^{ij}
+	&=
+	D_i\rho_f^i\delta^{ij},
+	\qquad
+	i,j\in\{1,2\}.
+	\label{eq:nernst_planck_darcy_solvent_reference_closure}
+\end{align}
+%
+The two independent diffusion closures then give
+%
+\begin{align}
+	\mbf j_{f,{\rm diff}}^i
+	&=
+	-D_i\rho_f^i
+	\left(
+	\nabla_{\mbf x}\ln\rho_f^i
+	+
+	z_f^i\nabla_{\mbf x}\varphi
+	\right)
+	\notag\\
+	&=
+	-D_i\nabla_{\mbf x}\rho_f^i
+	-
+	z_f^iD_i\rho_f^i\nabla_{\mbf x}\varphi,
+	\qquad
+	i\in\{1,2\},
+	\label{eq:nernst_planck_darcy_ionic_flux_specialization}\\
+	\mbf j_{f,{\rm diff}}^N
+	&=
+	-\sum_{i=1}^2\mbf j_{f,{\rm diff}}^i.
+	\label{eq:nernst_planck_darcy_solvent_flux_reconstruction}
+\end{align}
+%
+Thus the two ionic fluxes have the standard Nernst--Planck form while the
+solvent flux enforces the zero-sum mass-averaged convention.  Set \(\phi_f=1\),
+set the isotropic Darcy mobility to unity, and identify
+\(u=\mbf v_f\), \(p=\bar p_f\), \(\Phi=\varphi\), \(c_i=\rho_f^i\),
+\(z_i=z_f^i\), and \(\varepsilon=\epsilon_f\).  Equations
+\eqref{eq:nernst_planck_darcy_velocity},
+\eqref{eq:nernst_planck_darcy_gauss_law}, and
+\eqref{eq:nernst_planck_darcy_ionic_flux_specialization} substituted into
+\eqref{eq:nernst_planck_darcy_component_balance} then give equations
+(1.4), (1.2)--(1.3), and (1.1), respectively, of Ignatova and Shu
+\cite{ignatova2021charged_fluids}.  Summing the two ionic balances and the
+solvent balance gives the total phase mass balance; constant total density
+therefore gives \(\nabla_{\mbf x}\cdot u=0\), their equation~(1.5).  Their
+analysis further specializes to opposite ionic valences and \(D_1=D_2\).
 Ion exchange extends this fluid-only limit by retaining the charged solid-site
 components described in \sref{conservation_of_charge}.  Their fixed charge then
 contributes to the mixture Gauss law, while the mobile fluid charge in

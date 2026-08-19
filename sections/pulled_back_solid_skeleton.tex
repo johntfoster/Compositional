@@ -122,22 +122,33 @@ The resistance inside the inverse has units
 \({\rm m^3\,s\,kg^{-1}}={\rm m^2\,Pa^{-1}\,s^{-1}}\).  The underlying
 drag law is dissipative when the phase permeability
 \(\bs\kappa_f\) is symmetric positive definite, \(\mu_f^{\mathrm{visc}}>0\), and
-\(\phi_f>0\).  The added scalar conversion-insertion term comes from the
-momentum source as the conversion-insertion contribution.  Because \(\bs\kappa_f\) is symmetric with eigenvalues
+\(\phi_f>0\).  These conditions make the drag contribution nonnegative in
+the entropy inequality.  The added scalar term comes from conversion insertion
+in the momentum balance and supplies no independent quadratic dissipation.
+Because \(\bs\kappa_f\) is symmetric with eigenvalues
 \(\kappa_{f,i}\), the combined resistance
 \(\phi_f^2\mu_f^{\mathrm{visc}}\bs\kappa_f^{-1}
 +\sum_\alpha\dot{c}_f^\alpha\mbf I\)
 has eigenvalues
 \(\phi_f^2\mu_f^{\mathrm{visc}}/\kappa_{f,i}
 +\sum_\alpha\dot{c}_f^\alpha\),
-for each \(f\in\mc F\).  The entropy-inequality
-admissibility conditions require these eigenvalues to be positive,
-so the combined resistance is positive definite and the mobility
-\(\widetilde{\bs\lambda}_f\) is well
-defined.  The binding eigenvalue is that in the direction of largest phase
-permeability.  If \(\kappa_{f,\max}\) and \(\kappa_{f,\min}\) are the
-largest and smallest eigenvalues of \(\bs\kappa_f\), respectively, the
-admissibility condition is equivalently
+for each \(f\in\mc F\).  Algebraic elimination of \(\mbf w_f\) requires
+exactly that none of these shifted eigenvalues vanish,
+%
+\begin{equation}
+	\sum_\alpha\dot{c}_f^\alpha
+	\ne
+	-\frac{\phi_f^2\mu_f^{\mathrm{visc}}}{\kappa_{f,i}},
+	\qquad
+	i=1,\ldots,d,\quad f\in\mc F .
+	\label{eq:modified_relative_flux_nonsingularity_condition}
+\end{equation}
+%
+This nonsingularity condition defines \(\widetilde{\bs\lambda}_f\).  A stronger
+positive-resistance regime requires every shifted eigenvalue to be positive.
+If \(\kappa_{f,\max}\) and \(\kappa_{f,\min}\) are the largest and smallest
+eigenvalues of \(\bs\kappa_f\), respectively, the binding direction is that of
+largest permeability, and the positive-resistance condition is
 %
 \begin{equation}
 	\sum_\alpha\dot{c}_f^\alpha
@@ -145,7 +156,7 @@ admissibility condition is equivalently
 	-\frac{\phi_f^2\mu_f^{\mathrm{visc}}}{\kappa_{f,\max}},
 	\qquad
 	f\in\mc F .
-	\label{eq:modified_relative_flux_scalar_admissibility}
+	\label{eq:modified_relative_flux_positive_resistance_condition}
 \end{equation}
 %
 Within this positive-definite regime, the spectral condition number is
@@ -169,8 +180,8 @@ Within this positive-definite regime, the spectral condition number is
 	\label{eq:modified_relative_flux_condition_number}
 \end{equation}
 %
-Thus quantitative conditioning requires the denominator to remain bounded away
-from zero, not merely positive.
+Thus quantitative conditioning within this regime requires the smallest
+shifted eigenvalue in the denominator to remain bounded away from zero.
 For an aqueous reaction that removes fluid mass on a time scale \(t_{\rm rxn}\),
 \(\sum_\alpha\dot{c}_f^\alpha\simeq-\rho_f/t_{\rm rxn}\).  The singular threshold
 at the first loss of positive definiteness is
@@ -185,8 +196,11 @@ at the first loss of positive definiteness is
 \end{equation}
 %
 For longer time scales the combined resistance remains positive definite.  At
-equality it is singular in the largest-permeability direction; at shorter time
-scales the admissibility condition fails.
+equality it is singular in the largest-permeability direction.  At shorter
+time scales it leaves the positive-resistance regime, while algebraic inversion
+remains possible except at the individual eigenvalue-crossing times
+\(t_{\rm rxn}=\rho_f\kappa_{f,i}/
+(\phi_f^2\mu_f^{\mathrm{visc}})\).
 With representative reservoir values
 \(\rho_f=10^3\,{\rm kg\,m^{-3}}\), \(\mu_f^{\mathrm{visc}}=10^{-3}\,{\rm Pa\,s}\),
 \(\phi_f=0.3\), and \(\kappa_{f,\max}=10^{-12}\,{\rm m^2}\), this time is about
@@ -241,11 +255,11 @@ inequality is separated into reversible and residual parts.
 Chemical-potential gradients drive component-relative transport
 through \eqref{eq:MC_relative_transport_closures}, a distinct dissipative
 mechanism alongside the bulk phase force and the conversion variation of
-\(\tau\).  The admissibility conditions above guarantee a positive-definite
-combined resistance, so algebraic flux elimination yields a positive-resistance
-operator; thermodynamic dissipation resides in the drag and
-component-transport closures, and the interaction-energy allocation of
-\eqref{eq:MC_drag_heating_equal_partition} is retained.
+\(\tau\).  Thermodynamic dissipation resides in the drag and
+component-transport closures.  The nonsingularity condition permits algebraic
+flux elimination, and the positive-resistance condition selects the stronger
+regime used for the conditioning estimate.  The interaction-energy allocation
+of \eqref{eq:MC_drag_heating_equal_partition} is retained.
 
 The neutral, conversion-free, negligible-inertia specialization
 \(\omega_f^+=0\), \(\mbf E\otimes\mbf d_f=\mbf0\),

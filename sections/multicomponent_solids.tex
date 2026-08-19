@@ -934,7 +934,7 @@ law gives the global electrostatic power identity
 The bulk term \(-\varrho\phasedot\varphi\) is the rate form of the free-charge
 source work in \eqref{eq:W_def}, and the divergence gives the electrical
 boundary power.  In particular, its flux is
-\(\phasedot\varphi\bar q\) on \(\Gamma_q\).  Equation
+\(\phasedot\varphi\bar q\) on \(\Gamma_{\bar q}\).  Equation
 \eqref{eq:MC_electrostatic_power_identity} is an entropy-free field-power
 identity that separates the shared electric-potential-rate work from the two
 thermal-subsystem balances.  It is applied globally before either
@@ -1218,7 +1218,9 @@ equation~(16), gives
 %
 Equations \eqref{eq:MC_single_phase_energy_limit} and
 \eqref{eq:MC_montanaro_electric_enthalpy_limit} are equivalent descriptions of
-the same single-phase thermo-electroelastic energy balance.
+the same single-phase thermo-electroelastic energy balance under the
+energy-density and stress identifications derived in
+Appendix~\ref{app:single_phase_energy_audit}.
 Reference~\cite{montanaro2015thermo_electroelasticity} writes the polarization
 work \(-\mbf P\cdot\phasedot{\mbf E}^{M}\) on the right-hand side and treats
 polarization as a state variable.  The present formulation instead uses the
@@ -1229,8 +1231,9 @@ dielectric response of the porous medium.  The Maxwell stress enters the
 mechanical power through \(\bs\sigma_\xi^{\prime+}\), and the free-charge
 source and electrical boundary flux appear explicitly on the right-hand side
 of \eqref{eq:MC_single_phase_energy_limit}.  The field-power identity
-\eqref{eq:MC_electrostatic_power_identity} converts between the two accounting
-conventions: it relates the polarization-work term
+\eqref{eq:MC_electrostatic_power_identity}, vacuum-displacement split, and
+associated isotropic stress shift convert between the two accounting
+conventions and relate the polarization-work term
 \(-\mbf P\cdot\phasedot{\mbf E}\) used by Montanaro to the free-charge and
 boundary-flux terms displayed here.  Polarization is therefore recovered
 constitutively from \(\mbf P=\mbf d-\varepsilon_0\mbf E\) and is not an
@@ -1680,7 +1683,7 @@ blocks.  The first block contains the elastic, distension, volume-fraction, and
 capillary-history rates.  Each subsequent display continues the
 right-hand side of the first, so its leading sign belongs to the same sum.  All
 five blocks therefore form the single inequality
-\eqref{eq:MC_collected_entropy}. \\
+\eqref{eq:MC_collected_entropy}.
 
 %
 \begin{subequations}
@@ -3918,7 +3921,14 @@ and rate dependence inside the plastic closure.  The additive specialization
 retains these single phase-level laws.  Coupled or non-associated
 plastic deformation--distension laws may replace
 \eqref{eq:MC_generic_plastic_flow_rules}, but their combined conjugate power in
-\eqref{eq:MC_residual_dissipation} must remain nonnegative.
+\eqref{eq:MC_residual_dissipation} must remain nonnegative.  This combined
+criterion also permits a frictional dilation specialization: under compressive
+mean stress, plastic dilation gives a negative plastic-distension power that is
+supported by positive true-plastic dissipation.  A shared rate constraint and
+stress-dependent
+dissipation can then retain normality in the generalized forces while producing
+a non-associated pressure-dependent rule after reduction to true-stress space
+\cite{collins1997application}.
 
 \subsubsection{Interphase mechanical interaction}
 \label{sec:MC_interphase_mechanical_interaction}
@@ -6151,20 +6161,21 @@ The plastic internal state vector \(\mbf p_s\) with evolution
 \eqref{eq:MC_generic_plastic_state_evolution} is one such addition,
 contributing additional components per solid phase to the count.
 
-Both relative-flux families, the phase heat fluxes, the nonzero pairwise
-interaction forces in the general extension, and the independent fluid--solid
-heat-exchange supply are retained as auxiliary fields so that their admissible
-closures appear explicitly in the count.  Because all solid phases share one
-skeleton velocity, the nonzero interaction pairs comprise fluid--fluid and
-fluid--solid pairs; solid--solid drag vanishes identically.  The concrete
-closure \eqref{eq:MC_interphase_exchange_law} instead retains one aggregate
-fluid--skeleton interaction per fluid phase.  The total solid scalar distension
+Both relative-flux families, the phase heat fluxes, the fluid--skeleton
+interaction forces, and the independent fluid--solid heat-exchange supply are
+retained as auxiliary fields so that their closures appear explicitly in the
+count.  The closure \eqref{eq:MC_interphase_exchange_law} retains one
+fluid--skeleton interaction force per fluid phase.  The aggregate solid force
+then follows from \eqref{eq:MC_aggregate_solid_interaction_force}.  The general
+pairwise representation \eqref{eq:MC_pairwise_interaction_force} remains
+available for constitutive extensions and is not included in the present
+count.  The total solid scalar distension
 factors are closed kinematically by
 \eqref{eq:MC_solid_distension_evolution}, while the scalar plastic factors
 \(a_s^p\) follow \eqref{eq:MC_scalar_plastic_distension_flow_rule}.  The
 electroquasistatic formulation includes the electric potential and Gauss' law.
 Mechanical interaction-energy supplies are constitutive outputs associated
-with the pairwise interaction forces and must satisfy
+with the interaction forces and must satisfy
 \eqref{eq:MC_interaction_energy_conservation} and
 \eqref{eq:MC_mechanical_interaction_admissibility}; they are therefore not
 counted as an independent field family.
@@ -6198,7 +6209,7 @@ the optional closure introduces no additional pointwise unknown family.
 		Transfer potential \(\tau\)                                                                     & \(1\)                                                                  \\
 		Non-reference specific transfer-work potentials \(L_\xi^N\), \(\xi\ne s_\star\)               & \(P-1\)                                                                \\
 		Dispersion and diffusion component-flux vectors                                                 & \(2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\)                 \\
-		Nonzero pairwise phase-interaction force vectors \(\mbf b_{\zeta\xi}\)                          & \(\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)\)                       \\
+		Fluid--skeleton interaction-force vectors \(\mbf b_f\), \(f\in\mc F\)                        & \(dP_{\mc F}\)                                                        \\
 		Phase nonadvective energy-flux vectors \(\mbf q_\xi\)                                          & \(dP\)                                                                 \\
 		Independent fluid--solid heat-exchange supply                                                   & \(1\)                                                                  \\
 		Scalar solid distension factors \(a_s\), for \(s=1,\ldots,P_{\mc S}\)                           & \(P_{\mc S}\)                                                          \\
@@ -6213,7 +6224,7 @@ the optional closure introduces no additional pointwise unknown family.
 			+2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]
 			+dP \\
 			&\quad
-			+\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)
+			+dP_{\mc F}
 				+(d^2+1)P_{\mc S} \\
 			&\quad
 			+P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}
@@ -6237,7 +6248,7 @@ Table~\ref{tab:MC_equation_block_count}.
 		Fluid-phase momentum balances \eqref{eq:el_mom_f_dynamic_capillary} and overall momentum balance \eqref{eq:MC_overall_momentum_nonlinear_biot} & \(d(P_{\mc F}+1)\)                                                     \\
 		Component mass balances \eqref{eq:averaged_component_spatial_mass}                                                                      & \(P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}\)                              \\
 		Dispersion and diffusion closures \eqref{eq:MC_relative_transport_closures}                                                             & \(2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]\)                 \\
-		Nonzero pairwise mechanical-interaction closures satisfying \eqref{eq:MC_interaction_energy_conservation}--\eqref{eq:MC_mechanical_interaction_admissibility}; sufficient aggregate fluid--skeleton specialization \eqref{eq:MC_interphase_exchange_law} with energy allocation \eqref{eq:MC_drag_heating_equal_partition} & \(\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)\)                       \\
+		Fluid--skeleton drag closures \eqref{eq:MC_fluid_skeleton_interaction_force}; aggregate solid force from \eqref{eq:MC_aggregate_solid_interaction_force} and energy allocation from \eqref{eq:MC_drag_heating_equal_partition} & \(dP_{\mc F}\)                                                        \\
 		Fourier nonadvective energy-flux closures \eqref{eq:MC_heat_flux_law}                                                                    & \(dP\)                                                                 \\
 		Fluid--solid heat-exchange closure \eqref{eq:MC_fluid_solid_heat_exchange_law}                                                          & \(1\)                                                                  \\
 		Solid-phase and total-fluid pore-volume restrictions \eqref{eq:MC_volume_fraction_restrictions}                                      & \(P_{\mc S}+1\)                                                        \\
@@ -6257,7 +6268,7 @@ Table~\ref{tab:MC_equation_block_count}.
 			+2d[P_{\mc F}(N^{\mc F}-1)+P_{\mc S}(N^{\mc S}-1)]
 			+dP \\
 			&\quad
-			+\frac{d}{2}P_{\mc F}(P_{\mc F}+2P_{\mc S}-1)
+			+dP_{\mc F}
 				+(d^2+1)P_{\mc S} \\
 			&\quad
 			+P_{\mc F}N^{\mc F}+P_{\mc S}N^{\mc S}

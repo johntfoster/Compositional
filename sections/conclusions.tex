@@ -13,72 +13,31 @@ relations, including the d'Alembert work of the saturation resistance when
 that branch is active.  The Coleman--Noll procedure identifies the material
 stresses, phase pressures, entropies, generalized component-transfer forces,
 electrochemical affinities, gauge-invariant nonisothermal transport forces,
-capillary-history dissipation, and residual dissipation.  Onsager stationarity
-provides admissible near-equilibrium choices for dynamic saturation
+capillary-history dissipation, and residual dissipation.  The entropy
+inequality supplies the admissibility and nonnegative-dissipation restrictions.
+Onsager stationarity selects near-equilibrium rates for dynamic saturation
 redistribution, reaction, diffusion, and dispersion.  The independently
 derived reversible relations agree, which supplies an internal check on the
 construction.
 
-The derivation yields seven specific advances.
+Converted mass enters the phase momentum production and the generalized Darcy
+law.  The resulting source-shifted resistance distinguishes dissipation of the
+underlying drag from algebraic nonsingularity and the stronger
+positive-resistance regime.  For the solids, the fixed-pressure Legendre
+construction gives nonlinear Biot coefficients at the current reacted state,
+while the phase/component kinematics connect pore-filling conversion to
+distension, stress-free deformation, elasticity, and plastic flow.  The
+true-plastic and distension powers identify two conjugate stress--rate pairs and
+provide the basis for a coupled generalized-plasticity specialization.
 
-\begin{enumerate}
-\item \textbf{Conversion in phase momentum and Darcy transport.}  Converted
-mass enters the phase momentum production explicitly, and the same balance
-gives a generalized Darcy law whose forces and resistance retain the
-conversion-insertion contribution.
-\item \textbf{Fixed-pressure nonlinear Biot construction for multiple solid
-phases.}  The construction extends to several solid phases and is evaluated
-at the current reacted state, including composition, distension, stress-free
-deformation, and internal variables, so the effective-stress structure
-survives reactions and phase change.
-\item \textbf{Gauge-invariant electrochemical forces.}  The two-temperature
-electrical formulation separates the temperature-weighted
-component-potential gradient from the electric field, which yields
-gauge-invariant electrochemical transport and reaction forces.
-\item \textbf{Stored capillary energy and dynamic pressure lag.}  The
-constrained interfacial energy and capillary-history state give the stored
-drainage--imbibition-dependent pressure jump, and the history evolution
-enters the residual dissipation explicitly.  An optional
-positive-semidefinite resistance adds a pressure lag proportional to the
-skeleton-following saturation rate without adding that rate to the stored
-energy; the phase electrical enthalpy difference supplies a separate
-correction to the same pressure jump, and the electric potential generates
-dielectric pressure, Maxwell stress, and the equivalent pore pressure.
-\item \textbf{Composition stationarity with a transfer-work correction.}  The
-generalized composition-stationarity conditions recover electrochemical
-equilibrium while fixing off-equilibrium phase-reference values of the
-specific generalized transfer-work potentials; the conversion force consequently carries
-an explicit phase-transfer-work correction to the traditional affinity.
-\item \textbf{Reactive-solid kinematics in an open porous medium.}  The
-phase/component balance structure embeds reactive-solid kinematics, so
-pore-filling mass changes phase volume, distension, stress-free deformation,
-elasticity, and plastic flow while remaining coupled to mobile-phase
-transport.
-\item \textbf{Plastic driving stress and the Biot--Terzaghi effective-stress
-relation.}  The
-construction fixes the stress measure that drives plastic flow: plastic work
-is performed by the true-plastic driving stress \(\mbf S_s\), the deviatoric
-intrinsic phase stress mapped through the elastic true-deformation and
-distension factors, while the momentum balance is written with the
-fixed-pressure skeleton stress \(\bs\sigma^{\prime\prime}\); the nonlinear
-Biot--Terzaghi effective-stress relation connects the two stresses, a
-distinction that classical
-effective-stress plasticity leaves implicit
-\cite{bishop1959principle,borja2006mechanical}.  The distension decomposition
-introduces a second driving stress, conjugate to the distension rate, so each
-mechanism can be associated with its own yield surface in its own stress
-space; the apparent non-associativity of single-surface effective-stress
-models, which is concentrated in the volumetric part of the flow, is absorbed
-into the separate distension yield surface.  Every mechanism is therefore
-associated in its own stress space, which resolves the classical
-non-associativity while preserving an associated flow rule throughout.  The
-associated closures presented are admissible by construction, and the same
-conjugate structure permits thermodynamically consistent non-associated
-deformation--distension laws through \(\mbf S_s\) and the distension map
-\(\mbf A_s\), governed by the dissipation-based criterion of hyperplasticity
-\cite{houlsby2006principles}, provided the combined conjugate power in the
-residual dissipation remains nonnegative.
-\end{enumerate}
+The thermal, chemical, and electrical results use the same component-transfer
+and electric-enthalpy structure.  Composition stationarity recovers
+electrochemical equilibrium and supplies the transfer-work correction away
+from equilibrium.  Separating the nonisothermal component-potential force from
+the electric field preserves gauge invariance.  The constrained interfacial
+energy gives the stored capillary pressure and capillary-history dissipation;
+the optional saturation resistance adds a dynamic pressure lag without changing
+the stored energy.
 
 The construction is internally consistent.  The common charge-rate and
 electrostatic-power identities couple electrical body force and source power

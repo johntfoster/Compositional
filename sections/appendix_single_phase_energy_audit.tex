@@ -71,31 +71,68 @@ To compare with the polarization convention of
 from the material polarization according to
 %
 \begin{equation}
+\begin{aligned}
 \mbf d
-=
-\varepsilon_0\mbf E
-+\mbf P,
-\qquad
-\bs\pi=\frac{\mbf P}{\rho_\xi},
-\qquad
+&=
+\varepsilon_0\mbf E+\mbf P,
+&
+\bs\pi
+&=
+\frac{\mbf P}{\rho_\xi},
+\\
 \rho_\xi
 \left(
 \varepsilon-\mbf E^{M}\cdot\bs\pi
 \right)
-=
+&=
 \rho_\xi e_\xi+\omega_\xi^+
-+\frac{\varepsilon_0}{2}\mbf E\cdot\mbf E.
++\frac{\varepsilon_0}{2}\mbf E\cdot\mbf E,
+\\
+\bs\tau
+&=
+\bs\sigma_\xi'-\bar p_\xi\mbf I
++
+\left(
+\omega_\xi^+
++\frac{\varepsilon_0}{2}\mbf E\cdot\mbf E
+\right)\mbf I.
+\end{aligned}
 \label{eq:appendix_single_phase_energy_partition_audit}
 \end{equation}
 %
-The last equality specifies the common energy partition: the current
-electric enthalpy contains the vacuum-field contribution
-\(-\varepsilon_0\mbf E\cdot\mbf E/2\), while the remaining electrical
-storage is the polarization work in the convention of
-\eqref{eq:MC_montanaro_electric_enthalpy_limit}.  Adding
-\(\varepsilon_0\mbf E\cdot\phasedot{\mbf E}\) to both sides of
-\eqref{eq:appendix_single_phase_electric_enthalpy_audit} and using
-\eqref{eq:appendix_single_phase_energy_partition_audit} yields
+The last two equalities specify the energy and stress identifications between
+the two conventions.  The current electric enthalpy contains the vacuum-field
+contribution \(-\varepsilon_0\mbf E\cdot\mbf E/2\); adding the vacuum-field
+energy converts it to the polarization-based specific energy.  Because
+\(\omega_\xi^+\) and the vacuum-field energy are densities per current volume,
+material differentiation of the energy identification gives
+%
+\begin{align}
+\rho_\xi
+\frac{D_\xi}{Dt}
+\left(
+\varepsilon-\mbf E^{M}\cdot\bs\pi
+\right)
+={}&
+\rho_\xi\phasedot e_\xi
++\phasedot\omega_\xi^+
++
+\left(
+\omega_\xi^+
++\frac{\varepsilon_0}{2}\mbf E\cdot\mbf E
+\right)
+\operatorname{tr}\mbf L_\xi
+\notag\\
+&+
+\varepsilon_0\mbf E\cdot\phasedot{\mbf E}.
+\label{eq:appendix_single_phase_energy_partition_rate_audit}
+\end{align}
+%
+Substitution of
+\eqref{eq:appendix_single_phase_electric_enthalpy_audit} into
+\eqref{eq:appendix_single_phase_energy_partition_rate_audit}, followed by
+\(\mbf d=\varepsilon_0\mbf E+\mbf P\) and the stress identification in
+\eqref{eq:appendix_single_phase_energy_partition_audit}, yields
 %
 \begin{align}
 \rho_\xi
@@ -104,24 +141,23 @@ storage is the polarization work in the convention of
 \varepsilon-\mbf E^{M}\cdot\bs\pi
 \right)
 &=
-\underbrace{
-\left(
-\bs\sigma_\xi'-\bar p_\xi\mbf I
-\right)
-}_{\bs\tau}
-:\mbf L_\xi
+\bs\tau:\mbf L_\xi
 -\nabla_{\mbf x}\cdot\mbf q_\xi
 -\mbf P\cdot\phasedot{\mbf E}^{M}
 +\rho_\xi r_\xi.
 \label{eq:appendix_single_phase_montanaro_recovery}
 \end{align}
 %
-Equation~\eqref{eq:appendix_single_phase_montanaro_recovery} is
+Equation~\eqref{eq:appendix_single_phase_montanaro_recovery} is the
+electric-enthalpy form obtained from equations~(10), (12), and (16) of
+\cite{montanaro2015thermo_electroelasticity}.  It is
 \eqref{eq:MC_montanaro_electric_enthalpy_limit} after the notational
 identifications \(\rho=\rho_\xi\), \(\mbf L=\mbf L_\xi\),
-\(\mbf q=\mbf q_\xi\), and \(r=r_\xi\).  The current formulation keeps
+\(\mbf q=\mbf q_\xi\), and \(r=r_\xi\), together with the energy and stress
+identifications in \eqref{eq:appendix_single_phase_energy_partition_audit}.
+The current formulation keeps
 the free-charge bulk power and electrical boundary flux visible until
 \eqref{eq:MC_electrostatic_power_identity} is applied; the polarization
 form instead combines them into the field-rate work.  The two balances are
-therefore equivalent under the stated single-phase specialization and common
-vacuum-field energy partition.
+therefore equivalent under the stated single-phase specialization, vacuum-field
+energy partition, and stress identification.
