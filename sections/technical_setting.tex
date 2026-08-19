@@ -2,10 +2,11 @@
 \section{Observer transformations, gauges, and admissible data}
 \label{sec:technical_setting}
 
-This appendix collects detailed observer transformations, gauge conditions, and
-admissible initial and boundary data.  The notation and conventions needed to
-follow the main derivation are introduced locally at their first substantive
-use; the material below records the corresponding global consistency checks.
+This appendix records the technical setting assumed throughout the main
+derivation: the superposed-observer transformation rules and the
+frame-indifference restrictions they impose on the constitutive potentials, the
+gauge conditions for the electrostatic and transfer potentials, and the
+admissible initial and boundary data for a boundary-value problem.
 
 \subsection{Frame indifference, material symmetry, and angular momentum}
 
@@ -275,7 +276,7 @@ the chemical driving force separate from the electric field; neither
 result changes when a constant is added to \(\varphi\).  At nonuniform
 temperature, differentiating an electrochemical potential divided by
 temperature would introduce that arbitrary constant.  The neutral thermal and
-electric forces are therefore kept separate below.  The reservoir
+electric forces are therefore kept separate.  The reservoir
 specialization takes
 \(\omega_\xi^+\) to have the objective single-vector dependence in
 \eqref{eq:electric_enthalpy_objectivity}, thereby excluding permanent
@@ -293,15 +294,16 @@ mass-fraction, volume-fraction, mass, and charge restrictions, together with the
 constitutive bounds on the capillary-history state.
 The local evolution law for \(\mbf h\) requires initial data but no boundary
 data; a nonlocal regularization would add the corresponding boundary
-conditions.  Here and below, \(s_\star\in\mc S\) denotes the
-selected solid-phase transfer reference.  The transfer potential requires one
+conditions.  Here \(s_\star\in\mc S\) denotes the selected solid-phase
+transfer reference.  The transfer potential requires one
 initial datum
 for the skeleton-trajectory evolution
 \eqref{eq:MC_admissible_conversion_component}.  The specific generalized transfer-work
 potentials \(L_\xi^N\) of the non-reference phases are then recovered from
 \eqref{eq:MC_phase_reference_transfer_work_recovery}, rather than prescribing
-additional initial data for \(\tau\) along every phase trajectory.  Its
-time-independent additive constant may be fixed, for example, by
+additional initial data for \(\tau\) along every phase trajectory.  The
+transfer potential's time-independent additive constant may be fixed, for
+example, by
 %
 \begin{equation}
 	\tau(\mbf x,0)=\tau_0(\mbf x),
@@ -314,9 +316,11 @@ The electrostatic potential has no independent evolution datum; it is obtained
 at each time from Gauss' law, the current charge state, and its boundary data.
 
 Mechanical data use the complementary motion/traction partition defined with
-\eqref{eq:W_def}.  The natural phase traction is
-\eqref{eq:phase_natural_traction}; after common-skeleton aggregation it is
-\eqref{eq:overall_natural_traction}.  For every independent component
+\eqref{eq:W_def}.  The solid and fluid natural phase tractions are
+\eqref{eq:phase_natural_traction} and
+\eqref{eq:fluid_natural_traction}, respectively.  When the phase virtual motions
+coincide on the mixture boundary, their boundary powers give the overall
+traction \eqref{eq:overall_natural_traction}.  For every independent component
 \(\alpha\ne N\) in phase \(\xi\in\mc G\), transport data use complementary
 normal-flux and component-potential portions.  The electric-potential or
 electric-displacement datum is supplied independently on
@@ -329,11 +333,11 @@ electric-displacement datum is supplied independently on
 		 & =
 		\overline{\Gamma_{m,\xi}^{\alpha}}
 		\cup
-		\overline{\Gamma_{\bar{\mc M}_\xi^\alpha}},
+		\overline{\Gamma_{\overline{\mc M}_\xi^\alpha}},
 		\qquad
 		\Gamma_{m,\xi}^{\alpha}
 		\cap
-		\Gamma_{\bar{\mc M}_\xi^\alpha}
+		\Gamma_{\overline{\mc M}_\xi^\alpha}
 		=\varnothing,
 		\label{eq:component_boundary_partition} \\
 		\left(
@@ -356,7 +360,7 @@ electric-displacement datum is supplied independently on
 			\right)/\theta_{\mc G}
 		}
 		\qquad
-		\text{on }\Gamma_{\bar{\mc M}_\xi^\alpha}.
+		\text{on }\Gamma_{\overline{\mc M}_\xi^\alpha}.
 		\label{eq:component_potential_boundary_data}
 	\end{align}
 \end{subequations}

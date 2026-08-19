@@ -19,7 +19,7 @@ Cauchy stress is tension-positive, so the momentum balance uses
 pressures, and the equivalent pore pressure are positive in compression and
 therefore enter the total stress as negative spherical contributions, opposite
 to the tension-positive stress.  A single prime marks the material stress at
-fixed intrinsic density, a double prime the fixed-pressure Biot stress, and a
+fixed intrinsic density, a double prime the fixed-pressure effective stress, and a
 superscript \(+\) the electrical stress contribution.  The Coleman--Noll
 analysis below uses these conventions throughout.
 
@@ -4523,15 +4523,15 @@ the remaining closure.
 \subsection{Phase reaction-modified Biot coefficients}
 \label{sec:MC_phase_biot_legendre_transform}
 
-The entropy inequality defines the single-prime solid stress using intrinsic
-density, rather than pressure, as a state variable.  Reservoir and
-poromechanics equations are more naturally written at fixed equivalent pore
-pressure.  A phase-level Legendre transform exchanges intrinsic specific volume
-for \(\bar p_E\) and defines the corresponding double-prime stress
-\cite{callen1985thermodynamics}.  This transformation is performed for the
-general phase energy before the optional additive component specialization.
+The entropy inequality gives the single-prime solid stress in intrinsic-density
+variables.  Reservoir and poromechanics equations commonly use equivalent pore
+pressure as a controlled variable.  A phase-level Legendre transform exchanges
+intrinsic specific volume for \(\bar p_E\) and gives the corresponding
+double-prime stress \cite{callen1985thermodynamics}.  We first apply this
+transformation to the general phase energy and then develop the additive
+component specialization.
 
-Define the phase and intrinsic specific volumes
+The required current and reference specific volumes are
 %
 \begin{equation}
 	v_s=\frac{1}{\rho_s},
@@ -4546,8 +4546,8 @@ Define the phase and intrinsic specific volumes
 	\label{eq:MC_phase_specific_volumes}
 \end{equation}
 %
-The solid volume-fraction restriction relates \(\bar p_E\) to the solid phase
-pressure and electric enthalpy.  In terms of intrinsic specific volume,
+The solid volume-fraction restriction identifies the thermodynamic variable
+conjugate to intrinsic specific volume,
 %
 \begin{align}
 	\bar p_E
@@ -4571,17 +4571,15 @@ pressure and electric enthalpy.  In terms of intrinsic specific volume,
 	\label{eq:MC_phase_pressure_specific_volume}
 \end{align}
 %
-Here \(\bar v_s=1/\bar\rho_s\), so
-\(\omega_s^+\bar v_s\) is the electric enthalpy per unit intrinsic solid mass.
-Equation~\eqref{eq:MC_phase_pressure_specific_volume} identifies the partial
-derivative with respect to \(\bar v_s\), with the other state variables fixed,
-as \(-\bar p_E\).  Consequently, the corresponding term in the total
-differential is \(-\bar p_E\,{\rm d}\bar v_s\).  Adding
-\(\bar p_E\bar v_s\) cancels this term:
+Here \(\omega_s^+\bar v_s\) is the electric enthalpy per unit intrinsic solid
+mass.  Equation~\eqref{eq:MC_phase_pressure_specific_volume} gives
+\(-\bar p_E\) as the coefficient of \({\rm d}\bar v_s\) when the remaining
+state variables are fixed.  The Legendre term \(\bar p_E\bar v_s\) converts
+this coefficient into the pressure differential,
 %
 \begin{align}
 	\left.
-	{\rm d}\left(
+	\mathrm d\left(
 	\psi_s+\omega_s^+\bar v_s
 	\right)
 	\right\vert_{
@@ -4606,9 +4604,9 @@ differential is \(-\bar p_E\,{\rm d}\bar v_s\).  Adding
 	\label{eq:MC_phase_legendre_differential_cancellation}
 \end{align}
 %
-Thus \(\bar p_E\), rather than \(\bar p_s\) separately, is conjugate to
-\(\bar v_s\), with
-\(\bar p_s=\bar p_E+\omega_s^+\).  The transformed phase potential is
+Thus \(\bar p_E\) is conjugate to \(\bar v_s\), and the phase pressure satisfies
+\(\bar p_s=\bar p_E+\omega_s^+\).  Define the transformed phase potential and
+its pressure derivative by
 %
 \begin{subequations}
 	\label{eq:MC_phase_legendre_transform}
@@ -4633,40 +4631,67 @@ Thus \(\bar p_E\), rather than \(\bar p_s\) separately, is conjugate to
 	\end{gather}
 \end{subequations}
 %
-Changing the elastic true deformation changes \(\bar v_s\) through the true
-Jacobian in \(J=a_s\bar J_s\).  The required chain rule follows from the
-material mass balance \eqref{eq:material_mass_2} and true-solid mass
-conservation \eqref{eq:MC_solid_true_mass_conservation}.  The derivative is
-evaluated at the current distension, plastic, and stress-free state while
-holding equivalent pressure, electric field, solid temperature, and composition
-fixed,
+At fixed equivalent pressure, the common skeleton Jacobian \(J\) parameterizes
+the specific-volume response.  Through \(J=a_s\bar J_s\), this response includes
+the concurrent allocation of volume between elastic true deformation and
+elastic distension.  The Legendre identity and the kinematic split give
 %
-\begin{align}
-	\left.
-	\p{\bar v_s}{\bar{\mbf F}_s^e}
-	\right\vert_{\bar p_E,\theta_{\mc S},\{\eta_s^\alpha\},\mbf E}
-	 & =
-	\left.
-	\p{\bar v_s}{J}
-	\right\vert_{\bar p_E,\theta_{\mc S},\{\eta_s^\alpha\},\mbf E}
-	\frac{\partial J}{\partial\bar{\mbf F}_s^e}
-	\notag \\
-	 & =
-	\left.
-	\p{\bar v_s}{J}
-	\right\vert_{\bar p_E,\theta_{\mc S},\{\eta_s^\alpha\},\mbf E}
-	a_s\bar J_s
-	(\bar{\mbf F}_s^e)^{-T},
-	\qquad
-	s\in\mc S .
+\begin{subequations}
 	\label{eq:MC_phase_specific_volume_deformation_chain_rule}
-\end{align}
+	\begin{gather}
+		\left.
+		\mathrm d
+		\left[
+		\widetilde\psi_s
+		-
+		\left(
+		\psi_s+\omega_s^+\bar v_s
+		\right)
+		\right]
+		\right\vert_{\bar p_E,\theta_{\mc S},
+			\{\eta_s^\alpha\},\mbf E}
+		=
+		\bar p_E
+		\left.
+		\p{\bar v_s}{J}
+		\right\vert_{\bar p_E,\theta_{\mc S},
+			\{\eta_s^\alpha\},\mbf E}
+		\mathrm dJ,
+		\qquad
+		s\in\mc S,
+		\label{eq:MC_phase_fixed_pressure_volume_differential} \\
+		\mathrm dJ
+		=
+		a_s\bar J_s
+		(\bar{\mbf F}_s^e)^{-T}
+		:
+		\mathrm d\bar{\mbf F}_s^e
+		+
+		a_s\bar J_s
+		(\mbf A_s^e)^{-T}
+		:
+		\mathrm d\mbf A_s^e,
+		\qquad
+		s\in\mc S .
+		\label{eq:MC_common_jacobian_elastic_variation}
+	\end{gather}
+\end{subequations}
 %
-The Legendre identity recovers the original single-prime intrinsic Piola
-stress by differentiating the transformed potential at fixed \(\bar p_E\).  The
-double-prime intrinsic Piola stress is instead the derivative of the
-untransformed electrothermodynamic phase potential
-\(\psi_s+\omega_s^+\bar v_s\) along a fixed-\(\bar p_E\) path.  Accordingly,
+Equation~\eqref{eq:MC_phase_fixed_pressure_volume_differential} evaluates the
+constitutive derivative with respect to the common volume.  The kinematic
+identity \eqref{eq:MC_common_jacobian_elastic_variation} resolves the
+corresponding differential into independent elastic true-deformation and elastic-distension
+contributions, with the plastic and stress-free states fixed.  The coefficient
+of \(\mathrm d\bar{\mbf F}_s^e\) determines the intrinsic Piola stress, and the
+coefficient of \(\mathrm d\mbf A_s^e\) determines the distension force.  The
+fixed-pressure derivative \(\partial\bar v_s/\partial J\) contains the
+equilibrated response of \(a_s\) along this common-volume path.
+%
+The Legendre identity gives two intrinsic Piola stresses.  Differentiating the
+transformed potential at fixed \(\bar p_E\) gives the single-prime stress and
+recovers its intrinsic-volume form.  Differentiating the electrothermodynamic
+phase potential \(\psi_s+\omega_s^+\bar v_s\) along the same pressure path gives
+the double-prime stress,
 %
 \begin{subequations}
 	\label{eq:MC_phase_pk_stresses}
@@ -4712,24 +4737,33 @@ untransformed electrothermodynamic phase potential
 	\end{align}
 \end{subequations}
 %
-Differentiating the Legendre transform at fixed \(\bar p_E\) gives
+To obtain the relation between the Piola stresses, set
+\(\mathrm d\mbf A_s^e=\mbf 0\) in
+\eqref{eq:MC_common_jacobian_elastic_variation}.  Substitute the resulting
+expression for \(\mathrm dJ\) into
+\eqref{eq:MC_phase_fixed_pressure_volume_differential}, then equate the
+coefficients of \(\mathrm d\bar{\mbf F}_s^e\) using the stress definitions
+\eqref{eq:MC_phase_single_prime_pk_stress} and
+\eqref{eq:MC_phase_double_prime_pk_stress}.  This gives
 %
 \begin{equation}
 	\bar{\mbf P}_s'
 	=
 	\bar{\mbf P}_s^{\prime\prime}
 	+
-	\bar p_E\bar\rho_{s0}
+	\bar p_E
+	\frac{a_s}{\bar v_{s0}}
 	\left.
-	\p{\bar v_s}{\bar{\mbf F}_s^e}
-	\right\vert_{\bar p_E,\theta_{\mc S},\{\eta_s^\alpha\},\mbf E},
+	\p{\bar v_s}{J}
+	\right\vert_{\bar p_E,\theta_{\mc S},\{\eta_s^\alpha\},\mbf E}
+	\bar J_s
+	(\bar{\mbf F}_s^e)^{-T},
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_phase_pk_legendre_split}
 \end{equation}
-%
-Using the specific-volume chain rule, define the phase nonlinear Biot
-coefficient by
+
+Define the phase nonlinear Biot coefficient by
 %
 \begin{empheq}[box=\fbox]{equation}
 	\bar B_s
@@ -4745,12 +4779,14 @@ coefficient by
 	\label{eq:MC_phase_biot_coefficient}
 \end{empheq}
 %
-The intrinsic coefficient \(\bar B_s\) measures how the true solid volume of
-phase \(s\) changes with the common skeleton volume at the current reacted
-state.  The factor \(a_s\) carries the current allocation of skeleton volume to
-that phase, including packing and stress-free volume change.  If the distension
-split is suppressed, \(\bar B_s\) reduces to the nonlinear Biot coefficient of
-\cite{foster2025}.  The intrinsic phase Piola stresses are related by
+The factor \(1-\bar B_s\) is the fraction of a common volumetric perturbation
+carried by the true-solid specific volume of phase \(s\) at the current reacted
+state.  Its complement \(\bar B_s\) measures the distension response.  The
+factor \(a_s\) supplies the current allocation of skeleton volume to the phase,
+including packing and stress-free volume change.  Suppressing the distension
+split recovers the nonlinear Biot coefficient of \cite{foster2025}.  Substitution
+into \eqref{eq:MC_phase_pk_legendre_split} gives the intrinsic Piola-stress
+split,
 %
 \begin{equation}
 	\bar{\mbf P}_s'
@@ -4766,10 +4802,10 @@ split is suppressed, \(\bar B_s\) reduces to the nonlinear Biot coefficient of
 	\label{eq:MC_phase_pk_biot_split}
 \end{equation}
 %
-The intrinsic Cauchy stresses follow from the intrinsic Piola stresses by the
-push-forward through the true volume ratio \(\bar J_s\), using
+Push-forward through the true volume ratio \(\bar J_s\) and the distension map
+gives the intrinsic Cauchy stresses.  Using
 \(\bar\rho_{s0}=\bar J_s\bar\rho_s\) from
-\eqref{eq:MC_solid_true_mass_conservation} and the distension map,
+\eqref{eq:MC_solid_true_mass_conservation}, these maps are
 %
 \begin{subequations}
 	\label{eq:MC_intrinsic_cauchy_stress_maps}
@@ -4797,8 +4833,8 @@ push-forward through the true volume ratio \(\bar J_s\), using
 	\end{align}
 \end{subequations}
 %
-The partial phase Cauchy stress weights the intrinsic stress by the phase
-volume fraction,
+Multiplication by the phase volume fraction gives the partial phase Cauchy
+stresses,
 %
 \begin{equation}
 	\bs\sigma_s'
@@ -4813,12 +4849,10 @@ volume fraction,
 	\label{eq:MC_partial_cauchy_volume_fraction}
 \end{equation}
 %
-Pushing the split \eqref{eq:MC_phase_pk_biot_split} to the current
-configuration through the intrinsic push-forward
-\eqref{eq:MC_intrinsic_cauchy_push_forward} and weighting the intrinsic stress
-by the phase volume fraction through \eqref{eq:MC_partial_cauchy_volume_fraction}
-converts the pressure correction into a partial Cauchy stress, consistent with
-\eqref{eq:MC_solid_stress_definition}.  Therefore
+Applying \eqref{eq:MC_intrinsic_cauchy_stress_maps} and
+\eqref{eq:MC_partial_cauchy_volume_fraction} to
+\eqref{eq:MC_phase_pk_biot_split} converts the pressure correction into the
+partial Cauchy stress used in \eqref{eq:MC_solid_stress_definition}, giving
 %
 \begin{empheq}[box=\fbox]{equation}
 	\bs\sigma_s'
@@ -4831,14 +4865,15 @@ converts the pressure correction into a partial Cauchy stress, consistent with
 	\label{eq:MC_phase_biot_split}
 \end{empheq}
 %
-This relation holds for a general composition-dependent phase energy.  The
-additive component specialization in
-\sref{MC_additive_component_specialization} later decomposes \(\bar B_s\) and
-\(\bs\sigma_s^{\prime\prime}\) into component contributions that roll up to
-\eqref{eq:MC_phase_biot_coefficient}; reproducing the fixed-\(\bar p_E\)
-derivative requires the component pressure-redistribution path stated there.
+Equation~\eqref{eq:MC_phase_biot_split} applies to the general
+composition-dependent phase energy.  The additive specialization in
+\sref{MC_additive_component_specialization} resolves \(\bar B_s\) and
+\(\bs\sigma_s^{\prime\prime}\) into component contributions.  The component
+pressure-redistribution path preserves the fixed-\(\bar p_E\) derivative, and
+the resulting contributions sum to \eqref{eq:MC_phase_biot_coefficient}.
 
-\subsection{Solid phase and overall momentum after the Biot transform}
+\subsection{Solid phase and overall momentum from the Biot--Terzaghi
+effective-stress relation}
 \label{sec:MC_phase_overall_momentum_biot}
 
 The solid volume-fraction restriction gives the phase pressure in terms of the
@@ -5110,6 +5145,10 @@ momentum balance
 		\mbf E\otimes\mbf d
 	\right]
 	+\rho\mbf g
+	+\sum_\xi\sum_\alpha\dot{c}_\xi^\alpha
+	\left(
+	\nabla_{\mbf x}\tau-\mbf v_\xi
+	\right)
 	\notag\\
 	&
 	-\phi
@@ -5131,37 +5170,60 @@ momentum balance
 	\bar p_f-\bar p_E-\gamma_f-\omega_f^+
 	\right)
 	\nabla_{\mbf x}S_f
-	\notag\\
-	&
-	+\sum_\xi\sum_\alpha\dot{c}_\xi^\alpha
-	\left(
-	\nabla_{\mbf x}\tau-\mbf v_\xi
-	\right).
+	.
 	\label{eq:MC_overall_momentum_nonlinear_biot}
 \end{empheq}
 %
-The corresponding overall natural traction is
+On a boundary portion where the phase virtual motions coincide with the common
+mixture virtual motion, the phase boundary powers add.  Summing
+\eqref{eq:phase_natural_traction} and
+\eqref{eq:fluid_natural_traction}, then using
+\eqref{eq:MC_phase_biot_split},
+\eqref{eq:MC_solid_biot_rollup_coefficient},
+\eqref{eq:equivalent_pore_pressure_capillary_relation}, and
+\(\bs\sigma_f'=\mbf0\), gives the overall natural traction,
 %
-\begin{equation}
+\begin{align}
+	\bar{\mbf t}
+	&\equiv
+	\sum_\xi\mbf t_\xi \notag\\
+	&=
+	\left\{
+	\sum_{s\in\mc S}
+	\left[
+	\bs\sigma_s^{\prime+}
+	-\phi_s
+	\left(
+	\bar p_E+\omega_s^+
+	\right)\mbf I
+	\right]
+	+\sum_{f\in\mc F}
+	\left[
+	\bs\sigma_f^{\prime+}
+	-\phi_f\bar p_f\mbf I
+	\right]
+	\right\}\mbf n
+	\notag\\
+	&=
 	\left[
 		\bs\sigma^{\prime\prime}
 		-
 		B\bar p_E\mbf I
 		+
 		\mbf E\otimes\mbf d
+		-
+		\phi\gamma\mbf I
 	\right]\mbf n
-	=
-	\bar{\mbf t}
 	\qquad
 	\text{on }\Gamma_{\bar{\mbf t}} .
 	\label{eq:overall_natural_traction}
-\end{equation}
+\end{align}
 %
-The thermocapillary, capillary-history-gradient, dynamic pressure-lag, and
-conversion terms in
-\eqref{eq:MC_overall_momentum_nonlinear_biot} remain bulk sources and do not
-modify \eqref{eq:overall_natural_traction} unless an additional external-surface
-model is introduced.
+The term \(-\phi\gamma\mbf I\) is the stored interfacial-energy contribution
+identified by the saturation-weighted phase-pressure relation.  The
+thermocapillary, capillary-history-gradient, dynamic pressure-lag, and conversion
+terms in \eqref{eq:MC_overall_momentum_nonlinear_biot} remain bulk sources.
+Additional external-surface physics requires a separate surface model.
 
 The term proportional to
 \(\partial\gamma/\partial\theta_{\mc F}\)
@@ -5371,9 +5433,9 @@ evolution follows \eqref{eq:MC_generic_plastic_state_evolution}.
 \subsubsection{General additive component Biot decomposition}
 \label{sec:MC_component_biot_derivation}
 
-The phase electrical enthalpy can be decomposed consistently with the additive
-Helmholtz energy.  Define component electrical enthalpy densities
-\(\omega_s^{\alpha+}\) such that
+The additive Helmholtz energy admits a corresponding component decomposition
+of the phase electrical enthalpy.  Introduce component electrical enthalpy
+densities \(\omega_s^{\alpha+}\) satisfying
 %
 \begin{subequations}
 	\label{eq:MC_additive_electrothermodynamic_decomposition}
@@ -5403,11 +5465,11 @@ Helmholtz energy.  Define component electrical enthalpy densities
 	\end{align}
 \end{subequations}
 %
-The second line follows from
-\(\eta_s^\alpha\bar v_s^\alpha=\phi_s^\alpha\bar v_s\), which is equivalent to
-the density rules in \eqref{eq:MC_solid_density_mixture_rules}.  Together with
-\eqref{eq:MC_additive_pressure_average}, it gives the component and phase
-equivalent pressures
+The density rules \eqref{eq:MC_solid_density_mixture_rules} give
+\(\eta_s^\alpha\bar v_s^\alpha=\phi_s^\alpha\bar v_s\), which establishes
+\eqref{eq:MC_additive_electric_enthalpy_average}.  Combining this identity with
+the mechanical-pressure average \eqref{eq:MC_additive_pressure_average} gives
+the component equivalent pressures and their phase average,
 %
 \begin{subequations}
 	\label{eq:MC_additive_equivalent_pressures}
@@ -5440,17 +5502,18 @@ equivalent pressures
 	\end{align}
 \end{subequations}
 %
-Thus neither the component mechanical pressures nor their equivalent pressures
-must be equal.  The multipliers determine the mechanical pressures through
-\eqref{eq:additive_component_pressure_multiplier_identity}; the component
-electrical enthalpies then determine their conjugate equivalent pressures.
+Each component may carry its own mechanical and equivalent pressures.  The
+storage multipliers determine the mechanical-pressure shares through
+\eqref{eq:additive_component_pressure_multiplier_identity}, and the component
+electrical enthalpies convert those shares to the conjugate equivalent
+pressures in \eqref{eq:MC_additive_component_equivalent_pressure}.
 
-At fixed composition, the component differential and its Legendre transform
-are
+At fixed composition, the specific-volume conjugacy and its Legendre
+differential are
 %
 \begin{align}
 	\left.
-	{\rm d}\left(
+	\mathrm d\left(
 	\psi_s^\alpha+\omega_s^{\alpha+}\bar v_s^\alpha
 	\right)
 	\right\vert_{
@@ -5458,10 +5521,10 @@ are
 		\{\eta_s^\beta\},\theta_{\mc S},\mbf E
 	}
 	&=
-	-\bar p_{E,s}^\alpha\,{\rm d}\bar v_s^\alpha,
+	-\bar p_{E,s}^\alpha\,\mathrm d\bar v_s^\alpha,
 	\notag \\
 	\left.
-	{\rm d}\left(
+	\mathrm d\left(
 	\psi_s^\alpha
 	+\omega_s^{\alpha+}\bar v_s^\alpha
 	+\bar p_{E,s}^\alpha\bar v_s^\alpha
@@ -5471,7 +5534,7 @@ are
 		\{\eta_s^\beta\},\theta_{\mc S},\mbf E
 	}
 	&=
-	\bar v_s^\alpha\,{\rm d}\bar p_{E,s}^\alpha,
+	\bar v_s^\alpha\,\mathrm d\bar p_{E,s}^\alpha,
 	\qquad
 	s\in\mc S .
 	\label{eq:MC_additive_component_legendre_differential}
@@ -5494,15 +5557,103 @@ component potential has the equivalent forms
 	\label{eq:MC_additive_component_legendre_transform}
 \end{equation}
 %
-The second form permits the transform to be evaluated from the component
-mechanical pressure.  Its natural pressure variable remains
-\(\bar p_{E,s}^\alpha\): in general
-\(d\bar p_{E,s}^\alpha
-=d\bar p_s^\alpha-d\omega_s^{\alpha+}\).
+The form \(\psi_s^\alpha+\bar p_s^\alpha\bar v_s^\alpha\) evaluates the
+transform directly from the component mechanical pressure.  The transformed
+potential uses \(\bar p_{E,s}^\alpha\) as its pressure variable, with
+\(\mathrm d\bar p_{E,s}^\alpha
+=\mathrm d\bar p_s^\alpha-\mathrm d\omega_s^{\alpha+}\).
 
-For an independent component-pressure experiment, hold all component equivalent
-pressures fixed during the instantaneous deformation perturbation.  The
-specific-volume derivative then satisfies
+Consider an instantaneous deformation at fixed composition, temperature,
+electric field, and component equivalent pressures.  Along this path, the
+component Legendre identity gives
+%
+\begin{equation}
+	\left.
+	\mathrm d
+	\left[
+	\widetilde\psi_s^\alpha
+	-
+	\left(
+	\psi_s^\alpha+\omega_s^{\alpha+}\bar v_s^\alpha
+	\right)
+	\right]
+	\right\vert_{
+		\{\bar p_{E,s}^\beta\},\theta_{\mc S},
+		\{\eta_s^\beta\},\mbf E
+	}
+	=
+	\bar p_{E,s}^\alpha
+	\left.
+	\p{\bar v_s^\alpha}{J}
+	\right\vert_{
+		\{\bar p_{E,s}^\beta\},\theta_{\mc S},
+		\{\eta_s^\beta\},\mbf E
+	}
+	\mathrm dJ,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_additive_component_fixed_pressure_volume_differential}
+\end{equation}
+%
+The double-prime component stress is the deformation response of the component
+electrothermodynamic potential at fixed component equivalent pressures,
+%
+\begin{equation}
+	\bar{\bs\sigma}_s^{\prime\prime\alpha}
+	\equiv
+	\phi_s^\alpha\bar\rho_s^\alpha
+	\mbf A_s^{-T}
+	\left[
+	\left.
+	\p{
+		\left(
+		\psi_s^\alpha+\omega_s^{\alpha+}\bar v_s^\alpha
+		\right)
+	}{\bar{\mbf F}_s^e}
+	\right\vert_{
+		\{\bar p_{E,s}^\beta\},\mbf A_s^e,
+		\{\eta_s^\beta\},\theta_{\mc S},\mbf E
+	}
+	(\bar{\mbf F}_s^e)^T
+	\right]
+	\mbf A_s^T,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_additive_component_double_prime_stress}
+\end{equation}
+%
+For the component Piola-stress response, set
+\(\mathrm d\mbf A_s^e=\mbf 0\) in
+\eqref{eq:MC_common_jacobian_elastic_variation}.  Substitution of the resulting
+\(\mathrm dJ\) into
+\eqref{eq:MC_additive_component_fixed_pressure_volume_differential}, followed
+by comparison of the coefficients of
+\(\mathrm d\bar{\mbf F}_s^e\), gives the pressure contribution to the
+component Piola stress.  The push-forward
+\eqref{eq:MC_intrinsic_cauchy_stress_maps} converts this contribution to
+%
+\begin{equation}
+	\bar{\bs\sigma}_s^{\prime\alpha}
+	-
+	\bar{\bs\sigma}_s^{\prime\prime\alpha}
+	=
+	\bar p_{E,s}^\alpha
+	\frac{a_s\eta_s^\alpha}{\bar v_{s0}}
+	\left.
+	\p{\bar v_s^\alpha}{J}
+	\right\vert_{
+		\{\bar p_{E,s}^\beta\},\theta_{\mc S},
+		\{\eta_s^\beta\},\mbf E
+	}
+	\mbf I,
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_additive_component_fixed_pressure_stress_difference}
+\end{equation}
+%
+The additive specific-volume relation in
+\eqref{eq:MC_additive_electric_enthalpy_average} gives the phase tangent along
+the same fixed-composition path,
 %
 \begin{equation}
 	\left.
@@ -5525,7 +5676,7 @@ specific-volume derivative then satisfies
 	\label{eq:MC_additive_specific_volume_path_identity}
 \end{equation}
 %
-The component nonlinear Biot contribution is therefore
+The corresponding component nonlinear Biot coefficient is
 %
 \begin{empheq}[box=\fbox]{equation}
 	\bar B_s^\alpha
@@ -5544,11 +5695,35 @@ The component nonlinear Biot contribution is therefore
 	\label{eq:MC_additive_component_biot}
 \end{empheq}
 %
-The component coefficients \(\bar B_s^\alpha\) are intrinsic; by the
-specific-volume path identity they roll up to the intrinsic phase coefficient
-\(\bar B_s\) of \eqref{eq:MC_phase_biot_coefficient}, and the phase volume
-fraction enters only when the intrinsic stresses are converted to the partial
-phase stress.  The component Legendre transforms give the stress contributions
+Summing the component coefficient complements and using
+\eqref{eq:MC_additive_specific_volume_path_identity} gives
+%
+\begin{equation}
+	\sum_\alpha
+	\left(1-\bar B_s^\alpha\right)
+	=
+	\frac{a_s}{\bar v_{s0}}
+	\left.
+	\p{\bar v_s}{J}
+	\right\vert_{
+		\{\bar p_{E,s}^\beta\},\theta_{\mc S},
+		\{\eta_s^\beta\},\mbf E
+	},
+	\qquad
+	s\in\mc S .
+	\label{eq:MC_additive_component_biot_tangent_sum}
+\end{equation}
+%
+Equation~\eqref{eq:MC_additive_component_biot_tangent_sum} is the phase
+specific-volume tangent measured while every component equivalent pressure is
+fixed.  It equals \(1-\bar B_s\) from
+\eqref{eq:MC_phase_biot_coefficient} when the component equations of state map
+this experiment to a phase deformation at fixed \(\bar p_E\).  Each
+\(\bar B_s^\alpha\) contributes to the intrinsic phase stress; multiplication
+of the summed intrinsic stress by \(\phi_s\) gives the partial phase stress.
+Using \eqref{eq:MC_additive_component_biot} in
+\eqref{eq:MC_additive_component_fixed_pressure_stress_difference} gives the
+component stress split,
 %
 \begin{equation}
 	\bar{\bs\sigma}_s^{\prime\alpha}
@@ -5561,7 +5736,10 @@ phase stress.  The component Legendre transforms give the stress contributions
 	\label{eq:MC_additive_component_biot_split}
 \end{equation}
 %
-Summing over components gives the general additive mixture rule
+Summing the component stresses gives the phase double-prime stress and its
+pressure correction.  Comparison with the phase stress split
+\eqref{eq:MC_phase_biot_split} then gives the pressure-weighted compatibility
+condition,
 %
 \begin{subequations}
 	\label{eq:MC_additive_biot_mixture_rule}
@@ -5606,16 +5784,13 @@ Summing over components gives the general additive mixture rule
 	\end{empheq}
 \end{subequations}
 %
-The product relation follows by comparing the summed component stress with the
-intrinsic phase stress form.  With
-\eqref{eq:MC_additive_equivalent_pressure_average}, the quotient recovers the
-intrinsic phase coefficient \(\bar B_s\).  Identification of this coefficient
-with the fixed-\(\bar p_E\) derivative in
-\eqref{eq:MC_phase_biot_coefficient} requires the component equations of state
-and their pressure-redistribution path to reproduce the phase derivative
-through \eqref{eq:MC_additive_biot_pressure_mixture_rule}.
-The additive decomposition alone supplies the pressure-weighted stress rule;
-it does not select that redistribution path.
+For \(\bar p_E\ne0\), the boxed expression solves the pressure-weighted
+compatibility condition for \(\bar B_s\).  It gives the derivative-defined
+phase coefficient \eqref{eq:MC_phase_biot_coefficient} when the component
+equations of state produce the fixed-\(\bar p_E\) tangent described by
+\eqref{eq:MC_additive_component_biot_tangent_sum}.  Thus the component equations
+of state specify how the component pressure contributions combine to recover
+the phase coefficient.
 
 \subsection{Scalar distension simplifications}
 \label{sec:MC_scalar_distension_simplifications}
@@ -5689,7 +5864,8 @@ For a generic multicomponent solid, the tensor distension restriction
 	\label{eq:MC_scalar_distension_stress_restriction}
 \end{equation}
 %
-Using the phase-level Biot transform, the same condition can be written as a
+Using the phase-level Biot--Terzaghi effective-stress relation, the same
+condition can be written as a
 restriction on the phase double-prime trace,
 %
 \begin{equation}
@@ -5798,7 +5974,8 @@ Its derivative gives the fixed-pressure mean stress,
 	\label{eq:MC_component_double_prime_trace_from_energy}
 \end{equation}
 %
-and the single-prime trace follows from the Biot stress split,
+and the single-prime trace follows from the Biot--Terzaghi effective-stress
+relation,
 %
 \begin{equation}
 	\rho_s

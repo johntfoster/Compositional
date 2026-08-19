@@ -335,7 +335,7 @@ and collecting independent variations gives
 %
 The corresponding Cauchy effective stress is denoted with a single prime because
 it is the fixed-intrinsic-density stress, analogous to a Terzaghi effective
-stress.  The fixed-pressure Biot stress is denoted later with a double prime.
+stress.  The fixed-pressure effective stress is denoted later with a double prime.
 %
 % AGENT-LOCK-BEGIN equation-lock: fixed through rendered equation (49); do not edit unless explicitly unlocked by user
 \begin{align}
@@ -1325,16 +1325,25 @@ phase-pressure gradient,
 	\label{eq:el_mom_f_dynamic_capillary}
 \end{empheq}
 %
-The boundary coefficients and the prescribed traction work in
-\eqref{eq:W_def} give the fluid-phase natural traction.  Because the phase
-pressure enters only through the volume gradient, the traction is the normal
-projection of the fluid stress divergence alone,
+The boundary coefficients from
+\eqref{eq:deltaU_uniform},
+\eqref{eq:vp_electric_full_variation},
+\eqref{eq:deltaC2_lines}, and the prescribed traction work in
+\eqref{eq:W_def} give the fluid-phase natural traction.  The component material
+constraint contributes
+\(\sum_\alpha\pi_f^\alpha\mbf n\) to the boundary coefficient.  Using
+\(\sum_\alpha\pi_f^\alpha=\phi_f\bar p_f\) and
+\eqref{eq:vp_electrical_stress_definition} gives
 %
 \begin{equation}
-	\left(
-	\bs\sigma_f'
-	+\phi_f\mbf E\otimes\mbf d_f
-	\right)\mbf n
+	\left[
+		\bs\sigma_f'
+		+\phi_f\mbf E\otimes\mbf d_f
+		-\phi_f
+		\left(
+		\bar p_f-\omega_f^+
+		\right)\mbf I
+	\right]\mbf n
 	=
 	\mbf t_f
 	\qquad
@@ -1651,7 +1660,7 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 	    & +
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
-	\int_{\Gamma_{\bar{\mc M}_\xi^\alpha}}
+	\int_{\Gamma_{\overline{\mc M}_\xi^\alpha}}
 	\overline{\mc M}_\xi^\alpha
 	\left(
 	\mbf j_{\xi,{\rm disp}}^\alpha
@@ -1665,7 +1674,7 @@ reaction and transport terms use the temperature-weighted thermodynamic rate in
 \end{align}
 %
 The added surface term is the work of a prescribed external component
-reservoir on \(\Gamma_{\bar{\mc M}_\xi^\alpha}\).  Here
+reservoir on \(\Gamma_{\overline{\mc M}_\xi^\alpha}\).  Here
 \(\overline{\mc M}_\xi^\alpha\) is the prescribed temperature-weighted neutral
 potential difference; the electrical boundary datum is provided independently
 by the electric-field problem.  The reservoir term
@@ -1734,7 +1743,7 @@ relative-flux variation.  On \(\Gamma_{m,\xi}^{\alpha}\), the normal total
 component flux is prescribed, so the relative-flux variation is tangential,
 \((\delta\mbf j_{\xi,{\rm disp}}^\alpha+
 \delta\mbf j_{\xi,{\rm diff}}^\alpha)\cdot\mbf n=0\).  On the complementary
-\(\Gamma_{\bar{\mc M}_\xi^\alpha}\), the temperature-weighted component-potential
+\(\Gamma_{\overline{\mc M}_\xi^\alpha}\), the temperature-weighted component-potential
 difference is prescribed and the normal relative-flux variation is free; its
 boundary contribution is retained in the collected condition below.  For each
 independent component, these complementary portions prescribe either the
@@ -1837,7 +1846,7 @@ condition
 	    & +
 	\sum_{\mc G\in\{\mc F,\mc S\}}
 	\sum_{\xi\in\mc G}\sum_{\alpha\ne N}
-	\int_{\Gamma_{\bar{\mc M}_\xi^\alpha}}
+	\int_{\Gamma_{\overline{\mc M}_\xi^\alpha}}
 	\left[
 		\overline{\mc M}_\xi^\alpha
 		-
@@ -1852,7 +1861,7 @@ condition
 \end{align}
 %
 Stationarity with arbitrary normal relative-flux variation on
-\(\Gamma_{\bar{\mc M}_\xi^\alpha}\) therefore recovers the prescribed
+\(\Gamma_{\overline{\mc M}_\xi^\alpha}\) therefore recovers the prescribed
 temperature-weighted component-potential difference,
 \(\overline{\mc M}_\xi^\alpha=(L_\xi^\alpha-L_\xi^N)/\theta_{\mc G}\).
 The component-rate balance is the conservation law
