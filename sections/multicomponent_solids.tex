@@ -649,6 +649,24 @@ For multicomponent solid phases,
 	\label{eq:MC_solid_legendre_relation}
 \end{equation}
 %
+The unresolved interface carries the corresponding caloric quantities per
+current fluid-subsystem volume.  Let \(u_\gamma\) denote its internal-energy
+density and let \(\mathfrak{s}_\gamma\) denote its entropy density.  Their
+Legendre relation is
+%
+\begin{equation}
+	u_\gamma
+	=
+	\gamma+\theta_{\mc F}\mathfrak{s}_\gamma .
+	\label{eq:MC_interfacial_legendre_relation}
+\end{equation}
+%
+Thus \(\phi u_\gamma\) and \(\phi\mathfrak{s}_\gamma\) are the corresponding
+internal-energy and entropy densities per current mixture volume.  They belong
+to the fluid thermal subsystem and follow the skeleton control volume.  The
+phase quantities \(e_f\) and \(\mathfrak{s}_f\) contain only the caloric storage
+assigned to phase \(f\).
+
 The free-energy rates are
 %
 \begin{align}
@@ -737,8 +755,9 @@ the Maxwell stress,
 	\label{eq:MC_fluid_total_reversible_stress}
 \end{equation}
 %
-The interfacial Helmholtz density \(\gamma\) is measured per current fluid
-volume and has the state set \eqref{eq:MC_interfacial_state_set}.  Temperature
+The interfacial Helmholtz density \(\gamma\), like \(u_\gamma\), is measured per
+current fluid-subsystem volume and has the state set
+\eqref{eq:MC_interfacial_state_set}.  Temperature
 dependence permits the stored capillary pressure to vary with fluid temperature, as in
 the nonisothermal porous-media formulation of Hassanizadeh and Gray
 \cite{hassanizadeh1993thermodynamic}.  The internal-variable construction makes
@@ -771,14 +790,18 @@ skeleton trajectory and using the interfacial potentials \(\gamma_f\) from
 	\label{eq:MC_interfacial_helmholtz_rate}
 \end{equation}
 %
-This term is a bulk storage rate in the fluid-subsystem energy balance.  The
+This term is the interfacial Helmholtz-storage rate obtained after the
+fluid-subsystem energy and entropy balances are combined through
+\eqref{eq:MC_interfacial_legendre_relation}.  The first and second laws
+separately carry \(D_{\mc S}(\phi u_\gamma)/Dt\) and
+\(D_{\mc S}(\phi\mathfrak{s}_\gamma)/Dt\).  The
 history rate records the change in interfacial storage as the pore-scale fluid
 arrangement changes; its dissipative restriction is derived below.  The density
 \(\phi\gamma\) represents unresolved interfaces; no sharp interface or
 interface velocity is introduced.  A
 sharp-interface theory would instead require separate surface balances of
 energy and entropy
-\cite{bothe2022sharp_interface}.
+\cite{dreyer2018bulk_surface_electrothermodynamics,bothe2022sharp_interface}.
 
 The material-source convention follows Drumheller's constituent balance and
 adopts local-equilibrium insertion: mass inserted into or removed from phase
@@ -867,6 +890,10 @@ in terms of the electric field so that both the energy balance and the
 nonisothermal transport force are independent of the arbitrary zero of
 \(\varphi\).  The uncoupled Fourier specialization adopted below neglects
 Dufour and other heat--component-transport cross effects.
+The source-carried phase energy and entropy exclude the interfacial quantities
+\(u_\gamma\) and \(\mathfrak{s}_\gamma\).  Conversion changes the interfacial
+storage through its induced saturation, capillary-history, and temperature
+rates.
 
 One energy balance is assigned to the fluid thermal subsystem and one to the
 solid thermal subsystem, following the constituent structure of Drumheller and
@@ -888,8 +915,8 @@ the subsystem balances are combined with the phase kinetic-energy balances.
 
 Electrical storage is written in the electric-enthalpy representation
 \cite{montanaro2015thermo_electroelasticity}.  Phase \(\xi\) contributes
-\(\phi_\xi\omega_\xi^+\), while the shared interfacial energy \(\phi\gamma\)
-appears only in the fluid-subsystem balance.  Expanding the electric-enthalpy
+\(\phi_\xi\omega_\xi^+\), while the shared interfacial internal energy
+\(\phi u_\gamma\) appears only in the fluid-subsystem balance.  Expanding the electric-enthalpy
 rate exposes material-state, Maxwell mechanical-power, and common
 electric-potential-rate contributions.  In particular,
 \(\mbf d_\xi=-\partial\omega_\xi^+/\partial\mbf E\) makes
@@ -999,22 +1026,10 @@ power, while the shared electric-potential-rate term is carried by
 		 & \qquad
 		+
 		\delta_{\mc G\mc F}
-		\left[
-		\sum_{f\in\mc F}
-		\gamma_f\phasedot\phi_f
-		+
-		\phi
-		\left.
-		\p{\gamma}{\mbf h}
-		\right\vert_{\{S_f\}_{f\in\mc F},\theta_{\mc F}}
-		\cdot\phasedot{\mbf h}
-		+
-		\phi
-		\left.
-		\p{\gamma}{\theta_{\mc F}}
-		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
-		\phasedot\theta_{\mc F}
-		\right]
+		\frac{D_{\mc S}}{Dt}
+		\left(
+		\phi u_\gamma
+		\right)
 		\\
 		 & =
 		\sum_{\xi\in\mc G}
@@ -1072,6 +1087,9 @@ balances obtained from momentum balance, and the global field-power identity
 the shared power \(\mbf d\cdot\nabla_{\mbf x}\phasedot\varphi\) and its source
 \(-\varrho\phasedot\varphi\) outside the thermal balances, so each subsystem
 balance uses only its own temperature.
+For \(\mc G=\mc F\), the final storage term on the left is the
+skeleton-following interfacial internal-energy rate.  The unresolved-interface
+specialization assigns it no separate interface-relative advective flux.
 The electrical transport term in \eqref{eq:MC_energy_balance} is the work of
 the electric field on component charge transported relative to phase
 \(\xi\).  It is not a potential-energy flux.  Both
@@ -1418,10 +1436,21 @@ of the mixture entropy flux of Bothe and Dreyer
 		\right]
 		-
 		\frac{\rho_\xi r_\xi}{\theta_{\mc G}}
-		\right].
+		\right]
+	\notag \\
+	&+
+	\frac{D_{\mc S}}{Dt}
+	\left(
+	\phi\mathfrak{s}_\gamma
+	\right).
 	\label{eq:MC_entropy_inequality}
 \end{align}
 %
+The last term is interfacial entropy storage on the skeleton trajectory.  It has
+no separate relative flux at the present averaging level; unresolved
+interfacial conduction is included in the fluid-subsystem nonadvective
+energy-flux sum \(\sum_{f\in\mc F}\mbf q_f\).
+
 The admissible rates in this inequality already satisfy the four constraints
 introduced in \sref{virtual_power_derivation}, the component charge balance
 \eqref{eq:component_charge_balance}, and the global
@@ -1553,6 +1582,9 @@ leaving the material stress \(\bs\sigma_\xi'\).  The result is
 		\left.
 		\p{\gamma}{\theta_{\mc F}}
 		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
+		\phasedot\theta_{\mc F}
+		+
+		\phi\mathfrak{s}_\gamma
 		\phasedot\theta_{\mc F}
 	\right]
 	\notag          \\
@@ -1921,9 +1953,13 @@ five blocks therefore form the single inequality
 	\right\vert_{\mc X_f,\mbf E}
 	-
 		\phi
+		\left(
+		\mathfrak{s}_\gamma
+		+
 		\left.
 		\p{\gamma}{\theta_{\mc F}}
 		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h}
+		\right)
 		\right]\phasedot\theta_{\mc F}
 	\notag                  \\
 	       & +
@@ -2557,47 +2593,49 @@ composition dependence of its stress-free maps,
 \end{empheq}
 %
 Finally, \(\phasedot\theta_{\mc F}\) and \(\phasedot\theta_{\mc S}\) are independent, so
-their coefficients define separate fluid- and solid-subsystem entropies.  The
-interfacial entropy belongs to the fluid subsystem because
-\(\gamma=\gamma(\{S_f\}_{f\in\mc F},\mbf h,\theta_{\mc F})\):
+their coefficients determine the total entropy of each thermal subsystem.  The
+phasewise caloric energies transported by phases with distinct velocities
+require an allocation within those totals.  A sufficient constitutive
+specialization assigns the temperature derivative of each phase energy to that
+phase and retains the interfacial entropy as separate fluid-subsystem storage:
 %
 \begin{subequations}
 	\label{eq:MC_entropy_definitions}
 	\begin{align}
-		\sum_{f\in\mc F}\rho_f\mathfrak{s}_f
+		\rho_f\mathfrak{s}_f
 		={} &
-		-
-		\sum_{f\in\mc F}\rho_f
+		-\rho_f
 		\left.
 		\p{\psi_f}{\theta_{\mc F}}
 		\right\vert_{\mc X_f}
-		-
-		\sum_{f\in\mc F}\phi_f
+		-\phi_f
 		\left.
 		\p{\omega^{+}_{f}}{\theta_{\mc F}}
-		\right\vert_{\mc X_f,\mbf E}
+		\right\vert_{\mc X_f,\mbf E},
+		\qquad
+		f\in\mc F,
+		\label{eq:MC_fluid_entropy_definition}
+		\\
+		\mathfrak{s}_\gamma
+		={} &
 		-
-		\phi
 		\left.
 		\p{\gamma}{\theta_{\mc F}}
 		\right\vert_{\{S_f\}_{f\in\mc F},\mbf h},
-		\label{eq:MC_fluid_entropy_definition}
+		\label{eq:MC_interfacial_entropy_definition}
 		\\
-		\sum_{s\in\mc S}\rho_s\mathfrak{s}_s
+		\rho_s\mathfrak{s}_s
 		={} &
-		-
-		\sum_{s\in\mc S}\rho_s
+		-\rho_s
 		\left.
 		\p{\psi_s}{\theta_{\mc S}}
 		\right\vert_{\mc X_s}
-		-
-		\sum_{s\in\mc S}\phi_s
+		-\phi_s
 		\left.
 		\p{\omega^{+}_{s}}{\theta_{\mc S}}
 		\right\vert_{\mc X_s,\mbf E}
 		\notag  \\
 		    & +
-		\sum_{s\in\mc S}
 		\operatorname{tr}\left[
 			(\mbf A_s^p)^{-1}
 			(\mbf A_s^e)^{-1}
@@ -2607,10 +2645,9 @@ interfacial entropy belongs to the fluid subsystem because
 			\p{\mbf A_s^0}{\theta_{\mc S}}
 			\right\vert_{\mc X_s}
 			(\mbf A_s^0)^{-1}
-			\right]
+		\right]
 		\notag  \\
 		    & +
-		\sum_{s\in\mc S}
 		\operatorname{tr}\left[
 		(\bar{\mbf F}_s^p)^{-1}
 		(\bar{\mbf F}_s^e)^{-1}
@@ -2623,11 +2660,20 @@ interfacial entropy belongs to the fluid subsystem because
 		\p{\bar{\mbf F}_s^0}{\theta_{\mc S}}
 		\right\vert_{\mc X_s}
 		(\bar{\mbf F}_s^0)^{-1}
-		\right].
+		\right],
+		\qquad
+		s\in\mc S.
 		\label{eq:MC_solid_entropy_definition}
 	\end{align}
 \end{subequations}
 %
+Summing \eqref{eq:MC_fluid_entropy_definition} over the mobile phases and
+adding \(\phi\) times \eqref{eq:MC_interfacial_entropy_definition} recovers
+the fluid-subsystem temperature coefficient.  Summing
+\eqref{eq:MC_solid_entropy_definition} recovers the solid-subsystem
+coefficient.  The phasewise relations are the caloric allocation used by the
+transport terms, while their subsystem sums are the Coleman--Noll
+restrictions.
 
 \subsection{Sources, residual dissipation, and closures}
 \label{sec:MC_residual_dissipation}
@@ -4312,6 +4358,9 @@ where
 \(\theta_{\mc F},\theta_{\mc S}>0\).  More general closures may couple
 \(\mbf q_\xi\) to the component-relative thermodynamic forces, provided the
 combined heat--transport Onsager block remains positive semidefinite.  The
+unresolved interfacial contribution is included in the fluid-subsystem sum
+\(\sum_{f\in\mc F}\mbf q_f\); no additional interfacial heat-flux field is
+introduced.  The
 uncoupled closure gives the entropy contribution
 %
 \begin{equation}
@@ -4793,8 +4842,10 @@ The factor \(1-\bar B_s\) is the fraction of a common volumetric perturbation
 carried by the true-solid specific volume of phase \(s\) at the current reacted
 state.  Its complement \(\bar B_s\) measures the distension response.  The
 factor \(a_s\) supplies the current allocation of skeleton volume to the phase,
-including packing and stress-free volume change.  Suppressing the distension
-split recovers the nonlinear Biot coefficient of \cite{foster2025}.  Substitution
+including packing and stress-free volume change.  In the nonreacting
+single-solid specialization, aggregation of the intrinsic phase coefficient
+with the solid volume fraction and use of \(a_s\phi_s=\phi_{s0}\) recover the
+nonlinear Biot coefficient of \cite{foster2025}.  Substitution
 into \eqref{eq:MC_phase_pk_legendre_split} gives the intrinsic Piola-stress
 split,
 %
@@ -5239,8 +5290,8 @@ The term proportional to
 \(\partial\gamma/\partial\theta_{\mc F}\)
 is the interfacial Gibbs--Duhem thermal contribution generated by the bulk
 free-energy aggregation.  Indeed,
-\(-\partial\gamma/\partial\theta_{\mc F}\)
-is the interfacial entropy per current fluid volume, so the sign agrees with
+\(\mathfrak{s}_\gamma=-\partial\gamma/\partial\theta_{\mc F}\)
+is the interfacial entropy per current fluid-subsystem volume, so the sign agrees with
 the bulk Gibbs--Duhem identity
 \cite[eq.~(59)]{bothe2015continuum}.  The contribution is therefore a bulk
 thermocapillary analogue of the sharp-interface Marangoni traction.  In the
@@ -6179,6 +6230,12 @@ with the interaction forces and must satisfy
 \eqref{eq:MC_interaction_energy_conservation} and
 \eqref{eq:MC_mechanical_interaction_admissibility}; they are therefore not
 counted as an independent field family.
+The phase entropies and internal energies and the interfacial quantities
+\(\mathfrak{s}_\gamma\) and \(u_\gamma\) are algebraically evaluated from
+\eqref{eq:MC_fluid_legendre_relation}--%
+\eqref{eq:MC_interfacial_legendre_relation} and
+\eqref{eq:MC_entropy_definitions}.  They introduce no additional primary
+fields or evolution equations.
 Let \(P_{\mc F}=|\mc F|\), \(P_{\mc S}=|\mc S|\), and
 \(P=P_{\mc F}+P_{\mc S}\).  Let \(N^{\mc F}\) be the number of tracked
 components in each fluid phase and \(N^{\mc S}\) the number of tracked
