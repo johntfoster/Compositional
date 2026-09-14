@@ -3,7 +3,7 @@ set -euo pipefail
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 repo_root="$(git -C "${script_dir}" rev-parse --show-toplevel)"
-helper="${repo_root}/agent_environment/skills/setup-moose-conda/scripts/moose_conda_env.sh"
+helper="${repo_root}/.agent/shared/skills/setup-moose-conda/scripts/moose_conda_env.sh"
 
 cd "${repo_root}"
 exec "${helper}" run -- bash -c \

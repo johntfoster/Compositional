@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import datetime as dt
 import shutil
 import subprocess
 import tempfile
@@ -122,7 +123,10 @@ class DisclosureTest(unittest.TestCase):
     def test_hook_commit_is_immediately_current(self) -> None:
         self.git("config", "core.hooksPath", ".githooks")
         (self.root / "README.md").write_text("hooked commit\n", encoding="utf-8")
-        self.commit("2026-08-18T12:00:00+00:00", "hooked")
+        today = dt.datetime.now().astimezone().replace(
+            hour=12, minute=0, second=0, microsecond=0
+        )
+        self.commit(today.isoformat(), "hooked")
         self.run_script("--check")
 
 

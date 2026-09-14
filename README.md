@@ -45,7 +45,7 @@ checks live in `agent_workflows/`.
 ## Portable agent setup
 
 `AGENTS.md` is the universal repository entry point. Canonical, harness-neutral
-skills live under `agent_environment/skills/`; no user-level skill installation
+shared skills live under `.agent/shared/skills/`; no user-level skill installation
 is assumed. On a fresh clone, inspect the route for a request and activate only
 the matching skills:
 

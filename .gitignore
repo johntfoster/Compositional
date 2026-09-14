@@ -1,4 +1,11 @@
 # Local/generated workflow state
+.agent-runtime/
+.codex/skills/
+.codex/verified-input-blocks/
+.claude/skills/
+.github/skills/
+.opencode/skills/
+.openclaw/
 .codex-research/
 .latex-edit-pi/
 .mechpi/
@@ -33,6 +40,16 @@ indent.log
 .libs/
 .jitcache/
 tmp_jit_*
+moose_app/lib/
+moose_app/test/lib/
+moose_app/*-opt
+moose_app/*-dbg
+moose_app/*-devel
+moose_app/*-oprof
+moose_app/.previous_test_results.json
+moose_app/jacobian_fresh.txt
+/include/
+/share/
 
 # Python bytecode caches
 __pycache__/

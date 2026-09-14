@@ -1,10 +1,22 @@
 # AGENTS.md
 
+## Shared workflow dependency
+
+- This repository is the primary context. Read
+  `.agent/shared/AGENTS.shared.md`; local theory, implementation, and validation
+  rules in this file override shared workflow defaults.
+- The reusable core is pinned as the `.agent/shared` Git submodule. Route work
+  with `tools/agentctl route "<task>"`. Shared skills are canonical under
+  `.agent/shared/skills/`; compositional and verified-deck skills remain under
+  `agent_local/skills/`.
+- Do not inspect sibling paper repositories unless John explicitly requests it
+  or `research-dependencies.yml` declares the exact pinned source needed.
+
 ## Portable agent environment
 
 - Treat this file as the sole universal agent entry point. Do not duplicate its
   rules in harness-specific instruction files.
-- Canonical skills live under `agent_environment/skills/`. At the first
+- Canonical shared skills live under `.agent/shared/skills/`. At the first
   relevant query, use `tools/agentctl route "<query>"` to select the smallest
   applicable skill and dependency profile. Use `tools/agentctl activate` only
   when the active harness requires installed skill copies, and pass
@@ -108,7 +120,7 @@
 ## MOOSE implementation track
 
 - Before building or running `moose_app/`, use the repository-local
-  `setup-moose-conda` skill at `agent_environment/skills/setup-moose-conda/SKILL.md`. Run
+  `setup-moose-conda` skill at `.agent/shared/skills/setup-moose-conda/SKILL.md`. Run
   its non-destructive diagnostic first; it documents the verified `moose`
   Conda environment, repository-local `.agent-runtime/moose` checkout link,
   explicit `conda run` invocation, conservative build command, and MPI sandbox
