@@ -2,6 +2,10 @@
 
 ## Shared workflow dependency
 
+- This is the default base repository for the reactive-transport research
+  program. When John requests reactive-transport work without naming a more
+  specific paper, begin here and keep sibling-paper context secondary unless
+  he requests it or `research-dependencies.yml` pins it.
 - This repository is the primary context. Read
   `.agent/shared/AGENTS.shared.md`; local theory, implementation, and validation
   rules in this file override shared workflow defaults.
