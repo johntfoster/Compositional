@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 200" width="512" height="200">
+  <defs>
+    <linearGradient id="s1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EDC9A0"/>
+      <stop offset="100%" stop-color="#D4A06A"/>
+    </linearGradient>
+    <linearGradient id="s2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4945C"/>
+      <stop offset="100%" stop-color="#B87340"/>
+    </linearGradient>
+    <linearGradient id="s3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B85C1A"/>
+      <stop offset="100%" stop-color="#8B3A0A"/>
+    </linearGradient>
+    <linearGradient id="s4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E2C08"/>
+      <stop offset="100%" stop-color="#3A1502"/>
+    </linearGradient>
+    <linearGradient id="s5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8B880"/>
+      <stop offset="100%" stop-color="#C89460"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Strata layers -->
+  <rect x="0" y="0" width="512" height="36" fill="url(#s1)"/>
+  <rect x="0" y="36" width="512" height="30" fill="url(#s5)"/>
+  <rect x="0" y="66" width="512" height="26" fill="url(#s2)"/>
+  <rect x="0" y="92" width="512" height="22" fill="url(#s3)"/>
+  <rect x="0" y="114" width="512" height="18" fill="url(#s4)"/>
+
+  <!-- Thin bedding planes between strata -->
+  <line x1="0" y1="36" x2="512" y2="36" stroke="#A06030" stroke-width="0.8" opacity="0.5"/>
+  <line x1="0" y1="66" x2="512" y2="66" stroke="#A06030" stroke-width="0.8" opacity="0.5"/>
+  <line x1="0" y1="92" x2="512" y2="92" stroke="#A06030" stroke-width="0.8" opacity="0.5"/>
+  <line x1="0" y1="114" x2="512" y2="114" stroke="#A06030" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- Subtle fracture/joint in strata -->
+  <line x1="256" y1="30" x2="248" y2="130" stroke="#3A1502" stroke-width="1" opacity="0.2"/>
+
+  <!-- Computational grid motif embedded in middle strata -->
+  <g stroke="#FFFFFF" stroke-width="0.6" fill="none" opacity="0.2">
+    <line x1="420" y1="70" x2="460" y2="70"/>
+    <line x1="420" y1="78" x2="460" y2="78"/>
+    <line x1="420" y1="70" x2="420" y2="78"/>
+    <line x1="440" y1="70" x2="440" y2="78"/>
+    <line x1="460" y1="70" x2="460" y2="78"/>
+
+    <line x1="420" y1="72" x2="430" y2="72"/>
+    <line x1="440" y1="72" x2="450" y2="72"/>
+    <line x1="430" y1="70" x2="430" y2="78"/>
+    <line x1="450" y1="70" x2="450" y2="78"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="256" y="162" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="48" font-weight="700" letter-spacing="20" fill="#3A1502">FENNEC</text>
+
+  <!-- Decorative rule -->
+  <line x1="120" y1="178" x2="392" y2="178" stroke="#8B3A0A" stroke-width="1.5" opacity="0.5"/>
+</svg>

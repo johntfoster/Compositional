@@ -932,6 +932,8 @@ maps:
         - "ADHydrostaticBarotropicSkeletonStressMaterial"
         - "ADVolumetricBarotropicSkeletonStressMaterial"
         - "ADReferenceSolidStressMaterial"
+        - "ADBiotPressureStorageMaterial"
+        - "ADBiotDarcyReferenceFluxMaterial"
       userobjects: []
       boundary_conditions:
         - "ADReferenceSolidTractionBC"
@@ -943,6 +945,7 @@ maps:
       - "the first regression set is quasi-static and omits inertial terms"
       - "current-volume source forces supplied to the kernel are multiplied by J; manufactured reference-volume force terms may be supplied directly"
       - "automatic reconstruction of thermocapillary and conversion-insertion source forces remains follow-up work"
+      - "the water-filled Mandel specialization uses continuous Q1 pressure because the benchmark does not require an enriched pressure field; Q2 displacement and the implicit constitutive states retain their AD couplings"
     tests:
       - "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_1d_traction.i"
       - "moose_app/test/tests/reference_solid_mechanics/reference_solid_momentum_2d_patch.i"
@@ -951,6 +954,8 @@ maps:
       - "moose_app/test/tests/nonlinear_biot_coefficient/constrained_biot_tangent_1d.i"
       - "moose_app/test/tests/nonlinear_biot_coefficient/barotropic_double_prime_transform_3d.i"
       - "moose_app/test/tests/nonlinear_biot_coefficient/volumetric_barotropic_transform_3d.i"
+      - "moose_app/test/tests/mandel_implicit_biot/mandel_water_q2_q1.i"
+      - "validation/scripts/check_mandel_implicit_biot.py"
 
   - id: reactions_and_sources
     status: implemented_reaction_tau_material_slice

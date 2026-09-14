@@ -9,6 +9,10 @@ readonly DEFAULT_MOOSE_PATH=".agent-runtime/moose"
 readonly INL_CHANNEL="https://conda.software.inl.gov/public"
 readonly MOOSE_URL="https://github.com/idaholab/moose.git"
 readonly MOOSE_COMMIT="abafb58b67a6037c6723ffeb19647c84484466da"
+readonly MOOSE_DEV_VERSION="2026.02.20"
+readonly MOOSE_LIBMESH_VERSION="2026.02.18_f8a1758"
+readonly MOOSE_TOOLS_VERSION="2026.02.16"
+readonly PANDAS_VERSION="3.0.1"
 
 env_name="${MOOSE_CONDA_ENV:-${DEFAULT_ENV_NAME}}"
 moose_path="${MOOSE_FRAMEWORK_PATH:-${DEFAULT_MOOSE_PATH}}"
@@ -45,6 +49,10 @@ select_conda() {
     conda_command="$(command -v conda)"
   elif [[ -x "${local_conda}" ]]; then
     conda_command="${local_conda}"
+  elif [[ -x "${HOME}/miniconda3/bin/conda" ]]; then
+    conda_command="${HOME}/miniconda3/bin/conda"
+  elif [[ -x "${HOME}/miniforge3/bin/conda" ]]; then
+    conda_command="${HOME}/miniforge3/bin/conda"
   else
     return 1
   fi
@@ -163,11 +171,13 @@ setup_environment() {
   if environment_exists; then
     "${conda_command}" install --yes --name "${env_name}" \
       --channel conda-forge --channel "${INL_CHANNEL}" \
-      moose-libmesh moose-tools moose-dev pandas
+      "moose-libmesh=${MOOSE_LIBMESH_VERSION}" "moose-tools=${MOOSE_TOOLS_VERSION}" \
+      "moose-dev=${MOOSE_DEV_VERSION}" "pandas=${PANDAS_VERSION}"
   else
     "${conda_command}" create --yes --name "${env_name}" \
       --channel conda-forge --channel "${INL_CHANNEL}" \
-      moose-libmesh moose-tools moose-dev pandas
+      "moose-libmesh=${MOOSE_LIBMESH_VERSION}" "moose-tools=${MOOSE_TOOLS_VERSION}" \
+      "moose-dev=${MOOSE_DEV_VERSION}" "pandas=${PANDAS_VERSION}"
   fi
   status
 }
@@ -179,9 +189,9 @@ verify() {
     test -n "${CONDA_PREFIX:-}"
     test -n "${LIBMESH_DIR:-}"
     command -v mpicxx >/dev/null
-    command -v libmesh-config >/dev/null
+    test -x "${LIBMESH_DIR}/bin/libmesh-config"
     mpicxx --version >/dev/null
-    printf "LIBMESH_VERSION %s\n" "$(libmesh-config --version)"
+    printf "LIBMESH_VERSION %s\n" "$("${LIBMESH_DIR}/bin/libmesh-config" --version)"
     python -c "import pandas; print(\"PANDAS_VERSION\", pandas.__version__)"
   '
   printf 'VERIFIED conda activation, MPI compiler, libMesh, pandas, and framework checkout\n'

@@ -13,9 +13,10 @@ ADConstrainedSkeletonBiotMaterial::validParams()
   InputParameters params = Material::validParams();
   params.addClassDescription(
       "Computes the production nonlinear Biot coefficient from local implicit constraints "
-      "R(y,J_s,p_E,T,z)=0. The material solves y_J|p_E = -R_y^{-1} R_J at each quadrature "
-      "point, forms vbar_s = J_s phi_s / sum(J_s rho_a^alpha), and returns "
-      "B = 1 - vbar_s,J / v_s0 with AD state dependence preserved.");
+      "at each quadrature point. The material solves the implicit state derivative, forms "
+      "the intrinsic skeleton density from the solid volume fraction and referential "
+      "component masses, and returns the fixed-pressure coefficient with AD state dependence "
+      "preserved.");
   params.addRequiredParam<std::vector<MaterialPropertyName>>(
       "constraint_residual_names", "Square local constraint residual vector R_i.");
   params.addRequiredParam<std::vector<std::string>>(
@@ -58,9 +59,9 @@ ADConstrainedSkeletonBiotMaterial::validParams()
   params.addParam<bool>(
       "reference_accumulations_held_fixed",
       true,
-      "If false, include derivatives of the referential accumulations J_s rho_a^alpha in "
-      "vbar_s,J. If true, fixed reaction-state/component accumulations are held fixed for "
-      "the declared tangent.");
+      "If false, include derivatives of the referential component masses in the constrained "
+      "mineral-state derivative. If true, fixed reaction-state/component masses are held "
+      "fixed for the declared tangent.");
   params.addParam<std::vector<MaterialPropertyName>>(
       "component_reference_accumulation_jacobian_derivative_names",
       {},
@@ -84,18 +85,18 @@ ADConstrainedSkeletonBiotMaterial::validParams()
   params.addParam<MaterialPropertyName>(
       "intrinsic_specific_volume_name",
       "solid_intrinsic_specific_volume",
-      "Output intrinsic skeleton specific volume vbar_s = J_s phi_s / "
-      "sum(J_s rho_a^alpha).");
+      "Output intrinsic skeleton specific volume computed from the solid volume fraction "
+      "and referential component masses.");
   params.addParam<MaterialPropertyName>(
       "intrinsic_specific_volume_jacobian_tangent_name",
       "solid_intrinsic_specific_volume_jacobian_tangent",
-      "Output constrained fixed-p_E tangent vbar_s,J.");
+      "Output constrained fixed-pressure tangent of the intrinsic skeleton specific volume.");
   params.addParam<MaterialPropertyName>(
       "biot_coefficient_name", "solid_biot_coefficient", "Output AD Biot coefficient.");
   params.addParam<MaterialPropertyName>(
       "intrinsic_skeleton_density_name",
       "solid_intrinsic_skeleton_density",
-      "Output intrinsic skeleton density rhobar_s = 1 / vbar_s.");
+      "Output intrinsic skeleton density.");
   params.addParam<MaterialPropertyName>(
       "constraint_norm_name",
       "solid_biot_constraint_norm",

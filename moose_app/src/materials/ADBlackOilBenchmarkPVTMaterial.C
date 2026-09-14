@@ -37,6 +37,10 @@ ADBlackOilBenchmarkPVTMaterial::validParams()
       "oil_pressure_name is used with compute_storage_rates=true.");
   params.addRequiredCoupledVar(
       "solution_gas_oil_ratio", "Dissolved stock-tank gas to stock-tank oil ratio R_s.");
+  params.addCoupledVar(
+      "solution_gas_oil_ratio_enrichment",
+      "Optional elementwise enrichment added to solution_gas_oil_ratio before evaluating PVT "
+      "properties and the DRSDT phase-appearance constraint.");
   params.addRangeCheckedParam<Real>(
       "solution_gas_positive_regularization", 1e-12,
       "solution_gas_positive_regularization>0",
@@ -118,6 +122,14 @@ ADBlackOilBenchmarkPVTMaterial::validParams()
       "AD material property containing the reconstructed total gas-saturation time derivative "
       "when gas_saturation_name is used with compute_storage_rates=true.");
   params.addParam<MaterialPropertyName>(
+      "water_saturation_storage_name", "", "Optional identity-reconstructed water saturation for storage rows.");
+  params.addParam<MaterialPropertyName>(
+      "water_saturation_storage_rate_name", "", "Time rate paired with water_saturation_storage_name.");
+  params.addParam<MaterialPropertyName>(
+      "gas_saturation_storage_name", "", "Optional identity-reconstructed gas saturation for storage rows.");
+  params.addParam<MaterialPropertyName>(
+      "gas_saturation_storage_rate_name", "", "Time rate paired with gas_saturation_storage_name.");
+  params.addParam<MaterialPropertyName>(
       "gas_appearance_complementarity_saturation_name",
       "",
       "Optional raw (identity-transformed) reconstructed gas saturation used only by the "
@@ -165,6 +177,10 @@ ADBlackOilBenchmarkPVTMaterial::validParams()
       "phase-appearance residual switches between the smooth DRSDT-capped stability gap on the "
       "active branch and the rate value itself on the inactive branch (r -> 0 where no phase "
       "transformation occurs).  When empty the equilibrium residual is not populated.");
+  params.addCoupledVar(
+      "gas_phase_transformation_rate_enrichment",
+      "Optional P0 enrichment added to gas_phase_transformation_rate when the phase-transfer "
+      "multiplier uses enriched Galerkin discretization.");
 
   params.addRequiredParam<Real>("water_reference_pressure", "PVTW reference pressure.");
   params.addRequiredRangeCheckedParam<Real>(
@@ -283,6 +299,14 @@ ADBlackOilBenchmarkPVTMaterial::ADBlackOilBenchmarkPVTMaterial(
     _solution_gas_oil_ratio_state_dot(getParam<bool>("compute_storage_rates")
                                           ? &adCoupledDot("solution_gas_oil_ratio")
                                           : nullptr),
+    _solution_gas_oil_ratio_enrichment_state(
+        isCoupled("solution_gas_oil_ratio_enrichment")
+            ? &adCoupledValue("solution_gas_oil_ratio_enrichment")
+            : nullptr),
+    _solution_gas_oil_ratio_enrichment_state_dot(
+        getParam<bool>("compute_storage_rates") && isCoupled("solution_gas_oil_ratio_enrichment")
+            ? &adCoupledDot("solution_gas_oil_ratio_enrichment")
+            : nullptr),
     _solution_gas_positive_regularization(getParam<Real>("solution_gas_positive_regularization")),
     _complementarity_positive_regularization(
         getParam<Real>("complementarity_positive_regularization")),
@@ -291,6 +315,10 @@ ADBlackOilBenchmarkPVTMaterial::ADBlackOilBenchmarkPVTMaterial(
     _complementarity_negative_saturation_penalty(
         getParam<Real>("complementarity_negative_saturation_penalty")),
     _solution_gas_oil_ratio_functor(getFunctor<ADReal>("solution_gas_oil_ratio")),
+    _solution_gas_oil_ratio_enrichment_functor(
+        isCoupled("solution_gas_oil_ratio_enrichment")
+            ? &getFunctor<ADReal>("solution_gas_oil_ratio_enrichment")
+            : nullptr),
     _porosity(isCoupled("porosity") ? &adCoupledValue("porosity") : nullptr),
     _porosity_property(getParam<MaterialPropertyName>("porosity_name").empty()
                            ? nullptr
@@ -329,9 +357,31 @@ ADBlackOilBenchmarkPVTMaterial::ADBlackOilBenchmarkPVTMaterial(
                 !getParam<MaterialPropertyName>("gas_saturation_rate_name").empty()
             ? &getADMaterialProperty<Real>("gas_saturation_rate_name")
             : nullptr),
+    _water_saturation_storage_property(
+        getParam<MaterialPropertyName>("water_saturation_storage_name").empty()
+            ? nullptr
+            : &getADMaterialProperty<Real>("water_saturation_storage_name")),
+    _water_saturation_storage_property_dot(
+        getParam<bool>("compute_storage_rates") &&
+                !getParam<MaterialPropertyName>("water_saturation_storage_rate_name").empty()
+            ? &getADMaterialProperty<Real>("water_saturation_storage_rate_name")
+            : nullptr),
+    _gas_saturation_storage_property(
+        getParam<MaterialPropertyName>("gas_saturation_storage_name").empty()
+            ? nullptr
+            : &getADMaterialProperty<Real>("gas_saturation_storage_name")),
+    _gas_saturation_storage_property_dot(
+        getParam<bool>("compute_storage_rates") &&
+                !getParam<MaterialPropertyName>("gas_saturation_storage_rate_name").empty()
+            ? &getADMaterialProperty<Real>("gas_saturation_storage_rate_name")
+            : nullptr),
     _gas_phase_transformation_rate(
         isCoupled("gas_phase_transformation_rate")
             ? &adCoupledValue("gas_phase_transformation_rate")
+            : nullptr),
+    _gas_phase_transformation_rate_enrichment(
+        isCoupled("gas_phase_transformation_rate_enrichment")
+            ? &adCoupledValue("gas_phase_transformation_rate_enrichment")
             : nullptr),
     _gas_appearance_complementarity_saturation(
         getParam<MaterialPropertyName>("gas_appearance_complementarity_saturation_name").empty()
@@ -677,9 +727,15 @@ ADBlackOilBenchmarkPVTMaterial::attainableSolutionGasOilRatio() const
                     "PVTO bubble pressure");
   const Real history_limited =
       _enforce_nonincreasing_solution_gas
-          ? std::min(MetaPhysicL::raw_value(_solution_gas_oil_ratio_functor(
-                         makeElemArg(_current_elem),
-                         Moose::StateArg(1, Moose::SolutionIterationType::Time))),
+          ? std::min(MetaPhysicL::raw_value(
+                         _solution_gas_oil_ratio_functor(
+                             makeElemArg(_current_elem),
+                             Moose::StateArg(1, Moose::SolutionIterationType::Time)) +
+                         (_solution_gas_oil_ratio_enrichment_functor
+                              ? (*_solution_gas_oil_ratio_enrichment_functor)(
+                                    makeElemArg(_current_elem),
+                                    Moose::StateArg(1, Moose::SolutionIterationType::Time))
+                              : ADReal(0.0))),
                      _maximum_solution_gas_oil_ratio)
           : _maximum_solution_gas_oil_ratio;
   const ADReal saturation_minus_cap = saturated - history_limited;
@@ -714,9 +770,15 @@ ADBlackOilBenchmarkPVTMaterial::attainableSolutionGasOilRatioDot() const
                     "PVTO bubble pressure");
   const Real history_limited =
       _enforce_nonincreasing_solution_gas
-          ? std::min(MetaPhysicL::raw_value(_solution_gas_oil_ratio_functor(
-                         makeElemArg(_current_elem),
-                         Moose::StateArg(1, Moose::SolutionIterationType::Time))),
+          ? std::min(MetaPhysicL::raw_value(
+                         _solution_gas_oil_ratio_functor(
+                             makeElemArg(_current_elem),
+                             Moose::StateArg(1, Moose::SolutionIterationType::Time)) +
+                         (_solution_gas_oil_ratio_enrichment_functor
+                              ? (*_solution_gas_oil_ratio_enrichment_functor)(
+                                    makeElemArg(_current_elem),
+                                    Moose::StateArg(1, Moose::SolutionIterationType::Time))
+                              : ADReal(0.0))),
                      _maximum_solution_gas_oil_ratio)
           : _maximum_solution_gas_oil_ratio;
   const Real saturated_slope =
@@ -741,7 +803,10 @@ ADBlackOilBenchmarkPVTMaterial::solutionGasOilRatio() const
   if (_equilibrate_solution_gas_oil_ratio)
     return attainableSolutionGasOilRatio();
 
-  const ADReal raw = _solution_gas_oil_ratio_state[_qp];
+  const ADReal raw = _solution_gas_oil_ratio_state[_qp] +
+                     (_solution_gas_oil_ratio_enrichment_state
+                          ? (*_solution_gas_oil_ratio_enrichment_state)[_qp]
+                          : ADReal(0.0));
   if (MetaPhysicL::raw_value(raw) >= 0.0)
     return raw;
 
@@ -761,8 +826,14 @@ ADBlackOilBenchmarkPVTMaterial::solutionGasOilRatioDot() const
   if (_equilibrate_solution_gas_oil_ratio)
     return attainableSolutionGasOilRatioDot();
 
-  const ADReal raw = _solution_gas_oil_ratio_state[_qp];
-  const ADReal raw_dot = (*_solution_gas_oil_ratio_state_dot)[_qp];
+  const ADReal raw = _solution_gas_oil_ratio_state[_qp] +
+                     (_solution_gas_oil_ratio_enrichment_state
+                          ? (*_solution_gas_oil_ratio_enrichment_state)[_qp]
+                          : ADReal(0.0));
+  const ADReal raw_dot = (*_solution_gas_oil_ratio_state_dot)[_qp] +
+                         (_solution_gas_oil_ratio_enrichment_state_dot
+                              ? (*_solution_gas_oil_ratio_enrichment_state_dot)[_qp]
+                              : ADReal(0.0));
   if (MetaPhysicL::raw_value(raw) >= 0.0)
     return raw_dot;
 
@@ -821,6 +892,34 @@ ADBlackOilBenchmarkPVTMaterial::gasSaturationDot() const
 {
   return _gas_saturation_dot ? (*_gas_saturation_dot)[_qp]
                              : (*_gas_saturation_property_dot)[_qp];
+}
+
+ADReal
+ADBlackOilBenchmarkPVTMaterial::storageWaterSaturation() const
+{
+  return _water_saturation_storage_property ? (*_water_saturation_storage_property)[_qp]
+                                            : waterSaturation();
+}
+
+ADReal
+ADBlackOilBenchmarkPVTMaterial::storageWaterSaturationDot() const
+{
+  return _water_saturation_storage_property_dot ? (*_water_saturation_storage_property_dot)[_qp]
+                                                : waterSaturationDot();
+}
+
+ADReal
+ADBlackOilBenchmarkPVTMaterial::storageGasSaturation() const
+{
+  return _gas_saturation_storage_property ? (*_gas_saturation_storage_property)[_qp]
+                                          : gasSaturation();
+}
+
+ADReal
+ADBlackOilBenchmarkPVTMaterial::storageGasSaturationDot() const
+{
+  return _gas_saturation_storage_property_dot ? (*_gas_saturation_storage_property_dot)[_qp]
+                                              : gasSaturationDot();
 }
 
 ADReal
@@ -1070,9 +1169,15 @@ ADBlackOilBenchmarkPVTMaterial::computeQpProperties()
                                                           "PVTO bubble pressure");
   const Real history_limited_solution_gas_oil_ratio =
       _enforce_nonincreasing_solution_gas
-          ? std::min(MetaPhysicL::raw_value(_solution_gas_oil_ratio_functor(
-                         makeElemArg(_current_elem),
-                         Moose::StateArg(1, Moose::SolutionIterationType::Time))),
+          ? std::min(MetaPhysicL::raw_value(
+                         _solution_gas_oil_ratio_functor(
+                             makeElemArg(_current_elem),
+                             Moose::StateArg(1, Moose::SolutionIterationType::Time)) +
+                         (_solution_gas_oil_ratio_enrichment_functor
+                              ? (*_solution_gas_oil_ratio_enrichment_functor)(
+                                    makeElemArg(_current_elem),
+                                    Moose::StateArg(1, Moose::SolutionIterationType::Time))
+                              : ADReal(0.0))),
                      _maximum_solution_gas_oil_ratio)
           : _maximum_solution_gas_oil_ratio;
   const bool saturation_curve_below_cap =
@@ -1211,8 +1316,12 @@ ADBlackOilBenchmarkPVTMaterial::computeQpProperties()
           MetaPhysicL::raw_value(lagged_saturated_rs) <= history_limited_solution_gas_oil_ratio
               ? lagged_saturated_rs
               : ADReal(history_limited_solution_gas_oil_ratio);
-      const ADReal lagged_rs = _solution_gas_oil_ratio_functor(
-          makeElemArg(_current_elem), Moose::previousFixedPointState());
+      const ADReal lagged_rs =
+          _solution_gas_oil_ratio_functor(makeElemArg(_current_elem), Moose::previousFixedPointState()) +
+          (_solution_gas_oil_ratio_enrichment_functor
+               ? (*_solution_gas_oil_ratio_enrichment_functor)(
+                     makeElemArg(_current_elem), Moose::previousFixedPointState())
+               : ADReal(0.0));
       frozen_capped_undersaturation_gap = lagged_attainable_rs - lagged_rs;
     }
     const bool forced_active_flag =
@@ -1263,15 +1372,20 @@ ADBlackOilBenchmarkPVTMaterial::computeQpProperties()
   // balance.
   if (_gas_phase_transformation_rate)
   {
+    const ADReal gas_phase_transformation_rate =
+        (*_gas_phase_transformation_rate)[_qp] +
+        (_gas_phase_transformation_rate_enrichment
+             ? (*_gas_phase_transformation_rate_enrichment)[_qp]
+             : 0.0);
     if (freeze_active_set_flag)
       _gas_appearance_equilibrium_residual[_qp] =
           gas_active_flag ? raw_undersaturation_gap
-                          : (*_gas_phase_transformation_rate)[_qp];
+                          : gas_phase_transformation_rate;
     else if (MetaPhysicL::raw_value(raw_complementarity_saturation) > _gas_active_tol ||
              MetaPhysicL::raw_value(raw_undersaturation_gap) < _gas_active_tol)
       _gas_appearance_equilibrium_residual[_qp] = raw_undersaturation_gap;
     else
-      _gas_appearance_equilibrium_residual[_qp] = (*_gas_phase_transformation_rate)[_qp];
+      _gas_appearance_equilibrium_residual[_qp] = gas_phase_transformation_rate;
   }
   else
     _gas_appearance_equilibrium_residual[_qp] = 0.0;
@@ -1352,19 +1466,24 @@ ADBlackOilBenchmarkPVTMaterial::computeQpProperties()
       _gas_surface_density * solutionGasOilRatio() / oil_phase_surface_mass;
   _gas_component_mass_fraction_in_gas[_qp] = 1.0;
 
+  const ADReal storage_water_saturation = storageWaterSaturation();
+  const ADReal storage_gas_saturation = storageGasSaturation();
+  const ADReal storage_oil_saturation =
+      1.0 - storage_water_saturation - storage_gas_saturation;
+
   _water_reference_component_storage[_qp] = _J[_qp] * _water_surface_density * porosity *
-                                             water_saturation / _water_fvf[_qp];
+                                             storage_water_saturation / _water_fvf[_qp];
   _oil_reference_component_storage[_qp] = _J[_qp] * _oil_surface_density * porosity *
-                                           _oil_saturation[_qp] / _oil_fvf[_qp];
+                                           storage_oil_saturation / _oil_fvf[_qp];
   _gas_reference_component_storage[_qp] =
       _J[_qp] * _gas_surface_density * porosity *
-      (gas_saturation / _gas_fvf[_qp] +
-       solutionGasOilRatio() * _oil_saturation[_qp] / _oil_fvf[_qp]);
+      (storage_gas_saturation / _gas_fvf[_qp] +
+       solutionGasOilRatio() * storage_oil_saturation / _oil_fvf[_qp]);
   _free_gas_reference_component_storage[_qp] =
-      _J[_qp] * _gas_surface_density * porosity * gas_saturation / _gas_fvf[_qp];
+      _J[_qp] * _gas_surface_density * porosity * storage_gas_saturation / _gas_fvf[_qp];
   _dissolved_gas_reference_component_storage[_qp] =
       _J[_qp] * _gas_surface_density * porosity * solutionGasOilRatio() *
-      _oil_saturation[_qp] / _oil_fvf[_qp];
+      storage_oil_saturation / _oil_fvf[_qp];
   _water_reference_phase_mass_coefficient[_qp] =
       _J[_qp] * _water_surface_density * porosity / _water_fvf[_qp];
   _free_gas_reference_phase_mass_coefficient[_qp] =
@@ -1438,23 +1557,23 @@ ADBlackOilBenchmarkPVTMaterial::computeQpProperties()
     oil_fvf_dot = -inverse_oil_fvf_dot / (inverse_oil_fvf * inverse_oil_fvf);
   }
 
-  const ADReal gas_saturation_dot = gasSaturationDot();
-  const ADReal water_saturation_dot = waterSaturationDot();
+  const ADReal gas_saturation_dot = storageGasSaturationDot();
+  const ADReal water_saturation_dot = storageWaterSaturationDot();
   const ADReal oil_saturation_dot = -water_saturation_dot - gas_saturation_dot;
-  const ADReal water_storage_factor = water_saturation / _water_fvf[_qp];
+  const ADReal water_storage_factor = storage_water_saturation / _water_fvf[_qp];
   const ADReal water_storage_factor_dot =
       water_saturation_dot / _water_fvf[_qp] -
-      water_saturation * water_fvf_dot / (_water_fvf[_qp] * _water_fvf[_qp]);
+      storage_water_saturation * water_fvf_dot / (_water_fvf[_qp] * _water_fvf[_qp]);
   _water_reference_component_storage_rate[_qp] =
       _water_surface_density *
       ((*_J_dot)[_qp] * porosity * water_storage_factor +
        _J[_qp] * porosity_dot * water_storage_factor +
        _J[_qp] * porosity * water_storage_factor_dot);
 
-  const ADReal oil_storage_factor = _oil_saturation[_qp] / _oil_fvf[_qp];
+  const ADReal oil_storage_factor = storage_oil_saturation / _oil_fvf[_qp];
   const ADReal oil_storage_factor_dot =
       oil_saturation_dot / _oil_fvf[_qp] -
-      _oil_saturation[_qp] * oil_fvf_dot / (_oil_fvf[_qp] * _oil_fvf[_qp]);
+      storage_oil_saturation * oil_fvf_dot / (_oil_fvf[_qp] * _oil_fvf[_qp]);
   _oil_reference_component_storage_rate[_qp] =
       _oil_surface_density *
       ((*_J_dot)[_qp] * porosity * oil_storage_factor +
@@ -1462,14 +1581,14 @@ ADBlackOilBenchmarkPVTMaterial::computeQpProperties()
        _J[_qp] * porosity * oil_storage_factor_dot);
 
   const ADReal gas_storage_factor =
-      gas_saturation / _gas_fvf[_qp] +
-      solutionGasOilRatio() * _oil_saturation[_qp] / _oil_fvf[_qp];
+      storage_gas_saturation / _gas_fvf[_qp] +
+      solutionGasOilRatio() * storage_oil_saturation / _oil_fvf[_qp];
   const ADReal gas_storage_factor_dot =
       gas_saturation_dot / _gas_fvf[_qp] -
-      gas_saturation * gas_fvf_dot / (_gas_fvf[_qp] * _gas_fvf[_qp]) +
-      rs_dot * _oil_saturation[_qp] / _oil_fvf[_qp] +
+      storage_gas_saturation * gas_fvf_dot / (_gas_fvf[_qp] * _gas_fvf[_qp]) +
+      rs_dot * storage_oil_saturation / _oil_fvf[_qp] +
       solutionGasOilRatio() * oil_saturation_dot / _oil_fvf[_qp] -
-      solutionGasOilRatio() * _oil_saturation[_qp] * oil_fvf_dot /
+      solutionGasOilRatio() * storage_oil_saturation * oil_fvf_dot /
           (_oil_fvf[_qp] * _oil_fvf[_qp]);
   _gas_reference_component_storage_rate[_qp] =
       _gas_surface_density *
@@ -1477,10 +1596,10 @@ ADBlackOilBenchmarkPVTMaterial::computeQpProperties()
        _J[_qp] * porosity_dot * gas_storage_factor +
        _J[_qp] * porosity * gas_storage_factor_dot);
 
-  const ADReal free_gas_storage_factor = gas_saturation / _gas_fvf[_qp];
+  const ADReal free_gas_storage_factor = storage_gas_saturation / _gas_fvf[_qp];
   const ADReal free_gas_storage_factor_dot =
       gas_saturation_dot / _gas_fvf[_qp] -
-      gas_saturation * gas_fvf_dot / (_gas_fvf[_qp] * _gas_fvf[_qp]);
+      storage_gas_saturation * gas_fvf_dot / (_gas_fvf[_qp] * _gas_fvf[_qp]);
   _free_gas_reference_component_storage_rate[_qp] =
       _gas_surface_density *
       ((*_J_dot)[_qp] * porosity * free_gas_storage_factor +
@@ -1488,11 +1607,11 @@ ADBlackOilBenchmarkPVTMaterial::computeQpProperties()
        _J[_qp] * porosity * free_gas_storage_factor_dot);
 
   const ADReal dissolved_gas_storage_factor =
-      solutionGasOilRatio() * _oil_saturation[_qp] / _oil_fvf[_qp];
+      solutionGasOilRatio() * storage_oil_saturation / _oil_fvf[_qp];
   const ADReal dissolved_gas_storage_factor_dot =
-      rs_dot * _oil_saturation[_qp] / _oil_fvf[_qp] +
+      rs_dot * storage_oil_saturation / _oil_fvf[_qp] +
       solutionGasOilRatio() * oil_saturation_dot / _oil_fvf[_qp] -
-      solutionGasOilRatio() * _oil_saturation[_qp] * oil_fvf_dot /
+      solutionGasOilRatio() * storage_oil_saturation * oil_fvf_dot /
           (_oil_fvf[_qp] * _oil_fvf[_qp]);
   _dissolved_gas_reference_component_storage_rate[_qp] =
       _gas_surface_density *

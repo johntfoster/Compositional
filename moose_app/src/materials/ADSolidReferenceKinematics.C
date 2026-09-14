@@ -1,5 +1,7 @@
 #include "ADSolidReferenceKinematics.h"
 
+#include "metaphysicl/raw_type.h"
+
 registerMooseObject("MulticomponentReactiveFlowApp", ADSolidReferenceKinematics);
 
 InputParameters
@@ -43,12 +45,15 @@ ADSolidReferenceKinematics::ADSolidReferenceKinematics(const InputParameters & p
     paramError("displacements", "At most three displacement components are supported.");
 
   _grad_disp.resize(_ndisp);
-  _grad_disp_old.resize(_ndisp);
+  _grad_disp_dot.resize(_ndisp);
+  _disp_dot_du.resize(_ndisp);
   for (const auto i : make_range(_ndisp))
   {
     _grad_disp[i] = &adCoupledGradient("displacements", i);
-    _grad_disp_old[i] =
-        _fe_problem.isTransient() ? &coupledGradientOld("displacements", i) : nullptr;
+    _grad_disp_dot[i] =
+        _fe_problem.isTransient() ? &coupledGradientDot("displacements", i) : nullptr;
+    _disp_dot_du[i] =
+        _fe_problem.isTransient() ? &coupledDotDu("displacements", i) : nullptr;
   }
 }
 
@@ -72,6 +77,11 @@ ADSolidReferenceKinematics::computeQpProperties()
   if (_fe_problem.isTransient())
     for (const auto i : make_range(_ndisp))
       for (const auto j : make_range(Moose::dim))
-        F_dot(i, j) = ((*_grad_disp[i])[_qp](j) - (*_grad_disp_old[i])[_qp](j)) / _dt;
+      {
+        const Real dot_du = (*_disp_dot_du[i])[_qp];
+        const ADReal & grad_u = (*_grad_disp[i])[_qp](j);
+        F_dot(i, j) = dot_du * grad_u + (*_grad_disp_dot[i])[_qp](j) -
+                      dot_du * MetaPhysicL::raw_value(grad_u);
+      }
   _J_dot[_qp] = _J[_qp] * (F_dot * _F_inv[_qp]).trace();
 }

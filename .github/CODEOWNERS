@@ -1,0 +1,15 @@
+# Verified input-block governance requires John Foster's review.
+/AGENTS.md @johntfoster
+/.codex/skills/deck-block-inventory/ @johntfoster
+/.codex/skills/verified-block-promotion/ @johntfoster
+/.codex/skills/deck-assembler/ @johntfoster
+/.codex/skills/deck-integrity-validator/ @johntfoster
+/.codex/verified-input-blocks/ @johntfoster
+/agent_workflows/scripts/verified_blocks.py @johntfoster
+/agent_workflows/schemas/problem_spec.schema.json @johntfoster
+/moose_app/input/AGENTS.md @johntfoster
+/moose_app/input/fragment_catalog.yml @johntfoster
+/moose_app/input/verified_block_registry.yml @johntfoster
+/moose_app/input/assemblies/ @johntfoster
+/moose_app/test/AGENTS.md @johntfoster
+/moose_app/test/tests/verified_input_blocks/ @johntfoster

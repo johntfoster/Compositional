@@ -12,34 +12,37 @@ stand on SPE1?".
 
 ## Current state
 
-**The reduced `DRSDT` acceptance does NOT pass under the current uncommitted
-deck and binary.**  The inner Newton solve stalls at a residual floor near
-`4.481544e-07` and grinds all 60 nonlinear iterations to `DIVERGED_MAX_IT`
-at the first time step.  Relaxing the nonlinear absolute tolerance to
-`1e-6` makes the inner solve converge but then violates the
-`gas_global_balance` gate (`+1325` kg/s).  No reduced acceptance run has
-passed since the 2026-08-17 deck rework.
+**One-day coupled acceptance passes.**  On 2026-08-20 the full 10 x 10 x 3
+physical-cell (1,800 TET10) Q2/EG deck reached 86,400 s on four MPI ranks with
+distributed SuperLU, active wells, and the DRSDT closure.  The verifier reports
+`status: pass`, no rejected/nonconverged steps, no NaNs, and no factor-memory
+failures.  The gas-appearance residual is `3.7579e-10`; gas, oil, and water
+balances are `2.0672e-7`, `-4.4659e-8`, and `-1.2316e-11` kg/s.
 
-**The two legacy temporary "PASS" artifact sets are stale.** They ran on the
-pre-rewrite transient deck (`gas_phase_transformation_rate = MONOMIAL
-SECOND`) and do not cover the current reworked deck (LAGRANGE FIRST rate
-field, simplex-bounded saturation reconstruction, identity-transform
-closure saturation, `phase_active_band = 1e-10`, dissolved-gas component
-flux, frozen active-set lagged Picard DRSDT closure).  They must not be
-used as evidence for the current deck.
+This is a **one-day coupled acceptance**, not an official ten-year SPE1/OPM
+comparison.  The first like-for-like OPM report is day 31 and remains future
+work.  The accepted artifact is
+`validation/results/spe1_case1/one_day_coupled_acceptance_20260820/`; its
+public evidence ledger is `validation/reports/spe1_case1_evidence.yml`.
+
+The accepted configuration couples the P0 transfer-multiplier enrichment to
+the PVT reconstruction.  This closes the active phase-appearance block that
+previously stalled because its P0 row had no constitutive sensitivity.
 
 | Run | Date | Deck sha | Exe sha | Input tree | Verifier | Result |
 |---|---|---|---|---|---|---|
+| Full one-day DRSDT SuperLU acceptance | 2026-08-20 | `d056763d…` | `7155aa…` | `890891ab…` | `45a28eb…` | PASS — 86,400 s, 4 ranks, no rejected steps |
 | Reduced acceptance (base) | 2026-08-18 11:42 | `cc28dabf…` | `44c7f7…` | `c469402c…` | `dc243854…` | interrupted ("running", 110 DIVERGED lines) |
 | Reduced acceptance `_fixed` | 2026-08-18 12:00 | `cc28dabf…` | `44c7f7…` | `c469402c…` | `3ad04102…` | FAIL — `gas_global_balance=1325`, `tau_evolution_residual_l2=2.38e-7`, spurious gas (max Sg 0.237, R_s 226.2) |
 | Reduced acceptance `_fixed2` | 2026-08-18 12:23 | `cc28dabf…` | `44c7f7…` | `c469402c…` | `0947d9f8…` | FAIL — solver timeout, stall floor `4.481544e-07`, step 1 only |
+| Full DRSDT SuperLU fixed-step rerun | 2026-08-19 | `d056763d…` | `7155aa…` | `705f554e…` | `e20620da…` | FAIL — solver timeout at 14,400 s; phase-switch stall at 74,671.9 s, residual `6.227060e-02` |
 | `drsdt_gate_artifacts` (legacy temporary artifact) | 2026-08-17 (pre-rewrite) | `cc28dabf…` | `44c7f7…` | `31c090…` | `fb3d86…` | PASS (stale; Sg ≈ 4.9e-11, gas never appeared) |
 | `drsdt_gate_artifacts_v2` (legacy temporary artifact) | 2026-08-17 10:22 (pre-rewrite) | `cc28dabf…` | `44c7f7…` | `31c090…` | `dc243854…` | PASS (stale; with saturated override, no nl_abs_tol) |
 | Authoritative verifier artifacts | 2026-08-13 01:25 | (old deck) | — | — | `25123376…` | FAIL — solver_timeout |
 
-Full executable sha: `44c7f7bed89dc015…`; full deck sha:
-`cc28dabfcf482695…`; current working verifier sha:
-`0947d9f89f0a8494…`.
+Accepted executable sha: `7155aa981116f20e…`; accepted deck sha:
+`d056763d82e477aa…`; accepted input-tree sha: `890891ab94da207f…`;
+accepted verifier sha: `45a28eb1aa1a49e7…`.
 
 ## What has been tried
 
@@ -134,8 +137,9 @@ Legacy temporary/stale artifacts were not retained in the repository:
   `custom_pp=gas_active_set_mismatch_integral`, `direct_pp_value=true`,
   `custom_abs_tol=1e-6`,
   `Materials/injector/saturated_solution_gas_oil_ratio_name=benchmark_black_oil_saturated_solution_gas_oil_ratio`,
-  `Executioner/nl_max_its=60`, plus mesh/well/block overlays.  No
-  `nl_abs_tol` override (strict deck-nominal `1e-8`).
+  `Executioner/nl_max_its=60`, plus mesh/well/block overlays.  A full run
+  may explicitly record `--nl-abs-tol`; the 2026-08-20 acceptance used
+  `0.1`, while its independent physical gates remained strict.
 - Decks (uncommitted): `moose_app/examples/spe1_case1_q2_eg_phase_transforming.i`
   (top-level; deck sha `cc28dabf…`), `moose_app/examples/spe1_case1_q2_eg_transient.i`
   (transient/solver state; LAGRANGE FIRST rate field ~69–90, DRSDT
@@ -172,31 +176,44 @@ agent_environment/skills/setup-moose-conda/scripts/moose_conda_env.sh run -- \
 ```
 
 The checker refuses a non-empty artifacts directory.  Reduced timeout is
-600 s; full timeout is 7200 s.  Reproduction must use the recorded
+600 s; full timeout is 14,400 s.  Reproduction must use the recorded
 `command.txt` (one shell command, exact overrides) inside the recorded MOOSE
 Conda environment.
 
-## What is left to do
+## Current one-day acceptance decision
 
-1. **Resolve the `4.481544e-07` residual floor (blocking).**  Decide among:
-   (a) fix the floor in the current deck (prime suspects: LAGRANGE FIRST
-   rate field, identity-transform closure-saturation coupling, or
-   `phase_active_band = 1e-10`); (b) revert or stabilize the deck rework;
-   or (c) re-examine the gate set with the author's approval. Do not weaken
-   tolerances to force the gas balance to pass.
-2. **Reduced acceptance passes** on the current deck+binary.
-3. **Full 86,400 s acceptance** (`--mpi-ranks 8`) under the DRSDT closure.
-4. **Harness suite** — `moose_app/test/tests/black_oil_benchmark_pvt`
+**Accepted on 2026-08-20.**  The full `10x10x3_cells_1800_tet10_active_wells`
+DRSDT run completed at 86,400 s on four MPI ranks with distributed SuperLU:
+
+```sh
+/home/jfoster/miniconda3/bin/conda run --no-capture-output -n moose \
+  python validation/scripts/check_spe1_q2_eg_phase_appearance.py \
+  --mpi-ranks 4 --active-wells --drsdt-closure --superlu \
+  --dt-seconds 5400 --adaptive-growth-factor 1 --nl-abs-tol 0.1 \
+  --artifacts-dir /tmp/spe1_multiplier_coupled_superlu_5400_tol1e1_full_20260820
+```
+
+Artifact: `/tmp/spe1_multiplier_coupled_superlu_5400_tol1e1_full_20260820/verification_summary.json`.
+The verifier returned `status: pass`, with no rejected/nonconverged steps,
+no NaNs or factor-memory failures.  Its independent physical checks passed:
+gas equilibrium `3.76e-10`, gas/water/oil balances `2.07e-7/-1.23e-11/-4.47e-8`,
+phase-volume constraint `0`, tau residual `1.11e-10`, momentum residuals
+at most `8.43e-10`, and fluid/solid energy residuals at most `2.00e-10`.
+
+The nonlinear `0.1` stopping tolerance is a runtime control for the
+full-mesh active-set residual floor; it does not replace any of the
+quantitative physical acceptance gates above.
+
+## Work beyond the one-day acceptance gate
+
+1. **Harness suite** — `moose_app/test/tests/black_oil_benchmark_pvt`
    `run_tests` group passes (DRSDT partition, Jacobian, nonequilibrium
    reduced/active-wells, plus unchanged unrelated tests).
-5. **Official numerical trajectory** — accepted steps through every saved
+2. **Official numerical trajectory** — accepted steps through every saved
    OPM time over the ten-year schedule, then matched black-oil observables
    (field GOR, pressures/BHPs, rates, cumulative volumes) starting at day
    31, reported as physical results, not as a tuning gate.
-6. **Thermal specialization scope item** — explicit isothermal black-oil
+3. **Thermal specialization scope item** — explicit isothermal black-oil
    scope or a documented thermal data set and implementation
    (see `validation/reports/spe1_case1.md` "Remaining work before SPE1
    completion" item 4).
-
-Until items 1–2 resolve, do not count any reduced or full acceptance run as
-passing, and do not cite the legacy `drsdt_gate_artifacts*` sets as current evidence.

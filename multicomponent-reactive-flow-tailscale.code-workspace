@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "uri": "vscode-remote://ssh-remote+jfoster@pge-894801.tail0d3885.ts.net/home/jfoster/projects/research/reactive_transport/multicomponent_reactive_flow"
+    }
+  ],
+  "remoteAuthority": "ssh-remote+jfoster@pge-894801.tail0d3885.ts.net",
+  "settings": {
+    "remote.SSH.remotePlatform": {
+      "jfoster@pge-894801.tail0d3885.ts.net": "linux"
+    }
+  }
+}

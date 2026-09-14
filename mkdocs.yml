@@ -1,0 +1,20 @@
+site_name: Multicomponent Reactive Flow
+site_description: Traceable examples for finite-deformation multiphase mixture simulation in MOOSE
+docs_dir: docs
+site_dir: .agent-runtime/docs-site
+nav:
+  - Home: index.md
+  - Examples:
+      - Overview: examples/index.md
+      - "Mandel: implicit-AD Biot verification": examples/mandel-implicit-biot.md
+      - "SPE1 Case 1: one-day coupled acceptance": examples/spe1-case1.md
+markdown_extensions:
+  - admonition
+  - attr_list
+  - tables
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: true
+extra_javascript:
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js

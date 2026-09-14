@@ -1,0 +1,25 @@
+{
+  "artifact": "Mandel water-pressure spatial profiles",
+  "purpose": "report presentation only; acceptance gates remain in accepted_20260821",
+  "accepted_reference": "validation/results/mandel_implicit_biot/accepted_20260821/verification_summary.json",
+  "deck": "moose_app/test/tests/mandel_implicit_biot/mandel_water_q2_q1.i",
+  "deck_sha256": "a55c74d4927ff46ce27c44d30ae14d2d04cca16d7e7486a764c1964930ba7ade",
+  "executable": "moose_app/multicomponent_reactive_flow-opt",
+  "executable_sha256": "7155aa981116f20e2410d9af386f001966bb56cd7144e7b6d88792f65416dcd3",
+  "mesh": {
+    "nx": 40,
+    "ny": 4,
+    "element": "QUAD9"
+  },
+  "time_step_seconds": 0.002,
+  "end_time_seconds": 0.702,
+  "profile_times_seconds": [0.014, 0.05, 0.1, 0.2, 0.4],
+  "profile_ordinate_m": 0.05,
+  "source_field_output": ".agent-runtime/mandel-profile-20260821/profile_fine.e",
+  "source_field_output_retained_in_git": false,
+  "profile_table": "validation/results/mandel_implicit_biot/profile_20260821/pressure_profiles.csv",
+  "profile_table_sha256": "1ef93dc397e2b7b942af66d5ca09764587d950d6def56cd8ea020dbc1dd3795d",
+  "plotter": "validation/scripts/plot_mandel_implicit_biot.py",
+  "plotter_sha256": "1dce9bb7d9318a98d959bedc58a5e2bb6aa1e5d504edacdd9df0b99d6af90412",
+  "maximum_normalized_pressure_error": 0.01962773
+}

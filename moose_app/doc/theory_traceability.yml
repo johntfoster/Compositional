@@ -768,6 +768,25 @@ object_families:
         notes:
           - "solves the local implicit constitutive tangent at fixed equivalent pressure and evaluates the nonlinear Biot coefficient from summed registered solid component accumulations"
           - "preserves AD dependence of the coefficient in the Q2 solid and P1+P0 EG pressure mechanics Jacobian"
+          - "the accepted water-filled Mandel benchmark uses the same implicit tangent with Q2 displacement and continuous Q1 pressure; no pressure enrichment or EG facet operator is present"
+      - name: "ADBiotPressureStorageMaterial"
+        files:
+          - "include/materials/ADBiotPressureStorageMaterial.h"
+          - "src/materials/ADBiotPressureStorageMaterial.C"
+        manuscript_basis:
+          - "eq:biot_pressure_storage"
+        notes:
+          - "couples directly to continuous Q1 water pressure and its AD time derivative"
+          - "evaluates the finite-deformation single-solid, single-water pressure-storage rate without a reconstructed EG pressure property"
+      - name: "ADBiotDarcyReferenceFluxMaterial"
+        files:
+          - "include/materials/ADBiotDarcyReferenceFluxMaterial.h"
+          - "src/materials/ADBiotDarcyReferenceFluxMaterial.C"
+        manuscript_basis:
+          - "eq:standard_darcy_mass_flux_limit"
+        notes:
+          - "pulls the continuous Q1 water-pressure gradient to the solid reference configuration"
+          - "contains no phase registry, pressure enrichment, capillary, acceleration, or multiphase closure"
       - name: "ADHydrostaticBarotropicSkeletonStressMaterial"
         files:
           - "include/materials/ADHydrostaticBarotropicSkeletonStressMaterial.h"
@@ -809,6 +828,13 @@ object_families:
           - "eq:momentum_residual"
         notes:
           - "prescribes a traction component per unit reference area with outward-positive convention"
+    benchmark_tests:
+      - name: "water-filled Mandel consolidation"
+        deck: "test/tests/mandel_implicit_biot/mandel_water_q2_q1.i"
+        verifier: "../validation/scripts/check_mandel_implicit_biot.py"
+        evidence: "../validation/results/mandel_implicit_biot/accepted_20260821/verification_summary.json"
+        discretization: "Q2 continuous displacement and Q1 continuous pressure without pressure enrichment"
+        status: "accepted"
       - name: "ADAssociatedPlasticFlowMaterial"
         files:
           - "include/materials/ADAssociatedPlasticFlowMaterial.h"

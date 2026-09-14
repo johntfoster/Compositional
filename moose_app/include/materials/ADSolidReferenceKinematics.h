@@ -15,7 +15,8 @@ protected:
 
   const unsigned int _ndisp;
   std::vector<const ADVariableGradient *> _grad_disp;
-  std::vector<const VariableGradient *> _grad_disp_old;
+  std::vector<const VariableGradient *> _grad_disp_dot;
+  std::vector<const VariableValue *> _disp_dot_du;
 
   ADMaterialProperty<RankTwoTensor> & _F;
   ADMaterialProperty<Real> & _J;

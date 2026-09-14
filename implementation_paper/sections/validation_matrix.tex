@@ -34,7 +34,63 @@ identify which part of the theory has been verified.  Table
 	\end{tabular}
 \end{table}
 
+\FloatBarrier
+
 For each case, the repository should eventually contain the input deck,
 postprocessing script, reference data or analytic calculation, and a short note
 identifying which residual terms are active.  Expensive examples should have a
 smaller regression analogue that protects the same implementation path.
+
+\subsection{Current verification results}
+\label{sec:current_verification_results}
+
+The Mandel calculation exercises the implicit nonlinear Biot coefficient,
+finite-deformation skeleton momentum balance, pressure storage, and Darcy flux
+in the single-solid, single-fluid reduction.  Figure
+\ref{fig:mandel_pressure_profiles} compares the finite-element water-pressure
+profiles with the analytical Mandel series at five times.  The open circles are
+the Q2/Q1 finite-element solution, and the solid curves are the analytical
+profiles.
+
+\begin{figure}[ht]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\input{../validation/reports/figures/mandel_implicit_biot/accepted_20260821/mandel_pressure_profiles.pgf}%
+	}
+	\caption{Water-pressure profiles for the Mandel verification problem.  The
+		solid curves are the analytical series, and the open circles are the
+		finite-element solution sampled along the specimen centerline.}
+	\label{fig:mandel_pressure_profiles}
+\end{figure}
+
+The one-day SPE1 calculation exercises the coupled Q2/CG--EG path through gas
+appearance, component conservation, transfer-coordinate evolution, skeleton
+momentum, and the two thermal-subsystem residuals.  Figure
+\ref{fig:spe1_one_day_acceptance_history} reports the accepted scalar history
+and the applicable numerical gates.  Figure
+\ref{fig:spe1_one_day_opm_context} places its final well controls against the
+reference schedule.  The latter is schedule context because the first
+like-for-like OPM report occurs at day 31.
+
+\begin{figure}[ht]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\input{../validation/reports/figures/spe1_case1/one_day_coupled_acceptance_20260820/spe1_one_day_acceptance_history.pgf}%
+	}
+	\caption{One-day SPE1 coupled-acceptance history.  Dashed lines mark the
+		applicable balance and residual gates.}
+	\label{fig:spe1_one_day_acceptance_history}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\input{../validation/reports/figures/spe1_case1/one_day_coupled_acceptance_20260820/spe1_one_day_opm_context.pgf}%
+	}
+	\caption{SPE1 schedule context and day-one control agreement.  The pressure
+		curves are the OPM schedule history; the day-one markers and normalized
+		rate bars are the coupled Q2/CG--EG result.}
+	\label{fig:spe1_one_day_opm_context}
+\end{figure}
+
+\FloatBarrier

@@ -9,21 +9,23 @@ ADBinarySolidSpatialMassMaterial::validParams()
 {
   InputParameters params = Material::validParams();
   params.addClassDescription(
-      "Computes the pulled-back single-component solid spatial-mass storage "
-      "J_s phi_s rhobar_s and its complete AD material time rate.");
+      "Computes the pulled-back solid partial-density storage and its complete AD material "
+      "time rate. The implementation variable is the current solid partial density divided "
+      "by its reference value.");
   params.addParam<MaterialPropertyName>(
       "solid_jacobian_name", "solid_reference_J", "Solid-reference Jacobian J_s.");
   params.addParam<MaterialPropertyName>("solid_jacobian_rate_name",
                                         "solid_reference_J_dot",
                                         "Material time rate of J_s.");
-  params.addRequiredCoupledVar("solid_volume_fraction", "Solid phase volume fraction phi_s.");
-  params.addRequiredCoupledVar("solid_intrinsic_density", "Intrinsic solid density rhobar_s.");
+  params.addRequiredCoupledVar(
+      "solid_spatial_mass_ratio",
+      "Current bulk solid partial density divided by its reference value.");
   params.addParam<MaterialPropertyName>("reference_component_accumulation_name",
                                         "solid_component_reference_accumulation",
-                                        "Output name for J_s phi_s rhobar_s.");
+                                        "Output name for the normalized referential solid mass.");
   params.addParam<MaterialPropertyName>("reference_component_storage_rate_name",
                                         "solid_component_reference_storage_rate",
-                                        "Output name for d(J_s phi_s rhobar_s)/dt.");
+                                        "Output name for its material time rate.");
   return params;
 }
 
@@ -32,10 +34,9 @@ ADBinarySolidSpatialMassMaterial::ADBinarySolidSpatialMassMaterial(
   : Material(parameters),
     _J(getADMaterialProperty<Real>("solid_jacobian_name")),
     _J_dot(getADMaterialProperty<Real>("solid_jacobian_rate_name")),
-    _solid_volume_fraction(adCoupledValue("solid_volume_fraction")),
-    _solid_volume_fraction_dot(adCoupledDot("solid_volume_fraction")),
-    _solid_intrinsic_density(adCoupledValue("solid_intrinsic_density")),
-    _solid_intrinsic_density_dot(adCoupledDot("solid_intrinsic_density")),
+    _solid_spatial_mass_ratio(adCoupledValue("solid_spatial_mass_ratio")),
+    _solid_spatial_mass_ratio_dot(
+        _fe_problem.isTransient() ? &adCoupledDot("solid_spatial_mass_ratio") : nullptr),
     _reference_component_accumulation(declareADProperty<Real>(
         getParam<MaterialPropertyName>("reference_component_accumulation_name"))),
     _reference_component_storage_rate(declareADProperty<Real>(
@@ -46,16 +47,13 @@ ADBinarySolidSpatialMassMaterial::ADBinarySolidSpatialMassMaterial(
 void
 ADBinarySolidSpatialMassMaterial::computeQpProperties()
 {
-  if (MetaPhysicL::raw_value(_solid_volume_fraction[_qp]) <= 0.0)
-    mooseError("ADBinarySolidSpatialMassMaterial requires positive solid volume fraction.");
-  if (MetaPhysicL::raw_value(_solid_intrinsic_density[_qp]) <= 0.0)
-    mooseError("ADBinarySolidSpatialMassMaterial requires positive intrinsic solid density.");
+  if (MetaPhysicL::raw_value(_solid_spatial_mass_ratio[_qp]) <= 0.0)
+    mooseError("ADBinarySolidSpatialMassMaterial requires positive normalized solid partial density.");
 
-  _reference_component_accumulation[_qp] =
-      _J[_qp] * _solid_volume_fraction[_qp] * _solid_intrinsic_density[_qp];
+  _reference_component_accumulation[_qp] = _J[_qp] * _solid_spatial_mass_ratio[_qp];
   _reference_component_storage_rate[_qp] =
-      (_J_dot[_qp] * _solid_volume_fraction[_qp] +
-       _J[_qp] * _solid_volume_fraction_dot[_qp]) *
-          _solid_intrinsic_density[_qp] +
-      _J[_qp] * _solid_volume_fraction[_qp] * _solid_intrinsic_density_dot[_qp];
+      _fe_problem.isTransient()
+          ? _J_dot[_qp] * _solid_spatial_mass_ratio[_qp] +
+                _J[_qp] * (*_solid_spatial_mass_ratio_dot)[_qp]
+          : 0.0;
 }

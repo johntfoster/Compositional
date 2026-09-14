@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D4782F"/>
+      <stop offset="100%" stop-color="#B85C1A"/>
+    </linearGradient>
+    <linearGradient id="earGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#D4782F"/>
+      <stop offset="100%" stop-color="#F0C078"/>
+    </linearGradient>
+  </defs>
+
+  <!-- LEFT EAR — flared outward -->
+  <polygon points="145,260 115,50 245,195" fill="url(#earGrad)" opacity="0.95"/>
+  <polygon points="165,245 138,80 230,195" fill="#FDE4C2" opacity="0.5"/>
+
+  <!-- RIGHT EAR — flared outward -->
+  <polygon points="367,260 397,50 267,195" fill="url(#earGrad)" opacity="0.95"/>
+  <polygon points="347,245 374,80 282,195" fill="#FDE4C2" opacity="0.5"/>
+
+  <!-- HEAD — angular hexagon -->
+  <polygon points="256,340 145,225 175,175 256,155 337,175 367,225" fill="url(#bodyGrad)"/>
+
+  <!-- WHITE MUZZLE — angular -->
+  <polygon points="215,225 256,195 297,225 285,285 256,320 227,285" fill="#FEF5EC" opacity="0.85"/>
+
+  <!-- WHITE FOREHEAD STRIPE — angular -->
+  <polygon points="246,175 266,175 270,200 242,200" fill="#FEF5EC" opacity="0.4"/>
+
+  <!-- DARK TEAR-MARK LEFT — angular -->
+  <polygon points="214,222 224,227 222,252 210,248" fill="#2A1A0A" opacity="0.5"/>
+
+  <!-- DARK TEAR-MARK RIGHT — angular -->
+  <polygon points="298,222 288,227 290,252 302,248" fill="#2A1A0A" opacity="0.5"/>
+
+  <!-- LEFT EYE — angular polygon -->
+  <polygon points="204,227 218,222 232,227 226,238 210,238" fill="#1A1008"/>
+  <polygon points="209,229 218,225 226,229 218,233" fill="#F0C078"/>
+
+  <!-- RIGHT EYE — angular polygon -->
+  <polygon points="308,227 294,222 280,227 286,238 302,238" fill="#1A1008"/>
+  <polygon points="303,229 294,225 286,229 294,233" fill="#F0C078"/>
+
+  <!-- NOSE — angular polygon -->
+  <polygon points="248,305 256,297 264,305 260,312 252,312" fill="#1A1008"/>
+  <polygon points="252,303 256,299 260,303 256,306" fill="#3A2A1A"/>
+
+  <!-- MOUTH — angular -->
+  <polyline points="256,312 256,322" stroke="#2A1A0A" stroke-width="1.8" fill="none"/>
+  <polyline points="248,318 256,322 264,318" stroke="#2A1A0A" stroke-width="1.5" fill="none"/>
+
+  <!-- COMPUTATIONAL MESH — non-crossing structured grid -->
+  <g stroke="#1A252F" stroke-width="1.1" fill="none" opacity="0.20">
+    <!-- Horizontal rows -->
+    <line x1="195" y1="182" x2="317" y2="182"/>
+    <line x1="178" y1="202" x2="334" y2="202"/>
+    <line x1="165" y1="225" x2="347" y2="225"/>
+    <line x1="158" y1="248" x2="354" y2="248"/>
+    <line x1="155" y1="270" x2="357" y2="270"/>
+    <line x1="160" y1="290" x2="352" y2="290"/>
+    <line x1="175" y1="310" x2="337" y2="310"/>
+    <!-- Near-vertical columns (non-crossing) -->
+    <line x1="215" y1="180" x2="198" y2="322"/>
+    <line x1="236" y1="168" x2="220" y2="332"/>
+    <line x1="256" y1="160" x2="256" y2="340"/>
+    <line x1="276" y1="168" x2="292" y2="332"/>
+    <line x1="297" y1="180" x2="314" y2="322"/>
+  </g>
+
+  <!-- WHISKERS — angular polylines sweeping outward -->
+  <g stroke="#FDE4C2" stroke-width="1.4" fill="none" opacity="0.65">
+    <polyline points="175,245 135,242 90,238"/>
+    <polyline points="172,260 128,260 78,260"/>
+    <polyline points="178,275 140,278 95,285"/>
+    <polyline points="337,245 377,242 422,238"/>
+    <polyline points="340,260 384,260 434,260"/>
+    <polyline points="334,275 372,278 417,285"/>
+  </g>
+</svg>

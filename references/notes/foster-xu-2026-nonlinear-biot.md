@@ -1,11 +1,11 @@
-# Foster and Xu 2026, Revisiting finite deformation poromechanics
+# Foster and Xu, Revisiting finite deformation poromechanics
 
 ## Source
 
 - PDF: `references/pdfs/foster-xu-2026-nonlinear-biot.pdf`
-- BibTeX key:
-- Authors/year: John T. Foster and Xiao Xu, 2026
-- DOI or URL:
+- BibTeX key: `foster2025`
+- Authors/year: John T. Foster and Xiao Xu, 2025
+- DOI: `10.1016/j.jmps.2025.106263`
 
 ## Why It Matters
 
@@ -22,7 +22,9 @@
 
 ## Equations or Results to Compare
 
-- Introduction: nonlinear Biot coefficient stated in terms of the derivative of current local solid specific volume with respect to the solid skeleton Jacobian at fixed pore pressure.
+- Equation (39), PDF page 12: nonlinear Biot coefficient stated in terms of
+  the derivative of current local solid specific volume with respect to the
+  solid skeleton Jacobian at fixed pore pressure.
 - Variational derivation: momentum equations are developed from an extended Hamilton principle following Bedford and Drumheller.
 - Small-deformation comparison: checks reduction to the classical Biot-type coefficient.
 
@@ -35,7 +37,3 @@
 
 - Related TeX locations: `sections/virtual_power_derivation.tex`, `sections/multicomponent_solids.tex`
 - Possible citation location: nonlinear Biot coefficient discussion, finite-deformation poromechanics comparison, or correspondence to other theories.
-
-## Open Questions
-
-- Confirm the preferred citation key and whether this should be cited as an unpublished manuscript, preprint, or submitted article.

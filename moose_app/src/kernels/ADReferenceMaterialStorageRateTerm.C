@@ -5,7 +5,7 @@ registerMooseObject("MulticomponentReactiveFlowApp", ADReferenceMaterialStorageR
 InputParameters
 ADReferenceMaterialStorageRateTerm::validParams()
 {
-  InputParameters params = ADKernelValue::validParams();
+  InputParameters params = ADTimeKernelValue::validParams();
   params.addClassDescription(
       "Atomic test*d(M_ref)/dt term for nonlinear material-computed reference storage.");
   params.addRequiredParam<MaterialPropertyName>(
@@ -16,7 +16,7 @@ ADReferenceMaterialStorageRateTerm::validParams()
 
 ADReferenceMaterialStorageRateTerm::ADReferenceMaterialStorageRateTerm(
     const InputParameters & parameters)
-  : ADKernelValue(parameters),
+  : ADTimeKernelValue(parameters),
     _storage_rate(getADMaterialProperty<Real>("reference_storage_rate_name")),
     _scale(getParam<Real>("scale"))
 {

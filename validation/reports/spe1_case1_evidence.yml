@@ -1,0 +1,30 @@
+schema_version: 1
+benchmark_id: spe1_case1
+public_status: one_day_coupled_acceptance_passed
+scope_statement: >-
+  A provenance-locked, full-mesh coupled Q2/EG calculation passed the one-day
+  physical acceptance gates. This evidence does not establish the ten-year
+  official-schedule trajectory or a like-for-like OPM observable comparison.
+authoritative_artifact:
+  path: validation/results/spe1_case1/one_day_coupled_acceptance_20260820
+  status: pass
+  final_time_seconds: 86400
+  mpi_ranks: 4
+  solver: distributed SuperLU
+  provenance_locked: true
+  files:
+    - command.txt
+    - provenance.json
+    - result.csv
+    - solver.log
+    - verification_summary.json
+generated_figures:
+  path: validation/reports/figures/spe1_case1/one_day_coupled_acceptance_20260820
+  generator: validation/scripts/plot_spe1_one_day_acceptance.py
+  source_artifact: validation/results/spe1_case1/one_day_coupled_acceptance_20260820
+retention:
+  preacceptance_diagnostics: archived_outside_workspace
+  rule: >-
+    Do not use archived preacceptance plots, logs, checkpoints, or summaries as
+    evidence for the current one-day acceptance. Recreate a diagnostic only
+    from a documented command when it is needed for a new investigation.

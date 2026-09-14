@@ -1,0 +1,38 @@
+schema_version: 1
+benchmark_id: mandel_implicit_biot
+public_status: accepted
+scope_statement: >-
+  A solid-water, plane-strain Q2/Q1 Mandel calculation passes the analytical,
+  implicit-Biot, constraint, load, Mandel-Cryer, and discretization-refinement
+  gates through t=0.702. The pressure space is continuous Q1 without a P0
+  enrichment.
+authoritative_artifact:
+  path: validation/results/mandel_implicit_biot/accepted_20260821
+  status: pass
+  final_time_seconds: 0.702
+  mpi_ranks: 1
+  solver: SuperLU_DIST through PETSc LU
+  provenance_locked: true
+  files:
+    - fine.csv
+    - fine.log
+    - spatial_coarse.csv
+    - spatial_coarse.log
+    - temporal_coarse.csv
+    - temporal_coarse.log
+    - verification_summary.json
+generated_figures:
+  path: validation/reports/figures/mandel_implicit_biot/accepted_20260821
+  generator: validation/scripts/plot_mandel_implicit_biot.py
+  acceptance_artifact: validation/results/mandel_implicit_biot/accepted_20260821
+  pressure_profiles: validation/results/mandel_implicit_biot/profile_20260821/pressure_profiles.csv
+  pressure_profile_times_seconds: [0.014, 0.05, 0.1, 0.2, 0.4]
+  pressure_profile_ordinate_m: 0.05
+  pressure_profile_maximum_normalized_error: 1.962773e-2
+retention:
+  failed_diagnostic: .agent-runtime/backups/mandel_failed_20260821_combined_refinement
+  superseded_artifact: .agent-runtime/backups/mandel_superseded_20260821_absolute_provenance
+  rule: >-
+    The failed combined-refinement artifact is diagnostic evidence and must not
+    be cited as accepted output. Generate figures only from an artifact whose
+    summary records accepted=true and all gates passing.

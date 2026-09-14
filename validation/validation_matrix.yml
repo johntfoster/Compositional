@@ -860,7 +860,7 @@ entries:
     notes: "Force differences are gauge invariant, while the phase-volume equations require exposed absolute forces and an explicit deck-selected common gauge. The guarded optimized build passed at MOOSE commit abafb58b67a6037c6723ffeb19647c84484466da (AD size 128, patch series exact). phase_thermodynamic_identities passes 8/8 (1D/2D/3D Q2/P1+P0-EG stitches converge to residual ~1e-15 with equivalent-pressure, identity, Euler-Lagrange, force-rate, entropy, power, and solid-equivalent-pressure L2 errors at machine zero, solved phase-velocity fields matching analytic functions to ~1e-16, full 3-component product-rule gradient checks exact to 7.73e-15 in 3D; the 1D/2D gradient columns carry fixed transverse-reference offsets sqrt(2)/1.0 that lower-dimensional meshes cannot represent, not reconstruction error; AD/PETSc Jacobian passes, and four guards fire) and saturation_onsager_force|saturation_onsager_force_gradient|saturation_entropy_viscosity pass 17/17 (genuinely relative tolerance, zero-matrix admission, tiny-scale symmetric acceptance, tiny nonsymmetric rejection, PSD, state-dependent Jacobian, product-rule gradient, and positive-entropy checks)."
 
   - id: spe1_black_oil
-    status: numerical_pilot_passes_configured_gates_drsdt_zero_history_blocked_reduced_drsdt_acceptance_fails_on_reworked_deck
+    status: one_day_coupled_acceptance_passed_full_mesh_superlu_official_long_schedule_pending
     target_phenomenon: "Official SPE1 Case 1 three-dimensional black-oil gas injection and production"
     manuscript_reduction:
       - "eq:black_oil_storage_identifications"
@@ -957,6 +957,55 @@ entries:
       - "mechanismwise dissipation and conversion-insertion momentum contribution"
     pass_fail: "The one-day production solve and the 18-, 288-, 1152-, and 1800-element history audits pass every configured thermodynamic, momentum, energy, closure, conservation, and solver-event gate. The elementwise DRSDT=0 audit fails on the retained full-mesh stage-0 and production fields, so physical SPE1 acceptance is blocked pending a production equation-set repair. The retained 72-element datum fails only the unchanged tau gate with a peak gate fraction of 1.373. Clean 3 h, 1.5 h, and 0.75 h levels pass 8, 16, and 32 accepted steps with zero rejections; average pressure, maximum gas saturation, produced gas volume, and producer BHP show observed timestep orders 1.40, 1.28, 1.03, and 0.97. The nominal 6 h level is a failed uniform-step robustness datum because it rejects the final step and cuts back to 3 h. OPM differences are reported without tuning and have no threshold that can substitute for the theory gates."
     notes: "The executable CG/EG slice contains tau backbone/enrichment, black-oil electrochemical potentials, reconstructed current phase velocities, tau material derivatives, tau-corrected affinity, directional phase availability, finite-rate conversion, dissolved/free gas source/storage split, nonnegative dissipation diagnostics, conversion insertion in all three overall-momentum rows, two solved temperature equations with storage, heat flux, interphase exchange, and full generalized conversion-transfer work, and active injector/producer scalar rate-BHP controls. The PVT material exposes the DRSDT=0 attainable-ratio and history residuals, but the production residual set has not yet coupled them as governing equations; the added audit prevents the resulting local redissolution from being accepted. The production-space reduced partition uses P1 dissolved gas and transfer rate with P2 Bernstein plus P0 free gas and satisfies its storage and AD-Jacobian checks. Its nonzero constrained rate at zero chemical affinity requires an explicit irreversible history state or nonsmooth dissipation potential and an admissibility condition on the tau-corrected generalized force before production momentum, energy, and dissipation evidence can be claimed. SPE1 supplies no absolute chemical-potential reference data, phase-transfer resistance, or thermal calibration; the input deck declares these closures and the report identifies their gauge and calibration scope. Each runner artifact records the resolved PVT and OPM sources plus the uncalibrated transfer, thermal, skeleton, and boundary specializations in physical_scope_audit.json. Spatial, timestep, and isolated P1/P2 saturation-order convergence are recorded in validation/results/spe1_case1/convergence_summary_v1.json and the benchmark report. A direct boundary-flux decomposition of global energy and the official long-horizon comparison remain pending. The fixed-skeleton cell-centered FV path remains diagnostic only."
+
+  - id: mandel_water_implicit_biot
+    status: accepted_benchmark
+    target_phenomenon: "Water-filled plane-strain Mandel consolidation with the Mandel-Cryer pressure response and an aggregate Biot coefficient computed from a fixed-pressure implicit constitutive tangent"
+    manuscript_reduction:
+      - "eq:MC_phase_biot_coefficient"
+      - "eq:MC_overall_momentum_nonlinear_biot"
+      - "eq:standard_darcy_mass_flux_limit"
+      - "eq:biot_reference_momentum"
+      - "eq:biot_reference_fluid_mass"
+      - "eq:biot_pressure_storage"
+      - "eq:biot_linear_system"
+    configuration: "Two-dimensional quarter-domain plane strain with one deformable solid skeleton and one compressible water phase; Q2 continuous displacement and Q1 continuous pressure on QUAD9 elements; left and bottom symmetry, a drained right side, an impermeable rigid top platen, and no pressure enrichment or EG facet terms."
+    variables:
+      - "Q2 solid displacement ux and uy"
+      - "continuous Q1 water pressure p"
+      - "Q2 implicit solid intrinsic-density-ratio and solid-volume-fraction states"
+    moose_objects_required:
+      kernels:
+        - "ADReferenceSolidMomentum"
+        - "ADReferenceMaterialStorageRateTerm"
+        - "ADReferenceComponentFluxTerm"
+        - "ADMaterialPropertyResidual"
+      materials:
+        - "ADSolidReferenceKinematics"
+        - "ADConstrainedSkeletonBiotMaterial"
+        - "ADVolumetricBarotropicSkeletonStressMaterial"
+        - "ADReferenceSolidStressMaterial"
+        - "ADBiotDarcyReferenceFluxMaterial"
+        - "ADBiotPressureStorageMaterial"
+        - "ADParsedMaterial"
+      userobjects: []
+      actions: []
+      boundary_conditions:
+        - "DirichletBC"
+        - "FunctionDirichletBC"
+    input_deck:
+      - "moose_app/test/tests/mandel_implicit_biot/mandel_water_q2_q1.i"
+      - "validation/scripts/check_mandel_implicit_biot.py"
+    reference_result: "The Cheng-Detournay plane-strain series with the canonical MOOSE Mandel parameters after dimensional scaling: B=0.6, M=4.705882352941176 GPa, Ku=2.694117647058824 GPa, Skempton coefficient=1.048034934497817, undrained Poisson ratio=0.372627372627373, and diffusivity=3.821656050955413 m2/s."
+    expected_outputs:
+      - "pressure histories at x=0, 0.3, and 0.8 m"
+      - "side and top displacement histories"
+      - "Mandel-Cryer pressure increase and peak time"
+      - "minimum, maximum, and average implicit Biot coefficient"
+      - "implicit-tangent analytical identity and local-constraint L2 errors"
+      - "separate spatial and temporal refinement differences"
+    pass_fail: "The accepted 2026-08-21 artifact passes every gate through t=0.702. The maximum analytical pressure error normalized by the Mandel pressure scale is 3.709364e-2, the maximum side-displacement relative error is 6.467664e-3, the applied-load error is 2.368120e-3, the spatial and temporal refinement differences are 2.490555e-3 and 2.724991e-2, and the implicit-B analytical identity L2 error is 5.405194e-17. The production constrained-Biot mechanics PETSc Jacobian regression passes its 1e-7 ratio tolerance."
+    notes: "This is a pure solid-water Biot verification. Continuous Q1 pressure is sufficient for the smooth benchmark response; no P0 enrichment, reconstructed enrichment variable, EG interior-facet operator, or pressure stabilization appears in the accepted residual. The accepted artifact is validation/results/mandel_implicit_biot/accepted_20260821, and the report is validation/reports/mandel_implicit_biot.md."
 
   - id: reference_solid_mechanics_mms
     status: passing_regression

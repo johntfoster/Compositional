@@ -13,7 +13,8 @@ protected:
   ADReal precomputeQpResidual() override;
 
   const unsigned int _component;
-  const ADVariableValue &_rate;
+  const ADVariableValue * _rate;
+  const ADMaterialProperty<Real> * _rate_property;
   const Real _rate_scale;
   const ADVariableGradient &_tau_gradient;
   const ADVariableGradient *_tau_enrichment_gradient;

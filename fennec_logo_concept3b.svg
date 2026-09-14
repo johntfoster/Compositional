@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="strata1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5E0C8"/>
+      <stop offset="100%" stop-color="#EDC9A0"/>
+    </linearGradient>
+    <linearGradient id="strata2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E0A870"/>
+      <stop offset="100%" stop-color="#D4945C"/>
+    </linearGradient>
+    <linearGradient id="strata3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C8783A"/>
+      <stop offset="100%" stop-color="#B85C1A"/>
+    </linearGradient>
+    <linearGradient id="strata4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9B4010"/>
+      <stop offset="100%" stop-color="#6E2C08"/>
+    </linearGradient>
+    <linearGradient id="strata5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A1A04"/>
+      <stop offset="100%" stop-color="#2A0E02"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" fill="#FEFAF5"/>
+
+  <!-- Angular tilted strata (geological fold) -->
+  <polygon points="0,160 512,120 512,190 0,230" fill="url(#strata1)"/>
+  <polygon points="0,230 512,190 512,250 0,290" fill="url(#strata2)"/>
+  <polygon points="0,290 512,250 512,300 0,340" fill="url(#strata3)"/>
+  <polygon points="0,340 512,300 512,350 0,390" fill="url(#strata4)"/>
+  <polygon points="0,390 512,350 512,400 0,440" fill="url(#strata5)"/>
+
+  <!-- Bedding plane lines -->
+  <line x1="0" y1="160" x2="512" y2="120" stroke="#A06030" stroke-width="0.6" opacity="0.3"/>
+  <line x1="0" y1="230" x2="512" y2="190" stroke="#A06030" stroke-width="0.6" opacity="0.3"/>
+  <line x1="0" y1="290" x2="512" y2="250" stroke="#A06030" stroke-width="0.6" opacity="0.3"/>
+  <line x1="0" y1="340" x2="512" y2="300" stroke="#A06030" stroke-width="0.6" opacity="0.3"/>
+  <line x1="0" y1="390" x2="512" y2="350" stroke="#A06030" stroke-width="0.6" opacity="0.3"/>
+  <line x1="0" y1="440" x2="512" y2="400" stroke="#A06030" stroke-width="0.6" opacity="0.3"/>
+
+  <!-- FEM mesh embedded in the strata — non-crossing structured grid -->
+  <g stroke="#FFFFFF" stroke-width="0.8" fill="none" opacity="0.15">
+    <!-- Horizontal mesh rows (parallel to strata dip) -->
+    <line x1="180" y1="186" x2="380" y2="150"/>
+    <line x1="180" y1="242" x2="380" y2="206"/>
+    <line x1="180" y1="298" x2="380" y2="262"/>
+    <line x1="180" y1="354" x2="380" y2="318"/>
+    <line x1="180" y1="410" x2="380" y2="374"/>
+    <!-- Cross-columns (near-vertical) -->
+    <line x1="220" y1="182" x2="210" y2="420"/>
+    <line x1="260" y1="176" x2="250" y2="424"/>
+    <line x1="300" y1="170" x2="290" y2="428"/>
+    <line x1="340" y1="164" x2="330" y2="432"/>
+  </g>
+
+  <!-- Pore nodes along strata (multicomponent phases) -->
+  <circle cx="200" cy="200" r="4" fill="#FFFFFF" opacity="0.25"/>
+  <circle cx="240" cy="193" r="3.5" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="280" cy="186" r="4.5" fill="#FFFFFF" opacity="0.2"/>
+  <circle cx="230" cy="315" r="3" fill="#FFFFFF" opacity="0.3"/>
+  <circle cx="270" cy="308" r="4" fill="#FFFFFF" opacity="0.2"/>
+  <circle cx="310" cy="301" r="3.5" fill="#FFFFFF" opacity="0.25"/>
+
+  <!-- Wordmark over dark bottom strata -->
+  <text x="256" y="472" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="46" font-weight="700" letter-spacing="20" fill="#F5E0C8">FENNEC</text>
+</svg>

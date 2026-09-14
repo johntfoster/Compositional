@@ -17,8 +17,12 @@ ADReactionNetworkMaterial::validParams()
       "phases", "Registered phases participating in the reaction network.");
   params.addRequiredParam<std::vector<std::string>>(
       "components", "Component names defining the component ordering.");
-  params.addRequiredCoupledVar(
-      "reaction_rates", "Mechanism rates in the same order used by stoichiometric_coefficients.");
+  params.addCoupledVar(
+      "reaction_rates", "Mechanism-rate variables in the same order used by stoichiometric_coefficients.");
+  params.addParam<std::vector<MaterialPropertyName>>(
+      "reaction_rate_names", {},
+      "Optional mechanism-rate material properties. Supply either these or reaction_rates; this "
+      "permits an enriched-Galerkin reconstructed total rate to feed the network.");
   params.addRequiredParam<std::vector<Real>>(
       "stoichiometric_coefficients",
       "Flattened mechanism-major stoichiometric coefficients nu_xi(m)^alpha.");
@@ -73,8 +77,11 @@ ADReactionNetworkMaterial::ADReactionNetworkMaterial(const InputParameters & par
     _components(getParam<std::vector<std::string>>("components")),
     _n_phases(_phases.size()),
     _n_components(_components.size()),
-    _n_mechanisms(coupledComponents("reaction_rates")),
+    _n_mechanisms(isCoupled("reaction_rates")
+                      ? coupledComponents("reaction_rates")
+                      : getParam<std::vector<MaterialPropertyName>>("reaction_rate_names").size()),
     _J(getADMaterialProperty<Real>("jacobian_name")),
+    _use_reaction_rate_properties(!getParam<std::vector<MaterialPropertyName>>("reaction_rate_names").empty()),
     _stoichiometric_coefficients(getParam<std::vector<Real>>("stoichiometric_coefficients")),
     _use_tau_offsets(!getParam<std::vector<MaterialPropertyName>>("phase_tau_offset_names").empty()),
     _use_temperature_weighted_force(
@@ -92,6 +99,8 @@ ADReactionNetworkMaterial::ADReactionNetworkMaterial(const InputParameters & par
     paramError("phases", "Supply at least one phase.");
   if (_n_components == 0)
     paramError("components", "Supply at least one component.");
+  if (isCoupled("reaction_rates") == _use_reaction_rate_properties)
+    paramError("reaction_rate_names", "Supply exactly one of reaction_rates or reaction_rate_names.");
   if (_n_mechanisms == 0)
     paramError("reaction_rates", "Supply at least one reaction mechanism rate.");
   if (_property_prefix.empty())
@@ -155,9 +164,19 @@ ADReactionNetworkMaterial::ADReactionNetworkMaterial(const InputParameters & par
       _reverse_phase_active.push_back(&getADMaterialProperty<Real>(reverse_active[m]));
     }
 
-  _reaction_rates.reserve(_n_mechanisms);
-  for (const auto m : make_range(_n_mechanisms))
-    _reaction_rates.push_back(&adCoupledValue("reaction_rates", m));
+  if (_use_reaction_rate_properties)
+  {
+    const auto names = getParam<std::vector<MaterialPropertyName>>("reaction_rate_names");
+    _reaction_rate_properties.reserve(_n_mechanisms);
+    for (const auto m : make_range(_n_mechanisms))
+      _reaction_rate_properties.push_back(&getADMaterialProperty<Real>(names[m]));
+  }
+  else
+  {
+    _reaction_rates.reserve(_n_mechanisms);
+    for (const auto m : make_range(_n_mechanisms))
+      _reaction_rates.push_back(&adCoupledValue("reaction_rates", m));
+  }
 
   _chemical_potentials.reserve(_n_phases * _n_components);
   for (const auto pc : make_range(_n_phases * _n_components))
@@ -319,7 +338,10 @@ ADReactionNetworkMaterial::computeQpProperties()
         const auto mc = mechanismComponentIndex(m, c);
         const auto mpc = mechanismPhaseComponentIndex(m, p, c);
         const Real nu = _stoichiometric_coefficients[mpc];
-        const ADReal current_source = nu * (*_reaction_rates[m])[_qp];
+        const ADReal rate = _use_reaction_rate_properties
+                                ? (*_reaction_rate_properties[m])[_qp]
+                                : (*_reaction_rates[m])[_qp];
+        const ADReal current_source = nu * rate;
 
         (*_phase_current_component_sources[pc])[_qp] += current_source;
         (*_mechanism_current_component_sources[mc])[_qp] += current_source;
@@ -362,11 +384,11 @@ ADReactionNetworkMaterial::computeQpProperties()
                            : (*_reverse_phase_active[m])[_qp];
       predicted_rate = _kinetic_mobilities[m] * availability * kinetic_force;
     }
-    (*_mechanism_kinetic_residuals[m])[_qp] =
-        (*_reaction_rates[m])[_qp] - predicted_rate;
-    (*_mechanism_reaction_powers[m])[_qp] = generalized * (*_reaction_rates[m])[_qp];
+    const ADReal rate = _use_reaction_rate_properties ? (*_reaction_rate_properties[m])[_qp]
+                                                       : (*_reaction_rates[m])[_qp];
+    (*_mechanism_kinetic_residuals[m])[_qp] = rate - predicted_rate;
+    (*_mechanism_reaction_powers[m])[_qp] = generalized * rate;
     (*_mechanism_temperature_weighted_reaction_powers[m])[_qp] =
-        temperature_weighted_force * (*_reaction_rates[m])[_qp];
+        temperature_weighted_force * rate;
   }
 }
-

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ADKernelValue.h"
+#include "ADTimeKernelValue.h"
 
 /** Atomic conservative storage term supplied as an AD reference-rate property. */
-class ADReferenceMaterialStorageRateTerm : public ADKernelValue
+class ADReferenceMaterialStorageRateTerm : public ADTimeKernelValue
 {
 public:
   static InputParameters validParams();

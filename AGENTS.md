@@ -17,6 +17,37 @@
   documentation, instructions, schemas, templates, tests, and intentional
   reference data.
 
+## Commit messages as process logs
+
+- Every commit carries the full development narrative, not just a one-line
+  summary. The one-line header remains a normal concise summary of the change;
+  the commit body is the record of how the repository got from the previous
+  commit to this one.
+- The commit body must synthesize **every session chat used to develop the
+  change since the previous commit** (Codex, Copilot, OpenClaw, or any other
+  agent harness, on any machine). Use the commit timestamps to select the
+  sessions that fall inside each commit window; when a session's repository
+  path or working directory matches this repository, prefer it for the window
+  it overlaps.
+- Use this template for the body:
+  1. **Summary** — one-paragraph statement of what this commit changes and the
+     state it moves the repository to.
+  2. **What changed & why** — the key decisions, edits, and reasoning that
+     drove the diff, tied to the session discussions where they were made.
+  3. **Alternatives considered** — options raised in the sessions and why they
+     were rejected.
+  4. **Dead ends & backtracks** — explorations that did not survive, and any
+     reversals within the window (the honest lab-notebook record).
+  5. **Open questions** — unresolved issues carried forward.
+  6. **Next steps** — what the sessions indicate should happen next.
+- If a commit window has no session trace (e.g., Overleaf-synced or hand-made
+  commits), say so explicitly in the body instead of fabricating a narrative.
+- Sanitize the body: never include personal information, credentials, or
+  private conversation content. The body is a synthesis of decisions and
+  reasoning, not a transcript.
+- When making a commit, draft the body from the session history for the window
+  before writing the header; the header should derive from the same synthesis.
+
 ## Active coordination notice: verified input blocks
 
 - Code-verification agents must re-read the verified input-block rules in the

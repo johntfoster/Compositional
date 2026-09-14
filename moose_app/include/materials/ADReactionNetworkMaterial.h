@@ -34,6 +34,8 @@ protected:
 
   const ADMaterialProperty<Real> & _J;
   std::vector<const ADVariableValue *> _reaction_rates;
+  std::vector<const ADMaterialProperty<Real> *> _reaction_rate_properties;
+  const bool _use_reaction_rate_properties;
   const std::vector<Real> _stoichiometric_coefficients;
   std::vector<const ADMaterialProperty<Real> *> _chemical_potentials;
   std::vector<const ADMaterialProperty<Real> *> _phase_tau_offsets;
@@ -65,4 +67,3 @@ protected:
   std::vector<ADMaterialProperty<Real> *> _mechanism_reaction_powers;
   std::vector<ADMaterialProperty<Real> *> _mechanism_temperature_weighted_reaction_powers;
 };
-

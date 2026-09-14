@@ -11,8 +11,10 @@ InputParameters ADPhaseMomentumConversionInsertionTerm::validParams() {
       "mechanism/phase pair.");
   params.addRequiredRangeCheckedParam<unsigned int>("component", "component<3",
                                                     "Momentum component.");
-  params.addRequiredCoupledVar("conversion_rate",
-                               "Mechanism progress or phase source rate.");
+  params.addCoupledVar("conversion_rate", "Mechanism progress or phase source rate.");
+  params.addParam<MaterialPropertyName>(
+      "conversion_rate_name", "",
+      "Optional AD material-property rate. Supply exactly one of this and conversion_rate.");
   params.addParam<Real>(
       "rate_scale", 1.0,
       "Signed stoichiometric phase-mass multiplier for this mechanism.");
@@ -46,7 +48,10 @@ ADPhaseMomentumConversionInsertionTerm::ADPhaseMomentumConversionInsertionTerm(
     const InputParameters &parameters)
     : ADKernelValue(parameters),
       _component(getParam<unsigned int>("component")),
-      _rate(adCoupledValue("conversion_rate")),
+      _rate(isCoupled("conversion_rate") ? &adCoupledValue("conversion_rate") : nullptr),
+      _rate_property(getParam<MaterialPropertyName>("conversion_rate_name").empty()
+                         ? nullptr
+                         : &getADMaterialProperty<Real>("conversion_rate_name")),
       _rate_scale(getParam<Real>("rate_scale")),
       _tau_gradient(adCoupledGradient("tau")),
       _tau_enrichment_gradient(isCoupled("tau_enrichment")
@@ -70,6 +75,8 @@ ADPhaseMomentumConversionInsertionTerm::ADPhaseMomentumConversionInsertionTerm(
               ? nullptr
               : &getADMaterialProperty<RealVectorValue>(
                     "reference_relative_velocity_name")) {
+  if (static_cast<bool>(_rate) == static_cast<bool>(_rate_property))
+    paramError("conversion_rate_name", "Supply exactly one of conversion_rate or conversion_rate_name.");
   if (_component >= _mesh.dimension())
     paramError("component", "component must be smaller than mesh dimension.");
   if (static_cast<bool>(_phase_velocity_component) ==
@@ -112,6 +119,7 @@ ADReal ADPhaseMomentumConversionInsertionTerm::precomputeQpResidual() {
           (*_F)[_qp](_component, J) * (*_reference_relative_velocity)[_qp](J);
   }
 
-  return -_J[_qp] * _rate_scale * _rate[_qp] *
+  const ADReal rate = _rate_property ? (*_rate_property)[_qp] : (*_rate)[_qp];
+  return -_J[_qp] * _rate_scale * rate *
          (current_tau_gradient(_component) - current_phase_velocity_component);
 }

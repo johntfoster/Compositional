@@ -48,6 +48,10 @@ protected:
   ADReal waterSaturationDot() const;
   ADReal gasSaturation() const;
   ADReal gasSaturationDot() const;
+  ADReal storageWaterSaturation() const;
+  ADReal storageWaterSaturationDot() const;
+  ADReal storageGasSaturation() const;
+  ADReal storageGasSaturationDot() const;
   ADReal gasAppearanceComplementaritySaturation() const;
   ADReal reflectPositive(const ADReal & x) const;
   MaterialPropertyName prefixedName(const std::string & suffix) const;
@@ -60,6 +64,8 @@ protected:
   const ADMaterialProperty<Real> * _oil_pressure_property_dot;
   const ADVariableValue & _solution_gas_oil_ratio_state;
   const ADVariableValue * _solution_gas_oil_ratio_state_dot;
+  const ADVariableValue * _solution_gas_oil_ratio_enrichment_state;
+  const ADVariableValue * _solution_gas_oil_ratio_enrichment_state_dot;
   const Real _solution_gas_positive_regularization;
   // Band width delta of the soft-positive reflection a(x) applied to the
   // phase-appearance Fischer--Burmeister complementarity arguments before the
@@ -85,6 +91,7 @@ protected:
   // gas block exactly at the phase-appearance point.
   const Real _complementarity_negative_saturation_penalty;
   const Moose::Functor<ADReal> & _solution_gas_oil_ratio_functor;
+  const Moose::Functor<ADReal> * _solution_gas_oil_ratio_enrichment_functor;
   const ADVariableValue * _porosity;
   const ADMaterialProperty<Real> * _porosity_property;
   const ADVariableValue * _porosity_dot;
@@ -97,11 +104,21 @@ protected:
   const ADMaterialProperty<Real> * _gas_saturation_property;
   const ADVariableValue * _gas_saturation_dot;
   const ADMaterialProperty<Real> * _gas_saturation_property_dot;
+  // Optional identity-reconstructed saturations used exclusively by conserved
+  // storage rows.  This retains the mass tangent when a bounded reconstruction
+  // is used for transport and phase-activity trial states.
+  const ADMaterialProperty<Real> * _water_saturation_storage_property;
+  const ADMaterialProperty<Real> * _water_saturation_storage_property_dot;
+  const ADMaterialProperty<Real> * _gas_saturation_storage_property;
+  const ADMaterialProperty<Real> * _gas_saturation_storage_property_dot;
   // Optional phase-transfer rate variable r.  The direct equilibrium closure
   // consumes r on its inactive branch (no phase transformation, r -> 0), while
   // the active branch enforces the smooth DRSDT-capped stability gap to zero.
   // Null when the material runs without a phase-transfer rate unknown.
   const ADVariableValue * _gas_phase_transformation_rate;
+  // Optional elementwise EG enrichment added to the backbone rate before the
+  // direct equilibrium closure is evaluated.
+  const ADVariableValue * _gas_phase_transformation_rate_enrichment;
   // Optional raw (unclamped) reconstructed gas saturation consumed only by the
   // phase-appearance complementarity residual.  The primary gas saturation may
   // be a bounded/simplex reconstruction whose clamp derivative vanishes when the

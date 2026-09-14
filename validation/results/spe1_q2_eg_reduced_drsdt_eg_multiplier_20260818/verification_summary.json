@@ -1,0 +1,48 @@
+{
+  "benchmark": "SPE1 Case 1",
+  "failure_kind": "solver_nonzero_exit",
+  "parameter_overrides": {
+    "drsdt_closure": true
+  },
+  "provenance": {
+    "after": {
+      "deck_path": "moose_app/examples/spe1_case1_q2_eg_phase_transforming.i",
+      "deck_sha256": "ba0b6725128d5a3b01a0cc3f28a42e083152040fc16242ae2025d76cac343c04",
+      "executable_path": "moose_app/multicomponent_reactive_flow-opt",
+      "executable_sha256": "44c7f7bed89dc015c3a92247e7e793ec21a1a2c34c38627be2086a5e0c2ca8ad",
+      "input_tree_sha256": "2cb6f45ed73557d3a8ed20e88fc3ac3c19e5a449a1b972c0272c05f0a3f7640e",
+      "moose_patch_series_path": "moose_app/patches/moose/series.yml",
+      "moose_patch_series_sha256": "806c70e91c05c598912fc2bbdb74c5895ac8d00eb101234f5eb2bb6254f22767",
+      "resolved_input_paths": [
+        "moose_app/examples/spe1_case1_q2_eg_phase_transforming.i",
+        "moose_app/examples/spe1_case1_q2_eg_transient.i",
+        "moose_app/input/includes/materials/solid_phase_mass_volume.i",
+        "moose_app/input/includes/materials/spe1_case1_black_oil_pvt.i",
+        "moose_app/input/includes/mesh/spe1_case1_3d_q2_tet10.i"
+      ],
+      "verifier_path": "validation/scripts/check_spe1_q2_eg_phase_appearance.py",
+      "verifier_sha256": "0cf93f94dba70eadd3110daa16782994822f0728ef576f07ef73c3ff8e928eb4"
+    },
+    "before": {
+      "deck_path": "moose_app/examples/spe1_case1_q2_eg_phase_transforming.i",
+      "deck_sha256": "ba0b6725128d5a3b01a0cc3f28a42e083152040fc16242ae2025d76cac343c04",
+      "executable_path": "moose_app/multicomponent_reactive_flow-opt",
+      "executable_sha256": "44c7f7bed89dc015c3a92247e7e793ec21a1a2c34c38627be2086a5e0c2ca8ad",
+      "input_tree_sha256": "2cb6f45ed73557d3a8ed20e88fc3ac3c19e5a449a1b972c0272c05f0a3f7640e",
+      "moose_patch_series_path": "moose_app/patches/moose/series.yml",
+      "moose_patch_series_sha256": "806c70e91c05c598912fc2bbdb74c5895ac8d00eb101234f5eb2bb6254f22767",
+      "resolved_input_paths": [
+        "moose_app/examples/spe1_case1_q2_eg_phase_transforming.i",
+        "moose_app/examples/spe1_case1_q2_eg_transient.i",
+        "moose_app/input/includes/materials/solid_phase_mass_volume.i",
+        "moose_app/input/includes/materials/spe1_case1_black_oil_pvt.i",
+        "moose_app/input/includes/mesh/spe1_case1_3d_q2_tet10.i"
+      ],
+      "verifier_path": "validation/scripts/check_spe1_q2_eg_phase_appearance.py",
+      "verifier_sha256": "0cf93f94dba70eadd3110daa16782994822f0728ef576f07ef73c3ff8e928eb4"
+    },
+    "unchanged_during_run": true
+  },
+  "returncode": 1,
+  "status": "fail"
+}

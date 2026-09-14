@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="desert" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EDC9A0"/>
+      <stop offset="100%" stop-color="#D4945C"/>
+    </linearGradient>
+    <linearGradient id="foxBody" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#E07B3C"/>
+      <stop offset="100%" stop-color="#B8541E"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Abstract Fennec constructed from nodes and edges — computational graph style -->
+
+  <!-- Outer ring — nodes representing phases/components -->
+  <g fill="#B8541E" opacity="0.8">
+    <circle cx="256" cy="60" r="5"/>
+    <circle cx="330" cy="72" r="4"/>
+    <circle cx="396" cy="112" r="4.5"/>
+    <circle cx="440" cy="176" r="5"/>
+    <circle cx="456" cy="256" r="4"/>
+    <circle cx="440" cy="336" r="4.5"/>
+    <circle cx="396" cy="400" r="5"/>
+    <circle cx="330" cy="440" r="4"/>
+    <circle cx="256" cy="452" r="5"/>
+    <circle cx="182" cy="440" r="4"/>
+    <circle cx="116" cy="400" r="4.5"/>
+    <circle cx="72" cy="336" r="5"/>
+    <circle cx="56" cy="256" r="4"/>
+    <circle cx="72" cy="176" r="4.5"/>
+    <circle cx="116" cy="112" r="5"/>
+    <circle cx="182" cy="72" r="4"/>
+  </g>
+
+  <!-- Ring edges -->
+  <g stroke="#D4945C" stroke-width="1" opacity="0.3" fill="none">
+    <circle cx="256" cy="256" r="196"/>
+  </g>
+
+  <!-- Fennec head constructed from connected nodes -->
+  <!-- Left ear nodes -->
+  <circle cx="170" cy="180" r="6" fill="#E07B3C"/>
+  <circle cx="150" cy="140" r="5" fill="#E07B3C"/>
+  <circle cx="138" cy="100" r="5.5" fill="#E07B3C"/>
+  <circle cx="145" cy="68" r="4" fill="#E07B3C"/>
+
+  <!-- Right ear nodes -->
+  <circle cx="342" cy="180" r="6" fill="#E07B3C"/>
+  <circle cx="362" cy="140" r="5" fill="#E07B3C"/>
+  <circle cx="374" cy="100" r="5.5" fill="#E07B3C"/>
+  <circle cx="367" cy="68" r="4" fill="#E07B3C"/>
+
+  <!-- Face nodes -->
+  <circle cx="190" cy="210" r="5" fill="#E07B3C"/>
+  <circle cx="322" cy="210" r="5" fill="#E07B3C"/>
+  <circle cx="170" cy="250" r="6" fill="#E07B3C"/>
+  <circle cx="342" cy="250" r="6" fill="#E07B3C"/>
+  <circle cx="195" cy="290" r="5" fill="#E07B3C"/>
+  <circle cx="317" cy="290" r="5" fill="#E07B3C"/>
+  <circle cx="220" cy="320" r="5.5" fill="#E07B3C"/>
+  <circle cx="292" cy="320" r="5.5" fill="#E07B3C"/>
+  <circle cx="256" cy="335" r="4" fill="#B8541E"/>
+
+  <!-- Eye nodes (larger, distinct) -->
+  <circle cx="215" cy="235" r="6" fill="#1A1A2E"/>
+  <circle cx="297" cy="235" r="6" fill="#1A1A2E"/>
+  <circle cx="215" cy="235" r="2.5" fill="#EDC9A0"/>
+  <circle cx="297" cy="235" r="2.5" fill="#EDC9A0"/>
+
+  <!-- Nose node -->
+  <circle cx="256" cy="295" r="4.5" fill="#1A1A2E"/>
+
+  <!-- CONNECTING EDGES — Left ear -->
+  <line x1="170" y1="180" x2="150" y2="140" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="150" y1="140" x2="138" y2="100" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="138" y1="100" x2="145" y2="68" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+
+  <!-- CONNECTING EDGES — Right ear -->
+  <line x1="342" y1="180" x2="362" y2="140" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="362" y1="140" x2="374" y2="100" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="374" y1="100" x2="367" y2="68" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+
+  <!-- CONNECTING EDGES — Face perimeter -->
+  <line x1="170" y1="180" x2="190" y2="210" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="342" y1="180" x2="322" y2="210" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="190" y1="210" x2="170" y2="250" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="322" y1="210" x2="342" y2="250" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="170" y1="250" x2="195" y2="290" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="342" y1="250" x2="317" y2="290" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="195" y1="290" x2="220" y2="320" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="317" y1="290" x2="292" y2="320" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="220" y1="320" x2="256" y2="335" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+  <line x1="292" y1="320" x2="256" y2="335" stroke="#E07B3C" stroke-width="2" opacity="0.7"/>
+
+  <!-- Interior face connections (mesh-like) -->
+  <line x1="190" y1="210" x2="256" y2="220" stroke="#E07B3C" stroke-width="1.2" opacity="0.35"/>
+  <line x1="322" y1="210" x2="256" y2="220" stroke="#E07B3C" stroke-width="1.2" opacity="0.35"/>
+  <line x1="170" y1="250" x2="215" y2="235" stroke="#E07B3C" stroke-width="1.2" opacity="0.35"/>
+  <line x1="342" y1="250" x2="297" y2="235" stroke="#E07B3C" stroke-width="1.2" opacity="0.35"/>
+  <line x1="215" y1="235" x2="256" y2="295" stroke="#E07B3C" stroke-width="1.2" opacity="0.3"/>
+  <line x1="297" y1="235" x2="256" y2="295" stroke="#E07B3C" stroke-width="1.2" opacity="0.3"/>
+  <line x1="195" y1="290" x2="256" y2="295" stroke="#E07B3C" stroke-width="1.2" opacity="0.35"/>
+  <line x1="317" y1="290" x2="256" y2="295" stroke="#E07B3C" stroke-width="1.2" opacity="0.35"/>
+
+  <!-- Flow arrows from nose (multicomponent transport) -->
+  <g stroke="#EDC9A0" stroke-width="1.8" fill="none" opacity="0.5">
+    <path d="M256,295 L256,360"/>
+    <path d="M252,298 L232,355"/>
+    <path d="M260,298 L280,355"/>
+    <path d="M248,300 L212,350"/>
+    <path d="M264,300 L300,350"/>
+    <!-- Arrowheads -->
+    <polygon points="256,365 252,358 260,358" fill="#EDC9A0"/>
+    <polygon points="232,360 228,353 236,353" fill="#EDC9A0"/>
+    <polygon points="280,360 276,353 284,353" fill="#EDC9A0"/>
+    <polygon points="212,355 208,348 216,348" fill="#EDC9A0"/>
+    <polygon points="300,355 296,348 304,348" fill="#EDC9A0"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="256" y="415" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="46" font-weight="700" letter-spacing="14" fill="#B8541E">FENNEC</text>
+
+  <!-- Decorative line -->
+  <line x1="140" y1="430" x2="372" y2="430" stroke="#D4945C" stroke-width="1" opacity="0.4"/>
+
+  <!-- Tagline -->
+  <text x="256" y="452" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="12" font-weight="400" letter-spacing="3" fill="#B8541E" opacity="0.5">FINITE-ELEMENT MULTIPHYSICS SIMULATOR</text>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1A1A2E"/>
+      <stop offset="100%" stop-color="#16213E"/>
+    </linearGradient>
+    <linearGradient id="foxGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8913A"/>
+      <stop offset="100%" stop-color="#C76B1A"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E8913A"/>
+      <stop offset="100%" stop-color="#F5C542"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Dark circular badge background -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGrad)"/>
+  <circle cx="256" cy="256" r="232" fill="none" stroke="#E8913A" stroke-width="2" opacity="0.3"/>
+
+  <!-- Fennec head — bold, minimal silhouette facing forward -->
+  <!-- Ears -->
+  <polygon points="108,260 145,60 195,195" fill="url(#foxGrad)"/>
+  <polygon points="404,260 367,60 317,195" fill="url(#foxGrad)"/>
+  <!-- Inner ear detail -->
+  <polygon points="122,245 150,95 185,195" fill="#16213E" opacity="0.4"/>
+  <polygon points="390,245 362,95 327,195" fill="#16213E" opacity="0.4"/>
+
+  <!-- Head shape — wide cheeked fox face -->
+  <path d="M256,340 L130,210 Q120,180 160,170 L256,150 L352,170 Q392,180 382,210 Z" fill="url(#foxGrad)"/>
+
+  <!-- Cheek tufts -->
+  <polygon points="130,210 100,230 145,225" fill="url(#foxGrad)"/>
+  <polygon points="382,210 412,230 367,225" fill="url(#foxGrad)"/>
+
+  <!-- Forehead stripe -->
+  <path d="M240,155 L256,145 L272,155 L268,195 L244,195 Z" fill="#F5C542" opacity="0.6"/>
+
+  <!-- Eyes — sharp, focused -->
+  <ellipse cx="215" cy="220" rx="16" ry="11" fill="#16213E"/>
+  <ellipse cx="297" cy="220" rx="16" ry="11" fill="#16213E"/>
+  <ellipse cx="217" cy="218" rx="6" ry="5" fill="#F5C542"/>
+  <ellipse cx="295" cy="218" rx="6" ry="5" fill="#F5C542"/>
+  <!-- Eye highlights -->
+  <ellipse cx="213" cy="215" rx="3" ry="2.5" fill="white" opacity="0.6"/>
+  <ellipse cx="292" cy="215" rx="3" ry="2.5" fill="white" opacity="0.6"/>
+
+  <!-- Nose -->
+  <path d="M248,290 L256,280 L264,290 L260,298 L252,298 Z" fill="#16213E"/>
+
+  <!-- Mouth line -->
+  <path d="M256,298 L256,308" stroke="#16213E" stroke-width="2" stroke-linecap="round"/>
+  <path d="M248,305 Q256,312 256,308" stroke="#16213E" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M264,305 Q256,312 256,308" stroke="#16213E" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Porous media dots — subtle texture representing porous flow -->
+  <g fill="#E8913A" opacity="0.15">
+    <circle cx="160" cy="240" r="3"/><circle cx="175" cy="255" r="2"/>
+    <circle cx="190" cy="235" r="2.5"/><circle cx="205" cy="260" r="2"/>
+    <circle cx="300" cy="240" r="3"/><circle cx="315" cy="255" r="2"/>
+    <circle cx="330" cy="235" r="2.5"/><circle cx="345" cy="260" r="2"/>
+    <circle cx="200" cy="280" r="1.5"/><circle cx="310" cy="280" r="1.5"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="256" y="420" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="52" font-weight="700" letter-spacing="16" fill="url(#accentGrad)">FENNEC</text>
+
+  <!-- Tagline -->
+  <text x="256" y="450" text-anchor="middle" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="14" font-weight="400" letter-spacing="4" fill="#E8913A" opacity="0.6">MULTICOMPONENT REACTIVE FLOW</text>
+</svg>

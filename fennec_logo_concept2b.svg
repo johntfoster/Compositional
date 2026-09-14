@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="nodeGlow" cx="0.5" cy="0.4">
+      <stop offset="0%" stop-color="#F5C542"/>
+      <stop offset="100%" stop-color="#C76B1A"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="24" fill="#FEFAF5"/>
+
+  <!-- Porous network — organic, irregular pore-throat structure -->
+  <!-- Pore bodies (larger nodes) -->
+  <circle cx="156" cy="148" r="18" fill="none" stroke="#D4782F" stroke-width="3"/>
+  <circle cx="156" cy="148" r="14" fill="#F5C542" opacity="0.15"/>
+  <circle cx="156" cy="148" r="5" fill="url(#nodeGlow)"/>
+
+  <circle cx="312" cy="120" r="20" fill="none" stroke="#D4782F" stroke-width="3"/>
+  <circle cx="312" cy="120" r="16" fill="#F5C542" opacity="0.15"/>
+  <circle cx="312" cy="120" r="6" fill="url(#nodeGlow)"/>
+
+  <circle cx="256" cy="210" r="22" fill="none" stroke="#D4782F" stroke-width="3"/>
+  <circle cx="256" cy="210" r="17" fill="#F5C542" opacity="0.15"/>
+  <circle cx="256" cy="210" r="7" fill="url(#nodeGlow)"/>
+
+  <circle cx="120" cy="260" r="16" fill="none" stroke="#D4782F" stroke-width="3"/>
+  <circle cx="120" cy="260" r="12" fill="#F5C542" opacity="0.15"/>
+  <circle cx="120" cy="260" r="4.5" fill="url(#nodeGlow)"/>
+
+  <circle cx="390" cy="240" r="17" fill="none" stroke="#D4782F" stroke-width="3"/>
+  <circle cx="390" cy="240" r="13" fill="#F5C542" opacity="0.15"/>
+  <circle cx="390" cy="240" r="5" fill="url(#nodeGlow)"/>
+
+  <circle cx="200" cy="340" r="19" fill="none" stroke="#D4782F" stroke-width="3"/>
+  <circle cx="200" cy="340" r="15" fill="#F5C542" opacity="0.15"/>
+  <circle cx="200" cy="340" r="6" fill="url(#nodeGlow)"/>
+
+  <circle cx="340" cy="350" r="18" fill="none" stroke="#D4782F" stroke-width="3"/>
+  <circle cx="340" cy="350" r="14" fill="#F5C542" opacity="0.15"/>
+  <circle cx="340" cy="350" r="6" fill="url(#nodeGlow)"/>
+
+  <!-- Pore throats (connecting channels) -->
+  <g stroke="#D4782F" stroke-width="2.8" fill="none" opacity="0.7">
+    <line x1="170" y1="155" x2="295" y2="130"/>
+    <line x1="295" y1="140" x2="242" y2="195"/>
+    <line x1="242" y1="195" x2="132" y2="250"/>
+    <line x1="270" y1="220" x2="376" y2="235"/>
+    <line x1="376" y1="245" x2="355" y2="340"/>
+    <line x1="210" y1="325" x2="330" y2="340"/>
+    <line x1="135" y1="268" x2="190" y2="330"/>
+    <line x1="170" y1="155" x2="132" y2="250"/>
+    <line x1="295" y1="140" x2="240" y2="200"/>
+    <line x1="270" y1="220" x2="210" y2="325"/>
+  </g>
+
+  <!-- Computational grid nodes (small, systematic) -->
+  <g fill="#B85C1A" opacity="0.3">
+    <circle cx="60" cy="60" r="2.5"/><circle cx="100" cy="60" r="2.5"/>
+    <circle cx="140" cy="60" r="2.5"/><circle cx="180" cy="60" r="2.5"/>
+    <circle cx="60" cy="100" r="2.5"/><circle cx="100" cy="100" r="2.5"/>
+    <circle cx="60" cy="140" r="2.5"/><circle cx="100" cy="140" r="2.5"/>
+    <circle cx="420" cy="60" r="2.5"/><circle cx="460" cy="60" r="2.5"/>
+    <circle cx="380" cy="100" r="2.5"/><circle cx="420" cy="100" r="2.5"/>
+    <circle cx="460" cy="100" r="2.5"/>
+    <circle cx="420" cy="420" r="2.5"/><circle cx="460" cy="420" r="2.5"/>
+    <circle cx="60" cy="420" r="2.5"/><circle cx="100" cy="420" r="2.5"/>
+    <circle cx="60" cy="380" r="2.5"/><circle cx="60" cy="340" r="2.5"/>
+  </g>
+
+  <!-- Flow arrows through channels -->
+  <polygon points="225,195 215,190 215,200" fill="#D4782F" opacity="0.6"/>
+  <polygon points="310,138 300,133 300,143" fill="#D4782F" opacity="0.6"/>
+  <polygon points="310,345 300,340 300,350" fill="#D4782F" opacity="0.6"/>
+
+  <!-- Wordmark -->
+  <text x="256" y="430" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="42" font-weight="700" letter-spacing="16" fill="#B85C1A">FENNEC</text>
+
+  <!-- Tagline -->
+  <text x="256" y="458" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="12" font-weight="400" letter-spacing="3" fill="#B85C1A" opacity="0.4">POROUS MEDIA REACTIVE TRANSPORT</text>
+</svg>
