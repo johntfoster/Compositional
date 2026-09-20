@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "project": "multicomponent_reactive_flow",
+  "observed_at": "2026-09-20T01:21:05.700918+00:00",
+  "workflow_revision": "bd82f7bed44ecb3ae7e2e6895a990ef456b8c23c",
+  "scope": "Infrastructure-only migration; no manuscript build, edits, staging, or scientific-release certification.",
+  "local_container": {
+    "project": "multicomponent_reactive_flow",
+    "image": "mcr.microsoft.com/devcontainers/python@sha256:ca7b20585cf65295cd0cef8ae8f02a008c1c85e83909d1e2af8d19706d3f34ee",
+    "scope": "clean-clone infrastructure startup only; no manuscript/scientific build",
+    "exit_code": 0,
+    "tracked_and_untracked_status": ""
+  },
+  "hosted_codespace": {
+    "status": "passed",
+    "head": "965db957536d875fe5dace878085dcbe43c09ebb",
+    "instance": "studious-meme-wq5jq57gvhgw55",
+    "observed_at": "2026-09-20T01:15:40.949054+00:00",
+    "checks": [
+      "SSH access",
+      "post-create startup",
+      "public HTTPS submodule initialization",
+      "agentctl check",
+      "manifest check",
+      "clean Git status"
+    ],
+    "scope": "source inspection and infrastructure; scientific toolchain not run",
+    "cleanup": "temporary Codespace deleted after verification"
+  },
+  "site": {
+    "project": "Compositional",
+    "url": "https://johntfoster.github.io/Compositional/",
+    "status": 200,
+    "title": "A thermodynamically consistent theory of multicomponent porous media: finite-deformation mechanics, compositional flow, electrostatics, reactions, and phase transformations",
+    "sha256": "9d028b88cb633191024a03625218ec7df8027e3a1aae676760cb569e150844bc"
+  },
+  "release": {
+    "project": "multicomponent_reactive_flow",
+    "head": "965db957536d875fe5dace878085dcbe43c09ebb",
+    "url": "https://github.com/johntfoster/Compositional/releases/tag/infrastructure-v0.2.1",
+    "prerelease": true,
+    "assets": [
+      {
+        "name": "environment-verification.json",
+        "sha256": "9047006ec7eb59c2454dc4ba1c0c4f263a24c14b17686e9d0d119661d110cf47",
+        "verification": "GitHub-reported uploaded-asset digest"
+      },
+      {
+        "name": "provenance.json",
+        "sha256": "b6b3fe01571ead852afeceb94d592bd9622047dda8047ecec81b7170aecba6b4",
+        "verification": "GitHub-reported uploaded-asset digest"
+      },
+      {
+        "name": "repository.bundle",
+        "sha256": "1949b409035b61a55df357e2a985638ad43df85d5bc0ec0fb7db7fb5b37a73d1",
+        "verification": "GitHub-reported uploaded-asset digest"
+      },
+      {
+        "name": "SHA256SUMS",
+        "sha256": "f11462018ab9eafe92456bf6aac2e6ff4c7b31c1a2c57fa809e2c663f1f7306a",
+        "verification": "GitHub-reported uploaded-asset digest"
+      },
+      {
+        "name": "source.tar",
+        "sha256": "2daa9f80bfc2ab2e36f0819dff7cb4a32cb1d98bca6698278c54bfc0a1c1c95e",
+        "verification": "GitHub-reported uploaded-asset digest"
+      }
+    ]
+  },
+  "ci": {
+    "Verified input blocks": {
+      "id": 35481145040,
+      "head_sha": "965db957536d875fe5dace878085dcbe43c09ebb",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/johntfoster/Compositional/actions/runs/35481145040"
+    },
+    "Research infrastructure": {
+      "id": 35480705451,
+      "head_sha": "965db957536d875fe5dace878085dcbe43c09ebb",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/johntfoster/Compositional/actions/runs/35480705451"
+    },
+    "Companion website": {
+      "id": 35480705445,
+      "head_sha": "965db957536d875fe5dace878085dcbe43c09ebb",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/johntfoster/Compositional/actions/runs/35480705445"
+    }
+  },
+  "preservation": {
+    "protected_files": 64,
+    "hashes_mtimes_inodes_unchanged": true,
+    "original_dirty_state_preserved": true
+  }
+}

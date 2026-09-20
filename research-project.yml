@@ -43,12 +43,12 @@
   "publication": {
     "site": {
       "url": "https://johntfoster.github.io/Compositional/",
-      "status": "deployment-pending"
+      "status": "verified-http-200"
     },
     "codespace": {
       "url": "https://codespaces.new/johntfoster/Compositional",
       "configuration": ".devcontainer/devcontainer.json",
-      "verification": "configuration-created; startup-not-yet-tested",
+      "verification": "local-clean-clone-passed; hosted-passed",
       "image": "mcr.microsoft.com/devcontainers/python@sha256:ca7b20585cf65295cd0cef8ae8f02a008c1c85e83909d1e2af8d19706d3f34ee",
       "scope": "infrastructure and source inspection; scientific toolchain setup is separate"
     },
@@ -58,21 +58,24 @@
       "status": "owner-decision-needed"
     },
     "release": {
-      "url": null,
-      "status": "no-published-release-found"
+      "url": "https://github.com/johntfoster/Compositional/releases/tag/infrastructure-v0.2.1",
+      "status": "verified-infrastructure-prerelease",
+      "source_revision": "965db957536d875fe5dace878085dcbe43c09ebb",
+      "scientific_release": false
     },
     "submission": {
       "status": "not-audited"
-    }
+    },
+    "evidence": ".agent/evidence/infrastructure-2026-09-19.json"
   },
   "verification": {
-    "infrastructure": "manifest/hook/core checks passed; deployment/environment checks pending",
+    "infrastructure": "Manifest, freeze/hooks, pinned core, local clean-clone startup, live site and source-package checks passed; hosted passed.",
     "implementation": "not-run-in-this-migration",
     "analytical": "not-run-in-this-migration",
     "convergence": "not-run-in-this-migration",
     "finite_deformation": "not-run-in-this-migration",
     "physical_validation": "not-run-in-this-migration"
   },
-  "next_milestone": "Verify the infrastructure environment, companion site and immutable source package; manuscript remains frozen.",
+  "next_milestone": "Retain manuscript freeze; resolve any open license decision. Scientific development requires a separately scoped task.",
   "title": "A thermodynamically consistent theory of multicomponent porous media: finite-deformation mechanics, compositional flow, electrostatics, reactions, and phase transformations"
 }
