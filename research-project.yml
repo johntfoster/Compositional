@@ -55,7 +55,10 @@
     "citation": "CITATION.cff",
     "license": {
       "path": "LICENSES.md",
-      "status": "owner-decision-needed"
+      "status": "licensed",
+      "code": "Apache-2.0",
+      "manuscript": "CC-BY-4.0",
+      "decision_date": "2026-09-20"
     },
     "release": {
       "url": "https://github.com/johntfoster/Compositional/releases/tag/infrastructure-v0.2.1",
@@ -76,6 +79,6 @@
     "finite_deformation": "not-run-in-this-migration",
     "physical_validation": "not-run-in-this-migration"
   },
-  "next_milestone": "Retain manuscript freeze; resolve any open license decision. Scientific development requires a separately scoped task.",
+  "next_milestone": "Retain manuscript freeze; scientific development requires a separately scoped task.",
   "title": "A thermodynamically consistent theory of multicomponent porous media: finite-deformation mechanics, compositional flow, electrostatics, reactions, and phase transformations"
 }
