@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "Please cite the manuscript and identify the source commit used."
+title: "A thermodynamically consistent theory of multicomponent porous media: finite-deformation mechanics, compositional flow, electrostatics, reactions, and phase transformations"
+authors:
+  - family-names: Foster
+    given-names: John T.
+repository-code: "https://github.com/johntfoster/Compositional"
+url: "https://johntfoster.github.io/Compositional/"

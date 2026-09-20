@@ -29,9 +29,26 @@ renames, and acceptance/rejection of synthetic process-log messages. Tests use
 temporary repositories; no manuscript build or scientific simulation is run.
 These checks are infrastructure evidence, not scientific validation.
 
-The shared pin remains v0.1.2 until v0.2.0 is released and consumer tests pass.
-The program-control repository and changes to the shared workflow repository
-await confirmation that they are included in the four-repository work limit.
-Missing sites, Codespaces, citation/license/release infrastructure remain open;
-the manifest records their current state without claiming deployment or verified
-reproduction. Missing licenses require an explicit owner choice.
+The shared core is explicitly pinned to v0.2.0; the program and shared-core
+repositories are authorized infrastructure exceptions. The new environment is a
+digest-pinned infrastructure/source-inspection environment, not proof of a
+numerical reproduction or a manuscript build. Startup initializes the shared pin,
+installs hooks, and checks the project manifest without changing manuscripts.
+
+## Reproduce infrastructure checks
+
+```sh
+git submodule update --init --recursive
+tools/agentctl hooks install
+tools/agentctl check
+python3 .agent/shared/tools/research_project.py check
+python3 .agent/shared/tools/research_project.py site
+python3 .agent/shared/tools/research_project.py links .agent-runtime/site
+python3 .agent/shared/tools/research_project.py package
+```
+
+Read local AGENTS and scientific setup instructions before any separately
+authorized scientific test. Existing site source and scientific assets remain
+unchanged; the metadata companion site links to their authoritative repository.
+Licensing and hosted environment results are explicit manifest fields, never
+inferred from the existence of a URL or configuration.

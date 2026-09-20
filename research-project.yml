@@ -13,9 +13,8 @@
   "workflow": {
     "repository": "https://github.com/johntfoster/research-agent-workflows",
     "path": ".agent/shared",
-    "revision": "46b234fb6ad30d5620decd9d02ed7b9050a1088d",
-    "release": "v0.1.2",
-    "migration_target": "v0.2.0"
+    "revision": "bd82f7bed44ecb3ae7e2e6895a990ef456b8c23c",
+    "release": "v0.2.0"
   },
   "maintenance": {
     "objective": "2026-09-19 research infrastructure migration",
@@ -43,17 +42,19 @@
   },
   "publication": {
     "site": {
-      "url": null,
-      "status": "not-configured"
+      "url": "https://johntfoster.github.io/Compositional/",
+      "status": "deployment-pending"
     },
     "codespace": {
       "url": "https://codespaces.new/johntfoster/Compositional",
-      "configuration": null,
-      "verification": "not-run"
+      "configuration": ".devcontainer/devcontainer.json",
+      "verification": "configuration-created; startup-not-yet-tested",
+      "image": "mcr.microsoft.com/devcontainers/python@sha256:ca7b20585cf65295cd0cef8ae8f02a008c1c85e83909d1e2af8d19706d3f34ee",
+      "scope": "infrastructure and source inspection; scientific toolchain setup is separate"
     },
-    "citation": null,
+    "citation": "CITATION.cff",
     "license": {
-      "path": null,
+      "path": "LICENSES.md",
       "status": "owner-decision-needed"
     },
     "release": {
@@ -65,12 +66,13 @@
     }
   },
   "verification": {
-    "infrastructure": "pending",
+    "infrastructure": "manifest/hook/core checks passed; deployment/environment checks pending",
     "implementation": "not-run-in-this-migration",
     "analytical": "not-run-in-this-migration",
     "convergence": "not-run-in-this-migration",
     "finite_deformation": "not-run-in-this-migration",
     "physical_validation": "not-run-in-this-migration"
   },
-  "next_milestone": "Verify infrastructure-only hooks and manifest; migrate the shared workflow pin only after consumer checks."
+  "next_milestone": "Verify the infrastructure environment, companion site and immutable source package; manuscript remains frozen.",
+  "title": "A thermodynamically consistent theory of multicomponent porous media: finite-deformation mechanics, compositional flow, electrostatics, reactions, and phase transformations"
 }
